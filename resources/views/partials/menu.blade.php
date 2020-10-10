@@ -56,7 +56,7 @@
                     </a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
-                            <a href="{{ route("nonrutin.index") }}" class="nav-link">
+                            <a href="{{ route("rutin.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-calendar-check-o nav-icon">
 
                                 </i>
@@ -64,8 +64,16 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route("nonrutin.create") }}" class="nav-link">
-                                <i class="fa-fw fas fa-plus-square nav-icon">
+                            <a href="{{ route("barang.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-cubes nav-icon">
+
+                                </i>
+                                Detail Barang
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route("pengadaan.pilih") }}" class="nav-link">
+                                <i class="fa-fw fas fa-cart-plus nav-icon">
 
                                 </i>
                                 Tambah Pengadaan
