@@ -51,17 +51,17 @@ class pilarController extends Controller
             ]);
             
         $getnama = Auth::user()->name;
-        $pemohon = "it";
+        $getjamawal = Carbon::now()->addHours(7);
         
-        $data = new pengadaan;
-        $data->barang1 = $request->barang1;
-        $data->jumlah1 = $jumlah1;
-        $data->satuan1 = $satuan1;
-        $data->harga1 = $request->harga1;
-        $data->keterangan1 = $request->keterangan1;
+        $data = new imutpilar;
+        $data->namapi = $request->namapi;
+        $data->nama = $getnama;
+        $data->jamawal = $getjamawal;
+        $data->jamselesai = $request->jamselesai;
+        $data->keterangan = $request->keterangan;
         $data->save();
 
-        return redirect('/pengadaan')->with('message','Tambah Pengadaan Berhasil');
+        return redirect('/imut/pilar')->with('message','Tambah Imut Pilar Berhasil');
     }
 
     /**
