@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use App\Models\pengadaan;
+use App\Models\barang;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
@@ -38,7 +39,11 @@ class pengadaanController extends Controller
      */
     public function create()
     {
-        return view('pages.pengadaan.tambah-rutin');
+        $tampil = barang::pluck('id','barang');
+
+        return view('pages.pengadaan.tambah-rutin', [
+            'list' => $tampil,
+        ]);
     }
 
     /**
@@ -261,14 +266,7 @@ class pengadaanController extends Controller
         $data->delete();
 
         // redirect
-        return \Redirect::to('rutin')->with('message','Hapus Pengadaan Rutin Berhasil');
-    }
-
-    public function getbyapi($token)
-    {
-        $show = pengadaan::where("token", "=" ,$token)->get();
-
-        return response()->json($show, 200);
+        return \Redirect::to('pengadaan/rutin')->with('message','Hapus Pengadaan Rutin Berhasil');
     }
 
     public function linkToPengadaan()

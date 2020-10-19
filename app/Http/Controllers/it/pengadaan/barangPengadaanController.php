@@ -109,4 +109,11 @@ class barangPengadaanController extends Controller
         // redirect
         return \Redirect::to('barang')->with('message','Hapus Barang Pengadaan Berhasil');
     }
+
+    public function apifile($gembos)
+    {
+        $data = barang::where('barang', $gembos)->first();
+
+        return response()->json($data, 200);
+    }
 }
