@@ -56,7 +56,7 @@
                     </a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
-                            <a href="{{ route("rutin.index") }}" class="nav-link">
+                            <a href="{{ route("riwayat.pengadaan") }}" class="nav-link">
                                 <i class="fa-fw fas fa-calendar-check-o nav-icon">
 
                                 </i>

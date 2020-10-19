@@ -21,7 +21,7 @@ class pengadaanController extends Controller
      */
     public function index()
     {
-        $show = pengadaan::get();
+        $show = pengadaan::where('jnspengadaan','rutin')->get();
 
         $data = [
             'show' => $show

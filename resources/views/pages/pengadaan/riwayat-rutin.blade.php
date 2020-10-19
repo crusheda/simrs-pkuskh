@@ -1,12 +1,6 @@
 @extends('layouts.admin')
 
 @section('content')
-{{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> --}}
-
-{{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> --}}
-{{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css"/> --}}
-{{-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script> --}}
 <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
@@ -82,7 +76,7 @@
             <p>
                 @if(count($list['show']) > 0)
                     <div class="table-responsive">
-                        <table id="data-table-basic" class="table table-striped">
+                        <table id="detail-rutin" class="table table-striped">
                             <thead>
                                 <th>UNIT</th>
                                 <th>PEMOHON</th>
@@ -123,7 +117,7 @@
         </div>
         <div class="modal-body">
             <div class="table-responsive">
-                <table id="dataku" class="table table-striped">
+                <table id="detail-rutin" class="table table-striped display">
                         <thead>
                             <th>BARANG</th>
                             <th>JUMLAH</th>
@@ -348,5 +342,6 @@ $(document).ready( function () {
     $('#pengadaan').DataTable();
 } );
 </script>
+
 
 @endsection

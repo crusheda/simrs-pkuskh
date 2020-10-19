@@ -21,7 +21,7 @@ class pengadaanNonRutinController extends Controller
      */
     public function index()
     {
-        $show = pengadaan::get();
+        $show = pengadaan::where('jnspengadaan','nonrutin')->get();
 
         $data = [
             'show' => $show

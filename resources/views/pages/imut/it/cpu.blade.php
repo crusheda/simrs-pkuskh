@@ -164,7 +164,16 @@
 
 <script>
     $(document).ready( function () {
-        $('#table_imut').DataTable();
+        $('#table_imut').DataTable(
+            {
+                paging: true,
+                searching: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ]
+            }
+        );
     } );
 </script>
 

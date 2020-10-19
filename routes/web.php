@@ -32,6 +32,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
         Route::resource('/imut/printer', 'it\imut\printerController');
         
     // Pengadaan
+        Route::get('/pengadaan/all', 'it\pengadaan\pengadaanAllController@index')->name('riwayat.pengadaan');
         Route::resource('pengadaan/rutin', 'it\pengadaan\pengadaanController');
         Route::resource('pengadaan/nonrutin', 'it\pengadaan\pengadaanNonRutinController');
         Route::get('/pengadaan/jenis-pengadaan', 'it\pengadaan\pengadaanController@linkToPengadaan')->name('pengadaan.pilih');

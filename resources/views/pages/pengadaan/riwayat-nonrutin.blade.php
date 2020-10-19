@@ -345,7 +345,16 @@
 
 <script>
 $(document).ready( function () {
-    $('#pengadaan').DataTable();
+    $('#pengadaan').DataTable(
+        {
+            paging: true,
+            searching: true,
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        }
+    );
 } );
 </script>
 

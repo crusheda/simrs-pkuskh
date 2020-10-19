@@ -3,8 +3,10 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
+
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
+
 <div class="container">
     <div class="row">
         <div class="card" style="width: 100%">
@@ -151,7 +153,16 @@
 
 <script>
 $(document).ready( function () {
-    $('#barang').DataTable();
+    $('#barang').DataTable(
+        {
+            paging: true,
+            searching: true,
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ]
+        }
+    );
 } );
 </script>
 
