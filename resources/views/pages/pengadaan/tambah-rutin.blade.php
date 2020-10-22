@@ -37,15 +37,10 @@
                                                   <span class="input-group-text" id="unit">Unit</span>
                                                 </div>
                                                 <select class="custom-select" name="unit" id="unit">
-                                                    <option selected disabled>Pilih...</option>
-                                                    <option value="1">One</option>
-                                                    <option value="2">Two</option>
-                                                    <option value="3">Three</option>
-                                                    <option value="3">Thres</option>
-                                                    <option value="3">Threew</option>
-                                                    <option value="3">Threvv</option>
-                                                    <option value="3">Threasdas</option>
-                                                    <option value="3">Threppo</option>
+                                                    <option selected hidden>Pilih...</option>
+                                                    @foreach($unit as $name => $item)
+                                                        <option value="{{ $name }}">{{ $name }}</option>
+                                                    @endforeach
                                                 </select>
                                             </div>
                                         </div>
@@ -54,7 +49,7 @@
                                                 <div class="input-group-prepend">
                                                     <span class="input-group-text" id="basic-addon3">Pemohon</span>
                                                 </div>
-                                                <input type="text" name="pemohon" id="pemohon" value="" class="form-control" placeholder="">
+                                                <input type="text" name="pemohon" id="pemohon" value="" class="form-control" placeholder="Isi Dengan Nama Lengkap">
                                             </div>
                                         </div>
                                     </div>

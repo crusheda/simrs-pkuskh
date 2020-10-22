@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use App\Models\pengadaan;
 use App\Models\barang;
+use App\Models\unit;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
@@ -40,9 +41,11 @@ class pengadaanController extends Controller
     public function create()
     {
         $tampil = barang::pluck('id','barang');
+        $tampilunit = unit::pluck('id','name');
 
         return view('pages.pengadaan.tambah-rutin', [
             'list' => $tampil,
+            'unit' => $tampilunit
         ]);
     }
 
@@ -54,9 +57,8 @@ class pengadaanController extends Controller
      */
     public function store(Request $request)
     {
-        $now = Carbon::now()->addHours(7);
-        
-        $jnspengadaan = 'rutin';
+        $jnspengadaan = 'RUTIN';
+        $now = Carbon::now();
 
         $getnama = Auth::user()->name;
         
@@ -214,10 +216,11 @@ class pengadaanController extends Controller
         $data->keterangan20 = $request->keterangan20;
         
         $data->jnspengadaan = $jnspengadaan;
+        $data->tgl = $now;
 
         $data->save();
         
-        return redirect('rutin')->with('message','Tambah Data Pengadaaan Rutin Berhasil');
+        return redirect('pengadaan/all')->with('message','Tambah Data Pengadaaan Rutin Berhasil');
     }
 
     /**
@@ -266,11 +269,6 @@ class pengadaanController extends Controller
         $data->delete();
 
         // redirect
-        return \Redirect::to('pengadaan/rutin')->with('message','Hapus Pengadaan Rutin Berhasil');
-    }
-
-    public function linkToPengadaan()
-    {
-        return view('pages.pengadaan.tambah-pengadaan');
+        return \Redirect::to('pengadaan/all')->with('message','Hapus Pengadaan Rutin Berhasil');
     }
 }

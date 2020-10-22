@@ -51,7 +51,7 @@ class printerController extends Controller
             ]);
             
         $getnama = Auth::user()->name;
-        $getjamawal = Carbon::now()->addHours(7);
+        $getjamawal = Carbon::now();
         
         $data = new imutprinter;
         $data->namapi = $request->namapi;
@@ -124,7 +124,7 @@ class printerController extends Controller
 
     public function printerClear(Request $request, $id)
     {
-        $getjamselesai = Carbon::now()->addHours(7);
+        $getjamselesai = Carbon::now();
         $data = imutprinter::find($id);
         $data->jamselesai = $getjamselesai;
         $data->save();

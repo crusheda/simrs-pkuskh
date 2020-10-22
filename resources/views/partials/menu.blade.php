@@ -44,6 +44,12 @@
                             </a>
                         </li>
                     </ul>
+                    <a href="{{ route("admin.unit.index") }}" class="nav-link">
+                        <i class="fa-fw fas fa-plus-square nav-icon">
+
+                        </i>
+                        Detail Unit
+                    </a>
                 </li>
             @endcan
             @can('pengadaan')
@@ -56,11 +62,11 @@
                     </a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
-                            <a href="{{ route("riwayat.pengadaan") }}" class="nav-link">
+                            <a href="{{ route("all.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-calendar-check-o nav-icon">
 
                                 </i>
-                                Riwayat
+                                Detail Pengadaan
                             </a>
                         </li>
                         <li class="nav-item">
@@ -71,14 +77,14 @@
                                 Detail Barang
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="{{ route("pengadaan.pilih") }}" class="nav-link">
                                 <i class="fa-fw fas fa-cart-plus nav-icon">
 
                                 </i>
                                 Tambah Pengadaan
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
             @endcan

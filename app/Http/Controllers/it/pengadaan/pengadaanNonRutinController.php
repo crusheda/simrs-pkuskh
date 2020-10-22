@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use App\Models\pengadaan;
 use App\Models\barang;
+use App\Models\unit;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Auth;
@@ -40,21 +41,14 @@ class pengadaanNonRutinController extends Controller
     public function create()
     {
         $tampil = barang::pluck('id','barang');
-        // $tampilbarang = barang::pluck('barang');
-        
-        // $data = [
-        //     'tampilid' => $tampilid,
-        //     'tampilbarang' => $tampilbarang
-        // ];
-        // print_r($data);
-        // die();
+        $tampilunit = unit::pluck('id','name');
 
-        // return view('pages.pengadaan.tambah-nonrutin')->with('list', $tampil);
         return view('pages.pengadaan.tambah-nonrutin', [
             'list' => $tampil,
+            'unit' => $tampilunit
         ]);
     }
-
+    
     /**
      * Store a newly created resource in storage.
      *
@@ -63,8 +57,9 @@ class pengadaanNonRutinController extends Controller
      */
     public function store(Request $request)
     {
-        $jnspengadaan = 'nonrutin';
-
+        $jnspengadaan = 'NONRUTIN';
+        $now = Carbon::now(); 
+        
         $getnama = Auth::user()->name;
         
         $data = new pengadaan;
@@ -221,10 +216,11 @@ class pengadaanNonRutinController extends Controller
         $data->keterangan20 = $request->keterangan20;
         
         $data->jnspengadaan = $jnspengadaan;
+        $data->tgl = $now;
 
         $data->save();
         
-        return redirect('pengadaan/nonrutin')->with('message','Tambah Data Pengadaaan Non Rutin Berhasil');
+        return redirect('pengadaan/all')->with('message','Tambah Data Pengadaaan Non Rutin Berhasil');
     }
 
     /**
@@ -273,6 +269,6 @@ class pengadaanNonRutinController extends Controller
         $data->delete();
 
         // redirect
-        return \Redirect::to('pengadaan/nonrutin')->with('message','Hapus Pengadaan Non Rutin Berhasil');
+        return \Redirect::to('pengadaan/all')->with('message','Hapus Pengadaan Non Rutin Berhasil');
     }
 }

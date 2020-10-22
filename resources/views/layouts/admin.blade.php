@@ -8,6 +8,22 @@
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
     <title>{{ env('APP_NAME', 'Permissions Manager') }}</title>
+    {{-- <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/all.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/datatables/jquery.dataTables.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/datatables/dataTables.bootstrap4.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/datatables/buttons.dataTables.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/datatables/select.dataTables.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/coreui.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/dropzone.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet" /> --}}
+
+    <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/pku_ico.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('img/pku_ico.png') }}">
+
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.7.0/css/font-awesome.css" rel="stylesheet" />
     <link href="https://use.fontawesome.com/releases/v5.2.0/css/all.css" rel="stylesheet" />
@@ -19,7 +35,6 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/css/select2.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" />
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet" />
     @yield('styles')
 </head>
 

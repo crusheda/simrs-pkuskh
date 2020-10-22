@@ -51,7 +51,7 @@ class cpuController extends Controller
             ]);
             
         $getnama = Auth::user()->name;
-        $getjamawal = Carbon::now()->addHours(7);
+        $getjamawal = Carbon::now();
         
         $data = new imutcpu;
         $data->namapi = $request->namapi;
@@ -123,7 +123,7 @@ class cpuController extends Controller
 
     public function cpuClear(Request $request, $id)
     {
-        $getjamselesai = Carbon::now()->addHours(7);
+        $getjamselesai = Carbon::now();
         $data = imutcpu::find($id);
         $data->jamselesai = $getjamselesai;
         $data->save();

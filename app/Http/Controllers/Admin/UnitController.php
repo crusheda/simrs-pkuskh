@@ -1,15 +1,14 @@
 <?php
 
-namespace App\Http\Controllers\it\imut;
+namespace App\Http\Controllers\Admin;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
-use App\Models\imutpilar;
+use App\Models\unit;
 use Illuminate\Http\Request;
-use Carbon\Carbon;
-use Auth;
 
-class pilarController extends Controller
+class UnitController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,13 +17,13 @@ class pilarController extends Controller
      */
     public function index()
     {
-        $show = imutpilar::get();
+        $show = unit::get();
 
         $data = [
             'show' => $show
         ];
 
-        return view('pages.imut.it.pilar')->with('list', $data);
+        return view('admin.unit.unit')->with('list', $data);
     }
 
     /**
@@ -34,7 +33,7 @@ class pilarController extends Controller
      */
     public function create()
     {
-        return view('pages.imut.it.pilar');
+        return view('admin.unit.unit');
     }
 
     /**
@@ -46,23 +45,15 @@ class pilarController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'nama' => 'nullable',
-            'jamselesai' => 'nullable',
+            'unit' => 'nullable',
             ]);
             
-        $getnama = Auth::user()->name;
-        $getjamawal = Carbon::now(); 
-        // ->addHours(7)
-        
-        $data = new imutpilar;
-        $data->namapi = $request->namapi;
-        $data->nama = $getnama;
-        $data->jamawal = $getjamawal;
-        $data->jamselesai = $request->jamselesai;
-        $data->keterangan = $request->keterangan;
+        $data = new unit;
+        $data->name = $request->unit;
+
         $data->save();
 
-        return redirect('/imut/pilar')->with('message','Tambah Imut Pilar Berhasil');
+        return redirect('/admin/unit')->with('message','Tambah Unit Berhasil');
     }
 
     /**
@@ -73,7 +64,7 @@ class pilarController extends Controller
      */
     public function show($id)
     {
-        
+        $data = unit::find($id);
     }
 
     /**
@@ -84,7 +75,7 @@ class pilarController extends Controller
      */
     public function edit($id)
     {
-        $data = imutpilar::find($id);
+        $data = unit::find($id);
     }
 
     /**
@@ -96,16 +87,11 @@ class pilarController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $data = imutpilar::find($id);
-        $data->namapi = $request->namapi;
-        // $data->nama = $request->nama;
-        $data->jamawal = $request->jamawal;
-        $data->jamselesai = $request->jamselesai;
-        $data->keterangan = $request->keterangan;
+        $data = unit::find($id);
+        $data->name = $request->name;
         $data->save();
-        
 
-        return redirect('/imut/pilar')->with('message','Ubah Imut Pilar Berhasil');
+        return redirect('admin/unit')->with('message','Ubah Data Unit Berhasil');
     }
 
     /**
@@ -116,20 +102,10 @@ class pilarController extends Controller
      */
     public function destroy($id)
     {
-        $data = imutpilar::find($id);
+        $data = unit::find($id);
         $data->delete();
 
         // redirect
-        return \Redirect::to('/imut/pilar')->with('message','Hapus Imut Pilar Berhasil');
-    }
-
-    public function pilarClear(Request $request, $id)
-    {
-        $getjamselesai = Carbon::now();
-        $data = imutpilar::find($id);
-        $data->jamselesai = $getjamselesai;
-        $data->save();
-        
-        return \Redirect::to('/imut/pilar')->with('message','Revisi Pilar Telah Selesai.');
+        return \Redirect::to('admin/unit')->with('message','Hapus Unit Berhasil');
     }
 }

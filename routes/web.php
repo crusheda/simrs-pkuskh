@@ -15,6 +15,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::delete('roles_mass_destroy', 'Admin\RolesController@massDestroy')->name('roles.mass_destroy');
     Route::resource('users', 'Admin\UsersController');
     Route::delete('users_mass_destroy', 'Admin\UsersController@massDestroy')->name('users.mass_destroy');
+    Route::resource('unit', 'Admin\UnitController');
 });
 
     // Imut
@@ -32,16 +33,17 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
         Route::resource('/imut/printer', 'it\imut\printerController');
         
     // Pengadaan
-        Route::get('/pengadaan/all', 'it\pengadaan\pengadaanAllController@index')->name('riwayat.pengadaan');
+        Route::resource('/pengadaan/all', 'it\pengadaan\pengadaanAllController');
         Route::resource('pengadaan/rutin', 'it\pengadaan\pengadaanController');
         Route::resource('pengadaan/nonrutin', 'it\pengadaan\pengadaanNonRutinController');
-        Route::get('/pengadaan/jenis-pengadaan', 'it\pengadaan\pengadaanController@linkToPengadaan')->name('pengadaan.pilih');
+        // Route::get('/pengadaan/jenis-pengadaan', 'it\pengadaan\pengadaanController@linkToPengadaan')->name('pengadaan.pilih');
         Route::resource('barang', 'it\pengadaan\barangPengadaanController');
         // Route::resource('pengadaan/rutin', 'it\pengadaan\rutinController');
         // Route::get('pengadaan/nonrutin/token/{token}','it\pengadaan\nonrutinController@getbyapi')->name('api.nonrutin');
         // Route::get('pengadaan/rutin/cetak/{token}','it\pengadaan\rutinController@generatePDF')->name('rutin.cetak');
         // Route::get('pengadaan/nonrutin/cetak/{token}','it\pengadaan\nonrutinController@generatePDF')->name('nonrutin.cetak');
         Route::get('/pengadaan/api/barang/{id}', 'it\pengadaan\barangPengadaanController@apifile')->name('barang.api');
+        Route::get('pengadaan/all/{id}/cetak','it\pengadaan\pengadaanAllController@generatePDF')->name('pengadaan.cetak');
 
 
     // Kantor Route
