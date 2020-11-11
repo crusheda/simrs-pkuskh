@@ -17,9 +17,9 @@
     <link href="{{ asset('css/datatables/select.dataTables.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/coreui.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/select2.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" />
+    <link href="{{ asset('css/bootstrap-datetimepicker.min.css') }}" rel="stylesheet" />--}}
     <link href="{{ asset('css/dropzone.min.css') }}" rel="stylesheet" />
-    <link href="{{ asset('css/custom.css') }}" rel="stylesheet" /> --}}
+    <link href="{{ asset('css/custom.css') }}" rel="stylesheet" /> 
 
     <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/pku_ico.png') }}">
     <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('img/pku_ico.png') }}">
@@ -66,9 +66,9 @@
                     </div>
                 </li>
             @endif
-
-
         </ul>
+          <span class="badge badge-pill badge-light" style="text-transform: capitalize;margin-right: 10px">
+            <i class="fa-fw fas fa-user-circle nav-icon"></i> {{ Auth::user()->name }} </span>
     </header>
 
     <div class="app-body">

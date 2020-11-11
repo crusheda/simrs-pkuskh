@@ -16,16 +16,16 @@
 		<div class="hero-slider owl-carousel">
 			<div class="hs-item">
 				<div class="hs-style-1 text-center">
-					{{-- <img src="{{ asset('css-landing/img/hero-slider/1.png') }}" alt=""> --}}
+					<img src="{{ asset('img/slider3.png') }}" alt="">
 				</div>
 			</div>
 			<div class="hs-item">
-				<div class="hs-style-2">
-					<div class="container-fluid h-100">
+				<div class="hs-style-3 text-center">
+					{{-- <div class="container-fluid h-100">
 						<div class="row h-100">
 							<div class="col-lg-6 h-100 d-none d-lg-flex align-items-xl-end align-items-lg-center">
 								<div class="hs-img">
-									{{-- <img src="{{ asset('css-landing/img/hero-slider/2.png') }}" alt=""> --}}
+									<img src="{{ asset('css-landing/img/hero-slider/2.png') }}" alt="">
 								</div>
 							</div>
 							<div class="col-lg-6 d-flex align-items-center">
@@ -38,6 +38,16 @@
 								</div>
 							</div>
 						</div>
+					</div> --}}
+					<div class="container">
+						<div class="hs-text">
+							<h2>Lapor Kesalahan Sistem</h2>
+							<p>Bug (Kesalahan Sistem) bisa saja terjadi kapanpun, maka dari itu diperlukan pengaduan kesalahan dengan mengisi form yang sudah disediakan.</p>
+							<a type="button" class="site-btn sb-white js-scroll-trigger" href="#laporbug">Isi Form Sekarang</a>
+						</div>
+					</div>
+					<div class="hs-img">
+						{{-- <img src="{{ asset('css-landing/img/hero-slider/3.png') }}" alt=""> --}}
 					</div>
 				</div>
 			</div>
@@ -45,9 +55,23 @@
 				<div class="hs-style-3 text-center">
 					<div class="container">
 						<div class="hs-text">
-							<h2>Lorem ipsum dolor sit, amet consectetur adipisicing elit</h2>
-							<p>Lorem ipsum dolor sit amet consectetur adipisicing elit. Facere voluptas odio nisi dolorum sint quis minima architecto fuga, odit ut libero totam quos iste illo aut fugit, ipsa veritatis quae!</p>
-							<div class="site-btn sb-white">X</div>
+							<h2>Data Kunjungan Pasien</h2>
+							<p>Rekapan jumlah pasien pada hari kemarin beserta jumlah pasien rawat inap hari ini.</p>
+							<a type="button" class="site-btn sb-white" href="{{ route('landing.kunjungan') }}">Lihat Sekarang</a>
+						</div>
+					</div>
+					<div class="hs-img">
+						{{-- <img src="{{ asset('css-landing/img/hero-slider/3.png') }}" alt=""> --}}
+					</div>
+				</div>
+			</div>
+			<div class="hs-item">
+				<div class="hs-style-3 text-center">
+					<div class="container">
+						<div class="hs-text">
+							<h2>Sorotan Terbaru</h2>
+							<p>Lihat sorotan terbaru di Rumah Sakit PKU Muhammadiyah Sukoharjo tercinta.</p>
+							<a type="button" class="site-btn sb-white js-scroll-trigger" href="#sorotan">Lihat Sekarang</a>
 						</div>
 					</div>
 					<div class="hs-img">
@@ -323,71 +347,10 @@
 			</div>
 		</div>
 	</section>
-	<!-- Review Section end -->
-
-	<!-- Event Section -->
-	<section class="event-section spad">
-		<div class="container">
-			<div class="section-title text-center">
-				<img src="{{ asset('css-landing/img/icons/logo-icon.png') }}" alt="">
-				<h2>Upcoming Events</h2>
-				<p>Practice Yoga to perfect physical beauty, take care of your soul and enjoy life more fully!</p>
-			</div>
-			<div class="row">
-				<div class="col-xl-6">
-					<div class="event-video">
-						<img src="{{ asset('css-landing/img/video.jpg') }}" alt="">
-						<a href="https://www.youtube.com/watch?v=vgv-hzTl5FA" class="video-popup"><img src="img/icons/play.png" alt=""></a>
-					</div>
-				</div>
-				<div class="col-xl-6">
-					<div class="event-item">
-						<div class="ei-img">
-							<img src="{{ asset('css-landing/img/event/1.jpg') }}" alt="">
-						</div>
-						<div class="ei-text">
-							<h4><a href="#">Lole White Yoga Tour</a></h4>
-							<ul>
-								<li><i class="material-icons">person</i>Kelly Alexander</li>
-								<li><i class="material-icons">event_available</i>15 January, 2019</li>
-								<li><i class="material-icons">map</i>184 Main Collins Street</li>
-							</ul>
-						</div>
-					</div>
-					<div class="event-item">
-						<div class="ei-img">
-							<img src="{{ asset('css-landing/img/event/2.jpg') }}" alt="">
-						</div>
-						<div class="ei-text">
-							<h4>Free Yoga Madrid</h4>
-							<ul>
-								<li><i class="material-icons">person</i>Kelly Alexander</li>
-								<li><i class="material-icons">event_available</i>15 January, 2019</li>
-								<li><i class="material-icons">map</i>184 Main Collins Street</li>
-							</ul>
-						</div>
-					</div>
-					<div class="event-item">
-						<div class="ei-img">
-							<img src="{{ asset('css-landing/img/event/3.jpg') }}" alt="">
-						</div>
-						<div class="ei-text">
-							<h4>One Love Dallas</h4>
-							<ul>
-								<li><i class="material-icons">person</i>Kelly Alexander</li>
-								<li><i class="material-icons">event_available</i>15 January, 2019</li>
-								<li><i class="material-icons">map</i>184 Main Collins Street</li>
-							</ul>
-						</div>
-					</div>
-				</div>
-			</div>
-		</div>
-	</section>
-	<!-- Event Section end -->
-
+	<!-- Review Section end --> --}}
 
 	<!-- Pricing Section -->
+	{{--
 	<section class="pricing-section spad">
 		<div class="container">
 			<div class="section-title text-center">
@@ -471,47 +434,81 @@
 			</div>
 		</div>
 	</section>
-	<!-- Pricing Section end -->
+	<!-- Pricing Section end --> --}}
 
+	<!-- Event Section -->
+	<section class="event-section spad" id="sorotan">
+		<div class="container">
+			<div class="section-title text-center">
+				<img src="{{ asset('css-landing/img/icons/logo-icon.png') }}" alt="">
+				<h2>Sorotan Terbaru</h2>
+				<p></p>
+			</div>
+			<div class="row">
+				<div class="col-md-7">
+					<div class="event-video">
+						<center><iframe width="100%" height="400" src="https://www.youtube.com/embed/npGh9FtWx2o" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center>
+					</div>
+				</div>
+				<div class="col-md-5">
+					<div class="event-video">
+						<center><iframe width="100%" height="190" src="https://www.youtube.com/embed/oCFG1dAgWl8" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center>
+					</div>
+					<div class="event-video">
+						<center><iframe width="100%" height="190" src="https://www.youtube.com/embed/Ti6dHJ_qoac" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe></center>
+					</div>
+				</div>
+			</div>
+		</div>
+	</section>
+	<!-- Event Section end -->
+	<hr>
 	<!-- Sign up Section -->
-	<section class="signup-section spad">
+	<section class="signup-section spad" id="laporbug">
 		<div class="container">
 			<div class="row">
 				<div class="col-lg-6">
-					<div class="signup-map"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d33245.297803635964!2d-73.76987401620775!3d40.704774398815005!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x89c24fa5d33f083b%3A0xc80b8f06e177fe62!2sNew%20York%2C%20NY%2C%20USA!5e0!3m2!1sen!2sbd!4v1575866843291!5m2!1sen!2sbd" style="border:0;" allowfullscreen=""></iframe></div>
+					<div class="signup-map"><iframe src="https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d2919.7254309755876!2d110.83855862414768!3d-7.6772790290092505!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x2e7a3c6e50a61891%3A0xda883f7a08b44f3e!2sRumah%20Sakit%20PKU%20Muhammadiyah%20Sukoharjo!5e0!3m2!1sid!2sid!4v1605092058810!5m2!1sid!2sid" width="600" height="450" frameborder="0" style="border:0;" allowfullscreen="" aria-hidden="false" tabindex="0"></iframe></div>
 				</div>
 				<div class="col-lg-6">
 					<div class="singup-text">
-						<h3>Sign Up for Our Classes</h3>
-						<p>To be invited to the nearest Cali center and get free physical advice to learn more about the program.</p>
+						<h3>Lapor Permasalahan Sistem</h3>
+						<p>Kami, Unit IT akan menanggapi permasalahan tersebut dalam <b>1x24 Jam</b> tergantung tingkat permasalahan yang terjadi. Terima Kasih</p>
 					</div>
-					<form class="singup-form">
+					<form class="singup-form" action="{{ route('store') }}" method="POST" enctype="multipart/form-data">
+						@csrf
 						<div class="row">
 							<div class="col-md-6">
-								<input type="text" placeholder="First Name">
+								<input type="text" placeholder="Nama Lengkap" name="nama" required>
 							</div>
 							<div class="col-md-6">
-								<input type="text" placeholder="Last Name">
-							</div>
-							<div class="col-md-6">
-								<input type="text" placeholder="Your Email">
-							</div>
-							<div class="col-md-6">
-								<input type="text" placeholder="Phone Number">
+								{{-- <input type="text" placeholder="Unit" name="unit" required> --}}
+								<select class="circle-select" name="unit" id="unit" required>
+                                    <option selected hidden>Pilih Unit...</option>
+                                    @foreach($list['unit'] as $name => $item)
+                                        <option value="{{ $name }}">{{ $name }}</option>
+                                    @endforeach
+                                </select>
 							</div>
 							<div class="col-md-12">
-								<textarea placeholder="Message"></textarea>
-								<a href="#" class="site-btn sb-gradient">Get started</a>
+								<textarea placeholder="Keluhan Anda..." name="pesan" required></textarea>
+								<center><button class="site-btn sb-gradient">Laporkan</button></center>
+								{{-- <a type="button" class="site-btn sb-gradient" id="submit">Laporkan</a> --}}
 							</div>
 						</div>
 					</form>
 				</div>
 			</div>
 		</div>
+		@if(session()->has('message'))
+			<div class="alert alert-success">
+				{{ session()->get('message') }}
+			</div>
+		@endif
 	</section>
 	<!-- Sign up Section end -->
 
-	<!-- Gallery Section -->
+	{{-- <!-- Gallery Section -->
 	<div class="gallery-section">
 		<div class="gallery-slider owl-carousel">
 			<div class="gs-item">

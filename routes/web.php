@@ -1,5 +1,6 @@
 <?php
-Route::get('/', 'WelcomeController@welcome')->name('homepage');
+Route::resource('/', 'WelcomeController');
+Route::get('/kunjungan', 'kunjunganController@index')->name('landing.kunjungan');
 
 Auth::routes(['register' => false]);
 
@@ -45,10 +46,16 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
         Route::get('/pengadaan/api/barang/{id}', 'it\pengadaan\barangPengadaanController@apifile')->name('barang.api');
         Route::get('pengadaan/all/{id}/cetak','it\pengadaan\pengadaanAllController@generatePDF')->name('pengadaan.cetak');
 
-
     // Kantor Route
         Route::resource('rapat', 'kantor\rapatController');
         Route::get('/rapat/show/{id}', 'kantor\rapatController@show');
         Route::get('/rapat/show2/{id}', 'kantor\rapatController@show2');
         Route::get('/rapat/show3/{id}', 'kantor\rapatController@show3');
         Route::get('/rapat/show4/{id}', 'kantor\rapatController@show4');
+
+    // Log Perawat
+        Route::get('/tdkperawat/cari', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
+        Route::resource('logperawat', 'perawat\logPerawatController');
+        Route::resource('tdkperawat', 'perawat\tdkPerawatController');
+        Route::get('tdkperawat/{id}', 'perawat\tdkPerawatController@show')->name('tdkperawat.show');
+        Route::get('tdkperawat/{id}/cetak','perawat\tdkPerawatController@generatePDF')->name('tdkperawat.cetak');

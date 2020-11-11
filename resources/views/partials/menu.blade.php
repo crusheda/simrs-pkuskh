@@ -2,6 +2,12 @@
     <nav class="sidebar-nav">
 
         <ul class="nav">
+            {{-- <li class="nav-item">
+                <center>
+                    <span class="badge badge-pill badge-light" style="text-transform: capitalize;margin-top: 10px;margin-bottom: 10px">
+                    <i class="fa-fw fas fa-user-circle nav-icon"></i> {{ Auth::user()->name }} </span>
+                </center>
+            </li> --}}
             <li class="nav-item">
                 <a href="{{ route("admin.home") }}" class="nav-link">
                     <i class="nav-icon fas fa-fw fa-tachometer-alt">
@@ -185,6 +191,58 @@
                                 Tambah Berkas
                             </a>
                         </li>
+                    </ul>
+                </li>
+            @endcan
+            @can('log_perawat')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle">
+                        <i class="fa-fw fas fa-book nav-icon">
+
+                        </i>
+                        Log Perawat
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("logperawat.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-list-ol nav-icon">
+
+                                </i>
+                                Pernyataan Log
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route("tdkperawat.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-address-book nav-icon">
+
+                                </i>
+                                Tindakan Harian
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route("logperawat.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-id-badge nav-icon">
+
+                                </i>
+                                Profesi Keperawatan
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route("logperawat.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-vcard nav-icon">
+
+                                </i>
+                                Penunjang Tugas
+                            </a>
+                        </li>
+                        {{-- <li class="nav-item">
+                            <a href="{{ route("pengadaan.pilih") }}" class="nav-link">
+                                <i class="fa-fw fas fa-cart-plus nav-icon">
+
+                                </i>
+                                Tambah Pengadaan
+                            </a>
+                        </li> --}}
                     </ul>
                 </li>
             @endcan

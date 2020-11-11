@@ -8,41 +8,54 @@
 
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
-{{-- <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script> --}}
-{{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.flash.min.js"></script> --}}
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> --}}
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script> --}}
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.print.min.js"></script> --}}
 
 <div class="container">
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header bg-dark text-white">
 
-                Tabel Barang Pengadaan
+                Tabel Pernyataan Log
 
                 <span class="pull-right badge badge-warning" style="margin-top:4px">
-                    Akses Publik
+                    Akses Kabag Keperawatan
                 </span>
                 
             </div>
             <div class="card-body">
-                @can('pengadaan')
+                @can('log_perawat')
                 <div class="container">
                     <div class="row">
+                        <div class="col-md-4">
+                            <center><h4>Tambah Pertanyaan</h4></center><br>
+                            <form class="form-auth-small" action="{{ route('logperawat.store') }}" method="POST" enctype="multipart/form-data">
+                                @csrf
+                                <select class="custom-select" name="unit" id="unit" required>
+                                    <option selected hidden>Pilih Unit...</option>
+                                    @foreach($list['unit'] as $name => $item)
+                                        <option value="{{ $name }}">{{ $name }}</option>
+                                    @endforeach
+                                </select>
+                                <p></p>
+                                <label>Pertanyaan :</label>
+                                <textarea class="form-control" name="pertanyaan" id="pertanyaan" placeholder="" required></textarea>
+                                <br>
+                                <label>Pilihan Jawaban :</label>
+                                <input type="number" min="1" max="5" class="form-control" name="box" id="box" value="1" required>
+                                <br>
+                                <center><button class="btn btn-primary text-white" id="submit">Tambah</button></center>
+                                <br>
+                            </form>
+                        </div>
                         <div class="col-md-8">
                             <div class="table-responsive">
-                                <table id="barang" class="table table-striped display">
+                                <table id="logperawat" class="table table-striped display">
                                     <thead>
                                         <tr>
-                                            <th>BARANG</th>
-                                            <th>SATUAN</th>
-                                            <th>HARGA</th>
-                                            <th>TANGGAL</th>
+                                            <th>ID</th>
+                                            <th>PERTANYAAN</th>
+                                            <th>UNIT</th>
+                                            <th>JAWABAN</th>
+                                            <th>TGL</th>
                                             <th>ACTION</th>
                                         </tr>
                                     </thead>
@@ -50,13 +63,14 @@
                                         @if(count($list['show']) > 0)
                                         @foreach($list['show'] as $item)
                                         <tr>
-                                            <td>{{ $item->barang }}</td>
-                                            <td>{{ $item->satuan }}</td>
-                                            <td>{{ $item->harga }}</td>
+                                            <td>{{ $item->id }}</td>
+                                            <td>{{ $item->pertanyaan }}</td>
+                                            <td>{{ $item->unit }}</td>
+                                            <td>{{ $item->box }}</td>
                                             <td>{{ $item->created_at }}</td>
                                             <td>
-                                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editBarang{{ $item->id }}">Lihat</button>
-                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusBarang{{ $item->id }}">Hapus</button>
+                                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                             </td>
                                         </tr>
                                         @endforeach
@@ -69,22 +83,6 @@
                                 </table>
                             </div>
                         </div>
-                        <div class="col-md-4">
-                            <form class="form-auth-small" action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <label>Nama Barang :</label>
-                                <input type="text" name="barang" id="barang" class="form-control" placeholder="">
-                                <br>
-                                <label>Satuan :</label>
-                                <input type="text" name="satuan" id="satuan" class="form-control" placeholder="">
-                                <br>
-                                <label>Harga :</label>
-                                <input type="number" name="harga" id="harga" class="form-control" placeholder="">
-                                <br>
-                                <center><button class="btn btn-primary text-white" id="submit">Tambah</button></center>
-                                <br>
-                            </form>
-                        </div>
                     </div>
                 @else
                     <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
@@ -96,7 +94,7 @@
 </div>
 
 @foreach($list['show'] as $item)
-<div class="modal fade bd-example-modal-lg" id="hapusBarang{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="hapusLog{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -108,17 +106,15 @@
         <div class="modal-body">
             <p>
                 @if(count($list) > 0)
-                    Nama Barang : <b>{{ $item->barang }}</b> <br>
-                    Satuan : {{ $item->satuan }} <br>
-                    Harga : {{ $item->harga }} <br>
-                    Ditambahkan pada {{ $item->created_at }} <br>
-                    Barang Sudah dipakai pengadaan sebanyak @if ($item->count == null) 0 @else {{ $item->count }} @endif kali.<br>
+                Unit : {{ $item->unit }} <br>
+                Pertanyaan : <b>{{ $item->pertanyaan }}</b> <br>
+                Ditambahkan pada {{ $item->created_at }} <br>
                 @endif
             </p>
         </div>
         <div class="modal-footer">
             @if(count($list) > 0)
-                <form action="{{ route('barang.destroy', $item->id) }}" method="POST">
+                <form action="{{ route('logperawat.destroy', $item->id) }}" method="POST">
                     @method('DELETE')
                     @csrf
                     <button class="btn btn-danger btn-sm"><i class="lnr lnr-trash"></i>Hapus</button>
@@ -131,7 +127,7 @@
 @endforeach
 
 @foreach($list['show'] as $item)
-<div class="modal fade bd-example-modal-lg" id="editBarang{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="editLog{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -141,17 +137,21 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         @if(count($list) > 0)
-        {{ Form::model($item, array('route' => array('barang.update', $item->id), 'method' => 'PUT')) }}
+        {{ Form::model($item, array('route' => array('logperawat.update', $item->id), 'method' => 'PUT')) }}
         <div class="modal-body">
             @csrf
-            <label>Nama Barang :</label>
-            <input type="text" name="barang" id="barang" value="{{ $item->barang }}" class="form-control" placeholder="">
+            <label>Unit :</label>
+            <select class="custom-select" name="unit" id="unit" required>
+                @foreach($list['unit'] as $name => $yoi)
+                    <option value="{{ $name }}" <?php if($name == $item->unit) { echo "selected";} ?>>{{ $name }}</option>
+                @endforeach
+            </select>
             <br>
-            <label>Satuan :</label>
-            <input type="text" name="satuan" id="satuan" value="{{ $item->satuan }}" class="form-control" placeholder="">
+            <label for="keterangan">Pertanyaan :</label>
+            <textarea class="form-control" name="pertanyaan" id="pertanyaan" placeholder="" required>{{ $item->pertanyaan }}</textarea>
             <br>
-            <label>Harga :</label>
-            <input type="number" name="harga" id="harga" value="{{ $item->harga }}" class="form-control" placeholder="">
+            <label>Pilihan Jawaban :</label>
+            <input type="number" class="form-control" value="{{ $item->box }}" min="0" max="5" name="box" id="box" required>
             <br>
         </div>
         <div class="modal-footer">
@@ -166,7 +166,7 @@
 
 <script>
 $(document).ready( function () {
-    $('#barang').DataTable(
+    $('#logperawat').DataTable(
         {
             paging: true,
             searching: true,

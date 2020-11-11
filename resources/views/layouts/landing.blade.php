@@ -54,7 +54,7 @@
 			</div>
 		</div>
 		<div class="header-bottom">
-			<a href="index.html" class="site-logo">
+			<a href="{{ route('index') }}" class="site-logo">
 				<img src="{{ asset('css-landing/img/Logo Clear PKU.png') }}" alt="">
 			</a>
 			<div class="hb-right">
@@ -75,8 +75,8 @@
             <!-- MENU BAR -->
 			{{-- <div class="container">
 				<ul class="main-menu">
-					<li><a href="index.html" class="active">Home</a></li>
-					<li><a href="about.html">About</a></li>
+					<li><a href="{{ route('index') }}" align="left">Home</a></li>
+					<li><a href="{{ route('landing.kunjungan') }}">Kunjungan</a></li>
 					<li><a href="classes.html">Classes</a>
 						<ul class="sub-menu">
 							<li><a href="classes.html">Our Claasses</a></li>
@@ -146,8 +146,15 @@
                                 </span>
                             @endif
                         </div>
-                    </div>
-                    {{-- <input class="form-check-input" type="checkbox" name="remember" {{ old('remember') ? 'checked' : '' }}> --}}
+					</div>
+					<div class="classes-filter">
+						<div class="cf-cal">
+							<div class="cf-radio">
+								<input type="checkbox" id="remember" name="remember" {{ old('remember') ? 'checked' : '' }}>
+								<label for="remember">Remember</label>
+							</div>
+						</div>
+					</div>
                     <button type="submit" class="site-btn sb-gradient mt-5">
                         {{ __('Login') }}
                     </button>
@@ -175,54 +182,48 @@
 				<div class="col-lg-3 col-sm-6">
 					<div class="footer-widget">
 						<div class="about-widget">
+							<h2 class="fw-title"></h2>
 							<img src="{{ asset('css-landing/img/landing-logotext.png') }}" alt="">
-							<p>Lorem ipsum dolor sit amet, consec-tetur adipiscing elit sed.</p>
-							<ul>
-								<li><i class="material-icons">phone</i>(0271) 593979</li>
-								<li><i class="material-icons">email</i>pku.sukoharjo@gmail.com</li>
-								<li><i class="material-icons">map</i>Jl.Mayor Sunaryo No.37 Sukoharjo (57512)</li>
-							</ul>
+							<img src="{{ asset('img/KARS Bintang 2.png') }}" alt="">
+							{{-- <p>Lorem ipsum dolor sit amet, consec-tetur adipiscing elit sed.</p> --}}
 						</div>
 					</div>
 				</div>
-				<div class="col-lg-3 col-sm-6">
+				<div class="col-lg-2 col-sm-6">
 					<div class="footer-widget pl-0 pl-lg-5">
-						<h2 class="fw-title">Profil</h2>
+						<h2 class="fw-title">Menu</h2>
 						<ul>
-							<li><a href="#">ipsum</a></li>
-							<li><a href="#">dolor</a></li>
-							<li><a href="#">sit</a></li>
+							<li><a href="{{ route('index') }}">Home</a></li>
+							<li><a href="{{ route('landing.kunjungan') }}">Kunjungan</a></li>
+							{{-- <li><a href="#">sit</a></li>
 							<li><a href="#">amet</a></li>
-							<li><a href="#">lorem</a></li>
+							<li><a href="#">lorem</a></li> --}}
 						</ul>
 					</div>
 				</div>
-				<div class="col-lg-2 col-sm-6">
+				<div class="col-lg-3 col-sm-6">
 					<div class="footer-widget">
-						<h2 class="fw-title">Tentang Kami</h2>
-						<ul>
-							<li><a href="#">lorem</a></li>
-							<li><a href="#">ipsum</a></li>
-							<li><a href="#">dolor</a></li>
-							<li><a href="#">sit</a></li>
-							<li><a href="#">amet</a></li>
-						</ul>
+						<h2 class="fw-title">Plugin Page</h2>
+						<div class="fb-page" data-href="https://www.facebook.com/rspkuskh" data-width="380" data-hide-cover="false" data-show-facepile="false"></div>
 					</div>
 				</div>
 				<div class="col-lg-4 col-sm-6">
 					<div class="footer-widget pl-0 pl-lg-5">
-						<h2 class="fw-title">JAM BUKA</h2>
-						<ul>
-							{{-- <li><i class="material-icons">alarm_on</i>Mon - Fri:  6:30am - 07:45pm</li>
-							<li><i class="material-icons">alarm_on</i>Sat - Sun:  8:30am - 05:45pm</li> --}}
+						<h2 class="fw-title">Kontak</h2>
+						{{-- <ul>
+							<li><i class="material-icons">alarm_on</i>Mon - Fri:  6:30am - 07:45pm</li>
+							<li><i class="material-icons">alarm_on</i>Sat - Sun:  8:30am - 05:45pm</li>
 							<li><i class="material-icons">alarm_on</i>IGD 24 JAM</li>
-						</ul>
+						</ul> --}}
 						{{-- <form class="infor-form">
 							<input type="text" placeholder="Lapor">
 							<button><img src="{{ asset('css-landing/img/icons/send.png') }}" alt=""></button>
 						</form> --}}
-						<br>
-						<img src="{{ asset('img/KARS Bintang 2.png') }}" alt="">
+						<ul>
+							<li><i class="material-icons">phone</i>(0271) 593979</li>
+							<li><i class="material-icons">email</i>pku.sukoharjo@gmail.com</li>
+							<li><i class="material-icons">map</i>Jl.Mayor Sunaryo No.37 Sukoharjo (57512)</li>
+						</ul>
 					</div>
 				</div>
 			</div>
@@ -269,6 +270,7 @@ Copyright &copy;<script>document.write(new Date().getFullYear());</script> All r
 	<script src="{{ asset('css-landing/js/jquery-ui.min.js') }}"></script>
 	<script src="{{ asset('css-landing/js/jquery.magnific-popup.min.js') }}"></script>
 	<script src="{{ asset('css-landing/js/main.js') }}"></script>
+	<script src="https://connect.facebook.net/id_ID/sdk.js#xfbml=1&amp;version=v2.5"></script>
 
 	</body>
 </html>

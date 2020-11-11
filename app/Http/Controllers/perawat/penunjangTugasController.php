@@ -1,14 +1,11 @@
 <?php
 
-namespace App\Http\Controllers;
+namespace App\Http\Controllers\perawat;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use Illuminate\Http\RedirectResponse;
-use App\Models\laporbug;
-use App\Models\unit;
 
-class WelcomeController extends Controller
+class penunjangTugasController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -17,13 +14,7 @@ class WelcomeController extends Controller
      */
     public function index()
     {
-        $unit = unit::pluck('id','name');
-
-        $data = [
-            'unit' => $unit
-        ];
-
-        return view('pages.landing.index')->with('list', $data);
+        //
     }
 
     /**
@@ -43,14 +34,8 @@ class WelcomeController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function store(Request $request)
-    {            
-        $data = new laporbug;
-        $data->nama = $request->nama;
-        $data->pesan = $request->pesan;
-
-        $data->save();
-
-        return redirect('/')->with('message','Laporan anda sudah terkirim. Tunggu proses selanjutnya. Terima Kasih :)');
+    {
+        //
     }
 
     /**

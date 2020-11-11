@@ -540,7 +540,7 @@
                 $('#jumlah1').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -584,7 +584,7 @@
                 $('#jumlah2').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -628,7 +628,7 @@
                 $('#jumlah3').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -672,7 +672,7 @@
                 $('#jumlah4').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -716,7 +716,7 @@
                 $('#jumlah5').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -760,7 +760,7 @@
                 $('#jumlah6').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -804,7 +804,7 @@
                 $('#jumlah7').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -848,7 +848,7 @@
                 $('#jumlah8').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -892,7 +892,7 @@
                 $('#jumlah9').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -936,7 +936,7 @@
                 $('#jumlah10').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -980,7 +980,7 @@
                 $('#jumlah11').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -1024,7 +1024,7 @@
                 $('#jumlah12').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -1068,7 +1068,7 @@
                 $('#jumlah13').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -1112,7 +1112,7 @@
                 $('#jumlah14').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -1156,7 +1156,7 @@
                 $('#jumlah15').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -1200,7 +1200,7 @@
                 $('#jumlah16').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -1244,7 +1244,7 @@
                 $('#jumlah17').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -1288,7 +1288,7 @@
                 $('#jumlah18').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -1332,7 +1332,7 @@
                 $('#jumlah19').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -1376,7 +1376,7 @@
                 $('#jumlah20').attr('required', false);
             } else {
                 $.ajax({
-                    url: "http://localhost:8000/pengadaan/api/barang/"+this.value,
+                    url: "http://192.168.1.2:8000/pengadaan/api/barang/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
