@@ -12,7 +12,9 @@
         <div class="card" style="width: 100%">
             <div class="card-header bg-dark text-white">
 
-                Ubah Tindakan Perawat Harian ( id : {{ $list['first']->queue }} )
+                <i class="fa-fw fas fa-file-text nav-icon">
+
+                </i> Ubah Tindakan Perawat Harian ( id : {{ $list['first']->queue }} )
 
                 <span class="pull-right badge badge-warning" style="margin-top:4px">
                     Akses Publik

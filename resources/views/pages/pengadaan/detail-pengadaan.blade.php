@@ -12,7 +12,8 @@
         <div class="card" style="width: 100%">
             <div class="card-header bg-dark text-white">
 
-                <i class="fa-fw fas fa-cart-arrow-down nav-icon">
+                <a class="btn btn-success rounded-pill" href="{{ route("all.index") }}">Kembali</a>
+                <i class="fa-fw fas fa-cart-arrow-down nav-icon" style="margin-left:10px">
 
                 </i>Detail Pengadaan ( {{ $list->created_at->diffForHumans() }} )
 

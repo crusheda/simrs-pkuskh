@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use App\Models\barang;
+use App\Models\rekapbarang;
 use Carbon\Carbon;
 
 class barangPengadaanController extends Controller

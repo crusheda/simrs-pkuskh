@@ -12,7 +12,10 @@
         <div class="card" style="width: 100%">
             <div class="card-header bg-dark text-white">
 
-                Detail Pengadaan ( id : {{ $list->id }} )
+                <a class="btn btn-success rounded-pill" href="{{ route("all.index") }}">Kembali</a>
+                <i class="fa-fw fas fa-cart-arrow-down nav-icon" style="margin-left:10px">
+
+                </i> Detail Pengadaan ( id : {{ $list->id }} )
 
                 <span class="pull-right badge badge-warning" style="margin-top:4px">
                     Akses Pengadaan

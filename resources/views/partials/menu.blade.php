@@ -83,14 +83,14 @@
                                 Detail Barang
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a href="{{ route("pengadaan.pilih") }}" class="nav-link">
-                                <i class="fa-fw fas fa-cart-plus nav-icon">
+                        <li class="nav-item">
+                            <a href="{{ route("log.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-history nav-icon">
 
                                 </i>
-                                Tambah Pengadaan
+                                Log Pengadaan
                             </a>
-                        </li> --}}
+                        </li>
                     </ul>
                 </li>
             @endcan

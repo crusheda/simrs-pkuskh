@@ -17,6 +17,8 @@
 
 	<!-- Main Stylesheets -->
 	<link rel="stylesheet" href="{{ asset('css-landing/css/style.css') }}"/>
+	<link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/pku_ico.png') }}">
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('img/pku_ico.png') }}">
 
 
 	<!--[if lt IE 9]>

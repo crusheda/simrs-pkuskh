@@ -34,6 +34,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
         Route::resource('/imut/printer', 'it\imut\printerController');
         
     // Pengadaan
+        // Route::get('/pengadaan/log/', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
+        Route::get('/pengadaan/log/cari', 'it\pengadaan\logPengadaanController@showLog')->name('cari.log');
+        Route::resource('/pengadaan/log', 'it\pengadaan\logPengadaanController');
         Route::resource('/pengadaan/all', 'it\pengadaan\pengadaanAllController');
         Route::resource('pengadaan/rutin', 'it\pengadaan\pengadaanController');
         Route::resource('pengadaan/nonrutin', 'it\pengadaan\pengadaanNonRutinController');

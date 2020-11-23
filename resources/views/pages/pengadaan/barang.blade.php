@@ -3,27 +3,18 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
-{{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.22/css/jquery.dataTables.min.css">
-<link rel="stylesheet" href="https://cdn.datatables.net/buttons/1.6.4/css/buttons.dataTables.min.css"> --}}
 
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
-{{-- <script src="https://cdn.datatables.net/buttons/1.6.4/js/dataTables.buttons.min.js"></script> --}}
-{{-- <script src="https://code.jquery.com/jquery-3.5.1.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/1.10.22/js/jquery.dataTables.min.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.flash.min.js"></script> --}}
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/jszip/3.1.3/jszip.min.js"></script> --}}
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/pdfmake.min.js"></script> --}}
-{{-- <script src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.53/vfs_fonts.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.html5.min.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/buttons/1.6.4/js/buttons.print.min.js"></script> --}}
 
 <div class="container">
     <div class="row">
         <div class="card" style="width: 100%">
             <div class="card-header bg-dark text-white">
 
-                Tabel Barang Pengadaan
+                <i class="fa-fw fas fa-cubes nav-icon">
+
+                </i> Tabel Barang Pengadaan
 
                 <span class="pull-right badge badge-warning" style="margin-top:4px">
                     Akses Publik
@@ -55,7 +46,7 @@
                                             <td>{{ $item->harga }}</td>
                                             <td>{{ $item->created_at }}</td>
                                             <td>
-                                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editBarang{{ $item->id }}">Lihat</button>
+                                                <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#editBarang{{ $item->id }}">Ubah</button>
                                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusBarang{{ $item->id }}">Hapus</button>
                                             </td>
                                         </tr>

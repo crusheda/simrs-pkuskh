@@ -64,8 +64,8 @@
                                     <td>{{ $item->jamawal }}</td>
                                     <td>{{ $item->jamselesai }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editprinter{{ $item->id }}">Ubah</button>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusprinter{{ $item->id }}">Hapus</button>
+                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editprinter{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusprinter{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                     </td>
                                 </tr>
                                 @endforeach
