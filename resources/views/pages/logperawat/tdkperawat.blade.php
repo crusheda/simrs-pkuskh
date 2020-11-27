@@ -25,15 +25,15 @@
                 @can('log_perawat')
                 <div class="container">
                     <div class="row">
-                        <div class="col-md-7">
+                        <div class="col-md-8">
                             <a type="button" class="btn btn-success text-white" data-toggle="modal" data-target="#tambahtdk">
                                 <i class="fa-fw fas fa-plus-square nav-icon">
         
                                 </i>
                                 Tambah Tindakan Harian
                             </a>
-                        </div>
-                        <div class="col-md-5">
+                        </div><br><br>
+                        <div class="col-md-4">
                             <form class="form-inline" action="{{ route('tdkperawat.cari') }}" method="GET">
                                 <span style="width: auto;margin-right:10px">Filter</span>
                                 <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="bulan" id="bulan" required>

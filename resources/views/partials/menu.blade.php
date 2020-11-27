@@ -220,7 +220,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route("logperawat.index") }}" class="nav-link">
+                            <a href="{{ route("profkpr.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-id-badge nav-icon">
 
                                 </i>
@@ -228,7 +228,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route("logperawat.index") }}" class="nav-link">
+                            <a href="{{ route("tgsperawat.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-vcard nav-icon">
 
                                 </i>

@@ -15,5 +15,7 @@ class DatabaseSeeder extends Seeder
         // $this->call(RoleSeed::class);
         // $this->call(UserSeed::class);
         // $this->call(UnitLogPerawat::class);
+        // $this->call(logprofkpr::class);
+        // $this->call(logtgsperawat::class);
     }
 }

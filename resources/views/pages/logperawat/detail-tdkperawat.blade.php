@@ -12,7 +12,8 @@
         <div class="card" style="width: 100%">
             <div class="card-header bg-dark text-white">
 
-                <i class="fa-fw fas fa-file-text nav-icon">
+                <a class="btn btn-success rounded-pill btn-sm" href="{{ route("tdkperawat.index") }}">Kembali</a>
+                <i class="fa-fw fas fa-file-text nav-icon" style="margin-left:10px">
 
                 </i>Detail Tindakan Perawat Harian ( {{ $list['first']->tgl }} )
 
@@ -37,7 +38,7 @@
                         </a>
                     </div>
                     <div class="col-md-4">
-                        <a type="button" href="{{ route('tdkperawat.cetak', $list['first']->queue) }}" class="btn btn-primary btn-lg btn-block text-white">
+                        <a type="button" href="{{ route('tdkperawat.cetak', $list['first']->queue) }}" class="btn btn-primary btn-lg btn-block text-white disabled">
                             <i class="fa-fw fas fa-print nav-icon">
 
                             </i>
@@ -60,10 +61,10 @@
                             <th>PERNYATAAN</th>
                             <th>JUMLAH TINDAKAN</th>
                         </thead>
-                        <tbody style="text-transform: capitalize">
+                        <tbody>
                             @foreach($list['show'] as $item)
                             <tr>
-                                <td>{{ $item->pertanyaan }}</td>
+                                <td style="text-transform: capitalize">{{ $item->pertanyaan }}</td>
                                 <td>{{ $item->jawaban }} Kali</td>
                             </tr>
                             @endforeach

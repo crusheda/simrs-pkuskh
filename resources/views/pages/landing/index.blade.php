@@ -484,13 +484,14 @@
 							<div class="col-md-6">
 								{{-- <input type="text" placeholder="Unit" name="unit" required> --}}
 								<select class="circle-select" name="unit" id="unit" required>
-                                    <option selected hidden>Pilih Unit...</option>
+                                    <option hidden>Pilih Unit...</option>
                                     @foreach($list['unit'] as $name => $item)
                                         <option value="{{ $name }}">{{ $name }}</option>
                                     @endforeach
                                 </select>
 							</div>
 							<div class="col-md-12">
+								<br>
 								<textarea placeholder="Keluhan Anda..." name="pesan" required></textarea>
 								<center><button class="site-btn sb-gradient">Laporkan</button></center>
 								{{-- <a type="button" class="site-btn sb-gradient" id="submit">Laporkan</a> --}}

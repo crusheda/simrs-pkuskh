@@ -57,8 +57,15 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
         Route::get('/rapat/show4/{id}', 'kantor\rapatController@show4');
 
     // Log Perawat
-        Route::get('/tdkperawat/cari', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
-        Route::resource('logperawat', 'perawat\logPerawatController');
-        Route::resource('tdkperawat', 'perawat\tdkPerawatController');
-        Route::get('tdkperawat/{id}', 'perawat\tdkPerawatController@show')->name('tdkperawat.show');
-        Route::get('tdkperawat/{id}/cetak','perawat\tdkPerawatController@generatePDF')->name('tdkperawat.cetak');
+        // Tindakan Harian
+            Route::get('/tdkperawat/cari', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
+            Route::resource('logperawat', 'perawat\logPerawatController');
+            // Route::get('tdkperawat/{id}', 'perawat\tdkPerawatController@show')->name('tdkperawat.show');
+            Route::resource('tdkperawat', 'perawat\tdkPerawatController');
+            Route::get('tdkperawat/{id}/cetak','perawat\tdkPerawatController@generatePDF')->name('tdkperawat.cetak');
+
+        // Log Profesi Keperawatan
+        Route::resource('profkpr', 'perawat\profKprController');
+
+        // Log Penunjang Tugas Perawat
+        Route::resource('tgsperawat', 'perawat\tgsPerawatController');

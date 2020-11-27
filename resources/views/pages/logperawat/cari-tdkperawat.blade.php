@@ -12,9 +12,10 @@
         <div class="card" style="width: 100%">
             <div class="card-header bg-dark text-white">
 
-                <i class="fa-fw fas fa-file-text nav-icon">
+                <a class="btn btn-success rounded-pill btn-sm" href="{{ route("tdkperawat.index") }}">Kembali</a>
+                <i class="fa-fw fas fa-file-text nav-icon" style="margin-left:10px">
 
-                </i>Detail Tindakan Perawat Harian ( {{ $list['time'] }} )
+                </i> Cari Tindakan Perawat Harian ( {{ $list['time'] }} )
 
                 <span class="pull-right badge badge-warning" style="margin-top:4px">
                     Akses Publik
