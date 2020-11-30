@@ -94,6 +94,26 @@
                     </ul>
                 </li>
             @endcan
+            @can('log_it')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <i class="fa-fw fas fa-low-vision nav-icon">
+
+                        </i>
+                        Supervisi IT
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("supervisi.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-leaf nav-icon">
+
+                                </i>
+                                Detail Log
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
             @can('imut_it')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">

@@ -18,36 +18,39 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::delete('users_mass_destroy', 'Admin\UsersController@massDestroy')->name('users.mass_destroy');
     Route::resource('unit', 'Admin\UnitController');
 });
+    // IT
+        // Log
+        Route::resource('/it/supervisi', 'it\log\logController');
 
-    // Imut
-        // Pilar
-        Route::post('/imut/pilar/{id}', 'it\imut\pilarController@pilarClear')->name('pilar.selesai');
-        Route::resource('/imut/pilar', 'it\imut\pilarController');
-        // CPU
-        Route::post('/imut/cpu/{id}', 'it\imut\cpuController@cpuClear')->name('cpu.selesai');
-        Route::resource('/imut/cpu', 'it\imut\cpuController');
-        // Jaringan
-        Route::post('/imut/jaringan/{id}', 'it\imut\jaringanController@jaringanClear')->name('jaringan.selesai');
-        Route::resource('/imut/jaringan', 'it\imut\jaringanController');
-        // Printer
-        Route::post('/imut/printer/{id}', 'it\imut\printerController@printerClear')->name('printer.selesai');
-        Route::resource('/imut/printer', 'it\imut\printerController');
-        
-    // Pengadaan
-        // Route::get('/pengadaan/log/', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
-        Route::get('/pengadaan/log/cari', 'it\pengadaan\logPengadaanController@showLog')->name('cari.log');
-        Route::resource('/pengadaan/log', 'it\pengadaan\logPengadaanController');
-        Route::resource('/pengadaan/all', 'it\pengadaan\pengadaanAllController');
-        Route::resource('pengadaan/rutin', 'it\pengadaan\pengadaanController');
-        Route::resource('pengadaan/nonrutin', 'it\pengadaan\pengadaanNonRutinController');
-        // Route::get('/pengadaan/jenis-pengadaan', 'it\pengadaan\pengadaanController@linkToPengadaan')->name('pengadaan.pilih');
-        Route::resource('barang', 'it\pengadaan\barangPengadaanController');
-        // Route::resource('pengadaan/rutin', 'it\pengadaan\rutinController');
-        // Route::get('pengadaan/nonrutin/token/{token}','it\pengadaan\nonrutinController@getbyapi')->name('api.nonrutin');
-        // Route::get('pengadaan/rutin/cetak/{token}','it\pengadaan\rutinController@generatePDF')->name('rutin.cetak');
-        // Route::get('pengadaan/nonrutin/cetak/{token}','it\pengadaan\nonrutinController@generatePDF')->name('nonrutin.cetak');
-        Route::get('/pengadaan/api/barang/{id}', 'it\pengadaan\barangPengadaanController@apifile')->name('barang.api');
-        Route::get('pengadaan/all/{id}/cetak','it\pengadaan\pengadaanAllController@generatePDF')->name('pengadaan.cetak');
+        // Imut
+            // Pilar
+            Route::post('/imut/pilar/{id}', 'it\imut\pilarController@pilarClear')->name('pilar.selesai');
+            Route::resource('/imut/pilar', 'it\imut\pilarController');
+            // CPU
+            Route::post('/imut/cpu/{id}', 'it\imut\cpuController@cpuClear')->name('cpu.selesai');
+            Route::resource('/imut/cpu', 'it\imut\cpuController');
+            // Jaringan
+            Route::post('/imut/jaringan/{id}', 'it\imut\jaringanController@jaringanClear')->name('jaringan.selesai');
+            Route::resource('/imut/jaringan', 'it\imut\jaringanController');
+            // Printer
+            Route::post('/imut/printer/{id}', 'it\imut\printerController@printerClear')->name('printer.selesai');
+            Route::resource('/imut/printer', 'it\imut\printerController');
+            
+        // Pengadaan
+            // Route::get('/pengadaan/log/', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
+            Route::get('/pengadaan/log/cari', 'it\pengadaan\logPengadaanController@showLog')->name('cari.log');
+            Route::resource('/pengadaan/log', 'it\pengadaan\logPengadaanController');
+            Route::resource('/pengadaan/all', 'it\pengadaan\pengadaanAllController');
+            Route::resource('pengadaan/rutin', 'it\pengadaan\pengadaanController');
+            Route::resource('pengadaan/nonrutin', 'it\pengadaan\pengadaanNonRutinController');
+            // Route::get('/pengadaan/jenis-pengadaan', 'it\pengadaan\pengadaanController@linkToPengadaan')->name('pengadaan.pilih');
+            Route::resource('barang', 'it\pengadaan\barangPengadaanController');
+            // Route::resource('pengadaan/rutin', 'it\pengadaan\rutinController');
+            // Route::get('pengadaan/nonrutin/token/{token}','it\pengadaan\nonrutinController@getbyapi')->name('api.nonrutin');
+            // Route::get('pengadaan/rutin/cetak/{token}','it\pengadaan\rutinController@generatePDF')->name('rutin.cetak');
+            // Route::get('pengadaan/nonrutin/cetak/{token}','it\pengadaan\nonrutinController@generatePDF')->name('nonrutin.cetak');
+            Route::get('/pengadaan/api/barang/{id}', 'it\pengadaan\barangPengadaanController@apifile')->name('barang.api');
+            Route::get('pengadaan/all/{id}/cetak','it\pengadaan\pengadaanAllController@generatePDF')->name('pengadaan.cetak');
 
     // Kantor Route
         Route::resource('rapat', 'kantor\rapatController');

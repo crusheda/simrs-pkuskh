@@ -150,7 +150,7 @@
             <input type="datetime-local" name="jamselesai" id="jamselesai" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($item->jamselesai)); ?>" class="form-control" placeholder="">
             <br>
             <label for="keterangan">Keterangan :</label>
-            <textarea class="form-control" name="keterangan" id="keterangan" placeholder="">{{ $item->keterangan }}</textarea>
+            <textarea class="form-control" name="keterangan" id="keterangan" placeholder=""><?php echo htmlspecialchars($item->keterangan); ?></textarea>
             <br>
         </div>
         <div class="modal-footer">

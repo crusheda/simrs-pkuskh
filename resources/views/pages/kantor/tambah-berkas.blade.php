@@ -21,7 +21,6 @@
                 <span class="pull-right badge badge-warning" style="margin-top:4px">
                     Akses Kantor
                 </span>
-                
 
             </div>
             <div class="card-body">

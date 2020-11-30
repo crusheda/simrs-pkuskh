@@ -23,6 +23,10 @@ class tdkPerawatController extends Controller
     public function index()
     {
         // $show = tdkperawat::get();
+            $now = Carbon::now();
+            $tanggal = substr(Carbon::now(),8,2);
+            $bulan   = substr(Carbon::now(),5,2);
+            $tahun   = substr(Carbon::now(),0,4);
 
         $thn = substr(Carbon::now(),0,4);
         $user = Auth::user();
@@ -43,28 +47,78 @@ class tdkPerawatController extends Controller
                 ->where('deleted_at', null)
                 ->groupBy('queue' ,'name' ,'unit' ,'tgl')
                 ->get();
+
+            // $igd = "SELECT COUNT(ta.REG_KUNJUNGANPASIEN) as jumlah FROM TRANS_AKOMODASI ak JOIN REG_KUNJUNGANPASIEN ta ON ta.REG_KUNJUNGANPASIEN = ak.REG_KUNJUNGANPASIEN
+            //         WHERE ak.REF_SUBINSTALASI_POLIKLINIK IN ('0301' ,'0299')  AND ta.BATAL = '0'
+            //         AND right(left(convert(varchar, ta.TGL_REGISTRASI, 112),6),2) = right(left(convert(varchar, ak.TGLMASUK, 112),6),2) AND right(convert(varchar, ta.TGL_REGISTRASI, 112),2) = right(convert(varchar, ak.TGLMASUK, 112),2) AND left(convert(varchar, ta.TGL_REGISTRASI, 112),4) = left(convert(varchar, ak.TGLMASUK, 112),4)
+            //         AND right(left(convert(varchar, ta.TGL_DISCHARGE, 112),6),2) = $bln AND right(convert(varchar, ta.TGL_DISCHARGE, 112),2) = $tgl AND left(convert(varchar, ta.TGL_DISCHARGE, 112),4) = $thn";
+            //         $anak = "SELECT COUNT(ta.REG_KUNJUNGANPASIEN) as jumlah FROM TRANS_AKOMODASI ak JOIN REG_KUNJUNGANPASIEN ta ON ta.REG_KUNJUNGANPASIEN = ak.REG_KUNJUNGANPASIEN";
+
             if ($role == 'ibs') {
                 $tdk = logperawat::where('unit', 'IBS')->get();
+                $query = tdkperawat::select('tgl')->where('unit', 'ibs')->where('deleted_at','=', null)->orderBy('id', 'DESC')->first();
+                    if (substr($query,16,2) == $tanggal && substr($query,13,2) == $bulan && substr($query,8,4) == $tahun) {
+                        $recent = '1';
+                    }elseif (substr($query,16,2) != $tanggal && substr($query,13,2) != $bulan && substr($query,8,4) != $tahun) {
+                        $recent = '0';
+                    }
+                    $cek = substr($query,16,2);
             }elseif ($role == 'bangsal-dewasa') {
                 $tdk = logperawat::where('unit', 'Bangsal Dewasa')->get();
+                $query = tdkperawat::where('unit', 'bangsal-dewasa')->where('deleted_at','=', null)->select('tgl')->first();
+                    if (substr($query,16,2) == $tanggal || substr($query,13,2) == $bulan || substr($query,8,4) == $tahun) {
+                        $recent = '1';
+                    }elseif (substr($query,16,2) != $tanggal || substr($query,13,2) != $bulan || substr($query,8,4) != $tahun) {
+                        $recent = '0';
+                    }
             }elseif ($role == 'bangsal-anak') {
                 $tdk = logperawat::where('unit', 'Bangsal Anak')->get();
+                $query = tdkperawat::where('unit', 'bangsal-anak')->where('deleted_at','=', null)->select('tgl')->first();
+                    if (substr($query,16,2) == $tanggal || substr($query,13,2) == $bulan || substr($query,8,4) == $tahun) {
+                        $recent = '1';
+                    }elseif (substr($query,16,2) != $tanggal || substr($query,13,2) != $bulan || substr($query,8,4) != $tahun) {
+                        $recent = '0';
+                    }
             }elseif ($role == 'poli') {
                 $tdk = logperawat::where('unit', 'Poliklinik')->get();
+                    $query = tdkperawat::where('unit', 'poli')->where('deleted_at','=', null)->select('tgl')->first();
+                    if (substr($query,16,2) == $tanggal || substr($query,13,2) == $bulan || substr($query,8,4) == $tahun) {
+                        $recent = '1';
+                    }elseif (substr($query,16,2) != $tanggal || substr($query,13,2) != $bulan || substr($query,8,4) != $tahun) {
+                        $recent = '0';
+                    }
             }elseif ($role == 'icu') {
                 $tdk = logperawat::where('unit', 'ICU')->get();
+                $query = tdkperawat::where('unit', 'icu')->where('deleted_at','=', null)->select('tgl')->first();
+                    if (substr($query,16,2) == $tanggal || substr($query,13,2) == $bulan || substr($query,8,4) == $tahun) {
+                        $recent = '1';
+                    }elseif (substr($query,16,2) != $tanggal || substr($query,13,2) != $bulan || substr($query,8,4) != $tahun) {
+                        $recent = '0';
+                    }
             }elseif ($role == 'kebidanan') {
                 $tdk = logperawat::where('unit', 'Kebidanan')->get();
+                $query = tdkperawat::where('unit', 'kebidanan')->where('deleted_at','=', null)->select('tgl')->first();
+                    if (substr($query,16,2) == $tanggal || substr($query,13,2) == $bulan || substr($query,8,4) == $tahun) {
+                        $recent = '1';
+                    }elseif (substr($query,16,2) != $tanggal || substr($query,13,2) != $bulan || substr($query,8,4) != $tahun) {
+                        $recent = '0';
+                    }
             }
+
+            // tahun = substr($query,8,4);
+            // bulan = substr($query,13,2);
+            // tgl = substr($query,16,2);
         }
-        
+        // $contoh = "right(left(convert(varchar, ta.TGL_DISCHARGE, 112),6),2) = $bln AND right(convert(varchar, ta.TGL_DISCHARGE, 112),2) = $tgl AND left(convert(varchar, ta.TGL_DISCHARGE, 112),4) = $thn";
         $data = [
             'show' => $show,
             'tdk' => $tdk,
-            'thn' => $thn
+            'recent' => $recent,
+            'thn' => $thn,
+            'now' => $now
         ];
-        // print_r($data['show']);
-        // die();
+        // print_r($recent);
+        // die();       
         
         // if (Auth::user()->hasRole('kabag_keperawatan')) {
         //     # code...
