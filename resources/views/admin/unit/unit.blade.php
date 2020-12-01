@@ -12,7 +12,9 @@
         <div class="card" style="width: 100%">
             <div class="card-header bg-dark text-white">
 
-                Tabel Unit
+                <i class="fa-fw fas fa-group nav-icon text-info">
+
+                </i> Tabel Unit
 
                 <span class="pull-right badge badge-warning" style="margin-top:4px">
                     Akses Admin
