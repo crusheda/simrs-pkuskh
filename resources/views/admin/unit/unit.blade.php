@@ -90,7 +90,9 @@
             <p>
                 @if(count($list) > 0)
                     Nama Unit : <b>{{ $item->name }}</b> <br>
+                    @if ($item->created_at != '')
                     Waktu Penambahan : {{ $item->created_at->diffForHumans() }}
+                    @endif
                 @endif
             </p>
         </div>
