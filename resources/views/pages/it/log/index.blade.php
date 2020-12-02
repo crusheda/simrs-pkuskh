@@ -44,9 +44,10 @@
                                     <th></th>
                                     <th>NAMA</th>
                                     <th>KEGIATAN</th>
-                                    <th>KETERANGAN</th>
                                     <th>LOKASI</th>
-                                    <th>FILENAME</th>
+                                    <th>KETERANGAN</th>
+                                    <th>FILE</th>
+                                    <th>TGL</th>
                                     <th>AKSI</th>
                                 </tr>
                             </thead>
@@ -62,14 +63,15 @@
                                     </td>
                                     <td>{{ $item->nama }}</td>
                                     <td>{{ $item->kegiatan }}</td>
-                                    <td>{{ $item->keterangan }}</td>
                                     <td>{{ $item->lokasi }}</td>
+                                    <td>{{ $item->keterangan }}</td>
                                     <td>
                                         @if ($item->filename == '')
                                         @else
-                                        {{ $item->title }} ({{Storage::size($item->filename)}} bytes)
+                                        {{ substr((Storage::size($item->filename) / 1048576),0,5) }} mb
                                         @endif
                                     </td>
+                                    <td>{{ $item->created_at }}</td>
                                     <td>
                                         <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
                                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
@@ -173,8 +175,8 @@
                                 <option value="yussuf faisal">Yussuf Faisal</option>
                                 <option value="muhammad arizal yusuf hermawan">Muhammad Arizal Yusuf Hermawan</option>
                             </select>
-                        </div>
-                        <hr> --}}
+                        </div> --}}
+                        <hr> 
                         <label>Kegiatan : </label>
                         <input type="text" name="kegiatan" id="kegiatan" value="{{ $item->kegiatan }}" class="form-control" placeholder="" required>
                         <br>

@@ -71,17 +71,34 @@ class logController extends Controller
             $path = $uploadedFile->store('public/files/it/log');
             $title = $request->title ?? $uploadedFile->getClientOriginalName();
         }
+        // print_r($request->lokasi);
+        // die();
 
         $data = new logit;
         $data->nama = $request->nama;
         $data->kegiatan = $request->kegiatan;
-        $data->lokasi = $request->lokasi;
-
+        
             $data->title = $title;
             
             $data->filename = $path;
-
-        $data->keterangan = $request->keterangan;
+        if ($request->keterangan == '') {
+            $data->keterangan = '';
+            if ($request->lokasi == '') {
+                $data->lokasi = '';
+            }else {
+                $data->lokasi = $request->lokasi;
+            }
+        }elseif ($request->lokasi == '') {
+            $data->lokasi = '';
+            if ($request->keterangan == '') {
+                $data->keterangan = '';
+            }else {
+                $data->keterangan = $request->keterangan;
+            }
+        }else {
+            $data->lokasi = $request->lokasi;
+            $data->keterangan = $request->keterangan;
+        }
 
         $data->save();
         return redirect('/it/supervisi')->with('message','Tambah Kegiatan Supervisi Berhasil');
@@ -127,8 +144,25 @@ class logController extends Controller
             ]);
         $data = logit::find($id);
         $data->kegiatan = $request->kegiatan;
-        $data->lokasi = $request->lokasi;
-        $data->keterangan = $request->keterangan;
+
+        if ($request->keterangan == '') {
+            $data->keterangan = '';
+            if ($request->lokasi == '') {
+                $data->lokasi = '';
+            }else {
+                $data->lokasi = $request->lokasi;
+            }
+        }elseif ($request->lokasi == '') {
+            $data->lokasi = '';
+            if ($request->keterangan == '') {
+                $data->keterangan = '';
+            }else {
+                $data->keterangan = $request->keterangan;
+            }
+        }else {
+            $data->lokasi = $request->lokasi;
+            $data->keterangan = $request->keterangan;
+        }
 
         $data->save();
         return redirect('/it/supervisi')->with('message','Perubahan Kegiatan Supervisi Berhasil');
