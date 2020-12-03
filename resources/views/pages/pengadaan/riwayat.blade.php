@@ -143,7 +143,11 @@
 
 <script>
     $(document).ready( function () {
-        $('#pengadaan').DataTable();
+        $('#pengadaan').DataTable(
+            {
+                order: [[ 3, "desc" ]]
+            }
+        );
     } );
 </script>
 
