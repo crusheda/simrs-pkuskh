@@ -4,6 +4,10 @@ namespace App\Http\Controllers;
 
 use App\Http\Requests;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\RedirectResponse;
+use Carbon\Carbon;
+use Auth;
 
 class HomeController extends Controller
 {
@@ -24,6 +28,12 @@ class HomeController extends Controller
      */
     public function index()
     {
-        return view('home');
+        $user = Auth::user();
+        $role = $user->roles->first()->name;
+        if ($role == 'it') {
+            return redirect('/it/home');
+        }else {
+            return view('home');
+        }
     }
 }

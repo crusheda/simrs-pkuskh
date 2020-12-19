@@ -65,7 +65,7 @@
 				</div> --}}
                 @if (Route::has('login'))
                     @auth
-                        <a href="{{ url('admin/home') }}" class="tooltip-test text-white" title="Hai, {{ Auth::user()->name }}"><i class="material-icons">people</i></a>
+                        <a href="{{ url('/home') }}" class="tooltip-test text-white" title="Hai, {{ Auth::user()->name }}"><i class="material-icons">people</i></a>
                     @else
                         <div class="hb-switch" id="infor-switch">
                             <a class="text-white"><img src="{{ asset('css-landing/img/icons/bars.png') }}" alt=""> LOGIN</a>
@@ -128,11 +128,12 @@
                     @csrf
                     <div class="">
                         <div class="">
-                            <input id="email" type="email" placeholder="Email" class="{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus>
+                            <input id="name" type="text" placeholder="username" class="{{ $errors->has('name') ? ' is-invalid' : '' }}" name="name" value="{{ old('name') }}" required autofocus>
+                            {{-- <input id="email" type="email" placeholder="Email" class="{{ $errors->has('email') ? ' is-invalid' : '' }}" name="email" value="{{ old('email') }}" required autofocus> --}}
 
-                            @if ($errors->has('email'))
+                            @if ($errors->has('name'))
                                 <span class="">
-                                    <strong>{{ $errors->first('email') }}</strong>
+                                    <strong>{{ $errors->first('name') }}</strong>
                                 </span>
                             @endif
                         </div>

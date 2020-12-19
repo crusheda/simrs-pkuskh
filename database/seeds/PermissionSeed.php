@@ -20,6 +20,8 @@ class PermissionSeed extends Seeder
         Permission::create(['name' => 'penyimpanan_file']);
         Permission::create(['name' => 'berkas_rapat']);
         Permission::create(['name' => 'imut_it']);
+        Permission::create(['name' => 'log_it']);
         Permission::create(['name' => 'log_perawat']);
+        Permission::create(['name' => 'skl']);
     }
 }

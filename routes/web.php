@@ -8,8 +8,8 @@ Auth::routes(['register' => false]);
 Route::get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('auth.change_password');
 Route::patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('auth.change_password');
 
+Route::get('/home', 'HomeController@index')->name('home');
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
-    Route::get('/home', 'HomeController@index')->name('home');
     Route::resource('permissions', 'Admin\PermissionsController');
     Route::delete('permissions_mass_destroy', 'Admin\PermissionsController@massDestroy')->name('permissions.mass_destroy');
     Route::resource('roles', 'Admin\RolesController');
@@ -21,6 +21,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     // IT
         // Log
         Route::resource('/it/supervisi', 'it\log\logController');
+        Route::get('it/home', 'it\itController@index')->name('it.home');
 
         // Imut
             // Pilar

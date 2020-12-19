@@ -41,11 +41,11 @@
                         <table id="skl" class="table table-striped display">
                             <thead>
                                 <tr>
-                                    <th>ID</th>
                                     <th>NO SURAT</th>
                                     <th>TGL</th>
                                     <th>IBU</th>
                                     <th>ANAK</th>
+                                    <th>ALAMAT</th>
                                     <th></th>
                                 </tr>
                             </thead>
@@ -53,11 +53,11 @@
                                 @if(count($list['show']) > 0)
                                 @foreach($list['show'] as $item)
                                 <tr>
-                                    <td>{{ $item->id }}</td>
                                     <td>{{ $item->no_surat }}</td>
                                     <td>{{ $item->tgl }}</td>
                                     <td>{{ $item->ibu }}</td>
                                     <td>{{ $item->anak }}</td>
+                                    <td>{{ $item->alamat }}</td>
                                     <td>
                                         <a type="button" href="{{ route('skl.cetak', $item->id) }}" class="btn btn-warning btn-sm">
                                             <i class="fa-fw fas fa-print nav-icon"></i>
@@ -286,19 +286,10 @@ $(document).ready( function () {
             dom: 'Bfrtip',
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
+            ],
+            order: [[ 2, "desc" ]]
         }
     );
 } );
 </script>
-{{-- <script>
-    function submitBtn() {
-        var bulan = document.getElementById("bulan").value;
-        var tahun = document.getElementById("tahun").value;
-        if (bulan != "Bln" && tahun != "Thn" ) {
-            document.getElementById("submit").disabled = false;
-        }
-    }
-</script> --}}
-
 @endsection

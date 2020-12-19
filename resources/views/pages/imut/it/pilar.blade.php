@@ -10,7 +10,9 @@
         <div class="card" style="width: 100%">
             <div class="card-header bg-dark text-white">
 
-                Indikator Mutu Pilar
+                <i class="fa-fw fas fa-database nav-icon text-info">
+
+                </i> Indikator Mutu Pilar
 
                 <span class="pull-right badge badge-warning" style="margin-top:4px">
                     Akses IT
@@ -39,8 +41,8 @@
                                     <th>PEMBERI INSTRUKSI</th>
                                     <th>PELAKSANA</th>
                                     <th>KETERANGAN</th>
-                                    <th>JAM AWAL</th>
-                                    <th>JAM SELESAI</th>
+                                    <th style="text-align: center">JAM AWAL</th>
+                                    <th style="text-align: center">JAM SELESAI</th>
                                     <th>ACTION</th>
                                 </tr>
                             </thead>
@@ -62,10 +64,18 @@
                                     <td>{{ $item->namapi }}</td>
                                     <td>{{ $item->nama }}</td>
                                     <td>{{ $item->keterangan }}</td>
-                                    <td>{{ $item->jamawal }}</td>
-                                    <td>{{ $item->jamselesai }}</td>
+                                    <td style="text-align: center">{{ $item->jamawal }}</td>
+                                    @if ($item->jamselesai == null)
+                                        <td style="text-align: center"><span class="badge badge-pill badge-dark">Sedang Diproses</span></td>
+                                    @else
+                                        <td style="text-align: center">{{ $item->jamselesai }}</td>
+                                    @endif
                                     <td>
-                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editPilar{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                        @if ($item->jamselesai == null)
+                                            <button type="button" class="btn btn-warning btn-sm" disabled><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                        @else
+                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editPilar{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                        @endif
                                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusPilar{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                     </td>
                                 </tr>
