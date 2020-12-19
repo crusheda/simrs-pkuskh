@@ -124,7 +124,7 @@ class logController extends Controller
      */
     public function edit($id)
     {
-        $data = rapat::find($id);
+        $data = logit::find($id);
         // return view('pages.it.log.index')->with('list', $data);
     }
 

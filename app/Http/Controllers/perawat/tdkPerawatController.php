@@ -39,6 +39,7 @@ class tdkPerawatController extends Controller
                 ->groupBy('queue' ,'name' ,'unit' ,'tgl')
                 ->get();
             $tdk = logperawat::get();
+            $recent = '0';
         }
         else {
             $show = DB::table('tdkperawat')
@@ -117,7 +118,8 @@ class tdkPerawatController extends Controller
             'thn' => $thn,
             'now' => $now
         ];
-        // print_r($recent);
+
+        // print_r($data);
         // die();       
         
         // if (Auth::user()->hasRole('kabag_keperawatan')) {

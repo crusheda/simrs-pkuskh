@@ -72,3 +72,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
 
         // Log Penunjang Tugas Perawat
         Route::resource('tgsperawat', 'perawat\tgsPerawatController');
+
+    // Kebidanan
+    Route::resource('kebidanan/skl', 'kebidanan\sklController');
+    Route::get('kebidanan/skl/{id}/cetak','kebidanan\sklController@cetak')->name('skl.cetak');  
+    // Route::get('cetak/word', 'kebidanan\sklController@word');

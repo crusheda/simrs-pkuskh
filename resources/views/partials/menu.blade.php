@@ -188,6 +188,26 @@
                     </ul>
                 </li>
             @endcan
+            @can('skl')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <i class="fa-fw fas fa-universal-access nav-icon">
+
+                        </i>
+                        SKL
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("skl.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-list-alt nav-icon">
+
+                                </i>
+                                Detail SKL
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
             @can('pengadaan')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
