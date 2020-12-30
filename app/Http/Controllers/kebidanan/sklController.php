@@ -142,6 +142,10 @@ class sklController extends Controller
 
         // 1 = dr. Gede Sri Dhyana, Sp.OG
         // 2 = dr. H. Ahmad Sutamat, Sp.OG
+        
+        $tgl = Carbon::parse($data->tgl)->isoFormat('D MMMM Y');
+        $jam = Carbon::parse($data->tgl)->toTimeString();
+
         if ($data->dr == 1) {
             $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('doc\kebidanan\skl-gede.docx');
         }elseif ($data->dr == 2) {
@@ -150,10 +154,7 @@ class sklController extends Controller
             return redirect('/kebidanan/skl')->with('message','Maaf, Input Dokter Belum Terisi');
         }
         
-        $filename = "SKL - Ny. ".$data->ibu;
-
-        $tgl = Carbon::parse($data->tgl)->isoFormat('D MMMM Y');
-        $jam = Carbon::parse($data->tgl)->toTimeString();
+        $filename = "SKL - Ny. ".$data->ibu." - ".$tgl;
 
         $templateProcessor->setValues([
             'no_surat' => $data->no_surat,

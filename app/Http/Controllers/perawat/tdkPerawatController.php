@@ -24,9 +24,8 @@ class tdkPerawatController extends Controller
     {
         // $show = tdkperawat::get();
             $now = Carbon::now();
-            $tanggal = substr(Carbon::now(),8,2);
-            $bulan   = substr(Carbon::now(),5,2);
-            $tahun   = substr(Carbon::now(),0,4);
+            // ex : $user->created_at->isoFormat('dddd, D MMMM Y');      "Minggu, 28 Juni 2020"
+            // ex : $post->updated_at->diffForHumans();                  "2 hari yang lalu"
 
         $thn = substr(Carbon::now(),0,4);
         $user = Auth::user();
@@ -58,12 +57,13 @@ class tdkPerawatController extends Controller
             if ($role == 'ibs') {
                 $tdk = logperawat::where('unit', 'IBS')->get();
                 $query = tdkperawat::select('tgl')->where('unit', 'ibs')->where('deleted_at','=', null)->orderBy('id', 'DESC')->first();
-                    if (substr($query,16,2) == $tanggal && substr($query,13,2) == $bulan && substr($query,8,4) == $tahun) {
+                    
+                    if ($tgl == $now) {
                         $recent = '1';
                     }elseif (substr($query,16,2) != $tanggal && substr($query,13,2) != $bulan && substr($query,8,4) != $tahun) {
                         $recent = '0';
                     }
-                    $cek = substr($query,16,2);
+                    // $cek = substr($query,16,2);
             }elseif ($role == 'bangsal-dewasa') {
                 $tdk = logperawat::where('unit', 'Bangsal Dewasa')->get();
                 $query = tdkperawat::where('unit', 'bangsal-dewasa')->where('deleted_at','=', null)->select('tgl')->first();
@@ -119,8 +119,8 @@ class tdkPerawatController extends Controller
             'now' => $now
         ];
 
-        // print_r($data);
-        // die();       
+        print_r($role);
+        die();       
         
         // if (Auth::user()->hasRole('kabag_keperawatan')) {
         //     # code...
