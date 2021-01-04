@@ -59,11 +59,11 @@
                                     <td>{{ $item->anak }}</td>
                                     <td>{{ $item->alamat }}</td>
                                     <td>
-                                        <a type="button" href="{{ route('skl.cetak', $item->id) }}" class="btn btn-warning btn-sm">
+                                        <center><a type="button" href="{{ route('skl.cetak', $item->id) }}" class="btn btn-warning btn-sm">
                                             <i class="fa-fw fas fa-print nav-icon"></i>
                                         </a>
-                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahskl{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusskl{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahskl{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button><hr></center>
+                                        <center><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusskl{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button></center>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -100,7 +100,8 @@
                         <div class="row">
                             <div class="col">
                                 <label>No Surat : </label>
-                                <input type="number" name="no_surat" id="no_surat" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="4" class="form-control" placeholder="" required>
+                                <input type="number" name="no_surat" id="no_surat" value="{{ $list['nomer'] }}" class="form-control" placeholder="" disabled>
+                                <input type="number" name="no_surat" id="no_surat" value="{{ $list['nomer'] }}" class="form-control" placeholder="" hidden>
                             </div>
                             <div class="col">
                                 <label>Waktu :</label>
@@ -120,7 +121,7 @@
                         </div>
                         <br>
                         <label>Nama Anak : </label>
-                        <input type="text" name="anak" id="anak" class="form-control" placeholder="" required>
+                        <input type="text" name="anak" id="anak" class="form-control" placeholder="">
                         <br>
                         <div class="row">
                             <div class="col">
@@ -184,7 +185,8 @@
                     <div class="row">
                         <div class="col">
                             <label>No Surat : </label>
-                            <input type="number" name="no_surat" id="no_surat" value="{{ $item->no_surat }}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="4" class="form-control" placeholder="" required>
+                            <input type="number" value="{{ $item->no_surat }}" class="form-control" disabled>
+                            <input type="number" id="no_surat" name="no_surat" value="{{ $item->no_surat }}" hidden>
                         </div>
                         <div class="col">
                             <label>Waktu :</label>
@@ -204,7 +206,7 @@
                     </div>
                     <br>
                     <label>Nama Anak : </label>
-                    <input type="text" name="anak" id="anak" value="{{ $item->anak }}" class="form-control" placeholder="" required>
+                    <input type="text" name="anak" id="anak" value="{{ $item->anak }}" class="form-control" placeholder="">
                     <br>
                     <div class="row">
                         <div class="col">
@@ -285,7 +287,7 @@ $(document).ready( function () {
             searching: true,
             dom: 'Bfrtip',
             buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
+                'copy', 'csv', 'excel', 'pdf'
             ],
             order: [[ 2, "desc" ]]
         }

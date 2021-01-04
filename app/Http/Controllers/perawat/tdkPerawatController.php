@@ -119,8 +119,8 @@ class tdkPerawatController extends Controller
             'now' => $now
         ];
 
-        print_r($role);
-        die();       
+        // print_r($role);
+        // die();       
         
         // if (Auth::user()->hasRole('kabag_keperawatan')) {
         //     # code...

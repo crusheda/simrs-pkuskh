@@ -37,6 +37,7 @@
                             </a>
                         </div>
                     </div><br>
+                    {{-- <img src="{{ asset('storage/it/log/yussuf.jpg') }}" alt=""> --}}
                     <div class="table-responsive">
                         <table id="logit" class="table table-striped display">
                             <thead>
@@ -58,7 +59,8 @@
                                     <td>
                                         @if ($item->filename == '')
                                         @else
-                                            <center><a onclick="window.location.href='{{ url('it/supervisi/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a></center>
+                                            <center><a onclick="window.location.href='{{ url('it/supervisi/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a></center><hr>
+                                            <center><button type="button" class="btn btn-info btn-sm disabled" data-toggle="modal" data-target=""><i class="fa-fw fas fa-picture-o nav-icon"></i></button></center>
                                         @endif
                                     </td>
                                     <td>{{ $item->nama }}</td>
@@ -73,8 +75,8 @@
                                     </td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>
-                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                        <center><button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button></center><hr>
+                                        <center><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button></center>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -269,6 +271,28 @@
         </div>
         </div>
     </div>
+@endforeach
+
+@foreach($list['show'] as $item)
+<div class="modal" tabindex="-1" id="lihatGambar{{ $item->id }}" role="dialog">
+    <div class="modal-dialog" role="document">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Modal title</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <img src="" alt="">
+        </div>
+        <div class="modal-footer">
+          <button type="button" class="btn btn-primary">Save changes</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
 @endforeach
 
 <script>

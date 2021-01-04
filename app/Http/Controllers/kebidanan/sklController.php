@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\kebidanan;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
 use App\Models\skl;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
@@ -20,10 +21,17 @@ class sklController extends Controller
     public function index()
     {
         $show = skl::get();
+        
+        $query = skl::orderBy('no_surat', 'DESC')->first();
+        $nomer = $query->no_surat + 1;
 
         $data = [
-            'show' => $show
+            'show' => $show,
+            'nomer' => $nomer
         ];
+
+        // print_r($data);
+        // die();
 
         return view('pages.kebidanan.skl.index')->with('list', $data);
     }
@@ -50,11 +58,16 @@ class sklController extends Controller
         $name = $user->name;
         $tgl = Carbon::parse($request->tgl); 
 
+        $query = skl::orderBy('no_surat', 'DESC')->first();
+        $nomer = $query->no_surat + 1;
         // ex : $user->created_at->isoFormat('dddd, D MMMM Y');      "Minggu, 28 Juni 2020"
         // ex : $post->updated_at->diffForHumans();                  "2 hari yang lalu"
 
+        // print_r($nomer);
+        // die();
+
         $data = new skl;
-        $data->no_surat = $request->no_surat;
+        $data->no_surat = $nomer;
         $data->tgl = $tgl;
         $data->hari = $tgl->isoFormat('dddd');
         $data->ibu = $request->ibu;
@@ -144,6 +157,7 @@ class sklController extends Controller
         // 2 = dr. H. Ahmad Sutamat, Sp.OG
         
         $tgl = Carbon::parse($data->tgl)->isoFormat('D MMMM Y');
+        $thn = Carbon::parse($data->tgl)->isoFormat('Y');
         $jam = Carbon::parse($data->tgl)->toTimeString();
 
         if ($data->dr == 1) {
@@ -160,6 +174,7 @@ class sklController extends Controller
             'no_surat' => $data->no_surat,
             'hari' => $data->hari,
             'tgl' => $tgl,
+            'thn' => $thn,
             'jam' => $jam,
             'kelamin' => $data->kelamin,
             'ibu' => $data->ibu,
