@@ -60,7 +60,7 @@
                                         @if ($item->filename == '')
                                         @else
                                             <center><a onclick="window.location.href='{{ url('it/supervisi/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a></center><hr>
-                                            <center><button type="button" class="btn btn-info btn-sm disabled" data-toggle="modal" data-target=""><i class="fa-fw fas fa-picture-o nav-icon"></i></button></center>
+                                            <center><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#lihatGambar{{ $item->id }}"><i class="fa-fw fas fa-picture-o nav-icon"></i></button></center>
                                         @endif
                                     </td>
                                     <td>{{ $item->nama }}</td>
@@ -275,19 +275,19 @@
 
 @foreach($list['show'] as $item)
 <div class="modal" tabindex="-1" id="lihatGambar{{ $item->id }}" role="dialog">
-    <div class="modal-dialog" role="document">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
-          <h5 class="modal-title">Modal title</h5>
+          <h5 class="modal-title">{{ $item->title }} ({{ $item->updated_at->diffForHumans() }})</h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close">
             <span aria-hidden="true">&times;</span>
           </button>
         </div>
         <div class="modal-body">
-            <img src="" alt="">
+            <center><img src="{{ url('storage/'.substr($item->filename,7,1000)) }}" style="width:400px" alt="" title="" /></center>
         </div>
         <div class="modal-footer">
-          <button type="button" class="btn btn-primary">Save changes</button>
+          <button onclick="window.location.href='{{ url('it/supervisi/'. $item->id) }}'" type="button" class="btn btn-success"><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
           <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
         </div>
       </div>

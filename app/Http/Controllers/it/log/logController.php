@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Storage;
 use Auth;
 use \PDF;
+use Image;
 
 class logController extends Controller
 {
@@ -183,5 +184,12 @@ class logController extends Controller
 
         // redirect
         return \Redirect::to('/it/supervisi')->with('message','Hapus Kegiatan Supervisi Berhasil');
+    }
+
+    public function showGambar($id)
+    {
+        return Image::make(storage_path() . '/it/log/' . $id )->response();
+        print_r($id);
+        die();
     }
 }
