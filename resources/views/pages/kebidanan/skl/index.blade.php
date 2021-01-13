@@ -9,7 +9,9 @@
 
 <script src="{{ asset('js/fstdropdown.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('css/fstdropdown.css') }}">
-
+<style>
+    
+</style>
 <div class="container">
     <div class="row">
         <div class="card" style="width: 100%">
@@ -59,11 +61,11 @@
                                     <td>{{ $item->anak }}</td>
                                     <td>{{ $item->alamat }}</td>
                                     <td>
+                                        <center><button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahskl{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusskl{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button><hr></center>
                                         <center><a type="button" href="{{ route('skl.cetak', $item->id) }}" class="btn btn-warning btn-sm">
-                                            <i class="fa-fw fas fa-print nav-icon"></i>
-                                        </a>
-                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahskl{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button><hr></center>
-                                        <center><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusskl{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button></center>
+                                            <i class="fa-fw fas fa-print nav-icon"></i> Cetak
+                                        </a></center>
                                     </td>
                                 </tr>
                                 @endforeach
@@ -289,7 +291,7 @@ $(document).ready( function () {
             buttons: [
                 'copy', 'csv', 'excel', 'pdf'
             ],
-            order: [[ 2, "desc" ]]
+            order: [[ 1, "desc" ]]
         }
     );
 } );

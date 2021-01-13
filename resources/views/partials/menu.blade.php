@@ -208,6 +208,27 @@
                     </ul>
                 </li>
             @endcan
+            
+            @can('accident_report')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <i class="fa-fw fas fa-wheelchair nav-icon">
+
+                        </i>
+                        Accident Report
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("accidentreport.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-list-alt nav-icon">
+
+                                </i>
+                                Detail Laporan
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
             @can('pengadaan')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">

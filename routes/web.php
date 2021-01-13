@@ -78,3 +78,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::resource('kebidanan/skl', 'kebidanan\sklController');
     Route::get('kebidanan/skl/{id}/cetak','kebidanan\sklController@cetak')->name('skl.cetak');  
     // Route::get('cetak/word', 'kebidanan\sklController@word');
+
+    // K3
+    Route::resource('k3/accidentreport', 'k3\accidentReportController');
