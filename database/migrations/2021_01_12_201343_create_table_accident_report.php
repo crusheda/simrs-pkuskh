@@ -28,6 +28,7 @@ class CreateTableAccidentReport extends Migration
             $table->string('jk')->nullable();
             $table->string('unit')->nullable();
             $table->string('cedera')->nullable();
+            $table->string('penanganan')->nullable();
             $table->string('k_aset')->nullable();
             $table->string('k_lingkungan')->nullable();
 
@@ -51,6 +52,11 @@ class CreateTableAccidentReport extends Migration
             $table->string('r_tindakan')->nullable();
             $table->string('t_waktu')->nullable();
             $table->string('wewenang')->nullable();
+
+                $table->string('title', 200)->nullable();
+                $table->string('filename', 200)->nullable();
+
+            $table->dateTime('verifikasi')->nullable();
             $table->string('user')->nullable();
             $table->softDeletes();
             $table->timestamps();
@@ -64,6 +70,6 @@ class CreateTableAccidentReport extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('accidentreport');
+        Schema::dropIfExists('accident_report');
     }
 }

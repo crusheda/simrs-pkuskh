@@ -21,8 +21,8 @@
 
                 </i> Laporan Kecelakaan Kerja
 
-                <span class="pull-right badge badge-warning" style="margin-top:4px">
-                    Akses K3
+                <span class="pull-right badge badge-warning" style="margin-top:4px;text-transform: capitalize">
+                    Akses {{ Auth::user()->roles->first()->name }}
                 </span>
                 
             </div>
@@ -42,21 +42,30 @@
                     <div class="table-responsive">
                         <table id="skl" class="table table-striped display">
                             <thead>
-                                <tr>
-                                    <th>NO</th>
+                                <tr class="text-center">
+                                    <th>VERIFIKASI</th>
                                     <th>KORBAN</th>
                                     <th>UNIT</th>
                                     <th>LOKASI</th>
                                     <th>TGL</th>
-                                    <th class="text-center">AKSI</th>
+                                    <th>AKSI</th>
                                 </tr>
                             </thead>
                             <tbody style="text-transform: capitalize">
                                 @if(count($list['show']) > 0)
-                                <div hidden>{{ $id = 1 }}</div>
+                                {{-- <div hidden>{{ $id = 1 }}</div> --}}
                                 @foreach($list['show'] as $item)
                                 <tr>
-                                    <td>{{ $id++ }}</td>
+                                    {{-- <td>{{ $id++ }}</td> --}}
+                                    <td>
+                                        <center>
+                                            @if ($item->verifikasi == null)
+                                                <button type="button" class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#verifikasi{{ $item->id }}">Verifikasi</button>
+                                            @else
+                                                <button type="button" class="btn btn-secondary btn-sm text-white" disabled>Sudah di Verifikasi</button>
+                                            @endif
+                                        </center>
+                                    </td>
                                     <td>{{ $item->korban }}</td>
                                     <td>{{ $item->unit }}</td>
                                     <td>{{ $item->lokasi }}</td>
@@ -64,10 +73,8 @@
                                     <td>
                                         <center>
                                             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#show{{ $item->id }}"><i class="fa-fw fas fa-folder-open nav-icon text-white"></i></button>
                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                            <a type="button" class="btn btn-warning btn-sm disabled">
-                                                <i class="fa-fw fas fa-print nav-icon"></i>
-                                            </a>
                                         </center>
                                     </td>
                                 </tr>
@@ -214,6 +221,9 @@
                         <label>Bila cedera / cacat, anggota tubuh mana yang terkena? </label>
                         <input type="text" name="cedera" id="cedera" class="form-control" placeholder="" required>
                         <br>
+                        <label>Penanganan </label>
+                        <textarea class="form-control" name="penanganan" id="penanganan" placeholder=""></textarea>
+                        <br>
                         <div class="row">
                             <div class="col">
                                 <label>Kerugian Aset/Material/Proses : </label>
@@ -311,6 +321,9 @@
                                 <textarea class="form-control" name="wewenang" id="wewenang" placeholder=""></textarea>
                             </div>
                         </div>
+                        <hr>
+                        <label>Lampiran : </label>
+                        <input type="file" name="file" required>
                     </div>
                 </div>
 
@@ -326,6 +339,88 @@
     </div>
 </div>
 
+@foreach($list['show'] as $item)
+<div class="modal" tabindex="-1" id="show{{ $item->id }}" role="dialog">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">Ditambahkan <b>{{ $item->updated_at->diffForHumans() }}</b></h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            Lampiran Dari <a style="text-transform: capitalize"><b>{{ $item->user }}</b></a>, Unit {{ $item->unit }}. <br>
+            <i class="fa-fw fas fa-angle-right nav-icon"></i>&nbsp;Nama File : {{ $item->title }} <br>
+            <i class="fa-fw fas fa-angle-right nav-icon"></i>&nbsp;Ukuran File : {{Storage::size($item->filename)}} bytes.
+        </div>
+        <div class="modal-footer">
+            <button onclick="window.location.href='{{ url('k3/accidentreport/'. $item->id.'show') }}'" type="button" class="btn btn-success"><i class="fa fa-paperclip"></i>&nbsp;&nbsp;Lampiran</button>
+            <a type="button" href="{{ route('accidentreport.cetak', $item->id) }}" class="btn btn-warning text-white">
+                <i class="fa-fw fas fa-print nav-icon"></i> Cetak Word
+            </a>
+        </div>
+      </div>
+    </div>
+</div>
+@endforeach
+
+@foreach($list['show'] as $item)
+<div class="modal" id="verifikasi{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            Lampiran <a style="text-transform: capitalize"><b>{{ $item->user }}</b></a> - Unit {{ $item->unit }}
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <p><b>nb.</b> Apakah anda yakin sudah menverifikasi Laporan <b>{{ $item->user }}</b> ?<br>
+            Setelah anda menekan Tombol Verifikasi, anda tidak bisa lagi mengubah laporan. <br><br>
+            Untuk penanganan lebih lanjut, silakan hubungi Staff-IT. Terima Kasih.<i class="fa-fw fas fa-smile nav-icon"></i>
+            </p>
+        </div>
+        <div class="modal-footer">
+            @if ($item->verifikasi == null)
+                <form action="{{ route('accidentreport.check', $item->id) }}" method="POST">
+                    @csrf
+                    <button type="submit" class="btn btn-success"><i class="fa-fw fas fa-check-square nav-icon"></i> Verifikasi</button>
+                </form>
+            @endif
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+        </div>
+      </div>
+    </div>
+</div>
+@endforeach
+
+@foreach($list['show'] as $item)
+<div class="modal" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-dialog-centered">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            Ditambahkan <b>{{ $item->updated_at->diffForHumans() }}</b>
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <p>Apakah anda yakin ingin menghapus Laporan <b>{{ $item->user }}</b> pada {{ $item->updated_at->diffForHumans() }} ?</p>
+        </div>
+        <div class="modal-footer">
+            <form action="{{ route('accidentreport.destroy', $item->id) }}" method="POST">
+                @method('DELETE')
+                @csrf
+                <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button>
+            </form>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+        </div>
+      </div>
+    </div>
+</div>
+@endforeach
+
 <script>
 $(document).ready( function () {
     $('#skl').DataTable(
@@ -336,7 +431,7 @@ $(document).ready( function () {
             buttons: [
                 'copy', 'csv', 'excel', 'pdf'
             ],
-            order: [[ 1, "desc" ]]
+            order: [[ 4, "desc" ]]
         }
     );
 } );
