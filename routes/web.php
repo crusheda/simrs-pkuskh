@@ -1,6 +1,7 @@
 <?php
 Route::resource('/', 'WelcomeController');
 Route::get('/kunjungan', 'kunjunganController@index')->name('landing.kunjungan');
+Route::resource('/lokasi', 'other\lokasiController');
 
 Auth::routes(['register' => false]);
 
