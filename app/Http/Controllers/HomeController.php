@@ -30,10 +30,7 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         $role = $user->roles->first()->name;
-        if ($role == 'it') {
-            return redirect('/it/home');
-        }else {
-            return view('home');
-        }
+
+        return view('home');
     }
 }

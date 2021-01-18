@@ -1,6 +1,9 @@
 <?php
 Route::resource('/', 'WelcomeController');
 Route::get('/kunjungan', 'kunjunganController@index')->name('landing.kunjungan');
+// Route::get('/demos', function () {
+//     return view('index');
+// });
 Route::resource('/lokasi', 'other\lokasiController');
 
 Auth::routes(['register' => false]);
@@ -10,6 +13,8 @@ Route::get('change_password', 'Auth\ChangePasswordController@showChangePasswordF
 Route::patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('auth.change_password');
 
 Route::get('/home', 'HomeController@index')->name('home');
+
+// Admin
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::resource('permissions', 'Admin\PermissionsController');
     Route::delete('permissions_mass_destroy', 'Admin\PermissionsController@massDestroy')->name('permissions.mass_destroy');
@@ -19,25 +24,28 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::delete('users_mass_destroy', 'Admin\UsersController@massDestroy')->name('users.mass_destroy');
     Route::resource('unit', 'Admin\UnitController');
 });
-    // IT
-        // Log
-        Route::resource('/it/supervisi', 'it\log\logController');
-        Route::get('it/home', 'it\itController@index')->name('it.home');
 
-        // Imut
-            // Pilar
-            Route::post('/imut/pilar/{id}', 'it\imut\pilarController@pilarClear')->name('pilar.selesai');
-            Route::resource('/imut/pilar', 'it\imut\pilarController');
-            // CPU
-            Route::post('/imut/cpu/{id}', 'it\imut\cpuController@cpuClear')->name('cpu.selesai');
-            Route::resource('/imut/cpu', 'it\imut\cpuController');
-            // Jaringan
-            Route::post('/imut/jaringan/{id}', 'it\imut\jaringanController@jaringanClear')->name('jaringan.selesai');
-            Route::resource('/imut/jaringan', 'it\imut\jaringanController');
-            // Printer
-            Route::post('/imut/printer/{id}', 'it\imut\printerController@printerClear')->name('printer.selesai');
-            Route::resource('/imut/printer', 'it\imut\printerController');
-            
+// IT
+Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], function () {
+    // Route::get('home', 'it\itController@index')->name('it.home');
+    Route::resource('supervisi', 'it\log\logController');
+
+    // Imut
+        // Pilar
+        Route::post('/imut/pilar/{id}', 'it\imut\pilarController@pilarClear')->name('pilar.selesai');
+        Route::resource('/imut/pilar', 'it\imut\pilarController');
+        // CPU
+        Route::post('/imut/cpu/{id}', 'it\imut\cpuController@cpuClear')->name('cpu.selesai');
+        Route::resource('/imut/cpu', 'it\imut\cpuController');
+        // Jaringan
+        Route::post('/imut/jaringan/{id}', 'it\imut\jaringanController@jaringanClear')->name('jaringan.selesai');
+        Route::resource('/imut/jaringan', 'it\imut\jaringanController');
+        // Printer
+        Route::post('/imut/printer/{id}', 'it\imut\printerController@printerClear')->name('printer.selesai');
+        Route::resource('/imut/printer', 'it\imut\printerController');
+
+});
+
         // Pengadaan
             // Route::get('/pengadaan/log/', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
             Route::get('/pengadaan/log/cari', 'it\pengadaan\logPengadaanController@showLog')->name('cari.log');
@@ -76,9 +84,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
         Route::resource('tgsperawat', 'perawat\tgsPerawatController');
 
     // Kebidanan
-    Route::resource('kebidanan/skl', 'kebidanan\sklController');
-    Route::get('kebidanan/skl/{id}/cetak','kebidanan\sklController@cetak')->name('skl.cetak');  
-    // Route::get('cetak/word', 'kebidanan\sklController@word');
+        Route::resource('kebidanan/skl', 'kebidanan\sklController');
+        Route::get('kebidanan/skl/{id}/cetak','kebidanan\sklController@cetak')->name('skl.cetak');  
+        Route::get('cetak/word', 'kebidanan\sklController@word');
 
     // K3
     Route::resource('k3/accidentreport', 'k3\accidentReportController');

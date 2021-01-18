@@ -61,7 +61,7 @@ class cpuController extends Controller
         $data->keterangan = $request->keterangan;
         $data->save();
 
-        return redirect('/imut/cpu')->with('message','Tambah Imut CPU Berhasil');
+        return redirect('it/imut/cpu')->with('message','Tambah Imut CPU Berhasil');
     }
 
     /**
@@ -103,7 +103,7 @@ class cpuController extends Controller
         $data->keterangan = $request->keterangan;
         $data->save();
 
-        return redirect('/imut/cpu')->with('message','Ubah Imut CPU Berhasil');
+        return redirect('it/imut/cpu')->with('message','Ubah Imut CPU Berhasil');
     }
 
     /**
@@ -118,7 +118,7 @@ class cpuController extends Controller
         $data->delete();
 
         // redirect
-        return \Redirect::to('/imut/cpu')->with('message','Hapus Imut CPU Berhasil');
+        return \Redirect::to('it/imut/cpu')->with('message','Hapus Imut CPU Berhasil');
     }
 
     public function cpuClear(Request $request, $id)
@@ -128,6 +128,6 @@ class cpuController extends Controller
         $data->jamselesai = $getjamselesai;
         $data->save();
         
-        return \Redirect::to('/imut/cpu')->with('message','Revisi CPU Telah Selesai.');
+        return \Redirect::to('it/imut/cpu')->with('message','Revisi CPU Telah Selesai.');
     }
 }

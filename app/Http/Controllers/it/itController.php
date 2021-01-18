@@ -24,7 +24,7 @@ class itController extends Controller
             'show' => $show
         ];
 
-        return view('pages.it.home')->with('list', $data);
+        return view('home')->with('list', $data);
     }
 
     /**

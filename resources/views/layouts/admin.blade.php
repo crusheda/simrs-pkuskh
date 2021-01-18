@@ -53,34 +53,41 @@
             <span class="navbar-toggler-icon"></span>
         </button>
         
-        <ul class="nav navbar-nav ml-auto">
-            @if(count(config('panel.available_languages', [])) > 1)
-                <li class="nav-item dropdown d-md-down-none">
-                    <a class="nav-link" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-                        {{ strtoupper(app()->getLocale()) }}
-                    </a>
-                    <div class="dropdown-menu dropdown-menu-right">
-                        @foreach(config('panel.available_languages') as $langLocale => $langName)
-                            <a class="dropdown-item" href="{{ url()->current() }}?change_language={{ $langLocale }}">{{ strtoupper($langLocale) }} ({{ $langName }})</a>
-                        @endforeach
-                    </div>
-                </li>
-            @endif
+        <ul class="nav navbar-nav ml-auto" style="font-family: Roboto;text-transform: capitalize;margin-right:10px">
+
+          <a type="button" class="nav-link text-dark" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            {{ Auth::user()->name }} <i class="fa fa-cog fa-spin fa-lg fa-fw"></i>
+          </a>
+          <div class="dropdown-menu dropdown-menu-right">
+              <a type="button" class="dropdown-item" data-toggle="modal" data-target="#profile">
+                <i class="fa-fw fas fa-user-circle nav-icon"></i>
+                Profil
+              </a>
+              <a type="button" class="dropdown-item" href="{{ route('auth.change_password') }}">
+                <i class="nav-icon fas fa-fw fa-key"></i>
+                Ubah Password
+              </a>
+              <a type="button" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
+                <i class="nav-icon fas fa-fw fa-sign-out-alt"></i>
+                Logout
+              </a>
+          </div>
         </ul>
-          <span class="badge badge-pill badge-light" style="text-transform: capitalize;margin-right: 10px">
-            <i class="fa-fw fas fa-user-circle nav-icon"></i> {{ Auth::user()->name }} </span>
     </header>
 
     <div class="app-body">
         @include('partials.menu')
         <main class="main">
 
-
             <div style="padding-top: 20px" class="container-fluid">
                 @if(session('message'))
                     <div class="row mb-2">
                         <div class="col-lg-12">
-                            <div class="alert alert-success" role="alert">{{ session('message') }}</div>
+                            <div class="alert alert-success" role="alert">{{ session('message') }}
+                              <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                <span aria-hidden="true">&times;</span>
+                              </button>
+                            </div>
                         </div>
                     </div>
                 @endif
@@ -93,13 +100,48 @@
                         </ul>
                     </div>
                 @endif
+
                 @yield('content')
+                
             </div>
         </main>
         <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
     </div>
+
+    <div class="modal" id="profile" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+      <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+          <div class="modal-header">
+            <h5 class="modal-title">
+              <i class="fa-fw fas fa-user-circle nav-icon text-info"></i> Profil User
+            </h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+          </div>
+          <div class="modal-body">
+
+              {{-- <form action="{{ route('accidentreport.check', $item->id) }}" method="POST"> --}}
+                @csrf
+                <label>Nama Lengkap : </label>
+                <input type="text" name="nama" id="nama" value="{{ Auth::user()->nama }}" class="form-control" placeholder="" disabled><br>
+                <label>Username : </label>
+                <input type="text" name="nama" id="nama" value="{{ Auth::user()->name }}" class="form-control" placeholder="" disabled><br>
+                <label>Email : </label>
+                <input type="text" name="nama" id="nama" value="{{ Auth::user()->email }}" class="form-control" placeholder="" disabled>
+
+          </div>
+          <div class="modal-footer">
+
+                <button type="submit" class="btn btn-success disabled"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
+              {{-- </form> --}}
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+          </div>
+        </div>
+      </div>
+    </div>
+
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/popper.js/1.14.3/umd/popper.min.js"></script>

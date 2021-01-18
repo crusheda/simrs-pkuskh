@@ -104,6 +104,23 @@ class tdkPerawatController extends Controller
                     }elseif (substr($query,16,2) != $tanggal || substr($query,13,2) != $bulan || substr($query,8,4) != $tahun) {
                         $recent = '0';
                     }
+            }elseif ($role == 'igd') {
+                $tdk = logperawat::where('unit', 'IGD')->get();
+                $query = tdkperawat::where('unit', 'igd')->where('deleted_at','=', null)->select('tgl')->first();
+                    if (substr($query,16,2) == $tanggal || substr($query,13,2) == $bulan || substr($query,8,4) == $tahun) {
+                        $recent = '1';
+                    }elseif (substr($query,16,2) != $tanggal || substr($query,13,2) != $bulan || substr($query,8,4) != $tahun) {
+                        $recent = '0';
+                    }
+            }else {
+                $recent = '1';
+                $data = [
+                    'show'=> $show,
+                    'recent' => $recent,
+                    'thn' => $thn,
+                    'now' => $now
+                ];
+                return view('pages.logperawat.tdkperawat');
             }
 
             // tahun = substr($query,8,4);

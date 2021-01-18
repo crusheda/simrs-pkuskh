@@ -10,88 +10,85 @@
 <script src="{{ asset('js/fstdropdown.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('css/fstdropdown.css') }}">
 
-<div class="container">
-    <div class="row">
-        <div class="card" style="width: 100%">
-            <div class="card-header bg-dark text-white">
+<div class="row">
+    <div class="card" style="width: 100%">
+        <div class="card-header bg-dark text-white">
 
-                <i class="fa-fw fas fa-leaf nav-icon text-info">
+            <i class="fa-fw fas fa-leaf nav-icon text-info">
 
-                </i> Tabel Supervisi Unit IT
+            </i> Tabel Supervisi Unit IT
 
-                <span class="pull-right badge badge-warning" style="margin-top:4px">
-                    Akses IT
-                </span>
-                
-            </div>
-            <div class="card-body">
-                @can('log_it')
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahlog">
-                                <i class="fa-fw fas fa-plus-square nav-icon">
-        
-                                </i>
-                                Tambah Kegiatan
-                            </a>
-                        </div>
-                    </div><br>
-                    {{-- <img src="{{ asset('storage/it/log/yussuf.jpg') }}" alt=""> --}}
-                    <div class="table-responsive">
-                        <table id="logit" class="table table-striped display">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>NAMA</th>
-                                    <th>KEGIATAN</th>
-                                    <th>LOKASI</th>
-                                    <th>KETERANGAN</th>
-                                    <th>FILE</th>
-                                    <th>TGL</th>
-                                    <th>AKSI</th>
-                                </tr>
-                            </thead>
-                            <tbody style="text-transform: capitalize">
-                                @if(count($list['show']) > 0)
-                                @foreach($list['show'] as $item)
-                                <tr>
-                                    <td>
-                                        @if ($item->filename == '')
-                                        @else
-                                            <center><a onclick="window.location.href='{{ url('it/supervisi/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a></center><hr>
-                                            <center><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#lihatGambar{{ $item->id }}"><i class="fa-fw fas fa-picture-o nav-icon"></i></button></center>
-                                        @endif
-                                    </td>
-                                    <td>{{ $item->nama }}</td>
-                                    <td>{{ $item->kegiatan }}</td>
-                                    <td>{{ $item->lokasi }}</td>
-                                    <td>{{ $item->keterangan }}</td>
-                                    <td>
-                                        @if ($item->filename == '')
-                                        @else
-                                        {{ substr((Storage::size($item->filename) / 1048576),0,5) }} mb
-                                        @endif
-                                    </td>
-                                    <td>{{ $item->created_at }}</td>
-                                    <td>
-                                        <center><button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button></center><hr>
-                                        <center><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button></center>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan=7>Tidak Ada Data</td>
-                                    </tr>
-                                @endif
-                            </tbody>
-                        </table>
+            <span class="pull-right badge badge-warning" style="margin-top:4px">
+                Akses IT
+            </span>
+            
+        </div>
+        <div class="card-body">
+            @can('log_it')
+                <div class="row">
+                    <div class="col-md-12">
+                        <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahlog">
+                            <i class="fa-fw fas fa-plus-square nav-icon">
+    
+                            </i>
+                            Tambah Kegiatan
+                        </a>
                     </div>
-                @else
-                    <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
-                @endcan
-            </div>
+                </div><br>
+                {{-- <img src="{{ asset('storage/it/log/yussuf.jpg') }}" alt=""> --}}
+                <div class="table-responsive">
+                    <table id="logit" class="table table-striped display">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>NAMA</th>
+                                <th>KEGIATAN</th>
+                                <th>LOKASI</th>
+                                <th>KETERANGAN</th>
+                                <th>FILE</th>
+                                <th>TGL</th>
+                                <th><center>AKSI</center></th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-transform: capitalize">
+                            @if(count($list['show']) > 0)
+                            @foreach($list['show'] as $item)
+                            <tr>
+                                <td>
+                                    @if ($item->filename == '')
+                                    @else
+                                        <center><a onclick="window.location.href='{{ url('it/supervisi/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a></center><hr>
+                                        <center><button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#lihatGambar{{ $item->id }}"><i class="fa-fw fas fa-picture-o nav-icon"></i></button></center>
+                                    @endif
+                                </td>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->kegiatan }}</td>
+                                <td>{{ $item->lokasi }}</td>
+                                <td>{{ $item->keterangan }}</td>
+                                <td>
+                                    @if ($item->filename == '')
+                                    @else
+                                    {{ substr((Storage::size($item->filename) / 1048576),0,5) }} mb
+                                    @endif
+                                </td>
+                                <td>{{ $item->created_at }}</td>
+                                <td>
+                                    <center><button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button></center><hr>
+                                    <center><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button></center>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                                <tr>
+                                    <td colspan=7>Tidak Ada Data</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
+            @endcan
         </div>
     </div>
 </div>
@@ -106,7 +103,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            <form class="form-auth-small" action="{{ route('supervisi.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="form-auth-small" action="{{ route('it.supervisi.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-12">
@@ -164,7 +161,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            {{ Form::model($item, array('route' => array('supervisi.update', $item->id), 'method' => 'PUT')) }}
+            {{ Form::model($item, array('route' => array('it.supervisi.update', $item->id), 'method' => 'PUT')) }}
                 @csrf
                 <div class="row">
                     <div class="col-md-12">
@@ -238,7 +235,7 @@
         </div>
         <div class="modal-footer">
             @if(count($list) > 0)
-                <form action="{{ route('supervisi.destroy', $item->id) }}" method="POST">
+                <form action="{{ route('it.supervisi.destroy', $item->id) }}" method="POST">
                     @method('DELETE')
                     @csrf
                     <button class="btn btn-danger btn-sm"><i class="lnr lnr-trash"></i>Hapus</button>

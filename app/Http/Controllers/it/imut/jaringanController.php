@@ -61,7 +61,7 @@ class jaringanController extends Controller
         $data->keterangan = $request->keterangan;
         $data->save();
 
-        return redirect('/imut/jaringan')->with('message','Tambah Imut Jaringan Berhasil');
+        return redirect('it/imut/jaringan')->with('message','Tambah Imut Jaringan Berhasil');
     }
 
     /**
@@ -103,7 +103,7 @@ class jaringanController extends Controller
         $data->keterangan = $request->keterangan;
         $data->save();
 
-        return redirect('/imut/jaringan')->with('message','Ubah Imut Jaringan Berhasil');
+        return redirect('it/imut/jaringan')->with('message','Ubah Imut Jaringan Berhasil');
     }
 
     /**
@@ -118,7 +118,7 @@ class jaringanController extends Controller
         $data->delete();
 
         // redirect
-        return \Redirect::to('/imut/jaringan')->with('message','Hapus Imut Jaringan Berhasil');
+        return \Redirect::to('it/imut/jaringan')->with('message','Hapus Imut Jaringan Berhasil');
     }
 
     public function jaringanClear(Request $request, $id)
@@ -128,6 +128,6 @@ class jaringanController extends Controller
         $data->jamselesai = $getjamselesai;
         $data->save();
         
-        return \Redirect::to('/imut/jaringan')->with('message','Revisi Jaringan Telah Selesai.');
+        return \Redirect::to('it/imut/jaringan')->with('message','Revisi Jaringan Telah Selesai.');
     }
 }

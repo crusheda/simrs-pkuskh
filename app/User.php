@@ -10,6 +10,7 @@ use Hash;
  * Class User
  *
  * @package App
+ * @property string $nama
  * @property string $name
  * @property string $email
  * @property string $password
@@ -20,7 +21,7 @@ class User extends Authenticatable
     use Notifiable;
     use HasRoles;
 
-    protected $fillable = ['name', 'email', 'password', 'remember_token'];
+    protected $fillable = ['nama','name', 'email', 'password', 'remember_token'];
     
     
     /**

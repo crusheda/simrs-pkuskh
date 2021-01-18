@@ -61,7 +61,7 @@ class printerController extends Controller
         $data->keterangan = $request->keterangan;
         $data->save();
 
-        return redirect('/imut/printer')->with('message','Tambah Imut Printer Berhasil');
+        return redirect('it/imut/printer')->with('message','Tambah Imut Printer Berhasil');
     }
 
     /**
@@ -103,7 +103,7 @@ class printerController extends Controller
         $data->keterangan = $request->keterangan;
         $data->save();
 
-        return redirect('/imut/printer')->with('message','Ubah Imut Printer Berhasil');
+        return redirect('it/imut/printer')->with('message','Ubah Imut Printer Berhasil');
     }
 
     /**
@@ -119,7 +119,7 @@ class printerController extends Controller
         $data->delete();
 
         // redirect
-        return \Redirect::to('/imut/printer')->with('message','Hapus Imut Printer Berhasil');
+        return \Redirect::to('it/imut/printer')->with('message','Hapus Imut Printer Berhasil');
     }
 
     public function printerClear(Request $request, $id)
@@ -129,6 +129,6 @@ class printerController extends Controller
         $data->jamselesai = $getjamselesai;
         $data->save();
         
-        return \Redirect::to('/imut/printer')->with('message','Revisi Printer Telah Selesai.');
+        return \Redirect::to('it/imut/printer')->with('message','Revisi Printer Telah Selesai.');
     }
 }

@@ -26,7 +26,7 @@
                     </a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
-                            <a href="{{ route("supervisi.index") }}" class="nav-link">
+                            <a href="{{ route("it.supervisi.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-leaf nav-icon">
 
                                 </i>
@@ -46,7 +46,7 @@
                     </a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
-                            <a href="{{ route("pilar.index") }}" class="nav-link">
+                            <a href="{{ route("it.pilar.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-database nav-icon">
 
                                 </i>
@@ -54,7 +54,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route("printer.index") }}" class="nav-link">
+                            <a href="{{ route("it.printer.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-print nav-icon">
 
                                 </i>
@@ -62,7 +62,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route("cpu.index") }}" class="nav-link">
+                            <a href="{{ route("it.cpu.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-wrench nav-icon">
 
                                 </i>
@@ -70,7 +70,7 @@
                             </a>
                         </li>
                         <li class="nav-item">
-                            <a href="{{ route("jaringan.index") }}" class="nav-link">
+                            <a href="{{ route("it.jaringan.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-wifi nav-icon">
 
                                 </i>
@@ -309,14 +309,14 @@
                     </ul>
                 </li>
             @endcan
-            <li class="nav-item">
+            {{-- <li class="nav-item">
                 <a href="{{ route('auth.change_password') }}" class="nav-link">
                     <i class="nav-icon fas fa-fw fa-key">
 
                     </i>
                     Change password
                 </a>
-            </li>
+            </li> --}}
             <li class="nav-item">
                 <a href="#" class="nav-link" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
                     <i class="nav-icon fas fa-fw fa-sign-out-alt">

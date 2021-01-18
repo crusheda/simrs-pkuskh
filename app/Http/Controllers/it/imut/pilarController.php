@@ -62,7 +62,7 @@ class pilarController extends Controller
         $data->keterangan = $request->keterangan;
         $data->save();
 
-        return redirect('/imut/pilar')->with('message','Tambah Imut Pilar Berhasil');
+        return redirect('it/imut/pilar')->with('message','Tambah Imut Pilar Berhasil');
     }
 
     /**
@@ -105,7 +105,7 @@ class pilarController extends Controller
         $data->save();
         
 
-        return redirect('/imut/pilar')->with('message','Ubah Imut Pilar Berhasil');
+        return redirect('it/imut/pilar')->with('message','Ubah Imut Pilar Berhasil');
     }
 
     /**
@@ -120,7 +120,7 @@ class pilarController extends Controller
         $data->delete();
 
         // redirect
-        return \Redirect::to('/imut/pilar')->with('message','Hapus Imut Pilar Berhasil');
+        return \Redirect::to('it/imut/pilar')->with('message','Hapus Imut Pilar Berhasil');
     }
 
     public function pilarClear(Request $request, $id)
@@ -130,6 +130,6 @@ class pilarController extends Controller
         $data->jamselesai = $getjamselesai;
         $data->save();
         
-        return \Redirect::to('/imut/pilar')->with('message','Revisi Pilar Telah Selesai.');
+        return \Redirect::to('it/imut/pilar')->with('message','Revisi Pilar Telah Selesai.');
     }
 }

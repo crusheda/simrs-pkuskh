@@ -21,7 +21,7 @@
             </div>
             <div class="card-body">
                 @can('imut_it')
-                <form class="form-auth-small" action="{{ route('jaringan.store') }}" method="POST" enctype="multipart/form-data">
+                <form class="form-auth-small" action="{{ route('it.jaringan.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <label>Pemberi Instruksi :</label>
                     <input type="text" name="namapi" id="namapi" class="form-control" placeholder="">
@@ -51,7 +51,7 @@
                                 <tr>
                                     <td>
                                         @if ($item->jamselesai == null)
-                                            <form action="{{ route('jaringan.selesai', $item->id) }}" method="POST">
+                                            <form action="{{ route('it.jaringan.selesai', $item->id) }}" method="POST">
                                                 @csrf
                                                 <button type="submit" class="btn btn-success btn-sm">Selesai</button>
                                             </form>
@@ -117,7 +117,7 @@
         </div>
         <div class="modal-footer">
             @if(count($list) > 0)
-                <form action="{{ route('jaringan.destroy', $item->id) }}" method="POST">
+                <form action="{{ route('it.jaringan.destroy', $item->id) }}" method="POST">
                     {{-- <a class="btn btn-warning btn-sm" onclick="window.location.href='{{ route('imutjaringan.edit', $item->id) }}'">
                         <i class="lnr lnr-pencil"></i>Edit
                     </a> --}}
@@ -143,7 +143,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         @if(count($list) > 0)
-        {{ Form::model($item, array('route' => array('jaringan.update', $item->id), 'method' => 'PUT')) }}
+        {{ Form::model($item, array('route' => array('it.jaringan.update', $item->id), 'method' => 'PUT')) }}
         <div class="modal-body">
             @csrf
             <label for="namapi">Pemberi Instruksi :</label>
