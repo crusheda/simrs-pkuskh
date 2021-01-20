@@ -9,56 +9,52 @@
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
 
-<div class="container">
-    <div class="row">
-        <div class="card" style="width: 100%">
-            <div class="card-header bg-dark text-white">
+<div class="row">
+    <div class="card" style="width: 100%">
+        <div class="card-header bg-dark text-white">
 
-                <i class="fa-fw fas fa-file-text nav-icon">
+            <i class="fa-fw fas fa-file-text nav-icon">
 
-                </i> Tabel Tindakan Harian Perawat
+            </i> Tabel Tindakan Harian Perawat
 
-                <span class="pull-right badge badge-warning" style="margin-top:4px">
-                    Akses Publik
-                </span>
-                
-            </div>
-            <div class="card-body">
-                @can('log_perawat')
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8">
-                            @can('kabag-keperawatan')
+            <span class="pull-right badge badge-warning" style="margin-top:4px">
+                Akses Publik
+            </span>
+            
+        </div>
+        <div class="card-body">
+            @can('log_perawat')
+                <div class="row">
+                    <div class="col-md-8">
+                        @role('kabag-keperawatan')
                             <a type="button" class="btn btn-success text-white" data-toggle="modal" data-target="#tambahtdk">
                                 <i class="fa-fw fas fa-plus-square nav-icon">
         
                                 </i>
                                 Tambah Tindakan Harian
                             </a>
-                            @endcan
+                        @else
                             @can('log_perawat')
-                                <?php
-                                    if ($list['recent'] == '1') {
-                                        ?>  <a type="button" class="btn btn-success text-white" data-toggle="modal" data-target="#info">
-                                                <i class="fa-fw fas fa-plus-square nav-icon">
-                        
-                                                </i>
-                                                Tambah Tindakan Harian
-                                            </a>
-                                        <?php
-                                    } elseif ($list['recent'] == '0') {
-                                        ?>  <a type="button" class="btn btn-success text-white" data-toggle="modal" data-target="#tambahtdk">
-                                                <i class="fa-fw fas fa-plus-square nav-icon">
-                        
-                                                </i>
-                                                Tambah Tindakan Harian
-                                            </a>
-                                        <?php
-                                    }
-                                ?>
+                                @if ($list['recent'] == 0)
+                                    <a type="button" class="btn btn-success text-white" data-toggle="modal" data-target="#info">
+                                        <i class="fa-fw fas fa-plus-square nav-icon">
+                
+                                        </i>
+                                        Tambah Tindakan Harian
+                                    </a>
+                                @else
+                                    <a type="button" class="btn btn-success text-white" data-toggle="modal" data-target="#tambahtdk">
+                                        <i class="fa-fw fas fa-plus-square nav-icon">
+                
+                                        </i>
+                                        Tambah Tindakan Harian
+                                    </a>
+                                @endif
                             @endcan
-                        </div><br><br>
-                        <div class="col-md-4">
+                        @endrole
+                    </div><br><br>
+                    <div class="col-md-4">
+                        @role('kabag-keperawatan')
                             <form class="form-inline" action="{{ route('tdkperawat.cari') }}" method="GET">
                                 <span style="width: auto;margin-right:10px">Filter</span>
                                 <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="bulan" id="bulan" required>
@@ -82,48 +78,52 @@
                                 </select>
                                 <button class="form-control" id="submit" disabled><span class="badge">Cari</span></button>
                             </form>
-                        </div>
+                        @endrole
                     </div>
-                    <hr>
-                    <div class="table-responsive">
-                        <table id="tdkperawat" class="table table-striped display">
-                            <thead>
-                                <tr>
-                                    <th>ID</th>
-                                    <th>NAMA</th>
-                                    <th>UNIT</th>
-                                    <th>TGL</th>
-                                    <th>ACTION</th>
-                                </tr>
-                            </thead>
-                            <tbody style="text-transform: capitalize">
-                                @if(count($list['show']) > 0)
-                                @foreach($list['show'] as $item)
-                                <tr>
-                                    <td>{{ $item->queue }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->unit }}</td>
-                                    <td>{{ $item->tgl }}</td>
-                                    <td>
-                                        <a type="button" class="btn btn-info btn-sm" href="{{ route('tdkperawat.show', $item->queue) }}"><i class="fa-fw fas fa-search nav-icon"></i></a>
-                                        <a type="button" class="btn btn-success btn-sm" href="{{ route('tdkperawat.edit', $item->queue) }}"><i class="fa-fw fas fa-edit nav-icon"></i></a>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->queue }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan=5>Tidak Ada Data</td>
-                                    </tr>
-                                @endif
-                            </tbody>
-                        </table>
-                    </div>
-                @else
-                    <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
-                @endcan
                 </div>
-            </div>
+                <hr>
+                <div class="table-responsive">
+                    <table id="tdkperawat" class="table table-striped display">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>NAMA</th>
+                                <th>UNIT</th>
+                                <th>TGL</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-transform: capitalize">
+                            @if(count($list['show']) > 0)
+                            <div hidden>{{ $id = 1 }}</div>
+                            @foreach($list['show'] as $item)
+                            <tr>
+                                <td>{{ $id++ }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->unit }}</td>
+                                <td>{{ $item->tgl }}</td>
+                                <td>
+                                    <a type="button" class="btn btn-info btn-sm" href="{{ route('tdkperawat.show', $item->queue) }}"><i class="fa-fw fas fa-search nav-icon"></i></a>
+                                    <a type="button" class="btn btn-success btn-sm" href="{{ route('tdkperawat.edit', $item->queue) }}"><i class="fa-fw fas fa-edit nav-icon"></i></a>
+                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->queue }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                </td>
+                            </tr>                                
+                            @endforeach
+                            @else
+                                <tr>
+                                    <td colspan=5>Tidak Ada Data</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                    {{-- {{ $list['convert'] }} --}}
+                    {{-- @foreach ($list['cek'] as $item)
+                        {{ $item }}
+                    @endforeach --}}
+                </div>
+            @else
+                <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
+            @endcan
         </div>
     </div>
 </div>
@@ -167,7 +167,7 @@
                     @endforeach
                     @else
                         <tr>
-                            <td colspan=4>Tidak Ada Data</td>
+                            <td colspan=2>Tidak Ada Data</td>
                         </tr>
                     @endif
                 </tbody>
@@ -251,7 +251,8 @@ $(document).ready( function () {
             dom: 'Bfrtip',
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
-            ]
+            ],
+            order: [[ 3, "desc" ]]
         }
     );
 } );

@@ -9,78 +9,73 @@
 
 <script src="{{ asset('js/fstdropdown.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('css/fstdropdown.css') }}">
-<style>
+
+<div class="row">
+    <div class="card" style="width: 100%">
+        <div class="card-header bg-dark text-white">
+
+            <i class="fa-fw fas fa-list-alt nav-icon text-info">
+
+            </i> Surat Keterangan Lahir
+
+            <span class="pull-right badge badge-warning" style="margin-top:4px">
+                Akses Kebidanan
+            </span>
+            
+        </div>
+        <div class="card-body">
+            @can('skl')
+                <div class="row">
+                    <div class="col-md-12">
+                        <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahbayi">
+                            <i class="fa-fw fas fa-plus-square nav-icon">
     
-</style>
-<div class="container">
-    <div class="row">
-        <div class="card" style="width: 100%">
-            <div class="card-header bg-dark text-white">
-
-                <i class="fa-fw fas fa-list-alt nav-icon text-info">
-
-                </i> Surat Keterangan Lahir
-
-                <span class="pull-right badge badge-warning" style="margin-top:4px">
-                    Akses Kebidanan
-                </span>
-                
-            </div>
-            <div class="card-body">
-                @can('skl')
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahbayi">
-                                <i class="fa-fw fas fa-plus-square nav-icon">
-        
-                                </i>
-                                Tambah Identitas Bayi
-                            </a>
-                        </div>
-                    </div><br>
-                    <div class="table-responsive">
-                        <table id="skl" class="table table-striped display">
-                            <thead>
-                                <tr>
-                                    <th>NO SURAT</th>
-                                    <th>TGL</th>
-                                    <th>IBU</th>
-                                    <th>ANAK</th>
-                                    <th>ALAMAT</th>
-                                    <th></th>
-                                </tr>
-                            </thead>
-                            <tbody style="text-transform: capitalize">
-                                @if(count($list['show']) > 0)
-                                @foreach($list['show'] as $item)
-                                <tr>
-                                    <td>{{ $item->no_surat }}</td>
-                                    <td>{{ $item->tgl }}</td>
-                                    <td>{{ $item->ibu }}</td>
-                                    <td>{{ $item->anak }}</td>
-                                    <td>{{ $item->alamat }}</td>
-                                    <td>
-                                        <center><button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahskl{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusskl{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button><hr></center>
-                                        <center><a type="button" href="{{ route('skl.cetak', $item->id) }}" class="btn btn-warning btn-sm">
-                                            <i class="fa-fw fas fa-print nav-icon"></i> Cetak
-                                        </a></center>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan=6>Tidak Ada Data</td>
-                                    </tr>
-                                @endif
-                            </tbody>
-                        </table>
+                            </i>
+                            Tambah Identitas Bayi
+                        </a>
                     </div>
-                @else
-                    <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
-                @endcan
-            </div>
+                </div><br>
+                <div class="table-responsive">
+                    <table id="skl" class="table table-striped display">
+                        <thead>
+                            <tr>
+                                <th>NO SURAT</th>
+                                <th>TGL</th>
+                                <th>IBU</th>
+                                <th>ANAK</th>
+                                <th>ALAMAT</th>
+                                <th></th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-transform: capitalize">
+                            @if(count($list['show']) > 0)
+                            @foreach($list['show'] as $item)
+                            <tr>
+                                <td>{{ $item->no_surat }}</td>
+                                <td>{{ $item->tgl }}</td>
+                                <td>{{ $item->ibu }}</td>
+                                <td>{{ $item->anak }}</td>
+                                <td>{{ $item->alamat }}</td>
+                                <td>
+                                    <center><button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahskl{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusskl{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button><hr></center>
+                                    <center><a type="button" href="{{ route('skl.cetak', $item->id) }}" class="btn btn-warning btn-sm">
+                                        <i class="fa-fw fas fa-print nav-icon"></i> Cetak
+                                    </a></center>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                                <tr>
+                                    <td colspan=6>Tidak Ada Data</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
+            @endcan
         </div>
     </div>
 </div>

@@ -64,7 +64,7 @@
                     </tbody>
                 </table>
                 <div class="modal-footer">
-                    <button class="btn btn-primary text-white" id="submit">Simpan</button>
+                    <button class="btn btn-primary text-white" id="submit" disabled>Simpan</button>
                 </div>
                 {{-- </form> --}}
                 {{ Form::close() }}

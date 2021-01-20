@@ -145,14 +145,16 @@
                         Log Perawat
                     </a>
                     <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a href="{{ route("logperawat.index") }}" class="nav-link">
-                                <i class="fa-fw fas fa-list-ol nav-icon">
+                        @role('kabag-keperawatan')
+                            <li class="nav-item">
+                                <a href="{{ route("logperawat.index") }}" class="nav-link">
+                                    <i class="fa-fw fas fa-list-ol nav-icon">
 
-                                </i>
-                                Pernyataan Log
-                            </a>
-                        </li>
+                                    </i>
+                                    Pernyataan Log
+                                </a>
+                            </li>
+                        @endrole
                         <li class="nav-item">
                             <a href="{{ route("tdkperawat.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-address-book nav-icon">

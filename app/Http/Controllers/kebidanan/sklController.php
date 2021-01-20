@@ -23,7 +23,11 @@ class sklController extends Controller
         $show = skl::get();
         
         $query = skl::orderBy('no_surat', 'DESC')->first();
-        $nomer = $query->no_surat + 1;
+        if ($query != null) {
+            $nomer = $query->no_surat + 1;
+        } else {
+            $nomer = 1;
+        }
 
         $data = [
             'show' => $show,
@@ -59,7 +63,11 @@ class sklController extends Controller
         $tgl = Carbon::parse($request->tgl); 
 
         $query = skl::orderBy('no_surat', 'DESC')->first();
-        $nomer = $query->no_surat + 1;
+        if ($query != null) {
+            $nomer = $query->no_surat + 1;
+        } else {
+            $nomer = 1;
+        }
         // ex : $user->created_at->isoFormat('dddd, D MMMM Y');      "Minggu, 28 Juni 2020"
         // ex : $post->updated_at->diffForHumans();                  "2 hari yang lalu"
 

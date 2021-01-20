@@ -20,11 +20,9 @@ class logPerawatController extends Controller
     public function index()
     {
         $show = logperawat::get();
-        $unit = unit::pluck('id','name');
 
         $data = [
             'show' => $show,
-            'unit' => $unit
         ];
         // print_r($data);
         // die();
