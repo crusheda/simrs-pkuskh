@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\perawat;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\RedirectResponse;
+use App\Models\logtgsperawat;
+use App\Models\unit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class penunjangTugasController extends Controller
+class logTgsPerawatController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +19,15 @@ class penunjangTugasController extends Controller
      */
     public function index()
     {
-        //
+        $show = logtgsperawat::get();
+
+        $data = [
+            'show' => $show,
+        ];
+        // print_r($data);
+        // die();
+
+        return view('pages.logperawat.pernyataantgsperawat')->with('list', $data);
     }
 
     /**

@@ -12,6 +12,7 @@ use Illuminate\Http\Request;
 use Auth;
 use Storage;
 use Exception;
+use Redirect;
 
 class accidentReportController extends Controller
 {
@@ -22,8 +23,16 @@ class accidentReportController extends Controller
      */
     public function index()
     {
-        $show = accident_report::where('verifikasi', null)->get();
-        $unit = unit::pluck('id','name');
+        $unit = unit::pluck('id','name','nama');
+        $user = Auth::user();
+        $name = $user->name;
+        $role = $user->roles->first()->name; //kabag-keperawatan
+        
+        if (Auth::user()->hasRole('k3')) {
+            $show = accident_report::get();
+        }else {
+            $show = accident_report::where('unit', $role)->get();
+        }
 
         $data = [
             'show' => $show,
@@ -228,6 +237,11 @@ class accidentReportController extends Controller
 
     public function verifikasi($id)
     {
-        # code...
+        $getclock = Carbon::now();
+        $data = accident_report::find($id);
+        $data->verifikasi = $getclock;
+        $data->save();
+        
+        return Redirect::back()->with('message','Laporan berhasil di Verifikasi.');
     }
 }

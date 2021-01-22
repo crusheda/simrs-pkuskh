@@ -23,40 +23,36 @@ class tgsPerawatController extends Controller
      */
     public function index()
     {
-        $thn = substr(Carbon::now(),0,4);
+        $thn = Carbon::now()->isoFormat('D MMMM Y');
         $user = Auth::user();
-        $role = $user->roles->first()->name; //kabag_keperawatan
-        $unit = unit::pluck('id','name');
-        $pernyataan = logtgsperawat::pluck('id','pernyataan');
+        $name = $user->name;
+        $role = $user->roles->first()->name; //kabag-keperawatan
+        // $pernyataan = logtgsperawat::pluck('id','pernyataan');
         
-        $show = DB::table('tgsperawat')
-            ->select('queue' ,'name' ,'unit' ,'tgl')
-            ->where('deleted_at', null)
-            ->groupBy('queue' ,'name' ,'unit' ,'tgl')
-            ->get();
-        $all = tgsperawat::get();
-
-        if ($role == 'ibs') {
-            $recent = profkpr::where('unit', 'IBS')->select('tgl')->first();
-        }elseif ($role == 'bangsal-dewasa') {
-            $recent = profkpr::where('unit', 'Bangsal Dewasa')->select('tgl')->first();
-        }elseif ($role == 'bangsal-anak') {
-            $recent = profkpr::where('unit', 'Bangsal Anak')->select('tgl')->first();
-        }elseif ($role == 'poli') {
-            $recent = profkpr::where('unit', 'Poliklinik')->select('tgl')->first();
-        }elseif ($role == 'icu') {
-            $recent = profkpr::where('unit', 'ICU')->select('tgl')->first();
-        }elseif ($role == 'kebidanan') {
-            $recent = profkpr::where('unit', 'Kebidanan')->select('tgl')->first();
-        }else {
-            $recent = profkpr::select('tgl')->first();
+        if (Auth::user()->hasRole('kabag-keperawatan')) {
+            $show = DB::table('tgsperawat')
+                ->select('queue' ,'name' ,'unit' ,'tgl')
+                ->where('deleted_at', null)
+                ->groupBy('queue' ,'name' ,'unit' ,'tgl')
+                ->get();
+        }
+        else {
+            $show = DB::table('tgsperawat')
+                ->select('queue' ,'name' ,'unit' ,'tgl')
+                ->where('deleted_at', null)
+                ->where('unit', $role)
+                ->groupBy('queue' ,'name' ,'unit' ,'tgl')
+                ->get();
+                
+            if ($user->hasPermissionTo('log_perawat')) {
+                $pernyataan = logtgsperawat::where('unit', $role)->get();
+                $recent = tgsperawat::where('unit', $role)->select('tgl')->first();
+            }
         }
          
         $data = [
             'pernyataan' => $pernyataan,
             'show' => $show,
-            'all' => $all,
-            'unit' => $unit,
             'recent' => $recent,
             'thn' => $thn
         ];

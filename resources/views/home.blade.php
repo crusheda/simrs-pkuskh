@@ -7,9 +7,11 @@
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
 
-<div class="row">
-
-</div> <!-- end row -->
+    @role('it')
+        <div class="card">
+            <iframe src="{{url('ashidu328yrbew9bfay8dsbfy32byrfey9fb8aywbyb3ybfesugn9fsiuagd/user-activity')}}" frameborder="0" height="600px" width="100%"></iframe>
+        </div>
+    @endrole
 
 <script>
     $(document).ready( function () {

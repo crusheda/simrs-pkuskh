@@ -11,8 +11,10 @@ Auth::routes(['register' => false]);
 // Change Password Routes...
 Route::get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('auth.change_password');
 Route::patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('auth.change_password');
+Route::post('edit_akun/{id}', 'Admin\UsersController@ubahData')->name('ubah.akun');
 
 Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/file-manager', 'HomeController@fileManager')->name('file_manager'); //file manager
 
 // Admin
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -28,6 +30,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
 // IT
 Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], function () {
     // Route::get('home', 'it\itController@index')->name('it.home');
+    // Route::get('user-activity', 'it\itController@getActivity')->name('user_activity');
     Route::resource('supervisi', 'it\log\logController');
 
     // Imut
@@ -73,6 +76,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
         // Tindakan Harian
             Route::get('/tdkperawat/cari', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
             Route::resource('logperawat', 'perawat\logPerawatController');
+            Route::resource('logtgsperawat', 'perawat\logTgsPerawatController');
+            Route::resource('logprofkpr', 'perawat\logProfKprController');
             // Route::get('tdkperawat/{id}', 'perawat\tdkPerawatController@show')->name('tdkperawat.show');
             Route::resource('tdkperawat', 'perawat\tdkPerawatController');
             Route::get('tdkperawat/{id}/cetak','perawat\tdkPerawatController@generatePDF')->name('tdkperawat.cetak');

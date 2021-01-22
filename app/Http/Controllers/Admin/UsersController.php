@@ -2,13 +2,16 @@
 
 namespace App\Http\Controllers\Admin;
 
+use Redirect;
 use App\User;
+use App\Models\data_users;
 use Spatie\Permission\Models\Role;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Gate;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Admin\StoreUsersRequest;
 use App\Http\Requests\Admin\UpdateUsersRequest;
+use Illuminate\Support\Facades\DB;
 
 class UsersController extends Controller
 {
@@ -141,6 +144,31 @@ class UsersController extends Controller
         User::whereIn('id', request('ids'))->delete();
 
         return response()->noContent();
+    }
+
+    public function ubahData(Request $request)
+    {
+        $user_id = $request->id;
+        $nama = $request->nama;
+        
+        $query_string = "SELECT * FROM data_users WHERE user_id = $user_id";
+        $find = DB::select($query_string);
+
+        // print_r($find);
+        // die();
+
+        if (empty($find)) {
+            $data = new data_users;
+            $data->user_id = $user_id;
+            $data->nama = $nama;
+            $data->save();            
+        } else {
+            $data = DB::table('data_users')
+            ->where('user_id', '=', $user_id)
+            ->update(['nama' => $nama]);
+        }
+        
+        return Redirect::back()->with('message','Data Akun Berhasil Di Ubah');
     }
 
 }

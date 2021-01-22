@@ -36,6 +36,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet" />
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" />
     @yield('styles')
+    @FilemanagerScript
 </head>
 
 <body class="app header-fixed sidebar-fixed aside-menu-fixed pace-done sidebar-lg-show">
@@ -120,21 +121,22 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
           </div>
           <div class="modal-body">
-
-              {{-- <form action="{{ route('accidentreport.check', $item->id) }}" method="POST"> --}}
+            <form action="{{ route('ubah.akun',Auth::user()->id) }}" method="POST">
                 @csrf
+                <input type="text" name="id" id="id" value="{{ Auth::user()->id }}" class="form-control" hidden>
+
                 <label>Nama Lengkap : </label>
-                <input type="text" name="nama" id="nama" value="{{ Auth::user()->nama }}" class="form-control" placeholder="" disabled><br>
+                <input type="text" name="nama" id="nama" value="" class="form-control" placeholder=""><br>
                 <label>Username : </label>
-                <input type="text" name="nama" id="nama" value="{{ Auth::user()->name }}" class="form-control" placeholder="" disabled><br>
+                <input type="text" name="name" id="name" value="{{ Auth::user()->name }}" class="form-control" placeholder="" disabled><br>
                 <label>Email : </label>
-                <input type="text" name="nama" id="nama" value="{{ Auth::user()->email }}" class="form-control" placeholder="" disabled>
+                <input type="text" name="email" id="email" value="{{ Auth::user()->email }}" class="form-control" placeholder="" disabled>
 
           </div>
           <div class="modal-footer">
 
-                <button type="submit" class="btn btn-success disabled"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
-              {{-- </form> --}}
+                <button type="submit" class="btn btn-success"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
+              </form>
 
             <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
           </div>

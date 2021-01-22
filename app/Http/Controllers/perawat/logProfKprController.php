@@ -3,9 +3,14 @@
 namespace App\Http\Controllers\perawat;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\RedirectResponse;
+use App\Models\logprofkpr;
+use App\Models\unit;
+use Carbon\Carbon;
 use Illuminate\Http\Request;
 
-class profKeperawatanController extends Controller
+class logProfKprController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +19,15 @@ class profKeperawatanController extends Controller
      */
     public function index()
     {
-        //
+        $show = logprofkpr::get();
+
+        $data = [
+            'show' => $show,
+        ];
+        // print_r($data);
+        // die();
+
+        return view('pages.logperawat.pernyataanlogprofkpr')->with('list', $data);
     }
 
     /**

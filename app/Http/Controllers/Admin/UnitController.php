@@ -45,11 +45,13 @@ class UnitController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'unit' => 'nullable',
+            'name' => 'nullable',
+            'nama' => 'nullable',
             ]);
             
         $data = new unit;
-        $data->name = $request->unit;
+        $data->name = $request->name;
+        $data->nama = $request->nama;
 
         $data->save();
 
@@ -89,6 +91,7 @@ class UnitController extends Controller
     {
         $data = unit::find($id);
         $data->name = $request->name;
+        $data->nama = $request->nama;
         $data->save();
 
         return redirect('admin/unit')->with('message','Ubah Data Unit Berhasil');

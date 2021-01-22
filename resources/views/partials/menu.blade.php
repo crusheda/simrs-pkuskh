@@ -80,7 +80,7 @@
                     </ul>
                 </li>
             @endcan
-            @can('penyimpanan_file')
+            {{-- @can('penyimpanan_file')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
                         <i class="fa-fw fas fa-archive nav-icon">
@@ -107,7 +107,7 @@
                         </li>
                     </ul>
                 </li>
-            @endcan
+            @endcan --}}
             @can('berkas_rapat')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
@@ -136,6 +136,42 @@
                     </ul>
                 </li>
             @endcan
+            @role('kabag-keperawatan')
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link  nav-dropdown-toggle">
+                    <i class="fa-fw fas fa-plus-square nav-icon">
+        
+                    </i>
+                    Pernyataan Log
+                </a>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a href="{{ route("logperawat.index") }}" class="nav-link">
+                            <i class="fa-fw fas fa-address-book nav-icon">
+
+                            </i>
+                            Tindakan Harian
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route("logprofkpr.index") }}" class="nav-link">
+                            <i class="fa-fw fas fa-id-badge nav-icon">
+
+                            </i>
+                            Profesi Keperawatan
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route("logtgsperawat.index") }}" class="nav-link">
+                            <i class="fa-fw fas fa-vcard nav-icon">
+
+                            </i>
+                            Penunjang Tugas
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            @endrole
             @can('log_perawat')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle">
@@ -145,16 +181,6 @@
                         Log Perawat
                     </a>
                     <ul class="nav-dropdown-items">
-                        @role('kabag-keperawatan')
-                            <li class="nav-item">
-                                <a href="{{ route("logperawat.index") }}" class="nav-link">
-                                    <i class="fa-fw fas fa-list-ol nav-icon">
-
-                                    </i>
-                                    Pernyataan Log
-                                </a>
-                            </li>
-                        @endrole
                         <li class="nav-item">
                             <a href="{{ route("tdkperawat.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-address-book nav-icon">
@@ -179,14 +205,6 @@
                                 Penunjang Tugas
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a href="{{ route("pengadaan.pilih") }}" class="nav-link">
-                                <i class="fa-fw fas fa-cart-plus nav-icon">
-
-                                </i>
-                                Tambah Pengadaan
-                            </a>
-                        </li> --}}
                     </ul>
                 </li>
             @endcan
@@ -262,6 +280,26 @@
 
                                 </i>
                                 Log Pengadaan
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
+            @can('accident_report')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <i class="fa-fw fas fa-folder nav-icon">
+
+                        </i>
+                        Administrasi
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("file_manager") }}" class="nav-link">
+                                <i class="fa-fw fas fa-folder-open nav-icon">
+
+                                </i>
+                                File Manager
                             </a>
                         </li>
                     </ul>

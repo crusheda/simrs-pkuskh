@@ -36,7 +36,7 @@
                         @else
                             @can('log_perawat')
                                 @if ($list['recent'] == 0)
-                                    <a type="button" class="btn btn-success text-white" data-toggle="modal" data-target="#info">
+                                    <a type="button" class="btn btn-secondary text-white disabled">
                                         <i class="fa-fw fas fa-plus-square nav-icon">
                 
                                         </i>
@@ -90,7 +90,7 @@
                                 <th>NAMA</th>
                                 <th>UNIT</th>
                                 <th>TGL</th>
-                                <th>ACTION</th>
+                                <th class="text-center">ACTION</th>
                             </tr>
                         </thead>
                         <tbody style="text-transform: capitalize">
@@ -103,9 +103,7 @@
                                 <td>{{ $item->unit }}</td>
                                 <td>{{ $item->tgl }}</td>
                                 <td>
-                                    <a type="button" class="btn btn-info btn-sm" href="{{ route('tdkperawat.show', $item->queue) }}"><i class="fa-fw fas fa-search nav-icon"></i></a>
-                                    <a type="button" class="btn btn-success btn-sm" href="{{ route('tdkperawat.edit', $item->queue) }}"><i class="fa-fw fas fa-edit nav-icon"></i></a>
-                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->queue }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                    <center><a type="button" class="btn btn-info btn-sm" href="{{ route('tdkperawat.show', $item->queue) }}"><i class="fa-fw fas fa-search nav-icon"></i> Detail</a></center>
                                 </td>
                             </tr>                                
                             @endforeach

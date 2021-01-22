@@ -29,7 +29,7 @@ class tdkPerawatController extends Controller
         $thn = Carbon::now()->isoFormat('Y');
         $user = Auth::user();
         $name = $user->name;
-        $role = $user->roles->first()->name; //kabag_keperawatan
+        $role = $user->roles->first()->name; //kabag-keperawatan
         
         if (Auth::user()->hasRole('kabag-keperawatan')) {
             $show = DB::table('tdkperawat')
@@ -51,11 +51,11 @@ class tdkPerawatController extends Controller
             if ($user->hasPermissionTo('log_perawat')) {
                 $tdk = logperawat::where('unit', $role)->get();
                 $query = tdkperawat::where('unit', $role)->where('name', $name)->where('deleted_at','=', null)->orderBy('id', 'DESC')->first();
-                $convert_query = Carbon::parse($query->tgl)->isoFormat('D MMMM Y');
-                $convert_now = Carbon::now()->isoFormat('D MMMM Y');
                 if ($query == null) {
                     $recent = 1;
                 } else {
+                    $convert_query = Carbon::parse($query->tgl)->isoFormat('D MMMM Y');
+                    $convert_now = Carbon::now()->isoFormat('D MMMM Y');
                     if ($convert_now == $convert_query) {
                         $recent = 0;
                     } else {
@@ -187,24 +187,12 @@ class tdkPerawatController extends Controller
      */
     public function update(Request $request, $id)
     {
-        // print_r($request->all());
-        // die();
-        // $jawaban = $request->input('jawaban');
-        //     // print_r($jawaban);
-        //     // die();
-            
-        //     for($count = 0; $count < count($jawaban); $count++)
-        //     {
-        //         $ins = array(
-        //             'jawaban'  => $jawaban[$count]
-        //         );
-                
-        //         $data[] = $ins; 
-        //     }
+        $data = tdkperawat::find($id);
+        $data->jawaban = $request->jawaban;
 
-        // tdkperawat::insert($data);
+        $data->save();
 
-        // return \Redirect::to('tdkperawat/'.$id)->with('message','Ubah Tindakan Harian Perawat Berhasil.');
+        return \Redirect::to('tdkperawat/'.$data->queue)->with('message','Ubah Tindakan Harian Perawat Berhasil.');
     }
 
     /**

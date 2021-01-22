@@ -12,85 +12,96 @@
 <style>
     
 </style>
-<div class="container">
-    <div class="row">
-        <div class="card" style="width: 100%">
-            <div class="card-header bg-dark text-white">
+<div class="row">
+    <div class="card" style="width: 100%">
+        <div class="card-header bg-dark text-white">
 
-                <i class="fa-fw fas fa-list-alt nav-icon text-info">
+            <i class="fa-fw fas fa-list-alt nav-icon text-info">
 
-                </i> Laporan Kecelakaan Kerja
+            </i> Laporan Kecelakaan Kerja
 
-                <span class="pull-right badge badge-warning" style="margin-top:4px;text-transform: capitalize">
-                    Akses {{ Auth::user()->roles->first()->name }}
-                </span>
-                
-            </div>
-            <div class="card-body">
-                @can('accident_report')
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-12">
-                            <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahbayi">
-                                <i class="fa-fw fas fa-plus-square nav-icon">
-        
-                                </i>
-                                Tambah Laporan
-                            </a>
-                        </div>
-                    </div><br>
-                    <div class="table-responsive">
-                        <table id="skl" class="table table-striped display">
-                            <thead>
-                                <tr class="text-center">
-                                    <th>VERIFIKASI</th>
-                                    <th>KORBAN</th>
-                                    <th>UNIT</th>
-                                    <th>LOKASI</th>
-                                    <th>TGL</th>
-                                    <th>AKSI</th>
-                                </tr>
-                            </thead>
-                            <tbody style="text-transform: capitalize">
-                                @if(count($list['show']) > 0)
-                                {{-- <div hidden>{{ $id = 1 }}</div> --}}
-                                @foreach($list['show'] as $item)
-                                <tr>
-                                    {{-- <td>{{ $id++ }}</td> --}}
-                                    <td>
-                                        <center>
-                                            @if ($item->verifikasi == null)
-                                                <button type="button" class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#verifikasi{{ $item->id }}">Verifikasi</button>
-                                            @else
-                                                <button type="button" class="btn btn-secondary btn-sm text-white" disabled>Sudah di Verifikasi</button>
-                                            @endif
-                                        </center>
-                                    </td>
-                                    <td>{{ $item->korban }}</td>
-                                    <td>{{ $item->unit }}</td>
-                                    <td>{{ $item->lokasi }}</td>
-                                    <td>{{ $item->tgl }}</td>
-                                    <td>
-                                        <center>
-                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#show{{ $item->id }}"><i class="fa-fw fas fa-folder-open nav-icon text-white"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                        </center>
-                                    </td>
-                                </tr>
-                                @endforeach
-                                @else
-                                    <tr>
-                                        <td colspan=6>Tidak Ada Data</td>
-                                    </tr>
-                                @endif
-                            </tbody>
-                        </table>
+            <span class="pull-right badge badge-warning" style="margin-top:4px;text-transform: capitalize">
+                Akses {{ Auth::user()->roles->first()->name }}
+            </span>
+            
+        </div>
+        <div class="card-body">
+            @can('accident_report')
+                <div class="row">
+                    <div class="col-md-12">
+                        <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahbayi">
+                            <i class="fa-fw fas fa-plus-square nav-icon">
+    
+                            </i>
+                            Tambah Laporan
+                        </a>
                     </div>
-                @else
-                    <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
-                @endcan
-            </div>
+                </div><br>
+                <div class="table-responsive">
+                    <table id="skl" class="table table-striped display">
+                        <thead>
+                            <tr class="text-center">
+                                @role('k3')
+                                    <th>VERIFY</th>
+                                @endrole
+                                <th>KORBAN</th>
+                                <th>UNIT</th>
+                                <th>LOKASI</th>
+                                <th>TGL</th>
+                                <th>VERIFIED</th>
+                                <th>AKSI</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-transform: capitalize">
+                            @if(count($list['show']) > 0)
+                            {{-- <div hidden>{{ $id = 1 }}</div> --}}
+                            @foreach($list['show'] as $item)
+                            <tr>
+                                {{-- <td>{{ $id++ }}</td> --}}
+                                @role('k3')
+                                <td>
+                                    <center>
+                                        @if ($item->verifikasi == null)
+                                            <button type="button" class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#verifikasi{{ $item->id }}">Verifikasi</button>
+                                        @else
+                                            <button type="button" class="btn btn-secondary btn-sm text-white" disabled>Sudah di Verifikasi</button>
+                                        @endif
+                                    </center>
+                                </td>
+                                @endrole
+                                <td>{{ $item->korban }}</td>
+                                <td>{{ $item->unit }}</td>
+                                <td>{{ $item->lokasi }}</td>
+                                <td>{{ $item->tgl }}</td>
+                                @if ($item->verifikasi == null)
+                                    <td style="text-align: center"><span class="badge badge-pill badge-dark">Sedang Diverifikasi</span></td>
+                                @else
+                                    <td style="text-align: center">{{ $item->verifikasi }}</td>
+                                @endif
+                                <td>
+                                    <center>
+                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#show{{ $item->id }}"><i class="fa-fw fas fa-folder-open nav-icon text-white"></i></button>
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                    </center>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                                <tr>
+                                    @role('k3')
+                                        <td colspan=7>Tidak Ada Data</td>
+                                    @else
+                                        <td colspan=6>Tidak Ada Data</td>
+                                    @endrole
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
+            @endcan
         </div>
     </div>
 </div>

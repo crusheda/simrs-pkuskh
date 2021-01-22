@@ -9,6 +9,8 @@
         "barryvdh/laravel-dompdf": "^0.8.7",
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
+        "haruncpi/laravel-simple-filemanager": "^1.0",
+        "haruncpi/laravel-user-activity": "^1.0",
         "intervention/image": "^2.5",
         "laravel/framework": "^6.0",
         "laravel/tinker": "~1.0",

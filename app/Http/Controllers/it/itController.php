@@ -92,4 +92,9 @@ class itController extends Controller
     {
         //
     }
+
+    public function getActivity()
+    {
+        return redirect('/it/user-activity');
+    }
 }
