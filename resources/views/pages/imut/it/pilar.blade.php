@@ -5,6 +5,7 @@
 <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
+
 <div class="row">
     <div class="card" style="width: 100%">
         <div class="card-header bg-dark text-white">

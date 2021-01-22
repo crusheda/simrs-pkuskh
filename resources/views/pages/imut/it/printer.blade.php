@@ -5,91 +5,90 @@
 <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
-<div class="container">
-    <div class="row">
-        <div class="card" style="width: 100%">
-            <div class="card-header bg-dark text-white">
 
-                <i class="fa-fw fas fa-print nav-icon text-info">
+<div class="row">
+    <div class="card" style="width: 100%">
+        <div class="card-header bg-dark text-white">
 
-                </i> Indikator Mutu Printer
+            <i class="fa-fw fas fa-print nav-icon text-info">
 
-                <span class="pull-right badge badge-warning" style="margin-top:4px">
-                    Akses IT
-                </span>
-                
-            </div>
-            <div class="card-body">
-                @can('imut_it')
-                <form class="form-auth-small" action="{{ route('it.printer.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <label>Pemberi Instruksi :</label>
-                    <input type="text" name="namapi" id="namapi" class="form-control" placeholder="">
-                    <br>
-                    <label>Keterangan :</label>
-                    <textarea class="form-control" name="keterangan" id="keterangan" placeholder=""></textarea>
-                    <br>
-                    <center><button class="btn btn-primary text-white" id="submit">Submit</button></center>
-                </form>
-                <div class="data-table-list">
-                    <div class="table-responsive">
-                        <table id="table_imut" class="table table-striped">
-                            <thead>
-                                <tr>
-                                    <th></th>
-                                    <th>PEMBERI INSTRUKSI</th>
-                                    <th>PELAKSANA</th>
-                                    <th>KETERANGAN</th>
-                                    <th style="text-align: center">JAM AWAL</th>
-                                    <th style="text-align: center">JAM SELESAI</th>
-                                    <th>ACTION</th>
-                                </tr>
-                            </thead>
-                            <tbody>
-                                @if(count($list) > 0)
-                                @foreach($list['show'] as $item)
-                                <tr>
-                                    <td>
-                                        @if ($item->jamselesai == null)
-                                            <form action="{{ route('it.printer.selesai', $item->id) }}" method="POST">
-                                                @csrf
-                                                <button type="submit" class="btn btn-success btn-sm">Selesai</button>
-                                            </form>
-                                        @endif
-                                        {{-- <a class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ route('printer.selesai', $item->id) }}'">
-                                            Selesai
-                                        </a> --}}
-                                    </td>
-                                    <td>{{ $item->namapi }}</td>
-                                    <td>{{ $item->nama }}</td>
-                                    <td>{{ $item->keterangan }}</td>
-                                    <td style="text-align: center">{{ $item->jamawal }}</td>
+            </i> Indikator Mutu Printer
+
+            <span class="pull-right badge badge-warning" style="margin-top:4px">
+                Akses IT
+            </span>
+            
+        </div>
+        <div class="card-body">
+            @can('imut_it')
+            <form class="form-auth-small" action="{{ route('it.printer.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <label>Pemberi Instruksi :</label>
+                <input type="text" name="namapi" id="namapi" class="form-control" placeholder="">
+                <br>
+                <label>Keterangan :</label>
+                <textarea class="form-control" name="keterangan" id="keterangan" placeholder=""></textarea>
+                <br>
+                <center><button class="btn btn-primary text-white" id="submit">Submit</button></center>
+            </form>
+            <div class="data-table-list">
+                <div class="table-responsive">
+                    <table id="table_imut" class="table table-striped">
+                        <thead>
+                            <tr>
+                                <th></th>
+                                <th>PEMBERI INSTRUKSI</th>
+                                <th>PELAKSANA</th>
+                                <th>KETERANGAN</th>
+                                <th style="text-align: center">JAM AWAL</th>
+                                <th style="text-align: center">JAM SELESAI</th>
+                                <th>ACTION</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(count($list) > 0)
+                            @foreach($list['show'] as $item)
+                            <tr>
+                                <td>
                                     @if ($item->jamselesai == null)
-                                        <td style="text-align: center"><span class="badge badge-pill badge-dark">Sedang Diproses</span></td>
-                                    @else
-                                        <td style="text-align: center">{{ $item->jamselesai }}</td>
+                                        <form action="{{ route('it.printer.selesai', $item->id) }}" method="POST">
+                                            @csrf
+                                            <button type="submit" class="btn btn-success btn-sm">Selesai</button>
+                                        </form>
                                     @endif
-                                    <td>
-                                        @if ($item->jamselesai == null)
-                                            <button type="button" class="btn btn-warning btn-sm" disabled><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                        @else
-                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editprinter{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                        @endif
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusprinter{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                    </td>
-                                </tr>
-                                @endforeach
+                                    {{-- <a class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ route('printer.selesai', $item->id) }}'">
+                                        Selesai
+                                    </a> --}}
+                                </td>
+                                <td>{{ $item->namapi }}</td>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->keterangan }}</td>
+                                <td style="text-align: center">{{ $item->jamawal }}</td>
+                                @if ($item->jamselesai == null)
+                                    <td style="text-align: center"><span class="badge badge-pill badge-dark">Sedang Diproses</span></td>
                                 @else
-                                    <tr>
-                                        <td colspan=8>Tidak Ada Data</td>
-                                    </tr>
+                                    <td style="text-align: center">{{ $item->jamselesai }}</td>
                                 @endif
-                            </tbody>
-                        </table>
-                    </div>
+                                <td>
+                                    @if ($item->jamselesai == null)
+                                        <button type="button" class="btn btn-warning btn-sm" disabled><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                    @else
+                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editprinter{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                    @endif
+                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusprinter{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                </td>
+                            </tr>
+                            @endforeach
+                            @else
+                                <tr>
+                                    <td colspan=8>Tidak Ada Data</td>
+                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
                 </div>
-                @endcan
             </div>
+            @endcan
         </div>
     </div>
 </div>

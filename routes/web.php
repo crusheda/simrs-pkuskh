@@ -15,6 +15,7 @@ Route::post('edit_akun/{id}', 'Admin\UsersController@ubahData')->name('ubah.akun
 
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/file-manager', 'HomeController@fileManager')->name('file_manager'); //file manager
+// Route::get('/admin/filemanager', 'HomeController@index'); //file manager
 
 // Admin
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {

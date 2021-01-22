@@ -285,7 +285,7 @@
                     </ul>
                 </li>
             @endcan
-            @can('accident_report')
+            @can('administrasi')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
                         <i class="fa-fw fas fa-folder nav-icon">
@@ -299,7 +299,7 @@
                                 <i class="fa-fw fas fa-folder-open nav-icon">
 
                                 </i>
-                                File Manager
+                                Manajer Berkas
                             </a>
                         </li>
                     </ul>
