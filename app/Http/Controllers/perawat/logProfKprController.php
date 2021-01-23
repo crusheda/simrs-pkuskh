@@ -27,7 +27,7 @@ class logProfKprController extends Controller
         // print_r($data);
         // die();
 
-        return view('pages.logperawat.pernyataanlogprofkpr')->with('list', $data);
+        return view('pages.logperawat.pernyataanprofkpr')->with('list', $data);
     }
 
     /**
@@ -48,7 +48,18 @@ class logProfKprController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'unit' => 'nullable',
+            'pernyataan' => 'nullable',
+            ]);
+
+        $data = new logprofkpr;
+        $data->unit = $request->unit;
+        $data->pernyataan = $request->pernyataan;
+
+        $data->save();
+
+        return redirect('/logprofkpr')->with('message','Tambah Pernyataan Profesi Keperawatan Berhasil.');
     }
 
     /**
@@ -82,7 +93,18 @@ class logProfKprController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'unit' => 'nullable',
+            'pernyataan' => 'nullable',
+            ]);
+
+        $data = logprofkpr::find($id);
+        $data->unit = $request->unit;
+        $data->pernyataan = $request->pernyataan;
+
+        $data->save();
+
+        return redirect()->back()->with('message','Ubah Pernyataan Profesi Keperawatan Berhasil.');
     }
 
     /**
@@ -93,6 +115,10 @@ class logProfKprController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = logprofkpr::find($id);
+        $data->delete();
+
+        // redirect
+        return \Redirect::to('logprofkpr')->with('message','Hapus Pernyataan Profesi Keperawatan Berhasil.');
     }
 }

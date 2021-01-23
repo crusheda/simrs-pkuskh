@@ -150,11 +150,27 @@ class tdkPerawatController extends Controller
         $showdata = tdkperawat::where('queue', $id)->get();
         $first = tdkperawat::where('queue', $id)->first();
 
+        $user = Auth::user();
+        $name = $user->name;
+        $role = $user->roles->first()->name; //kabag-keperawatan
+        
+        $convert_query = Carbon::parse($first->tgl)->isoFormat('D MMMM Y');
+        $convert_now = Carbon::now()->isoFormat('D MMMM Y');
+
+        if ($convert_now == $convert_query) {
+            $recent = 1;
+        } else {
+            $recent = 0;
+            // print_r($convert_query);
+            // die();    
+        }
+
         $data = [
             'show' => $showdata,
-            'first' => $first
+            'first' => $first,
+            'recent' => $recent
         ];
-        // print_r($data);
+        // print_r($data['recent']);
         // die();
         return view('pages.logperawat.detail-tdkperawat')->with('list', $data);
     }

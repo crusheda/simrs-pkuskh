@@ -48,7 +48,18 @@ class logTgsPerawatController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $this->validate($request,[
+            'unit' => 'nullable',
+            'pernyataan' => 'nullable',
+            ]);
+
+        $data = new logtgsperawat;
+        $data->unit = $request->unit;
+        $data->pernyataan = $request->pernyataan;
+
+        $data->save();
+
+        return redirect('/logtgsperawat')->with('message','Tambah Pernyataan Penunjang Tugas Berhasil.');
     }
 
     /**
@@ -82,7 +93,18 @@ class logTgsPerawatController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $this->validate($request,[
+            'unit' => 'nullable',
+            'pernyataan' => 'nullable',
+            ]);
+
+        $data = logtgsperawat::find($id);
+        $data->unit = $request->unit;
+        $data->pernyataan = $request->pernyataan;
+
+        $data->save();
+
+        return redirect()->back()->with('message','Ubah Pernyataan Penunjang Tugas Berhasil.');
     }
 
     /**
@@ -93,6 +115,10 @@ class logTgsPerawatController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = logtgsperawat::find($id);
+        $data->delete();
+
+        // redirect
+        return \Redirect::to('logtgsperawat')->with('message','Hapus Pernyataan Penunjang Tugas Berhasil.');
     }
 }

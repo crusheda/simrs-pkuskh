@@ -74,20 +74,21 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
         Route::get('/rapat/show4/{id}', 'kantor\rapatController@show4');
 
     // Log Perawat
-        // Tindakan Harian
-            Route::get('/tdkperawat/cari', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
+        // Pernyataan Log
             Route::resource('logperawat', 'perawat\logPerawatController');
             Route::resource('logtgsperawat', 'perawat\logTgsPerawatController');
             Route::resource('logprofkpr', 'perawat\logProfKprController');
-            // Route::get('tdkperawat/{id}', 'perawat\tdkPerawatController@show')->name('tdkperawat.show');
+
+        // Tindakan Harian
+            Route::get('/tdkperawat/cari', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
             Route::resource('tdkperawat', 'perawat\tdkPerawatController');
             Route::get('tdkperawat/{id}/cetak','perawat\tdkPerawatController@generatePDF')->name('tdkperawat.cetak');
 
         // Log Profesi Keperawatan
-        Route::resource('profkpr', 'perawat\profKprController');
+            Route::resource('profkpr', 'perawat\profKprController');
 
         // Log Penunjang Tugas Perawat
-        Route::resource('tgsperawat', 'perawat\tgsPerawatController');
+            Route::resource('tgsperawat', 'perawat\tgsPerawatController');
 
     // Kebidanan
         Route::resource('kebidanan/skl', 'kebidanan\sklController');

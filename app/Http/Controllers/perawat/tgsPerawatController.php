@@ -81,6 +81,11 @@ class tgsPerawatController extends Controller
     public function store(Request $request)
     {
         //
+        
+        $user = Auth::user();
+        $name = $user->name; //jamhuri
+        $email = $user->email; //jamhuri@pkuskh.com
+        $role = $user->roles->first()->name; //kabag_keperawatan
     }
 
     /**

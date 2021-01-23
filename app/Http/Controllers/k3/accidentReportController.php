@@ -176,6 +176,7 @@ class accidentReportController extends Controller
         $data->jk = $request->jk;
         $data->unit = $request->unit;
         $data->cedera = $request->cedera;
+        $data->penanganan = $request->penanganan;
         $data->k_aset = $request->k_aset;
         $data->k_lingkungan = $request->k_lingkungan;
         
@@ -232,7 +233,146 @@ class accidentReportController extends Controller
 
     public function cetak($id)
     {
-        # code...
+        $data = accident_report::where('id',$id)->first();
+
+        $tgl = Carbon::parse($data->tgl)->toDateString();
+        $jam = Carbon::parse($data->tgl)->toTimeString();  
+
+        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('doc\k3\laporan-kak.docx');
+        
+        $user = $data->user;
+        $unit = $data->unit;
+
+        // print_r($jam);
+        // die();
+        $filename = "Laporan Kecelakaan Kerja | ".$user." - ".$unit;
+
+        $jenis1 = '';
+        $jenis2 = '';
+        $jenis3 = '';
+        $jenis4 = '';
+        $jenis5 = '';
+        $jenis6 = '';
+        $jenis7 = '';
+        $jenis8 = '';
+        $jenis9 = '';
+        $jenis10 = '';
+        $jenis11 = '';
+        $jenis12 = '';
+        $jenis13 = '';
+        $jenis14 = '';
+
+        if ($data->jenis == 1) {
+            $jenis1 = '√';
+        }elseif ($data->jenis == 2) {
+            $jenis2 = '√';
+        }elseif ($data->jenis == 3) {
+            $jenis3 = '√';
+        }elseif ($data->jenis == 4) {
+            $jenis4 = '√';
+        }elseif ($data->jenis == 5) {
+            $jenis5 = '√';
+        }elseif ($data->jenis == 6) {
+            $jenis6 = '√';
+        }elseif ($data->jenis == 7) {
+            $jenis7 = '√';
+        }elseif ($data->jenis == 8) {
+            $jenis8 = '√';
+        }elseif ($data->jenis == 9) {
+            $jenis9 = '√';
+        }elseif ($data->jenis == 10) {
+            $jenis10 = '√';
+        }elseif ($data->jenis == 11) {
+            $jenis11 = '√';
+        }elseif ($data->jenis == 12) {
+            $jenis12 = '√';
+        }elseif ($data->jenis == 13) {
+            $jenis13 = '√';
+        }elseif ($data->jenis == 14) {
+            $jenis14 = '√';
+        }
+
+        $rugi1 = '';
+        $rugi2 = '';
+        $rugi3 = '';
+        $rugi4 = '';
+        $rugi5 = '';
+
+        if ($data->kerugian == 1) {
+            $rugi1 = '√';
+        }elseif ($data->kerugian == 2) {
+            $rugi2 = '√';
+        }elseif ($data->kerugian == 3) {
+            $rugi3 = '√';
+        }elseif ($data->kerugian == 4) {
+            $rugi4 = '√';
+        }elseif ($data->kerugian == 5) {
+            $rugi5 = '√';
+        }
+        
+        $templateProcessor->setImageValue('img', array('path' => storage_path('app/'.$data->filename), 'width' => 500, 'height' => 500, 'ratio' => true));
+
+        $templateProcessor->setValues([
+            'tgl' => $tgl,
+            'jam' => $jam,
+            'lokasi' => $data->lokasi,
+
+                '1' => $jenis1,
+                '2' => $jenis2,
+                '3' => $jenis3,
+                '4' => $jenis4,
+                '5' => $jenis5,
+                '6' => $jenis6,
+                '7' => $jenis7,
+                '8' => $jenis8,
+                '9' => $jenis9,
+                '10' => $jenis10,
+                '11' => $jenis11,
+                '12' => $jenis12,
+                '13' => $jenis13,
+                '14' => $jenis14,
+
+            'lain1' => $data->lain1,
+            'kronologi' => $data->kronologi,
+
+                'a' => $rugi1,
+                'b' => $rugi2,
+                'c' => $rugi3,
+                'd' => $rugi4,
+                'e' => $rugi5,
+
+            'korban' => $data->korban,
+            'lahir' => $data->lahir,
+            'usia' => $data->usia,
+            'jk' => $data->jk,
+            'unit' => $data->unit,
+            'cedera' => $data->cedera,
+            'penanganan' => $data->penanganan,
+            'k_aset' => $data->k_aset,
+            'k_lingkungan' => $data->k_lingkungan,
+            'tta' => $data->tta,
+            'kta' => $data->kta,
+            'f_personal' => $data->f_personal,
+            'f_pekerjaan' => $data->f_pekerjaan,
+            'p_kerja' => $data->p_kerja,
+            'mesin' => $data->mesin,
+            'material' => $data->material,
+            'alat_berat' => $data->alat_berat,
+            'kendaraan' => $data->kendaraan,
+            'benda_bergerak' => $data->benda_bergerak,
+            'bejana_tekan' => $data->bejana_tekan,
+            'alat_listrik' => $data->alat_listrik,
+            'radiasi' => $data->radiasi,
+            'binatang' => $data->binatang,
+            'lain2' => $data->lain2,
+            'r_tindakan' => $data->r_tindakan,
+            't_waktu' => $data->t_waktu,
+            'wewenang' => $data->wewenang,
+        ]);
+
+        header("Content-Disposition: attachment; filename=$filename.docx");
+
+        $templateProcessor->saveAs('php://output');
     }
 
     public function verifikasi($id)

@@ -20,8 +20,8 @@ class CreateTabletgsperawat extends Migration
             $table->string('email')->nullable();
             $table->string('unit')->nullable();
             $table->string('pernyataan')->nullable();
-            $table->string('isian')->nullable();
-            $table->dateTime('tgl')->nullable();
+            $table->string('ket')->nullable();
+            $table->date('tgl')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

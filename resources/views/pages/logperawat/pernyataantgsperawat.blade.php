@@ -40,7 +40,7 @@
                             <option value="kebidanan">Kebidanan</option>
                         </select>
                         <p></p>
-                        <label>Pertanyaan :</label>
+                        <label>Pernyataan :</label>
                         <textarea class="form-control" name="pernyataan" id="pernyataan" placeholder="" required></textarea>
                         <br>
                         <center><button class="btn btn-primary text-white" id="submit">Tambah</button></center>
@@ -53,7 +53,7 @@
                             <thead>
                                 <tr>
                                     <th>ID</th>
-                                    <th>PERTANYAAN</th>
+                                    <th>PERNYATAAN</th>
                                     <th>UNIT</th>
                                     <th>TGL</th>
                                     <th>ACTION</th>
@@ -104,7 +104,7 @@
             <p>
                 @if(count($list) > 0)
                 Unit : {{ $item->unit }} <br>
-                Pertanyaan : <b>{{ $item->pernyataan }}</b> <br>
+                Pernyataan : <b>{{ $item->pernyataan }}</b> <br>
                 Ditambahkan pada {{ $item->created_at }} <br>
                 @endif
             </p>
@@ -150,7 +150,7 @@
             </select>
             <br>
             <label for="keterangan">Pernyataan :</label>
-            <textarea class="form-control" name="pernyataan" id="pernyataan" placeholder="" required>{{ $item->pernyataan }}</textarea>
+            <textarea class="form-control" name="pernyataan" id="pernyataan" placeholder="" required><?php echo htmlspecialchars($item->pernyataan); ?></textarea>
             <br>
         </div>
         <div class="modal-footer">

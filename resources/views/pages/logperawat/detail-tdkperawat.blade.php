@@ -27,6 +27,12 @@
             <p>Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $list['first']->unit }}</p>
             <p>Nama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $list['first']->name }}</p>
             <p>Tanggal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $list['first']->tgl }}</p>
+            @if ($list['recent'] == 1)
+                <span class="badge badge-primary">Batas waktu pengubahan sampai besok.</span>
+            @else
+                <span class="badge badge-primary">Anda sudah melewati batas waktu pengubahan yang sudah ditentukan.</span>
+            @endif
+            <hr>
             
             @role('kabag-keperawatan')
             <hr>
@@ -57,7 +63,11 @@
                         <tr>
                             <td style="text-transform: capitalize">{{ $item->pertanyaan }}</td>
                             <td>{{ $item->jawaban }} Kali</td>
-                            <td><center><button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahtdk{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i> Ubah</button></center></td>
+                            @if ($list['recent'] == 1)
+                                <td><center><button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahtdk{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i> Ubah</button></center></td>
+                            @else
+                            <td><center><button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-edit nav-icon"></i> Ubah</button></center></td>
+                            @endif
                         </tr>
                         @endforeach
                     </tbody>
@@ -104,7 +114,6 @@
                 </thead>
                 <tbody style="text-transform: capitalize">
                     @if(count($list['show']) > 0)
-                        @foreach($list['show'] as $item)
                         <tr>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->unit }}</td>
@@ -122,7 +131,6 @@
                             </td>
                             <td>{{ $item->tgl }}</td>
                         </tr>
-                        @endforeach
                     @else
                         <td>Maaf, Data tidak ditemukan.</td>
                     @endif

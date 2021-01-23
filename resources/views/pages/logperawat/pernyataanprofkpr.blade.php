@@ -26,8 +26,8 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-4">
-                    <center><h4>Tambah Tindakan Harian</h4></center><br>
-                    <form class="form-auth-small" action="{{ route('logperawat.store') }}" method="POST" enctype="multipart/form-data">
+                    <center><h4>Tambah Profesi Keperawatan Perawat</h4></center><br>
+                    <form class="form-auth-small" action="{{ route('logprofkpr.store') }}" method="POST" enctype="multipart/form-data">
                         @csrf
                         <select class="custom-select" name="unit" id="unit" required>
                             <option selected hidden>Pilih Unit</option>
@@ -41,10 +41,7 @@
                         </select>
                         <p></p>
                         <label>Pernyataan :</label>
-                        <textarea class="form-control" name="pertanyaan" id="pertanyaan" placeholder="" required></textarea>
-                        <br>
-                        <label>Pilihan Jawaban :</label>
-                        <input type="number" min="1" max="5" class="form-control" name="box" id="box" value="1" required>
+                        <textarea class="form-control" name="pernyataan" id="pernyataan" placeholder="" required></textarea>
                         <br>
                         <center><button class="btn btn-primary text-white" id="submit">Tambah</button></center>
                         <br>
@@ -52,13 +49,12 @@
                 </div>
                 <div class="col-md-8">
                     <div class="table-responsive">
-                        <table id="logperawat" class="table table-striped display">
+                        <table id="logprofkpr" class="table table-striped display">
                             <thead>
                                 <tr>
                                     <th>ID</th>
                                     <th>PERNYATAAN</th>
                                     <th>UNIT</th>
-                                    <th>JAWABAN</th>
                                     <th>TGL</th>
                                     <th>ACTION</th>
                                 </tr>
@@ -68,9 +64,8 @@
                                 @foreach($list['show'] as $item)
                                 <tr>
                                     <td>{{ $item->id }}</td>
-                                    <td>{{ $item->pertanyaan }}</td>
+                                    <td>{{ $item->pernyataan }}</td>
                                     <td>{{ $item->unit }}</td>
-                                    <td>{{ $item->box }}</td>
                                     <td>{{ $item->created_at }}</td>
                                     <td>
                                         <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#editLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
@@ -80,7 +75,7 @@
                                 @endforeach
                                 @else
                                     <tr>
-                                        <td colspan=6>Tidak Ada Data</td>
+                                        <td colspan=5>Tidak Ada Data</td>
                                     </tr>
                                 @endif
                             </tbody>
@@ -109,14 +104,14 @@
             <p>
                 @if(count($list) > 0)
                 Unit : {{ $item->unit }} <br>
-                Pernyataan : <b>{{ $item->pertanyaan }}</b> <br>
+                Pernyataan : <b>{{ $item->pernyataan }}</b> <br>
                 Ditambahkan pada {{ $item->created_at }} <br>
                 @endif
             </p>
         </div>
         <div class="modal-footer">
             @if(count($list) > 0)
-                <form action="{{ route('logperawat.destroy', $item->id) }}" method="POST">
+                <form action="{{ route('logprofkpr.destroy', $item->id) }}" method="POST">
                     @method('DELETE')
                     @csrf
                     <button class="btn btn-danger btn-sm"><i class="lnr lnr-trash"></i>Hapus</button>
@@ -139,7 +134,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         @if(count($list) > 0)
-        {{ Form::model($item, array('route' => array('logperawat.update', $item->id), 'method' => 'PUT')) }}
+        {{ Form::model($item, array('route' => array('logprofkpr.update', $item->id), 'method' => 'PUT')) }}
         <div class="modal-body">
             @csrf
             <label>Unit :</label>
@@ -155,10 +150,7 @@
             </select>
             <br>
             <label for="keterangan">Pernyataan :</label>
-            <textarea class="form-control" name="pertanyaan" id="pertanyaan" placeholder="" required><?php echo htmlspecialchars($item->pertanyaan); ?></textarea>
-            <br>
-            <label>Pilihan Jawaban :</label>
-            <input type="number" class="form-control" value="{{ $item->box }}" min="0" max="5" name="box" id="box" required>
+            <textarea class="form-control" name="pernyataan" id="pernyataan" placeholder="" required><?php echo htmlspecialchars($item->pernyataan); ?></textarea>
             <br>
         </div>
         <div class="modal-footer">
@@ -173,7 +165,7 @@
 
 <script>
 $(document).ready( function () {
-    $('#logperawat').DataTable(
+    $('#logprofkpr').DataTable(
         {
             paging: true,
             searching: true,
@@ -181,7 +173,7 @@ $(document).ready( function () {
             buttons: [
                 'copy', 'csv', 'excel', 'pdf', 'print'
             ],
-            order: [[ 4, "desc" ]]
+            order: [[ 3, "desc" ]]
         }
     );
 } );
