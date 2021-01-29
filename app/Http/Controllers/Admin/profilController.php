@@ -40,11 +40,11 @@ class profilController extends Controller
                 // ->get()
                 ->first();
 
-        // if (empty($show)) {
+        if (empty($show)) {
             
-        // } else {
-        //     # code...
-        // }
+        } else {
+            # code...
+        }
         
 
         $data = [
@@ -54,7 +54,7 @@ class profilController extends Controller
             'foto' => $foto,
             'user' => $user
         ];
-        // print_r($id);
+        // print_r($user->nama);
         // die();
 
         return view('profil')->with('list', $data);

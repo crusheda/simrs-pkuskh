@@ -10,7 +10,11 @@
 <div class="row">
     <div class="col-md-3">
         <div class="card">
-            <img class="card-img-top img-thumbnail" src="{{ url('storage/'.substr($list['foto']->filename,7,1000)) }}" height="300" alt="Card image cap">
+            @if (empty($list['foto']->filename))
+                <img class="card-img-top img-thumbnail" src="{{ url('img/user_unknown.jpg') }}" height="300" alt="Card image cap">
+            @else
+                <img class="card-img-top img-thumbnail" src="{{ url('storage/'.substr($list['foto']->filename,7,1000)) }}" height="300" alt="Card image cap">
+            @endif
             <ul class="list-group list-group-flush">
               <li class="list-group-item">Username : <b>{{ $list['user']->name }}</b></li>
               <li class="list-group-item">Email : <b>{{ $list['user']->email }}</b></li>
@@ -32,10 +36,17 @@
                     <div class="input-group mb-3">
                         <input type="text" class="form-control" name="name" value="{{ $list['user']->name }}" aria-label="Name" aria-describedby="basic-addon1">
                     </div>
-                    <label>Nama :</label>
-                    <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="nama" value="{{ $list['data_user']->nama }}" aria-label="Username" aria-describedby="basic-addon1">
-                    </div>
+                        <label>Nama :</label>
+                        <div class="input-group mb-3">
+                            @if (empty($list['data_user']->nama))
+                                <input type="text" class="form-control is-invalid" name="nama" id="nama" aria-label="Username" aria-describedby="basic-addon1" placeholder="e.g. Ronald Paul Soenaryo, S.Kep. Ns">
+                                <div class="invalid-feedback">
+                                    Tuliskan Nama Lengkap Anda.
+                                </div>
+                            @else
+                                <input type="text" class="form-control" name="nama" value="{{ $list['data_user']->nama }}" minlength="1" aria-label="Username" aria-describedby="basic-addon1">
+                            @endif
+                        </div>
                     <label>Email :</label>
                     <div class="input-group mb-3">
                         <input type="email" class="form-control" name="email" value="{{ $list['user']->email }}" aria-label="Email" aria-describedby="basic-addon1">
@@ -94,4 +105,17 @@
     } );
 </script>
 
+<script type="text/javascript">
+    $(document).ready(function(){ 
+    $('#nama').keydown(function () {
+    var len = $(this).val().length;
+    if (len >= 1) {
+        $('#nama').removeClass('is-invalid');          
+    } 
+    else {
+        $('#nama').addClass('is-invalid');     
+    }
+    });    
+    });
+</script>
 @endsection
