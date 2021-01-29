@@ -13,6 +13,7 @@ use App\Models\unit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
+use Redirect;
 
 class tgsPerawatController extends Controller
 {
@@ -25,8 +26,10 @@ class tgsPerawatController extends Controller
     {
         $thn = Carbon::now()->isoFormat('D MMMM Y');
         $user = Auth::user();
+        $id    = $user->id;
         $name = $user->name;
         $role = $user->roles->first()->name; //kabag-keperawatan
+        $log = logtgsperawat::where('unit', $role)->pluck('id','pernyataan');
         // $pernyataan = logtgsperawat::pluck('id','pernyataan');
         
         if (Auth::user()->hasRole('kabag-keperawatan')) {
@@ -38,15 +41,16 @@ class tgsPerawatController extends Controller
         }
         else {
             $show = DB::table('tgsperawat')
-                ->select('queue' ,'name' ,'unit' ,'tgl')
+                ->select('id' ,'name' ,'unit' ,'tgl')
                 ->where('deleted_at', null)
+                ->where('queue', $id)
                 ->where('unit', $role)
                 ->groupBy('queue' ,'name' ,'unit' ,'tgl')
                 ->get();
                 
             if ($user->hasPermissionTo('log_perawat')) {
                 $pernyataan = logtgsperawat::where('unit', $role)->get();
-                $recent = tgsperawat::where('unit', $role)->select('tgl')->first();
+                $recent = tgsperawat::where('unit', $role)->where('queue', $id)->where('deleted_at','=', null)->orderBy('id', 'DESC')->select('tgl')->first();
             }
         }
          
@@ -54,7 +58,8 @@ class tgsPerawatController extends Controller
             'pernyataan' => $pernyataan,
             'show' => $show,
             'recent' => $recent,
-            'thn' => $thn
+            'thn' => $thn,
+            'log' => $log
         ];
         // print_r($data['show']);
         // die();
@@ -80,12 +85,32 @@ class tgsPerawatController extends Controller
      */
     public function store(Request $request)
     {
-        //
-        
         $user = Auth::user();
+        $id    = $user->id;
         $name = $user->name; //jamhuri
         $email = $user->email; //jamhuri@pkuskh.com
         $role = $user->roles->first()->name; //kabag_keperawatan
+
+        // print_r($find);
+        // die();
+        if ($request->tgl == null) {
+            $tgl = '';
+        } else {
+            $tgl = $request->tgl;
+        }
+        
+
+            $data = new tgsperawat;
+            $data->queue = $id;
+            $data->name = $name;
+            $data->email = $email;
+            $data->unit = $role;
+            $data->pernyataan = $request->pernyataan;
+            $data->tgl = $request->tgl;
+            $data->ket = $request->ket;
+            $data->save();
+        
+        return Redirect::back()->with('message','Data berhasil ditambahkan.');
     }
 
     /**

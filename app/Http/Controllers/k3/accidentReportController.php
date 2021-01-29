@@ -68,7 +68,13 @@ class accidentReportController extends Controller
 
         // simpan berkas yang diunggah ke sub-direktori 'public/files'
         // direktori 'files' otomatis akan dibuat jika belum ada
-        $path = $uploadedFile->store('public/files/k3/accidentreport');
+        if ($uploadedFile == '') {
+            $path = '';
+            $title = '';
+        }else {
+            $path = $uploadedFile->store('public/files/k3/accidentreport');
+            $title = $uploadedFile->getClientOriginalName();
+        }
         // print_r($path);
         // die();
 
@@ -120,7 +126,7 @@ class accidentReportController extends Controller
         $data->t_waktu = $request->t_waktu;
         $data->wewenang = $request->wewenang;
 
-        $data->title = $request->title ?? $uploadedFile->getClientOriginalName();
+        $data->title = $title;
         $data->filename = $path;
         $data->user = $name;
 

@@ -62,7 +62,7 @@
                                 <td>
                                     <center>
                                         @if ($item->verifikasi == null)
-                                            <button type="button" class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#verifikasi{{ $item->id }}">Verifikasi</button>
+                                            <button type="button" class="btn btn-dark btn-sm text-white" data-toggle="modal" data-target="#verifikasi{{ $item->id }}">Verifikasi</button>
                                         @else
                                             <button type="button" class="btn btn-secondary btn-sm text-white" disabled>Sudah di Verifikasi</button>
                                         @endif
@@ -90,9 +90,9 @@
                                                 <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#show{{ $item->id }}"><i class="fa-fw fas fa-folder-open nav-icon text-white"></i></button>
                                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                             @else
-                                                <button type="button" class="btn btn-success btn-sm" disabled><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                                <button type="button" class="btn btn-warning btn-sm"><i class="fa-fw fas fa-folder-open nav-icon text-white"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                                <button type="button" class="btn btn-secondary btn-sm"><i class="fa-fw fas fa-folder-open nav-icon text-white"></i></button>
+                                                <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                             @endif
                                         @endrole
                                     </center>
@@ -136,18 +136,18 @@
                         <div class="row">
                             <div class="col">
                                 <label>Waktu :</label>
-                                <input type="datetime-local" name="tgl" id="tgl" class="form-control" placeholder="">
+                                <input type="datetime-local" name="tgl" id="tgl" class="form-control" placeholder="" required>
                             </div>
                             <div class="col">
                                 <label>Lokasi : </label>
-                                <input type="text" name="lokasi" id="lokasi" class="form-control" placeholder="" required>
+                                <input type="text" name="lokasi" id="lokasi" class="form-control" placeholder="">
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col">
                                 <label>Jenis Kecelakaan : </label>
-                                <select onchange="jenisBtn()" class="custom-select" name="jenis" id="jenis">
+                                <select onchange="jenisBtn()" class="custom-select" name="jenis" id="jenis" required>
                                     <option hidden>Pilih</option>
                                     <option value="1">Menabrak</option>
                                     <option value="2">Tertabrak</option>
@@ -170,13 +170,16 @@
                         <div id="lainlain" class="row" hidden>
                             <div class="col">
                                 <label>Lain-lain :</label>
-                                <textarea class="form-control" name="lain1" id="lain1" placeholder=""></textarea><br>
+                                <textarea class="form-control" name="lain1" id="lain1" placeholder="" maxlength="190" rows="8"></textarea><br>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <label>Kronologi Kecelakaan :</label>
-                                <textarea class="form-control" name="kronologi" id="kronologi" placeholder=""></textarea>
+                                <textarea class="form-control" name="kronologi" id="kronologi1" placeholder="" maxlength="190" rows="8"></textarea>
+                                <span class="help-block">
+                                    <p id="maxkronologi1" class="help-block "></p>
+                                </span>  
                             </div>
                         </div>
                         <hr><h4>B. Kerugian</h4><hr>
@@ -189,7 +192,7 @@
                                             <i class="fa-fw fas fa-question nav-icon text-light"></i>
                                         </button>
                                     </div>
-                                    <select onchange="infoBtn()" class="custom-select" name="kerugian" id="kerugian">
+                                    <select onchange="infoBtn()" class="custom-select" name="kerugian" id="kerugian" required>
                                         <option hidden>Pilih</option>
                                         <option value="1">Tak Cedera</option>
                                         <option value="2">Cedera Ringan</option>
@@ -225,7 +228,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label>Jenis Kelamin</label>
-                                    <select id="jk" name="jk" class="form-control">
+                                    <select id="jk" name="jk" class="form-control" required>
                                       <option hidden>Pilih</option>
                                       <option value="laki-laki">Laki-laki</option>
                                       <option value="perempuan">Perempuan</option>
@@ -243,19 +246,22 @@
                             </div>
                         </div>
                         <label>Bila cedera / cacat, anggota tubuh mana yang terkena? </label>
-                        <input type="text" name="cedera" id="cedera" class="form-control" placeholder="" required>
+                        <input type="text" name="cedera" id="cedera" class="form-control" placeholder="">
                         <br>
                         <label>Penanganan </label>
-                        <textarea class="form-control" name="penanganan" id="penanganan" placeholder=""></textarea>
+                        <textarea class="form-control" name="penanganan" id="penanganan1" placeholder="" maxlength="190" rows="8"></textarea>
+                        <span class="help-block">
+                            <p id="maxpenanganan1" class="help-block "></p>
+                        </span>
                         <br>
                         <div class="row">
                             <div class="col">
                                 <label>Kerugian Aset/Material/Proses : </label>
-                                <input type="text" name="k_aset" id="k_aset" class="form-control" placeholder="" required>
+                                <input type="text" name="k_aset" id="k_aset" class="form-control" placeholder="">
                             </div>
                             <div class="col">
                                 <label>Kerugian Lingkungan : </label>
-                                <input type="text" name="k_lingkungan" id="k_lingkungan" class="form-control" placeholder="" required>
+                                <input type="text" name="k_lingkungan" id="k_lingkungan" class="form-control" placeholder="">
                             </div>
                         </div>
                         <hr><h4>C. Investigasi Kecelakaan</h4><hr>
@@ -263,11 +269,11 @@
                         <div class="row">
                             <div class="col">
                                 <label>Tindakan Tidak Aman <i>(Unsafe Action)</i> : </label>
-                                <input type="text" name="tta" id="tta" class="form-control" placeholder="" required>
+                                <input type="text" name="tta" id="tta" class="form-control" placeholder="">
                             </div>
                             <div class="col">
                                 <label>Kondisi Tidak Aman <i>(Unsafe Condition)</i> : </label>
-                                <input type="text" name="kta" id="kta" class="form-control" placeholder="" required>
+                                <input type="text" name="kta" id="kta" class="form-control" placeholder="">
                             </div>
                         </div>
                         <br>
@@ -275,11 +281,11 @@
                         <div class="row">
                             <div class="col">
                                 <label>Faktor Personal : </label>
-                                <input type="text" name="f_personal" id="f_personal" class="form-control" placeholder="" required>
+                                <input type="text" name="f_personal" id="f_personal" class="form-control" placeholder="">
                             </div>
                             <div class="col">
                                 <label>Faktor Pekerjaan : </label>
-                                <input type="text" name="f_pekerjaan" id="f_pekerjaan" class="form-control" placeholder="" required>
+                                <input type="text" name="f_pekerjaan" id="f_pekerjaan" class="form-control" placeholder="">
                             </div>
                         </div>
                         <br>
@@ -287,67 +293,67 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Peralatan Kerja : </label>
-                                <input type="text" name="p_kerja" id="p_kerja" class="form-control" placeholder="" required>
+                                <input type="text" name="p_kerja" id="p_kerja" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Benda Bergerak : </label>
-                                <input type="text" name="benda_bergerak" id="benda_bergerak" class="form-control" placeholder="" required>
+                                <input type="text" name="benda_bergerak" id="benda_bergerak" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Mesin : </label>
-                                <input type="text" name="mesin" id="mesin" class="form-control" placeholder="" required>
+                                <input type="text" name="mesin" id="mesin" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Bejana Tekan : </label>
-                                <input type="text" name="bejana_tekan" id="bejana_tekan" class="form-control" placeholder="" required>
+                                <input type="text" name="bejana_tekan" id="bejana_tekan" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Material : </label>
-                                <input type="text" name="material" id="material" class="form-control" placeholder="" required>
+                                <input type="text" name="material" id="material" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Alat Listrik : </label>
-                                <input type="text" name="alat_listrik" id="alat_listrik" class="form-control" placeholder="" required>
+                                <input type="text" name="alat_listrik" id="alat_listrik" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Alat Berat : </label>
-                                <input type="text" name="alat_berat" id="alat_berat" class="form-control" placeholder="" required>
+                                <input type="text" name="alat_berat" id="alat_berat" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Radiasi : </label>
-                                <input type="text" name="radiasi" id="radiasi" class="form-control" placeholder="" required>
+                                <input type="text" name="radiasi" id="radiasi" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Kendaraan : </label>
-                                <input type="text" name="kendaraan" id="kendaraan" class="form-control" placeholder="" required>
+                                <input type="text" name="kendaraan" id="kendaraan" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Binatang : </label>
-                                <input type="text" name="binatang" id="binatang" class="form-control" placeholder="" required>
+                                <input type="text" name="binatang" id="binatang" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-12">
                                 <label>Lain-lain : </label>
-                                <textarea class="form-control" name="lain2" id="lain2" placeholder=""></textarea>
+                                <textarea class="form-control" name="lain2" id="lain2" placeholder="" maxlength="190" rows="8"></textarea>
                             </div>
                         </div>
                         <hr><h4>D. Rencana Tindakan Perbaikan</h4><hr>
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Rencana Tindakan : </label>
-                                <textarea class="form-control" name="r_tindakan" id="r_tindakan" placeholder=""></textarea>
+                                <textarea class="form-control" name="r_tindakan" id="r_tindakan" placeholder="" maxlength="190" rows="8"></textarea>
                             </div>
                             <div class="col-md-3">
                                 <label>Target Waktu : </label>
-                                <textarea class="form-control" name="t_waktu" id="t_waktu" placeholder=""></textarea>
+                                <textarea class="form-control" name="t_waktu" id="t_waktu" placeholder="" maxlength="190" rows="8"></textarea>
                             </div>
                             <div class="col-md-3">
                                 <label>Wewenang : </label>
-                                <textarea class="form-control" name="wewenang" id="wewenang" placeholder=""></textarea>
+                                <textarea class="form-control" name="wewenang" id="wewenang" placeholder="" maxlength="190" rows="8"></textarea>
                             </div>
                         </div>
                         <hr>
                         <label>Lampiran : </label>
-                        <input type="file" name="file" required>
+                        <input type="file" name="file">
                     </div>
                 </div>
 
@@ -386,14 +392,14 @@
                             </div>
                             <div class="col">
                                 <label>Lokasi : </label>
-                                <input type="text" name="lokasi" id="lokasi" value="{{ $item->lokasi }}" class="form-control" placeholder="" required>
+                                <input type="text" name="lokasi" id="lokasi" value="{{ $item->lokasi }}" class="form-control" placeholder="">
                             </div>
                         </div>
                         <hr>
                         <div class="row">
                             <div class="col">
                                 <label>Jenis Kecelakaan : </label>
-                                <select onchange="jenisBtn2()" class="custom-select" name="jenis" id="jenis2">
+                                <select onchange="jenisBtn2()" class="custom-select" name="jenis" id="jenis2" required>
                                     <option hidden>Pilih</option>
                                     <option value="1" @if ($item->jenis == '1') echo selected @endif>Menabrak</option>
                                     <option value="2" @if ($item->jenis == '2') echo selected @endif>Tertabrak</option>
@@ -416,13 +422,16 @@
                         <div id="lainlain2" class="row" hidden>
                             <div class="col">
                                 <label>Lain-lain :</label>
-                                <textarea class="form-control" name="lain1" id="lain1" placeholder=""><?php echo htmlspecialchars($item->lain1); ?></textarea><br>
+                                <textarea class="form-control" name="lain1" id="lain1" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->lain1); ?></textarea>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
                                 <label>Kronologi Kecelakaan :</label>
-                                <textarea class="form-control" name="kronologi" id="kronologi" placeholder=""><?php echo htmlspecialchars($item->kronologi); ?></textarea>
+                                <textarea class="form-control" name="kronologi" id="kronologi2" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->kronologi); ?></textarea>
+                                <span class="help-block">
+                                    <p id="maxkronologi2" class="help-block "></p>
+                                </span>
                             </div>
                         </div>
                         <hr><h4>B. Kerugian</h4><hr>
@@ -435,7 +444,7 @@
                                             <i class="fa-fw fas fa-question nav-icon text-light"></i>
                                         </button>
                                     </div>
-                                    <select onchange="infoBtn()" class="custom-select" name="kerugian" id="kerugian">
+                                    <select onchange="infoBtn()" class="custom-select" name="kerugian" id="kerugian" required>
                                         <option hidden>Pilih</option>
                                         <option value="1" @if ($item->kerugian == '1') echo selected @endif>Tak Cedera</option>
                                         <option value="2" @if ($item->kerugian == '2') echo selected @endif>Cedera Ringan</option>
@@ -471,7 +480,7 @@
                             <div class="col">
                                 <div class="form-group">
                                     <label>Jenis Kelamin</label>
-                                    <select id="jk" name="jk" class="form-control">
+                                    <select id="jk" name="jk" class="form-control" required>
                                       <option hidden>Pilih</option>
                                       <option value="laki-laki" @if ($item->jk == 'laki-laki') echo selected @endif>Laki-laki</option>
                                       <option value="perempuan" @if ($item->jk == 'perempuan') echo selected @endif>Perempuan</option>
@@ -489,19 +498,22 @@
                             </div>
                         </div>
                         <label>Bila cedera / cacat, anggota tubuh mana yang terkena? </label>
-                        <input type="text" name="cedera" id="cedera" value="{{ $item->cedera }}" class="form-control" placeholder="" required>
+                        <input type="text" name="cedera" id="cedera" value="{{ $item->cedera }}" class="form-control" placeholder="">
                         <br>
                         <label>Penanganan </label>
-                        <textarea class="form-control" name="penanganan" id="penanganan" placeholder=""><?php echo htmlspecialchars($item->penanganan); ?></textarea>
+                        <textarea class="form-control" name="penanganan" id="penanganan2" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->penanganan); ?></textarea>
+                        <span class="help-block">
+                            <p id="maxpenanganan2" class="help-block "></p>
+                        </span>
                         <br>
                         <div class="row">
                             <div class="col">
                                 <label>Kerugian Aset/Material/Proses : </label>
-                                <input type="text" name="k_aset" id="k_aset" value="{{ $item->k_aset }}" class="form-control" placeholder="" required>
+                                <input type="text" name="k_aset" id="k_aset" value="{{ $item->k_aset }}" class="form-control" placeholder="">
                             </div>
                             <div class="col">
                                 <label>Kerugian Lingkungan : </label>
-                                <input type="text" name="k_lingkungan" id="k_lingkungan" value="{{ $item->k_lingkungan }}" class="form-control" placeholder="" required>
+                                <input type="text" name="k_lingkungan" id="k_lingkungan" value="{{ $item->k_lingkungan }}" class="form-control" placeholder="">
                             </div>
                         </div>
                         <hr><h4>C. Investigasi Kecelakaan</h4><hr>
@@ -509,11 +521,11 @@
                         <div class="row">
                             <div class="col">
                                 <label>Tindakan Tidak Aman <i>(Unsafe Action)</i> : </label>
-                                <input type="text" name="tta" id="tta" value="{{ $item->tta }}" class="form-control" placeholder="" required>
+                                <input type="text" name="tta" id="tta" value="{{ $item->tta }}" class="form-control" placeholder="">
                             </div>
                             <div class="col">
                                 <label>Kondisi Tidak Aman <i>(Unsafe Condition)</i> : </label>
-                                <input type="text" name="kta" id="kta" value="{{ $item->kta }}" class="form-control" placeholder="" required>
+                                <input type="text" name="kta" id="kta" value="{{ $item->kta }}" class="form-control" placeholder="">
                             </div>
                         </div>
                         <br>
@@ -521,11 +533,11 @@
                         <div class="row">
                             <div class="col">
                                 <label>Faktor Personal : </label>
-                                <input type="text" name="f_personal" id="f_personal" value="{{ $item->f_personal }}" class="form-control" placeholder="" required>
+                                <input type="text" name="f_personal" id="f_personal" value="{{ $item->f_personal }}" class="form-control" placeholder="">
                             </div>
                             <div class="col">
                                 <label>Faktor Pekerjaan : </label>
-                                <input type="text" name="f_pekerjaan" id="f_pekerjaan" value="{{ $item->f_pekerjaan }}" class="form-control" placeholder="" required>
+                                <input type="text" name="f_pekerjaan" id="f_pekerjaan" value="{{ $item->f_pekerjaan }}" class="form-control" placeholder="">
                             </div>
                         </div>
                         <br>
@@ -533,62 +545,62 @@
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Peralatan Kerja : </label>
-                                <input type="text" name="p_kerja" id="p_kerja" value="{{ $item->p_kerja }}" class="form-control" placeholder="" required>
+                                <input type="text" name="p_kerja" id="p_kerja" value="{{ $item->p_kerja }}" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Benda Bergerak : </label>
-                                <input type="text" name="benda_bergerak" id="benda_bergerak" value="{{ $item->benda_bergerak }}" class="form-control" placeholder="" required>
+                                <input type="text" name="benda_bergerak" id="benda_bergerak" value="{{ $item->benda_bergerak }}" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Mesin : </label>
-                                <input type="text" name="mesin" id="mesin" value="{{ $item->mesin }}" class="form-control" placeholder="" required>
+                                <input type="text" name="mesin" id="mesin" value="{{ $item->mesin }}" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Bejana Tekan : </label>
-                                <input type="text" name="bejana_tekan" id="bejana_tekan" value="{{ $item->bejana_tekan }}" class="form-control" placeholder="" required>
+                                <input type="text" name="bejana_tekan" id="bejana_tekan" value="{{ $item->bejana_tekan }}" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Material : </label>
-                                <input type="text" name="material" id="material" value="{{ $item->material }}" class="form-control" placeholder="" required>
+                                <input type="text" name="material" id="material" value="{{ $item->material }}" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Alat Listrik : </label>
-                                <input type="text" name="alat_listrik" id="alat_listrik" value="{{ $item->alat_listrik }}" class="form-control" placeholder="" required>
+                                <input type="text" name="alat_listrik" id="alat_listrik" value="{{ $item->alat_listrik }}" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Alat Berat : </label>
-                                <input type="text" name="alat_berat" id="alat_berat" value="{{ $item->alat_berat }}" class="form-control" placeholder="" required>
+                                <input type="text" name="alat_berat" id="alat_berat" value="{{ $item->alat_berat }}" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Radiasi : </label>
-                                <input type="text" name="radiasi" id="radiasi" value="{{ $item->radiasi }}" class="form-control" placeholder="" required>
+                                <input type="text" name="radiasi" id="radiasi" value="{{ $item->radiasi }}" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Kendaraan : </label>
-                                <input type="text" name="kendaraan" id="kendaraan" value="{{ $item->kendaraan }}" class="form-control" placeholder="" required>
+                                <input type="text" name="kendaraan" id="kendaraan" value="{{ $item->kendaraan }}" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-6">
                                 <label>Binatang : </label>
-                                <input type="text" name="binatang" id="binatang" value="{{ $item->binatang }}" class="form-control" placeholder="" required>
+                                <input type="text" name="binatang" id="binatang" value="{{ $item->binatang }}" class="form-control" placeholder="">
                             </div>
                             <div class="col-md-12">
                                 <label>Lain-lain : </label>
-                                <textarea class="form-control" name="lain2" id="lain2" placeholder=""><?php echo htmlspecialchars($item->lain2); ?></textarea>
+                                <textarea class="form-control" name="lain2" id="lain2" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->lain2); ?></textarea>
                             </div>
                         </div>
                         <hr><h4>D. Rencana Tindakan Perbaikan</h4><hr>
                         <div class="row">
                             <div class="col-md-6">
                                 <label>Rencana Tindakan : </label>
-                                <textarea class="form-control" name="r_tindakan" id="r_tindakan" placeholder=""><?php echo htmlspecialchars($item->r_tindakan); ?></textarea>
+                                <textarea class="form-control" name="r_tindakan" id="r_tindakan" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->r_tindakan); ?></textarea>
                             </div>
                             <div class="col-md-3">
                                 <label>Target Waktu : </label>
-                                <textarea class="form-control" name="t_waktu" id="t_waktu" placeholder=""><?php echo htmlspecialchars($item->t_waktu); ?></textarea>
+                                <textarea class="form-control" name="t_waktu" id="t_waktu" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->t_waktu); ?></textarea>
                             </div>
                             <div class="col-md-3">
                                 <label>Wewenang : </label>
-                                <textarea class="form-control" name="wewenang" id="wewenang" placeholder=""><?php echo htmlspecialchars($item->wewenang); ?></textarea>
+                                <textarea class="form-control" name="wewenang" id="wewenang" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->wewenang); ?></textarea>
                             </div>
                         </div>
                         <hr>
@@ -628,11 +640,19 @@
         </div>
         <div class="modal-body">
             Lampiran Dari <a style="text-transform: capitalize"><b>{{ $item->user }}</b></a>, Unit {{ $item->unit }}. <br>
-            <i class="fa-fw fas fa-angle-right nav-icon"></i>&nbsp;Nama File : {{ $item->title }} <br>
-            <i class="fa-fw fas fa-angle-right nav-icon"></i>&nbsp;Ukuran File : {{Storage::size($item->filename)}} bytes.
+            @if ($item->filename == '')
+                <p><b>File tidak ditemukan / tidak diupload.</b></p>
+            @else
+                <i class="fa-fw fas fa-angle-right nav-icon"></i>&nbsp;Nama File : {{ $item->title }} <br>
+                <i class="fa-fw fas fa-angle-right nav-icon"></i>&nbsp;Ukuran File : {{Storage::size($item->filename)}} bytes.
+            @endif
         </div>
         <div class="modal-footer">
-            <button onclick="window.location.href='{{ url('k3/accidentreport/'. $item->id.'show') }}'" type="button" class="btn btn-success"><i class="fa fa-paperclip"></i>&nbsp;&nbsp;Lampiran</button>
+            @if ($item->filename == '')
+                <button type="button" class="btn btn-secondary" disabled><i class="fa fa-paperclip"></i>&nbsp;&nbsp;Lampiran</button>
+            @else
+                <button onclick="window.location.href='{{ url('k3/accidentreport/'. $item->id.'show') }}'" type="button" class="btn btn-success"><i class="fa fa-paperclip"></i>&nbsp;&nbsp;Lampiran</button>
+            @endif
             @role('k3')
                 <a type="button" href="{{ route('accidentreport.cetak', $item->id) }}" class="btn btn-warning text-white">
                     <i class="fa-fw fas fa-print nav-icon"></i> Cetak Word
@@ -736,5 +756,73 @@ $(document).ready( function () {
             document.getElementById("lainlain2").hidden = false;
         }
     }
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){ 
+    $('#maxkronologi1').text('190 Limit Text');
+    $('#kronologi1').keydown(function () {
+    var max = 190;
+    var len = $(this).val().length;
+    if (len >= max) {
+        $('#maxkronologi1').text('Anda telah mencapai Limit Maksimal.');          
+    } 
+    else {
+        var ch = max - len;
+        $('#maxkronologi1').text(ch + ' Limit Text');     
+    }
+    });    
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){ 
+    $('#maxpenanganan1').text('190 Limit Text');
+    $('#penanganan1').keydown(function () {
+    var max = 190;
+    var len = $(this).val().length;
+    if (len >= max) {
+        $('#maxpenanganan1').text('Anda telah mencapai Limit Maksimal.');          
+    } 
+    else {
+        var ch = max - len;
+        $('#maxpenanganan1').text(ch + ' Limit Text');     
+    }
+    });    
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){ 
+    $('#maxpenanganan2').text('190 Limit Text');
+    $('#penanganan2').keydown(function () {
+    var max = 190;
+    var len = $(this).val().length;
+    if (len >= max) {
+        $('#maxpenanganan2').text('Anda telah mencapai Limit Maksimal.');          
+    } 
+    else {
+        var ch = max - len;
+        $('#maxpenanganan2').text(ch + ' Limit Text');     
+    }
+    });    
+    });
+</script>
+
+<script type="text/javascript">
+    $(document).ready(function(){ 
+    $('#maxkronologi2').text('190 Limit Text');
+    $('#kronologi2').keydown(function () {
+    var max = 190;
+    var len = $(this).val().length;
+    if (len >= max) {
+        $('#maxkronologi2').text('Anda telah mencapai Limit Maksimal.');          
+    } 
+    else {
+        var ch = max - len;
+        $('#maxkronologi2').text(ch + ' Limit Text');     
+    }
+    });    
+    });
 </script>
 @endsection

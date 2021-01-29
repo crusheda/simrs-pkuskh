@@ -60,7 +60,7 @@
             {{ Auth::user()->name }} <i class="fa fa-cog fa-spin fa-lg fa-fw"></i>
           </a>
           <div class="dropdown-menu dropdown-menu-right">
-              <a type="button" class="dropdown-item" data-toggle="modal" data-target="#profile">
+              <a type="button" class="dropdown-item" href="{{ route('user.index') }}">
                 <i class="fa-fw fas fa-user-circle nav-icon"></i>
                 Profil
               </a>
@@ -109,39 +109,6 @@
         <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
             {{ csrf_field() }}
         </form>
-    </div>
-
-    <div class="modal" id="profile" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-      <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-          <div class="modal-header">
-            <h5 class="modal-title">
-              <i class="fa-fw fas fa-user-circle nav-icon text-info"></i> Profil User
-            </h5>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-          </div>
-          <div class="modal-body">
-            <form action="{{ route('ubah.akun',Auth::user()->id) }}" method="POST">
-                @csrf
-                <input type="text" name="id" id="id" value="{{ Auth::user()->id }}" class="form-control" hidden>
-
-                <label>Nama Lengkap : </label>
-                <input type="text" name="nama" id="nama" value="" class="form-control" placeholder=""><br>
-                <label>Username : </label>
-                <input type="text" name="name" id="name" value="{{ Auth::user()->name }}" class="form-control" placeholder="" disabled><br>
-                <label>Email : </label>
-                <input type="text" name="email" id="email" value="{{ Auth::user()->email }}" class="form-control" placeholder="" disabled>
-
-          </div>
-          <div class="modal-footer">
-
-                <button type="submit" class="btn btn-success"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
-              </form>
-
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
-          </div>
-        </div>
-      </div>
     </div>
 
     <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/3.3.1/jquery.min.js"></script>
