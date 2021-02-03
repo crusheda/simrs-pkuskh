@@ -281,7 +281,7 @@
           </button>
         </div>
         <div class="modal-body">
-            <center><img src="{{ url('storage/'.substr($item->filename,7,1000)) }}" style="width:400px" alt="" title="" /></center>
+            <center><img src="{{ url('public/storage/'.substr($item->filename,7,1000)) }}" style="width:400px" alt="" title="" /></center>
         </div>
         <div class="modal-footer">
           <button onclick="window.location.href='{{ url('it/supervisi/'. $item->id) }}'" type="button" class="btn btn-success"><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>

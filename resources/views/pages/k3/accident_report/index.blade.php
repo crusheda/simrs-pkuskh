@@ -651,7 +651,7 @@
             @if ($item->filename == '')
                 <button type="button" class="btn btn-secondary" disabled><i class="fa fa-paperclip"></i>&nbsp;&nbsp;Lampiran</button>
             @else
-                <button onclick="window.location.href='{{ url('k3/accidentreport/'. $item->id.'show') }}'" type="button" class="btn btn-success"><i class="fa fa-paperclip"></i>&nbsp;&nbsp;Lampiran</button>
+                <button onclick="window.location.href='{{ url('public/storage/k3/accidentreport/'. $item->id.'show') }}'" type="button" class="btn btn-success"><i class="fa fa-paperclip"></i>&nbsp;&nbsp;Lampiran</button>
             @endif
             @role('k3')
                 <a type="button" href="{{ route('accidentreport.cetak', $item->id) }}" class="btn btn-warning text-white">

@@ -169,9 +169,9 @@ class sklController extends Controller
         $jam = Carbon::parse($data->tgl)->toTimeString();
 
         if ($data->dr == 1) {
-            $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('doc\kebidanan\skl-gede.docx');
+            $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('public\doc\kebidanan\skl-gede.docx');
         }elseif ($data->dr == 2) {
-            $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('doc\kebidanan\skl-ahmad.docx');
+            $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('public\doc\kebidanan\skl-ahmad.docx');
         }else {
             return redirect('/kebidanan/skl')->with('message','Maaf, Input Dokter Belum Terisi');
         }
