@@ -27,8 +27,12 @@ class UsersController extends Controller
         }
 
         $users = User::all();
+        $data = data_users::get();
 
-        return view('admin.users.index', compact('users'));
+        // print_r($data);
+        // die();
+
+        return view('admin.users.index', compact('users'))->with('list', $data);
     }
 
     /**

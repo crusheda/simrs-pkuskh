@@ -15,9 +15,11 @@ class lokasiController extends Controller
      */
     public function index()
     {
-        $ip = '103.155.246.25'; //For static IP address get
+        $ip = '140.213.35.214'; //For static IP address get
         // $ip = \Request::ip(); //Dynamic IP address get
         $data = Location::get($ip);                
+        // print_r($data);
+        // die();
         return view('lokasi',compact('data'));
     }
 

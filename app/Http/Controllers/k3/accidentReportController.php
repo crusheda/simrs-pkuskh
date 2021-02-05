@@ -244,7 +244,7 @@ class accidentReportController extends Controller
         $tgl = Carbon::parse($data->tgl)->toDateString();
         $jam = Carbon::parse($data->tgl)->toTimeString();  
 
-        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor('doc\k3\laporan-kak.docx');
+        $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor(public_path().'doc\k3\laporan-kak.docx');
         
         $user = $data->user;
         $unit = $data->unit;

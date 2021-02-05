@@ -52,7 +52,10 @@
                                 {{ $user->id ?? '' }}
                             </td>
                             <td>
-                                {{ $user->nama ?? '' }}
+                                @php
+                                    $data = \App\Models\data_users::where('user_id', $user->id)->select('nama')->pluck('nama')->first();
+                                    echo $data;
+                                @endphp
                             </td>
                             <td>
                                 {{ $user->name ?? '' }}

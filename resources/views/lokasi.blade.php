@@ -5,6 +5,7 @@
 <body style="text-align: center;">
 	<h1> How to get current user location in laravel - websolutionstuff.com</h1>
 	<div style="border:1px solid black; margin-left: 300px; margin-right: 300px;">
+
 <h3>IP: {{ $data->ip }}</h3>
 	<h3>Country Name: {{ $data->countryName }}</h3>
 	<h3>Country Code: {{ $data->countryCode }}</h3>
