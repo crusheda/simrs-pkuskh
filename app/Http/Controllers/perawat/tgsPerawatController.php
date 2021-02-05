@@ -34,24 +34,28 @@ class tgsPerawatController extends Controller
         
         if (Auth::user()->hasRole('kabag-keperawatan')) {
             $show = DB::table('tgsperawat')
-                ->select('queue' ,'name' ,'unit' ,'tgl')
+                ->select('queue' ,'name' ,'unit')
                 ->where('deleted_at', null)
-                ->groupBy('queue' ,'name' ,'unit' ,'tgl')
+                ->groupBy('queue' ,'name' ,'unit')
                 ->get();
+            $pernyataan = '';
+            $recent = 'Anda adalah Admin Log';
         }
         else {
             $show = DB::table('tgsperawat')
-                ->select('id' ,'name' ,'unit' ,'tgl')
+                // ->select('id' ,'name' ,'unit' ,'tgl')
                 ->where('deleted_at', null)
                 ->where('queue', $id)
                 ->where('unit', $role)
-                ->groupBy('queue' ,'name' ,'unit' ,'tgl')
+                // ->groupBy('id' ,'name' ,'unit' ,'tgl')
                 ->get();
                 
             if ($user->hasPermissionTo('log_perawat')) {
                 $pernyataan = logtgsperawat::where('unit', $role)->get();
-                $recent = tgsperawat::where('unit', $role)->where('queue', $id)->where('deleted_at','=', null)->orderBy('id', 'DESC')->select('tgl')->first();
+                $recent = tgsperawat::where('unit', $role)->where('queue', $id)->where('deleted_at','=', null)->orderBy('id', 'DESC')->select('tgl')->pluck('tgl')->first();
             }
+            // print_r($done);
+            // die();
         }
          
         $data = [
@@ -59,7 +63,7 @@ class tgsPerawatController extends Controller
             'show' => $show,
             'recent' => $recent,
             'thn' => $thn,
-            'log' => $log
+            'log' => $log,
         ];
         // print_r($data['show']);
         // die();
@@ -99,7 +103,6 @@ class tgsPerawatController extends Controller
             $tgl = $request->tgl;
         }
         
-
             $data = new tgsperawat;
             $data->queue = $id;
             $data->name = $name;
@@ -144,7 +147,13 @@ class tgsPerawatController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = tgsperawat::find($id);
+        $data->pernyataan = $request->pernyataan;
+        $data->tgl = $request->tgl;
+        $data->ket = $request->ket;
+        $data->save();
+    
+        return Redirect::back()->with('message','Data berhasil diubah.');
     }
 
     /**
@@ -155,6 +164,8 @@ class tgsPerawatController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = tgsperawat::where('id', $id)->delete();
+
+        return Redirect::back()->with('message','Hapus Penunjang Tugas Perawat Berhasil.');
     }
 }
