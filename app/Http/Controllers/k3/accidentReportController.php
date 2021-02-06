@@ -79,7 +79,8 @@ class accidentReportController extends Controller
         // die();
 
         $user = Auth::user();
-        $name = $user->name; //jamhuri
+        $name = $user->name; //jamhuri$user = Auth::user();
+        $role = $user->roles->first()->name; //kabag-keperawatan
 
         $thn = Carbon::now()->format('Y');
         // $thn = Carbon::now();
@@ -168,6 +169,13 @@ class accidentReportController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $thn = Carbon::now()->format('Y');
+        // $thn = Carbon::now();
+        $getlahir = $request->lahir;
+        $parse = Carbon::parse($getlahir)->format('Y');
+        // $parse = Carbon::parse($getlahir);
+        $usia = $thn - $parse;
+
         $data = accident_report::find($id);
         $data->tgl = $request->tgl;
         $data->lokasi = $request->lokasi;
@@ -316,7 +324,7 @@ class accidentReportController extends Controller
             $rugi5 = '√';
         }
         
-        $templateProcessor->setImageValue('img', array('path' => storage_path('app/'.$data->filename), 'width' => 500, 'height' => 500, 'ratio' => true));
+        $templateProcessor->setImageValue('img', array('path' => storage_path($data->filename), 'width' => 500, 'height' => 500, 'ratio' => true));
 
         $templateProcessor->setValues([
             'tgl' => $tgl,

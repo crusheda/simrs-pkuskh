@@ -237,12 +237,19 @@
                             </div>
                             <div class="col">
                                 <label>Unit :</label>
-                                <select class="custom-select" name="unit" id="unit" required>
-                                    <option hidden>Pilih</option>
-                                    @foreach($list['unit'] as $name => $item)
-                                        <option value="{{ $name }}">{{ $name }}</option>
-                                    @endforeach
-                                </select>
+                                @role('k3')
+                                    <select class="custom-select" name="unit" id="unit" required>
+                                        <option hidden>Pilih</option>
+                                        @foreach($list['unit'] as $name => $item)
+                                            <option value="{{ $name }}">{{ $name }}</option>
+                                        @endforeach
+                                    </select>
+                                @else
+                                    <select class="custom-select" name="unit" id="unit" disabled required>
+                                        <option value="{{ Auth::user()->roles->first()->name }}" selected>{{ Auth::user()->roles->first()->name }}</option>
+                                    </select>
+                                    <input type="text" name="unit" class="form-control" value="{{ Auth::user()->roles->first()->name }}" hidden>
+                                @endrole
                             </div>
                         </div>
                         <label>Bila cedera / cacat, anggota tubuh mana yang terkena? </label>
