@@ -233,7 +233,7 @@ class accidentReportController extends Controller
         $data->delete();
 
         // redirect
-        return \Redirect::to('/rapat')->with('message','Hapus Notulen Rapat Berhasil');
+        return Redirect::back()->with('message','Hapus Laporan Berhasil');
     }
 
     public function download(Request $id)
