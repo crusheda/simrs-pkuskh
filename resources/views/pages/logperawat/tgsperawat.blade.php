@@ -4,36 +4,12 @@
 
 <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
+
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
 
-<div class="row">
     @can('log_perawat')
-    <div class="col-md-3">
-        <div class="card">
-            <div class="card-header bg-dark text-white">
-
-                <i class="fa-fw fas fa-plus-square nav-icon">
-    
-                </i> Input 
-
-            </div>
-            <div class="card-body">
-                @role('kabag-keperawatan')
-                    <button class="btn btn-primary text-white btn-block" disabled>
-                        {{ $list['recent'] }}
-                    </button>
-                @else
-                    <a type="button" class="btn btn-primary text-white btn-block" data-toggle="modal" data-target="#tambahtgs">
-                        Masukkan Data
-                    </a>
-                    <hr>
-                    Data Terakhir : <kbd>@if ($list['recent'] == null) Unknown @else {{ $list['recent'] }} @endif</kbd>
-                @endrole
-            </div>
-        </div>
-    </div>
-    <div class="col-md-9">
+        @role('kabag-keperawatan')
         <div class="card" style="width: 100%">
             <div class="card-header bg-dark text-white">
 
@@ -42,75 +18,122 @@
                 </i> Penunjang Tugas Perawat 
 
                 <span class="pull-right badge badge-warning" style="margin-top:4px">
-                    Akses Perawat
+                    Akses Kabag Keperawatan
                 </span>
 
             </div>
             <div class="card-body">
                 <div class="table-responsive">
-                    <table id="tgsperawat" class="table table-striped display">
+                    <table id="admintgsperawat" class="table table-striped display">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                @role('kabag-keperawatan')
-                                    <th>NAMA</th>
-                                    <th>UNIT</th>
-                                @else
-                                    <th>PERNYATAAN</th>
-                                    <th>KETERANGAN</th>
-                                    <th>TGL</th>
-                                @endrole
+                                <th>NAMA</th>
+                                <th>UNIT</th>
                                 <th>ACTION</th>
                             </tr>
                         </thead>
                         <tbody style="text-transform: capitalize">
                             @if(count($list['show']) > 0)
-                            <a hidden>{{ $id = 1 }}</a>
                             @foreach($list['show'] as $item)
                             <tr>
-                                @role('kabag-keperawatan')
-                                    <td>{{ $item->queue }}</td>
-                                    <td>{{ $item->name }}</td>
-                                    <td>{{ $item->unit }}</td>
-                                    {{-- <td>{{ $item->tgl }}</td> --}}
-                                @else
-                                    <td>{{ $id++ }}</td>
-                                    <td>{{ $item->pernyataan }}</td>
-                                    <td>{{ $item->ket }}</td>
-                                    <td>{{ $item->tgl }}</td>
-                                @endrole
+                                <td>{{ $item->queue }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->unit }}</td>
                                 <td>
-                                    @role('kabag-keperawatan')
-                                        <a type="button" class="btn btn-success btn-sm text-white" data-toggle="modal" data-target="#lihatLog{{ $item->queue }}"><i class="fa-fw fas fa-search nav-icon"></i> Detail Log</a>
-                                    @else
-                                        <a type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></a>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                    @endrole
+                                    <a type="button" class="btn btn-info btn-sm text-white" href="{{ route('tgsperawat.show', $item->queue) }}"><i class="fa-fw fas fa-search nav-icon"></i> Detail</a>
                                 </td>
                             </tr>
                             @endforeach
                             @else
                                 <tr>
-                                    @role('kabag-keperawatan')
-                                        <td colspan=4>Tidak Ada Data</td>
-                                    @else
-                                        <td colspan=5>Tidak Ada Data</td>
-                                    @endrole
+                                    <td colspan=4>Tidak Ada Data</td>
                                 </tr>
                             @endif
                         </tbody>
                     </table>
                 </div>
             </div>
+        </div>                                
+        @else
+        <div class="row">
+            <div class="col-md-3">
+                <div class="card">
+                    <div class="card-header bg-dark text-white">
+
+                        <i class="fa-fw fas fa-plus-square nav-icon">
+            
+                        </i> Input 
+
+                    </div>
+                    <div class="card-body">
+                        <a type="button" class="btn btn-primary text-white btn-block" data-toggle="modal" data-target="#tambahtgs">
+                            Masukkan Data
+                        </a>
+                        <hr>
+                        Data Terakhir : <kbd>@if ($list['recent'] == null) Unknown @else {{ $list['recent'] }} @endif</kbd>
+                    </div>
+                </div>
+            </div>
+            <div class="col-md-9">
+                <div class="card" style="width: 100%">
+                    <div class="card-header bg-dark text-white">
+
+                        <i class="fa-fw fas fa-vcard nav-icon">
+
+                        </i> Penunjang Tugas Perawat 
+
+                        <span class="pull-right badge badge-warning" style="margin-top:4px">
+                            Akses Perawat
+                        </span>
+
+                    </div>
+                    <div class="card-body">
+                        <div class="table-responsive">
+                            <table id="tgsperawat" class="table table-striped display">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>PERNYATAAN</th>
+                                        <th>KETERANGAN</th>
+                                        <th>TGL</th>
+                                        <th>ACTION</th>
+                                    </tr>
+                                </thead>
+                                <tbody style="text-transform: capitalize">
+                                    @if(count($list['show']) > 0)
+                                    <a hidden>{{ $id = 1 }}</a>
+                                    @foreach($list['show'] as $item)
+                                    <tr>
+                                        <td>{{ $id++ }}</td>
+                                        <td>{{ $item->pernyataan }}</td>
+                                        <td>{{ $item->ket }}</td>
+                                        <td>{{ $item->tgl }}</td>
+                                        <td>
+                                            <a type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></a>
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan=5>Tidak Ada Data</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
-    </div>
+        @endrole
     @else
         <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
     @endcan
-</div>
 
 @role('kabag-keperawatan')
-    @foreach($list['show'] as $item)
+    {{-- @foreach($list['show'] as $item)
     <div class="modal fade bd-example-modal-lg" id="lihatLog{{ $item->queue }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -129,7 +152,7 @@
         </div>
         </div>
     </div>
-    @endforeach
+    @endforeach --}}
 @else
     <!-- Tambah -->
     <div class="modal fade" id="tambahtgs" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
@@ -261,13 +284,29 @@
     $(document).ready( function () {
         $('#tgsperawat').DataTable(
             {
-            paging: true,
-            searching: true,
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print']
-            },
-            order: [[ 3, "desc" ]]
+                paging: true,
+                searching: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                order: [ 3, "desc" ]
+            }
+        );
+    } );
+</script>
+<script>
+    $(document).ready( function () {
+        $('#admintgsperawat').DataTable(
+            {
+                paging: true,
+                searching: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'csv', 'excel', 'pdf', 'print'
+                ],
+                order: [[ 0, "desc" ]]
+            }
         );
     } );
 </script>

@@ -13,6 +13,7 @@ use App\Models\unit;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
+use Redirect;
 
 class profKprController extends Controller
 {
@@ -23,42 +24,46 @@ class profKprController extends Controller
      */
     public function index()
     {
-        $thn = substr(Carbon::now(),0,4);
+        $thn = Carbon::now()->isoFormat('D MMMM Y');
         $user = Auth::user();
-        $role = $user->roles->first()->name; //kabag_keperawatan
-        $unit = unit::pluck('id','name');
-        $pernyataan = logprofkpr::pluck('id','pernyataan');
+        $id    = $user->id;
+        $name = $user->name;
+        $role = $user->roles->first()->name; //kabag-keperawatan
+        $log = logprofkpr::where('unit', $role)->pluck('id','pernyataan');
+        // $pernyataan = logtgsperawat::pluck('id','pernyataan');
         
-        $show = DB::table('profkpr')
-            ->select('queue' ,'name' ,'unit' ,'tgl')
-            ->where('deleted_at', null)
-            ->groupBy('queue' ,'name' ,'unit' ,'tgl')
-            ->get();
-        $all = profkpr::get();
-
-        if ($role == 'ibs') {
-            $recent = profkpr::where('unit', 'IBS')->select('tgl')->first();
-        }elseif ($role == 'bangsal-dewasa') {
-            $recent = profkpr::where('unit', 'Bangsal Dewasa')->select('tgl')->first();
-        }elseif ($role == 'bangsal-anak') {
-            $recent = profkpr::where('unit', 'Bangsal Anak')->select('tgl')->first();
-        }elseif ($role == 'poli') {
-            $recent = profkpr::where('unit', 'Poliklinik')->select('tgl')->first();
-        }elseif ($role == 'icu') {
-            $recent = profkpr::where('unit', 'ICU')->select('tgl')->first();
-        }elseif ($role == 'kebidanan') {
-            $recent = profkpr::where('unit', 'Kebidanan')->select('tgl')->first();
-        }else {
-            $recent = profkpr::select('tgl')->first();
+        if (Auth::user()->hasRole('kabag-keperawatan')) {
+            $show = DB::table('profkpr')
+                ->select('queue' ,'name' ,'unit')
+                ->where('deleted_at', null)
+                ->groupBy('queue' ,'name' ,'unit')
+                ->get();
+            $pernyataan = '';
+            $recent = 'Anda adalah Admin Log';
+        }
+        else {
+            $show = DB::table('profkpr')
+                // ->select('id' ,'name' ,'unit' ,'tgl')
+                ->where('deleted_at', null)
+                ->where('queue', $id)
+                ->where('unit', $role)
+                // ->groupBy('id' ,'name' ,'unit' ,'tgl')
+                ->get();
+                
+            if ($user->hasPermissionTo('log_perawat')) {
+                $pernyataan = logprofkpr::where('unit', $role)->get();
+                $recent = profkpr::where('unit', $role)->where('queue', $id)->where('deleted_at','=', null)->orderBy('id', 'DESC')->select('tgl')->pluck('tgl')->first();
+            }
+            // print_r($done);
+            // die();
         }
          
         $data = [
             'pernyataan' => $pernyataan,
             'show' => $show,
-            'all' => $all,
-            'unit' => $unit,
             'recent' => $recent,
-            'thn' => $thn
+            'thn' => $thn,
+            'log' => $log,
         ];
         // print_r($data['show']);
         // die();
@@ -84,7 +89,31 @@ class profKprController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $user = Auth::user();
+        $id    = $user->id;
+        $name = $user->name; //jamhuri
+        $email = $user->email; //jamhuri@pkuskh.com
+        $role = $user->roles->first()->name; //kabag_keperawatan
+
+        // print_r($find);
+        // die();
+        if ($request->tgl == null) {
+            $tgl = '';
+        } else {
+            $tgl = $request->tgl;
+        }
+        
+            $data = new profkpr;
+            $data->queue = $id;
+            $data->name = $name;
+            $data->email = $email;
+            $data->unit = $role;
+            $data->pernyataan = $request->pernyataan;
+            $data->tgl = $request->tgl;
+            $data->ket = $request->ket;
+            $data->save();
+        
+        return Redirect::back()->with('message','Data Profesi Keperawatan Berhasil Ditambahkan.');
     }
 
     /**
@@ -95,7 +124,16 @@ class profKprController extends Controller
      */
     public function show($id)
     {
-        //
+        $showdata = profkpr::where('queue', $id)->get();
+        $last = profkpr::select('tgl')->where('queue', $id)->orderBy('id', 'DESC')->first();
+        
+        $data = [
+            'show' => $showdata,
+            'last' => $last
+        ];
+        // print_r($data['recent']);
+        // die();
+        return view('pages.logperawat.detail-profkpr')->with('list', $data);
     }
 
     /**
@@ -118,7 +156,13 @@ class profKprController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = profkpr::find($id);
+        $data->pernyataan = $request->pernyataan;
+        $data->tgl = $request->tgl;
+        $data->ket = $request->ket;
+        $data->save();
+    
+        return Redirect::back()->with('message','Data Profesi Keperawatan Berhasil Diubah.');
     }
 
     /**
@@ -129,6 +173,8 @@ class profKprController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = profkpr::where('id', $id)->delete();
+
+        return Redirect::back()->with('message','Hapus Profesi Keperawatan Berhasil.');
     }
 }

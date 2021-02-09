@@ -124,7 +124,16 @@ class tgsPerawatController extends Controller
      */
     public function show($id)
     {
-        //
+        $showdata = tgsperawat::where('queue', $id)->get();
+        $last = tgsperawat::select('tgl')->where('queue', $id)->orderBy('id', 'DESC')->first();
+        
+        $data = [
+            'show' => $showdata,
+            'last' => $last
+        ];
+        // print_r($data['recent']);
+        // die();
+        return view('pages.logperawat.detail-tgsperawat')->with('list', $data);
     }
 
     /**
