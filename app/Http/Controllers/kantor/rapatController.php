@@ -56,6 +56,7 @@ class rapatController extends Controller
             'file2' => 'required|file|max:100000',
             'file3' => 'required|file|max:100000',
             'file4' => 'required|file|max:100000',
+            'file5' => 'required|file|max:100000',
             ]);
 
         // tampung berkas yang sudah diunggah ke variabel baru
@@ -64,6 +65,7 @@ class rapatController extends Controller
         $uploadedFile2 = $request->file('file2');
         $uploadedFile3 = $request->file('file3');
         $uploadedFile4 = $request->file('file4');        
+        $uploadedFile5 = $request->file('file5');        
 
         // simpan berkas yang diunggah ke sub-direktori 'public/files'
         // direktori 'files' otomatis akan dibuat jika belum ada
@@ -71,6 +73,7 @@ class rapatController extends Controller
         $path2 = $uploadedFile2->store('public/files/notulen/materi');
         $path3 = $uploadedFile3->store('public/files/notulen/absensi');
         $path4 = $uploadedFile4->store('public/files/notulen/notulen');
+        $path5 = $uploadedFile5->store('public/files/notulen/dokumentasi');
 
         $data = new rapat;
         $data->nama = $request->nama;
@@ -82,11 +85,13 @@ class rapatController extends Controller
             $data->title2 = $request->title2 ?? $uploadedFile2->getClientOriginalName();
             $data->title3 = $request->title3 ?? $uploadedFile3->getClientOriginalName();
             $data->title4 = $request->title4 ?? $uploadedFile4->getClientOriginalName();
+            $data->title5 = $request->title5 ?? $uploadedFile5->getClientOriginalName();
             
             $data->filename1 = $path1;
             $data->filename2 = $path2;
             $data->filename3 = $path3;
             $data->filename4 = $path4;
+            $data->filename5 = $path5;
 
         $data->keterangan = $request->keterangan;
 
@@ -122,6 +127,12 @@ class rapatController extends Controller
     {
         $data = rapat::find($id);
         return Storage::download($data->filename4, $data->title4);
+    }
+
+    public function show5($id)
+    {
+        $data = rapat::find($id);
+        return Storage::download($data->filename5, $data->title5);
     }
 
     /**

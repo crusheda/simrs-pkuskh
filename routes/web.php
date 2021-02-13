@@ -74,6 +74,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
         Route::get('/rapat/show2/{id}', 'kantor\rapatController@show2');
         Route::get('/rapat/show3/{id}', 'kantor\rapatController@show3');
         Route::get('/rapat/show4/{id}', 'kantor\rapatController@show4');
+        Route::get('/rapat/show5/{id}', 'kantor\rapatController@show5');
 
     // Log Perawat
         // Pernyataan Log

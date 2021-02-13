@@ -55,20 +55,25 @@
                             <label>Absensi</label>
                             <p></p>
                             <label>Notulen</label>
+                            <p></p>
+                            <label>Dokumentasi</label>
                         </div>
                         <div class="col-md-4">
                             <p></p>
                             : <input type="file" name="file1">
                             <span class="help-block text-danger">{{ $errors->first('file1') }}</span>
-                                <p></p>
+                            <p></p>
                             : <input type="file" name="file2">
                             <span class="help-block text-danger">{{ $errors->first('file2') }}</span>
-                                <p></p>
+                            <p></p>
                             : <input type="file" name="file3">
                             <span class="help-block text-danger">{{ $errors->first('file3') }}</span>
-                                <p></p>
+                            <p></p>
                             : <input type="file" name="file4">
                             <span class="help-block text-danger">{{ $errors->first('file4') }}</span>
+                            <p></p>
+                            : <input type="file" name="file5">
+                            <span class="help-block text-danger">{{ $errors->first('file5') }}</span>
                         </div>
                         <br>
                     </div>

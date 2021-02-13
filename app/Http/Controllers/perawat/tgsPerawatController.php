@@ -29,7 +29,7 @@ class tgsPerawatController extends Controller
         $id    = $user->id;
         $name = $user->name;
         $role = $user->roles->first()->name; //kabag-keperawatan
-        $log = logtgsperawat::where('unit', $role)->pluck('id','pernyataan');
+        $log = logtgsperawat::pluck('id','pernyataan');
         // $pernyataan = logtgsperawat::pluck('id','pernyataan');
         
         if (Auth::user()->hasRole('kabag-keperawatan')) {
@@ -51,7 +51,7 @@ class tgsPerawatController extends Controller
                 ->get();
                 
             if ($user->hasPermissionTo('log_perawat')) {
-                $pernyataan = logtgsperawat::where('unit', $role)->get();
+                $pernyataan = logtgsperawat::get();
                 $recent = tgsperawat::where('unit', $role)->where('queue', $id)->where('deleted_at','=', null)->orderBy('id', 'DESC')->select('tgl')->pluck('tgl')->first();
             }
             // print_r($done);
