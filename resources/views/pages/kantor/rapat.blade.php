@@ -1,105 +1,98 @@
 @extends('layouts.admin')
 
 @section('content')
-{{-- <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css"> --}}
-
-{{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.10.20/css/jquery.dataTables.min.css"> --}}
-{{-- <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs4/dt-1.10.20/datatables.min.css"/> --}}
-{{-- <script src="https://code.jquery.com/jquery-3.3.1.js"></script> --}}
-{{-- <script src="https://cdn.datatables.net/1.10.20/js/jquery.dataTables.min.js"></script> --}}
 <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
 <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
-<div class="container">
-    <div class="row">
-        <div class="card" style="width: 100%">
-            <div class="card-header bg-dark text-white">
 
-                <i class="fa-fw fas fa-book nav-icon text-info">
+<div class="row">
+    <div class="card" style="width: 100%">
+        <div class="card-header bg-dark text-white">
 
-                </i>
-                Berkas Rapat
+            <i class="fa-fw fas fa-book nav-icon text-info">
 
-                <span class="pull-right badge badge-warning" style="margin-top:4px">
-                    Akses Kantor
-                </span>
-                
+            </i>
+            Berkas Rapat
 
-            </div>
-            <div class="card-body">
-                @can('berkas_rapat')
-                <div class="panel panel-default">
-                    <div class="panel-body">
-                        <div class="row">
-                            <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
-                                <div class="data-table-list">
-                                    <div class="table-responsive">
-                                        <table id="table_rapat" class="table table-striped">
-                                            <thead>
+            <span class="pull-right badge badge-warning" style="margin-top:4px">
+                Akses Kantor
+            </span>
+            
+
+        </div>
+        <div class="card-body">
+            @can('berkas_rapat')
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <div class="row">
+                        <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
+                            <div class="data-table-list">
+                                <div class="table-responsive">
+                                    <table id="table_rapat" class="table table-striped">
+                                        <thead>
+                                            <tr>
+                                                <th>KEGIATAN</th>
+                                                <th>KETUA</th>
+                                                <th>WAKTU</th>
+                                                <th>LOKASI</th>
+                                                <th>KET</th>
+                                                <th>UPDATE</th>
+                                                <th>ACTION</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                            @if(count($list) > 0)
+                                            @foreach($list['show'] as $item)
+                                            <tr>
+                                                <td>{{ $item->nama }}</td>
+                                                <td>{{ $item->kepala }}</td>
+                                                <td>{{ $item->tanggal }}</td>
+                                                <td>{{ $item->lokasi }}</td>
+                                                <td>{{ $item->keterangan }}</td>
+                                                <td>{{ $item->created_at->diffForHumans() }}</td>
+                                                <td>
+                                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#lihatFile{{ $item->id }}">Lihat</button>
+                                                    @role('kantor')
+                                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusFile{{ $item->id }}">Hapus</button>
+                                                    @endrole
+                                                    {{-- <form action="{{ route('rapat.destroy', $item->id) }}" method="POST">
+                                                        <a class="btn btn-warning btn-sm" onclick="window.location.href='{{ route('rapat.edit', $item->id) }}'">
+                                                            <i class="lnr lnr-pencil"></i>Edit
+                                                        </a>
+                                                        @method('DELETE')
+                                                        @csrf
+                                                        <button class="btn btn-danger btn-sm"><i class="lnr lnr-trash"></i>Hapus</button>
+                                                    </form> --}}
+                                                    
+                                                </td>
+                                            </tr>
+                                            @endforeach
+                                            @else
                                                 <tr>
-                                                    <th>KEGIATAN</th>
-                                                    <th>KETUA</th>
-                                                    <th>WAKTU</th>
-                                                    <th>LOKASI</th>
-                                                    <th>KET</th>
-                                                    <th>UPDATE</th>
-                                                    <th>ACTION</th>
+                                                    <td colspan=7>Tidak Ada Data</td>
                                                 </tr>
-                                            </thead>
-                                            <tbody>
-                                                @if(count($list) > 0)
-                                                @foreach($list['show'] as $item)
-                                                <tr>
-                                                    <td>{{ $item->nama }}</td>
-                                                    <td>{{ $item->kepala }}</td>
-                                                    <td>{{ $item->tanggal }}</td>
-                                                    <td>{{ $item->lokasi }}</td>
-                                                    <td>{{ $item->keterangan }}</td>
-                                                    <td>{{ $item->created_at->diffForHumans() }}</td>
-                                                    <td>
-                                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#lihatFile{{ $item->id }}">Lihat</button>
-                                                        @role('kantor')
-                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusFile{{ $item->id }}">Hapus</button>
-                                                        @endrole
-                                                        {{-- <form action="{{ route('rapat.destroy', $item->id) }}" method="POST">
-                                                            <a class="btn btn-warning btn-sm" onclick="window.location.href='{{ route('rapat.edit', $item->id) }}'">
-                                                                <i class="lnr lnr-pencil"></i>Edit
-                                                            </a>
-                                                            @method('DELETE')
-                                                            @csrf
-                                                            <button class="btn btn-danger btn-sm"><i class="lnr lnr-trash"></i>Hapus</button>
-                                                        </form> --}}
-                                                        
-                                                    </td>
-                                                </tr>
-                                                @endforeach
-                                                @else
-                                                    <tr>
-                                                        <td colspan=7>Tidak Ada Data</td>
-                                                    </tr>
-                                                @endif
-                                            </tbody>
-                                            <tfoot>
-                                                <tr>
-                                                    <th>KEGIATAN</th>
-                                                    <th>KETUA</th>
-                                                    <th>WAKTU</th>
-                                                    <th>LOKASI</th>
-                                                    <th>KET</th>
-                                                    <th>UPDATE</th>
-                                                    <th>ACTION</th>
-                                                </tr>
-                                            </tfoot>
-                                        </table>
-                                    </div>
+                                            @endif
+                                        </tbody>
+                                        <tfoot>
+                                            <tr>
+                                                <th>KEGIATAN</th>
+                                                <th>KETUA</th>
+                                                <th>WAKTU</th>
+                                                <th>LOKASI</th>
+                                                <th>KET</th>
+                                                <th>UPDATE</th>
+                                                <th>ACTION</th>
+                                            </tr>
+                                        </tfoot>
+                                    </table>
                                 </div>
                             </div>
                         </div>
                     </div>
                 </div>
-                @endcan
             </div>
+            @endcan
         </div>
     </div>
 </div>
