@@ -39,7 +39,7 @@
                     <table id="skl" class="table table-striped display">
                         <thead>
                             <tr>
-                                <th>NO SURAT</th>
+                                <th>NO</th>
                                 <th>TGL</th>
                                 <th>IBU</th>
                                 <th>ANAK</th>
