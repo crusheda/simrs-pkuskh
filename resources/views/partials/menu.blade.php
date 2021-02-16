@@ -125,14 +125,16 @@
                                 Lihat Berkas
                             </a>
                         </li>
-                        <li class="nav-item">
-                            <a href="{{ route("rapat.create") }}" class="nav-link">
-                                <i class="fa-fw fas fa-plus-square nav-icon">
+                        @role('kantor')
+                            <li class="nav-item">
+                                <a href="{{ route("rapat.create") }}" class="nav-link">
+                                    <i class="fa-fw fas fa-plus-square nav-icon">
 
-                                </i>
-                                Tambah Berkas
-                            </a>
-                        </li>
+                                    </i>
+                                    Tambah Berkas
+                                </a>
+                            </li>
+                        @endrole
                     </ul>
                 </li>
             @endcan
@@ -285,7 +287,7 @@
                     </ul>
                 </li>
             @endcan
-            @can('administrasi')
+            {{-- @can('administrasi')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
                         <i class="fa-fw fas fa-folder nav-icon">
@@ -304,7 +306,45 @@
                         </li>
                     </ul>
                 </li>
-            @endcan
+            @endcan --}}
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link  nav-dropdown-toggle" href="#">
+                    <i class="fa-fw fas fa-folder nav-icon">
+
+                    </i>
+                    Administrasi
+                </a>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a href="{{ route("file_manager") }}" class="nav-link">
+                            <i class="fa-fw fas fa-folder-open nav-icon">
+
+                            </i>
+                            Penyimpanan File
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a href="{{ route("regulasi.index") }}" class="nav-link">
+                            <i class="fa-fw fas fa-legal nav-icon">
+
+                            </i>
+                            Regulasi
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a href="{{ route("bulanan.index") }}" class="nav-link">
+                            <i class="fa-fw fas fa-book nav-icon">
+
+                            </i>
+                            Laporan Bulanan
+                        </a>
+                    </li>
+                </ul>
+            </li>
             @can('users_manage')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">

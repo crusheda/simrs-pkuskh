@@ -13,11 +13,16 @@ Route::get('change_password', 'Auth\ChangePasswordController@showChangePasswordF
 Route::patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('auth.change_password');
 Route::post('edit_akun/{id}', 'Admin\UsersController@ubahData')->name('ubah.akun');
 
+// Other
 Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/file-manager', 'HomeController@fileManager')->name('file_manager'); //file manager
 Route::resource('user', 'Admin\profilController');
 Route::post('/user/foto', 'Admin\profilController@storeImg');
-// Route::get('/admin/filemanager', 'HomeController@index'); //file manager
+Route::get('/antrian/poli', 'queueController@index'); //Antrian Poli
+Route::get('/antrian/poli/tampil', 'queueController@tampil')->name('tampil.antrian'); //Tampil Antrian Poli
+Route::post('/antrian/poli/tambah', 'queueController@addQueue')->name('antrian');
+// Route::post('/antrian/poli/antrian', 'queueController@tambahAntrianSaatIni')->name('antriansaatini');
+// Route::get('/', 'HomeController@index'); //file manager
 
 // Admin
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
@@ -75,6 +80,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
         Route::get('/rapat/show3/{id}', 'kantor\rapatController@show3');
         Route::get('/rapat/show4/{id}', 'kantor\rapatController@show4');
         Route::get('/rapat/show5/{id}', 'kantor\rapatController@show5');
+        Route::resource('regulasi', 'kantor\regulasiController');
+        Route::resource('laporan/bulanan', 'kantor\laporanBulananController');
 
     // Log Perawat
         // Pernyataan Log
@@ -103,3 +110,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
     Route::post('/k3/accidentreport/{id}/check', 'k3\accidentReportController@verifikasi')->name('accidentreport.check');
     Route::get('k3/accidentreport/{id}/show', 'k3\accidentReportController@show')->name('accidentreport.show'); 
     Route::get('k3/accidentreport/{id}/cetak','k3\accidentReportController@cetak')->name('accidentreport.cetak');  
+    
+    Route::group(['prefix' => 'token/jasnidh2qu8hnf3298r0fewniongisdng0f32hr0fiwdondnsajdn1283hr420hrwnoi', 'middleware' => ['web', 'auth']], function () {
+        \UniSharp\LaravelFilemanager\Lfm::routes();
+    });
+    

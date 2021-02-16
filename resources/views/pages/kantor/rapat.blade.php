@@ -16,6 +16,9 @@
         <div class="card" style="width: 100%">
             <div class="card-header bg-dark text-white">
 
+                <i class="fa-fw fas fa-book nav-icon text-info">
+
+                </i>
                 Berkas Rapat
 
                 <span class="pull-right badge badge-warning" style="margin-top:4px">
@@ -56,7 +59,9 @@
                                                     <td>{{ $item->created_at->diffForHumans() }}</td>
                                                     <td>
                                                         <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#lihatFile{{ $item->id }}">Lihat</button>
-                                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusFile{{ $item->id }}">Hapus</button>
+                                                        @role('kantor')
+                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusFile{{ $item->id }}">Hapus</button>
+                                                        @endrole
                                                         {{-- <form action="{{ route('rapat.destroy', $item->id) }}" method="POST">
                                                             <a class="btn btn-warning btn-sm" onclick="window.location.href='{{ route('rapat.edit', $item->id) }}'">
                                                                 <i class="lnr lnr-pencil"></i>Edit
@@ -99,40 +104,42 @@
     </div>
 </div>
 
-@foreach($list['show'] as $item)
-<div class="modal fade bd-example-modal-lg" id="hapusFile{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">
-            Yakin ingin Menghapus?
-          </h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-            <p>
+@role('kantor')
+    @foreach($list['show'] as $item)
+    <div class="modal fade bd-example-modal-lg" id="hapusFile{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title">
+                Yakin ingin Menghapus?
+            </h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    @if(count($list) > 0)
+                    {{ $item->nama }}'s Files. <br>
+                    Undangan  : {{ $item->title1 }} ({{Storage::size($item->filename1)}} bytes) <br>
+                    Materi    : {{ $item->title2 }} ({{Storage::size($item->filename2)}} bytes) <br>
+                    Absensi   : {{ $item->title3 }} ({{Storage::size($item->filename3)}} bytes) <br>
+                    Notulen   : {{ $item->title4 }} ({{Storage::size($item->filename4)}} bytes)
+                    @endif
+                </p>
+            </div>
+            <div class="modal-footer">
                 @if(count($list) > 0)
-                {{ $item->nama }}'s Files. <br>
-                Undangan  : {{ $item->title1 }} ({{Storage::size($item->filename1)}} bytes) <br>
-                Materi    : {{ $item->title2 }} ({{Storage::size($item->filename2)}} bytes) <br>
-                Absensi   : {{ $item->title3 }} ({{Storage::size($item->filename3)}} bytes) <br>
-                Notulen   : {{ $item->title4 }} ({{Storage::size($item->filename4)}} bytes)
+                    <form action="{{ route('rapat.destroy', $item->id) }}" method="POST">
+                        @method('DELETE')
+                        @csrf
+                        <button class="btn btn-danger btn-sm"><i class="lnr lnr-trash"></i>Hapus</button>
+                    </form>
                 @endif
-            </p>
+            </div>
         </div>
-        <div class="modal-footer">
-            @if(count($list) > 0)
-                <form action="{{ route('rapat.destroy', $item->id) }}" method="POST">
-                    @method('DELETE')
-                    @csrf
-                    <button class="btn btn-danger btn-sm"><i class="lnr lnr-trash"></i>Hapus</button>
-                </form>
-            @endif
         </div>
-      </div>
     </div>
-</div>
-@endforeach
+    @endforeach
+@endrole
 
 @foreach($list['show'] as $item)
     <div class="modal fade bd-example-modal-lg" id="lihatFile{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">

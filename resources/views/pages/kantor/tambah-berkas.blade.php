@@ -16,7 +16,10 @@
         <div class="card" style="width: 100%">
             <div class="card-header bg-dark text-white">
 
-                Berkas Rapat
+                <i class="fa-fw fas fa-plus-square nav-icon text-info">
+
+                </i>
+                Tambah Berkas Rapat
 
                 <span class="pull-right badge badge-warning" style="margin-top:4px">
                     Akses Kantor
