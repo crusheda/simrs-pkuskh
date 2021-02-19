@@ -5,7 +5,7 @@
     "license": "MIT",
     "type": "project",
     "require": {
-        "php": "^7.2",
+        "php": "^7.3",
         "barryvdh/laravel-dompdf": "^0.8.7",
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
@@ -16,6 +16,7 @@
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^6.0",
         "phpoffice/phpword": "^0.17.0",
+        "pusher/pusher-php-server": "^4.1",
         "spatie/laravel-permission": "^3.0",
         "stevebauman/location": "^6.0",
         "unisharp/laravel-filemanager": "^2.2"

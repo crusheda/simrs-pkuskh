@@ -135,6 +135,14 @@
                                 </a>
                             </li>
                         @endrole
+                        <li class="nav-item">
+                            <a href="{{ route("absensi.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-signing nav-icon">
+
+                                </i>
+                                Absensi
+                            </a>
+                        </li>
                     </ul>
                 </li>
             @endcan

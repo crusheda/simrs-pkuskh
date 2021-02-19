@@ -74,6 +74,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
             Route::get('pengadaan/all/{id}/cetak','it\pengadaan\pengadaanAllController@generatePDF')->name('pengadaan.cetak');
 
     // Kantor Route
+        Route::post('absensi/{id}/tambah', 'kantor\absensiController@tambahKehadiran')->name('absensi.hadir');
+        Route::post('absensi/{id}/edit', 'kantor\absensiController@ubahKehadiran')->name('absensi.edit');
+        Route::post('absensi/{id}/hapus', 'kantor\absensiController@hapusKehadiran')->name('absensi.hapus');
+        Route::resource('absensi', 'kantor\absensiController');
         Route::resource('rapat', 'kantor\rapatController');
         Route::get('/rapat/show/{id}', 'kantor\rapatController@show');
         Route::get('/rapat/show2/{id}', 'kantor\rapatController@show2');

@@ -176,7 +176,8 @@ class sklController extends Controller
             return redirect('/kebidanan/skl')->with('message','Maaf, Input Dokter Belum Terisi');
         }
         
-        $filename = "SKL ".$data->no_surat." - ".$data->ibu;
+        $filename = "SKL ";
+        // .$data->no_surat." - ".$data->ibu
 
         $templateProcessor->setValues([
             'no_surat' => $data->no_surat,
