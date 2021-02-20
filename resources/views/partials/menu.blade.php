@@ -119,22 +119,12 @@
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
                             <a href="{{ route("rapat.index") }}" class="nav-link">
-                                <i class="fa-fw fas fa-book nav-icon">
+                                <i class="fa-fw fas fa-calendar-plus-o nav-icon">
 
                                 </i>
-                                Lihat Berkas
+                                Berkas Rapat
                             </a>
                         </li>
-                        @role('kantor')
-                            <li class="nav-item">
-                                <a href="{{ route("rapat.create") }}" class="nav-link">
-                                    <i class="fa-fw fas fa-plus-square nav-icon">
-
-                                    </i>
-                                    Tambah Berkas
-                                </a>
-                            </li>
-                        @endrole
                         <li class="nav-item">
                             <a href="{{ route("absensi.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-signing nav-icon">

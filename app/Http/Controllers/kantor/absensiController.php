@@ -73,7 +73,8 @@ class absensiController extends Controller
     {
         $getabsensi = absensi::find($id);
         $getabsensihadir = absensi_hadir::where('absen_id', $id)->get();
-        $getkaryawan = karyawan::pluck('id','name','unit');
+        $getkaryawan = karyawan::select('id','name','unit')->get();
+        // $getkaryawan = karyawan::pluck('id','name','unit');
 
         $data = [
             'absensi' => $getabsensi,

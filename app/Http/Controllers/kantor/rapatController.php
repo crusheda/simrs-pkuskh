@@ -5,6 +5,8 @@ namespace App\Http\Controllers\kantor;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Storage;
+use Redirect;
+use Auth;
 use App\Models\rapat;
 use Illuminate\Http\RedirectResponse;
 
@@ -59,6 +61,9 @@ class rapatController extends Controller
             'file5' => 'required|file|max:100000',
             ]);
 
+        $user = Auth::user();
+        $id = $user->id;
+
         // tampung berkas yang sudah diunggah ke variabel baru
         // 'file' merupakan nama input yang ada pada form
         $uploadedFile1 = $request->file('file1');
@@ -94,9 +99,11 @@ class rapatController extends Controller
             $data->filename5 = $path5;
 
         $data->keterangan = $request->keterangan;
-
+        $data->user_id = $id;
+        // print_r($id);
+        // die();
         $data->save();
-        return redirect('/rapat')->with('message','Tambah Notulen Berhasil');
+        return redirect('/rapat')->with('message','Tambah Berkas Rapat Berhasil');
     }
 
     /**
@@ -163,6 +170,7 @@ class rapatController extends Controller
             'lokasi' => 'nullable',
             'keterangan' => 'nullable',
             ]);
+
         $data = rapat::find($id);
         $data->nama = $request->nama;
         $data->kepala = $request->kepala;
@@ -171,7 +179,7 @@ class rapatController extends Controller
         $data->keterangan = $request->keterangan;
 
         $data->save();
-        return redirect('/rapat')->with('message','Perubahan Notulen Berhasil');
+        return Redirect::back()->with('message','Perubahan Berkas Rapat Berhasil');
     }
 
     /**
@@ -186,7 +194,7 @@ class rapatController extends Controller
         $data->delete();
 
         // redirect
-        return \Redirect::to('/rapat')->with('message','Hapus Notulen Rapat Berhasil');
+        return \Redirect::to('/rapat')->with('message','Hapus Berkas Rapat Berhasil');
     }
 
     public function download(Request $id)

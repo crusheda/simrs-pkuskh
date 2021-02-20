@@ -14,7 +14,7 @@
     <div class="card" style="width: 100%">
         <div class="card-header bg-dark text-white">
 
-            <i class="fa-fw fas fa-signing nav-icon">
+            <i class="fa-fw fas fa-signing nav-icon text-info">
 
             </i> Daftar Hadir
 

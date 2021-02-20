@@ -57,7 +57,7 @@
                         <select class="fstdropdown-select" name="id" id="karyawan">
                             <option selected hidden>Pilih Karyawan</option>
                             @foreach($list['karyawan'] as $name => $item)
-                                <option value="{{ $item }}">{{ $name }}</option>
+                                <option value="{{ $item->id }}">{{ $item->name }}&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;{{ $item->unit }}</option>
                             @endforeach
                         </select>
                     </div>
