@@ -7,81 +7,79 @@
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
 
-<div class="container">
-    <div class="row">
-        <div class="card" style="width: 100%">
-            <div class="card-header bg-dark text-white">
+<div class="row">
+    <div class="card" style="width: 100%">
+        <div class="card-header bg-dark text-white">
 
-                <i class="fa-fw fas fa-cubes nav-icon">
+            <i class="fa-fw fas fa-cubes nav-icon text-info">
 
-                </i> Tabel Barang Pengadaan
+            </i> Tabel Barang Pengadaan
 
-                <span class="pull-right badge badge-warning" style="margin-top:4px">
-                    Akses Publik
-                </span>
-                
-            </div>
-            <div class="card-body">
-                @can('pengadaan')
-                <div class="container">
-                    <div class="row">
-                        <div class="col-md-8">
-                            <div class="table-responsive">
-                                <table id="barang" class="table table-striped display">
-                                    <thead>
+            <span class="pull-right badge badge-warning" style="margin-top:4px">
+                Akses Publik
+            </span>
+            
+        </div>
+        <div class="card-body">
+            @can('pengadaan')
+                <div class="row">
+                    <div class="col-md-4">
+                        <form class="form-auth-small" action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data">
+                            @csrf
+                            <label>Nama Barang :</label>
+                            <input type="text" name="barang" id="barang" class="form-control" placeholder="">
+                            <br>
+                            <label>Satuan :</label>
+                            <input type="text" name="satuan" id="satuan" class="form-control" placeholder="">
+                            <br>
+                            <label>Harga :</label>
+                            <input type="number" name="harga" id="harga" class="form-control" placeholder="">
+                            <br>
+                            <center><button class="btn btn-primary text-white" id="submit">Tambah</button></center>
+                            <br>
+                        </form><hr>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="table-responsive">
+                            <table id="tablebarang" class="table table-striped display">
+                                <thead>
+                                    <tr>
+                                        <th>BARANG</th>
+                                        <th>SATUAN</th>
+                                        <th>HARGA</th>
+                                        <th>TANGGAL</th>
+                                        <th><center>ACTION</center></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if(count($list['show']) > 0)
+                                    @foreach($list['show'] as $item)
+                                    <tr>
+                                        <td>{{ $item->barang }}</td>
+                                        <td>{{ $item->satuan }}</td>
+                                        <td>{{ $item->harga }}</td>
+                                        <td>{{ $item->created_at }}</td>
+                                        <td>
+                                            <center>
+                                                <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#editBarang{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusBarang{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                            </center>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @else
                                         <tr>
-                                            <th>BARANG</th>
-                                            <th>SATUAN</th>
-                                            <th>HARGA</th>
-                                            <th>TANGGAL</th>
-                                            <th>ACTION</th>
+                                            <td colspan=5>Tidak Ada Data</td>
                                         </tr>
-                                    </thead>
-                                    <tbody>
-                                        @if(count($list['show']) > 0)
-                                        @foreach($list['show'] as $item)
-                                        <tr>
-                                            <td>{{ $item->barang }}</td>
-                                            <td>{{ $item->satuan }}</td>
-                                            <td>{{ $item->harga }}</td>
-                                            <td>{{ $item->created_at }}</td>
-                                            <td>
-                                                <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#editBarang{{ $item->id }}">Ubah</button>
-                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusBarang{{ $item->id }}">Hapus</button>
-                                            </td>
-                                        </tr>
-                                        @endforeach
-                                        @else
-                                            <tr>
-                                                <td colspan=5>Tidak Ada Data</td>
-                                            </tr>
-                                        @endif
-                                    </tbody>
-                                </table>
-                            </div>
-                        </div>
-                        <div class="col-md-4">
-                            <form class="form-auth-small" action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data">
-                                @csrf
-                                <label>Nama Barang :</label>
-                                <input type="text" name="barang" id="barang" class="form-control" placeholder="">
-                                <br>
-                                <label>Satuan :</label>
-                                <input type="text" name="satuan" id="satuan" class="form-control" placeholder="">
-                                <br>
-                                <label>Harga :</label>
-                                <input type="number" name="harga" id="harga" class="form-control" placeholder="">
-                                <br>
-                                <center><button class="btn btn-primary text-white" id="submit">Tambah</button></center>
-                                <br>
-                            </form>
+                                    @endif
+                                </tbody>
+                            </table>
                         </div>
                     </div>
-                @else
-                    <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
-                @endcan
                 </div>
-            </div>
+            @else
+                <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
+            @endcan
         </div>
     </div>
 </div>
@@ -157,7 +155,7 @@
 
 <script>
 $(document).ready( function () {
-    $('#barang').DataTable(
+    $('#tablebarang').DataTable(
         {
             paging: true,
             searching: true,

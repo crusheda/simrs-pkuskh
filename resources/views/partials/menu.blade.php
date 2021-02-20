@@ -384,6 +384,14 @@
                                 Unit
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route("admin.karyawan.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-male nav-icon">
+        
+                                </i>
+                                Karyawan
+                            </a>
+                        </li>
                     </ul>
                 </li>
             @endcan

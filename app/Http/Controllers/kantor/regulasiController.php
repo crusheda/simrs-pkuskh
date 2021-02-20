@@ -28,7 +28,7 @@ class regulasiController extends Controller
 
         $thn = Carbon::now()->isoFormat('Y');
         
-        if (Auth::user()->hasRole('kantor')) {
+        if (Auth::user()->hasRole(['kantor', 'admin-direksi'])) {
             $show = regulasi::all();
         }else {
             $show = regulasi::where('unit', $role)->get();
@@ -37,7 +37,8 @@ class regulasiController extends Controller
         $data = [
             'show' => $show,
             'thn'  => $thn,
-            'unit' => $unit
+            'unit' => $unit,
+            'role' => $role
         ];
         return view('pages.kantor.regulasi')->with('list', $data);
     }

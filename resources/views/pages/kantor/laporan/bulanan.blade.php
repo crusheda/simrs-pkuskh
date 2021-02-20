@@ -24,7 +24,7 @@
             
         </div>
         <div class="card-body">
-            @role('admin-direksi')
+            {{-- @role('admin-direksi') --}}
                 <div class="row">
                     <div class="col-md-12">
                         <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
@@ -35,7 +35,7 @@
                         </a>
                     </div>
                 </div><br>
-            @endrole
+            {{-- @endrole --}}
             <div class="table-responsive">
                 <table id="regulasi" class="table table-striped display">
                     <thead>
@@ -82,7 +82,7 @@
     </div>
 </div>
 
-@role('admin-direksi')
+{{-- @role('admin-direksi') --}}
 <div class="modal fade bd-example-modal-lg" id="tambah" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -124,10 +124,10 @@
                     <div class="col-md-4">
                         <label>Unit</label>
                         <select class="custom-select" name="unit" id="unit" required>
-                            <option hidden>Pilih</option>
-                            @foreach($list['unit'] as $name => $item)
+                            <option value="{{ $list['role'] }}" selected>{{ $list['role'] }}</option>
+                            {{-- @foreach($list['unit'] as $name => $item)
                                 <option value="{{ $name }}">{{ $name }}</option>
-                            @endforeach
+                            @endforeach --}}
                         </select>
                     </div>
                 </div><br>
@@ -203,10 +203,10 @@
                     <div class="col-md-4">
                         <label>Unit</label>
                         <select class="custom-select" name="unit" id="unit" required>
-                            <option hidden>Pilih</option>
-                            @foreach($list['unit'] as $name => $key)
+                            <option value="{{ $list['role'] }}" selected>{{ $list['role'] }}</option>
+                            {{-- @foreach($list['unit'] as $name => $key)
                                 <option value="{{ $name }}" @if ($item->unit == $name) echo selected @endif>{{ $name }}</option>
-                            @endforeach
+                            @endforeach --}}
                         </select>
                     </div>
                 </div><br>
@@ -272,7 +272,7 @@
     </div>
 </div>
 @endforeach
-@endrole
+{{-- @endrole --}}
 
 <script>
 $(document).ready( function () {

@@ -37,7 +37,8 @@ class laporanBulananController extends Controller
         $data = [
             'show' => $show,
             'thn'  => $thn,
-            'unit' => $unit
+            'unit' => $unit,
+            'role' => $role
         ];
         return view('pages.kantor.laporan.bulanan')->with('list', $data);
     }

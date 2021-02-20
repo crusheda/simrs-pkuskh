@@ -131,9 +131,8 @@
                 <div class="row">
                     <div class="col-md-12">
                         <select class="fstdropdown-select" name="id" id="karyawan">
-                            <option selected hidden>Pilih Karyawan</option>
                             @foreach($list['karyawan'] as $name => $items)
-                                <option value="{{ $items->id }}" @if ($item->name == $items->name) echo selected @endif>{{ $items->name }}</option>
+                                <option value="{{ $items->id }}" @if ($item->name == $items->name) echo selected @endif>{{ $items->name }}&nbsp;&nbsp;&nbsp; | &nbsp;&nbsp;&nbsp;{{ $item->unit }}</option>
                             @endforeach
                         </select>
                     </div>

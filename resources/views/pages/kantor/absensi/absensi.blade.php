@@ -192,13 +192,13 @@
 </div>
 @endforeach
 @endrole
-@foreach($list['show'] as $item)
-<div class="modal" id="lihat{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+@foreach($list['absensi'] as $item)
+<div class="modal" id="lihat{{ $item->absen_id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
-            Daftar Hadir Acara <b>{{ $item->kegiatan }}</b>
+            Daftar Hadir Acara <b>{{ $item->absen_id }}</b>
           </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
@@ -215,13 +215,12 @@
                     <tbody style="text-transform: capitalize">
                         @if(count($list['absensi']) > 0)
                         <div hidden>{{ $id = 1 }}</div>
-                        @foreach($list['absensi'] as $item)
+                        @foreach($list['absensi']->where('absen_id', $item->absen_id) as $item)
                         <tr>
                             <td>{{ $id++ }}</td>
                             <td>{{ $item->name }}</td>
                             <td>{{ $item->unit }}</td>
                         </tr>
-                        {{-- <td hidden>{{ $td++ }}</td> --}}
                         @endforeach
                         @else
                             <tr>

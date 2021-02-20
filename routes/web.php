@@ -33,6 +33,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::resource('users', 'Admin\UsersController');
     Route::delete('users_mass_destroy', 'Admin\UsersController@massDestroy')->name('users.mass_destroy');
     Route::resource('unit', 'Admin\UnitController');
+    Route::resource('karyawan', 'Admin\karyawanController');
 });
 
 // IT
