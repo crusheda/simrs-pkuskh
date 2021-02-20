@@ -133,7 +133,7 @@
                         <select class="fstdropdown-select" name="id" id="karyawan">
                             <option selected hidden>Pilih Karyawan</option>
                             @foreach($list['karyawan'] as $name => $items)
-                                <option value="{{ $items }}" @if ($item->name == $name) echo selected @endif>{{ $name }}</option>
+                                <option value="{{ $items->id }}" @if ($item->name == $items->name) echo selected @endif>{{ $items->name }}</option>
                             @endforeach
                         </select>
                     </div>
