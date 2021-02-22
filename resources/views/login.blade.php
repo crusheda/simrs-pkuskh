@@ -52,12 +52,12 @@
 						<input class="input100 {{ $errors->has('name') ? ' is-invalid' : '' }}" type="text" name="name" id="name" value="{{ old('name') }}" required autofocus>
 						<span class="focus-input100"></span>
 						
-						@if ($errors->has('name'))
-                                <span class="">
-                                    <strong>{{ $errors->first('name') }}</strong>
-                                </span>
-						@endif
 					</div>
+					@if ($errors->has('name'))
+							<span class="">
+								<strong>{{ $errors->first('name') }}</strong>
+							</span>
+					@endif
 					
 					<span class="txt1 p-b-11">
 						Password

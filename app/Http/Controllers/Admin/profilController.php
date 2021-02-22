@@ -7,7 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use App\Models\data_users;
 use App\Models\foto_profil;
-use App\user;
+use App\Models\user;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
@@ -35,21 +35,16 @@ class profilController extends Controller
                 // ->get()
                 ->first();
 
+        $showuser = user::where('id', $id)->select('nama')->first();
+
         $foto = DB::table('foto_profil')
                 ->where('user_id', '=', $id)
                 // ->get()
-                ->first();
-
-        if (empty($show)) {
-            
-        } else {
-            # code...
-        }
-        
+                ->first();        
 
         $data = [
             // 'id_user' => $id,
-            // 'name_user' => $name,
+            'showuser' => $showuser,
             'data_user' => $show,
             'foto' => $foto,
             'user' => $user
@@ -83,30 +78,19 @@ class profilController extends Controller
         $nama = $request->nama;
         $email = $request->email;
         
-        $query_string = "SELECT * FROM data_users WHERE user_id = $id";
-        $find = DB::select($query_string);
+        // $query_string = "SELECT * FROM data_users WHERE user_id = $id";
+        // $find = DB::select($query_string);
 
         // print_r($find);
         // die();
 
         // Ubah data Kepegawaian Table data_users
-        if (empty($find)) {
-            $data = new data_users;
-            $data->user_id = $id;
-            $data->nama = $nama;
-            $data->save();            
-        } else {
-            $data = DB::table('data_users')
-            ->where('user_id', '=', $id)
-            ->update(['nama' => $nama]);
-        }
-
-        // ubah data Table User
         $data = user::find($id);
         $data->name = $name;
+        $data->nama = $nama;
         $data->email = $email;
-        $data->save();  
-        
+        $data->save();
+
         return Redirect::back()->with('message','Data Akun Berhasil Di Ubah');
     }
 

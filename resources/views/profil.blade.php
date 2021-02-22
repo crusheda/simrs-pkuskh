@@ -38,13 +38,13 @@
                     </div>
                         <label>Nama :</label>
                         <div class="input-group mb-3">
-                            @if (empty($list['data_user']->nama))
+                            @if (empty($list['showuser']->nama))
                                 <input type="text" class="form-control is-invalid" name="nama" id="nama" aria-label="Username" aria-describedby="basic-addon1" placeholder="e.g. Ronald Paul Soenaryo, S.Kep. Ns">
                                 <div class="invalid-feedback">
                                     Tuliskan Nama Lengkap Anda.
                                 </div>
                             @else
-                                <input type="text" class="form-control" name="nama" value="{{ $list['data_user']->nama }}" minlength="1" aria-label="Username" aria-describedby="basic-addon1">
+                                <input type="text" class="form-control" name="nama" value="{{ $list['showuser']->nama }}" minlength="1" aria-label="Username" aria-describedby="basic-addon1">
                             @endif
                         </div>
                     <label>Email :</label>
