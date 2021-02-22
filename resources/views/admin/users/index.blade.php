@@ -53,7 +53,7 @@
                             </td>
                             <td>
                                 @php
-                                    $data = \App\Models\users::where('id', $user->id)->select('nama')->pluck('nama')->first();
+                                    $data = \App\Models\user::where('id', $user->id)->select('nama')->pluck('nama')->first();
                                     echo $data;
                                 @endphp
                             </td>
