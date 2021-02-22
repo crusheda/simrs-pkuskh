@@ -5,8 +5,10 @@ namespace App\Http\Controllers;
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Redirect;
 use App\Models\laporbug;
 use App\Models\unit;
+use Auth;
 
 class WelcomeController extends Controller
 {
@@ -23,7 +25,12 @@ class WelcomeController extends Controller
             'unit' => $unit
         ];
 
-        return view('pages.landing.index')->with('list', $data);
+        if (Auth::check()) {
+            return Redirect::to('home');
+        } else {
+            return view('login')->with('list', $data);
+        }
+        
     }
 
     /**
