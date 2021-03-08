@@ -122,17 +122,17 @@
                                 <i class="fa-fw fas fa-calendar-plus-o nav-icon">
 
                                 </i>
-                                Berkas Rapat
+                                Detail Rapat
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="{{ route("absensi.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-signing nav-icon">
 
                                 </i>
                                 Absensi
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
             @endcan
@@ -285,26 +285,26 @@
                     </ul>
                 </li>
             @endcan
-            {{-- @can('administrasi')
+            @can('kepegawaian')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
                         <i class="fa-fw fas fa-folder nav-icon">
 
                         </i>
-                        Administrasi
+                        Kepegawaian
                     </a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
-                            <a href="{{ route("file_manager") }}" class="nav-link">
-                                <i class="fa-fw fas fa-folder-open nav-icon">
-
+                            <a href="{{ route("kepegawaian.karyawan.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-male nav-icon">
+        
                                 </i>
-                                Manajer Berkas
+                                Data Karyawan
                             </a>
                         </li>
                     </ul>
                 </li>
-            @endcan --}}
+            @endcan
             <li class="nav-item nav-dropdown">
                 <a class="nav-link  nav-dropdown-toggle" href="#">
                     <i class="fa-fw fas fa-folder nav-icon">
@@ -384,14 +384,14 @@
                                 Unit
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="{{ route("admin.karyawan.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-male nav-icon">
         
                                 </i>
                                 Karyawan
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
             @endcan

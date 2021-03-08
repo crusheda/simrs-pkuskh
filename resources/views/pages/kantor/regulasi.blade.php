@@ -61,9 +61,9 @@
                             <td>{{ $item->created_at }}</td>
                             <td>
                                 <center>
-                                    <a type="button" class="btn btn-success btn-sm" onclick="window.location.href='{{ url('regulasi/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
+                                    <a type="button" class="btn btn-success btn-sm" onclick="window.location.href='{{ url('regulasi/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i></a> <hr>
+                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
                                     @role('kantor')
-                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
                                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                     @endrole
                                 </center>
@@ -82,7 +82,6 @@
     </div>
 </div>
 
-{{-- @role('kantor') --}}
 <div class="modal fade bd-example-modal-lg" id="tambah" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -115,7 +114,8 @@
                     </div>
                     <div class="col-md-4">
                         <label>Unit</label>
-                        <select class="custom-select" name="unit" id="unit" required>
+                        <input type="text" name="unit" value="{{ $list['role'] }}" hidden>
+                        <select class="custom-select" name="unit" id="unit" disabled>
                             <option value="{{ $list['role'] }}" selected>{{ $list['role'] }}</option>
                             {{-- @foreach($list['unit'] as $name => $item)
                                 <option value="{{ $name }}">{{ $name }}</option>
@@ -186,11 +186,9 @@
                     </div>
                     <div class="col-md-4">
                         <label>Unit</label>
-                        <select class="custom-select" name="unit" id="unit" required>
+                        <input type="text" name="unit" value="{{ $list['role'] }}" hidden>
+                        <select class="custom-select" name="unit" id="unit" disabled>
                             <option value="{{ $list['role'] }}" selected>{{ $list['role'] }}</option>
-                            {{-- @foreach($list['unit'] as $name => $key)
-                                <option value="{{ $name }}" @if ($item->unit == $name) echo selected @endif>{{ $name }}</option>
-                            @endforeach --}}
                         </select>
                     </div>
                 </div>
@@ -231,6 +229,7 @@
 </div>
 @endforeach
 
+@role('kantor')
 @foreach($list['show'] as $item)
 <div class="modal" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog">
@@ -256,7 +255,7 @@
     </div>
 </div>
 @endforeach
-{{-- @endrole --}}
+@endrole
 
 <script>
 $(document).ready( function () {
