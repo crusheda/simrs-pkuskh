@@ -56,14 +56,17 @@
 			</div>
 		</div>
 		<div class="header-bottom">
-			<a href="{{ route('index') }}" class="site-logo">
+			<a href="#" class="site-logo">
 				<img src="{{ asset('css-landing/img/Logo Clear PKU.png') }}" alt="">
 			</a>
 			<div class="hb-right">
 				{{-- <div class="hb-switch" id="search-switch">
 					<img src="{{ asset('css-landing/img/icons/search.png') }}" alt="">
 				</div> --}}
-                @if (Route::has('login'))
+
+
+				{{-- JIKA INGIN MENGAKTIFKAN TOMBOL PILIHAN LOGIN --}}
+                {{-- @if (Route::has('login'))
                     @auth
                         <a href="{{ url('/home') }}" class="tooltip-test text-white" title="Hai, {{ Auth::user()->name }}"><i class="material-icons">people</i></a>
                     @else
@@ -71,7 +74,9 @@
                             <a class="text-white"><img src="{{ asset('css-landing/img/icons/bars.png') }}" alt=""> LOGIN</a>
                         </div>
                     @endauth
-                @endif
+                @endif --}}
+
+
             </div>
 
             <!-- MENU BAR -->

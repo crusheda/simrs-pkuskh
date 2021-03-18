@@ -142,9 +142,13 @@ class logController extends Controller
             'kegiatan' => 'required',
             'lokasi' => 'nullable',
             'keterangan' => 'nullable',
+            'tgl' => 'nullable',
             ]);
+
+        $getTgl = Carbon::createFromFormat('Y-m-d H:i:s', $request->tgl)->format('F j, Y @ g:i A');
         $data = logit::find($id);
         $data->kegiatan = $request->kegiatan;
+        $data->created_at = $getTgl;
 
         if ($request->keterangan == '') {
             $data->keterangan = '';

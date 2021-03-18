@@ -51,12 +51,60 @@
                     <div class="input-group mb-3">
                         <input type="email" class="form-control" name="email" value="{{ $list['user']->email }}" aria-label="Email" aria-describedby="basic-addon1">
                     </div>
+                    <hr>
+                    <div class="row">
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Provinsi :</label>
+                                <select class="form-control" id="province" name="province" disabled>
+                                    <option value="" hidden>Pilih Provinsi</option>
+                                    @foreach ($list['province'] as $item)
+                                        <option value="{{ $item->province_code }}">{{ $item->province_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Kabupaten :</label>
+                                <select class="form-control" aria-label=".form-select-sm example" id="city" name="city" disabled>
+                                    <option value="" hidden>Pilih Kabupaten</option>
+                                    @foreach ($list['city'] as $item)
+                                        <option class="city-option city-option-{{ $item->city_province_code }}" value="{{ $item->city_code }}" hidden>{{ $item->city_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Kecamatan :</label>
+                                <select class="form-control" aria-label=".form-select-sm example" id="district" name="district" disabled>
+                                    <option value="" hidden>Pilih Kecamatan</option>
+                                    @foreach ($list['district'] as $item)
+                                        <option class="district-option district-option-{{ $item->district_city_code }}" value="{{ $item->district_code }}" hidden>{{ $item->district_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3">
+                            <div class="form-group">
+                                <label>Kelurahan :</label>
+                                <select class="form-control" aria-label=".form-select-sm example" id="village" name="village" disabled>
+                                    <option value="" hidden>Pilih Kelurahan</option>
+                                    @foreach ($list['village'] as $item)
+                                        <option class="village-option village-option-{{ $item->city_province_code }}" value="{{ $item->city_code }}" hidden>{{ $item->city_name }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
+                        </div>
+                    </div>
+                    <hr>
                     <ul class="list-inline" style="float: right">
                         <li class="list-inline-item">
-                            <button type="submit" class="btn btn-success">Simpan</button>
+                            <a class="btn btn-warning text-white" href="{{ route('auth.change_password') }}">Ubah Password</a>
                         </li>
                         <li class="list-inline-item">
-                            <a class="btn btn-warning text-white" href="{{ route('auth.change_password') }}">Ubah Password</a>
+                            <button type="submit" class="btn btn-success">Simpan</button>
                         </li>
                     </ul>
                 </div>
@@ -102,20 +150,35 @@
                 order: [[ 4, "desc" ]]
             }
         );
-    } );
-</script>
 
-<script type="text/javascript">
-    $(document).ready(function(){ 
-    $('#nama').keydown(function () {
-    var len = $(this).val().length;
-    if (len >= 1) {
-        $('#nama').removeClass('is-invalid');          
-    } 
-    else {
-        $('#nama').addClass('is-invalid');     
-    }
-    });    
+        // $("#province").change(function () {
+        //     let province_id = this.value;
+        //     $('#city').val('');
+        //     $('.city-option').attr('hidden', true);
+        //     $('.city-option-'+province_id).removeAttr('hidden');
+        // });
+        // $("#city").change(function () {
+        //     let province_id = this.value;
+        //     $('#district').val('');
+        //     $('.district-option').attr('hidden', true);
+        //     $('.district-option-'+province_id).removeAttr('hidden');
+        // });
+        // $("#district").change(function () {
+        //     let province_id = this.value;
+        //     $('#village').val('');
+        //     $('.village-option').attr('hidden', true);
+        //     $('.village-option-'+province_id).removeAttr('hidden');
+        // });
+
+        $('#nama').keydown(function () {
+        var len = $(this).val().length;
+        if (len >= 1) {
+            $('#nama').removeClass('is-invalid');          
+        } 
+        else {
+            $('#nama').addClass('is-invalid');     
+        }
+        });    
     });
 </script>
 @endsection

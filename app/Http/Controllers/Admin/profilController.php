@@ -8,6 +8,10 @@ use Illuminate\Http\RedirectResponse;
 use App\Models\data_users;
 use App\Models\foto_profil;
 use App\Models\user;
+use App\Models\location_province;
+use App\Models\location_city;
+use App\Models\location_district;
+use App\Models\location_village;
 use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
@@ -40,14 +44,24 @@ class profilController extends Controller
         $foto = DB::table('foto_profil')
                 ->where('user_id', '=', $id)
                 // ->get()
-                ->first();        
+                ->first();      
+                
+        
+        $province = location_province::get();
+        $city = location_city::get();
+        $district = location_district::get();
+        $village = location_village::get();
 
         $data = [
             // 'id_user' => $id,
             'showuser' => $showuser,
             'data_user' => $show,
             'foto' => $foto,
-            'user' => $user
+            'user' => $user,
+            'province' => $province,
+            'city' => $city,
+            'district' => $district,
+            'village' => $village
         ];
         // print_r($user->nama);
         // die();

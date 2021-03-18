@@ -1,6 +1,7 @@
 <?php
 Route::resource('/', 'WelcomeController');
 Route::get('/kunjungan', 'kunjunganController@index')->name('landing.kunjungan');
+Route::resource('/antrian', 'queuePoliController');
 // Route::get('/demos', function () {
 //     return view('index');
 // });
@@ -18,9 +19,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/file-manager', 'HomeController@fileManager')->name('file_manager'); //file manager
 Route::resource('user', 'Admin\profilController');
 Route::post('/user/foto', 'Admin\profilController@storeImg');
-Route::get('/antrian/poli', 'queueController@index'); //Antrian Poli
-Route::get('/antrian/poli/tampil', 'queueController@tampil')->name('tampil.antrian'); //Tampil Antrian Poli
-Route::post('/antrian/poli/tambah', 'queueController@addQueue')->name('antrian');
 // Route::post('/antrian/poli/antrian', 'queueController@tambahAntrianSaatIni')->name('antriansaatini');
 // Route::get('/', 'HomeController@index'); //file manager
 
@@ -41,6 +39,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
     // Route::get('home', 'it\itController@index')->name('it.home');
     // Route::get('user-activity', 'it\itController@getActivity')->name('user_activity');
     Route::resource('supervisi', 'it\log\logController');
+
+    
+    // Antrian Poli
+    Route::resource('/antrian/poli', 'queue\admin\setQueuePoliController');
 
     // Imut
         // Pilar
@@ -124,4 +126,21 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
     Route::group(['prefix' => 'token/jasnidh2qu8hnf3298r0fewniongisdng0f32hr0fiwdondnsajdn1283hr420hrwnoi', 'middleware' => ['web', 'auth']], function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();
     });
-    
+
+// Antrian Poli
+Route::group(['middleware' => ['auth'], 'prefix' => 'queue', 'as' => 'queue.'], function () {   
+        
+    // INFORMASI
+        Route::resource('/informasi', 'queue\informasi\queuePoliController');
+        
+    // RM
+        Route::resource('/rm', 'queue\rm\queuePoliController');
+
+    // POLI
+    Route::resource('/poli', 'queue\poli\queuePoliController');
+    // Route::post('/poli/{id}', 'queue\poli\queuePoliController@show')->name('detail.antrian'); 
+
+    // PASIEN
+}); 
+Route::get('api/queue/poli/{id}', 'queue\poli\queuePoliController@apiQueue')->name('api.antrian');
+Route::get('api/queue/poli/{id}/hapus', 'queue\poli\queuePoliController@hapusQueue')->name('hapus.antrian');

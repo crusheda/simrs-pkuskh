@@ -343,6 +343,64 @@
                     </li>
                 </ul>
             </li>
+            @can('antrian_poli')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <i class="fa-fw fas fa-bullhorn nav-icon">
+
+                        </i>
+                        Antrian Poli
+                    </a>
+                    @role('informasi')
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("queue.informasi.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-user-plus nav-icon">
+
+                                </i>
+                                Daftar Inden Pasien
+                            </a>
+                        </li>
+                    </ul>
+                    @endrole
+                    @role('rm')
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("queue.rm.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-user-plus nav-icon">
+
+                                </i>
+                                Daftar Pasien
+                            </a>
+                        </li>
+                    </ul>
+                    @endrole
+                    @role('poli')
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("queue.poli.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-sort-amount-asc nav-icon">
+
+                                </i>
+                                Detail Antrian
+                            </a>
+                        </li>
+                    </ul>
+                    @endrole
+                    @role('it')
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("it.poli.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-sort-amount-asc nav-icon">
+
+                                </i>
+                                Detail Set Poli
+                            </a>
+                        </li>
+                    </ul>
+                    @endrole
+                </li>
+            @endcan
             @can('users_manage')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">

@@ -15,14 +15,17 @@ class CreateTableAntrian extends Migration
     {
         Schema::create('queue_poli', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('no_rm')->nullable();
+            $table->string('nama')->nullable();
+            $table->string('kode_queue')->nullable();
+            $table->string('queue')->nullable();
+            $table->boolean('inden')->nullable();
 
-                $table->string('queue_paru')->nullable();
-                $table->string('queue_mata')->nullable();
-                
-                $table->string('current_paru')->nullable();
-                $table->string('current_mata')->nullable();
+                $table->dateTime('tgl_queue')->nullable();
+                $table->dateTime('tgl_estimasi')->nullable();
+                $table->dateTime('tgl_pending')->nullable();
+                $table->dateTime('tgl_visite')->nullable();
 
-            $table->dateTime('tgl')->nullable();
             $table->softDeletes();
             $table->timestamps();
         });

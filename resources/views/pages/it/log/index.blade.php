@@ -179,9 +179,16 @@
                         <label>Kegiatan : </label>
                         <input type="text" name="kegiatan" id="kegiatan" value="{{ $item->kegiatan }}" class="form-control" placeholder="" required>
                         <br>
-                        <label>Lokasi :</label>
-                        <input type="text" name="lokasi" id="lokasi" value="{{ $item->lokasi }}" class="form-control" placeholder="">
-                        <br>
+                        <div class="row">
+                            <div class="col">
+                                <label>Lokasi :</label>
+                                <input type="text" name="lokasi" id="lokasi" value="{{ $item->lokasi }}" class="form-control" placeholder="">
+                            </div>
+                            <div class="col">
+                                <label>Waktu :</label>
+                                <input type="datetime-local" name="tgl" id="tgl" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($item->created_at)); ?>" class="form-control" placeholder="">
+                            </div>
+                        </div>
                         <label>Keterangan :</label>
                         <textarea class="form-control" name="keterangan" id="keterangan" placeholder=""><?php echo htmlspecialchars($item->keterangan); ?></textarea>
                         <br>

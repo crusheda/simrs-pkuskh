@@ -324,7 +324,7 @@ class accidentReportController extends Controller
             $rugi5 = '√';
         }
         
-        $templateProcessor->setImageValue('img', array('path' => public_path($data->filename), 'width' => 500, 'height' => 500, 'ratio' => true));
+        // $templateProcessor->setImageValue('img', array('path' => public_path($data->filename), 'width' => 500, 'height' => 500, 'ratio' => true));
 
         $templateProcessor->setValues([
             'tgl' => $tgl,
