@@ -118,4 +118,35 @@ class setQueuePoliController extends Controller
 
         return Redirect::back()->with('message','Hapus Data Berhasil.');
     }
+    
+    public function tampilHistory()
+    {
+        $tgl = Carbon::now()->isoFormat('D');
+        $bln = Carbon::now()->isoFormat('MM');
+        $thn = Carbon::now()->isoFormat('Y');
+
+        $query1 = "SELECT qp.no_rm, qp.nama, sqp.nama_queue, qp.queue, qp.inden, qp.tgl_queue, qp.tgl_visite FROM queue_poli qp
+                JOIN set_queue_poli sqp ON qp.kode_queue = sqp.id
+                WHERE qp.deleted_at is null
+                AND qp.tgl_visite is null
+                AND YEAR(qp.tgl_queue) = $thn 
+                AND MONTH(qp.tgl_queue) = $bln 
+                AND DAY(qp.tgl_queue) = $tgl";
+        $show1 = DB::select($query1);
+
+        $query2 = "SELECT qp.no_rm, qp.nama, sqp.nama_queue, qp.queue, qp.inden, qp.tgl_queue, qp.tgl_visite FROM queue_poli qp
+                JOIN set_queue_poli sqp ON qp.kode_queue = sqp.id
+                WHERE qp.deleted_at is not null";
+        $show2 = DB::select($query2);
+
+        $data = [
+            'show1' => $show1,
+            'show2' => $show2,
+        ];
+
+        // print_r($show2);
+        // die();
+        
+        return view('pages.queue.admin.history')->with('list', $data);
+    }
 }

@@ -24,11 +24,12 @@
                         <form class="form-auth-small" action="{{ route('queue.informasi.store') }}" method="POST" enctype="multipart/form-data">
                             @csrf
                             <div class="form-check">
-                                <input class="form-check-input" type="checkbox" value="1" name="inden" id="checkbox" checked>
-                                <label class="form-check-label" for="checkbox">
-                                  Daftar Inden
+                                <input class="form-check-input" type="checkbox" value="1" name="inden" id="checkbox" style="width: 1.25rem;height: 1.25rem;" checked>
+                                <label class="form-check-label" for="checkbox" style="margin-top:4px">
+                                    &nbsp;&nbsp;Daftar Inden
                                 </label>
-                            </div><hr>
+                            </div>
+                            <br><b>nb.</b> (Hapus centang apabila tidak INDEN)<hr>
                             <div class="form-group" id="tgl-inden">
                                 <label>Tgl Inden :</label>
                                 <input type="date" name="tgl_queue" class="form-control">
@@ -73,7 +74,7 @@
                         </i> Data Pasien
 
                         <span class="pull-right badge badge-warning" style="margin-top:4px">
-                            Akses RM
+                            Akses Informasi
                         </span>
 
                     </div>
@@ -118,6 +119,47 @@
                     </div>
                 </div>
             </div>
+            <div class="col-md-3"></div>
+            <div class="col-md-9">
+                <div class="card" style="width: 100%">
+                    <div class="card-header bg-dark text-white">
+
+                        <i class="fa-fw fas fa-sort-amount-asc nav-icon" style="margin-left:10px">
+
+                        </i> Status Antrian
+
+                    </div>
+                    <div class="card-body">
+                        <h5>Update : <kbd id="date">{{ \Carbon\Carbon::now()->toTimeString() }}</kbd></h5><br>
+                        <div class="table-responsive">
+                            <table id="antrian" class="table table-striped display">
+                                <thead>
+                                    <tr>
+                                        <th>Poliklinik</th>
+                                        <th>Jumlah Antrian</th>
+                                        {{-- <th>Nomor Antrian Terakhir</th> --}}
+                                    </tr>
+                                </thead>
+                                <tbody id="status-antrian">
+                                    @if(count($list['antrian']) > 0)
+                                    @foreach($list['antrian'] as $item)
+                                    <tr>
+                                        <td><kbd>{{ $item->nama_queue }}</kbd></td>
+                                        <td>{{ $item->jumlah }}</td>
+                                        {{-- <td>on process</td> --}}
+                                    </tr>
+                                    @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan=2>Tidak Ada Data</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
         </div>
         @endrole
     @else
@@ -139,6 +181,29 @@
             <div class="modal-body">
                 {{ Form::model($item, array('route' => array('queue.informasi.update', $item->id), 'method' => 'PUT')) }}
                     @csrf
+                    @if ($item->inden == true)
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" value="{{ $item->inden }}" name="inden" checked disabled>
+                            <label class="form-check-label" for="checkbox">
+                            Status Inden : <kbd>True</kbd>
+                            </label>
+                        </div><hr>
+                        <div class="form-group">
+                            <label>Tgl Daftar Inden :</label>
+                            <input type="date" name="tgl_queue" value="<?php echo strftime('%Y-%m-%d', strtotime($item->tgl_queue)); ?>" class="form-control">
+                        </div>
+                    @else
+                        <div class="form-check">
+                            <input class="form-check-input" type="checkbox" disabled>
+                            <label class="form-check-label" for="checkbox">
+                            Status Inden : <kbd>False</kbd>
+                            </label>
+                        </div><hr>
+                        <div class="form-group" id="tgl-inden2">
+                            <label>Tgl Daftar :</label>
+                            <input type="date" name="tgl_queue" value="<?php echo strftime('%Y-%m-%d', strtotime($item->tgl_queue)); ?>" class="form-control" disabled>
+                        </div>
+                    @endif
                     <div class="form-group">
                         <label>No. Rekam Medik</label>
                         <input type="number" name="no_rm" value="{{ $item->no_rm }}" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;" required>
@@ -183,7 +248,7 @@
             <div class="modal-body">
                 <p>
                     @if(count($list) > 0)
-                    <table id="antrian" class="table table-striped display">
+                    <table class="table table-striped display">
                         <thead>
                             <tr>
                                 <th>ANTRIAN</th>
@@ -232,9 +297,26 @@
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf', 'print'
                 ],
-                order: [ 0, "desc" ]
+                order: [ 5, "desc" ]
             }
         );
+        setInterval(function () {
+            $.ajax({
+                url: "http://localhost:8000/api/queue/poli/status",
+                type: 'GET',
+                dataType: 'json', // added data type
+                success: function(res) {
+                    $("#status-antrian").empty();
+                    // console.log(res);
+                    var d = new Date();
+                    var time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+                    document.getElementById("date").innerHTML = time;
+                    res.forEach(item => {
+                        $("#status-antrian").append(`<tr id="data${item.id}"> <td><kbd>${item.nama_queue}</kbd></td> <td>${item.jumlah}</td></tr>`);
+                    });
+                }
+            }); 
+        },10000); // 10 detik refresh
         $("#checkbox").on('change', function() {
             if ($(this).is(':checked')) {
                 $(this).attr('value', 1);
@@ -242,6 +324,15 @@
             } else {
                 $(this).attr('value', 0);
                 $('#tgl-inden').prop('hidden', true); 
+            }
+        });
+        $("#checkbox2").on('change', function() {
+            if ($(this).is(':checked')) {
+                $(this).attr('value', 1);
+                $('#tgl-inden2').prop('hidden', false);
+            } else {
+                $(this).attr('value', 0);
+                $('#tgl-inden2').prop('hidden', true); 
             }
         });
     } );

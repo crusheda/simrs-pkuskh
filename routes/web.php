@@ -128,6 +128,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
     });
 
 // Antrian Poli
+Route::get('/history/poli', 'queue\admin\setQueuePoliController@tampilHistory')->name('show.history');
 Route::group(['middleware' => ['auth'], 'prefix' => 'queue', 'as' => 'queue.'], function () {   
         
     // INFORMASI
@@ -137,10 +138,13 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'queue', 'as' => 'queue.'], 
         Route::resource('/rm', 'queue\rm\queuePoliController');
 
     // POLI
-    Route::resource('/poli', 'queue\poli\queuePoliController');
-    // Route::post('/poli/{id}', 'queue\poli\queuePoliController@show')->name('detail.antrian'); 
+        Route::resource('/poli', 'queue\poli\queuePoliController');
+        // Route::post('/poli/{id}', 'queue\poli\queuePoliController@show')->name('detail.antrian'); 
 
     // PASIEN
 }); 
-Route::get('api/queue/poli/{id}', 'queue\poli\queuePoliController@apiQueue')->name('api.antrian');
-Route::get('api/queue/poli/{id}/hapus', 'queue\poli\queuePoliController@hapusQueue')->name('hapus.antrian');
+
+// API Antrian Poli
+    Route::get('api/queue/poli/status/', 'queue\informasi\queuePoliController@apiStatusAntrian')->name('status.antrian');
+    Route::get('api/queue/poli/{id}', 'queue\poli\queuePoliController@apiQueue')->name('api.antrian');
+    Route::get('api/queue/poli/{id}/hapus', 'queue\poli\queuePoliController@hapusQueue')->name('hapus.antrian');

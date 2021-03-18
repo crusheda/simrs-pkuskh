@@ -399,6 +399,16 @@
                         </li>
                     </ul>
                     @endrole
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("show.history") }}" class="nav-link">
+                                <i class="fa-fw fas fa-bookmark nav-icon">
+
+                                </i>
+                                History Antrian
+                            </a>
+                        </li>
+                    </ul>
                 </li>
             @endcan
             @can('users_manage')

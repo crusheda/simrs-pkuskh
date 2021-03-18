@@ -33,12 +33,29 @@ class queuePoliController extends Controller
         
         $show = queue_poli::orderBy('id', 'DESC')->get();
         $poli = set_queue_poli::select('id','kode_queue','nama_queue')->where('aktif', true)->get();
+
+        $tgl = Carbon::now()->isoFormat('D');
+        $bln = Carbon::now()->isoFormat('MM');
+        $thn = Carbon::now()->isoFormat('Y');
+        $date = Carbon::now()->isoFormat('YYYY-MM-D');
+        $getAntrian = "SELECT qp.kode_queue,sqp.nama_queue,COUNT(qp.kode_queue) as jumlah FROM queue_poli qp
+                JOIN set_queue_poli sqp ON qp.kode_queue = sqp.id
+                WHERE qp.deleted_at is null
+                AND YEAR(qp.tgl_queue) = $thn 
+                AND MONTH(qp.tgl_queue) = $bln 
+                AND DAY(qp.tgl_queue) = $tgl 
+                GROUP BY qp.kode_queue,sqp.nama_queue,qp.kode_queue";
+        // $demo = "SELECT CONVERT(VARCHAR(10), tgl_queue, 23) from queue_poli";
+        // $showdemo = DB::select($demo);
+
+        $antrian = DB::select($getAntrian);
          
         $data = [
             'now' => $now,
             'day' => $day,
             'show' => $show,
             'poli' => $poli,
+            'antrian' => $antrian,
         ];
         // print_r($data['show']);
         // die();
@@ -151,7 +168,14 @@ class queuePoliController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = queue_poli::find($id);
+        $data->tgl_queue = $request->tgl_queue;
+        $data->no_rm = $request->no_rm;
+        $data->nama = $request->nama;
+        $data->kode_queue = $request->kode_queue;
+        $data->save();
+
+        return Redirect::back()->with('message','Ubah Data Berhasil.');
     }
 
     /**
@@ -162,6 +186,27 @@ class queuePoliController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = queue_poli::where('id', $id)->delete();
+
+        return Redirect::back()->with('message','Hapus Data Berhasil.');
+    }
+
+    public function apiStatusAntrian()
+    {
+        $tgl = Carbon::now()->isoFormat('D');
+        $bln = Carbon::now()->isoFormat('MM');
+        $thn = Carbon::now()->isoFormat('Y');
+
+        $getData = "SELECT sqp.nama_queue, count(sqp.kode_queue) as jumlah FROM queue_poli qp
+                JOIN set_queue_poli sqp ON qp.kode_queue = sqp.id
+                WHERE qp.deleted_at is null
+                AND qp.tgl_visite is null
+                AND YEAR(qp.tgl_queue) = $thn 
+                AND MONTH(qp.tgl_queue) = $bln 
+                AND DAY(qp.tgl_queue) = $tgl
+                GROUP BY sqp.nama_queue,sqp.kode_queue";
+        $data = DB::select($getData);
+
+        return response()->json($data, 200);
     }
 }
