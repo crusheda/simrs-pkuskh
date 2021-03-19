@@ -301,23 +301,43 @@
                 order: [ 5, "desc" ]
             }
         );
-        setInterval(function () {
-            $.ajax({
-                url: "http://localhost:8000/api/queue/poli/status",
-                type: 'GET',
-                dataType: 'json', // added data type
-                success: function(res) {
-                    $("#status-antrian").empty();
-                    // console.log(res);
-                    var d = new Date();
-                    var time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
-                    document.getElementById("date").innerHTML = time;
-                    res.forEach(item => {
-                        $("#status-antrian").append(`<tr id="data${item.id}"> <td><kbd>${item.nama_queue}</kbd></td> <td>${item.jumlah}</td></tr>`);
-                    });
-                }
-            }); 
-        },10000); // 10 detik refresh
+        // Development
+            setInterval(function () {
+                $.ajax({
+                    url: "http://localhost:8000/api/queue/poli/status",
+                    type: 'GET',
+                    dataType: 'json', // added data type
+                    success: function(res) {
+                        $("#status-antrian").empty();
+                        // console.log(res);
+                        var d = new Date();
+                        var time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+                        document.getElementById("date").innerHTML = time;
+                        res.forEach(item => {
+                            $("#status-antrian").append(`<tr id="data${item.id}"> <td><kbd>${item.nama_queue}</kbd></td> <td>${item.jumlah}</td></tr>`);
+                        });
+                    }
+                }); 
+            },10000); // 10 detik refresh
+        
+        // Hostinger
+            setInterval(function () {
+                $.ajax({
+                    url: "http://simrsku.com/api/queue/poli/status",
+                    type: 'GET',
+                    dataType: 'json', // added data type
+                    success: function(res) {
+                        $("#status-antrian").empty();
+                        // console.log(res);
+                        var d = new Date();
+                        var time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+                        document.getElementById("date").innerHTML = time;
+                        res.forEach(item => {
+                            $("#status-antrian").append(`<tr id="data${item.id}"> <td><kbd>${item.nama_queue}</kbd></td> <td>${item.jumlah}</td></tr>`);
+                        });
+                    }
+                }); 
+            },10000); // 10 detik refresh
         $("#checkbox").on('change', function() {
             if ($(this).is(':checked')) {
                 $(this).attr('value', 1);

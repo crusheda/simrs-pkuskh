@@ -29,7 +29,7 @@
                 <label>Keterangan :</label>
                 <textarea class="form-control" name="keterangan" id="keterangan" placeholder=""></textarea>
                 <br>
-                <center><button class="btn btn-primary text-white" id="submit">Submit</button></center>
+                <center><button class="btn btn-success text-white" id="submit">Submit</button></center>
                 <br>
             </form>
             <div class="data-table-list">

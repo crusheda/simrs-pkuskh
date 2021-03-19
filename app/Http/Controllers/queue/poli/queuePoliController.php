@@ -166,7 +166,7 @@ class queuePoliController extends Controller
         $date = Carbon::now()->isoFormat('YYYY-MM-D');
         $data = DB::table('queue_poli')
                 ->join('set_queue_poli', 'queue_poli.kode_queue', '=', 'set_queue_poli.id')
-                ->select('queue_poli.id','no_rm','queue_poli.nama','set_queue_poli.nama_queue','queue_poli.queue','queue_poli.tgl_queue')
+                ->select('queue_poli.id','queue_poli.no_rm','queue_poli.nama','set_queue_poli.nama_queue','queue_poli.queue','queue_poli.tgl_queue')
                 ->where('queue_poli.deleted_at', null)
                 ->where('queue_poli.tgl_visite', null)
                 ->where('queue_poli.kode_queue', $id)
