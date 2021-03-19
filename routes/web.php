@@ -146,7 +146,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'queue', 'as' => 'queue.'], 
 }); 
 
 // API Antrian Poli
-    Route::get('api/queue/poli/pasien/{id}', 'queue\pasien\queuePoliController@apiFindQueue')->name('cari.antrian');
+    // Route::get('api/queue/poli/pasien/{id}', 'queue\pasien\queuePoliController@apiFindQueue')->name('cari.antrian');
     Route::get('api/queue/poli/status/', 'queue\informasi\queuePoliController@apiStatusAntrian')->name('status.antrian');
     Route::get('api/queue/poli/{id}', 'queue\poli\queuePoliController@apiQueue')->name('api.antrian');
     Route::get('api/queue/poli/{id}/hapus', 'queue\poli\queuePoliController@hapusQueue')->name('hapus.antrian');
