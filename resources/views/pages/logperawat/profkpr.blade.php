@@ -30,6 +30,7 @@
                                 <th>ID</th>
                                 <th>NAMA</th>
                                 <th>UNIT</th>
+                                <th>UPDATE TERAKHIR</th>
                                 <th>ACTION</th>
                             </tr>
                         </thead>
@@ -40,6 +41,12 @@
                                 <td>{{ $item->queue }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->unit }}</td>
+                                <td>
+                                    @php
+                                        $data = \App\Models\profkpr::select('updated_at')->where('queue',$item->queue)->orderBy('created_at','DESC')->pluck('updated_at')->first();
+                                        echo $data;
+                                    @endphp
+                                </td>
                                 <td>
                                     <a type="button" class="btn btn-info btn-sm text-white" href="{{ route('profkpr.show', $item->queue) }}"><i class="fa-fw fas fa-search nav-icon"></i> Detail</a>
                                 </td>
@@ -97,7 +104,8 @@
                                         <th>PERNYATAAN</th>
                                         <th>KETERANGAN</th>
                                         <th>TGL</th>
-                                        <th>ACTION</th>
+                                        <th class="text-center">LAMPIRAN</th>
+                                        <th class="text-center">ACTION</th>
                                     </tr>
                                 </thead>
                                 <tbody style="text-transform: capitalize">
@@ -109,7 +117,10 @@
                                         <td>{{ $item->pernyataan }}</td>
                                         <td>{{ $item->ket }}</td>
                                         <td>{{ $item->tgl }}</td>
-                                        <td>
+                                        <td class="text-center">
+                                            <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#show{{ $item->id }}"><i class="fa-fw fas fa-folder-open nav-icon text-white"></i> Detail</button>
+                                        </td>
+                                        <td class="text-center">
                                             <a type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></a>
                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                         </td>
@@ -133,33 +144,13 @@
     @endcan
 
 @role('kabag-keperawatan')
-    {{-- @foreach($list['show'] as $item)
-    <div class="modal fade bd-example-modal-lg" id="lihatLog{{ $item->queue }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h4 class="modal-title">
-                Detail Penunjang Tugas Perawat&nbsp;<span class="pull-right badge badge-dark text-white" style="margin-top:5px">ID : {{ $item->queue }}</span>
-            </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                
-            </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
-            </div>
-        </div>
-        </div>
-    </div>
-    @endforeach --}}
 @else
     <!-- Tambah -->
     <div class="modal fade" id="tambahtgs" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered" role="document">
         <div class="modal-content">
             <div class="modal-header">
-            <h5 class="modal-title" id="exampleModalLongTitle">Tambah Profesi Keperawatan <kbd>{{ $list['thn'] }}</kbd></h5>
+            <h5 class="modal-title" id="exampleModalLongTitle">Tambah Profesi Keperawatan</h5>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
@@ -180,6 +171,10 @@
                     <br>
                     <label>Keterangan :</label>
                     <textarea class="form-control" name="ket" id="ket" placeholder=""></textarea>
+                    <hr>
+                    <label>Upload Lampiran :</label><br>
+                    <input type="file" name="file">
+                    <span class="help-block text-danger">{{ $errors->first('file') }}</span>
                 </div>
                 <div class="modal-footer">
                     <button type="submit" class="btn btn-primary">Submit</button>
@@ -216,6 +211,13 @@
                         <br>
                         <label>Keterangan :</label>
                         <textarea class="form-control" name="ket" id="ket" placeholder=""maxlength="190" rows="8"><?php echo htmlspecialchars($item->ket); ?></textarea>
+                        <hr>
+                        <label>Detail Lampiran : </label>
+                        @if ($item->filename == '')
+                        -
+                        @else
+                           <b>{{ $item->title }}</b> ({{Storage::size($item->filename)}} bytes)
+                        @endif
                     </div>
 
             </div>
@@ -272,6 +274,37 @@
                         @csrf
                         <button class="btn btn-danger btn-sm"><i class="lnr lnr-trash"></i>Hapus</button>
                     </form>
+                @endif
+            </div>
+        </div>
+        </div>
+    </div>
+    @endforeach
+
+    @foreach($list['show'] as $item)
+    <div class="modal" tabindex="-1" id="show{{ $item->id }}" role="dialog">
+        <div class="modal-dialog modal-dialog-centered">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h5 class="modal-title">Update <b>{{ $item->updated_at }}</b></h5>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+            </div>
+            <div class="modal-body">
+                @if ($item->filename == '')
+                    <p class="text-center"><kbd>File tidak ditemukan / tidak diupload.</kbd></p>
+                @else
+                    Lampiran Dari <a style="text-transform: capitalize"><b>{{ $item->name }}</b></a>, Unit {{ $item->unit }}. <br>
+                    <i class="fa-fw fas fa-angle-right nav-icon"></i>&nbsp;Nama File : {{ $item->title }} <br>
+                    <i class="fa-fw fas fa-angle-right nav-icon"></i>&nbsp;Ukuran File : {{Storage::size($item->filename)}} bytes.
+                @endif
+            </div>
+            <div class="modal-footer">
+                @if ($item->filename == '')
+                    <button type="button" class="btn btn-secondary" disabled><i class="fa fa-paperclip"></i>&nbsp;&nbsp;Lampiran</button>
+                @else
+                    <button onclick="window.location.href='{{ url('profkpr/'. $item->id.'/show') }}'" type="button" class="btn btn-success"><i class="fa fa-paperclip"></i>&nbsp;&nbsp;Lampiran</button>
                 @endif
             </div>
         </div>

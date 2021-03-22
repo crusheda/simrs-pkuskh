@@ -66,96 +66,97 @@
                 </div>
             </div>
             <div class="col-md-9">
-                <div class="card" style="width: 100%">
-                    <div class="card-header bg-dark text-white">
-
-                        <i class="fa-fw fas fa-vcard nav-icon">
-
-                        </i> Data Pasien
-
-                        <span class="pull-right badge badge-warning" style="margin-top:4px">
-                            Akses Informasi
-                        </span>
-
-                    </div>
-                    <div class="card-body">
-                        <div class="table-responsive">
-                            <table id="antrian" class="table table-striped display">
-                                <thead>
-                                    <tr>
-                                        <th class="text-center">ANTRIAN</th>
-                                        <th>RM</th>
-                                        <th>NAMA</th>
-                                        <th>POLI</th>
-                                        <th>STATUS</th>
-                                        <th>DAFTAR</th>
-                                        <th>AKSI</th>
-                                    </tr>
-                                </thead>
-                                <tbody style="text-transform: capitalize">
-                                    @if(count($list['show']) > 0)
-                                    @foreach($list['show'] as $item)
-                                    <tr>
-                                        <td class="text-center"><kbd>{{ $item->queue }}</kbd></td>
-                                        <td>{{ $item->no_rm }}</td>
-                                        <td>{{ $item->nama }}</td>
-                                        <td>{{ $item->kode_queue }}</td>
-                                        <td>{{ $item->inden }}</td>
-                                        <td>{{ $item->tgl_queue }}</td>
-                                        <td>
-                                            <a type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></a>
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    @else
+                <div class="col-md-12">
+                    <div class="card" style="width: 100%">
+                        <div class="card-header bg-dark text-white">
+    
+                            <i class="fa-fw fas fa-sort-amount-asc nav-icon" style="margin-left:10px">
+    
+                            </i> Status Antrian
+    
+                        </div>
+                        <div class="card-body">
+                            <h5>Update : <kbd id="date">{{ \Carbon\Carbon::now()->toTimeString() }}</kbd></h5><br>
+                            <div class="table-responsive">
+                                <table id="" class="table table-striped display">
+                                    <thead>
                                         <tr>
-                                            <td colspan=7>Tidak Ada Data</td>
+                                            <th>Poliklinik</th>
+                                            <th>Jumlah Antrian</th>
+                                            {{-- <th>Nomor Antrian Terakhir</th> --}}
                                         </tr>
-                                    @endif
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody id="status-antrian">
+                                        @if(count($list['antrian']) > 0)
+                                        @foreach($list['antrian'] as $item)
+                                        <tr>
+                                            <td><kbd>{{ $item->nama_queue }}</kbd></td>
+                                            <td>{{ $item->jumlah }}</td>
+                                            {{-- <td>on process</td> --}}
+                                        </tr>
+                                        @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan=2>Tidak Ada Data</td>
+                                            </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
-            </div>
-            <div class="col-md-3"></div>
-            <div class="col-md-9">
-                <div class="card" style="width: 100%">
-                    <div class="card-header bg-dark text-white">
-
-                        <i class="fa-fw fas fa-sort-amount-asc nav-icon" style="margin-left:10px">
-
-                        </i> Status Antrian
-
-                    </div>
-                    <div class="card-body">
-                        <h5>Update : <kbd id="date">{{ \Carbon\Carbon::now()->toTimeString() }}</kbd></h5><br>
-                        <div class="table-responsive">
-                            <table id="antrian" class="table table-striped display">
-                                <thead>
-                                    <tr>
-                                        <th>Poliklinik</th>
-                                        <th>Jumlah Antrian</th>
-                                        {{-- <th>Nomor Antrian Terakhir</th> --}}
-                                    </tr>
-                                </thead>
-                                <tbody id="status-antrian">
-                                    @if(count($list['antrian']) > 0)
-                                    @foreach($list['antrian'] as $item)
-                                    <tr>
-                                        <td><kbd>{{ $item->nama_queue }}</kbd></td>
-                                        <td>{{ $item->jumlah }}</td>
-                                        {{-- <td>on process</td> --}}
-                                    </tr>
-                                    @endforeach
-                                    @else
+                <div class="col-md-12">
+                    <div class="card" style="width: 100%">
+                        <div class="card-header bg-dark text-white">
+    
+                            <i class="fa-fw fas fa-vcard nav-icon">
+    
+                            </i> Data Pasien
+    
+                            <span class="pull-right badge badge-warning" style="margin-top:4px">
+                                Akses Informasi
+                            </span>
+    
+                        </div>
+                        <div class="card-body">
+                            <div class="table-responsive">
+                                <table id="antrian" class="table table-striped display">
+                                    <thead>
                                         <tr>
-                                            <td colspan=2>Tidak Ada Data</td>
+                                            <th class="text-center">ANTRIAN</th>
+                                            <th>RM</th>
+                                            <th>NAMA</th>
+                                            <th>POLI</th>
+                                            <th>STATUS</th>
+                                            <th>DAFTAR</th>
+                                            <th>AKSI</th>
                                         </tr>
-                                    @endif
-                                </tbody>
-                            </table>
+                                    </thead>
+                                    <tbody style="text-transform: capitalize">
+                                        @if(count($list['show']) > 0)
+                                        @foreach($list['show'] as $item)
+                                        <tr>
+                                            <td class="text-center"><kbd>{{ $item->queue }}</kbd></td>
+                                            <td>{{ $item->no_rm }}</td>
+                                            <td>{{ $item->nama }}</td>
+                                            <td>{{ $item->kode_queue }}</td>
+                                            <td>{{ $item->inden }}</td>
+                                            <td>{{ $item->tgl_queue }}</td>
+                                            <td>
+                                                <a type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></a>
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan=7>Tidak Ada Data</td>
+                                            </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>

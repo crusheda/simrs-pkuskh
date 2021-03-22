@@ -30,7 +30,7 @@
             @if ($list['recent'] == 1)
                 <span class="badge badge-primary">Batas waktu pengubahan tindakan hanya sampai hari ini.</span>
             @else
-                <span class="badge badge-primary">Anda sudah melewati batas waktu pengubahan yang sudah ditentukan.</span>
+                <span class="badge badge-danger">Anda sudah melewati batas waktu pengubahan yang sudah ditentukan.</span>
             @endif
             <hr>
             

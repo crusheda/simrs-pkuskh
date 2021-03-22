@@ -34,7 +34,8 @@
                 <div class="container">
                     <label>Username :</label>
                     <div class="input-group mb-3">
-                        <input type="text" class="form-control" name="name" value="{{ $list['user']->name }}" aria-label="Name" aria-describedby="basic-addon1">
+                        <input type="text" class="form-control" value="{{ $list['user']->name }}" aria-label="Name" aria-describedby="basic-addon1" disabled>
+                        <input type="text" class="form-control" name="name" value="{{ $list['user']->name }}" aria-label="Name" aria-describedby="basic-addon1" hidden>
                     </div>
                         <label>Nama :</label>
                         <div class="input-group mb-3">

@@ -55,13 +55,11 @@ class tdkPerawatController extends Controller
                     $recent = 1;
                 } else {
                     $convert_query = Carbon::parse($query->tgl)->isoFormat('D MMMM Y');
-                    $convert_now = Carbon::now()->isoFormat('D MMMM Y');
+                    $convert_now = Carbon::now()->isoFormat('D MMMM Y'); // sesuai tgl kalender di PC
                     if ($convert_now == $convert_query) {
                         $recent = 0;
                     } else {
                         $recent = 1;
-                        // print_r($convert_query);
-                        // die();    
                     }
                 }
                 
@@ -70,6 +68,8 @@ class tdkPerawatController extends Controller
                 $recent = 0;
             }
         }
+        // print_r($convert_query);
+        // die();    
         
         $data = [
             'show' => $show,

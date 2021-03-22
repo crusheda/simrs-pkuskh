@@ -14,6 +14,7 @@ use Carbon\Carbon;
 use Illuminate\Http\Request;
 use Auth;
 use Redirect;
+use Storage;
 
 class profKprController extends Controller
 {
@@ -38,6 +39,7 @@ class profKprController extends Controller
                 ->where('deleted_at', null)
                 ->groupBy('queue' ,'name' ,'unit')
                 ->get();
+            // $last = profkpr::select()
             $pernyataan = '';
             $recent = 'Anda adalah Admin Log';
         }
@@ -89,6 +91,16 @@ class profKprController extends Controller
      */
     public function store(Request $request)
     {
+        $uploadedFile = $request->file('file');     
+        
+        if ($uploadedFile == '') {
+            $path = '';
+            $title = '';
+        }else {
+            $path = $uploadedFile->store('public/files/log-perawat/profkpr');
+            $title = $request->title ?? $uploadedFile->getClientOriginalName();
+        }
+
         $user = Auth::user();
         $id    = $user->id;
         $name = $user->name; //jamhuri
@@ -111,6 +123,10 @@ class profKprController extends Controller
             $data->pernyataan = $request->pernyataan;
             $data->tgl = $request->tgl;
             $data->ket = $request->ket;
+
+                $data->title = $title;
+                $data->filename = $path;
+            
             $data->save();
         
         return Redirect::back()->with('message','Data Profesi Keperawatan Berhasil Ditambahkan.');
@@ -176,5 +192,11 @@ class profKprController extends Controller
         $data = profkpr::where('id', $id)->delete();
 
         return Redirect::back()->with('message','Hapus Profesi Keperawatan Berhasil.');
+    }
+    
+    public function download($id)
+    {
+        $data = profkpr::find($id);
+        return Storage::download($data->filename, $data->title);
     }
 }

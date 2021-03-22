@@ -108,6 +108,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
 
         // Log Profesi Keperawatan
             Route::resource('profkpr', 'perawat\profKprController');
+            Route::get('profkpr/{id}/show', 'perawat\profKprController@download')->name('profkpr.download'); 
 
         // Log Penunjang Tugas Perawat
             Route::resource('tgsperawat', 'perawat\tgsPerawatController');
