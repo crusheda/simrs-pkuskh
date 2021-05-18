@@ -44,6 +44,7 @@ class tdkPerawatController extends Controller
             $show = DB::table('tdkperawat')
                 ->select('queue' ,'name' ,'unit' ,'tgl')
                 ->where('unit', $role)
+                ->where('name', $name)
                 ->where('deleted_at', null)
                 ->groupBy('queue' ,'name' ,'unit' ,'tgl')
                 ->get();
@@ -234,24 +235,32 @@ class tdkPerawatController extends Controller
     public function cariLog(Request $request)
     {
         $getthn = substr(Carbon::now(),0,4);
-        $bln = $request->query('bulan');
-        $thn = $request->query('tahun');
+        
+        if ($request->query('bulan') == 'Bulan') {
+            $thn = $request->query('tahun');
+            $bln = null;
+        } elseif ($request->query('tahun') == 'Tahun') {
+            $bln = $request->query('bulan');
+            $thn = null;
+        } else {
+            $bln = $request->query('bulan');
+            $thn = $request->query('tahun');
+        }
+        
         $time= 'Bulan : '.$bln.' Tahun : '.$thn;
-
+        
         if($bln && $thn){
             $query_string = "SELECT * FROM tdkperawat WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln";
             $show = DB::select($query_string);
         }
-        // elseif($bulan){
-        //     $query_string = "SELECT * FROM output WHERE MONTH(created_at) = $bulan";
-        //     $show = DB::select($query_string);
-        //     $total = count($show);
-        // }
-        // elseif($tahun){
-        //     $query_string = "SELECT * FROM output WHERE YEAR(created_at) = $tahun";
-        //     $show = DB::select($query_string);
-        //     $total = count($show);
-        // }        
+        elseif($bln && $thn == null){
+            $query_string = "SELECT * FROM tdkperawat WHERE MONTH(tgl) = $bln";
+            $show = DB::select($query_string);
+        }
+        elseif($thn && $bln == null){
+            $query_string = "SELECT * FROM tdkperawat WHERE YEAR(tgl) = $thn";
+            $show = DB::select($query_string);
+        }        
 
         $data = [
             'getthn' => $getthn,

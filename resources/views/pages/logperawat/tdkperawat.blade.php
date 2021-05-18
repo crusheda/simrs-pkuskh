@@ -25,14 +25,8 @@
         <div class="card-body">
             @can('log_perawat')
                 <div class="row">
-                    <div class="col-md-8">
+                    <div class="col-md-12">
                         @role('kabag-keperawatan')
-                            <a type="button" class="btn btn-success text-white" data-toggle="modal" data-target="#tambahtdk">
-                                <i class="fa-fw fas fa-plus-square nav-icon">
-        
-                                </i>
-                                Tambah Tindakan Harian
-                            </a>
                         @else
                             @can('log_perawat')
                                 @if ($list['recent'] == 0)
@@ -52,34 +46,34 @@
                                 @endif
                             @endcan
                         @endrole
-                    </div><br><br>
-                    <div class="col-md-4">
-                        @role('kabag-keperawatan')
-                            <form class="form-inline" action="{{ route('tdkperawat.cari') }}" method="GET">
-                                <span style="width: auto;margin-right:10px">Filter</span>
-                                <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="bulan" id="bulan" required>
-                                    <option hidden>Bulan</option>
-                                    <?php
-                                        $bulan=array("","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
-                                        $jml_bln=count($bulan);
-                                        for($c=1 ; $c < $jml_bln ; $c+=1){
-                                            echo"<option value=$c> $bulan[$c] </option>";
-                                        }
-                                    ?>
-                                </select>
-                                <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="tahun" id="tahun" required>
-                                    <option hidden selected>Tahun</option>
-                                    @php
-                                        for ($i=2019; $i <= $list['thn']; $i++) { 
-                                            echo"<option value=$i> $i </option>";
-                                        }
-                                        
-                                    @endphp
-                                </select>
-                                <button class="form-control" id="submit" disabled><span class="badge">Cari</span></button>
-                            </form>
-                        @endrole
                     </div>
+                    @role('kabag-keperawatan')
+                    <div class="col-md-12">
+                        <form class="form-inline" action="{{ route('tdkperawat.cari') }}" method="GET">
+                            <span style="width: auto;margin-right:10px">Filter</span>
+                            <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="bulan" id="bulan">
+                                <option hidden>Bulan</option>
+                                <?php
+                                    $bulan=array("","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+                                    $jml_bln=count($bulan);
+                                    for($c=1 ; $c < $jml_bln ; $c+=1){
+                                        echo"<option value=$c> $bulan[$c] </option>";
+                                    }
+                                ?>
+                            </select>
+                            <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="tahun" id="tahun">
+                                <option hidden>Tahun</option>
+                                @php
+                                    for ($i=2020; $i <= $list['thn']; $i++) { 
+                                        echo"<option value=$i> $i </option>";
+                                    }
+                                    
+                                @endphp
+                            </select>
+                            <button class="form-control" id="submit" disabled><span class="badge">Cari</span></button>
+                        </form>
+                    </div>
+                    @endrole
                 </div>
                 <hr>
                 <div class="table-responsive">

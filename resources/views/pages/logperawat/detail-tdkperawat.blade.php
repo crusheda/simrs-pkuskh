@@ -28,15 +28,14 @@
             <p>Nama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $list['first']->name }}</p>
             <p>Tanggal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $list['first']->tgl }}</p>
             @if ($list['recent'] == 1)
-                <span class="badge badge-primary">Batas waktu pengubahan tindakan hanya sampai hari ini.</span>
+                <span class="badge badge-primary">Batas waktu pengubahan pernyataan hanya sampai hari ini.</span>
             @else
-                <span class="badge badge-danger">Anda sudah melewati batas waktu pengubahan yang sudah ditentukan.</span>
+                <span class="badge badge-danger">Anda sudah melewati batas waktu pengubahan pernyataan yang sudah ditentukan.</span>
             @endif
             <hr>
-            
+
             @role('kabag-keperawatan')
-            <hr>
-            <center><a type="button" href="{{ route('tdkperawat.cetak', $list['first']->queue) }}" class="btn btn-primary btn-sm text-white disabled">
+            <center><a type="button" href="{{ route('tdkperawat.cetak', $list['first']->queue) }}" class="btn btn-secondary btn-sm text-white disabled">
                 <i class="fa-fw fas fa-print nav-icon">
 
                 </i>

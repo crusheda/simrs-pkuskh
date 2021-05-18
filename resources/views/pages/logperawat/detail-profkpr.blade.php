@@ -62,6 +62,7 @@
                         <th>TGL</th>
                         <th>DITAMBAHKAN</th>
                         <th>DIUBAH</th>
+                        <th class="text-center">LAMPIRAN</th>
                     </tfoot>
                 </table>
             </div>
