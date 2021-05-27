@@ -50,32 +50,26 @@
                 <div class="table-responsive">
                     <table id="detailtdk" class="table table-striped">
                         <thead>
-                            <th>ID</th>
                             <th>NAMA</th>
                             <th>UNIT</th>
                             <th>PERNYATAAN</th>
-                            <th>JUMLAH TINDAKAN</th>
-                            <th>TGL</th>
+                            <th>TOTAL TINDAKAN</th>
                         </thead>
                         <tbody style="text-transform: capitalize">
                             @foreach($list['show'] as $item)
                             <tr>
-                                <td>{{ $item->queue }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->unit }}</td>
                                 <td>{{ $item->pertanyaan }}</td>
-                                <td>{{ $item->jawaban }} Kali</td>
-                                <td>{{ $item->tgl }}</td>
+                                <td>{{ $item->hasil }} Kali</td>
                             </tr>
                             @endforeach
                         </tbody>
                         <tfoot>
-                            <th>ID</th>
                             <th>NAMA</th>
                             <th>UNIT</th>
                             <th>PERNYATAAN</th>
-                            <th>JUMLAH TINDAKAN</th>
-                            <th>TGL</th>
+                            <th>TOTAL TINDAKAN</th>
                         </tfoot>
                     </table>
                 </div>

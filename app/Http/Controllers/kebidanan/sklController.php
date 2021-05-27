@@ -136,6 +136,7 @@ class sklController extends Controller
         $data->bb = $request->bb;
         $data->tb = $request->tb;
         $data->alamat = $request->alamat;
+        $data->dr = $request->dr;
 
         $data->save();
 

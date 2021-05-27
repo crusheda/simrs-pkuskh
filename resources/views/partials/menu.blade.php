@@ -307,6 +307,24 @@
             @endcan
             <li class="nav-item nav-dropdown">
                 <a class="nav-link  nav-dropdown-toggle" href="#">
+                    <i class="fa-fw fas fa-gavel nav-icon">
+
+                    </i>
+                    Pengaduan
+                </a>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a href="{{ route("ipsrs.index") }}" class="nav-link">
+                            <i class="fa-fw fas fa-wrench nav-icon">
+    
+                            </i>
+                            IPSRS
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link  nav-dropdown-toggle" href="#">
                     <i class="fa-fw fas fa-folder nav-icon">
 
                     </i>

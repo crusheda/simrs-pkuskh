@@ -250,7 +250,7 @@ class tdkPerawatController extends Controller
         $time= 'Bulan : '.$bln.' Tahun : '.$thn;
         
         if($bln && $thn){
-            $query_string = "SELECT * FROM tdkperawat WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln";
+            $query_string = "SELECT name,unit,pertanyaan,sum(jawaban) as hasil FROM tdkperawat WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln GROUP BY name,unit,pertanyaan";
             $show = DB::select($query_string);
         }
         elseif($bln && $thn == null){
@@ -261,6 +261,9 @@ class tdkPerawatController extends Controller
             $query_string = "SELECT * FROM tdkperawat WHERE YEAR(tgl) = $thn";
             $show = DB::select($query_string);
         }        
+
+        // print_r($show);
+        // die();
 
         $data = [
             'getthn' => $getthn,

@@ -23,15 +23,18 @@
 
         </div>
         <div class="card-body">
-            @can('log_perawat')
             <p>Unit&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $list['first']->unit }}</p>
             <p>Nama&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $list['first']->name }}</p>
             <p>Tanggal&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;: {{ $list['first']->tgl }}</p>
-            @if ($list['recent'] == 1)
-                <span class="badge badge-primary">Batas waktu pengubahan pernyataan hanya sampai hari ini.</span>
-            @else
-                <span class="badge badge-danger">Anda sudah melewati batas waktu pengubahan pernyataan yang sudah ditentukan.</span>
-            @endif
+            @can('log_perawat')
+                @role('kabag-keperawatan')
+                @else
+                    @if ($list['recent'] == 1)
+                        <span class="badge badge-primary">Batas waktu pengubahan pernyataan hanya sampai hari ini.</span>
+                    @else
+                        <span class="badge badge-danger">Anda sudah melewati batas waktu pengubahan pernyataan yang sudah ditentukan.</span>
+                    @endif
+                @endrole
             <hr>
 
             @role('kabag-keperawatan')
