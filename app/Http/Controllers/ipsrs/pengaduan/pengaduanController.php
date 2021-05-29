@@ -35,11 +35,14 @@ class pengaduanController extends Controller
             $showrecent = pengaduan_ipsrs::whereNotNull('tgl_selesai')->get();
         }else {
             $show = pengaduan_ipsrs::where('unit', $role)->get();
+            $showrecent = '';
         }
+        $tambahketerangan = pengaduan_ipsrs_catatan::get();
 
         $data = [
             'show' => $show,
             'showrecent' => $showrecent,
+            'tambahketerangan' => $tambahketerangan,
             'unit' => $unit
         ];
         // print_r($data);
@@ -145,15 +148,23 @@ class pengaduanController extends Controller
         // print_r($gettgl->tgl_pengaduan);
         // die();
         if ($tgl == $now) {
-            $data = pengaduan_ipsrs::find($id);
-            $data->lokasi = $request->lokasi;
-            $data->ket_pengaduan = $request->pengaduan;
-    
-            $data->save();
-    
-            return Redirect::back()->with('message','Ubah Laporan Pengaduan Berhasil');
+            if (empty($gettgl->tgl_diterima)) {
+                $data = pengaduan_ipsrs::find($id);
+                $data->lokasi = $request->lokasi;
+                $data->ket_pengaduan = $request->pengaduan;
+        
+                $data->save();
+        
+                return Redirect::back()->with('message','Ubah Laporan Pengaduan Berhasil');
+            } else {
+                return Redirect::back()->withErrors('Gagal mengubah Laporan, Laporan sudah diverifikasi oleh Unit IPSRS. Silakan Konfirmasi kembali ke Unit IPSRS');
+            }
         } else {
-            return Redirect::back()->withErrors('Tanggal Ubah Laporan Tidak Valid. Pastikan anda mengubah laporan di hari yang sama.');
+            if (!empty($gettgl->tgl_selesai)) {
+                return Redirect::back()->withErrors('Gagal mengubah Laporan, Laporan sudah diselesaikan');
+            } else {
+                return Redirect::back()->withErrors('Tanggal Ubah Laporan Tidak Valid. Pastikan anda mengubah laporan di hari yang sama');
+            }
         }
     }
 
@@ -171,12 +182,20 @@ class pengaduanController extends Controller
         $tgl = Carbon::parse($gettgl->tgl_pengaduan)->isoFormat('YYYY-MM-D');
 
         if ($tgl == $now) {
-            $data = pengaduan_ipsrs::find($id);
-            $data->delete();
-    
-            return Redirect::back()->with('message','Hapus Laporan Pengaduan Berhasil');
+            if (empty($gettgl->tgl_diterima)) {
+                $data = pengaduan_ipsrs::find($id);
+                $data->delete();
+        
+                return Redirect::back()->with('message','Hapus Laporan Pengaduan Berhasil');
+            } else {
+                return Redirect::back()->withErrors('Gagal menghapus Laporan, Laporan sudah diverifikasi oleh Unit IPSRS. Silakan Konfirmasi kembali ke Unit IPSRS');
+            }
         } else {
-            return Redirect::back()->withErrors('Tanggal Hapus Laporan Tidak Valid. Pastikan anda menghapus laporan di hari yang sama. Silakan hubungi IT');
+            if (!empty($gettgl->tgl_selesai)) {
+                return Redirect::back()->withErrors('Gagal menghapus Laporan, Laporan sudah diselesaikan');
+            } else {
+                return Redirect::back()->withErrors('Tanggal Hapus Laporan Tidak Valid. Pastikan anda menghapus laporan di hari yang sama');
+            }
         }
     }
 
@@ -191,7 +210,7 @@ class pengaduanController extends Controller
 
         return Redirect::back()->with('message','Laporan Pengaduan Berhasil Diverifikasi');
     }
-
+    
     public function tolak(Request $request)
     {
         // print_r($request->id);
@@ -202,7 +221,43 @@ class pengaduanController extends Controller
         $data->tgl_selesai = $now;
         $data->ket_penolakan = $request->ket;
         $data->save();
-
+        
         return Redirect::back()->with('message','Laporan Pengaduan Berhasil Ditolak');
+    }
+
+    public function kerjakan(Request $request)
+    {
+        $now = Carbon::now();
+        
+        $data = pengaduan_ipsrs::find($request->id);
+        $data->tgl_dikerjakan = $now;
+        $data->ket_dikerjakan = $request->ket;
+        $data->save();
+    
+        return Redirect::back()->with('message','Ubah Status Laporan Pengaduan Menjadi Dikerjakan Berhasil');
+    }
+
+    public function tambahketerangan(Request $request)
+    {
+        $data = new pengaduan_ipsrs_catatan;
+        $data->pengaduan_id = $request->id;
+        $data->keterangan = $request->ket;
+        $data->save();
+    
+        return Redirect::back()->with('message','Tambah Keterangan Pengerjaan Laporan Berhasil');
+    }
+
+    public function selesai(Request $request)
+    {
+        $now = Carbon::now();
+
+        // print_r($request->id);
+        // die();
+        $data = pengaduan_ipsrs::find($request->id);
+        $data->tgl_selesai = $now;
+        $data->ket_selesai = 'Laporan Pengaduan Selesai';
+        $data->save();
+    
+        return Redirect::back()->with('message','Laporan Berhasil Diselesaikan');
     }
 }
