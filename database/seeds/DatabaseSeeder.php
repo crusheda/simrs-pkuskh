@@ -17,5 +17,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(UnitLogPerawat::class);
         // $this->call(logprofkpr::class);
         // $this->call(logtgsperawat::class);
+        $this->call(RefDesaSeed::class);
     }
 }

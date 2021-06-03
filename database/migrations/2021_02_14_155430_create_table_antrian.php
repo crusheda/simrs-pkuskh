@@ -15,7 +15,7 @@ class CreateTableAntrian extends Migration
     {
         Schema::create('queue_poli', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('no_rm')->nullable();
+            $table->string('no_rm')->nullable();
             $table->string('nama')->nullable();
             $table->string('kode_queue')->nullable();
             $table->string('queue')->nullable();

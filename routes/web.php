@@ -1,11 +1,11 @@
 <?php
 Route::resource('/', 'WelcomeController');
 Route::get('/kunjungan', 'kunjunganController@index')->name('landing.kunjungan');
-Route::resource('/antrian', 'queuePoliController');
+// Route::resource('/antrian', 'queuePoliController');
 // Route::get('/demos', function () {
 //     return view('index');
 // });
-Route::resource('/lokasi', 'other\lokasiController');
+// Route::resource('/lokasi', 'other\lokasiController');
 
 Auth::routes(['register' => false]);
 
@@ -152,9 +152,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'queue', 'as' => 'queue.'], 
     Route::get('api/queue/poli/{id}/hapus', 'queue\poli\queuePoliController@hapusQueue')->name('hapus.antrian');
 
 // IPSRS
-Route::post('pengaduan/ipsrs/selesai', 'ipsrs\pengaduan\pengaduanController@selesai')->name('pengaduan.ipsrs.selesai');
-Route::post('pengaduan/ipsrs/tambahketerangan', 'ipsrs\pengaduan\pengaduanController@tambahketerangan')->name('pengaduan.ipsrs.tambahketerangan');
-Route::post('pengaduan/ipsrs/kerjakan', 'ipsrs\pengaduan\pengaduanController@kerjakan')->name('pengaduan.ipsrs.kerjakan');
-Route::post('pengaduan/ipsrs/terima', 'ipsrs\pengaduan\pengaduanController@terima')->name('pengaduan.ipsrs.terima');
-Route::post('pengaduan/ipsrs/tolak', 'ipsrs\pengaduan\pengaduanController@tolak')->name('pengaduan.ipsrs.tolak');
-Route::resource('pengaduan/ipsrs', 'ipsrs\pengaduan\pengaduanController');
+    Route::post('pengaduan/ipsrs/selesai', 'ipsrs\pengaduan\pengaduanController@selesai')->name('pengaduan.ipsrs.selesai');
+    Route::post('pengaduan/ipsrs/tambahketerangan', 'ipsrs\pengaduan\pengaduanController@tambahketerangan')->name('pengaduan.ipsrs.tambahketerangan');
+    Route::post('pengaduan/ipsrs/kerjakan', 'ipsrs\pengaduan\pengaduanController@kerjakan')->name('pengaduan.ipsrs.kerjakan');
+    Route::post('pengaduan/ipsrs/terima', 'ipsrs\pengaduan\pengaduanController@terima')->name('pengaduan.ipsrs.terima');
+    Route::post('pengaduan/ipsrs/tolak', 'ipsrs\pengaduan\pengaduanController@tolak')->name('pengaduan.ipsrs.tolak');
+    Route::resource('pengaduan/ipsrs', 'ipsrs\pengaduan\pengaduanController');

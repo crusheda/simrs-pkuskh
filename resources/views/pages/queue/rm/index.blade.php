@@ -25,11 +25,12 @@
                             @csrf
                             <div class="form-group">
                                 <label>No. Rekam Medik</label>
-                                <input type="number" name="no_rm" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;" required>
+                                <input type="number" name="no_rm" id="no_rm" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;" required>
                             </div>
                             <div class="form-group">
                                 <label>Nama Pasien</label>
-                                <input type="text" name="nama" class="form-control" required>
+                                <input type="text" name="nama" id="nama1" class="form-control" hidden>
+                                <input type="text" name="nama" id="nama2" class="form-control" disabled>
                             </div>
                             <div class="form-group">
                                 <label>Poliklinik</label>
@@ -40,15 +41,15 @@
                                     @endforeach
                                 </select>
                             </div>
-                            <div class="form-group">
-                                <label>Jenis Kelamin</label>
-                                <select class="form-control" name="kelamin" required>
-                                    <option hidden>Pilih</option>
-                                    <option value="TN. ">Pria</option>
-                                    <option value="NY. ">Wanita</option>
-                                </select>
-                            </div>
                             <hr>
+
+                                <input type="text" name="NO_KTP" id="no_ktp" class="form-control" hidden>
+                                <input type="text" name="TELPON_HP" id="telpon_hp" class="form-control" hidden>
+                                <input type="text" name="REF_DESA" id="ref_desa" class="form-control" hidden>
+                                <input type="text" name="ALAMAT" id="alamat" class="form-control" hidden>
+                                <input type="text" name="REF_PEKERJAAN" id="ref_pekerjaan" class="form-control" hidden>
+                                <input type="text" name="UMUR" id="umur" class="form-control" hidden>
+
                             <center><button class="btn btn-success">Tambah</button></center>
                         </form>
                     </div>
@@ -76,7 +77,7 @@
                                         <th>RM</th>
                                         <th>NAMA</th>
                                         <th>POLI</th>
-                                        <th>STATUS</th>
+                                        <th>INDEN</th>
                                         <th>DAFTAR</th>
                                         <th>AKSI</th>
                                     </tr>
@@ -89,7 +90,13 @@
                                         <td>{{ $item->no_rm }}</td>
                                         <td>{{ $item->nama }}</td>
                                         <td>{{ $item->kode_queue }}</td>
-                                        <td>{{ $item->inden }}</td>
+                                        <td>
+                                            @if ($item->inden == false)
+                                                Tidak
+                                            @else
+                                                Ya
+                                            @endif    
+                                        </td>
                                         <td>{{ $item->tgl_queue }}</td>
                                         <td>
                                             <a type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></a>
@@ -97,10 +104,6 @@
                                         </td>
                                     </tr>
                                     @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan=7>Tidak Ada Data</td>
-                                        </tr>
                                     @endif
                                 </tbody>
                             </table>
@@ -131,11 +134,11 @@
                     @csrf
                     <div class="form-group">
                         <label>No. Rekam Medik</label>
-                        <input type="number" name="no_rm" value="{{ $item->no_rm }}" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;" required>
+                        <input type="number" name="no_rm" value="{{ $item->no_rm }}" class="form-control" pattern="/^-?\d+\.?\d*$/" onKeyPress="if(this.value.length==6) return false;" disabled>
                     </div>
                     <div class="form-group">
                         <label>Nama Pasien</label>
-                        <input type="text" name="nama" value="{{ $item->nama }}" class="form-control" required>
+                        <input type="text" name="nama" value="{{ $item->nama }}" class="form-control" disabled>
                     </div>
                     <div class="form-group">
                         <label>Poliklinik</label>
@@ -222,9 +225,48 @@
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf', 'print'
                 ],
-                order: [ 0, "desc" ]
+                order: [ 5, "desc" ]
             }
         );
+
+        // IP PUBLIC
+        $('#no_rm').change(function() { 
+        // console.log(this.value);
+        
+            if (this.value == '') {
+                $("#nama1").val("");
+                $("#nama2").val("");
+                $("#no_ktp").val("");
+                $("#telpon_hp").val("");
+                $("#ref_desa").val("");
+                $("#alamat").val("");
+                $("#ref_pekerjaan").val("");
+                $("#umur").val("");
+                // $("#satuan20").val("");
+                // $("#harga20").val("");
+                // $('#jumlah20').attr('required', false);
+            } else {
+                $.ajax({
+                    url: "http://103.155.246.25:8000/api/all/"+this.value,
+                    type: 'GET',
+                    dataType: 'json', // added data type
+                    success: function(res) {
+                        // console.log(res);
+                        // console.log(res.satuan);
+                        // console.log(res.harga);
+                        $("#nama1").val(res.NAMAPASIEN);
+                        $("#nama2").val(res.NAMAPASIEN);
+                        $("#no_ktp").val(res.NO_KTP);
+                        $("#telpon_hp").val(res.TELPON_HP);
+                        $("#ref_desa").val(res.REF_DESA);
+                        $("#alamat").val(res.ALAMAT);
+                        $("#ref_pekerjaan").val(res.REF_PEKERJAAN);
+                        $("#umur").val(res.UMUR);
+                        // $('#jumlah20').attr('required', true);
+                    }
+                });
+            }
+        });
     } );
 </script>
 

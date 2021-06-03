@@ -88,7 +88,13 @@ class queuePoliController extends Controller
 
         $data = new queue_poli;
         $data->no_rm = $request->no_rm;
-        $data->nama = $request->kelamin . $request->nama;
+        $data->nama = $request->nama;
+        $data->no_ktp = $request->NO_KTP;
+        $data->no_hp = $request->TELPON_HP;
+        $data->ref_desa = $request->REF_DESA;
+        $data->alamat = $request->ALAMAT;
+        $data->pekerjaan = $request->REF_PEKERJAAN;
+        $data->umur = $request->UMUR;
         $data->kode_queue = $request->kode_queue;
         $data->queue = $getQueue->kode_queue.$done;
         $data->inden = 0;
@@ -131,8 +137,6 @@ class queuePoliController extends Controller
     public function update(Request $request, $id)
     {
         $data = queue_poli::find($id);
-        $data->no_rm = $request->no_rm;
-        $data->nama = $request->nama;
         $data->kode_queue = $request->kode_queue;
         $data->save();
 

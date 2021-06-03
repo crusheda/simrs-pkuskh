@@ -57,8 +57,6 @@ class queuePoliController extends Controller
             'poli' => $poli,
             'antrian' => $antrian,
         ];
-        // print_r($data['show']);
-        // die();
 
         return view('pages.queue.informasi.index')->with('list', $data);
     }
@@ -81,6 +79,8 @@ class queuePoliController extends Controller
      */
     public function store(Request $request)
     {
+        // print_r($request->nama);
+        // die();
         $getQueue = set_queue_poli::find($request->kode_queue);
         $now = Carbon::now();
         // $getLast = queue_poli::select('queue')->orderBy('queue', 'DESC')->first();
@@ -123,10 +123,16 @@ class queuePoliController extends Controller
             $sttInden = false;
             $tglDaftar = $now;
         }
-
+        
         $data = new queue_poli;
         $data->no_rm = $request->no_rm;
-        $data->nama = $request->kelamin . $request->nama;
+        $data->nama = $request->nama;
+        $data->no_ktp = $request->NO_KTP;
+        $data->no_hp = $request->TELPON_HP;
+        $data->ref_desa = $request->REF_DESA;
+        $data->alamat = $request->ALAMAT;
+        $data->pekerjaan = $request->REF_PEKERJAAN;
+        $data->umur = $request->UMUR;
         $data->kode_queue = $request->kode_queue;
         $data->queue = $getQueue->kode_queue.$done;
         $data->inden = $sttInden;
@@ -168,10 +174,11 @@ class queuePoliController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $getQueue = set_queue_poli::find($request->kode_queue);
+
         $data = queue_poli::find($id);
         $data->tgl_queue = $request->tgl_queue;
-        $data->no_rm = $request->no_rm;
-        $data->nama = $request->nama;
+        $data->queue = $getQueue->kode_queue . substr($data->queue,1,10);
         $data->kode_queue = $request->kode_queue;
         $data->save();
 

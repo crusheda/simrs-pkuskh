@@ -50,10 +50,6 @@
                             <td>{{ $item->tgl_queue }}</td>
                         </tr>
                         @endforeach
-                        @else
-                            <tr>
-                                <td colspan=7>Tidak Ada Data</td>
-                            </tr>
                         @endif
                     </tbody>
                 </table>
@@ -124,23 +120,23 @@
             // console.log(id);
 
             // Development
-                setInterval(function () {
-                    $.ajax({
-                        url: "http://localhost:8000/api/queue/poli/{{ $list['kode'] }}",
-                        type: 'GET',
-                        dataType: 'json', // added data type
-                        success: function(res) {
-                            $("#antrian").empty();
-                            // console.log(res);
-                            var d = new Date();
-                            var time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
-                            document.getElementById("date").innerHTML = time;
-                            res.forEach(item => {
-                                $("#antrian").append(`<tr id="data${item.id}"><td><center><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#hapusLog${item.id}"><i class="fa-fw fas fa-check nav-icon"></i>${item.id}</button></center></td> <td>${item.no_rm}</td> <td>${item.nama}</td> <td>${item.nama_queue}</td> <td>${item.queue}</td> <td>${item.tgl_queue ? item.tgl_queue : ''}</td></tr>`);
-                            });
-                        }
-                    }); 
-                },10000);
+                // setInterval(function () {
+                //     $.ajax({
+                //         url: "http://localhost:8000/api/queue/poli/{{ $list['kode'] }}",
+                //         type: 'GET',
+                //         dataType: 'json', // added data type
+                //         success: function(res) {
+                //             $("#antrian").empty();
+                //             // console.log(res);
+                //             var d = new Date();
+                //             var time = d.getHours() + ":" + d.getMinutes() + ":" + d.getSeconds();
+                //             document.getElementById("date").innerHTML = time;
+                //             res.forEach(item => {
+                //                 $("#antrian").append(`<tr id="data${item.id}"><td><center><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#hapusLog${item.id}"><i class="fa-fw fas fa-check nav-icon"></i>${item.id}</button></center></td> <td>${item.no_rm}</td> <td>${item.nama}</td> <td>${item.nama_queue}</td> <td>${item.queue}</td> <td>${item.tgl_queue ? item.tgl_queue : ''}</td></tr>`);
+                //             });
+                //         }
+                //     }); 
+                // },10000);
 
             // Hostinger
             setInterval(function () {
@@ -163,21 +159,22 @@
         } );
 
         // Development
-            function hapus(id){
-                $.ajax({
-                    url: "http://localhost:8000/api/queue/poli/"+id+"/hapus",
-                    type: 'GET',
-                    dataType: 'json', // added data type
-                    success: function(res) {
-                        // $("#antrian").empty();
-                        console.log(res);
-                        if (res.success) {
-                            $("#data"+res.id).remove();
-                        }
-                        $('#hapusLog'+res.id).modal('hide');
-                    }
-                }); 
-            }
+            // function hapus(id){
+            //     $.ajax({
+            //         url: "http://localhost:8000/api/queue/poli/"+id+"/hapus",
+            //         type: 'GET',
+            //         dataType: 'json', // added data type
+            //         success: function(res) {
+            //             // $("#antrian").empty();
+            //             console.log(res);
+            //             if (res.success) {
+            //                 $("#data"+res.id).remove();
+            //             }
+            //             $('#hapusLog'+res.id).modal('hide');
+            //             location.reload();
+            //         }
+            //     }); 
+            // }
 
         // Hostinger
         function hapus(id){
@@ -192,6 +189,7 @@
                         $("#data"+res.id).remove();
                     }
                     $('#hapusLog'+res.id).modal('hide');
+                    location.reload();
                 }
             }); 
         }

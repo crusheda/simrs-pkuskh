@@ -42,7 +42,13 @@
                         <td>{{ $item->no_rm }}</td>
                         <td>{{ $item->nama }}</td>
                         <td>{{ $item->nama_queue }}</td>
-                        <th>{{ $item->inden }}</th>
+                        <th>
+                            @if ($item->inden == false)
+                                Tidak
+                            @else
+                                Ya
+                            @endif    
+                        </th>
                         <td class="text-center">{{ $item->tgl_queue }} <br><sub><kbd>{{ \Carbon\Carbon::parse($item->tgl_queue)->diffForHumans() }}</kbd></sub></td>
                     </tr>
                     @endforeach
@@ -88,7 +94,13 @@
                         <td>{{ $item->no_rm }}</td>
                         <td>{{ $item->nama }}</td>
                         <td>{{ $item->nama_queue }}</td>
-                        <td>{{ $item->inden }}</td>
+                        <td>
+                            @if ($item->inden == false)
+                                Tidak
+                            @else
+                                Ya
+                            @endif        
+                        </td>
                         <td>{{ $item->tgl_queue }}</td>
                         <td>{{ $item->tgl_visite }}</td>
                     </tr>
