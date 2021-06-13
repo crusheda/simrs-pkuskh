@@ -342,6 +342,25 @@
                             // $('#jumlah20').attr('required', true);
                         }
                     });
+                    $.ajax({
+                        url: "http://192.168.1.3:8000/api/all/"+this.value,
+                        type: 'GET',
+                        dataType: 'json', // added data type
+                        success: function(res) {
+                            // console.log(res);
+                            // console.log(res.satuan);
+                            // console.log(res.harga);
+                            $("#nama1").val(res.NAMAPASIEN);
+                            $("#nama2").val(res.NAMAPASIEN);
+                            $("#no_ktp").val(res.NO_KTP);
+                            $("#telpon_hp").val(res.TELPON_HP);
+                            $("#ref_desa").val(res.REF_DESA);
+                            $("#alamat").val(res.ALAMAT);
+                            $("#ref_pekerjaan").val(res.REF_PEKERJAAN);
+                            $("#umur").val(res.UMUR);
+                            // $('#jumlah20').attr('required', true);
+                        }
+                    });
                 }
             });
         });

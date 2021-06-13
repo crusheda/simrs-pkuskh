@@ -39,6 +39,7 @@
                     </em>
                 @endif
             </div>
+            <p>Catatan: Password yang anda masukkan akan diproses oleh sistem menggunakan <i><b>encode password</b></i>, maka dari itu Password akan terproteksi.</p>
             <div>
                 <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
             </div>

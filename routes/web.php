@@ -150,6 +150,12 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'queue', 'as' => 'queue.'], 
     Route::get('api/queue/poli/status/', 'queue\informasi\queuePoliController@apiStatusAntrian')->name('status.antrian');
     Route::get('api/queue/poli/{id}', 'queue\poli\queuePoliController@apiQueue')->name('api.antrian');
     Route::get('api/queue/poli/{id}/hapus', 'queue\poli\queuePoliController@hapusQueue')->name('hapus.antrian');
+    
+// API Profil Simrsku
+    Route::get('api/provinsi/{id}', 'Admin\profilController@apiProvinsi')->name('api.provinsi');
+    Route::get('api/kota/{id}', 'Admin\profilController@apiKota')->name('api.kota');
+    Route::get('api/kecamatan/{id}', 'Admin\profilController@apiKecamatan')->name('api.kecamatan');
+
 
 // IPSRS
     Route::post('pengaduan/ipsrs/selesai', 'ipsrs\pengaduan\pengaduanController@selesai')->name('pengaduan.ipsrs.selesai');
@@ -158,3 +164,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'queue', 'as' => 'queue.'], 
     Route::post('pengaduan/ipsrs/terima', 'ipsrs\pengaduan\pengaduanController@terima')->name('pengaduan.ipsrs.terima');
     Route::post('pengaduan/ipsrs/tolak', 'ipsrs\pengaduan\pengaduanController@tolak')->name('pengaduan.ipsrs.tolak');
     Route::resource('pengaduan/ipsrs', 'ipsrs\pengaduan\pengaduanController');
+
+// MAIL
+    Route::get('/kirimemail','Mail\InsentifDokterController@index');
