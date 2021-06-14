@@ -285,13 +285,17 @@ class profilController extends Controller
                 }
             }
 
-        $data->nip = $request->nip;
-        $data->jabatan = $request->jabatan;
-        $data->masuk_kerja = $request->masuk_kerja;
-        $data->no_str = $request->no_str;
-        $data->masa_str = $request->masa_str;
-        $data->masa_sip = $request->masa_sip;
-        $data->pengalaman_kerja = $request->pengalaman_kerja;
+        if (Auth::user()->hasRole('kepegawaian')) {
+            $data->nip = $request->nip;
+            $data->jabatan = $request->jabatan;
+            $data->masuk_kerja = $request->masuk_kerja;
+            $data->no_str = $request->no_str;
+            $data->masa_str = $request->masa_str;
+            $data->masa_sip = $request->masa_sip;
+            $data->pengalaman_kerja = $request->pengalaman_kerja;   
+        } else {
+            
+        }
         
         $data->riwayat_penyakit = $request->riwayat_penyakit;
         $data->riwayat_penyakit_keluarga = $request->riwayat_penyakit_keluarga;

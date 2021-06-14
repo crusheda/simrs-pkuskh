@@ -56,12 +56,12 @@
                             <label>NIK :</label>
                             <div class="input-group mb-3">
                                 @if (empty($list['user']->nik))
-                                    <input type="number" class="form-control is-invalid" name="nik" id="nik" value="{{ $list['user']->nik }}" max="9999999999999999" placeholder="e.g. 331xxxxxxxxxxxxx">
+                                    <input type="number" class="form-control is-invalid" name="nik" id="nik" value="{{ $list['user']->nik }}" max="9999999999999999" placeholder="e.g. 331xxxxxxxxxxxxx" autofocus required>
                                     <div class="invalid-feedback">
                                         Tuliskan Nomor Induk Kependudukan Anda.
                                     </div>
                                 @else
-                                    <input type="number" class="form-control" name="nik" value="{{ $list['user']->nik }}" max="9999999999999999">
+                                    <input type="number" class="form-control" name="nik" value="{{ $list['user']->nik }}" max="9999999999999999" required>
                                 @endif
                             </div>
                         </div>
@@ -69,12 +69,12 @@
                             <label>Nama Lengkap + Gelar :</label>
                             <div class="input-group mb-3">
                                 @if (empty($list['showuser']->nama))
-                                    <input type="text" class="form-control is-invalid" name="nama" id="nama" aria-label="Username" aria-describedby="basic-addon1" placeholder="e.g. Soenaryo, S.Kep. Ns">
+                                    <input type="text" class="form-control is-invalid" name="nama" id="nama" aria-label="Username" aria-describedby="basic-addon1" placeholder="e.g. Soenaryo, S.Kep. Ns" required>
                                     <div class="invalid-feedback">
                                         Tuliskan Nama Lengkap Anda.
                                     </div>
                                 @else
-                                    <input type="text" class="form-control" name="nama" value="{{ $list['showuser']->nama }}" minlength="1" aria-label="Username" aria-describedby="basic-addon1">
+                                    <input type="text" class="form-control" name="nama" value="{{ $list['showuser']->nama }}" minlength="1" aria-label="Username" aria-describedby="basic-addon1" required>
                                 @endif
                             </div>
                         </div>
@@ -82,12 +82,12 @@
                             <label>Nama Panggilan :</label>
                             <div class="input-group mb-3">
                                 @if (empty($list['showuser']->nick))
-                                    <input type="text" class="form-control is-invalid" name="nick" id="nick" placeholder="e.g. Soenaryo">
+                                    <input type="text" class="form-control is-invalid" name="nick" id="nick" placeholder="e.g. Soenaryo" required>
                                     <div class="invalid-feedback">
                                         Tuliskan Nama Panggilan Anda.
                                     </div>
                                 @else
-                                    <input type="text" class="form-control" name="nick" value="{{ $list['showuser']->nick }}" minlength="1" aria-label="Username" aria-describedby="basic-addon1">
+                                    <input type="text" class="form-control" name="nick" value="{{ $list['showuser']->nick }}" minlength="1" aria-label="Username" aria-describedby="basic-addon1" required>
                                 @endif
                             </div>
                         </div>
@@ -107,7 +107,7 @@
                         <div class="col-md-4">
                             <label>Tempat Lahir :</label>
                             <div class="input-group mb-3">
-                                <select class="fstdropdown-select" id="temp_lahir" name="temp_lahir">
+                                <select class="fstdropdown-select" id="temp_lahir" name="temp_lahir" required>
                                     <option selected="selected" value="">Pilih Kota</option>
                                     @foreach($list['nama_kabkota'] as $item)
                                         <option value="{{ $item->nama_kabkota }}" @if ($list['showuser']->temp_lahir == $item->nama_kabkota) echo selected @endif>{{ $item->nama_kabkota }}</option>
@@ -119,9 +119,9 @@
                             <label>Tanggal Lahir :</label>
                             <div class="input-group mb-3">
                                 @if (empty($list['showuser']->tgl_lahir))
-                                    <input type="date" name="tgl_lahir" class="form-control">
+                                    <input type="date" name="tgl_lahir" class="form-control" required>
                                 @else
-                                    <input type="date" name="tgl_lahir" value="<?php echo strftime('%Y-%m-%d', strtotime($list['showuser']->tgl_lahir)); ?>" class="form-control">
+                                    <input type="date" name="tgl_lahir" value="<?php echo strftime('%Y-%m-%d', strtotime($list['showuser']->tgl_lahir)); ?>" class="form-control" required>
                                 @endif
                             </div>
                         </div>
@@ -165,12 +165,12 @@
                             <label>Nomor HP / Whatsapp :</label>
                             <div class="input-group mb-3">
                                 @if (empty($list['showuser']->no_hp))
-                                    <input type="number" class="form-control is-invalid" name="no_hp" id="no_hp" value="{{ $list['showuser']->no_hp }}" max="9999999999999" placeholder="e.g. 628xxxxxxxxxx">
+                                    <input type="number" class="form-control is-invalid" name="no_hp" id="no_hp" value="{{ $list['showuser']->no_hp }}" max="9999999999999" placeholder="e.g. 628xxxxxxxxxx" required>
                                     <div class="invalid-feedback">
                                         Tuliskan Nomor HP / Whatsapp Anda.
                                     </div>
                                 @else
-                                    <input type="number" class="form-control" name="no_hp" value="{{ $list['showuser']->no_hp }}" max="9999999999999" placeholder="e.g. 628xxxxxxxxxx">
+                                    <input type="number" class="form-control" name="no_hp" value="{{ $list['showuser']->no_hp }}" max="9999999999999" placeholder="e.g. 628xxxxxxxxxx" required>
                                 @endif
                             </div>
                         </div>
@@ -441,6 +441,7 @@
                             </div>
                         </div>
                     </div>
+                    @role('kepegawaian')
                     <div class="card card-body">
                         <h6 class="text-center"><b>Dokumen Kepegawaian</b></h6><br>
                         <div class="row">
@@ -524,6 +525,7 @@
                             </div>
                         </div>
                     </div>
+                    @endrole
                     <div class="card card-body">
                         <h6 class="text-center"><b>Dokumen Medis</b></h6><br>
                         <div class="row">
