@@ -28,7 +28,7 @@ class laporanBulananController extends Controller
 
         $thn = Carbon::now()->isoFormat('Y');
         
-        if (Auth::user()->hasRole('admin-direksi')) {
+        if (Auth::user()->hasRole('pelayanan')) {
             $show = laporan_bulanan::all();
         }else {
             $show = laporan_bulanan::where('unit', $role)->get();

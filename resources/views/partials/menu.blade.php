@@ -108,34 +108,6 @@
                     </ul>
                 </li>
             @endcan --}}
-            @can('berkas_rapat')
-                <li class="nav-item nav-dropdown">
-                    <a class="nav-link  nav-dropdown-toggle" href="#">
-                        <i class="fa-fw fas fa-inbox nav-icon">
-
-                        </i>
-                        Berkas Rapat
-                    </a>
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a href="{{ route("rapat.index") }}" class="nav-link">
-                                <i class="fa-fw fas fa-calendar-plus-o nav-icon">
-
-                                </i>
-                                Detail Rapat
-                            </a>
-                        </li>
-                        {{-- <li class="nav-item">
-                            <a href="{{ route("absensi.index") }}" class="nav-link">
-                                <i class="fa-fw fas fa-signing nav-icon">
-
-                                </i>
-                                Absensi
-                            </a>
-                        </li> --}}
-                    </ul>
-                </li>
-            @endcan
             @role('kabag-keperawatan')
             <li class="nav-item nav-dropdown">
                 <a class="nav-link  nav-dropdown-toggle">
@@ -340,6 +312,18 @@
                         </a>
                     </li>
                 </ul>
+                @can('berkas_rapat')
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("rapat.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-inbox nav-icon">
+        
+                                </i>
+                                Berkas Rapat
+                            </a>
+                        </li>
+                    </ul>
+                @endcan
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
                         <a href="{{ route("regulasi.index") }}" class="nav-link">
