@@ -43,7 +43,8 @@
                 <table id="pengaduan_ipsrs" class="table table-striped display">
                     <thead>
                         <tr>
-                            <th><center>DETAIL</center></th>
+                            {{-- <th></th> --}}
+                            <th><center>AKSI</center></th>
                             <th>NAMA</th>
                             <th>UNIT</th>
                             <th>LOKASI</th>
@@ -55,14 +56,22 @@
                         @if(count($list['show']) > 0)
                         @foreach($list['show'] as $item)
                         <tr>
+                            {{-- <td><button type="button" class="btn btn-success btn-sm text-white" data-toggle="modal" data-target="#lampiranIPSRS{{ $item->id }}"><i class="fa-fw fas fa-unsorted nav-icon"></i> Detail</button></td> --}}
                             @if (empty($item->tgl_diterima) && empty($item->tgl_selesai))
-                                <td><center><button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#detail1{{ $item->id }}"><i class="fa-fw fas fa-check-square nav-icon"></i> Verifikasi</button></center></td>
+                                <td>
+                                    <center><button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#detail1{{ $item->id }}"><i class="fa-fw fas fa-check-square nav-icon"></i> Verifikasi</button><hr>
+                                    <button type="button" class="btn btn-success btn-sm text-white" data-toggle="modal" data-target="#lampiranIPSRS{{ $item->id }}"><i class="fa-fw fas fa-unsorted nav-icon"></i> Detail</button></center>
+                                </td>
                             @elseif (empty($item->tgl_dikerjakan) && empty($item->tgl_selesai ))
-                                <td><center><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kerjakan{{ $item->id }}"><i class="fa-fw fas fa-wrench nav-icon"></i> Kerjakan Sekarang</button></center></td>
+                                <td>
+                                    <center><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kerjakan{{ $item->id }}"><i class="fa-fw fas fa-wrench nav-icon"></i> Kerjakan Sekarang</button><hr>
+                                    <button type="button" class="btn btn-success btn-sm text-white" data-toggle="modal" data-target="#lampiranIPSRS{{ $item->id }}"><i class="fa-fw fas fa-unsorted nav-icon"></i> Detail</button></center>
+                                </td>
                             @elseif (empty($item->tgl_selesai))
                                 <td><center>
+                                    <button type="button" class="btn btn-success btn-sm text-white" data-toggle="modal" data-target="#lampiranIPSRS{{ $item->id }}"><i class="fa-fw fas fa-unsorted nav-icon"></i> Detail</button><hr>
                                     <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#tambahket{{ $item->id }}"><i class="fa-fw fas fa-plus-square nav-icon"></i></button>
-                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#selesai{{ $item->id }}"><i class="fa-fw fas fa-thumbs-up nav-icon"></i></button>
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#selesai{{ $item->id }}"><i class="fa-fw fas fa-thumbs-up nav-icon"></i></button>
                                 </center></td>
                             @endif
                             <td>{{ $item->nama }}</td>
@@ -80,7 +89,7 @@
                             @elseif (empty($item->tgl_selesai))
                                 <td><kbd>Sedang Dikerjakan</kbd></td>
                             @endif
-
+                            
                             <td>{{ $item->tgl_pengaduan }}</td>
                         </tr>
                         @endforeach
@@ -188,7 +197,7 @@
                                 <td>
                                     <center>
                                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#detail4{{ $item->id }}"><i class="fa-fw fas fa-search nav-icon"></i></button>
-                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#lampiranIPSRS{{ $item->id }}"><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
+                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#lampiranIPSRS{{ $item->id }}"><i class="fa-fw fas fa-history nav-icon"></i></button>
                                     </center>
                                 </td>
                                 <td>{{ $item->nama }}</td>
@@ -436,10 +445,30 @@
             </button>
         </div>
         <div class="modal-body">
-            <center><img src="{{ url('public/storage/'.substr($item->filename_pengaduan,7,2000)) }}" style="width:400px" alt="" title="" /></center>
+            <h6 class="text-left">Keterangan Pengaduan :</h6>
+            <div class="card">
+                <div class="card-body">
+                    <p>{{ $item->ket_pengaduan }}</p>
+                </div>
+            </div><hr>
+            <h6 class="text-left">Lampiran Pengaduan :</h6>
+            
+            @if (empty($item->filename_pengaduan))
+                <div class="card">
+                    <div class="card-body">
+                        <center><p><b>Tidak Ada Lampiran</b></p></center>
+                    </div>
+                </div>
+            @else
+                <center><img src="{{ url('public/storage/'.substr($item->filename_pengaduan,7,2000)) }}" style="width:400px" alt="" title="" /></center>
+            @endif
         </div>
         <div class="modal-footer">
-          <button onclick="window.location.href='{{ url('pengaduan/ipsrs/'. $item->id) }}'" type="button" class="btn btn-success"><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
+            @if (empty($item->filename_pengaduan))
+                <button type="button" class="btn btn-secondary" disabled><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
+            @else
+                <button onclick="window.location.href='{{ url('pengaduan/ipsrs/'. $item->id) }}'" type="button" class="btn btn-success"><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
+            @endif
           <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i> Tutup</button>
         </div>
       </div>
@@ -448,25 +477,87 @@
 @endforeach
 
 @role('ipsrs')
-{{-- Download Lampiran FOTO IPSRS --}}
-@foreach($list['showrecent'] as $item)
+{{-- Download Lampiran FOTO IPSRS NOW --}}
+@foreach($list['show'] as $item)
 <div class="modal" tabindex="-1" id="lampiranIPSRS{{ $item->id }}" role="dialog">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
             <h4 class="modal-title">
-                Lampiran Foto Pengaduan&nbsp;<kbd>ID : {{ $item->id }}</kbd>
+                Detail Pengaduan&nbsp;<kbd>ID : {{ $item->id }}</kbd>
             </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close">
                 <span aria-hidden="true">&times;</span>
             </button>
         </div>
         <div class="modal-body">
-            <center><img src="{{ url('public/storage/'.substr($item->filename_pengaduan,7,2000)) }}" style="width:400px" alt="" title="" /></center>
+            <h6 class="text-left">Keterangan Pengaduan :</h6>
+            <div class="card">
+                <div class="card-body">
+                    <p>{{ $item->ket_pengaduan }}</p>
+                </div>
+            </div><hr>
+            <h6 class="text-left">Lampiran Pengaduan :</h6>
+            @if (empty($item->filename_pengaduan))
+                <div class="card">
+                    <div class="card-body">
+                        <center><p><b>Tidak Ada Lampiran</b></p></center>
+                    </div>
+                </div>
+            @else
+                <center><img src="{{ url('public/storage/'.substr($item->filename_pengaduan,7,2000)) }}" style="width:400px" alt="" title="" /></center>
+            @endif
         </div>
         <div class="modal-footer">
-          <button onclick="window.location.href='{{ url('pengaduan/ipsrs/'. $item->id) }}'" type="button" class="btn btn-success"><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i> Tutup</button>
+            @if (empty($item->filename_pengaduan))
+                <button type="button" class="btn btn-secondary" disabled><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
+            @else
+                <button onclick="window.location.href='{{ url('pengaduan/ipsrs/'. $item->id) }}'" type="button" class="btn btn-success"><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
+            @endif
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i> Tutup</button>
+        </div>
+      </div>
+    </div>
+</div>
+@endforeach
+{{-- Download Lampiran FOTO IPSRS RECENT --}}
+@foreach($list['showrecent'] as $item)
+<div class="modal" tabindex="-1" id="lampiranIPSRS{{ $item->id }}" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+            <h4 class="modal-title">
+                Detail Pengaduan&nbsp;<kbd>ID : {{ $item->id }}</kbd>
+            </h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+                <span aria-hidden="true">&times;</span>
+            </button>
+        </div>
+        <div class="modal-body">
+            <h6 class="text-left">Keterangan Pengaduan :</h6>
+            <div class="card">
+                <div class="card-body">
+                    <p>{{ $item->ket_pengaduan }}</p>
+                </div>
+            </div><hr>
+            <h6 class="text-left">Lampiran Pengaduan :</h6>
+            @if (empty($item->filename_pengaduan))
+                <div class="card">
+                    <div class="card-body">
+                        <center><p><b>Tidak Ada Lampiran</b></p></center>
+                    </div>
+                </div>
+            @else
+                <center><img src="{{ url('public/storage/'.substr($item->filename_pengaduan,7,2000)) }}" style="width:400px" alt="" title="" /></center>
+            @endif
+        </div>
+        <div class="modal-footer">
+            @if (empty($item->filename_pengaduan))
+                <button type="button" class="btn btn-secondary" disabled><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
+            @else
+                <button onclick="window.location.href='{{ url('pengaduan/ipsrs/'. $item->id) }}'" type="button" class="btn btn-success"><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
+            @endif
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i> Tutup</button>
         </div>
       </div>
     </div>
