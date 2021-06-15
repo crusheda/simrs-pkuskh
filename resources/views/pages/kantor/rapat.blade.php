@@ -22,19 +22,16 @@
 
         </div>
         <div class="card-body">
-            @can('berkas_rapat')
-            @hasanyrole('kantor|pelayanan')
-                <div class="row">
-                    <div class="col-md-12">
-                        <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
-                            <i class="fa-fw fas fa-plus-square nav-icon">
-    
-                            </i>
-                            Tambah Rapat
-                        </a>
-                    </div>
-                </div><br>
-            @endhasanyrole
+            <div class="row">
+                <div class="col-md-12">
+                    <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
+                        <i class="fa-fw fas fa-plus-square nav-icon">
+
+                        </i>
+                        Tambah Rapat
+                    </a>
+                </div>
+            </div><br>
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="row">
@@ -98,13 +95,10 @@
                     </div>
                 </div>
             </div>
-            @endcan
         </div>
     </div>
 </div>
 
-@hasanyrole('kantor|pelayanan')
-@can('berkas_rapat')    
     <div class="modal fade bd-example-modal-lg" id="tambah" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -248,35 +242,33 @@
         </div>
     </div>
     @endforeach
-@endcan
-@endhasanyrole
 
-@foreach($list['show'] as $item)
-    <div class="modal fade bd-example-modal-lg" id="lihatFile{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h4 class="modal-title">
-                {{ $item->nama }}'s Files
-            </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    @foreach($list['show'] as $item)
+        <div class="modal fade bd-example-modal-lg" id="lihatFile{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+            <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">
+                    {{ $item->nama }}'s Files
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                <p>
+                    Download File: <p></p>
+                    <a onclick="window.location.href='{{ url('rapat/show/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>   {{ $item->title1 }} ({{Storage::size($item->filename1)}} bytes)<p></p>
+                    <a onclick="window.location.href='{{ url('rapat/show2/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>   {{ $item->title2 }} ({{Storage::size($item->filename2)}} bytes)<p></p>
+                    <a onclick="window.location.href='{{ url('rapat/show3/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>   {{ $item->title3 }} ({{Storage::size($item->filename3)}} bytes)<p></p>
+                    <a onclick="window.location.href='{{ url('rapat/show4/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>   {{ $item->title4 }} ({{Storage::size($item->filename4)}} bytes)<p></p>
+                </p>
+                </div>
+                <div class="modal-footer">
+                    <p class="pull-left"><td>{{ $item->updated_at->diffForHumans() }}</td></p>
+                </div>
             </div>
-            <div class="modal-body">
-            <p>
-                Download File: <p></p>
-                <a onclick="window.location.href='{{ url('rapat/show/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>   {{ $item->title1 }} ({{Storage::size($item->filename1)}} bytes)<p></p>
-                <a onclick="window.location.href='{{ url('rapat/show2/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>   {{ $item->title2 }} ({{Storage::size($item->filename2)}} bytes)<p></p>
-                <a onclick="window.location.href='{{ url('rapat/show3/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>   {{ $item->title3 }} ({{Storage::size($item->filename3)}} bytes)<p></p>
-                <a onclick="window.location.href='{{ url('rapat/show4/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>   {{ $item->title4 }} ({{Storage::size($item->filename4)}} bytes)<p></p>
-            </p>
-            </div>
-            <div class="modal-footer">
-                <p class="pull-left"><td>{{ $item->updated_at->diffForHumans() }}</td></p>
             </div>
         </div>
-        </div>
-    </div>
-@endforeach
+    @endforeach
 
 <script>
     $(document).ready( function () {
