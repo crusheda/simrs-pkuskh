@@ -11,6 +11,20 @@
         <div class="card">
             <iframe src="{{url('ashidu328yrbew9bfay8dsbfy32byrfey9fb8aywbyb3ybfesugn9fsiuagd/user-activity')}}" frameborder="0" height="500px" width="100%"></iframe>
         </div>
+    @else
+        <div class="card">
+            <div class="card-header">
+                <i class="fa-fw fas fa-warning nav-icon text-danger">
+
+                </i> <b>PENGUMUMAN</b>
+            </div>
+            <div class="card-body">
+                <h6>Dimohon kepada seluruh karyawan untuk segera melengkapi Dokumen Profil Karyawan pada <b>Halaman Profil</b> setiap masing-masing akun. Apabila ditemukan kesalahan maupun kesulitan, silakan hubungi IT. Terima Kasih.</h6>
+            </div>
+            <div class="card-footer">
+                <a class="btn btn-dark pull-right" href="user">Lengkapi Sekarang</a>
+            </div>
+        </div>
     @endrole
 
 <script>

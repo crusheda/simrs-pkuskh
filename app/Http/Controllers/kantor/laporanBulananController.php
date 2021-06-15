@@ -11,6 +11,7 @@ use Carbon\Carbon;
 use Redirect;
 use Storage;
 use Auth;
+use Response;
 
 class laporanBulananController extends Controller
 {
@@ -97,7 +98,10 @@ class laporanBulananController extends Controller
     public function show($id)
     {
         $data = laporan_bulanan::find($id);
-        return Storage::download($data->filename, $data->title);
+        // return Storage::download($data->filename, $data->title);
+        // return Storage::url($data->filename, $data->title);
+        // return response()->download(storage_path("app/".$data->filename));
+        return response()->file(storage_path("app/".$data->filename));
     }
 
     /**

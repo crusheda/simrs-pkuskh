@@ -534,7 +534,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="pengalaman_kerja" class="control-label">Pengalaman Kerja :</label>
-                                    <textarea class="form-control" name="pengalaman_kerja" id="pengalaman_kerja" placeholder="" required><?php echo htmlspecialchars($list['user']->pengalaman_kerja); ?></textarea>
+                                    <textarea class="form-control" name="pengalaman_kerja" id="pengalaman_kerja" placeholder=""><?php echo htmlspecialchars($list['user']->pengalaman_kerja); ?></textarea>
                                     <span class="help-block">
                                         <p id="max_pengalaman_kerja" class="help-block "></p>
                                     </span>

@@ -23,7 +23,7 @@
         </div>
         <div class="card-body">
             @can('berkas_rapat')
-            @role('kantor')
+            @hasanyrole('kantor|pelayanan')
                 <div class="row">
                     <div class="col-md-12">
                         <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
@@ -34,7 +34,7 @@
                         </a>
                     </div>
                 </div><br>
-            @endrole
+            @endhasanyrole
             <div class="panel panel-default">
                 <div class="panel-body">
                     <div class="row">
@@ -66,10 +66,10 @@
                                                 <td>
                                                     <center>
                                                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#lihatFile{{ $item->id }}"><i class="fa-fw fas fa-download nav-icon text-white"></i></button>
-                                                        @role('kantor')
+                                                        @hasanyrole('kantor|pelayanan')
                                                             <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubahFile{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
                                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusFile{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                                        @endrole
+                                                        @endhasanyrole
                                                     </center>
                                                 </td>
                                             </tr>
@@ -103,7 +103,7 @@
     </div>
 </div>
 
-@role('kantor')
+@hasanyrole('kantor|pelayanan')
 @can('berkas_rapat')    
     <div class="modal fade bd-example-modal-lg" id="tambah" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
@@ -249,7 +249,7 @@
     </div>
     @endforeach
 @endcan
-@endrole
+@endhasanyrole
 
 @foreach($list['show'] as $item)
     <div class="modal fade bd-example-modal-lg" id="lihatFile{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">

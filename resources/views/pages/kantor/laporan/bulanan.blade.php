@@ -24,29 +24,29 @@
             
         </div>
         <div class="card-body">
-            @role('pelayanan')
-            @else
-                <div class="row">
-                    <div class="col-md-12">
-                        <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
-                            <i class="fa-fw fas fa-plus-square nav-icon">
-    
-                            </i>
-                            Tambah Laporan Bulanan
-                        </a>
-                    </div>
-                </div><br>
-            @endrole
+            <div class="row">
+                <div class="col-md-12">
+                    <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
+                        <i class="fa-fw fas fa-plus-square nav-icon">
+
+                        </i>
+                        Tambah Laporan Bulanan
+                    </a>
+                </div>
+            </div><br>
             <div class="table-responsive">
-                <table id="regulasi" class="table table-striped display">
+                <table id="bulanan" class="table table-striped display">
                     <thead>
                         <tr>
-                            <th>JUDUL</th>
-                            <th>BULAN</th>
-                            <th>TAHUN</th>
-                            <th>UNIT</th>
-                            <th>KETERANGAN</th>
                             <th>DIBUAT</th>
+                            <th>JUDUL</th>
+                            @role('pelayanan')
+                                <th>BLN / THN</th>
+                                <th>UNIT</th>
+                            @else
+                                <th>BLN / THN</th>
+                            @endrole
+                            <th>KETERANGAN</th>
                             <th></th>
                         </tr>
                     </thead>
@@ -54,12 +54,15 @@
                         @if(count($list['show']) > 0)
                         @foreach($list['show'] as $item)
                         <tr>
-                            <td>{{ $item->judul }}</td>
-                            <td>{{ $item->bln }}</td>
-                            <td>{{ $item->thn }}</td>
-                            <td>{{ $item->unit }}</td>
-                            <td>{{ $item->ket }}</td>
                             <td>{{ $item->created_at }}</td>
+                            <td>{{ $item->judul }}</td>
+                            @role('pelayanan')
+                                <td>{{ $item->bln }} / {{ $item->thn }}</td>
+                                <td>{{ $item->unit }}</td>
+                            @else
+                                <td>{{ $item->bln }} / {{ $item->thn }}</td>
+                            @endrole
+                            <td>{{ $item->ket }}</td>
                             <td>
                                 <center>
                                     <a type="button" class="btn btn-success btn-sm" onclick="window.location.href='{{ url('laporan/bulanan/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
@@ -73,7 +76,11 @@
                         @endforeach
                         @else
                             <tr>
-                                <td colspan=7>Tidak Ada Data</td>
+                                @role('pelayanan')
+                                    <td colspan=6>Tidak Ada Data</td>
+                                @else
+                                    <td colspan=5>Tidak Ada Data</td>
+                                @endrole
                             </tr>
                         @endif
                     </tbody>
@@ -287,7 +294,7 @@
 
 <script>
 $(document).ready( function () {
-    $('#regulasi').DataTable(
+    $('#bulanan').DataTable(
         {
             paging: true,
             searching: true,
@@ -295,7 +302,7 @@ $(document).ready( function () {
             buttons: [
                 'copy', 'csv', 'excel', 'pdf'
             ],
-            order: [[ 5, "desc" ]]
+            order: [[ 0, "desc" ]]
         }
     );
 } );
