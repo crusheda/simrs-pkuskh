@@ -174,7 +174,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            {{ Form::model($item, array('route' => array('regulasi.update', $item->id), 'method' => 'PUT')) }}
+            {{ Form::model($item, array('route' => array('bulanan.update', $item->id), 'method' => 'PUT')) }}
                 @csrf
                 <div class="row">
                     <div class="col-md-4">
@@ -185,7 +185,11 @@
                                 $bulan=array("","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
                                 $jml_bln=count($bulan);
                                 for($c=1 ; $c < $jml_bln ; $c+=1){
-                                    echo"<option value=$c> $bulan[$c] </option>";
+                                    if ($item->bln == $c) {
+                                        echo"<option value=$c selected> $bulan[$c] </option>";
+                                    } else {
+                                        echo"<option value=$c> $bulan[$c] </option>";
+                                    }
                                 }
                             ?>
                         </select>
@@ -196,7 +200,11 @@
                             <option hidden selected>Tahun</option>
                             @php
                                 for ($i=2018; $i <= $list['thn']; $i++) { 
-                                    echo"<option value=$i> $i </option>";
+                                    if ($item->thn == $i) {
+                                        echo"<option value=$i selected> $i </option>";
+                                    } else {
+                                        echo"<option value=$i> $i </option>";
+                                    }
                                 }
                                 
                             @endphp
@@ -264,7 +272,7 @@
             <p>Apakah anda yakin ingin menghapus Laporan Bulanan <b>{{ $item->judul }}</b>?</p>
         </div>
         <div class="modal-footer">
-            <form action="{{ route('regulasi.destroy', $item->id) }}" method="POST">
+            <form action="{{ route('bulanan.destroy', $item->id) }}" method="POST">
                 @method('DELETE')
                 @csrf
                 <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button>

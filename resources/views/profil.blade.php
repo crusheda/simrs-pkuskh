@@ -240,7 +240,7 @@
                             <div class="col-md-3">
                                 <div class="form-group">
                                     <label>Kelurahan :</label>
-                                    <select class="form-control" aria-label=".form-select-sm example" id="apidesa" name="ktp_desa" disabled required>
+                                    <select class="form-control" aria-label=".form-select-sm example" id="apidesa" name="ktp_kelurahan" disabled required>
                                         @if (empty($list['showuser']->ktp_kelurahan))
                                         @else
                                             <option value="{{ $list['showuser']->ktp_kelurahan }}">{{ $list['showuser']->ktp_kelurahan }}</option>
@@ -287,9 +287,9 @@
                                 <div class="form-group">
                                     <label>Kabupaten :</label>
                                     <select class="form-control" aria-label=".form-select-sm example" id="apikotadom" name="dom_kabupaten" disabled>
-                                        @if (empty($list['showuser']->ktp_kabupaten))
+                                        @if (empty($list['showuser']->dom_kabupaten))
                                         @else
-                                            <option value="{{ $list['showuser']->ktp_kabupaten }}">{{ $list['showuser']->dom_kabupaten }}</option>
+                                            <option value="{{ $list['showuser']->dom_kabupaten }}">{{ $list['showuser']->dom_kabupaten }}</option>
                                         @endif
                                     </select>
                                 </div>
@@ -298,9 +298,9 @@
                                 <div class="form-group">
                                     <label>Kecamatan :</label>
                                     <select class="form-control" aria-label=".form-select-sm example" id="apikecamatandom" name="dom_kecamatan" disabled>
-                                        @if (empty($list['showuser']->ktp_kecamatan))
+                                        @if (empty($list['showuser']->dom_kecamatan))
                                         @else
-                                            <option value="{{ $list['showuser']->ktp_kecamatan }}">{{ $list['showuser']->dom_kecamatan }}</option>
+                                            <option value="{{ $list['showuser']->dom_kecamatan }}">{{ $list['showuser']->dom_kecamatan }}</option>
                                         @endif
                                     </select>
                                 </div>
@@ -525,6 +525,23 @@
                             </div>
                         </div>
                     </div>
+
+                    @else
+            
+                    <div class="card card-body">
+                        <h6 class="text-center"><b>Dokumen Kepegawaian</b></h6><br>
+                        <div class="row">
+                            <div class="col-md-12">
+                                <div class="form-group">
+                                    <label for="pengalaman_kerja" class="control-label">Pengalaman Kerja :</label>
+                                    <textarea class="form-control" name="pengalaman_kerja" id="pengalaman_kerja" placeholder="" required><?php echo htmlspecialchars($list['user']->pengalaman_kerja); ?></textarea>
+                                    <span class="help-block">
+                                        <p id="max_pengalaman_kerja" class="help-block "></p>
+                                    </span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
                     @endrole
                     <div class="card card-body">
                         <h6 class="text-center"><b>Dokumen Medis</b></h6><br>
@@ -532,7 +549,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="riwayat_penyakit" class="control-label">Riwayat Penyakit :</label>
-                                    <textarea class="form-control" name="riwayat_penyakit" id="riwayat_penyakit" placeholder="" required><?php echo htmlspecialchars($list['user']->riwayat_penyakit); ?></textarea>
+                                    <textarea class="form-control" name="riwayat_penyakit" id="riwayat_penyakit" placeholder=""><?php echo htmlspecialchars($list['user']->riwayat_penyakit); ?></textarea>
                                     <span class="help-block">
                                         <p id="max_riwayat_penyakit" class="help-block "></p>
                                     </span>
@@ -541,7 +558,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="riwayat_penyakit_keluarga" class="control-label">Riwayat Penyakit Keluarga :</label>
-                                    <textarea class="form-control" name="riwayat_penyakit_keluarga" id="riwayat_penyakit_keluarga" placeholder="" required><?php echo htmlspecialchars($list['user']->riwayat_penyakit_keluarga); ?></textarea>
+                                    <textarea class="form-control" name="riwayat_penyakit_keluarga" id="riwayat_penyakit_keluarga" placeholder=""><?php echo htmlspecialchars($list['user']->riwayat_penyakit_keluarga); ?></textarea>
                                     <span class="help-block">
                                         <p id="max_riwayat_penyakit_keluarga" class="help-block "></p>
                                     </span>
@@ -550,7 +567,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="riwayat_operasi" class="control-label">Riwayat Operasi :</label>
-                                    <textarea class="form-control" name="riwayat_operasi" id="riwayat_operasi" placeholder="" required><?php echo htmlspecialchars($list['user']->riwayat_operasi); ?></textarea>
+                                    <textarea class="form-control" name="riwayat_operasi" id="riwayat_operasi" placeholder=""><?php echo htmlspecialchars($list['user']->riwayat_operasi); ?></textarea>
                                     <span class="help-block">
                                         <p id="max_riwayat_operasi" class="help-block "></p>
                                     </span>
@@ -559,7 +576,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label for="riwayat_penggunaan_obat" class="control-label">Riwayat Penggunaan Obat :</label>
-                                    <textarea class="form-control" name="riwayat_penggunaan_obat" id="riwayat_penggunaan_obat" placeholder="" required><?php echo htmlspecialchars($list['user']->riwayat_penggunaan_obat); ?></textarea>
+                                    <textarea class="form-control" name="riwayat_penggunaan_obat" id="riwayat_penggunaan_obat" placeholder=""><?php echo htmlspecialchars($list['user']->riwayat_penggunaan_obat); ?></textarea>
                                     <span class="help-block">
                                         <p id="max_riwayat_penggunaan_obat" class="help-block "></p>
                                     </span>
@@ -611,17 +628,6 @@
 
 <script>
     $(document).ready( function () {
-        $('#tablebug').DataTable(
-            {
-                paging: true,
-                searching: true,
-                dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ],
-                order: [[ 4, "desc" ]]
-            }
-        );
 
         // VALIDASI INPUT NUMBER
         $('input[type=number][max]:not([max=""])').on('input', function(ev) {

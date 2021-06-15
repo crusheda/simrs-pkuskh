@@ -39,7 +39,7 @@
                     </em>
                 @endif
             </div>
-            <p>Catatan: Password yang anda masukkan akan diproses oleh sistem menggunakan <i><b>encode password</b></i>. Jangan bagikan password anda kepada orang lain.</p>
+            <p>Catatan: Password yang anda masukkan akan diproses oleh sistem menggunakan <i><b>Bcrypt Hash Password dari laravel</b></i>. Jangan bagikan password anda kepada orang lain.</p>
             <div>
                 <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
             </div>

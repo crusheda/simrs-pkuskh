@@ -200,7 +200,6 @@ class profilController extends Controller
                     }
                 }
             }
-            
 
             $data->sd = $request->sd;
             $data->smp = $request->smp;
@@ -294,7 +293,7 @@ class profilController extends Controller
             $data->masa_sip = $request->masa_sip;
             $data->pengalaman_kerja = $request->pengalaman_kerja;   
         } else {
-            
+            $data->pengalaman_kerja = $request->pengalaman_kerja;   
         }
         
         $data->riwayat_penyakit = $request->riwayat_penyakit;
