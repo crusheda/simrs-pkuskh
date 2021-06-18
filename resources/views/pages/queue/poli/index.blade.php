@@ -40,7 +40,7 @@
                                 <td class="text-center">{{ $item->kode_queue }}</td>
                                 <td><kbd>{{ $item->nama_queue }}</kbd></td>
                                 <td>{{ $item->jumlah }}</td>
-                                <td><a type="button" class="btn btn-primary btn-sm" href="user"><i class="fa-fw fas fa-search nav-icon"></i> Lihat</a></td>
+                                <td><a type="button" class="btn btn-primary btn-sm" href="{{ route('queue.poli.show', $item->kode_queue) }}"><i class="fa-fw fas fa-search nav-icon"></i> Lihat</a></td>
                             </tr>
                             @endforeach
                             @else

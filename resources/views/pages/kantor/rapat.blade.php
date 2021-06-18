@@ -132,8 +132,8 @@
                             <p><b>Undangan</b></p>
                             <input type="file" name="file1" id="file1">
                             <span class="help-block text-danger">{{ $errors->first('file1') }}</span><hr>
-                            <p><b>Materi</b></p>
-                            <input type="file" name="file2" id="file2">
+                            <p><b>Materi</b> (Bisa lebih dari satu file PDF)</p>
+                            <input type="file" name="file2[]" id="file2" multiple>
                             <span class="help-block text-danger">{{ $errors->first('file2') }}</span><hr>
                             <p><b>Absensi</b></p>
                             <input type="file" name="file3">
@@ -221,7 +221,7 @@
                         </div>
                         <div class="col-10">
                             : {{ $item->title1 }} ({{Storage::size($item->filename1)}} bytes) <br>
-                            : {{ $item->title2 }} ({{Storage::size($item->filename2)}} bytes) <br>
+                            {{-- : {{ $item->title2 }} ({{Storage::size($item->filename2)}} bytes) <br> --}}
                             : {{ $item->title3 }} ({{Storage::size($item->filename3)}} bytes) <br>
                             : {{ $item->title4 }} ({{Storage::size($item->filename4)}} bytes)
                         </div>
@@ -257,9 +257,13 @@
                 <p>
                     Download File: <p></p>
                     <a onclick="window.location.href='{{ url('rapat/show/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>   {{ $item->title1 }} ({{Storage::size($item->filename1)}} bytes)<p></p>
-                    <a onclick="window.location.href='{{ url('rapat/show2/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>   {{ $item->title2 }} ({{Storage::size($item->filename2)}} bytes)<p></p>
-                    <a onclick="window.location.href='{{ url('rapat/show3/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>   {{ $item->title3 }} ({{Storage::size($item->filename3)}} bytes)<p></p>
-                    <a onclick="window.location.href='{{ url('rapat/show4/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>   {{ $item->title4 }} ({{Storage::size($item->filename4)}} bytes)<p></p>
+                    @if (substr($item->title2,0,2) == '["')
+                        <a onclick="window.location.href='{{ url('rapat/show2all/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>  {{ str_replace(['"','[',']'],'',json_encode(json_decode($item->title2))) }} <b>(ZIP)</b><p></p>
+                    @else
+                        <a onclick="window.location.href='{{ url('rapat/show2/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>  {{ $item->title2 }} ({{Storage::size($item->filename2)}} bytes)<p></p>
+                    @endif
+                    <a onclick="window.location.href='{{ url('rapat/show3/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>  {{ $item->title3 }} ({{Storage::size($item->filename3)}} bytes)<p></p>
+                    <a onclick="window.location.href='{{ url('rapat/show4/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></a>  {{ $item->title4 }} ({{Storage::size($item->filename4)}} bytes)<p></p>
                 </p>
                 </div>
                 <div class="modal-footer">

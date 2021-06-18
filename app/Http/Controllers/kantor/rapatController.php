@@ -7,7 +7,10 @@ use Illuminate\Http\Request;
 use Storage;
 use Redirect;
 use Auth;
+use ZipArchive;
+use Carbon\Carbon;
 use App\Models\rapat;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 
 class rapatController extends Controller
@@ -54,11 +57,11 @@ class rapatController extends Controller
             'title2' => 'nullable',
             'title3' => 'nullable',
             'title4' => 'nullable',
-            'file1' => 'required|file|max:100000',
-            'file2' => 'required|file|max:100000',
-            'file3' => 'required|file|max:100000',
-            'file4' => 'required|file|max:100000',
-            'file5' => 'required|file|max:100000',
+            // 'file1' => 'required|file|max:100000',
+            // 'file2' => 'required|file|max:100000',
+            // 'file3' => 'required|file|max:100000',
+            // 'file4' => 'required|file|max:100000',
+            // 'file5' => 'required|file|max:100000',
             ]);
 
         $user = Auth::user();
@@ -75,10 +78,16 @@ class rapatController extends Controller
         // simpan berkas yang diunggah ke sub-direktori 'public/files'
         // direktori 'files' otomatis akan dibuat jika belum ada
         $path1 = $uploadedFile1->store('public/files/notulen/undangan');
-        $path2 = $uploadedFile2->store('public/files/notulen/materi');
         $path3 = $uploadedFile3->store('public/files/notulen/absensi');
         $path4 = $uploadedFile4->store('public/files/notulen/notulen');
         $path5 = $uploadedFile5->store('public/files/notulen/dokumentasi');
+        
+        if ($request->hasFile('file2')) {
+            foreach ($uploadedFile2 as $file) {
+                $array_filename2[] = $file->store('public/files/notulen/materi');
+                $array_title2[] = $file->getClientOriginalName();
+            }
+        }
 
         $data = new rapat;
         $data->nama = $request->nama;
@@ -87,13 +96,14 @@ class rapatController extends Controller
         $data->lokasi = $request->lokasi;
 
             $data->title1 = $request->title1 ?? $uploadedFile1->getClientOriginalName();
-            $data->title2 = $request->title2 ?? $uploadedFile2->getClientOriginalName();
+            // $data->title2 = $request->title2 ?? $uploadedFile2->getClientOriginalName();
+            $data->title2 = json_encode($array_title2);
             $data->title3 = $request->title3 ?? $uploadedFile3->getClientOriginalName();
             $data->title4 = $request->title4 ?? $uploadedFile4->getClientOriginalName();
             $data->title5 = $request->title5 ?? $uploadedFile5->getClientOriginalName();
             
             $data->filename1 = $path1;
-            $data->filename2 = $path2;
+            $data->filename2 = json_encode($array_filename2);
             $data->filename3 = $path3;
             $data->filename4 = $path4;
             $data->filename5 = $path5;
@@ -115,13 +125,69 @@ class rapatController extends Controller
     public function show($id)
     {
         $data = rapat::find($id);
-        return Storage::download($data->filename1, $data->title1);
+        return Storage::download($data->filename2, $data->title2);
     }
 
     public function show2($id)
     {
         $data = rapat::find($id);
-        return Storage::download($data->filename2, $data->title2);
+        return Storage::download($data->filename1, $data->title1);
+    }
+
+    public function show2all($id)
+    {
+        $data = DB::table('rapat')
+                ->join('users', 'rapat.user_id', '=', 'users.id')
+                ->select('users.nick','rapat.created_at','rapat.filename2','rapat.title2')
+                ->where('rapat.deleted_at', null)
+                ->where('rapat.id', $id)
+                ->get();
+
+        $nick = $data[0]->nick;
+        $tgl_materi = Carbon::parse($data[0]->created_at)->isoFormat('D MMM Y');
+
+        // Text from DB Convert into Array First with JsonDECODE
+        $files_mentah = json_decode($data[0]->filename2);
+        $filename_mentah = json_decode($data[0]->title2);
+
+        // Define Where ZIP will be Saved and Named
+        $zip_path = storage_path().'/app/public/files/notulen/materi/multiple/'.$nick.' - '.$tgl_materi.'.zip';
+        $zip_name = $nick.' - '.$tgl_materi.'.zip';
+
+        // Making ZIP ARCHIVE
+        $zip = new ZipArchive();        
+        if ($zip->open($zip_path, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE) !== TRUE) {
+            die ("An error occurred creating your ZIP file.");
+        }
+        
+        // Looping with Foreach
+        foreach ($files_mentah as $key => $file) {
+
+            // Change DIR File from Array into String with JsonENCODE
+            $files = json_encode($file);
+            $filename_mentah2 = json_encode($filename_mentah[$key]);
+            $filename = str_replace('"','',$filename_mentah2);     // Remove Quotes "" from Encoding Json 
+
+            // Adding Path into String Each File From DB
+            $path = storage_path().'/app/'.$file;
+            $filepath = $path;
+
+            // Checking File and Adding File
+            if (file_exists($filepath)) {
+                // $filepath = direktori file yang akan dimasukkan
+                // $filename = nama file yang digunakan untuk mengganti nama file dari $filepath
+                $zip->addFile($filepath, $filename) or die ("ERROR: Could not add the file $filename");
+            } else {
+                die("File $filename doesnt exit");
+            }
+        }
+
+        $zip->close();
+
+        // Konten apa saja yang terkandung dalam ZIP (Contoh : PDF, Application, etc)
+        $headers = ["Content-Type"=>"pdf/zip"];
+
+        return response()->download($zip_path,$zip_name,$headers);
     }
 
     public function show3($id)

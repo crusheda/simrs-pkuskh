@@ -89,6 +89,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
         Route::resource('rapat', 'kantor\rapatController');
         Route::get('/rapat/show/{id}', 'kantor\rapatController@show');
         Route::get('/rapat/show2/{id}', 'kantor\rapatController@show2');
+        Route::get('/rapat/show2all/{id}', 'kantor\rapatController@show2all');
         Route::get('/rapat/show3/{id}', 'kantor\rapatController@show3');
         Route::get('/rapat/show4/{id}', 'kantor\rapatController@show4');
         Route::get('/rapat/show5/{id}', 'kantor\rapatController@show5');
