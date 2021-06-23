@@ -202,43 +202,47 @@
     @foreach($list['show'] as $item)
     <div class="modal fade bd-example-modal-lg" id="hapusFile{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
-        <div class="modal-content">
-            <div class="modal-header">
-            <h4 class="modal-title">
-                Yakin ingin Menghapus Dokumen Rapat <b>{{ $item->nama }} ?</b>
-            </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-            </div>
-            <div class="modal-body">
-                <p>
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">
+                    Yakin ingin Menghapus Dokumen Rapat <b>{{ $item->nama }} ?</b>
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        @if(count($list) > 0)
+                        <div class="row">
+                            <div class="col-2">
+                            <b> Undangan</b> <br>
+                            <b> Materi</b> <br>
+                            <b> Absensi</b> <br>
+                            <b> Notulen</b>
+                            </div>
+                            <div class="col-10">
+                                : {{ $item->title1 }} ({{Storage::size($item->filename1)}} bytes) <br>
+                                @if (substr($item->title2,0,2) == '["')
+                                    : {{ str_replace(['"','[',']'],'',json_encode(json_decode($item->title2))) }} <b>(ZIP)</b> <br>
+                                @else
+                                    : {{ $item->title2 }} ({{Storage::size($item->filename2)}} bytes) <br>
+                                @endif
+                                : {{ $item->title3 }} ({{Storage::size($item->filename3)}} bytes) <br>
+                                : {{ $item->title4 }} ({{Storage::size($item->filename4)}} bytes)
+                            </div>
+                        </div>
+                        @endif
+                    </p>
+                </div>
+                <div class="modal-footer">
                     @if(count($list) > 0)
-                    <div class="row">
-                        <div class="col-2">
-                           <b> Undangan</b> <br>
-                           <b> Materi</b> <br>
-                           <b> Absensi</b> <br>
-                           <b> Notulen</b>
-                        </div>
-                        <div class="col-10">
-                            : {{ $item->title1 }} ({{Storage::size($item->filename1)}} bytes) <br>
-                            {{-- : {{ $item->title2 }} ({{Storage::size($item->filename2)}} bytes) <br> --}}
-                            : {{ $item->title3 }} ({{Storage::size($item->filename3)}} bytes) <br>
-                            : {{ $item->title4 }} ({{Storage::size($item->filename4)}} bytes)
-                        </div>
-                    </div>
+                        <form action="{{ route('rapat.destroy', $item->id) }}" method="POST">
+                            @method('DELETE')
+                            @csrf
+                            <button class="btn btn-danger btn-sm"><i class="lnr lnr-trash"></i>Hapus</button>
+                        </form>
                     @endif
-                </p>
+                </div>
             </div>
-            <div class="modal-footer">
-                @if(count($list) > 0)
-                    <form action="{{ route('rapat.destroy', $item->id) }}" method="POST">
-                        @method('DELETE')
-                        @csrf
-                        <button class="btn btn-danger btn-sm"><i class="lnr lnr-trash"></i>Hapus</button>
-                    </form>
-                @endif
-            </div>
-        </div>
         </div>
     </div>
     @endforeach
