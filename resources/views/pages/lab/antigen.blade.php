@@ -198,7 +198,7 @@
                                 <select class="custom-select" name="dr_pengirim">
                                     <option value="" hidden>Pilih</option>
                                     @foreach($list['dokter'] as $key)
-                                        <option value="{{ $key->id }}" @if ($item->id == $key->id) echo selected @endif>{{ $key->nama }}</option>
+                                        <option value="{{ $key->id }}" @if ($item->dr_pengirim == $key->id) echo selected @endif>{{ $key->nama }}</option>
                                     @endforeach
                                 </select>
                             </div>

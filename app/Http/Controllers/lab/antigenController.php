@@ -113,11 +113,11 @@ class antigenController extends Controller
         $data = antigen::find($id);
 
         $data->dr_pengirim  = $request->dr_pengirim;
-        $data->rm           = $request->rm;
-        $data->nama         = $request->nama;
-        $data->jns_kelamin  = $request->jns_kelamin;
-        $data->umur         = $request->umur;
-        $data->alamat       = $request->alamat;
+        // $data->rm           = $request->rm;
+        // $data->nama         = $request->nama;
+        // $data->jns_kelamin  = $request->jns_kelamin;
+        // $data->umur         = $request->umur;
+        // $data->alamat       = $request->alamat;
         $data->tgl          = $request->tgl;
         $data->hasil        = $request->hasil;
         
