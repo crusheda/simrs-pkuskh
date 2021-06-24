@@ -138,12 +138,12 @@ class rapatController extends Controller
     {
         $data = DB::table('rapat')
                 ->join('users', 'rapat.user_id', '=', 'users.id')
-                ->select('users.nick','rapat.created_at','rapat.filename2','rapat.title2')
+                ->select('users.name','rapat.created_at','rapat.filename2','rapat.title2')
                 ->where('rapat.deleted_at', null)
                 ->where('rapat.id', $id)
                 ->get();
 
-        $nick = $data[0]->nick;
+        $name = $data[0]->name;
         $tgl_materi = Carbon::parse($data[0]->created_at)->isoFormat('D MMM Y');
 
         // Text from DB Convert into Array First with JsonDECODE
@@ -151,8 +151,8 @@ class rapatController extends Controller
         $filename_mentah = json_decode($data[0]->title2);
 
         // Define Where ZIP will be Saved and Named
-        $zip_path = storage_path().'/notulen/materi/multiple/'.$nick.' - '.$tgl_materi.'.zip';
-        $zip_name = $nick.' - '.$tgl_materi.'.zip';
+        $zip_path = storage_path().'/app/public/files/notulen/materi/multiple/'.$name.' - '.$tgl_materi.'.zip'; // Folder dibuat manual dulu
+        $zip_name = $name.' - '.$tgl_materi.'.zip';
 
         // Making ZIP ARCHIVE
         $zip = new ZipArchive();        
@@ -169,10 +169,8 @@ class rapatController extends Controller
             $filename = str_replace('"','',$filename_mentah2);     // Remove Quotes "" from Encoding Json 
 
             // Adding Path into String Each File From DB
-            $path = storage_path().substr($file,6);
+            $path = storage_path().'/app/'.$file;
             $filepath = $path;
-            print_r($path);
-            die();
 
             // Checking File and Adding File
             if (file_exists($filepath)) {
@@ -180,7 +178,7 @@ class rapatController extends Controller
                 // $filename = nama file yang digunakan untuk mengganti nama file dari $filepath
                 $zip->addFile($filepath, $filename) or die ("ERROR: Could not add the file $filename");
             } else {
-                die("File $filename doesnt exit");
+                die("File $filename di Direktori $filepath doesnt exit");
             }
         }
 

@@ -190,12 +190,12 @@
                     <div class="row">
                         <div class="col-md-2">
                             <label>RM :</label>
-                            <input type="number" name="rm" id="rm" max="999999" value="{{ $item->rm }}" class="form-control" placeholder=""><br>
+                            <input type="number" name="rm" max="999999" value="{{ $item->rm }}" class="form-control" placeholder="" disabled><br>
                         </div>
                         <div class="col-md-4">
                             <label>Dokter Pengirim :</label>
                             <div class="input-group mb-3">
-                                <select class="custom-select" name="dr_pengirim" id="dr_pengirim">
+                                <select class="custom-select" name="dr_pengirim">
                                     <option value="" hidden>Pilih</option>
                                     @foreach($list['dokter'] as $key)
                                         <option value="{{ $key->id }}" @if ($item->id == $key->id) echo selected @endif>{{ $key->nama }}</option>
@@ -205,12 +205,12 @@
                         </div>
                         <div class="col-md-4">
                             <label>Tgl :</label>
-                            <input type="datetime-local" name="tgl" class="form-control" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($item->tgl)); ?>">
+                            <input type="datetime-local" name="tgl" class="form-control" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($item->tgl)); ?>"><br>
                         </div>
                         <div class="col-md-2">
                             <label>Hasil :</label>
                             <div class="input-group mb-3">
-                                <select class="custom-select" name="hasil" id="hasil" >
+                                <select class="custom-select" name="hasil">
                                     <option value="" hidden>Pilih</option>
                                     <option value="POSITIF" @if ($item->hasil == 'POSITIF') echo selected @endif>POSITIF</option>
                                     <option value="NEGATIF" @if ($item->hasil == 'NEGATIF') echo selected @endif>NEGATIF</option>
@@ -219,22 +219,21 @@
                         </div>
                         <div class="col-md-6">
                             <label>Nama :</label>
-                            <input type="text" name="nama" id="nama1" value="{{ $item->nama }}" class="form-control" placeholder="" hidden required>
-                            <input type="text" id="nama2" value="{{ $item->nama }}" class="form-control" disabled>
+                            {{-- <input type="text" name="nama" id="nama1" value="{{ $item->nama }}" class="form-control" placeholder="" hidden required> --}}
+                            <input type="text" id="nama2" value="{{ $item->nama }}" class="form-control" disabled><br>
                         </div>
                         <div class="col-md-3">
                             <label>Jenis Kelamin :</label>
-                            <input type="text" name="jns_kelamin" id="jns_kelamin1" value="{{ $item->jns_kelamin }}" class="form-control" hidden>
-                            <input type="text" id="jns_kelamin2" value="{{ $item->jns_kelamin }}" class="form-control" disabled>
+                            {{-- <input type="text" name="jns_kelamin" id="jns_kelamin1" value="{{ $item->jns_kelamin }}" class="form-control" hidden> --}}
+                            <input type="text" id="jns_kelamin2" value="{{ $item->jns_kelamin }}" class="form-control" disabled><br>
                         </div>
                         <div class="col-md-3">
                             <label>Umur :</label>
-                            <input type="text" name="umur" id="umur1" value="{{ $item->umur }}" class="form-control" hidden>
-                            <input type="text" id="umur2" value="{{ $item->umur }}" class="form-control" disabled>
+                            {{-- <input type="text" name="umur" id="umur1" value="{{ $item->umur }}" class="form-control" hidden> --}}
+                            <input type="text" id="umur2" value="{{ $item->umur }}" class="form-control" disabled><br>
                         </div>
                         <div class="col-md-12">
                             <label>Alamat :</label>
-                            <textarea class="form-control" name="alamat" id="alamat1" placeholder="" maxlength="190" rows="8" hidden><?php echo htmlspecialchars($item->alamat); ?></textarea>
                             <textarea class="form-control" id="alamat2" placeholder="" maxlength="190" rows="8" disabled><?php echo htmlspecialchars($item->alamat); ?></textarea>
                         </div>
                     </div>
