@@ -171,8 +171,8 @@ class rapatController extends Controller
             // Adding Path into String Each File From DB
             $path = storage_path().substr($file,6);
             $filepath = $path;
-            // print_r($path);
-            // die();
+            print_r($path);
+            die();
 
             // Checking File and Adding File
             if (file_exists($filepath)) {
