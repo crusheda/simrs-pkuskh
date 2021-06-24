@@ -351,6 +351,24 @@
                         // $('#jumlah20').attr('required', true);
                     }
                 });
+                $.ajax({
+                    url: "http://103.155.246.25:8000/api/all/"+this.value,
+                    // url: "http://192.168.1.3:8000/api/all/"+this.value,
+                    type: 'GET',
+                    dataType: 'json', // added data type
+                    success: function(res) {
+                        // console.log(res);
+                        $("#nama1").val(res.NAMAPASIEN);
+                        $("#nama2").val(res.NAMAPASIEN);
+                        $("#jns_kelamin1").val(res.JNSKELAMIN);
+                        $("#jns_kelamin2").val(res.JNSKELAMIN);
+                        $("#umur1").val(res.UMUR);
+                        $("#umur2").val(res.UMUR);
+                        $("#alamat1").val(res.ALAMAT);
+                        $("#alamat2").val(res.ALAMAT);
+                        // $('#jumlah20').attr('required', true);
+                    }
+                });
             }
         });
     } );
