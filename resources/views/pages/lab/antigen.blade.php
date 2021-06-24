@@ -53,9 +53,13 @@
                                         </thead>
                                         <tbody>
                                             @if(count($list) > 0)
-                                                @foreach($list['show'] as $item)
+                                                @foreach($list['show'] as $key => $item)
                                                 <tr>
-                                                    <td>{{ $item->dr_pengirim }}</td>
+                                                    <td>
+                                                        @php
+                                                            echo \App\Models\dokter::where('id', $item->dr_pengirim)->pluck('nama')->first();
+                                                        @endphp
+                                                    </td>
                                                     <td>{{ $item->rm }}</td>
                                                     <td>{{ $item->nama }}</td>
                                                     <td>{{ $item->jns_kelamin }} / {{ $item->umur }}</td>
@@ -185,7 +189,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                {{ Form::model($item, array('route' => array('rapat.update', $item->id), 'method' => 'PUT')) }}
+                {{ Form::model($item, array('route' => array('lab.antigen.update', $item->id), 'method' => 'PUT')) }}
                     @csrf
                     <div class="row">
                         <div class="col-md-2">
@@ -257,29 +261,18 @@
             <div class="modal-content">
                 <div class="modal-header">
                 <h4 class="modal-title">
-                    Yakin ingin Menghapus Hasil Antigen <kbd>ID : {{ $item->id }}</kbd> ?
+                    Hapus Hasil Antigen <kbd>ID : {{ $item->id }}</kbd> ?
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <p>
                         @if(count($list) > 0)
-                        <div class="row">
-                            <div class="col-2">
-                            <b> Dokter Pengirim</b> <br>
-                            <b> RM</b> <br>
-                            <b> PASIEN</b> <br>
-                            <b> UMUR</b>
-                            <b> HASIL</b> <br>
-                            </div>
-                            <div class="col-10">
-                                : {{ $item->dr_pengirim }}<br>
-                                : {{ $item->rm }}<br>
-                                : {{ $item->nama }}<br>
-                                : {{ $item->umur }}<br>
-                                : {{ $item->hasil }}
-                            </div>
-                        </div>
+                            <b> Dokter Pengirim</b> : @php echo \App\Models\dokter::where('id', $item->dr_pengirim)->pluck('nama')->first(); @endphp<br>
+                            <b> RM</b> : {{ $item->rm }}<br>
+                            <b> PASIEN</b> : {{ $item->nama }}<br>
+                            <b> UMUR</b> : {{ $item->umur }}<br>
+                            <b> HASIL</b> : {{ $item->hasil }}
                         @endif
                     </p>
                 </div>
