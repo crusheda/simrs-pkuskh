@@ -27,6 +27,7 @@ class antigenController extends Controller
         $dokter = dokter::get();
         $show = DB::table('antigen')
                 ->join('dokter', 'dokter.id', '=', 'antigen.dr_pengirim')
+                ->where('antigen.deleted_at',null)
                 ->select('dokter.id as dr_id','dokter.nama as dr_nama','dokter.jabatan as dr_jabatan','antigen.*')
                 ->get();
 
@@ -135,6 +136,7 @@ class antigenController extends Controller
     {
         $data = antigen::find($id);
         $data->delete();
+
         return redirect::back()->with('message','Hapus Hasil Antigen Berhasil');
     }
 
