@@ -125,13 +125,13 @@ class rapatController extends Controller
     public function show($id)
     {
         $data = rapat::find($id);
-        return Storage::download($data->filename2, $data->title2);
+        return Storage::download($data->filename1, $data->title1);
     }
 
     public function show2($id)
     {
         $data = rapat::find($id);
-        return Storage::download($data->filename1, $data->title1);
+        return Storage::download($data->filename2, $data->title2);
     }
 
     public function show2all($id)
@@ -151,7 +151,7 @@ class rapatController extends Controller
         $filename_mentah = json_decode($data[0]->title2);
 
         // Define Where ZIP will be Saved and Named
-        $zip_path = storage_path().'/app/public/files/notulen/materi/multiple/'.$nick.' - '.$tgl_materi.'.zip';
+        $zip_path = storage_path().'/notulen/materi/multiple/'.$nick.' - '.$tgl_materi.'.zip';
         $zip_name = $nick.' - '.$tgl_materi.'.zip';
 
         // Making ZIP ARCHIVE
@@ -169,8 +169,10 @@ class rapatController extends Controller
             $filename = str_replace('"','',$filename_mentah2);     // Remove Quotes "" from Encoding Json 
 
             // Adding Path into String Each File From DB
-            $path = storage_path().'/app/'.$file;
+            $path = storage_path().substr($file,6);
             $filepath = $path;
+            // print_r($path);
+            // die();
 
             // Checking File and Adding File
             if (file_exists($filepath)) {

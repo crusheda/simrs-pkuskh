@@ -39,10 +39,12 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
     // Route::get('home', 'it\itController@index')->name('it.home');
     // Route::get('user-activity', 'it\itController@getActivity')->name('user_activity');
     Route::resource('supervisi', 'it\log\logController');
-
     
     // Antrian Poli
     Route::resource('/antrian/poli', 'queue\admin\setQueuePoliController');
+
+    // Dokter
+    Route::resource('/dokter', 'Admin\dokterController');
 
     // Imut
         // Pilar
@@ -58,6 +60,13 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
         Route::post('/imut/printer/{id}', 'it\imut\printerController@printerClear')->name('printer.selesai');
         Route::resource('/imut/printer', 'it\imut\printerController');
 
+});
+
+// Lab
+Route::group(['middleware' => ['auth'], 'prefix' => 'lab', 'as' => 'lab.'], function () {
+    // Route::get('/karyawan/cetak/{id}', 'kantor\kepegawaianController@generatePDF')->name('karyawan.cetak');
+    Route::resource('/antigen', 'lab\antigenController');
+    Route::get('antigen/{id}/cetak','lab\antigenController@cetak')->name('antigen.cetak');  
 });
 
 // Kepegawaian
@@ -118,7 +127,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
     // Kebidanan
         Route::resource('kebidanan/skl', 'kebidanan\sklController');
         Route::get('kebidanan/skl/{id}/cetak','kebidanan\sklController@cetak')->name('skl.cetak');  
-        Route::get('cetak/word', 'kebidanan\sklController@word');
+        // Route::get('cetak/word', 'kebidanan\sklController@word');
 
     // K3
     Route::resource('k3/accidentreport', 'k3\accidentReportController');

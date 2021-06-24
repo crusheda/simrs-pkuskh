@@ -1,0 +1,215 @@
+@extends('layouts.admin')
+
+@section('content')
+<link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
+<link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
+
+<script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
+<script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
+
+<div class="row">
+    <div class="col-md-4">
+        <div class="card" style="width: 100%">
+            <div class="card-header bg-dark text-white">
+
+                <i class="fa-fw fas fa-plus nav-icon text-success">
+
+                </i> Tambah Dokter
+                
+            </div>
+            <div class="card-body">
+
+                @can('pengadaan')
+                
+                    <form class="form-auth-small" action="{{ route('it.dokter.store') }}" method="POST" enctype="multipart/form-data">
+                        @csrf
+                        <label>Nama Dokter :</label>
+                        <input type="text" name="nama" id="nama" class="form-control" placeholder="e.g. dr. Soenaryo" autofocus required>
+                        <br>
+                        <label>Jabatan :</label>
+                        <div class="input-group mb-3">
+                            <select class="custom-select" name="jabatan" id="jabatan" required>
+                                <option value="" hidden>Pilih</option>
+                                <option value="UMUM">UMUM</option>
+                                <option value="GIGI">GIGI</option>
+                                <option value="SPESIALIS BEDAH">SPESIALIS BEDAH</option>
+                                <option value="SPESIALIS ANESTESI">SPESIALIS ANESTESI</option>
+                                <option value="SPESIALIS DALAM">SPESIALIS DALAM</option>
+                                <option value="SPESIALIS OBSGYN">SPESIALIS OBSGYN</option>
+                                <option value="SPESIALIS ANAK">SPESIALIS ANAK</option>
+                                <option value="SPESIALIS KULIT KELAMIN">SPESIALIS KULIT KELAMIN</option>
+                                <option value="SPESIALIS ORTOPEDI">SPESIALIS ORTOPEDI</option>
+                                <option value="SPESIALIS JIWA">SPESIALIS JIWA</option>
+                                <option value="SPESIALIS RADIOLOGI">SPESIALIS RADIOLOGI</option>
+                                <option value="SPESIALIS THT">SPESIALIS THT</option>
+                                <option value="SPESIALIS PARU">SPESIALIS PARU</option>
+                                <option value="SPESIALIS SARAF">SPESIALIS SARAF</option>
+                                <option value="SPESIALIS MATA">SPESIALIS MATA</option>
+                                <option value="SPESIALIS REHABILITASI MEDIS">SPESIALIS REHABILITASI MEDIS</option>
+                                <option value="SPESIALIS PATOLOGI KLINIK">SPESIALIS PATOLOGI KLINIK</option>
+                            </select>
+                        </div>
+                        <hr>
+                        <center><button class="btn btn-success text-white" id="submit">TAMBAH</button></center>
+                    </form>
+            </div>
+        </div>
+    </div>
+    <div class="col-md-8">
+        <div class="card" style="width: 100%">
+            <div class="card-header bg-dark text-white">
+
+                <i class="fa-fw fas fa-cubes nav-icon text-info">
+
+                </i> Tabel Dokter
+
+                <span class="pull-right badge badge-warning" style="margin-top:4px">
+                    Akses Admin
+                </span>
+                
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="dokter" class="table table-striped display">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>NAMA</th>
+                                <th>JABATAN</th>
+                                <th>DITAMBAHKAN</th>
+                                <th><center>AKSI</center></th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            @if(count($list['show']) > 0)
+                                @foreach($list['show'] as $item)
+                                <tr>
+                                    <td>{{ $item->id }}</td>
+                                    <td>{{ $item->nama }}</td>
+                                    <td>{{ $item->jabatan }}</td>
+                                    <td>{{ $item->created_at }}</td>
+                                    <td>
+                                        <center>
+                                            <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#edit{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                        </center>
+                                    </td>
+                                </tr>
+                                @endforeach
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            </div>
+        </div>
+        @else
+            <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
+        @endcan
+    </div>
+</div>
+
+@foreach($list['show'] as $item)
+<div class="modal fade bd-example-modal-lg" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">
+            Yakin ingin Menghapus?
+          </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <p>
+                @if(count($list) > 0)
+                    <div class="row">
+                        <div class="col-md-12">
+                            Nama Dokter : <b>{{ $item->nama }}</b><br>
+                            Jabatan : <b>{{ $item->jabatan }}</b><br>
+                            Ditambahkan pada : <b>{{ $item->created_at }}</b>
+                        </div>
+                    </div>
+                @endif
+            </p>
+        </div>
+        <div class="modal-footer">
+            @if(count($list) > 0)
+                <form action="{{ route('it.dokter.destroy', $item->id) }}" method="POST">
+                    @method('DELETE')
+                    @csrf
+                    <button class="btn btn-danger btn-sm"><i class="lnr lnr-trash"></i>Hapus</button>
+                </form>
+            @endif
+        </div>
+      </div>
+    </div>
+</div>
+@endforeach
+
+@foreach($list['show'] as $item)
+<div class="modal fade bd-example-modal-lg" id="edit{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">
+            Ubah data
+          </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        @if(count($list) > 0)
+        {{ Form::model($item, array('route' => array('it.dokter.update', $item->id), 'method' => 'PUT')) }}
+        <div class="modal-body">
+            @csrf
+            <label>Nama Dokter :</label>
+            <input type="text" name="nama" id="nama" value="{{ $item->nama }}" class="form-control" placeholder="" autofocus required>
+            <br>
+            <label>Jabatan :</label>
+            <div class="input-group mb-3">
+                <select class="custom-select" name="jabatan" id="jabatan" required>
+                    <option value="" hidden>Pilih</option>
+                    <option value="UMUM" @if ($item->jabatan == 'UMUM') echo selected @endif>UMUM</option>
+                    <option value="GIGI" @if ($item->jabatan == 'GIGI') echo selected @endif>GIGI</option>
+                    <option value="SPESIALIS BEDAH" @if ($item->jabatan == 'SPESIALIS BEDAH') echo selected @endif>SPESIALIS BEDAH</option>
+                    <option value="SPESIALIS ANESTESI" @if ($item->jabatan == 'SPESIALIS ANESTESI') echo selected @endif>SPESIALIS ANESTESI</option>
+                    <option value="SPESIALIS DALAM" @if ($item->jabatan == 'SPESIALIS DALAM') echo selected @endif>SPESIALIS DALAM</option>
+                    <option value="SPESIALIS OBSGYN" @if ($item->jabatan == 'SPESIALIS OBSGYN') echo selected @endif>SPESIALIS OBSGYN</option>
+                    <option value="SPESIALIS ANAK" @if ($item->jabatan == 'SPESIALIS ANAK') echo selected @endif>SPESIALIS ANAK</option>
+                    <option value="SPESIALIS KULIT KELAMIN" @if ($item->jabatan == 'SPESIALIS KULIT KELAMIN') echo selected @endif>SPESIALIS KULIT KELAMIN</option>
+                    <option value="SPESIALIS ORTOPEDI" @if ($item->jabatan == 'SPESIALIS ORTOPEDI') echo selected @endif>SPESIALIS ORTOPEDI</option>
+                    <option value="SPESIALIS JIWA" @if ($item->jabatan == 'SPESIALIS JIWA') echo selected @endif>SPESIALIS JIWA</option>
+                    <option value="SPESIALIS RADIOLOGI" @if ($item->jabatan == 'SPESIALIS RADIOLOGI') echo selected @endif>SPESIALIS RADIOLOGI</option>
+                    <option value="SPESIALIS THT" @if ($item->jabatan == 'SPESIALIS THT') echo selected @endif>SPESIALIS THT</option>
+                    <option value="SPESIALIS PARU" @if ($item->jabatan == 'SPESIALIS PARU') echo selected @endif>SPESIALIS PARU</option>
+                    <option value="SPESIALIS SARAF" @if ($item->jabatan == 'SPESIALIS SARAF') echo selected @endif>SPESIALIS SARAF</option>
+                    <option value="SPESIALIS MATA" @if ($item->jabatan == 'SPESIALIS MATA') echo selected @endif>SPESIALIS MATA</option>
+                    <option value="SPESIALIS REHABILITASI MEDIS" @if ($item->jabatan == 'SPESIALIS REHABILITASI MEDIS') echo selected @endif>SPESIALIS REHABILITASI MEDIS</option>
+                    <option value="SPESIALIS PATOLOGI KLINIK" @if ($item->jabatan == 'SPESIALIS PATOLOGI KLINIK') echo selected @endif>SPESIALIS PATOLOGI KLINIK</option>
+                </select>
+            </div>
+        </div>
+        <div class="modal-footer">
+            <button class="btn btn-primary text-white btn-block" id="submit">Submit</button>
+        </div>
+        {{ Form::close() }}
+        @endif
+      </div>
+    </div>
+</div>
+@endforeach
+
+<script>
+$(document).ready( function () {
+    $('#dokter').DataTable(
+        {
+            paging: true,
+            searching: true,
+            dom: 'Bfrtip',
+            buttons: [
+                'copy', 'csv', 'excel', 'pdf', 'print'
+            ],
+            order: [[ 3, "desc" ]]
+        }
+    );
+} );
+</script>
+
+@endsection

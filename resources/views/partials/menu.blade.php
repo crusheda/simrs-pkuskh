@@ -180,6 +180,7 @@
                     </ul>
                 </li>
             @endcan
+
             @can('skl')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
@@ -195,6 +196,27 @@
 
                                 </i>
                                 Detail SKL
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
+
+            @can('antigen')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <i class="fa-fw fas fa-flask nav-icon">
+
+                        </i>
+                        Laboratorium
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("lab.antigen.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-hand-lizard nav-icon">
+
+                                </i>
+                                Antigen
                             </a>
                         </li>
                     </ul>
@@ -312,18 +334,16 @@
                         </a>
                     </li>
                 </ul>
-                @can('berkas_rapat')
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a href="{{ route("rapat.index") }}" class="nav-link">
-                                <i class="fa-fw fas fa-inbox nav-icon">
-        
-                                </i>
-                                Berkas Rapat
-                            </a>
-                        </li>
-                    </ul>
-                @endcan
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a href="{{ route("rapat.index") }}" class="nav-link">
+                            <i class="fa-fw fas fa-inbox nav-icon">
+    
+                            </i>
+                            Berkas Rapat
+                        </a>
+                    </li>
+                </ul>
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
                         <a href="{{ route("regulasi.index") }}" class="nav-link">
@@ -452,6 +472,14 @@
         
                                 </i>
                                 Unit
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route("it.dokter.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-group nav-icon">
+        
+                                </i>
+                                Dokter
                             </a>
                         </li>
                         {{-- <li class="nav-item">
