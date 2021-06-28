@@ -117,12 +117,12 @@
                     <div class="row">
                         <div class="col-md-2">
                             <label>RM :</label>
-                            <input type="number" name="rm" id="rm" max="999999" class="form-control" placeholder="" autofocus><br>
+                            <input type="number" name="rm" id="rm" max="999999" class="form-control" placeholder="" autofocus required><br>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label>Dokter Pengirim :</label>
                             <div class="input-group mb-3">
-                                <select class="custom-select" name="dr_pengirim" id="dr_pengirim" >
+                                <select class="custom-select" name="dr_pengirim" id="dr_pengirim" required>
                                     <option value="" hidden>Pilih</option>
                                     @foreach($list['dokter'] as $item)
                                         <option value="{{ $item->id }}">{{ $item->nama }}</option>
@@ -132,9 +132,13 @@
                         </div>
                         <div class="col-md-4">
                             <label>Tgl :</label>
-                            <input type="datetime-local" name="tgl" class="form-control"><br>
+                            <input type="datetime-local" name="tgl" class="form-control" required><br>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-8">
+                            <label>Pemeriksa :</label>
+                            <input type="text" name="pemeriksa" id="pemeriksa" class="form-control" placeholder="Optional"><br>
+                        </div>
+                        <div class="col-md-4">
                             <label>Hasil :</label>
                             <div class="input-group mb-3">
                                 <select class="custom-select" name="hasil" id="hasil" >
@@ -194,9 +198,10 @@
                     <div class="row">
                         <div class="col-md-2">
                             <label>RM :</label>
-                            <input type="number" name="rm" max="999999" value="{{ $item->rm }}" class="form-control" placeholder="" disabled><br>
+                            <input type="number" name="rm" max="999999" value="{{ $item->rm }}" class="form-control" hidden><br>
+                            <input type="number" value="{{ $item->rm }}" class="form-control" disabled><br>
                         </div>
-                        <div class="col-md-4">
+                        <div class="col-md-6">
                             <label>Dokter Pengirim :</label>
                             <div class="input-group mb-3">
                                 <select class="custom-select" name="dr_pengirim">
@@ -211,7 +216,11 @@
                             <label>Tgl :</label>
                             <input type="datetime-local" name="tgl" class="form-control" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($item->tgl)); ?>"><br>
                         </div>
-                        <div class="col-md-2">
+                        <div class="col-md-8">
+                            <label>Pemeriksa :</label>
+                            <input type="text" name="pemeriksa" value="{{ $item->pemeriksa }}" class="form-control" placeholder="Optional"><br>
+                        </div>
+                        <div class="col-md-4">
                             <label>Hasil :</label>
                             <div class="input-group mb-3">
                                 <select class="custom-select" name="hasil">
@@ -223,22 +232,23 @@
                         </div>
                         <div class="col-md-6">
                             <label>Nama :</label>
-                            {{-- <input type="text" name="nama" id="nama1" value="{{ $item->nama }}" class="form-control" placeholder="" hidden required> --}}
-                            <input type="text" id="nama2" value="{{ $item->nama }}" class="form-control" disabled><br>
+                            <input type="text" name="nama" value="{{ $item->nama }}" class="form-control" placeholder="" hidden required>
+                            <input type="text" value="{{ $item->nama }}" class="form-control" disabled><br>
                         </div>
                         <div class="col-md-3">
                             <label>Jenis Kelamin :</label>
-                            {{-- <input type="text" name="jns_kelamin" id="jns_kelamin1" value="{{ $item->jns_kelamin }}" class="form-control" hidden> --}}
-                            <input type="text" id="jns_kelamin2" value="{{ $item->jns_kelamin }}" class="form-control" disabled><br>
+                            <input type="text" name="jns_kelamin" value="{{ $item->jns_kelamin }}" class="form-control" hidden>
+                            <input type="text" value="{{ $item->jns_kelamin }}" class="form-control" disabled><br>
                         </div>
                         <div class="col-md-3">
                             <label>Umur :</label>
-                            {{-- <input type="text" name="umur" id="umur1" value="{{ $item->umur }}" class="form-control" hidden> --}}
-                            <input type="text" id="umur2" value="{{ $item->umur }}" class="form-control" disabled><br>
+                            <input type="text" name="umur" value="{{ $item->umur }}" class="form-control" hidden>
+                            <input type="text" value="{{ $item->umur }}" class="form-control" disabled><br>
                         </div>
                         <div class="col-md-12">
                             <label>Alamat :</label>
-                            <textarea class="form-control" id="alamat2" placeholder="" maxlength="190" rows="8" disabled><?php echo htmlspecialchars($item->alamat); ?></textarea>
+                            <textarea class="form-control" name="alamat3" placeholder="" maxlength="190" rows="8" hidden><?php echo htmlspecialchars($item->alamat); ?></textarea>
+                            <textarea class="form-control" disabled><?php echo htmlspecialchars($item->alamat); ?></textarea>
                         </div>
                     </div>
                     
@@ -269,6 +279,7 @@
                     <p>
                         @if(count($list) > 0)
                             <b> Dokter Pengirim</b> : @php echo \App\Models\dokter::where('id', $item->dr_pengirim)->pluck('nama')->first(); @endphp<br>
+                            <b> Pemeriksa</b> : {{ $item->pemeriksa }}<br>
                             <b> RM</b> : {{ $item->rm }}<br>
                             <b> PASIEN</b> : {{ $item->nama }}<br>
                             <b> UMUR</b> : {{ $item->umur }}<br>
@@ -320,13 +331,12 @@
                 $("#nama2").val("");
                 $("#jns_kelamin1").val("");
                 $("#jns_kelamin2").val("");
-                $("#umur1").val("");
                 $("#umur2").val("");
+                $("#umur1").val("");
                 $("#alamat1").val("");
                 $("#alamat2").val("");
             } else {
                 $.ajax({
-                    // url: "http://103.155.246.25:8000/api/all/"+this.value,
                     url: "http://192.168.1.3:8000/api/all/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
@@ -345,7 +355,6 @@
                 });
                 $.ajax({
                     url: "http://103.155.246.25:8000/api/all/"+this.value,
-                    // url: "http://192.168.1.3:8000/api/all/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
@@ -363,6 +372,55 @@
                 });
             }
         });
+        // $('#rm_edit').change(function() { 
+        //     if (this.value == '') {
+        //         $("#nama3").val("");
+        //         $("#nama4").val("");
+        //         $("#jns_kelamin3").val("");
+        //         $("#jns_kelamin4").val("");
+        //         $("#umur3").val("");
+        //         $("#umur4").val("");
+        //         $("#alamat3").val("");
+        //         $("#alamat4").val("");
+        //     } else {
+        //         $.ajax({
+        //             // url: "http://103.155.246.25:8000/api/all/"+this.value,
+        //             url: "http://192.168.1.3:8000/api/all/"+this.value,
+        //             type: 'GET',
+        //             dataType: 'json', // added data type
+        //             success: function(res) {
+        //                 // console.log(res);
+        //                 $("#nama3").val(res.NAMAPASIEN);
+        //                 $("#nama4").val(res.NAMAPASIEN);
+        //                 $("#jns_kelamin3").val(res.JNSKELAMIN);
+        //                 $("#jns_kelamin4").val(res.JNSKELAMIN);
+        //                 $("#umur3").val(res.UMUR);
+        //                 $("#umur4").val(res.UMUR);
+        //                 $("#alamat3").val(res.ALAMAT);
+        //                 $("#alamat4").val(res.ALAMAT);
+        //                 // $('#jumlah20').attr('required', true);
+        //             }
+        //         });
+        //         $.ajax({
+        //             url: "http://103.155.246.25:8000/api/all/"+this.value,
+        //             // url: "http://192.168.1.3:8000/api/all/"+this.value,
+        //             type: 'GET',
+        //             dataType: 'json', // added data type
+        //             success: function(res) {
+        //                 // console.log(res);
+        //                 $("#nama3").val(res.NAMAPASIEN);
+        //                 $("#nama4").val(res.NAMAPASIEN);
+        //                 $("#jns_kelamin3").val(res.JNSKELAMIN);
+        //                 $("#jns_kelamin4").val(res.JNSKELAMIN);
+        //                 $("#umur3").val(res.UMUR);
+        //                 $("#umur4").val(res.UMUR);
+        //                 $("#alamat3").val(res.ALAMAT);
+        //                 $("#alamat4").val(res.ALAMAT);
+        //                 // $('#jumlah20').attr('required', true);
+        //             }
+        //         });
+        //     }
+        // });
     } );
 </script>
 

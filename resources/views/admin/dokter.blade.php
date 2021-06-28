@@ -59,7 +59,7 @@
         <div class="card" style="width: 100%">
             <div class="card-header bg-dark text-white">
 
-                <i class="fa-fw fas fa-cubes nav-icon text-info">
+                <i class="fa-fw fas fa-user-md nav-icon text-info">
 
                 </i> Tabel Dokter
 

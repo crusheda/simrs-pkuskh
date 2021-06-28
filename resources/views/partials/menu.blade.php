@@ -476,7 +476,7 @@
                         </li>
                         <li class="nav-item">
                             <a href="{{ route("it.dokter.index") }}" class="nav-link">
-                                <i class="fa-fw fas fa-group nav-icon">
+                                <i class="fa-fw fas fa-user-md nav-icon">
         
                                 </i>
                                 Dokter

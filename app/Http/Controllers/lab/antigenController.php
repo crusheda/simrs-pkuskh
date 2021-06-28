@@ -66,6 +66,7 @@ class antigenController extends Controller
 
         $data = new antigen;
         $data->dr_pengirim  = $request->dr_pengirim;
+        $data->pemeriksa  = $request->pemeriksa;
         $data->rm           = $request->rm;
         $data->nama         = $request->nama;
         $data->jns_kelamin  = $request->jns_kelamin;
@@ -114,6 +115,7 @@ class antigenController extends Controller
         $data = antigen::find($id);
 
         $data->dr_pengirim  = $request->dr_pengirim;
+        $data->pemeriksa  = $request->pemeriksa;
         // $data->rm           = $request->rm;
         // $data->nama         = $request->nama;
         // $data->jns_kelamin  = $request->jns_kelamin;
@@ -158,15 +160,17 @@ class antigenController extends Controller
         }else {
             return redirect('lab/antigen')->withErrors('Gagal Unduh Laporan');
         }
-        
-        // $filename = 'Antigen '.$nama.' - '.$tgl;
-        $filename = 'Antigen RSPKUSKH';
+        $tgl_name = Carbon::parse($data->tgl)->isoFormat('DD MMM YYYY');
+        $file_name = 'Antigen '.$nama.' '.$tgl_name;
+        // $filename = 'Antigen RSPKUSKH';
+        $filename = str_replace(array('"', "'", ' ', ','), '_', $file_name);;
 
         $dokter = dokter::where('id',(int)$data->dr_pengirim)->first();
         // print_r($dokter);
         // die();
         $templateProcessor->setValues([
             'dr_pengirim' => $dokter->nama,
+            'pemeriksa' => $data->pemeriksa,
             'rm' => $data->rm,
             'nama' => $nama,
             'jns_kelamin' => $data->jns_kelamin,
