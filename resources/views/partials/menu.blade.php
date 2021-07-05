@@ -312,7 +312,19 @@
                             <i class="fa-fw fas fa-wrench nav-icon">
     
                             </i>
-                            IPSRS
+                            IPSRS 
+                            <span class="badge badge-light">
+                                @role('ipsrs')
+                                    @php
+                                        echo count(\DB::table('pengaduan_ipsrs')->where('tgl_selesai',null)->get()); 
+                                    @endphp
+                                @else
+                                    @php
+                                        $getid = Auth::user()->id;
+                                        echo count(\DB::table('pengaduan_ipsrs')->where('tgl_selesai',null)->where('user_id',$getid)->get()); 
+                                    @endphp
+                                @endrole
+                            </span>
                         </a>
                     </li>
                 </ul>

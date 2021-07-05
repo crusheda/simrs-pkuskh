@@ -141,7 +141,7 @@
                         <div class="col-md-4">
                             <label>Hasil :</label>
                             <div class="input-group mb-3">
-                                <select class="custom-select" name="hasil" id="hasil" >
+                                <select class="custom-select" name="hasil" id="hasil" required>
                                     <option value="" hidden>Pilih</option>
                                     <option value="POSITIF">POSITIF</option>
                                     <option value="NEGATIF">NEGATIF</option>
@@ -223,7 +223,7 @@
                         <div class="col-md-4">
                             <label>Hasil :</label>
                             <div class="input-group mb-3">
-                                <select class="custom-select" name="hasil">
+                                <select class="custom-select" name="hasil" required>
                                     <option value="" hidden>Pilih</option>
                                     <option value="POSITIF" @if ($item->hasil == 'POSITIF') echo selected @endif>POSITIF</option>
                                     <option value="NEGATIF" @if ($item->hasil == 'NEGATIF') echo selected @endif>NEGATIF</option>
@@ -355,6 +355,7 @@
                 });
                 $.ajax({
                     url: "http://103.155.246.25:8000/api/all/"+this.value,
+                    // url: "http://192.168.1.3:8000/api/all/"+this.value,
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {

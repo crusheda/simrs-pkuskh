@@ -19,7 +19,7 @@
             </i> Tabel Pengaduan IPSRS
 
             <span class="pull-right badge badge-warning" style="margin-top:4px">
-                Akses Publik
+                Akses <b style="text-transform: uppercase">{{ Auth::user()->roles->first()->name }}</b>
             </span>
             
         </div>
@@ -43,8 +43,7 @@
                 <table id="pengaduan_ipsrs" class="table table-striped display">
                     <thead>
                         <tr>
-                            {{-- <th></th> --}}
-                            <th><center>AKSI</center></th>
+                            <th><center>DETAIL</center></th>
                             <th>NAMA</th>
                             <th>UNIT</th>
                             <th>LOKASI</th>
@@ -56,47 +55,26 @@
                         @if(count($list['show']) > 0)
                         @foreach($list['show'] as $item)
                         <tr>
-                            {{-- <td><button type="button" class="btn btn-success btn-sm text-white" data-toggle="modal" data-target="#lampiranIPSRS{{ $item->id }}"><i class="fa-fw fas fa-unsorted nav-icon"></i> Detail</button></td> --}}
-                            @if (empty($item->tgl_diterima) && empty($item->tgl_selesai))
-                                <td>
-                                    <center><button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#detail1{{ $item->id }}"><i class="fa-fw fas fa-check-square nav-icon"></i> Verifikasi</button><hr>
-                                    <button type="button" class="btn btn-success btn-sm text-white" data-toggle="modal" data-target="#lampiranIPSRS{{ $item->id }}"><i class="fa-fw fas fa-unsorted nav-icon"></i> Detail</button></center>
-                                </td>
-                            @elseif (empty($item->tgl_dikerjakan) && empty($item->tgl_selesai ))
-                                <td>
-                                    <center><button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#kerjakan{{ $item->id }}"><i class="fa-fw fas fa-wrench nav-icon"></i> Kerjakan Sekarang</button><hr>
-                                    <button type="button" class="btn btn-success btn-sm text-white" data-toggle="modal" data-target="#lampiranIPSRS{{ $item->id }}"><i class="fa-fw fas fa-unsorted nav-icon"></i> Detail</button></center>
-                                </td>
-                            @elseif (empty($item->tgl_selesai))
-                                <td><center>
-                                    <button type="button" class="btn btn-success btn-sm text-white" data-toggle="modal" data-target="#lampiranIPSRS{{ $item->id }}"><i class="fa-fw fas fa-unsorted nav-icon"></i> Detail</button><hr>
-                                    <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#tambahket{{ $item->id }}"><i class="fa-fw fas fa-plus-square nav-icon"></i></button>
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#selesai{{ $item->id }}"><i class="fa-fw fas fa-thumbs-up nav-icon"></i></button>
-                                </center></td>
-                            @endif
+                            <td><center><button onclick="window.location.href='{{ url('pengaduan/ipsrs/detail/'.$item->id) }}'" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button></center></td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->unit }}</td>
                             <td>{{ $item->lokasi }}</td>
                             
                             @if (!empty($item->tgl_selesai) && empty($item->ket_penolakan))
-                                <td><kbd>Laporan Selesai</kbd></td>
+                                <td><kbd style="background-color: turquoise">Selesai</kbd></td>
                             @elseif (!empty($item->ket_penolakan))
-                                <td><kbd>Laporan Ditolak</kbd></td>
+                                <td><kbd style="background-color: red">Ditolak</kbd></td>
                             @elseif (empty($item->tgl_diterima))
-                                <td><kbd>Belum Diverifikasi</kbd></td>
+                            <td><kbd style="background-color: rebeccapurple">Diverifikasi</kbd></td>
                             @elseif (empty($item->tgl_dikerjakan))
-                                <td><kbd>Laporan Diterima</kbd></td>
+                                <td><kbd style="background-color: salmon">Diterima</kbd></td>
                             @elseif (empty($item->tgl_selesai))
-                                <td><kbd>Sedang Dikerjakan</kbd></td>
+                                <td><kbd style="background-color: orange">Dikerjakan</kbd></td>
                             @endif
                             
                             <td>{{ $item->tgl_pengaduan }}</td>
                         </tr>
                         @endforeach
-                        @else
-                            <tr>
-                                <td colspan=6>Tidak Ada Data</td>
-                            </tr>
                         @endif
                     </tbody>
                 </table>
@@ -110,7 +88,6 @@
                         <tr>
                             <th><center>DETAIL</center></th>
                             <th>NAMA</th>
-                            <th>UNIT</th>
                             <th>LOKASI</th>
                             <th>STATUS</th>
                             <th>TGL</th>
@@ -121,21 +98,20 @@
                         @if(count($list['show']) > 0)
                         @foreach($list['show'] as $item)
                         <tr>
-                            <td><center><button type="button" @if (!empty($item->tgl_selesai)) class="btn btn-secondary btn-sm" @else class="btn btn-success btn-sm" @endif data-toggle="modal" data-target="#detail2{{ $item->id }}"><i class="fa-fw fas fa-search nav-icon"></i> Lihat</button></center></td>
+                            <td><center><button type="button" @if (!empty($item->tgl_selesai)) class="btn btn-success btn-sm" @else class="btn btn-primary btn-sm" @endif data-toggle="modal" data-target="#detail2{{ $item->id }}"><i class="fa-fw fas fa-search nav-icon"></i> Lihat</button></center></td>
                             <td>{{ $item->nama }}</td>
-                            <td>{{ $item->unit }}</td>
                             <td>{{ $item->lokasi }}</td>
 
                             @if (!empty($item->tgl_selesai) && empty($item->ket_penolakan))
-                                <td><kbd>Laporan Selesai</kbd></td>
+                                <td><kbd style="background-color: turquoise">Selesai</kbd></td>
                             @elseif (!empty($item->ket_penolakan))
-                                <td><kbd>Laporan Ditolak</kbd></td>
+                                <td><kbd style="background-color: red">Ditolak</kbd></td>
                             @elseif (empty($item->tgl_diterima))
-                                <td><kbd>Sedang Diverifikasi</kbd></td>
+                                <td><kbd style="background-color: rebeccapurple">Diverifikasi</kbd></td>
                             @elseif (empty($item->tgl_dikerjakan))
-                                <td><kbd>Laporan Diterima</kbd></td>
+                                <td><kbd style="background-color: salmon">Diterima</kbd></td>
                             @elseif (empty($item->tgl_selesai))
-                                <td><kbd>Sedang Dikerjakan</kbd></td>
+                                <td><kbd style="background-color: orange">Dikerjakan</kbd></td>
                             @endif
                             
                             <td>{{ $item->tgl_pengaduan }}</td>
@@ -154,10 +130,6 @@
                             </td>
                         </tr>
                         @endforeach
-                        @else
-                            <tr>
-                                <td colspan=7>Tidak Ada Data</td>
-                            </tr>
                         @endif
                     </tbody>
                 </table>
@@ -187,7 +159,8 @@
                                 <th>UNIT</th>
                                 <th>LOKASI</th>
                                 <th>STATUS</th>
-                                <th>TGL</th>
+                                <th>TGL MULAI</th>
+                                <th>TGL SELESAI</th>
                             </tr>
                         </thead>
                         <tbody style="text-transform: capitalize">
@@ -196,33 +169,31 @@
                             <tr>
                                 <td>
                                     <center>
-                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#detail4{{ $item->id }}"><i class="fa-fw fas fa-search nav-icon"></i></button>
+                                        <button onclick="window.location.href='{{ url('pengaduan/ipsrs/detail/'.$item->id) }}'" type="button" class="btn btn-success btn-sm"><i class="fa fa-search"></i></button>
                                         <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#lampiranIPSRS{{ $item->id }}"><i class="fa-fw fas fa-history nav-icon"></i></button>
                                     </center>
                                 </td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->unit }}</td>
                                 <td>{{ $item->lokasi }}</td>
-                                
+                                <td>
                                 @if (!empty($item->tgl_selesai) && empty($item->ket_penolakan))
-                                    <td><kbd>Laporan Selesai</kbd></td>
+                                    <kbd style="background-color: turquoise">Selesai</kbd>
                                 @elseif (!empty($item->ket_penolakan))
-                                    <td><kbd>Laporan Ditolak</kbd></td>
+                                    <kbd style="background-color: red">Ditolak</kbd>
                                 @elseif (empty($item->tgl_diterima))
-                                    <td><kbd>Laporan Diverifikasi</kbd></td>
+                                    <kbd style="background-color: rebeccapurple">Diverifikasi</kbd>
                                 @elseif (empty($item->tgl_dikerjakan))
-                                    <td><kbd>Laporan Diterima</kbd></td>
+                                    <kbd style="background-color: salmon">Diterima</kbd>
                                 @elseif (empty($item->tgl_selesai))
-                                    <td><kbd>Sedang Dikerjakan</kbd></td>
+                                    <kbd style="background-color: orange">Dikerjakan</kbd>
                                 @endif
+                                </td>
                                 
                                 <td>{{ $item->tgl_pengaduan }}</td>
+                                <td>{{ $item->tgl_selesai }}</td>
                             </tr>
                             @endforeach
-                            @else
-                                <tr>
-                                    <td colspan=6>Tidak Ada Laporan</td>
-                                </tr>
                             @endif
                         </tbody>
                     </table>
@@ -246,15 +217,15 @@
             <form class="form-auth-small" action="{{ route('ipsrs.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="col-md-4">
+                    {{-- <div class="col-md-4">
                         <label>Nama : </label>
                         <input type="text" name="nama" id="nama" class="form-control" value="{{ Auth::user()->name }}" disabled><br>
                     </div>
                     <div class="col-md-4">
                         <label>Unit : </label>
                         <input type="text" name="unit" id="unit" class="form-control" value="{{ Auth::user()->roles->first()->name }}" disabled><br>
-                    </div>
-                    <div class="col-md-4">
+                    </div> --}}
+                    <div class="col-md-12">
                         <label>Lokasi : </label>
                         <input type="text" name="lokasi" id="lokasi" class="form-control" placeholder="" required><br>
                     </div>
@@ -265,7 +236,7 @@
                         <textarea class="form-control" name="pengaduan" id="pengaduan1" placeholder="" maxlength="190" rows="8" required></textarea>
                         <span class="help-block">
                             <p id="maxpengaduan1" class="help-block "></p>
-                        </span><br>
+                        </span>
                     </div>
                 </div>
                 <label>Lampiran (Optional) : </label><br>
@@ -299,15 +270,15 @@
                     @csrf
                     <input type="text" name="id" value="{{ $item->id }}" hidden> 
                     <div class="row">
-                        <div class="col-md-4">
+                        {{-- <div class="col-md-4">
                             <label>Nama : </label>
                             <input type="text" name="nama" id="nama" class="form-control" value="{{ $item->nama }}" disabled><br>
                         </div>
                         <div class="col-md-4">
                             <label>Unit : </label>
                             <input type="text" name="unit" id="unit" class="form-control" value="{{ $item->unit }}" disabled><br>
-                        </div>
-                        <div class="col-md-4">
+                        </div> --}}
+                        <div class="col">
                             <label>Lokasi : </label>
                             <input type="text" name="lokasi" id="lokasi" class="form-control" value="{{ $item->lokasi }}" required><br>
                         </div>
@@ -364,73 +335,6 @@
 </div>
 @endforeach
 
-{{-- Proses Verifikasi --}}
-@foreach($list['show'] as $item)
-<div class="modal" tabindex="-1" id="detail1{{ $item->id }}" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">
-                Verifikasi Laporan&nbsp;<kbd>ID : {{ $item->id }}</kbd>
-            </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <center>
-                <div class="accordion">
-                    <a type="button" class="btn btn-success btn-block text-white" data-toggle="collapse" data-target="#terimapengaduan{{ $item->id }}">Terima</a><br>
-                    {{ Form::model($item, array('route' => array('pengaduan.ipsrs.terima', $item->id), 'method' => 'POST')) }}
-                    <div class="accordion-item">
-                        <div class="row">
-                            <div class="col">
-                                <div class="collapse" id="terimapengaduan{{ $item->id }}" data-parent="#accordion">
-                                    <h6 class="text-left">Keterangan : (Optional)</h6>
-                                    <div class="card card-body">
-                                        <input type="text" class="form-control" name="id" value="{{ $item->id }}" hidden>
-                                        <textarea class="form-control" name="ket" id="ket_verifikasi1" placeholder="" maxlength="190" rows="8"></textarea>
-                                        <span class="help-block">
-                                            <p id="max_ket_verifikasi1" class="help-block "></p>
-                                        </span><br>
-                                        <button type="submit" class="btn btn-success">Submit</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div><br>
-                    </div>
-                    {{ Form::close() }}
-                    <a type="button" class="btn btn-dark btn-block text-white" data-toggle="collapse" data-target="#tolakpengaduan{{ $item->id }}">Tolak</a><br>
-                    {{ Form::model($item, array('route' => array('pengaduan.ipsrs.tolak', $item->id), 'method' => 'POST')) }}
-                    <div class="accordion-item">
-                        <div class="row">
-                            <div class="col">
-                                <div class="collapse" id="tolakpengaduan{{ $item->id }}" data-parent="#accordion">
-                                    <h6 class="text-left">Keterangan : (Optional)</h6>
-                                    <div class="card card-body">
-                                        <input type="text" class="form-control" name="id" value="{{ $item->id }}" hidden>
-                                        <textarea class="form-control" name="ket" id="ket_verifikasi2" placeholder="" maxlength="190" rows="8"></textarea>
-                                        <span class="help-block">
-                                            <p id="max_ket_verifikasi2" class="help-block "></p>
-                                        </span><br>
-                                        <button type="submit" class="btn btn-dark">Submit</button>
-                                    </div>
-                                </div>
-                            </div>
-                        </div>
-                    </div>
-                    {{ Form::close() }}
-                </div>
-            </center>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i> Tutup</button>
-        </div>
-      </div>
-    </div>
-</div>
-@endforeach
-
 {{-- Download Lampiran FOTO User --}}
 @foreach($list['show'] as $item)
 <div class="modal" tabindex="-1" id="lampiran{{ $item->id }}" role="dialog">
@@ -477,49 +381,6 @@
 @endforeach
 
 @role('ipsrs')
-{{-- Download Lampiran FOTO IPSRS NOW --}}
-@foreach($list['show'] as $item)
-<div class="modal" tabindex="-1" id="lampiranIPSRS{{ $item->id }}" role="dialog">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">
-                Detail Pengaduan&nbsp;<kbd>ID : {{ $item->id }}</kbd>
-            </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <h6 class="text-left">Keterangan Pengaduan :</h6>
-            <div class="card">
-                <div class="card-body">
-                    <p>{{ $item->ket_pengaduan }}</p>
-                </div>
-            </div><hr>
-            <h6 class="text-left">Lampiran Pengaduan :</h6>
-            @if (empty($item->filename_pengaduan))
-                <div class="card">
-                    <div class="card-body">
-                        <center><p><b>Tidak Ada Lampiran</b></p></center>
-                    </div>
-                </div>
-            @else
-                <center><img src="{{ url('public/storage/'.substr($item->filename_pengaduan,7,2000)) }}" style="width:400px" alt="" title="" /></center>
-            @endif
-        </div>
-        <div class="modal-footer">
-            @if (empty($item->filename_pengaduan))
-                <button type="button" class="btn btn-secondary" disabled><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
-            @else
-                <button onclick="window.location.href='{{ url('pengaduan/ipsrs/'. $item->id) }}'" type="button" class="btn btn-success"><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
-            @endif
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i> Tutup</button>
-        </div>
-      </div>
-    </div>
-</div>
-@endforeach
 {{-- Download Lampiran FOTO IPSRS RECENT --}}
 @foreach($list['showrecent'] as $item)
 <div class="modal" tabindex="-1" id="lampiranIPSRS{{ $item->id }}" role="dialog">
@@ -548,7 +409,8 @@
                     </div>
                 </div>
             @else
-                <center><img src="{{ url('public/storage/'.substr($item->filename_pengaduan,7,2000)) }}" style="width:400px" alt="" title="" /></center>
+                {{-- <center><img src="{{ url('public/storage/'.substr($item->filename_pengaduan,7,2000)) }}" style="width:400px" alt="" title="" /></center> --}}
+                <center><img src="{{ url('storage/'.substr($item->filename_pengaduan,7,1000)) }}" style="width:400px" alt="" title="" /></center>
             @endif
         </div>
         <div class="modal-footer">
@@ -604,7 +466,7 @@
                         </tr>
                     </tbody>
                 </table>
-                <p><b># Klik tombol Status Dikerjakan untuk melihat detail Status.</b></p>
+                <p><b># Klik tombol Status <kbd>DIKERJAKAN</kbd> untuk melihat detail Status.</b></p>
                 @else
                     <p><b>Laporan Ditolak Pada : </b>{{ $item->tgl_selesai }}</p>
                     <p><b>Keterangan Penolakan : </b></p>
@@ -618,6 +480,7 @@
                                 <tr>
                                     <th>TGL</th>
                                     <th>KETERANGAN</th>
+                                    <th><center>LAMPIRAN</center></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -629,11 +492,20 @@
                                 <tr>
                                     <td>{{ $item->created_at }}</td>
                                     <td>{{ $item->keterangan }}</td>
+                                    <td>
+                                        <center>
+                                            @if (!empty($item->title))
+                                                <button class="btn btn-success" onclick="window.location.href='{{ url('pengaduan/ipsrs/lampiran/catatan/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon"></i></button>
+                                            @else
+                                                <button class="btn btn-secondary" disabled><i class="fa-fw fas fa-download nav-icon"></i></button>
+                                            @endif
+                                        </center>
+                                    </td>
                                 </tr>
                                 @endforeach
                                 @else
                                     <tr>
-                                        <td colspan=2>Tidak Ada Data</td>
+                                        <td colspan=3>Tidak Ada Data</td>
                                     </tr>
                                 @endif
                             </tbody>
@@ -682,151 +554,12 @@
 @endforeach
 @endrole
 
-{{-- Kerjakan Sekarang --}}
-@foreach($list['show'] as $item)
-<div class="modal" tabindex="-1" id="kerjakan{{ $item->id }}" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">
-                Laporan Pengaduan&nbsp;<kbd>ID : {{ $item->id }}</kbd>
-            </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <h6>- <b>Tgl Pengaduan Laporan : </b>{{ $item->tgl_pengaduan }}</h6>
-            <h6>- <b>Keterangan Pengaduan Laporan : </b></h6>
-            <textarea class="form-control" disabled><?php echo htmlspecialchars($item->ket_pengaduan); ?></textarea>
-            <h6>- <b>Tgl Laporan Diterima : </b>{{ $item->tgl_diterima }}</h6>
-            <h6>- <b>Keterangan Penerimaan Laporan : </b></h6>
-            <textarea class="form-control" disabled><?php echo htmlspecialchars($item->ket_diterima); ?></textarea>
-            <hr>
-            <h6>- <b>Tambah Keterangan Pengerjaan Laporan : </b>(Optional)</h6>
-            {{ Form::model($item, array('route' => array('pengaduan.ipsrs.kerjakan', $item->id), 'method' => 'POST')) }}
-                <div class="card card-body">
-                    <input type="text" class="form-control" name="id" value="{{ $item->id }}" hidden>
-                    <textarea class="form-control" name="ket" id="ket_dikerjakan1" placeholder="" maxlength="190" rows="8"></textarea>
-                    <span class="help-block">
-                        <p id="max_ket_dikerjakan1" class="help-block "></p>
-                    </span>
-                </div>
-        </div>
-        <div class="modal-footer">
-
-                <button type="submit" class="btn btn-success"><i class="fa fa-wrench"></i>&nbsp;&nbsp;Kerjakan</button>
-            {{ Form::close() }}
-
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i> Tutup</button>
-        </div>
-      </div>
-    </div>
-</div>
-@endforeach
-
-{{-- Tambah Catatan --}}
-@foreach($list['show'] as $item)
-<div class="modal" tabindex="-1" id="tambahket{{ $item->id }}" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">
-                Laporan Pengaduan&nbsp;<kbd>ID : {{ $item->id }}</kbd>
-            </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <h6>- <b>Catatan Pengerjaan</b></h6>
-            <table class="table table-striped display">
-                <thead>
-                    <tr>
-                        <th>TGL</th>
-                        <th>KETERANGAN</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @php
-                        $data = \App\Models\pengaduan_ipsrs_catatan::where('pengaduan_id', $item->id)->get();
-                    @endphp
-                    @if(count($data) > 0)
-                    @foreach($data as $item)
-                    <tr>
-                        <td>{{ $item->created_at }}</td>
-                        <td>{{ $item->keterangan }}</td>
-                    </tr>
-                    @endforeach
-                    @else
-                        <tr>
-                            <td colspan=2>Belum Ada Catatan Pengerjaan</td>
-                        </tr>
-                    @endif
-                </tbody>
-            </table>  
-            <hr>
-            <h6>- <b>Tambah Catatan Pengerjaan : </b>(Optional)</h6>
-            {{ Form::model($item, array('route' => array('pengaduan.ipsrs.tambahketerangan', $item->id), 'method' => 'POST')) }}
-                <div class="card card-body">
-                    <input type="text" class="form-control" name="id" value="{{ $item->id }}" hidden>
-                    <textarea class="form-control" name="ket" id="ket_dikerjakan2" placeholder="" maxlength="190" rows="8"></textarea>
-                    <span class="help-block">
-                        <p id="max_ket_dikerjakan2" class="help-block "></p>
-                    </span>
-                </div>
-        </div>
-        <div class="modal-footer">
-
-                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>&nbsp;&nbsp;Simpan</button>
-            {{ Form::close() }}
-
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i> Tutup</button>
-        </div>
-      </div>
-    </div>
-</div>
-@endforeach
-
-{{-- Laporan Selesai --}}
-@foreach($list['show'] as $item)
-<div class="modal" tabindex="-1" id="selesai{{ $item->id }}" role="dialog">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">
-                Laporan Pengaduan&nbsp;<kbd>ID : {{ $item->id }}</kbd>
-            </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            Apakah anda yakin ingin menyelesaikan laporan pengaduan dari <kbd>{{ $item->nama }}</kbd> ?
-        </div>
-        <div class="modal-footer">
-            {{ Form::model($item, array('route' => array('pengaduan.ipsrs.selesai', $item->id), 'method' => 'POST')) }}
-                <input type="text" class="form-control" name="id" value="{{ $item->id }}" hidden>
-                <button type="submit" class="btn btn-success"><i class="fa fa-save"></i>&nbsp;&nbsp;Simpan</button>
-            {{ Form::close() }}
-
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i> Tutup</button>
-        </div>
-      </div>
-    </div>
-</div>
-@endforeach
-
 <script>
     $(document).ready( function () {
         $('#pengaduan_ipsrs').DataTable(
             {
                 paging: true,
                 searching: true,
-                dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ],
                 order: [[ 5, "desc" ]]
             }
         );
@@ -838,7 +571,7 @@
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf', 'print'
                 ],
-                order: [[ 5, "desc" ]]
+                order: [[ 4, "desc" ]]
             }
         );
         $('#recent').DataTable(
@@ -854,10 +587,6 @@
         );
         $('#maxpengaduan1').text('190 Limit Text');
         $('#maxpengaduan2').text('190 Limit Text');
-        $('#max_ket_dikerjakan1').text('190 Limit Text');
-        $('#max_ket_dikerjakan2').text('190 Limit Text');
-        $('#max_ket_verifikasi1').text('190 Limit Text');
-        $('#max_ket_verifikasi1').text('190 Limit Text');
         $('#pengaduan1').keydown(function () {
             var max = 190;
             var len = $(this).val().length;
@@ -878,50 +607,6 @@
             else {
                 var ch = max - len;
                 $('#maxpengaduan2').text(ch + ' Limit Text');     
-            }
-        }); 
-        $('#ket_dikerjakan1').keydown(function () {
-            var max = 190;
-            var len = $(this).val().length;
-            if (len >= max) {
-                $('#max_ket_dikerjakan1').text('Anda telah mencapai Limit Maksimal.');          
-            } 
-            else {
-                var ch = max - len;
-                $('#max_ket_dikerjakan1').text(ch + ' Limit Text');     
-            }
-        }); 
-        $('#ket_dikerjakan2').keydown(function () {
-            var max = 190;
-            var len = $(this).val().length;
-            if (len >= max) {
-                $('#max_ket_dikerjakan2').text('Anda telah mencapai Limit Maksimal.');          
-            } 
-            else {
-                var ch = max - len;
-                $('#max_ket_dikerjakan2').text(ch + ' Limit Text');     
-            }
-        }); 
-        $('#ket_verifikasi1').keydown(function () {
-            var max = 190;
-            var len = $(this).val().length;
-            if (len >= max) {
-                $('#max_ket_verifikasi1').text('Anda telah mencapai Limit Maksimal.');          
-            } 
-            else {
-                var ch = max - len;
-                $('#max_ket_verifikasi1').text(ch + ' Limit Text');     
-            }
-        }); 
-        $('#ket_verifikasi2').keydown(function () {
-            var max = 190;
-            var len = $(this).val().length;
-            if (len >= max) {
-                $('#max_ket_verifikasi2').text('Anda telah mencapai Limit Maksimal.');          
-            } 
-            else {
-                var ch = max - len;
-                $('#max_ket_verifikasi2').text(ch + ' Limit Text');     
             }
         }); 
     } );
