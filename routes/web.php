@@ -16,6 +16,7 @@ Route::post('edit_akun/{id}', 'Admin\UsersController@ubahData')->name('ubah.akun
 
 // Other
 Route::get('/home', 'HomeController@index')->name('home');
+
 Route::get('/file-manager', 'HomeController@fileManager')->name('file_manager'); //file manager
 Route::resource('user', 'Admin\profilController');
 Route::post('/user/foto', 'Admin\profilController@storeImg');

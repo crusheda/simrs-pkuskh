@@ -569,7 +569,7 @@
                 searching: true,
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'excel', 'pdf', 'print'
                 ],
                 order: [[ 4, "desc" ]]
             }
@@ -580,7 +580,7 @@
                 searching: true,
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'excel', 'pdf', 'print'
                 ],
                 order: [[ 5, "desc" ]]
             }

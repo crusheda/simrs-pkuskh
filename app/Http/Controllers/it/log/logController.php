@@ -9,6 +9,7 @@ use App\Models\logit;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Storage;
+use Response;
 use Auth;
 use \PDF;
 use Image;
@@ -115,6 +116,17 @@ class logController extends Controller
     {
         $data = logit::find($id);
         return Storage::download($data->filename, $data->title);
+        // $headers = ["Content-Type"=>"pdf/zip"];
+        // $getfile = Storage::get($data->filename);
+        // print_r($getfile);
+        // die();
+        // return response()->file(storage_path().'/app/'.$data->filename, $headers);
+        // return response()->download(storage_path().'/app/'.$data->filename, $data->title,[],'inline');
+        // return response()->stream(storage_path().'/app/'.$data->filename,200, $headers);
+        // return Response::make(file_get_contents(storage_path().'/app/'.$data->filename), 200, [
+        //     'Content-Type' => 'application/pdf',
+        //     'Content-Disposition' => 'inline; filename="'.$data->filename.'"'
+        // ]);
     }
 
     /**
@@ -195,5 +207,13 @@ class logController extends Controller
         return Image::make(storage_path() . '/it/log/' . $id )->response();
         print_r($id);
         die();
+    }
+
+    public function showPDF($id)
+    {
+        $file = logit::find($id);
+        // print_r($file);
+        // die();
+        return response()->file(storage_path('/app/'.$file->filename));
     }
 }

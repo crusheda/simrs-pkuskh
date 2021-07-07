@@ -71,14 +71,14 @@ class antigenController extends Controller
         $data->nama         = $request->nama;
         $data->jns_kelamin  = $request->jns_kelamin;
         $data->umur         = $request->umur;
-        $data->alamat       = $request->alamat;
+        $data->alamat       = $request->alamat.', '.strtoupper($request->kec).', '.strtoupper($request->kab);
         $data->tgl          = $request->tgl;
         $data->hasil        = $request->hasil;
         $data->pj           = $pj;
         $data->user_id      = $user_id;
         
         $data->save();
-        return redirect::back()->with('message','Tambah Hasil Antigen Berhasil');
+        return redirect::back()->with('message','Hasil Antigen Berhasil Ditambahkan a/n '.$request->nama);
     }
 
     /**

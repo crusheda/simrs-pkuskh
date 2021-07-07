@@ -25,7 +25,7 @@
         </div>
         <div class="card-body">
             @can('kepegawaian')
-                <div class="row">
+                {{-- <div class="row">
                     <div class="col-md-12">
                         <a type="button" class="btn btn-secondary text-white disabled" data-toggle="modal" data-target="#tambah">
                             <i class="fa-fw fas fa-plus-square nav-icon">
@@ -34,7 +34,7 @@
                             Tambah Karyawan
                         </a>
                     </div>
-                </div><br>
+                </div><br> --}}
                 <div class="table-responsive">
                     <table id="karyawan" class="table table-striped display">
                         <thead>
@@ -71,10 +71,63 @@
                                 </td>
                             </tr>
                             @endforeach
-                            @else
-                                <tr>
-                                    <td colspan=6>Tidak Ada Data</td>
-                                </tr>
+                            @endif
+                        </tbody>
+                    </table>
+                </div>
+            @else
+                <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
+            @endcan
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="card" style="width: 100%">
+        <div class="card-header bg-dark text-white">
+
+            <i class="fa-fw fas fa-male nav-icon text-info">
+        
+            </i> Tabel Karyawan Yang Belum Mengisi
+            
+        </div>
+        <div class="card-body">
+            @can('kepegawaian')
+                <div class="table-responsive">
+                    <table id="karyawan2" class="table table-striped display">
+                        <thead>
+                            <tr>
+                                <th>USER_ID</th>
+                                <th>NIP</th>
+                                <th>NAMA</th>
+                                <th>UNIT</th>
+                                {{-- <th>STR</th> --}}
+                                <th>UPDATE</th>
+                                <th><center>AKSI</center></th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-transform: capitalize">
+                            @if(count($list['showbelum']) > 0)
+                            @foreach($list['showbelum'] as $item)
+                            <tr>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->nip }}</td>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->nama_role }}</td>
+                                {{-- @if (empty($item->no_str))
+                                    <td><kbd>Belum Disi</kbd></td>
+                                @else
+                                    <td>{{ $item->no_str }}</td>
+                                @endif --}}
+                                <td>{{ $item->updated_at }}</td>
+                                <td>
+                                    <center>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{{ url('kepegawaian/karyawan/'. $item->id) }}'" disabled><i class="fa-fw fas fa-search nav-icon"></i></button>
+                                        <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{{ url('kepegawaian/'. $item->id) }}'" disabled><i class="fa-fw fas fa-download nav-icon text-white"></i></button>
+                                    </center>
+                                </td>
+                            </tr>
+                            @endforeach
                             @endif
                         </tbody>
                     </table>
@@ -199,6 +252,11 @@
                 buttons: [
                     'copy', 'csv', 'excel', 'pdf', 'print'
                 ],
+                order: [[ 5, "desc" ]],
+            }
+        );
+        $('#karyawan2').DataTable(
+            {
                 order: [[ 5, "desc" ]],
             }
         );

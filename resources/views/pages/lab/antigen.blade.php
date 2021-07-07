@@ -165,6 +165,8 @@
                         </div>
                         <div class="col-md-12">
                             <label>Alamat :</label>
+                            <input type="text" name="kec" id="kec" class="form-control" hidden>
+                            <input type="text" name="kab" id="kab" class="form-control" hidden>
                             <textarea class="form-control" name="alamat" id="alamat1" placeholder="" maxlength="190" rows="8" hidden></textarea>
                             <textarea class="form-control" id="alamat2" placeholder="" maxlength="190" rows="8" disabled></textarea>
                         </div>
@@ -350,6 +352,9 @@
                         $("#umur2").val(res.UMUR);
                         $("#alamat1").val(res.ALAMAT);
                         $("#alamat2").val(res.ALAMAT);
+                        
+                        $("#kec").val(res.KECAMATAN);
+                        $("#kab").val(res.NAMA_KABKOTA);
                         // $('#jumlah20').attr('required', true);
                     }
                 });
@@ -368,6 +373,9 @@
                         $("#umur2").val(res.UMUR);
                         $("#alamat1").val(res.ALAMAT);
                         $("#alamat2").val(res.ALAMAT);
+
+                        $("#kec").val(res.KECAMATAN);
+                        $("#kab").val(res.NAMA_KABKOTA);
                         // $('#jumlah20').attr('required', true);
                     }
                 });

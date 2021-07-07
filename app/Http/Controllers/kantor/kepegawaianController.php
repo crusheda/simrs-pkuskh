@@ -34,12 +34,20 @@ class kepegawaianController extends Controller
             ->join('foto_profil', 'foto_profil.user_id', '=', 'users.id')
             ->select('roles.name as nama_role','foto_profil.title as title','foto_profil.filename as filename','users.*')
             ->get();
+
+        $showbelum = DB::table('users')
+            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+            ->where('users.nik',null)
+            ->select('roles.name as nama_role','users.*')
+            ->get();
         
         // print_r($show);
         // die();
 
         $data = [
-            'show' => $show
+            'show' => $show,
+            'showbelum' => $showbelum
         ];
         return view('pages.kantor.kepegawaian.karyawan')->with('list', $data);
     }
@@ -93,9 +101,14 @@ class kepegawaianController extends Controller
                 ->select('roles.name as nama_role','foto_profil.title as title','foto_profil.filename as filename','users.*')
                 ->where('users.id','=',$id)
                 ->get();
+
+        $foto = foto_profil::where('user_id',$id)->get();
+        // print_r($foto);
+        // die();
         
         $data = [
             'show' => $show,
+            'foto' => $foto
         ];
 
         return view('pages.kantor.kepegawaian.detail-karyawan')->with('list', $data);

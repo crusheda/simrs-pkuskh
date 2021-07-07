@@ -14,10 +14,10 @@
     @can('kepegawaian')
     <div class="col-md-3">
         <div class="card">
-            @if (empty($list['show'][0]->filename))
+            @if (empty($list['foto'][0]->filename))
                 <img class="card-img-top img-thumbnail" src="{{ url('img/user_unknown.jpg') }}" height="300" alt="Card image cap">
             @else
-                <img class="card-img-top img-thumbnail" src="{{ url('storage/'.substr($list['show'][0]->filename,7,1000)) }}" height="300" alt="Card image cap">
+                <img class="card-img-top img-thumbnail" src="{{ url('storage/'.substr($list['foto'][0]->filename,7,1000)) }}" height="300" alt="Card image cap">
             @endif
             <div class="card-body">
                 <center><button type="button" class="btn btn-dark" data-toggle="modal" data-target="#ubahFoto" disabled><i class="fa-fw fas fa-download nav-icon"></i> Download</button></center>
