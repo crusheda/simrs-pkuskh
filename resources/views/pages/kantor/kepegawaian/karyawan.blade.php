@@ -98,7 +98,7 @@
                         <thead>
                             <tr>
                                 <th>USER_ID</th>
-                                <th>NIP</th>
+                                <th>USERNAME</th>
                                 <th>NAMA</th>
                                 <th>UNIT</th>
                                 {{-- <th>STR</th> --}}
@@ -111,7 +111,7 @@
                             @foreach($list['showbelum'] as $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
-                                <td>{{ $item->nip }}</td>
+                                <td>{{ $item->name }}</td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->nama_role }}</td>
                                 {{-- @if (empty($item->no_str))
@@ -257,6 +257,12 @@
         );
         $('#karyawan2').DataTable(
             {
+                paging: true,
+                searching: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'excel', 'pdf', 'print'
+                ],
                 order: [[ 5, "desc" ]],
             }
         );

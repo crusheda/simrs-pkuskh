@@ -42,7 +42,7 @@ class kepegawaianController extends Controller
             ->select('roles.name as nama_role','users.*')
             ->get();
         
-        // print_r($show);
+        // print_r($showbelum);
         // die();
 
         $data = [
