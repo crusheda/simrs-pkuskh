@@ -24,19 +24,25 @@ class antigenController extends Controller
      */
     public function index()
     {
+        $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
+        // $tgl = Carbon::parse($data->tgl)->isoFormat('%Y-%m-%dT%H:%M:%S');
+        // $now = Carbon::now()->isoFormat('%Y-%m-%dT%H:%M:%S');
+        // $now = Carbon::createFromFormat('Y-m-d', $tgl);
         $dokter = dokter::get();
         $show = DB::table('antigen')
                 ->join('dokter', 'dokter.id', '=', 'antigen.dr_pengirim')
                 ->where('antigen.deleted_at',null)
                 ->select('dokter.id as dr_id','dokter.nama as dr_nama','dokter.jabatan as dr_jabatan','antigen.*')
+                ->orderBy('tgl','DESC')
                 ->get();
 
         $data = [
             'show' => $show,
-            'dokter' => $dokter
+            'dokter' => $dokter,
+            'now' => $now
         ];
 
-        // print_r($data['show']);
+        // print_r($data['now']);
         // die();
         return view('pages.lab.antigen')->with('list', $data);
     }

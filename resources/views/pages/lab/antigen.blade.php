@@ -60,18 +60,24 @@
                                                             echo \App\Models\dokter::where('id', $item->dr_pengirim)->pluck('nama')->first();
                                                         @endphp
                                                     </td>
-                                                    <td>{{ $item->rm }}</td>
+                                                    <td><b>{{ $item->rm }}</b></td>
                                                     <td>{{ $item->nama }}</td>
                                                     <td>{{ $item->jns_kelamin }} / {{ $item->umur }}</td>
                                                     <td>{{ $item->alamat }}</td>
                                                     <td>{{ $item->tgl }}</td>
-                                                    <td>{{ $item->hasil }}</td>
+                                                    <td>
+                                                        @if ($item->hasil == "POSITIF")
+                                                            <kbd style="background-color: royalblue">{{ $item->hasil }}</kbd>
+                                                        @else
+                                                            <kbd style="background-color: red">{{ $item->hasil }}</kbd>
+                                                        @endif
+                                                    </td>
                                                     <td>
                                                         <center>
                                                             <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                                            <a type="button" class="btn btn-success btn-sm" href="{{ route('lab.antigen.cetak', $item->id) }}"><i class="fa-fw fas fa-print nav-icon"></i></a>
                                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                                        </center>
+                                                        </center><hr>
+                                                        <a type="button" class="btn btn-success btn-block btn-sm" href="{{ route('lab.antigen.cetak', $item->id) }}"><i class="fa-fw fas fa-print nav-icon"></i></a>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -120,23 +126,24 @@
                             <input type="number" name="rm" id="rm" max="999999" class="form-control" placeholder="" autofocus required><br>
                         </div>
                         <div class="col-md-6">
+                            <label>Pemeriksa :</label>
+                            <input type="text" name="pemeriksa" id="pemeriksa" class="form-control" placeholder="Optional"><br>
+                        </div>
+                        <div class="col-md-4">
+                            <label>Tgl :</label>
+                            <input type="datetime-local" name="tgl" class="form-control" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($list['now'])); ?>" required><br>
+                        </div>
+                        <div class="col-md-8">
                             <label>Dokter Pengirim :</label>
                             <div class="input-group mb-3">
                                 <select class="custom-select" name="dr_pengirim" id="dr_pengirim" required>
                                     <option value="" hidden>Pilih</option>
-                                    @foreach($list['dokter'] as $item)
-                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                    @endforeach
+                                        @foreach($list['dokter'] as $key => $item)
+                                            <option value="{{ $item->id }}"><label><b>{{ $item->jabatan }}</b></label> - {{ $item->nama }}</option>
+                                        @endforeach
+                                    </optgroup>
                                 </select>
                             </div>
-                        </div>
-                        <div class="col-md-4">
-                            <label>Tgl :</label>
-                            <input type="datetime-local" name="tgl" class="form-control" required><br>
-                        </div>
-                        <div class="col-md-8">
-                            <label>Pemeriksa :</label>
-                            <input type="text" name="pemeriksa" id="pemeriksa" class="form-control" placeholder="Optional"><br>
                         </div>
                         <div class="col-md-4">
                             <label>Hasil :</label>
@@ -204,23 +211,23 @@
                             <input type="number" value="{{ $item->rm }}" class="form-control" disabled><br>
                         </div>
                         <div class="col-md-6">
-                            <label>Dokter Pengirim :</label>
-                            <div class="input-group mb-3">
-                                <select class="custom-select" name="dr_pengirim">
-                                    <option value="" hidden>Pilih</option>
-                                    @foreach($list['dokter'] as $key)
-                                        <option value="{{ $key->id }}" @if ($item->dr_pengirim == $key->id) echo selected @endif>{{ $key->nama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <label>Pemeriksa :</label>
+                            <input type="text" name="pemeriksa" value="{{ $item->pemeriksa }}" class="form-control" placeholder="Optional"><br>
                         </div>
                         <div class="col-md-4">
                             <label>Tgl :</label>
                             <input type="datetime-local" name="tgl" class="form-control" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($item->tgl)); ?>"><br>
                         </div>
                         <div class="col-md-8">
-                            <label>Pemeriksa :</label>
-                            <input type="text" name="pemeriksa" value="{{ $item->pemeriksa }}" class="form-control" placeholder="Optional"><br>
+                            <label>Dokter Pengirim :</label>
+                            <div class="input-group mb-3">
+                                <select class="custom-select" name="dr_pengirim">
+                                    <option value="" hidden>Pilih</option>
+                                    @foreach($list['dokter'] as $key)
+                                        <option value="{{ $key->id }}" @if ($item->dr_pengirim == $key->id) echo selected @endif><label>{{ $key->jabatan }}</label> - {{ $key->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="col-md-4">
                             <label>Hasil :</label>
@@ -307,16 +314,18 @@
 <script>
     $(document).ready( function () {
         $('#antigen').DataTable(
-            {
-                paging: true,
-                searching: true,
-                dom: 'Bfrtip',
-                buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
-                ],
-                order: [[ 5, "desc" ]],
-            }
+            // {
+            //     // paging: true,
+            //     // searching: true,
+            //     // dom: 'Bfrtip',
+            //     // buttons: [
+            //     //     'copy', 'csv', 'excel', 'pdf', 'print'
+            //     // ],
+            //     // order: [[ 5, "desc" ]],
+            // }
         );
+
+        $("body").addClass('brand-minimized sidebar-minimized');
 
         // VALIDASI INPUT NUMBER
         $('input[type=number][max]:not([max=""])').on('input', function(ev) {

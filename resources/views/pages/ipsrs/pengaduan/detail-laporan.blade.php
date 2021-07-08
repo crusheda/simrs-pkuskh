@@ -70,7 +70,7 @@
                     {{ Form::model($list['show'][0], array('route' => array('pengaduan.ipsrs.kerjakan', $list['show'][0]->id), 'method' => 'POST')) }}
                         <div class="card-body">
                             <h6>Kerjakan Laporan Sekarang?</h6>
-                            <hr>
+                            <sub>Tuliskan Keterangan (Optional) :</sub>
                             <input type="text" class="form-control" name="id" value="{{ $list['show'][0]->id }}" hidden>
                             <textarea class="form-control" name="ket" id="ket_dikerjakan1" placeholder="" maxlength="190" rows="8"></textarea>
                             <span class="help-block">
@@ -160,7 +160,7 @@
                                     <hr>
                                     <label>Keterangan Verifikasi :</label>
                                     <input type="text" class="form-control" name="id" value="{{ $list['show'][0]->id }}" hidden>
-                                    <textarea class="form-control" placeholder="" maxlength="190" rows="8" name="ket" required><?php echo htmlspecialchars($list['show'][0]->ket_diterima); ?></textarea>
+                                    <textarea class="form-control" placeholder="" maxlength="190" rows="8" name="ket" required><?php echo htmlspecialchars($list['show'][0]->ket_diterima); ?></textarea><br>
                                     <button type="submit" class="btn btn-warning text-white pull-right"><i class="fa fa-save"></i>&nbsp;&nbsp;Simpan</button>
                                 {{ Form::close() }}
                             </div>
@@ -348,7 +348,7 @@ $(document).ready( function () {
             searching: true,
             dom: 'Bfrtip',
             buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
+                'excel', 'pdf'
             ],
             order: [[ 2, "desc" ]]
         }

@@ -86,7 +86,7 @@
     <div class="card" style="width: 100%">
         <div class="card-header bg-dark text-white">
 
-            <i class="fa-fw fas fa-male nav-icon text-info">
+            <i class="fa-fw fas fa-male nav-icon text-danger">
         
             </i> Tabel Karyawan Yang Belum Mengisi
             
