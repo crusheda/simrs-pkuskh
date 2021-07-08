@@ -67,9 +67,9 @@
                                                     <td>{{ $item->tgl }}</td>
                                                     <td>
                                                         @if ($item->hasil == "POSITIF")
-                                                            <kbd style="background-color: royalblue">{{ $item->hasil }}</kbd>
-                                                        @else
                                                             <kbd style="background-color: red">{{ $item->hasil }}</kbd>
+                                                        @else
+                                                            <kbd style="background-color: royalblue">{{ $item->hasil }}</kbd>
                                                         @endif
                                                     </td>
                                                     <td>
@@ -314,15 +314,15 @@
 <script>
     $(document).ready( function () {
         $('#antigen').DataTable(
-            // {
-            //     // paging: true,
-            //     // searching: true,
-            //     // dom: 'Bfrtip',
-            //     // buttons: [
-            //     //     'copy', 'csv', 'excel', 'pdf', 'print'
-            //     // ],
-            //     // order: [[ 5, "desc" ]],
-            // }
+            {
+                // paging: true,
+                // searching: true,
+                // dom: 'Bfrtip',
+                // buttons: [
+                //     'copy', 'csv', 'excel', 'pdf', 'print'
+                // ],
+                order: [[ 5, "desc" ]],
+            }
         );
 
         $("body").addClass('brand-minimized sidebar-minimized');
