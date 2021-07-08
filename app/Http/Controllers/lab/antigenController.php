@@ -213,4 +213,22 @@ class antigenController extends Controller
         // die();
         return view('pages.lab.cetak-antigen')->with('list', $data);
     }
+
+    public function showAll()
+    {
+        $dokter = dokter::get();
+        $show = DB::table('antigen')
+                ->join('dokter', 'dokter.id', '=', 'antigen.dr_pengirim')
+                ->where('antigen.deleted_at',null)
+                ->select('dokter.id as dr_id','dokter.nama as dr_nama','dokter.jabatan as dr_jabatan','antigen.*')
+                ->orderBy('tgl','DESC')
+                ->get();
+
+        $data = [
+            'show' => $show,
+            'dokter' => $dokter
+        ];
+
+        return view('pages.lab.antigen-all')->with('list', $data);
+    }
 }

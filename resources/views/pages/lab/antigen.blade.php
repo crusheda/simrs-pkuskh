@@ -111,7 +111,7 @@
     <div class="card" style="width: 100%">
         <div class="card-body">
             <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan hanya berjumlah 30 data terbaru saja, Klik tombol <b>LIHAT</b> untuk melihat data seluruhnya</a>
-            <button class="btn btn-dark pull-right"><i class="fa-fw fas fa-server nav-icon"></i> LIHAT</button>
+            <button class="btn btn-dark pull-right" onclick="window.location.href='{{ url('lab/antigen/all') }}'"><i class="fa-fw fas fa-server nav-icon"></i> LIHAT</button>
         </div>
     </div>
 </div>
