@@ -60,7 +60,7 @@
                                                             echo \App\Models\dokter::where('id', $item->dr_pengirim)->pluck('nama')->first();
                                                         @endphp
                                                     </td>
-                                                    <td><b>{{ $item->rm }}</b></td>
+                                                    <td><b><kbd>{{ $item->rm }}</kbd></b></td>
                                                     <td>{{ $item->nama }}</td>
                                                     <td>{{ $item->jns_kelamin }} / {{ $item->umur }}</td>
                                                     <td>{{ $item->alamat }}</td>
@@ -77,7 +77,10 @@
                                                             <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
                                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                                         </center><hr>
-                                                        <a type="button" class="btn btn-success btn-block btn-sm" href="{{ route('lab.antigen.cetak', $item->id) }}"><i class="fa-fw fas fa-print nav-icon"></i></a>
+                                                        <center>
+                                                            <a type="button" class="btn btn-info btn-sm" href="{{ route('lab.antigen.print', $item->id) }}"><i class="fa-fw fas fa-print nav-icon"></i></a>
+                                                            <a type="button" class="btn btn-success btn-sm" href="{{ route('lab.antigen.cetak', $item->id) }}"><i class="fa-fw fas fa-download nav-icon"></i></a>
+                                                        <center>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -103,6 +106,12 @@
                 </div>
             </div>
             @endcan
+        </div>
+    </div>
+    <div class="card" style="width: 100%">
+        <div class="card-body">
+            <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan hanya berjumlah 30 data terbaru saja, Klik tombol <b>LIHAT</b> untuk melihat data seluruhnya</a>
+            <button class="btn btn-dark pull-right"><i class="fa-fw fas fa-server nav-icon"></i> LIHAT</button>
         </div>
     </div>
 </div>

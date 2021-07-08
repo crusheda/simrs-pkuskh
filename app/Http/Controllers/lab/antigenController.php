@@ -34,6 +34,7 @@ class antigenController extends Controller
                 ->where('antigen.deleted_at',null)
                 ->select('dokter.id as dr_id','dokter.nama as dr_nama','dokter.jabatan as dr_jabatan','antigen.*')
                 ->orderBy('tgl','DESC')
+                ->limit('30')
                 ->get();
 
         $data = [
@@ -42,7 +43,7 @@ class antigenController extends Controller
             'now' => $now
         ];
 
-        // print_r($data['now']);
+        // print_r($data['show']);
         // die();
         return view('pages.lab.antigen')->with('list', $data);
     }
@@ -188,5 +189,28 @@ class antigenController extends Controller
         header("Content-Disposition: attachment; filename=$filename.docx");
 
         $templateProcessor->saveAs('php://output');
+    }
+
+    public function print($id)
+    {
+        $show = DB::table('antigen')
+                ->join('dokter', 'dokter.id', '=', 'antigen.dr_pengirim')
+                ->where('antigen.deleted_at',null)
+                ->where('antigen.id',$id)
+                ->select('dokter.id as dr_id','dokter.nama as dr_nama','dokter.jabatan as dr_jabatan','antigen.*')
+                ->first();
+                
+        // $dokter = dokter::where('id',(int)$show->dr_pengirim)->first();
+        $tgl = Carbon::parse($show->tgl)->isoFormat('DD/MM/YYYY HH:mm');
+
+        $data = [
+            'show' => $show,
+            // 'dokter' => $dokter,
+            'tgl' => $tgl
+        ];
+
+        // print_r($data);
+        // die();
+        return view('pages.lab.cetak-antigen')->with('list', $data);
     }
 }
