@@ -78,7 +78,7 @@
                                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                                         </center><hr>
                                                         <center>
-                                                            <a type="button" class="btn btn-info btn-sm" href="{{ route('lab.antigen.print', $item->id) }}"><i class="fa-fw fas fa-print nav-icon"></i></a>
+                                                            <a type="button" class="btn btn-info btn-sm" target="_blank" href="{{ route('lab.antigen.print', $item->id) }}"><i class="fa-fw fas fa-print nav-icon"></i></a>
                                                             <a type="button" class="btn btn-success btn-sm" href="{{ route('lab.antigen.cetak', $item->id) }}"><i class="fa-fw fas fa-download nav-icon"></i></a>
                                                         <center>
                                                     </td>

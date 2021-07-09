@@ -15,7 +15,7 @@
             table th, table td {
             border:1px solid #000;
             padding:0.5em;
-			font-size: 12pt;
+			font-size: 13pt;
         }
     </style>
     <center>
@@ -24,7 +24,7 @@
         {{-- <img src="{{ public_path().'/img/kop.png' }}" height="100"> --}}
         <img src="{{ asset('img/kop.png') }}" width="100%">
     </center>
-    <div class="container" style="font-size: 12pt">
+    <div class="container" style="font-size: 13pt">
         
         <p class="text-center" style="margin-top: -20px"><b>INSTALASI LABORATORIUM</b></p>
         
@@ -36,24 +36,24 @@
             </div>
             <div class="col-md-7">
                 <div class="row">
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         Dokter Pengirim <br>
-                        No  RM <br>
+                        No RM <br>
                         Nama Pasien <br>
                         Jk / Umur <br>
                         Alamat
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-8">
                         : {{ $list['show']->dr_nama }} <br>
                         : {{ $list['show']->rm }} <br>
                         : {{ $list['show']->nama }} <br>
                         : {{ $list['show']->jns_kelamin }} / {{ $list['show']->umur }} <br>
                         : {{ $list['show']->alamat }}
                     </div>
-                    <div class="col-md-3">
+                    <div class="col-md-4">
                         Tanggal/ Pukul
                     </div>
-                    <div class="col-md-9">
+                    <div class="col-md-8">
                         : {{ $list['tgl'] }}
                     </div>
                 </div>
@@ -75,29 +75,37 @@
 
             <thead style="border:2px solid #000 !important;">
                 <tr>
-                    <th scope="col" style="border:2px solid #000 !important;">NAMA TES</th>
-                    <th scope="col" style="border:2px solid #000 !important;">HASIL</th>
-                    <th scope="col" style="border:2px solid #000 !important;">NILAI NORMAL</th>
-                    <th scope="col" style="border:2px solid #000 !important;">KET</th>
+                    <th scope="col" style="border:2px solid #000 !important;vertical-align: middle;" class="text-center">NAMA TES</th>
+                    <th scope="col" style="border:2px solid #000 !important;vertical-align: middle;" class="text-center">HASIL</th>
+                    <th scope="col" style="border:2px solid #000 !important;vertical-align: middle;" class="text-center">NILAI<br>NORMAL</th>
+                    <th scope="col" style="border:2px solid #000 !important;vertical-align: middle;" class="text-center">KET</th>
                 </tr>
             </thead>
             <tbody style="border:2px solid #000 !important;">
                 <tr>
-                    <td style="border:2px solid #000 !important;">Antigen SARS-CoV-2</td>
-                    <td style="border:2px solid #000 !important;">{{ $list['show']->hasil }}</td>
+                    <td style="border:2px solid #000 !important;">Antigen SARS-CoV-2<br><br><br></td>
+                        @if ($list['show']->hasil == 'POSITIF')
+                            <td style="border:2px solid #000 !important;" class="text-danger">
+                                <b>{{ $list['show']->hasil }}</b>
+                            </td>
+                        @else
+                            <td style="border:2px solid #000 !important;">
+                                <b>{{ $list['show']->hasil }}</b>
+                            </td>
+                        @endif
                     <td style="border:2px solid #000 !important;">NEGATIF</td>
                     <td style="border:2px solid #000 !important;"></td>
                 </tr>
                 <tr style="border:2px solid #000 !important;">
                     <td style="border:2px solid #000 !important;">CATATAN</td>
-                    <td colspan="3" style="border:2px solid #000 !important;">
+                    <td colspan="3" style="border:2px solid #000 !important;text-align: justify;">
                         @if ($list['show']->hasil == 'POSITIF')
                             Pemeriksaan konfirmasi dengan pemeriksaan RT-PCR <br>
                             -> Lakukan karantina atau isolasi sesuai dengan kriteria <br>
-                            -> Menerapkan PHBS (perilaku hidup bersih dan sehat : mencuci tangan, menerapkan etika batuk, menggunakan masker saat sakit, menjaga stamina) dan phisical distancing                        
+                            -> Menerapkan PHBS (perilaku hidup bersih dan sehat : mencuci tangan, menerapkan etika batuk, menggunakan masker saat sakit, menjaga stamina) dan phisical distancing <br><br><br>                        
                         @else
-                            -> Hasil negatif tidak menyingkirkan kemungkinan terinfeksi SARS-CoV-2 sehingga masih beresiko menularkan ke orang lain, disarankan tes ulang atau tes konfirmasi dengan RT PCR, bila probabilitas pretes relatif tinggi, t erutama bila pasien bergejala atau diketahui memiliki banyak kontak dengan orang yang terkonfirmasi COVID-19 <br>
-                            -> Hasil negatif dapat terjadi pada kuantitas antigen pada spesimen di bawah level deteksi alat
+                            -> Hasil negatif tidak menyingkirkan kemungkinan terinfeksi SARS-CoV-2 sehingga masih beresiko menularkan ke orang lain, disarankan tes ulang atau tes konfirmasi dengan RT PCR, bila probabilitas pretes relatif tinggi, terutama bila pasien bergejala atau diketahui memiliki banyak kontak dengan orang yang terkonfirmasi COVID-19 <br>
+                            -> Hasil negatif dapat terjadi pada kuantitas antigen pada spesimen di bawah level deteksi alat <br><br><br>
                         @endif
                     </td>
                 </tr>
