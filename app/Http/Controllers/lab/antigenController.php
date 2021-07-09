@@ -83,6 +83,10 @@ class antigenController extends Controller
         $data->hasil        = $request->hasil;
         $data->pj           = $pj;
         $data->user_id      = $user_id;
+
+        $data->desa         = $request->des;
+        $data->kecamatan    = $request->kec;
+        $data->kabupaten    = $request->kab;
         
         $data->save();
         return redirect::back()->with('message','Hasil Antigen Berhasil Ditambahkan a/n '.$request->nama);

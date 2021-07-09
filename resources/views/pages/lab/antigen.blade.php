@@ -38,7 +38,7 @@
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="data-table-list">
                                 <div class="table-responsive">
-                                    <table id="antigen" class="table table-striped">
+                                    <table id="antigen" class="table table-striped table-hover">
                                         <thead>
                                             <tr>
                                                 <th>DOKTER PENGIRIM</th>
@@ -181,6 +181,7 @@
                         </div>
                         <div class="col-md-12">
                             <label>Alamat :</label>
+                            <input type="text" name="des" id="des" class="form-control" hidden>
                             <input type="text" name="kec" id="kec" class="form-control" hidden>
                             <input type="text" name="kab" id="kab" class="form-control" hidden>
                             <textarea class="form-control" name="alamat" id="alamat1" placeholder="" maxlength="190" rows="8" hidden></textarea>
@@ -355,6 +356,9 @@
                 $("#umur1").val("");
                 $("#alamat1").val("");
                 $("#alamat2").val("");
+                $("#des").val("");
+                $("#kec").val("");
+                $("#kab").val("");
             } else {
                 $.ajax({
                     url: "http://192.168.1.3:8000/api/all/"+this.value,
@@ -371,6 +375,7 @@
                         $("#alamat1").val(res.ALAMAT);
                         $("#alamat2").val(res.ALAMAT);
                         
+                        $("#des").val(res.DESA);
                         $("#kec").val(res.KECAMATAN);
                         $("#kab").val(res.NAMA_KABKOTA);
                         // $('#jumlah20').attr('required', true);
@@ -392,6 +397,7 @@
                         $("#alamat1").val(res.ALAMAT);
                         $("#alamat2").val(res.ALAMAT);
 
+                        $("#des").val(res.DESA);
                         $("#kec").val(res.KECAMATAN);
                         $("#kab").val(res.NAMA_KABKOTA);
                         // $('#jumlah20').attr('required', true);
