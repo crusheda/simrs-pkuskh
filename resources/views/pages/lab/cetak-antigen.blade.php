@@ -15,7 +15,17 @@
             table th, table td {
             border:1px solid #000;
             padding:0.5em;
-			font-size: 13pt;
+			font-size: 13.5pt;
+        }
+        @media print 
+        {
+            @page {
+            size: F4; 
+            margin:0;
+            /* size: 210mm 297mm;  */
+            /* Chrome sets own margins, we change these printer settings */
+            margin: 3mm 0mm 0mm 3mm; 
+            }
         }
     </style>
     <center>
@@ -24,7 +34,7 @@
         {{-- <img src="{{ public_path().'/img/kop.png' }}" height="100"> --}}
         <img src="{{ asset('img/kop.png') }}" width="100%">
     </center>
-    <div class="container" style="font-size: 13pt">
+    <div class="container" style="font-size: 13.5pt">
         
         <p class="text-center" style="margin-top: -20px"><b>INSTALASI LABORATORIUM</b></p>
         
@@ -38,15 +48,23 @@
                 <div class="row">
                     <div class="col-md-4">
                         Dokter Pengirim <br>
+                    </div>
+                    <div class="col-md-8">
+                        : {{ $list['show']->dr_nama }} <br>
+                    </div>
+                    <div class="col-md-4">
                         No RM <br>
                         Nama Pasien <br>
+                    </div>
+                    <div class="col-md-8">
+                        : {{ $list['show']->rm }} <br>
+                        : {{ $list['show']->nama }} <br>
+                    </div>
+                    <div class="col-md-4">
                         Jk / Umur <br>
                         Alamat
                     </div>
                     <div class="col-md-8">
-                        : {{ $list['show']->dr_nama }} <br>
-                        : {{ $list['show']->rm }} <br>
-                        : {{ $list['show']->nama }} <br>
                         : {{ $list['show']->jns_kelamin }} / {{ $list['show']->umur }} <br>
                         : {{ $list['show']->alamat }}
                     </div>

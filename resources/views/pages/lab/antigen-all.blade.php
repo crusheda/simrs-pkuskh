@@ -37,6 +37,7 @@
                                                 <th>ALAMAT</th>
                                                 <th>TGL</th>
                                                 <th>HASIL</th>
+                                                <th><center>AKSI</center></th>
                                             </tr>
                                         </thead>
                                         <tbody>
@@ -61,6 +62,9 @@
                                                             <kbd style="background-color: royalblue">{{ $item->hasil }}</kbd>
                                                         @endif
                                                     </td>
+                                                    <td>
+                                                        <center><a type="button" class="btn btn-success btn-sm" href="{{ route('lab.antigen.cetak', $item->id) }}"><i class="fa-fw fas fa-download nav-icon"></i></a></center>
+                                                    </td>
                                                 </tr>
                                                 @endforeach
                                             @endif
@@ -75,6 +79,7 @@
                                                 <th>ALAMAT</th>
                                                 <th>TGL</th>
                                                 <th>HASIL</th>
+                                                <th><center>AKSI</center></th>
                                             </tr>
                                         </tfoot>
                                     </table>
