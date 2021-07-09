@@ -1,8 +1,9 @@
 <html>
 <head>
-    {{-- <title>{{ $now }}</title> --}}
+    <title>{{ $list['show']->rm }} - {{ $list['show']->nama }}</title>
     
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
+    <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('img/pku_ico.png') }}">
 </head>
 <body>
     {{-- <style type="text/css">
@@ -141,6 +142,10 @@
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script>
         window.onload = window.print;
+        // document_focus = true;
+        // win = window.open();
+        // Now our event handlers.
+        // setInterval(function() { if (document_focus === true) { window.close(); }  }, 300);
     </script>
 </body>
 </html>

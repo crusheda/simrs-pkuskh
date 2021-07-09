@@ -25,9 +25,28 @@ class antigenController extends Controller
     public function index()
     {
         $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
+        $tgl = Carbon::now()->isoFormat('DD');
+        $bln = Carbon::now()->isoFormat('MM');
+        $thn = Carbon::now()->isoFormat('YYYY');
         // $tgl = Carbon::parse($data->tgl)->isoFormat('%Y-%m-%dT%H:%M:%S');
         // $now = Carbon::now()->isoFormat('%Y-%m-%dT%H:%M:%S');
         // $now = Carbon::createFromFormat('Y-m-d', $tgl);
+        
+        $query_string1 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl AND hasil = 'POSITIF' GROUP BY hasil";
+        $getpos = DB::select($query_string1);
+
+        $query_string2 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl AND hasil = 'NEGATIF' GROUP BY hasil";
+        $getneg = DB::select($query_string2);
+
+        $query_string3 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl GROUP BY hasil";
+        $gettoday = DB::select($query_string3);
+
+        $query_string4 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln GROUP BY hasil";
+        $getmont = DB::select($query_string4);
+
+        // print_r($getpos);
+        // die();
+
         $dokter = dokter::get();
         $show = DB::table('antigen')
                 ->join('dokter', 'dokter.id', '=', 'antigen.dr_pengirim')
@@ -40,7 +59,11 @@ class antigenController extends Controller
         $data = [
             'show' => $show,
             'dokter' => $dokter,
-            'now' => $now
+            'now' => $now,
+            'getpos' => $getpos,
+            'getneg' => $getneg,
+            'gettoday' => $gettoday,
+            'getmont' => $getmont
         ];
 
         // print_r($data['show']);

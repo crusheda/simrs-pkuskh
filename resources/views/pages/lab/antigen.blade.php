@@ -24,12 +24,13 @@
             @can('antigen')
             <div class="row">
                 <div class="col-md-12">
-                    <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
+                    <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah" data-toggle="tooltip" data-placement="bottom" title="TAMBAH HASIL ANTIGEN PASIEN">
                         <i class="fa-fw fas fa-plus-square nav-icon">
 
                         </i>
                         Tambah Hasil
                     </a>
+                    <button type="button" class="btn btn-dark pull-right" data-toggle="modal" data-target="#show" data-toggle="tooltip" data-placement="bottom" title="DATA PASIEN HARI INI"><i class="fa-fw fas fa-info nav-icon text-white"></i> Informasi</button>
                 </div>
             </div><br>
             <div class="panel panel-default">
@@ -74,13 +75,13 @@
                                                     </td>
                                                     <td>
                                                         <center>
-                                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                                        </center><hr>
-                                                        <center>
-                                                            <a type="button" class="btn btn-info btn-sm" target="_blank" href="{{ route('lab.antigen.print', $item->id) }}"><i class="fa-fw fas fa-print nav-icon"></i></a>
-                                                            <a type="button" class="btn btn-success btn-sm" href="{{ route('lab.antigen.cetak', $item->id) }}"><i class="fa-fw fas fa-download nav-icon"></i></a>
-                                                        <center>
+                                                            <div class="btn-group" role="group">
+                                                                <a type="button" class="btn btn-info btn-sm" target="popup" href="{{ route('lab.antigen.print', $item->id) }}" onclick="window.open('antigen/{{ $item->id }}/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></a>
+                                                                <a type="button" class="btn btn-success btn-sm" href="{{ route('lab.antigen.cetak', $item->id) }}" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></a>
+                                                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
+                                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                            </div>
+                                                        </center>
                                                     </td>
                                                 </tr>
                                                 @endforeach
@@ -269,7 +270,8 @@
                             <textarea class="form-control" name="alamat3" placeholder="" maxlength="190" rows="8" hidden><?php echo htmlspecialchars($item->alamat); ?></textarea>
                             <textarea class="form-control" disabled><?php echo htmlspecialchars($item->alamat); ?></textarea>
                         </div>
-                    </div>
+                    </div><br>
+                    <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Jika terdapat kesalahan pada penulisan <kbd>Nomor RM</kbd> , silakan Hapus data dan Input ulang kembali</a>
                     
             </div>
             <div class="modal-footer">
@@ -290,19 +292,14 @@
             <div class="modal-content">
                 <div class="modal-header">
                 <h4 class="modal-title">
-                    Hapus Hasil Antigen <kbd>ID : {{ $item->id }}</kbd> ?
+                    ID : {{ $item->id }}
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
                     <p>
                         @if(count($list) > 0)
-                            <b> Dokter Pengirim</b> : @php echo \App\Models\dokter::where('id', $item->dr_pengirim)->pluck('nama')->first(); @endphp<br>
-                            <b> Pemeriksa</b> : {{ $item->pemeriksa }}<br>
-                            <b> RM</b> : {{ $item->rm }}<br>
-                            <b> PASIEN</b> : {{ $item->nama }}<br>
-                            <b> UMUR</b> : {{ $item->umur }}<br>
-                            <b> HASIL</b> : {{ $item->hasil }}
+                            <a>Apakah anda yakin ingin menghapus Hasil Antigen Pasien a/n {{ $item->nama }} dengan Nomer RM : <kbd>{{ $item->rm }}</kbd> ?</a>
                         @endif
                     </p>
                 </div>
@@ -311,7 +308,7 @@
                         <form action="{{ route('lab.antigen.destroy', $item->id) }}" method="POST">
                             @method('DELETE')
                             @csrf
-                            <button class="btn btn-danger btn-sm"><i class="lnr lnr-trash"></i>Hapus</button>
+                            <button class="btn btn-danger"><i class="lnr lnr-trash"></i>Hapus</button>
                         </form>
                     @endif
                 </div>
@@ -319,6 +316,36 @@
         </div>
     </div>
     @endforeach
+    
+    <div class="modal fade bd-example-modal-lg" id="show" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+        <div class="modal-dialog">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">
+                    Data Pasien Antigen Hari Ini
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    @if(!empty($list['getpos'][0]->jumlah))
+                        <a><i class="fa-fw fas fa-caret-right nav-icon"></i> ANTIGEN POSITIF (HARI INI) : <kbd style="background-color: red">{{ $list['getpos'][0]->jumlah }} Pasien</kbd></a> <br><br>
+                    @endif
+                    @if(!empty($list['getneg'][0]->jumlah))
+                        <a><i class="fa-fw fas fa-caret-right nav-icon"></i> ANTIGEN NEGATIF (HARI INI) : <kbd style="background-color: royalblue">{{ $list['getneg'][0]->jumlah }} Pasien</kbd></a> <br><br>
+                    @endif
+                    @if(!empty($list['gettoday'][0]->jumlah))
+                        <a><i class="fa-fw fas fa-caret-right nav-icon"></i> TOTAL ANTIGEN HARI INI : <kbd style="background-color: rgba(134, 19, 87, 0.45)">{{ $list['gettoday'][0]->jumlah }} Pasien</kbd></a> <br><br>
+                    @endif
+                    @if(!empty($list['getmont'][0]->jumlah))
+                        <a><i class="fa-fw fas fa-caret-right nav-icon"></i> TOTAL ANTIGEN BULAN INI : <kbd style="background-color: rgb(23, 106, 4)">{{ $list['getmont'][0]->jumlah }} Pasien</kbd></a>
+                    @endif
+                </div>
+                <div class="modal-footer">
+                    <a class="pull-left"><b># Updated {{ \Carbon\Carbon::parse($list['now'])->isoFormat('DD MMMM YYYY') }}</b></a>
+                </div>
+            </div>
+        </div>
+    </div>
 @endcan
 
 <script>
