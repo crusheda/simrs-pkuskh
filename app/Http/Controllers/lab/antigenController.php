@@ -38,14 +38,11 @@ class antigenController extends Controller
         $query_string2 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl AND hasil = 'NEGATIF' GROUP BY hasil";
         $getneg = DB::select($query_string2);
 
-        $query_string3 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl GROUP BY hasil";
+        $query_string3 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl";
         $gettoday = DB::select($query_string3);
 
-        $query_string4 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln GROUP BY hasil";
+        $query_string4 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln";
         $getmont = DB::select($query_string4);
-
-        // print_r($getpos);
-        // die();
 
         $dokter = dokter::get();
         $show = DB::table('antigen')
@@ -65,6 +62,9 @@ class antigenController extends Controller
             'gettoday' => $gettoday,
             'getmont' => $getmont
         ];
+        
+        // print_r($getmont);
+        // die();
 
         // print_r($data['show']);
         // die();
