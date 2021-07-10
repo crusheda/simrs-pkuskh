@@ -196,6 +196,7 @@ return [
         Spatie\Permission\PermissionServiceProvider::class,
         Barryvdh\DomPDF\ServiceProvider::class,
         Stevebauman\Location\LocationServiceProvider::class,
+        Alexusmai\LaravelFileManager\FileManagerServiceProvider::class,
     ],
 
     /*

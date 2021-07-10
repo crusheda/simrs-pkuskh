@@ -36,6 +36,6 @@ class HomeController extends Controller
 
     public function fileManager()
     {
-        return view('file-manager');
+        return view('managerfile');
     }
 }

@@ -62,6 +62,30 @@ return [
             'region' => env('AWS_REGION'),
             'bucket' => env('AWS_BUCKET'),
         ],
+        
+        // images folder in public path
+        'images' => [
+            'driver' => 'local',
+            'root' => public_path('images'),
+            'url' => env('APP_URL').'/images',
+        ],
+
+        // File Manager Karyawan
+        'managerfile' => [
+            'driver'     => 'local',
+            'root'       => storage_path('app/public/files/managerfile'),
+            'url'        => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+
+        // ftp
+        'dd-wrt' => [
+            'driver'   => 'ftp',
+            'host'     => 'ftp.dd-wrt.com',
+            'username' => 'anonymous',
+            'passive'  => true,
+            'timeout'  => 30,
+        ],
 
     ],
 

@@ -338,7 +338,7 @@
                 </a>
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
-                        <a href="{{ route("file_manager") }}" class="nav-link">
+                        <a href="{{ route("managerfile") }}" class="nav-link">
                             <i class="fa-fw fas fa-folder-open nav-icon">
 
                             </i>
