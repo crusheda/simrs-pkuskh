@@ -5,6 +5,9 @@ Route::get('/kunjungan', 'kunjunganController@index')->name('landing.kunjungan')
 // Route::get('/demos', function () {
 //     return view('index');
 // });
+// Route::get('/datepicker', function () {
+//     return view('datepicker');
+// });
 // Route::resource('/lokasi', 'other\lokasiController');
 
 Auth::routes(['register' => false]);

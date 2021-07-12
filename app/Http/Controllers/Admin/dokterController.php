@@ -8,6 +8,7 @@ use Redirect;
 use Auth;
 use Carbon\Carbon;
 use App\Models\dokter;
+use App\Models\set_queue_poli;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 
@@ -21,9 +22,11 @@ class dokterController extends Controller
     public function index()
     {
         $show = dokter::all();
+        $poli = set_queue_poli::get();
 
         $data = [
-            'show' => $show
+            'show' => $show,
+            'poli' => $poli
         ];
         return view('admin.dokter')->with('list', $data);
     }
@@ -49,6 +52,7 @@ class dokterController extends Controller
         $data = new dokter;
         $data->nama = $request->nama;
         $data->jabatan = $request->jabatan;
+        $data->id_poli = $request->poli;
 
         $data->save();
         return redirect::back()->with('message','Tambah Data Dokter Berhasil');
@@ -88,6 +92,7 @@ class dokterController extends Controller
         $data = dokter::find($id);
         $data->nama = $request->nama;
         $data->jabatan = $request->jabatan;
+        $data->id_poli = $request->poli;
 
         $data->save();
         return redirect::back()->with('message','Ubah Data Dokter Berhasil');

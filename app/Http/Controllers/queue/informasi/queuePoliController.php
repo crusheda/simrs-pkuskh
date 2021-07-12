@@ -79,14 +79,29 @@ class queuePoliController extends Controller
      */
     public function store(Request $request)
     {
-        // print_r($request->nama);
+        $getTgl = Carbon::parse($request->tgl_queue)->isoFormat('D/MM/Y');
+        $getadd0 = Carbon::now()->addDays(0)->isoFormat('D/MM/Y');
+        $getadd1 = Carbon::now()->addDays(1)->isoFormat('D/MM/Y');
+        $getadd2 = Carbon::now()->addDays(2)->isoFormat('D/MM/Y');
+        $getadd3 = Carbon::now()->addDays(3)->isoFormat('D/MM/Y');
+        $getadd4 = Carbon::now()->addDays(4)->isoFormat('D/MM/Y');
+        $getadd5 = Carbon::now()->addDays(5)->isoFormat('D/MM/Y');
+
+        if ($getTgl == $getadd0 || $getTgl == $getadd1 || $getTgl == $getadd2 || $getTgl == $getadd3 || $getTgl == $getadd4 || $getTgl == $getadd5) {
+            $tglDaftar = $request->tgl_queue;
+        } else {
+            return Redirect::back()->withErrors('Tanggal Tidak Valid, mohon masukkan Tanggal Daftar Pasien Maksimal 5 Hari Ke depan');
+        }
+        
+        // print_r($hasil);
         // die();
+
         $getQueue = set_queue_poli::find($request->kode_queue);
         $now = Carbon::now();
         // $getLast = queue_poli::select('queue')->orderBy('queue', 'DESC')->first();
         $getLast = queue_poli::where('kode_queue', $request->kode_queue)->where('deleted_at','=', null)->where('inden','=', false)->orderBy('id', 'DESC')->first();
-        $getLastTglInden = queue_poli::select('tgl_queue')->where('kode_queue', $request->kode_queue)->where('deleted_at','=', null)->where('inden','=', true)->orderBy('id', 'DESC')->first();
-        $getLastInden = queue_poli::where('kode_queue', $request->kode_queue)->where('deleted_at','=', null)->where('inden','=', true)->orderBy('id', 'DESC')->first();
+        $getLastTglInden = queue_poli::select('tgl_queue')->where('kode_queue', $request->kode_queue)->where('deleted_at','=', null)->where('inden','=', true)->where('tgl_queue','=', $request->tgl_queue)->orderBy('id', 'DESC')->first();
+        $getLastInden = queue_poli::where('kode_queue', $request->kode_queue)->where('deleted_at','=', null)->where('inden','=', true)->where('tgl_queue','=', $request->tgl_queue)->orderBy('id', 'DESC')->first();
         if ($request->inden == true) {
             if ($getLastInden == null) {
                 $plus = 1;
@@ -97,9 +112,18 @@ class queuePoliController extends Controller
                 $proses = (int)substr($getLastInden->queue,1);
                 $plus = $proses + 1;
                 $done = sprintf("%03d", $plus);
+                // print_r($getLastInden);
+                // die();
             }
             $sttInden = true;
-            $tglDaftar = $request->tgl_queue;
+            // $tglDaftar = $request->tgl_queue;
+            // $tglDaftarCarbon = Carbon::parse($tglDaftar)->isoFormat('d');
+            // 0 = minggu
+            // 3 = Rabu
+            // 6 = Sabtu
+            // $tglnow = $now->toDateString();
+            // $tglInput = Carbon::parse($tglDaftar->toDateString());
+            // $getTgl = $tglInput - $now;
         }else {
             if ($getLast == null) {
                 $plus = 1;
@@ -138,6 +162,8 @@ class queuePoliController extends Controller
         $data->inden = $sttInden;
         $data->tgl_queue = $tglDaftar;
 
+        // print_r($getTgl);
+        // die();
         $data->save();
     
         return Redirect::back()->with('message','Data berhasil ditambahkan.');

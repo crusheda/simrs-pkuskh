@@ -49,6 +49,15 @@
                                 <option value="SPESIALIS PATOLOGI KLINIK">SPESIALIS PATOLOGI KLINIK</option>
                             </select>
                         </div>
+                        <label>Poliklinik</label>
+                        <div class="input-group mb-3">
+                            <select class="custom-select" name="poli" id="poli" required>
+                                <option hidden>Pilih</option>
+                                @foreach($list['poli'] as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nama_queue }}</option>
+                                @endforeach
+                            </select>
+                        </div>
                         <hr>
                         <center><button class="btn btn-success text-white" id="submit">TAMBAH</button></center>
                     </form>
@@ -183,6 +192,15 @@
                     <option value="SPESIALIS MATA" @if ($item->jabatan == 'SPESIALIS MATA') echo selected @endif>SPESIALIS MATA</option>
                     <option value="SPESIALIS REHABILITASI MEDIS" @if ($item->jabatan == 'SPESIALIS REHABILITASI MEDIS') echo selected @endif>SPESIALIS REHABILITASI MEDIS</option>
                     <option value="SPESIALIS PATOLOGI KLINIK" @if ($item->jabatan == 'SPESIALIS PATOLOGI KLINIK') echo selected @endif>SPESIALIS PATOLOGI KLINIK</option>
+                </select>
+            </div>
+            <label>Poliklinik</label>
+            <div class="input-group mb-3">
+                <select class="custom-select" name="poli" id="poli" required>
+                    <option hidden>Pilih</option>
+                    @foreach($list['poli'] as $key)
+                        <option value="{{ $key->id }}" @if ($item->id_poli == $key->id) echo selected @endif>{{ $key->nama_queue }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>

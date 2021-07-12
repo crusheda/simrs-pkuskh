@@ -348,6 +348,16 @@
                 </ul>
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">
+                        <a href="{{ route("bulanan.index") }}" class="nav-link">
+                            <i class="fa-fw fas fa-book nav-icon">
+
+                            </i>
+                            Laporan Bulanan
+                        </a>
+                    </li>
+                </ul>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
                         <a href="{{ route("rapat.index") }}" class="nav-link">
                             <i class="fa-fw fas fa-inbox nav-icon">
     
@@ -363,16 +373,6 @@
 
                             </i>
                             Regulasi
-                        </a>
-                    </li>
-                </ul>
-                <ul class="nav-dropdown-items">
-                    <li class="nav-item">
-                        <a href="{{ route("bulanan.index") }}" class="nav-link">
-                            <i class="fa-fw fas fa-book nav-icon">
-
-                            </i>
-                            Laporan Bulanan
                         </a>
                     </li>
                 </ul>

@@ -61,15 +61,15 @@
           </a>
           <div class="dropdown-menu dropdown-menu-right">
               <a type="button" class="dropdown-item" href="{{ route('user.index') }}">
-                <i class="fa-fw fas fa-user-circle nav-icon"></i>
+                <i class="fa-fw fas fa-user-circle nav-icon text-primary"></i>
                 Profil
               </a>
               <a type="button" class="dropdown-item" href="{{ route('auth.change_password') }}">
-                <i class="nav-icon fas fa-fw fa-key"></i>
+                <i class="nav-icon fas fa-fw fa-key text-warning"></i>
                 Ubah Password
               </a>
               <a type="button" class="dropdown-item" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
-                <i class="nav-icon fas fa-fw fa-sign-out-alt"></i>
+                <i class="nav-icon fas fa-fw fa-sign-out-alt text-danger"></i>
                 Logout
               </a>
           </div>
@@ -134,6 +134,7 @@
     <script src="https://cdn.ckeditor.com/ckeditor5/11.0.1/classic/ckeditor.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/moment.js/2.22.2/moment.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/js/bootstrap-datetimepicker.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/select2/4.0.5/js/select2.full.min.js"></script>
     <script src="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.js"></script>
     <script src="{{ asset('js/main.js') }}"></script>

@@ -8,6 +8,10 @@
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
 
+{{-- <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/css/bootstrap-datepicker.css">
+<script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datepicker/1.9.0/js/bootstrap-datepicker.js"></script> --}}
+{{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-datetimepicker/4.17.47/css/bootstrap-datetimepicker.min.css" rel="stylesheet" /> --}}
+
     @can('antrian_poli')
         @role('informasi')
         <div class="row">
@@ -32,7 +36,7 @@
                             <br><b>nb.</b> (Hapus centang apabila tidak INDEN)<hr>
                             <div class="form-group" id="tgl-inden">
                                 <label>Tgl Inden :</label>
-                                <input type="date" name="tgl_queue" class="form-control">
+                                <input type="date" id="datepicker" name="tgl_queue" class="form-control" autocomplete="off">
                             </div>
                             <div class="form-group">
                                 <label>No. Rekam Medik</label>
@@ -290,7 +294,20 @@
         </div>
     </div>
     @endforeach
-    
+
+{{-- <script>
+    $(document).ready(function() {
+        $('#datepicker').datepicker({
+            // format: 'mm/dd/yyyy',
+            changeMonth: true,
+            changeYear: true,
+            //yy-mm-dd
+            dateFormat: 'yy-mm-dd',
+            minDate: '0',
+            maxDate: "+180D",
+        })
+    });
+</script> --}}
 <script>
     $(document).ready( function () {
         $('#antrian').DataTable(
@@ -304,6 +321,18 @@
                 order: [ 5, "desc" ]
             }
         );
+
+        // $('#datepicker').datepicker({
+        //     maxDate: function() {
+        //         var date = new Date();
+        //         date.setDate(date.getDate()+1);
+        //         return new Date(date.getFullYear(), date.getMonth(), date.getDate());
+        //     }
+        // });
+        
+        // $('#datepicker').datepicker({
+        // });
+        
 
         // IP PUBLIC
         $(document).ready(function() {        
