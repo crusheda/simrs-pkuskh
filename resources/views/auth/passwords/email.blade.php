@@ -1,5 +1,6 @@
 @extends('layouts.app')
 @section('content')
+<title>Lupa Password | SIMRSKU</title>
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card-group">
@@ -9,16 +10,14 @@
                         {{ csrf_field() }}
                         <h1>
                             <div class="login-logo">
-                                <a href="#">
-                                    {{ env('APP_NAME', 'Permissions Manager') }}
-                                </a>
+                                <img src="{{ asset('css-landing/img/landing-logotext.png') }}" alt="">
                             </div>
                         </h1>
-                        <p class="text-muted"></p>
+                        <p class="text-muted"></p><br>
                         <div>
                             {{ csrf_field() }}
                             <div class="form-group has-feedback">
-                                <input type="email" name="email" class="form-control" required="autofocus" placeholder="Email">
+                                <input type="email" name="email" class="form-control" required="autofocus" placeholder="Masukkan Email Sesuai Akun Anda...">
                                 @if($errors->has('email'))
                                     <em class="invalid-feedback">
                                         {{ $errors->first('email') }}
@@ -27,9 +26,12 @@
                             </div>
                         </div>
                         <div class="row">
-                            <div class="col-12 text-right">
-                                <button type="submit" class="btn btn-primary btn-block btn-flat">
+                            <div class="col-12">
+                                <button type="submit" class="btn btn-dark btn-flat pull-left">
                                     Reset Password
+                                </button>
+                                <button type="button" onclick="window.location.href='{{ url('/') }}'" class="btn btn-info pull-right text-white">
+                                    Kembali Login
                                 </button>
                             </div>
                         </div>

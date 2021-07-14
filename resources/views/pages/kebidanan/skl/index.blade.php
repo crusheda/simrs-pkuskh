@@ -27,12 +27,12 @@
             @can('skl')
                 <div class="row">
                     <div class="col-md-12">
-                        <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahbayi">
+                        <button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahbayi">
                             <i class="fa-fw fas fa-plus-square nav-icon">
     
                             </i>
                             Tambah Identitas Bayi
-                        </a>
+                        </button>
                     </div>
                 </div><br>
                 <div class="table-responsive">
@@ -44,7 +44,7 @@
                                 <th>IBU</th>
                                 <th>ANAK</th>
                                 <th>ALAMAT</th>
-                                <th></th>
+                                <th><center>#</center></th>
                             </tr>
                         </thead>
                         <tbody style="text-transform: capitalize">
@@ -57,18 +57,16 @@
                                 <td>{{ $item->anak }}</td>
                                 <td>{{ $item->alamat }}</td>
                                 <td>
-                                    <center><button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahskl{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusskl{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button><hr></center>
-                                    <center><a type="button" href="{{ route('skl.cetak', $item->id) }}" class="btn btn-warning btn-sm">
-                                        <i class="fa-fw fas fa-print nav-icon"></i> Cetak
-                                    </a></center>
+                                    <center>
+                                    <div class="btn-group" role="group">
+                                        <a type="button" href="{{ route('skl.cetak', $item->id) }}" class="btn btn-warning btn-sm"><i class="fa-fw fas fa-print nav-icon text-white"></i></a>
+                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahskl{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusskl{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                    </div>
+                                    </center>
                                 </td>
                             </tr>
                             @endforeach
-                            @else
-                                <tr>
-                                    <td colspan=6>Tidak Ada Data</td>
-                                </tr>
                             @endif
                         </tbody>
                     </table>
@@ -284,7 +282,7 @@ $(document).ready( function () {
             searching: true,
             dom: 'Bfrtip',
             buttons: [
-                'copy', 'csv', 'excel', 'pdf'
+                'copy', 'excel', 'pdf'
             ],
             order: [[ 1, "desc" ]]
         }

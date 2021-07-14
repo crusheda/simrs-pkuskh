@@ -89,6 +89,9 @@
 						<button class="login100-form-btn" type="submit">
 							Login
 						</button>
+						<a class="btn btn-link text-dark" style="margin-top: 8px" href="{{ route('password.request') }}">
+							Lupa Password?
+						</a>
 					</div>
 
 				</form>
