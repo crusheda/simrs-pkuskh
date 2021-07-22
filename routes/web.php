@@ -86,6 +86,16 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'lab', 'as' => 'lab.'], func
 Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepegawaian.'], function () {
     Route::get('/karyawan/cetak/{id}', 'kantor\kepegawaianController@generatePDF')->name('karyawan.cetak');
     Route::resource('/karyawan', 'kantor\kepegawaianController');
+
+    // Penggajian Karyawan
+    Route::resource('gaji/struktural', 'kantor\gaji\strukturalController');
+    Route::resource('gaji/fungsional', 'kantor\gaji\fungsionalController');
+    // Route::resource('gaji/set', 'kantor\gaji\setGajiController');
+    Route::resource('gaji/terima', 'kantor\gaji\terimaController');
+    Route::resource('gaji/potong', 'kantor\gaji\potongController');
+    Route::resource('gaji/golongan', 'kantor\gaji\golonganController');
+    Route::get('gaji/final/validasi', 'kantor\gaji\gajiController@validasi')->name('final.validasi');
+    Route::resource('gaji/final', 'kantor\gaji\gajiController');
 });
 
         // Pengadaan

@@ -26,6 +26,27 @@
 <body class="header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden login-page" style="background-color: #2F353A">
     <div class="app flex-row align-items-center">
         <div class="container">
+            
+            @if(session('message'))
+            <div class="row mb-2">
+                <div class="col-lg-12">
+                    <div class="alert alert-success" role="alert">{{ session('message') }}
+                      <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                        <span aria-hidden="true">&times;</span>
+                      </button>
+                    </div>
+                </div>
+            </div>
+            @endif
+            @if($errors->count() > 0)
+                <div class="alert alert-danger">
+                    <ul class="list-unstyled">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
             @yield("content")
         </div>
     </div>

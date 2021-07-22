@@ -13,6 +13,7 @@
         "haruncpi/laravel-simple-filemanager": "^1.0",
         "haruncpi/laravel-user-activity": "^1.0",
         "intervention/image": "^2.5",
+        "jenssegers/agent": "^2.6",
         "laravel/framework": "^6.0",
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^6.0",

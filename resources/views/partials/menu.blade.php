@@ -299,6 +299,84 @@
                     </ul>
                 </li>
             @endcan
+            @can('gaji')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <i class="fa-fw fas fa-gift nav-icon">
+
+                        </i>
+                        Gaji Karyawan
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("kepegawaian.final.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-money nav-icon">
+        
+                                </i>
+                                Detail Gaji
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("kepegawaian.terima.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-handshake nav-icon">
+        
+                                </i>
+                                Set Gaji
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <i class="fa-fw fas fa-bookmark nav-icon">
+
+                        </i>
+                        Ref Gaji
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("kepegawaian.golongan.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-chevron-right nav-icon">
+        
+                                </i>
+                                Golongan Karyawan
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("kepegawaian.potong.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-chevron-right nav-icon">
+        
+                                </i>
+                                Potong Gaji
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("kepegawaian.struktural.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-chevron-right nav-icon">
+        
+                                </i>
+                                Tunjangan Struktural
+                            </a>
+                        </li>
+                    </ul>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("kepegawaian.fungsional.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-chevron-right nav-icon">
+        
+                                </i>
+                                Tunjangan Fungsional
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
             <li class="nav-item nav-dropdown">
                 <a class="nav-link  nav-dropdown-toggle" href="#">
                     <i class="fa-fw fas fa-gavel nav-icon">

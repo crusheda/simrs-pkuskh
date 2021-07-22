@@ -27,11 +27,11 @@
                         </div>
                         <div class="row">
                             <div class="col-12">
-                                <button type="submit" class="btn btn-dark btn-flat pull-left">
-                                    Reset Password
+                                <button type="submit" class="btn btn-dark btn-flat pull-left" id="btn-reset">
+                                    <i class="fa-fw fas fa-refresh nav-icon"></i> Reset Password
                                 </button>
                                 <button type="button" onclick="window.location.href='{{ url('/') }}'" class="btn btn-info pull-right text-white">
-                                    Kembali Login
+                                    <i class="fa-fw fas fa-caret-left nav-icon"></i> Kembali Login
                                 </button>
                             </div>
                         </div>
@@ -41,4 +41,12 @@
         </div>
     </div>
 </div>
+<script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
+<script>
+    $(document).ready( function () {
+        $( "#btn-reset" ).click(function() {
+            $(this).find("i").toggleClass("fa-refresh fa-refresh fa-spin");
+        });
+    });
+</script>
 @endsection

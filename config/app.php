@@ -197,6 +197,7 @@ return [
         Barryvdh\DomPDF\ServiceProvider::class,
         Stevebauman\Location\LocationServiceProvider::class,
         Alexusmai\LaravelFileManager\FileManagerServiceProvider::class,
+        Jenssegers\Agent\AgentServiceProvider::class,
     ],
 
     /*
@@ -248,11 +249,12 @@ return [
         /*
          * Package Aliases
          */
-        'Image'        => Intervention\Image\Facades\Image::class,
-        'Form'         => Collective\Html\FormFacade::class,
-        'Html'         => Collective\Html\HtmlFacade::class,
-        'PDF'          => Barryvdh\DomPDF\Facade::class,
-        'Location'     => 'Stevebauman\Location\Facades\Location',
+        'Image'         => Intervention\Image\Facades\Image::class,
+        'Form'          => Collective\Html\FormFacade::class,
+        'Html'          => Collective\Html\HtmlFacade::class,
+        'PDF'           => Barryvdh\DomPDF\Facade::class,
+        'Agent'         => Jenssegers\Agent\Facades\Agent::class,
+        'Location'      => 'Stevebauman\Location\Facades\Location',
     ],
 
 ];

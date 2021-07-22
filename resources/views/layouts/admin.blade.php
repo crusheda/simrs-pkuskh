@@ -101,6 +101,9 @@
                         </ul>
                     </div>
                 @endif
+                @if( Session::has('status') )
+                  <p class="feedback-success">{{ Session::get('status') }}</p>
+                @endif
                 @if (session('alert'))
                   <div class="alert alert-success">
                       {{ session('alert') }}

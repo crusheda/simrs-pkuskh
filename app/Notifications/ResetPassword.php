@@ -6,6 +6,8 @@ use Illuminate\Bus\Queueable;
 use Illuminate\Contracts\Queue\ShouldQueue;
 use Illuminate\Notifications\Messages\MailMessage;
 use Illuminate\Notifications\Notification;
+use Illuminate\Http\RedirectResponse;
+use Redirect;
 
 class ResetPassword extends Notification
 {
@@ -20,6 +22,7 @@ class ResetPassword extends Notification
     public function __construct($token)
     {
         $this->token = $token;
+        // $token->notify(new WelcomeNotification($token));
     }
 
     /**
@@ -46,6 +49,9 @@ class ResetPassword extends Notification
             ->line('Kami menerima permintaan Lupa Password anda, Klik tombol Reset Password di bawah untuk diarahkan ke Sistem Lupa Password SIMRSKU')
             ->action('Reset Password', url('password/reset', $this->token))
             ->line('Permintaan anda akan kadaluarsa dalam 60 menit ke depan. Lakukan Reset Password anda segera. Setelah anda berhasil Login kembali, Lengkapi Profil Anda pada Menu Profil SIMRSKU. Terima Kasih :)');
+        // print_r($notifiable);
+        // die();
+        // return view('login')->with('message','Ubah Hasil Antigen Berhasil');
     }
 
     /**
