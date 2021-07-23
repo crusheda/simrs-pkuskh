@@ -195,7 +195,6 @@
                     'copy', 'excel', 'pdf', 'print'
                 ],
                 order: [[ 3, "desc" ]],
-                pageLength: 50
             }
         );
     } );
