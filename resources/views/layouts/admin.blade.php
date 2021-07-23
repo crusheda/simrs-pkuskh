@@ -53,7 +53,7 @@
         <button class="navbar-toggler sidebar-toggler d-md-down-none" type="button" data-toggle="sidebar-lg-show">
             <span class="navbar-toggler-icon"></span>
         </button>
-        
+
         <ul class="nav navbar-nav ml-auto" style="font-family: Roboto;text-transform: capitalize;margin-right:10px">
 
           <button type="button" class="btn btn-dark nav-link text-white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">

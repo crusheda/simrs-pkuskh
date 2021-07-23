@@ -192,7 +192,7 @@
                 searching: true,
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 'excel', 'pdf', 'print'
                 ],
                 order: [[ 3, "desc" ]],
                 pageLength: 50
