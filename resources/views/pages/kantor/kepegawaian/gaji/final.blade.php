@@ -36,7 +36,8 @@
                             </i>
                             Validasi
                         </button>
-                        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#notyet" data-toggle="tooltip" data-placement="bottom" title="DATA BELUM MASUK"><i class="fa-fw fas fa-info nav-icon text-white"></i></button>
+                        {{-- <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#notyet" data-toggle="tooltip" data-placement="bottom" title="DATA BELUM MASUK"><i class="fa-fw fas fa-info nav-icon text-white"></i></button> --}}
+                        <button type="button" class="btn btn-secondary" disabled><i class="fa-fw fas fa-info nav-icon text-white"></i></button>
                         <div class="pull-right">
                             <form class="form-inline" action="{{ route('cari.log') }}" method="GET">
                                 <select class="form-control" style="width: auto;margin-right:10px" name="bulan" id="bulanFilter">

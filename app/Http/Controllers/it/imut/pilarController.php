@@ -132,4 +132,15 @@ class pilarController extends Controller
         
         return \Redirect::to('it/imut/pilar')->with('message','Revisi Pilar Telah Selesai.');
     }
+
+    public function showAll()
+    {
+        $show = imutpilar::orderBy('jamselesai','DESC')->limit('50')->get();
+
+        $data = [
+            'show' => $show
+        ];
+
+        return view('pages.imut.it.pilarAll')->with('list', $data);
+    }
 }

@@ -49,6 +49,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
 Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], function () {
     // Route::get('home', 'it\itController@index')->name('it.home');
     // Route::get('user-activity', 'it\itController@getActivity')->name('user_activity');
+    Route::get('supervisi/all','it\log\logController@showAll')->name('logit.all');  
     Route::resource('supervisi', 'it\log\logController');
     
     // Antrian Poli
@@ -60,6 +61,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
     // Imut
         // Pilar
         Route::post('/imut/pilar/{id}', 'it\imut\pilarController@pilarClear')->name('pilar.selesai');
+        Route::get('/imut/pilar/all','it\imut\pilarController@showAll')->name('pilar.all');  
         Route::resource('/imut/pilar', 'it\imut\pilarController');
         // CPU
         Route::post('/imut/cpu/{id}', 'it\imut\cpuController@cpuClear')->name('cpu.selesai');

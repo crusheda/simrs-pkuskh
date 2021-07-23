@@ -42,7 +42,7 @@
                         <i class="fa-fw fas fa-line-chart nav-icon">
 
                         </i>
-                        Indikator Mutu
+                        Imut
                     </a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
@@ -53,7 +53,7 @@
                                 Pilar
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="{{ route("it.printer.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-print nav-icon">
 
@@ -76,7 +76,7 @@
                                 </i>
                                 Jaringan
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
             @endcan

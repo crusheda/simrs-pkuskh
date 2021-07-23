@@ -103,7 +103,7 @@
                                 <th>UNIT</th>
                                 {{-- <th>STR</th> --}}
                                 <th>UPDATE</th>
-                                <th><center>AKSI</center></th>
+                                {{-- <th><center>AKSI</center></th> --}}
                             </tr>
                         </thead>
                         <tbody style="text-transform: capitalize">
@@ -120,12 +120,12 @@
                                     <td>{{ $item->no_str }}</td>
                                 @endif --}}
                                 <td>{{ $item->updated_at }}</td>
-                                <td>
+                                {{-- <td>
                                     <center>
                                         <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{{ url('kepegawaian/karyawan/'. $item->id) }}'" disabled><i class="fa-fw fas fa-search nav-icon"></i></button>
                                         <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{{ url('kepegawaian/'. $item->id) }}'" disabled><i class="fa-fw fas fa-download nav-icon text-white"></i></button>
                                     </center>
-                                </td>
+                                </td> --}}
                             </tr>
                             @endforeach
                             @endif
@@ -250,7 +250,7 @@
                 searching: true,
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'csv', 'excel', 'pdf', 'print'
+                    'copy', 'excel', 'pdf', 'print'
                 ],
                 order: [[ 5, "desc" ]],
             }

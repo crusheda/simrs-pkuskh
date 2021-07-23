@@ -335,7 +335,7 @@
                                 </label>
                             </div><br><br>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" value="{{ $list['showuser']->sd }}" name="sd" id="sd" placeholder="Pendidikan Sekolah Dasar"><br>
+                                <input type="text" class="form-control" value="{{ $list['showuser']->sd }}" name="sd" id="sd" placeholder="Nama Sekolah Dasar"><br>
                             </div>
                             <div class="col-md-3">
                                 <input type="number" class="form-control" value="{{ $list['showuser']->th_sd }}" name="th_sd" id="th_sd" max="9999" placeholder="Tahun Lulus" disabled><br>
@@ -347,7 +347,7 @@
                                 </label><br><br>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" value="{{ $list['showuser']->smp }}" name="smp" id="smp" placeholder="Pendidikan Sekolah Menengah Pertama"><br>
+                                <input type="text" class="form-control" value="{{ $list['showuser']->smp }}" name="smp" id="smp" placeholder="Nama Sekolah Menengah Pertama"><br>
                             </div>
                             <div class="col-md-3">
                                 <input type="number" class="form-control" value="{{ $list['showuser']->th_smp }}" name="th_smp" id="th_smp" max="9999" placeholder="Tahun Lulus" disabled><br>
@@ -359,7 +359,7 @@
                                 </label><br><br>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" value="{{ $list['showuser']->sma }}" name="sma" id="sma" placeholder="Pendidikan Sekolah Menengah Atas"><br>
+                                <input type="text" class="form-control" value="{{ $list['showuser']->sma }}" name="sma" id="sma" placeholder="Nama Sekolah Menengah Atas"><br>
                             </div>
                             <div class="col-md-3">
                                 <input type="number" class="form-control" value="{{ $list['showuser']->th_sma }}" name="th_sma" id="th_sma" max="9999" placeholder="Tahun Lulus" disabled><br>
@@ -371,7 +371,7 @@
                                 </label><br><br>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" value="{{ $list['showuser']->d1 }}" name="d1" id="d1" placeholder="Pendidikan Diploma Satu"><br>
+                                <input type="text" class="form-control" value="{{ $list['showuser']->d1 }}" name="d1" id="d1" placeholder="Nama Diploma Satu"><br>
                             </div>
                             <div class="col-md-3">
                                 <input type="number" class="form-control" value="{{ $list['showuser']->th_d1 }}" name="th_d1" id="th_d1" max="9999" placeholder="Tahun Lulus" disabled><br>
@@ -383,7 +383,7 @@
                                 </label><br><br>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" value="{{ $list['showuser']->d3 }}" name="d3" id="d3" placeholder="Pendidikan Diploma Tiga"><br>
+                                <input type="text" class="form-control" value="{{ $list['showuser']->d3 }}" name="d3" id="d3" placeholder="Nama Universitas"><br>
                             </div>
                             <div class="col-md-3">
                                 <input type="number" class="form-control" value="{{ $list['showuser']->th_d3 }}" name="th_d3" id="th_d3" max="9999" placeholder="Tahun Lulus" disabled><br>
@@ -395,7 +395,7 @@
                                 </label><br><br>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" value="{{ $list['showuser']->d4 }}" name="d4" id="d4" placeholder="Pendidikan Diploma Empat"><br>
+                                <input type="text" class="form-control" value="{{ $list['showuser']->d4 }}" name="d4" id="d4" placeholder="Nama Universitas"><br>
                             </div>
                             <div class="col-md-3">
                                 <input type="number" class="form-control" value="{{ $list['showuser']->th_d4 }}" name="th_d4" id="th_d4" max="9999" placeholder="Tahun Lulus" disabled><br>
@@ -407,7 +407,7 @@
                                 </label><br><br>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" value="{{ $list['showuser']->s1 }}" name="s1" id="s1" placeholder="Pendidikan Strata Satu"><br>
+                                <input type="text" class="form-control" value="{{ $list['showuser']->s1 }}" name="s1" id="s1" placeholder="Nama Universitas"><br>
                             </div>
                             <div class="col-md-3">
                                 <input type="number" class="form-control" value="{{ $list['showuser']->th_s1 }}" name="th_s1" id="th_s1" max="9999" placeholder="Tahun Lulus" disabled><br>
@@ -419,7 +419,7 @@
                                 </label><br><br>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" value="{{ $list['showuser']->s2 }}" name="s2" id="s2" placeholder="Pendidikan Strata Dua"><br>
+                                <input type="text" class="form-control" value="{{ $list['showuser']->s2 }}" name="s2" id="s2" placeholder="Nama Universitas"><br>
                             </div>
                             <div class="col-md-3">
                                 <input type="number" class="form-control" value="{{ $list['showuser']->th_s2 }}" name="th_s2" id="th_s2" max="9999" placeholder="Tahun Lulus" disabled><br>
@@ -431,7 +431,7 @@
                                 </label><br><br>
                             </div>
                             <div class="col-md-8">
-                                <input type="text" class="form-control" value="{{ $list['showuser']->s3 }}" name="s3" id="s3" placeholder="Pendidikan Strata Tiga"><br>
+                                <input type="text" class="form-control" value="{{ $list['showuser']->s3 }}" name="s3" id="s3" placeholder="Nama Universitas"><br>
                             </div>
                             <div class="col-md-3">
                                 <input type="number" class="form-control" value="{{ $list['showuser']->th_s3 }}" name="th_s3" id="th_s3" max="9999" placeholder="Tahun Lulus" disabled><br>
@@ -583,7 +583,7 @@
                                 </div>
                             </div>
                             <div class="col-md-12">
-                                <p><i>Catatan: Kosongi Kolom Pengisian Bila Tidak Ada.</i></p>
+                                <p><i><b>Catatan: Kosongi Kolom Pengisian Bila Tidak Ada.</b></i></p>
                             </div>
                         </div>
                     </div>

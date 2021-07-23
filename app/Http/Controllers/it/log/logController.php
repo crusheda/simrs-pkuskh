@@ -6,6 +6,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use App\Models\logit;
+use App\Models\user;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Storage;
@@ -23,9 +24,16 @@ class logController extends Controller
      */
     public function index()
     {
-        $show = logit::get();
+        $show = logit::orderBy('created_at','DESC')->limit('50')->get();
+        $user = DB::table('users')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->select('users.*')
+                ->where('roles.name', 'it')
+                ->get();
 
         $data = [
+            'user' => $user,
             'show' => $show
         ];
 
@@ -51,7 +59,7 @@ class logController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'nama' => 'required',
+            // 'nama' => 'required',
             'kegiatan' => 'required',
             'keterangan' => 'nullable',
             'lokasi' => 'nullable',
@@ -75,9 +83,11 @@ class logController extends Controller
         }
         // print_r($request->lokasi);
         // die();
+        $find = user::where('id', $request->nama)->first();
 
         $data = new logit;
-        $data->nama = $request->nama;
+        $data->id_user = $find->id;
+        $data->nama = $find->nama;
         $data->kegiatan = $request->kegiatan;
         
             $data->title = $title;
@@ -158,7 +168,12 @@ class logController extends Controller
             ]);
 
         $getTgl = Carbon::createFromFormat('Y-m-d H:i:s', $request->tgl)->format('F j, Y @ g:i A');
+        
+        $find = user::where('id', $request->nama)->first();
+
         $data = logit::find($id);
+        $data->id_user = $find->id;
+        $data->nama = $find->nama;
         $data->kegiatan = $request->kegiatan;
         $data->created_at = $getTgl;
 
@@ -215,5 +230,23 @@ class logController extends Controller
         // print_r($file);
         // die();
         return response()->file(storage_path('/app/'.$file->filename));
+    }
+
+    public function showAll()
+    {
+        $show = logit::get();
+        $user = DB::table('users')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->select('users.*')
+                ->where('roles.name', 'it')
+                ->get();
+
+        $data = [
+            'user' => $user,
+            'show' => $show
+        ];
+
+        return view('pages.it.log.indexAll')->with('list', $data);
     }
 }

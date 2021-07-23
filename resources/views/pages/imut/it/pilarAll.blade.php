@@ -8,57 +8,31 @@
 
 @can('imut_it')
 <div class="row">
-    <div class="col-md-4">
-        <div class="card" style="width: 100%">
-            <div class="card-header bg-dark text-white">
+    <div class="card" style="width: 100%">
+        <div class="card-header bg-dark text-white">
 
-                <i class="fa-fw fas fa-plus nav-icon text-success">
+            <button type="button" class="btn btn-sm btn-light pull-left" onclick="window.location.href='{{ url('it/imut/pilar') }}'"><i class="fa-fw fas fa-hand-o-left nav-icon"></i> Kembali</button> 
 
-                </i> Tambah Imut Pilar
-                
-            </div>
-            <div class="card-body">
-                <form class="form-auth-small" action="{{ route('it.pilar.store') }}" method="POST" enctype="multipart/form-data">
-                    @csrf
-                    <label>Pemberi Instruksi :</label>
-                    <input type="text" name="namapi" id="namapi" class="form-control" placeholder="" autofocus required>
-                    <br>
-                    <label>Keterangan :</label>
-                    <textarea class="form-control" name="keterangan" id="keterangan" placeholder="" required></textarea>
-                    <br>
-                    <center><button class="btn btn-success text-white" id="submit"><i class="fa-fw fas fa-check nav-icon"></i> Submit</button></center>
-                </form>
-            </div>
+            <span class="pull-right badge badge-warning" style="margin-top:4px">
+                Akses IT
+            </span>
+            
         </div>
-    </div>
-    <div class="col-md-8">
-        <div class="card" style="width: 100%">
-            <div class="card-header bg-dark text-white">
-
-                <i class="fa-fw fas fa-database nav-icon text-info">
-
-                </i> Indikator Mutu Pilar
-
-                <span class="pull-right badge badge-warning" style="margin-top:4px">
-                    Akses IT
-                </span>
-                
-            </div>
-            <div class="card-body">
-                <a class="pull-left"><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan hanya berjumlah 50 data terbaru saja<br><i class="fa-fw fas fa-caret-right nav-icon"></i> Klik tombol <b>LIHAT</b> untuk melihat Rekapitulasi Data keseluruhan</a>
-                <button class="btn btn-dark pull-right" onclick="window.location.href='{{ url('it/imut/pilar/all') }}'"><i class="fa-fw fas fa-server nav-icon"></i> LIHAT</button>
-                <br><br><hr>
+        <div class="card-body">
+            <div class="panel panel-default">
+                <div class="panel-body">
+                    <h5 class="text-center">Rekapitulasi Data Indikator Mutu Pilar</h5><hr>
+                </div>
                 <div class="data-table-list">
                     <div class="table-responsive">
                         <table id="table_imut" class="table table-striped">
                             <thead>
                                 <tr>
                                     <th>INSTRUKSI</th>
-                                    {{-- <th>PELAKSANA</th> --}}
                                     <th>KETERANGAN</th>
                                     <th style="text-align: center">JAM AWAL</th>
                                     <th style="text-align: center">JAM SELESAI</th>
-                                    <th>ACTION</th>
+                                    <th><center>AKSI</center></th>
                                 </tr>
                             </thead>
                             <tbody>
@@ -66,7 +40,6 @@
                                 @foreach($list['show'] as $item)
                                 <tr>
                                     <td>{{ $item->namapi }}</td>
-                                    {{-- <td>{{ $item->nama }}</td> --}}
                                     <td>{{ $item->keterangan }}</td>
                                     <td style="text-align: center">{{ $item->jamawal }}</td>
                                     @if ($item->jamselesai == null)
@@ -74,7 +47,7 @@
                                     @else
                                         <td style="text-align: center">{{ $item->jamselesai }}</td>
                                     @endif
-                                    <td>
+                                    <td><center>
                                         <div class="btn-group" role="group">
                                             @if ($item->jamselesai == null)
                                                 <form action="{{ route('it.pilar.selesai', $item->id) }}" method="POST">
@@ -89,13 +62,23 @@
                                             @else
                                                 <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#editPilar{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
                                             @endif
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusPilar{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                            {{-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusPilar{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button> --}}
                                         </div>
+                                        </center>
                                     </td>
                                 </tr>
                                 @endforeach
                                 @endif
                             </tbody>
+                            <tfoot>
+                                <tr>
+                                    <th>INSTRUKSI</th>
+                                    <th>KETERANGAN</th>
+                                    <th style="text-align: center">JAM AWAL</th>
+                                    <th style="text-align: center">JAM SELESAI</th>
+                                    <th><center>AKSI</center></th>
+                                </tr>
+                            </tfoot>
                         </table>
                     </div>
                 </div>
@@ -105,7 +88,7 @@
 </div>
 @endcan
 
-@foreach($list['show'] as $item)
+{{-- @foreach($list['show'] as $item)
 <div class="modal fade bd-example-modal-lg" id="hapusPilar{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -129,9 +112,6 @@
         <div class="modal-footer">
             @if(count($list) > 0)
                 <form action="{{ route('it.pilar.destroy', $item->id) }}" method="POST">
-                    {{-- <a class="btn btn-warning btn-sm" onclick="window.location.href='{{ route('imutpilar.edit', $item->id) }}'">
-                        <i class="lnr lnr-pencil"></i>Edit
-                    </a> --}}
                     @method('DELETE')
                     @csrf
                     <button class="btn btn-danger btn-sm"><i class="lnr lnr-trash"></i>Hapus</button>
@@ -141,7 +121,7 @@
       </div>
     </div>
 </div>
-@endforeach
+@endforeach --}}
 
 @foreach($list['show'] as $item)
 <div class="modal fade bd-example-modal-lg" id="editPilar{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
@@ -198,6 +178,8 @@
                 pageLength: 50
             }
         );
+
+        $("body").addClass('brand-minimized sidebar-minimized');
     } );
 </script>
 

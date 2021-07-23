@@ -608,7 +608,6 @@
     @endforeach
     
     {{-- DATA BELUM MASUK --}}
-    @foreach($list['show'] as $item)
     <div class="modal fade bd-example-modal-xl" id="notyet" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
         <div class="modal-dialog modal-xl">
             <div class="modal-content">
@@ -650,7 +649,6 @@
             </div>
         </div>
     </div>
-    @endforeach
 
 @endcan
 
