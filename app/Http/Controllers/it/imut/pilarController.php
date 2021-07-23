@@ -18,7 +18,7 @@ class pilarController extends Controller
      */
     public function index()
     {
-        $show = imutpilar::get();
+        $show = imutpilar::orderBy('jamselesai','DESC')->limit('50')->get();
 
         $data = [
             'show' => $show
@@ -135,7 +135,7 @@ class pilarController extends Controller
 
     public function showAll()
     {
-        $show = imutpilar::orderBy('jamselesai','DESC')->limit('50')->get();
+        $show = imutpilar::get();
 
         $data = [
             'show' => $show
