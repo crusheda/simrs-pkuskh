@@ -24,12 +24,14 @@ class logController extends Controller
      */
     public function index()
     {
-        $show = logit::orderBy('created_at','DESC')->limit('50')->get();
+        $show = logit::orderBy('created_at','DESC')->limit('20')->get();
         $user = DB::table('users')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->select('users.*')
                 ->where('roles.name', 'it')
+                ->where('users.nama', '<>','')
+                ->where('users.name', '<>','ztaqin')
                 ->get();
 
         $data = [

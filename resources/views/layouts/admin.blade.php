@@ -59,7 +59,7 @@
           <button type="button" class="btn btn-dark nav-link text-white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
             &nbsp;<i class="fa fa-user-circle fa-lg fa-fw"></i> {{ Auth::user()->name }}&nbsp;&nbsp;
           </button>
-          <div class="dropdown-menu dropdown-menu-right">
+          <div class="dropdown-menu dropdown-menu-right" style="width: 10rem;">
               <a type="button" class="dropdown-item" href="{{ route('user.index') }}">
                 <i class="fa-fw fas fa-user-circle nav-icon text-primary"></i>
                 Profil

@@ -28,18 +28,14 @@ class kepegawaianController extends Controller
         $name = $auth->name;
         $role = $auth->roles->first()->name; //kabag-keperawatan
 
+        $showSingle = user::whereNotNull('nik')->get();
+        $showSingleBelum = user::where('nik',null)->get();
+
         $show = DB::table('users')
             ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->join('foto_profil', 'foto_profil.user_id', '=', 'users.id')
             ->select('roles.name as nama_role','foto_profil.title as title','foto_profil.filename as filename','users.*')
-            ->get();
-
-        $showbelum = DB::table('users')
-            ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-            ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->where('users.nik',null)
-            ->select('roles.name as nama_role','users.*')
             ->get();
         
         // print_r($showbelum);
@@ -47,7 +43,8 @@ class kepegawaianController extends Controller
 
         $data = [
             'show' => $show,
-            'showbelum' => $showbelum
+            'showSingle' => $showSingle,
+            'showSingleBelum' => $showSingleBelum
         ];
         return view('pages.kantor.kepegawaian.karyawan')->with('list', $data);
     }

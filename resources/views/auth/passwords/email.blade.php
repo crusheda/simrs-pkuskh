@@ -28,10 +28,10 @@
                         <div class="row">
                             <div class="col-12">
                                 <button type="submit" class="btn btn-dark btn-flat pull-left" id="btn-reset">
-                                    <i class="fa-fw fas fa-refresh nav-icon"></i> Reset Password
+                                    <i class="fa-fw fas fa-refresh nav-icon"></i> Reset
                                 </button>
                                 <button type="button" onclick="window.location.href='{{ url('/') }}'" class="btn btn-info pull-right text-white">
-                                    <i class="fa-fw fas fa-caret-left nav-icon"></i> Kembali Login
+                                    <i class="fa-fw fas fa-caret-left nav-icon"></i> Login
                                 </button>
                             </div>
                         </div>

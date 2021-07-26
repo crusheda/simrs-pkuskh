@@ -16,6 +16,44 @@
                     {{ trans('global.dashboard') }}
                 </a>
             </li>
+            {{-- <li class="nav-item nav-dropdown">
+                <a class="nav-link  nav-dropdown-toggle" href="#">
+                    <i class="fa-fw fas fa-user nav-icon"></i>
+                    Pengaturan
+                </a>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a href="{{ route("home") }}" class="nav-link">
+                            <i class="nav-icon fas fa-fw fa-tachometer-alt">
+        
+                            </i>
+                            {{ trans('global.dashboard') }}
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route('user.index') }}" class="nav-link">
+                            <i class="fa-fw fas fa-user-circle nav-icon text-primary">
+
+                            </i>
+                            Profil
+                        </a>
+                    </li>
+                        <a href="{{ route('auth.change_password') }}" class="nav-link">
+                            <i class="nav-icon fas fa-fw fa-key text-warning">
+
+                            </i>
+                            Ubah Password
+                        </a>
+                    </li>
+                        <a onclick="event.preventDefault(); document.getElementById('logoutform').submit();" class="nav-link">
+                            <i class="nav-icon fas fa-fw fa-sign-out-alt text-danger">
+
+                            </i>
+                            Logout
+                        </a>
+                    </li>
+                </ul>
+            </li> --}}
             @can('log_it')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
@@ -316,8 +354,6 @@
                                 Detail Gaji
                             </a>
                         </li>
-                    </ul>
-                    <ul class="nav-dropdown-items">
                         <li class="nav-item">
                             <a href="{{ route("kepegawaian.terima.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-handshake nav-icon">
@@ -344,8 +380,6 @@
                                 Golongan Karyawan
                             </a>
                         </li>
-                    </ul>
-                    <ul class="nav-dropdown-items">
                         <li class="nav-item">
                             <a href="{{ route("kepegawaian.potong.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-chevron-right nav-icon">
@@ -354,8 +388,6 @@
                                 Potong Gaji
                             </a>
                         </li>
-                    </ul>
-                    <ul class="nav-dropdown-items">
                         <li class="nav-item">
                             <a href="{{ route("kepegawaian.struktural.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-chevron-right nav-icon">
@@ -364,8 +396,6 @@
                                 Tunjangan Struktural
                             </a>
                         </li>
-                    </ul>
-                    <ul class="nav-dropdown-items">
                         <li class="nav-item">
                             <a href="{{ route("kepegawaian.fungsional.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-chevron-right nav-icon">
@@ -423,8 +453,6 @@
                             Penyimpanan File
                         </a>
                     </li>
-                </ul>
-                <ul class="nav-dropdown-items">
                     <li class="nav-item">
                         <a href="{{ route("bulanan.index") }}" class="nav-link">
                             <i class="fa-fw fas fa-book nav-icon">
@@ -433,8 +461,6 @@
                             Laporan Bulanan
                         </a>
                     </li>
-                </ul>
-                <ul class="nav-dropdown-items">
                     <li class="nav-item">
                         <a href="{{ route("rapat.index") }}" class="nav-link">
                             <i class="fa-fw fas fa-inbox nav-icon">
@@ -443,8 +469,6 @@
                             Berkas Rapat
                         </a>
                     </li>
-                </ul>
-                <ul class="nav-dropdown-items">
                     <li class="nav-item">
                         <a href="{{ route("regulasi.index") }}" class="nav-link">
                             <i class="fa-fw fas fa-legal nav-icon">
@@ -463,8 +487,8 @@
                         </i>
                         Antrian Poli
                     </a>
-                    @role('informasi')
                     <ul class="nav-dropdown-items">
+                    @role('informasi')
                         <li class="nav-item">
                             <a href="{{ route("queue.informasi.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-user-plus nav-icon">
@@ -473,10 +497,8 @@
                                 Daftar Inden Pasien
                             </a>
                         </li>
-                    </ul>
                     @endrole
                     @role('rm')
-                    <ul class="nav-dropdown-items">
                         <li class="nav-item">
                             <a href="{{ route("queue.rm.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-user-plus nav-icon">
@@ -485,10 +507,8 @@
                                 Daftar Pasien
                             </a>
                         </li>
-                    </ul>
                     @endrole
                     @role('poli')
-                    <ul class="nav-dropdown-items">
                         <li class="nav-item">
                             <a href="{{ route("queue.poli.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-sort-amount-asc nav-icon">
@@ -497,10 +517,8 @@
                                 Detail Antrian
                             </a>
                         </li>
-                    </ul>
                     @endrole
                     @role('it')
-                    <ul class="nav-dropdown-items">
                         <li class="nav-item">
                             <a href="{{ route("it.poli.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-sort-amount-asc nav-icon">
@@ -509,9 +527,7 @@
                                 Detail Set Poli
                             </a>
                         </li>
-                    </ul>
                     @endrole
-                    <ul class="nav-dropdown-items">
                         <li class="nav-item">
                             <a href="{{ route("show.history") }}" class="nav-link">
                                 <i class="fa-fw fas fa-bookmark nav-icon">

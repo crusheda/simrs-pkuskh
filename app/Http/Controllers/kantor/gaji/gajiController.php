@@ -170,7 +170,7 @@ class gajiController extends Controller
         for($count = 0; $count < count($getGaji); $count++)
         {
             $ins = array(
-                'status' => false
+                'status' => true
             );
             // $pushNominal[] = $nominal[$count];
             $dataArray[] = $ins; 
@@ -200,6 +200,9 @@ class gajiController extends Controller
         $tglGaji = gaji::where('status',false)->orderBy('id','desc')->first();
         $getGaji = gaji::where('status',false)->orderBy('id','desc')->get();
 
+        // Karyawan Baru vs Lama
+        // $getKoperasi = $show;
+
         if (empty($tglGaji)) {
             for($count = 0; $count < count($show); $count++)
             {
@@ -207,9 +210,9 @@ class gajiController extends Controller
                     'id_user'  => $show[$count]->id_users,
                     'id_terima'  => $show[$count]->id,
                     'total_terima' => $show[$count]->gapok + $show[$count]->struktural + $show[$count]->fungsional + $show[$count]->insentif,
-                    'total_potong' => $show[$count]->potong + $show[$count]->infaq,
+                    'total_potong' => $show[$count]->potong,
                     'total_kotor' => $show[$count]->gapok + $show[$count]->struktural + $show[$count]->fungsional + $show[$count]->insentif,
-                    'total_bersih' => ($show[$count]->gapok + $show[$count]->struktural + $show[$count]->fungsional + $show[$count]->insentif) - ($show[$count]->potong + $show[$count]->infaq),
+                    'total_bersih' => ($show[$count]->gapok + $show[$count]->struktural + $show[$count]->fungsional + $show[$count]->insentif) - $show[$count]->potong,
                     'status' => false,
                     'tgl' => $tgl
                 );
@@ -239,9 +242,9 @@ class gajiController extends Controller
                         'id_user'  => $show[$count]->id_users,
                         'id_terima'  => $show[$count]->id,
                         'total_terima' => $show[$count]->gapok + $show[$count]->struktural + $show[$count]->fungsional + $show[$count]->insentif,
-                        'total_potong' => $show[$count]->potong + $show[$count]->infaq,
+                        'total_potong' => $show[$count]->potong,
                         'total_kotor' => $show[$count]->gapok + $show[$count]->struktural + $show[$count]->fungsional + $show[$count]->insentif,
-                        'total_bersih' => ($show[$count]->gapok + $show[$count]->struktural + $show[$count]->fungsional + $show[$count]->insentif) - ($show[$count]->potong + $show[$count]->infaq),
+                        'total_bersih' => ($show[$count]->gapok + $show[$count]->struktural + $show[$count]->fungsional + $show[$count]->insentif) - $show[$count]->potong,
                         'status' => false,
                         'tgl' => $tgl
                     );
@@ -252,5 +255,95 @@ class gajiController extends Controller
         }
         
         return redirect::back()->with('message','Proses Validasi berjalan dengan lancar. Data berhasil di Validasi Pada : '.$now);
+    }
+
+    public function detail($id)
+    {
+        $getDB = gaji::where('id',$id)->where('status',false)->where('deleted_at',null)->first();
+        $getIDuser = $getDB->id_user;
+        $getIDterima = $getDB->id_terima;
+
+        // $show = terima::where('id_user', $getID)->where('delete', null)->where('deleted_at', null)->first();
+        $show = DB::table('gaji')
+                ->join('users', 'users.id', '=', 'gaji.id_user')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->join('gaji_golongan', 'gaji_golongan.id', '=', 'users.id_gol')
+                ->join('gaji_terima', 'gaji.id_terima', '=', 'gaji_terima.id')
+                ->where('gaji.id_user',$getIDuser)
+                ->where('gaji.id_terima',$getIDterima)
+                ->where('gaji.status',false)
+                ->select('roles.name as nama_role','users.masuk_kerja','users.jabatan','users.nama_rek','users.nomor_rek','users.nama','users.name','users.nip','gaji_golongan.id as id_golongan','gaji_golongan.nama as nama_golongan','gaji_terima.*','gaji.id_terima','gaji.total_terima','gaji.total_potong','gaji.total_kotor','gaji.total_bersih','gaji.tgl')
+                ->get();
+        
+        $struktural = struktural::get();
+        $strukturalHas = struktural_has_user::where('id_user', $getIDuser)->get();
+        $fungsional = fungsional::get();
+        $fungsionalHas = fungsional_has_user::where('id_user', $getIDuser)->get();
+        $ref_potong = ref_potong::get();
+        $potongHas = potong_has_user::where('id_user', $getIDuser)->get();
+        // print_r($potongHas);
+        // die();
+
+        $data = [
+            'fungsionalHas' => $fungsionalHas,
+            'strukturalHas' => $strukturalHas,
+            'fungsional' => $fungsional,
+            'struktural' => $struktural,
+            'ref_potong' => $ref_potong,
+            'potongHas' => $potongHas,
+            'show' => $show
+        ];
+
+        // print_r($data['status']);
+        // die();
+        return view('pages.kantor.kepegawaian.gaji.detail-gaji')->with('list', $data);
+    }
+
+    public function print($id)
+    {
+        $getDB = gaji::where('id',$id)->where('status',false)->where('deleted_at',null)->first();
+        $getIDuser = $getDB->id_user;
+        $getIDterima = $getDB->id_terima;
+
+        $show = DB::table('gaji')
+                ->join('users', 'users.id', '=', 'gaji.id_user')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->join('gaji_golongan', 'gaji_golongan.id', '=', 'users.id_gol')
+                ->join('gaji_terima', 'gaji.id_terima', '=', 'gaji_terima.id')
+                ->where('gaji.id_user',$getIDuser)
+                ->where('gaji.id_terima',$getIDterima)
+                ->where('gaji.status',false)
+                ->select('roles.name as nama_role','users.masuk_kerja','users.jabatan','users.nama_rek','users.nomor_rek','users.nama','users.name','users.nip','gaji_golongan.id as id_golongan','gaji_golongan.nama as nama_golongan','gaji_terima.*','gaji.id_terima','gaji.total_terima','gaji.total_potong','gaji.total_kotor','gaji.total_bersih','gaji.tgl')
+                ->get();
+        
+        $struktural = struktural::get();
+        $strukturalHas = struktural_has_user::where('id_user', $getIDuser)->get();
+        $fungsional = fungsional::get();
+        $fungsionalHas = fungsional_has_user::where('id_user', $getIDuser)->get();
+        $ref_potong = ref_potong::get();
+        $potongHas = potong_has_user::where('id_user', $getIDuser)->get();
+        // $dokter = dokter::where('id',(int)$show->dr_pengirim)->first();
+        $tgl = Carbon::parse($show[0]->tgl)->isoFormat('DD-MM-YYYY');
+        $ttd = 'Zainal Muttaqin'; 
+
+        // print_r($show);
+        // die();
+        $data = [
+            'fungsionalHas' => $fungsionalHas,
+            'strukturalHas' => $strukturalHas,
+            'fungsional' => $fungsional,
+            'struktural' => $struktural,
+            'ref_potong' => $ref_potong,
+            'potongHas' => $potongHas,
+            'show' => $show,
+            'tgl' => $tgl,
+            'ttd' => $ttd
+        ];
+
+        // print_r($data);
+        // die();
+        return view('pages.kantor.kepegawaian.gaji.cetak-gaji')->with('list', $data);
     }
 }

@@ -99,8 +99,8 @@
                                                     <td>
                                                         <center>
                                                             <div class="btn-group" role="group">
-                                                                {{-- <button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('antigen/{{ $item->id }}/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button> --}}
-                                                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#detail{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="DETAIL DATA"><i class="fa-fw fas fa-search nav-icon text-white"></i></button>
+                                                                <button type="button" class="btn btn-info btn-sm" onclick="window.location.href='{{ url('kepegawaian/gaji/terima/'. $item->id.'/detail') }}'"><i class="fa-fw fas fa-search nav-icon text-white"></i></button>
+                                                                {{-- <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#detail{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="DETAIL DATA"><i class="fa-fw fas fa-search nav-icon text-white"></i></button> --}}
                                                                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#recent{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="RIWAYAT DATA"><i class="fa-fw fas fa-sort-amount-desc nav-icon text-white"></i></button>
                                                                 <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="UBAH DATA"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
                                                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="HAPUS DATA"><i class="fa-fw fas fa-trash nav-icon"></i></button>
@@ -618,30 +618,34 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <table id="unregistered" class="table table-hover display">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>AKUN</th>
-                                <th>NIP</th>
-                                <th>NAMA</th>
-                                <th>UNIT</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @if(count($list['notyet']) > 0)
-                            @foreach($list['notyet'] as $yolo)
-                                <tr>
-                                    <td>{{ $yolo->id }}</td>
-                                    <td>{{ $yolo->name }}</td>
-                                    <td>{{ $yolo->nip }}</td>
-                                    <td>{{ $yolo->nama }}</td>
-                                    <td>{{ $yolo->nama_role }}</td>
-                                </tr>
-                            @endforeach
-                            @endif
-                        </tbody>
-                    </table>
+                    <div class="data-table-list">
+                        <div class="table-responsive">
+                            <table id="unregistered" class="table table-hover display">
+                                <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>AKUN</th>
+                                        <th>NIP</th>
+                                        <th>NAMA</th>
+                                        <th>UNIT</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @if(count($list['notyet']) > 0)
+                                    @foreach($list['notyet'] as $yolo)
+                                        <tr>
+                                            <td>{{ $yolo->id }}</td>
+                                            <td>{{ $yolo->name }}</td>
+                                            <td>{{ $yolo->nip }}</td>
+                                            <td>{{ $yolo->nama }}</td>
+                                            <td>{{ $yolo->nama_role }}</td>
+                                        </tr>
+                                    @endforeach
+                                    @endif
+                                </tbody>
+                            </table>
+                        </div>
+                    </div>
                 </div>
                 <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>

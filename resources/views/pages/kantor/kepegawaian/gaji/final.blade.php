@@ -30,14 +30,22 @@
             <div class="card-body">
                 <div class="row">
                     <div class="col-md-12">
-                        <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#validasi" data-toggle="tooltip" data-placement="bottom" title="Validasi Gaji Sekarang">
-                            <i class="fa-fw fas fa-legal nav-icon">
+                        <div class="btn-group pull-left" role="group">
+                            <button type="button" class="btn btn-danger" data-toggle="modal" data-target="#validasi" data-toggle="tooltip" data-placement="bottom" title="Validasi Gaji Sekarang">
+                                <i class="fa-fw fas fa-legal nav-icon">
 
-                            </i>
-                            Validasi
-                        </button>
+                                </i>
+                                Validasi
+                            </button>
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#check" data-toggle="tooltip" data-placement="bottom" title="Data Gagal Masuk"><i class="fa-fw fas fa-info nav-icon text-white"></i></button>
+                            <button type="button" class="btn btn-success" data-toggle="modal" data-target="#print" data-toggle="tooltip" data-placement="bottom" title="Print Gaji"><i class="fa-fw fas fa-print nav-icon"></i></button>
+                            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#hapus" data-toggle="tooltip" data-placement="bottom" title="Hapus Gaji Bulan Ini"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                        </div>
+                        {{-- <form class="form-inline" action="{{ route('kepegawaian.final.validasi') }}" method="GET">
+                            @csrf
+                            <button class="btn btn-success" id="btn-validasi"><i class="fa-fw fas fa-print nav-icon"></i></button>
+                        </form> --}}
                         {{-- <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#notyet" data-toggle="tooltip" data-placement="bottom" title="DATA BELUM MASUK"><i class="fa-fw fas fa-info nav-icon text-white"></i></button> --}}
-                        <button type="button" class="btn btn-secondary" disabled><i class="fa-fw fas fa-info nav-icon text-white"></i></button>
                         <div class="pull-right">
                             <form class="form-inline" action="{{ route('cari.log') }}" method="GET">
                                 <select class="form-control" style="width: auto;margin-right:10px" name="bulan" id="bulanFilter">
@@ -96,8 +104,8 @@
                                                         <td>
                                                             <center>
                                                                 <div class="btn-group" role="group">
-                                                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#detail{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="DETAIL DATA"><i class="fa-fw fas fa-search nav-icon text-white"></i></button>
-                                                                    <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#print{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="PRINT DATA"><i class="fa-fw fas fa-print nav-icon text-white"></i></button>
+                                                                    <button type="button" class="btn btn-info btn-sm" onclick="window.location.href='{{ url('kepegawaian/gaji/final/'. $item->id.'/detail') }}'" data-toggle="tooltip" data-placement="bottom" title="DETAIL GAJI"><i class="fa-fw fas fa-search nav-icon text-white"></i></button>
+                                                                    <a type="button" class="btn btn-success btn-sm" href="{{ route('kepegawaian.final.cetak', $item->id) }}" data-toggle="tooltip" data-placement="bottom" title="PRINT GAJI"><i class="fa-fw fas fa-print nav-icon"></i></a>
                                                                     {{-- <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="UBAH DATA"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button> --}}
                                                                     {{-- <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="HAPUS DATA"><i class="fa-fw fas fa-trash nav-icon"></i></button> --}}
                                                                 </div>
@@ -243,7 +251,7 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <table class="table table-hover display">
+                    <table id="recentGaji" class="table table-hover display">
                         <thead>
                             <tr>
                                 <th>USER ID</th>

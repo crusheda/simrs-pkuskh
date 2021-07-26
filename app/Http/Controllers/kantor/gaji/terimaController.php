@@ -240,8 +240,10 @@ class terimaController extends Controller
         // gaji_terima
         $bln = Carbon::now()->isoFormat('MM');
         $thn = Carbon::now()->isoFormat('YYYY');
-        $query_string = "SELECT created_at,iuran_pokok FROM gaji_terima WHERE id_user = $request->user_id AND YEAR(created_at) = $thn AND MONTH(created_at) = $bln AND deleted_at IS NULL";
+        $query_string = "SELECT potong,infaq,created_at,iuran_pokok FROM gaji_terima WHERE id_user = $request->user_id AND YEAR(created_at) = $thn AND MONTH(created_at) = $bln AND deleted_at IS NULL";
         $getTgl = DB::select($query_string);
+        // print_r($getTgl);
+        // die();
 
         /////////////////////////////////////////////////////////////////////////////// Delete
         // Delete from gaji_terima
@@ -326,7 +328,13 @@ class terimaController extends Controller
                 $tglTimestamp = Carbon::parse($getTgl[0]->created_at)->isoFormat('YYYY-MM'); // 2021-07
                 if ($tglCarbon == $tglTimestamp) {
                     $iuranPokok = $getTgl[0]->iuran_pokok;
+                    $totalPotongFinal = $totalPotong;
                 } else {
+                    if ($getTgl[0]->iuran_pokok != false || !empty($getTgl[0]->iuran_pokok)) {
+                        $totalPotongFinal = ($totalPotong - 100000) + 5000;
+                    } else {
+                        $totalPotongFinal = $totalPotong;
+                    }
                     $iuranPokok = false;
                 }
 
@@ -337,7 +345,7 @@ class terimaController extends Controller
             $data->struktural  = array_sum($sumStruktural);
             $data->gapok = $request->gapok;
             $data->insentif = $request->insentif;
-            $data->potong = $totalPotong;
+            $data->potong = $totalPotongFinal;
             $data->infaq = $infaq;
             $data->id_infaq = $request->infaq;
             $data->iuran_pokok = $iuranPokok;
@@ -382,5 +390,46 @@ class terimaController extends Controller
         $del5->save();
 
         return redirect::back()->with('message','Hapus User ID : '.$getID.' Berhasil');
+    }
+
+    public function detail($id)
+    {
+        $getDB = terima::where('id',$id)->where('delete',null)->where('deleted_at',null)->first();
+        $getID = $getDB->id_user;
+
+        // $show = terima::where('id_user', $getID)->where('delete', null)->where('deleted_at', null)->first();
+        $show = DB::table('gaji_terima')
+                ->join('users', 'users.id', '=', 'gaji_terima.id_user')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->join('gaji_golongan', 'gaji_golongan.id', '=', 'users.id_gol')
+                ->where('gaji_terima.id_user',$getID)
+                ->where('gaji_terima.deleted_at',null)
+                ->where('gaji_terima.delete',null)
+                ->select('roles.name as nama_role','users.masuk_kerja','users.jabatan','users.nama_rek','users.nomor_rek','users.nama','users.name','users.nip','gaji_golongan.id as id_golongan','gaji_golongan.nama as nama_golongan','gaji_terima.*')
+                ->get();
+        
+        $struktural = struktural::get();
+        $strukturalHas = struktural_has_user::where('id_user', $getID)->get();
+        $fungsional = fungsional::get();
+        $fungsionalHas = fungsional_has_user::where('id_user', $getID)->get();
+        $ref_potong = ref_potong::get();
+        $potongHas = potong_has_user::where('id_user', $getID)->get();
+        // print_r($potongHas);
+        // die();
+
+        $data = [
+            'fungsionalHas' => $fungsionalHas,
+            'strukturalHas' => $strukturalHas,
+            'fungsional' => $fungsional,
+            'struktural' => $struktural,
+            'ref_potong' => $ref_potong,
+            'potongHas' => $potongHas,
+            'show' => $show
+        ];
+
+        // print_r($data['status']);
+        // die();
+        return view('pages.kantor.kepegawaian.gaji.detail-terima')->with('list', $data);
     }
 }

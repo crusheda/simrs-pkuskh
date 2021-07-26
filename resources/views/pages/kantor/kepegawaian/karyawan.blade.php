@@ -49,8 +49,8 @@
                             </tr>
                         </thead>
                         <tbody style="text-transform: capitalize">
-                            @if(count($list['show']) > 0)
-                            @foreach($list['show'] as $item)
+                            @if(count($list['showSingle']) > 0)
+                            @foreach($list['showSingle'] as $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->nip }}</td>
@@ -107,13 +107,19 @@
                             </tr>
                         </thead>
                         <tbody style="text-transform: capitalize">
-                            @if(count($list['showbelum']) > 0)
-                            @foreach($list['showbelum'] as $item)
+                            @if(count($list['showSingleBelum']) > 0)
+                            @foreach($list['showSingleBelum'] as $val => $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->name }}</td>
                                 <td>{{ $item->nama }}</td>
-                                <td>{{ $item->nama_role }}</td>
+                                <td>
+                                    @foreach($list['show'] as $key => $items)
+                                    @if ($items->id == $val)
+                                        {{ $items->nama_role }}
+                                    @endif
+                                    @endforeach
+                                </td>
                                 {{-- @if (empty($item->no_str))
                                     <td><kbd>Belum Disi</kbd></td>
                                 @else
@@ -224,7 +230,7 @@
                         </div>
                         <div class="form-group">
                             <label for="pengalaman_kerja" class="control-label">Pengalaman Kerja :</label>
-                            <textarea class="form-control" name="pengalaman_kerja" id="pengalaman_kerja" placeholder="" disabled><?php echo htmlspecialchars($item->pengalaman_kerja); ?></textarea>
+                            <textarea class="form-control" name="pengalaman_kerja" placeholder="" disabled><?php echo htmlspecialchars($item->pengalaman_kerja); ?></textarea>
                         </div>
                     </div>
                 </div>
@@ -263,7 +269,7 @@
                 buttons: [
                     'excel', 'pdf', 'print'
                 ],
-                order: [[ 5, "desc" ]],
+                order: [[ 4, "desc" ]],
             }
         );
         

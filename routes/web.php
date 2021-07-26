@@ -93,10 +93,13 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
     Route::resource('gaji/struktural', 'kantor\gaji\strukturalController');
     Route::resource('gaji/fungsional', 'kantor\gaji\fungsionalController');
     // Route::resource('gaji/set', 'kantor\gaji\setGajiController');
+    Route::get('gaji/terima/{id}/detail', 'kantor\gaji\terimaController@detail')->name('detail.terima');
     Route::resource('gaji/terima', 'kantor\gaji\terimaController');
     Route::resource('gaji/potong', 'kantor\gaji\potongController');
     Route::resource('gaji/golongan', 'kantor\gaji\golonganController');
     Route::get('gaji/final/validasi', 'kantor\gaji\gajiController@validasi')->name('final.validasi');
+    Route::get('gaji/final/{id}/detail', 'kantor\gaji\gajiController@detail')->name('detail.gaji');
+    Route::get('gaji/final/{id}/print', 'kantor\gaji\gajiController@print')->name('final.cetak');
     Route::resource('gaji/final', 'kantor\gaji\gajiController');
 });
 
