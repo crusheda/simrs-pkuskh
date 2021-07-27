@@ -28,14 +28,15 @@ class kepegawaianController extends Controller
         $name = $auth->name;
         $role = $auth->roles->first()->name; //kabag-keperawatan
 
-        $showSingle = user::whereNotNull('nik')->get();
-        $showSingleBelum = user::where('nik',null)->get();
+        $showSingle = user::whereNotNull('nik')->where('users.status',null)->get();
+        $showSingleBelum = user::where('nik',null)->where('users.status',null)->get();
 
         $show = DB::table('users')
             ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
             ->join('foto_profil', 'foto_profil.user_id', '=', 'users.id')
             ->select('roles.name as nama_role','foto_profil.title as title','foto_profil.filename as filename','users.*')
+            ->where('users.status',null)
             ->get();
         
         // print_r($showbelum);
@@ -175,5 +176,14 @@ class kepegawaianController extends Controller
         $pdf = PDF::loadView('pages.kantor.kepegawaian.cetak-karyawan', $data);
         // return $pdf->download();
         return $pdf->stream($filename);
+    }
+
+    public function nonaktif($id)
+    {
+        $getUser = user::where('id',$id)->first();
+        $nonaktif = user::find($id);
+        $nonaktif->status = true;
+        $nonaktif->save();
+        return Redirect::back()->with('message','Karyawan ID: '.$getUser->id.' Berhasil Di Nonaktifkan');
     }
 }

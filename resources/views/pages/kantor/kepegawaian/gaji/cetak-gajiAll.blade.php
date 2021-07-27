@@ -1,6 +1,6 @@
 <html>
 <head>
-    <title>{{ $list['show'][0]->id_user }} - {{ $list['show'][0]->nama }}</title>
+    <title>Slip Gaji {{ $list['bulan'] }} {{ $list['tahun'] }}</title>
     
     <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css" rel="stylesheet" />
     <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('img/pku_ico.png') }}">
@@ -21,15 +21,25 @@
         }
         @media print 
         {
+            .pagebreak { page-break-before: always; } /* page-break-after works, as well */
             @page {
             size: F4; 
-            margin:0;
+            /* margin:0; */
             /* size: 210mm 297mm;  */
             /* Chrome sets own margins, we change these printer settings */
-            margin: 3mm 0mm 0mm 3mm; 
+            margin: 10mm 3mm 3mm 3mm; 
             }
+            body { 
+                /* this affects the margin on the content before sending to printer */ 
+                size: 210mm 330mm;
+                margin: 0px;  
+            } 
         }
     </style>
+    @php
+        $hitungLoop = 0;
+    @endphp
+    @foreach ($list['show'] as $loop => $item)
     <div class="" style="font-family:'Times New Roman', Times, serif;font-size: 13.5pt;margin-top:20px;margin-left:10px;margin-right:40px;margin-bottom:20px">
         <table class="table table-bordered" style="width: 100%;border:2px solid #000 !important;">
             <colgroup>
@@ -53,8 +63,8 @@
                         Golongan :
                     </td>
                     <td style="border:2px solid #000 !important;">
-                        {{ $list['show'][0]->nama }}<br>
-                        {{ $list['show'][0]->nama_golongan }}
+                        {{ $item->nama }}<br>
+                        {{ $item->nama_golongan }}
                     </td>
                     <td style="border:2px solid #000 !important;">
                         Bulan :<br>
@@ -77,55 +87,55 @@
                     </td>
                     <td style="border:2px solid #000 !important;">
                         <br>
-                        {{ number_format($list['show'][0]->gapok,0,"",".") }}<br>
-                        {{ number_format($list['show'][0]->struktural,0,"",".") }}<br>
-                        {{ number_format($list['show'][0]->fungsional,0,"",".") }}<br>
-                        {{ number_format($list['show'][0]->insentif,0,"",".") }}
+                        {{ number_format($item->gapok,0,"",".") }}<br>
+                        {{ number_format($item->struktural,0,"",".") }}<br>
+                        {{ number_format($item->fungsional,0,"",".") }}<br>
+                        {{ number_format($item->insentif,0,"",".") }}
                     </td>
                     <td style="border:2px solid #000 !important;" colspan="2">
                         <b>Potongan :</b><br>
-                        @if ($list['show'][0]->iuran_pokok == true)
+                        @if ($item->iuran_pokok == true)
                             1. Koperasi / Iuran Pokok
                         @else
                             1. Koperasi / Iuran Wajib
                         @endif
                         @php $i = 2; @endphp
-                        @foreach($list['ref_potong'] as $key => $item)
+                        @foreach($list['ref_potong'] as $key => $items)
                             @foreach($list['potongHas'] as $value) 
-                                @if ($value->id_potong == $item->id)
-                                    <br>{{ $i++ }}. {{ $item->kriteria }}
+                                @if ($value->id_potong == $items->id && $value->id_user == $item->id_user)
+                                    <br>{{ $i++ }}. {{ $items->kriteria }}
                                 @endif 
                             @endforeach
                         @endforeach
                         <br>{{ $i }}. Infaq
                     </td>
                     <td style="border:2px solid #000 !important;" colspan="2">
-                        @if ($list['show'][0]->iuran_pokok == true)
+                        @if ($item->iuran_pokok == true)
                             <br>100.000    
                         @else
                             <br>5.000    
                         @endif
-                        @foreach($list['ref_potong'] as $key => $item)
+                        @foreach($list['ref_potong'] as $key => $items)
                             @foreach($list['potongHas'] as $value) 
-                                @if ($value->id_potong == $item->id)
+                                @if ($value->id_potong == $items->id && $value->id_user == $item->id_user)
                                     <br>{{ number_format( $value->nominal,0,"",".") }}
                                 @endif 
                             @endforeach
                         @endforeach
-                        <br>{{ number_format( $list['show'][0]->infaq,0,"",".") }}
+                        <br>{{ number_format( $item->infaq,0,"",".") }}
                     </td>
                 </tr>
                 <tr>
                     <td style="border:2px solid #000 !important;"><b>Total Penerimaan</b></td>
-                    <td style="border:2px solid #000 !important;">Rp {{ number_format($list['show'][0]->total_kotor,2,",",".") }}</td>
+                    <td style="border:2px solid #000 !important;">Rp {{ number_format($item->total_kotor,2,",",".") }}</td>
                     <td style="border:2px solid #000 !important;" colspan="2"><b>Total Potongan</b></td>
-                    <td style="border:2px solid #000 !important;" colspan="2">Rp {{ number_format($list['show'][0]->total_potong,2,",",".") }}</td>
+                    <td style="border:2px solid #000 !important;" colspan="2">Rp {{ number_format($item->total_potong,2,",",".") }}</td>
                 </tr>
             </tbody>
         </table>
         <div class="row">
             <div class="col-md-7" style="font-size: 15pt;">
-                <b><u>TOTAL DITERIMA : Rp {{ number_format($list['show'][0]->total_bersih,2,",",".") }}</u></b>
+                <b><u>TOTAL DITERIMA : Rp {{ number_format($item->total_bersih,2,",",".") }}</u></b>
             </div>
             <div class="col-md-5">
                 <br>
@@ -135,6 +145,14 @@
             </div>
         </div>
     </div>
+    @php
+        $hitungLoop++;
+        if ($hitungLoop == 2) {
+            $hitungLoop = 0;
+            echo '<div class="pagebreak"> </div>';
+        }
+    @endphp
+    @endforeach
     
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script>

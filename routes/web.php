@@ -87,6 +87,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'lab', 'as' => 'lab.'], func
 // Kepegawaian
 Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepegawaian.'], function () {
     Route::get('/karyawan/cetak/{id}', 'kantor\kepegawaianController@generatePDF')->name('karyawan.cetak');
+    Route::get('/karyawan/nonaktif/{id}', 'kantor\kepegawaianController@nonaktif')->name('karyawan.nonaktif');
     Route::resource('/karyawan', 'kantor\kepegawaianController');
 
     // Penggajian Karyawan
@@ -98,6 +99,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
     Route::resource('gaji/potong', 'kantor\gaji\potongController');
     Route::resource('gaji/golongan', 'kantor\gaji\golonganController');
     Route::get('gaji/final/validasi', 'kantor\gaji\gajiController@validasi')->name('final.validasi');
+    Route::get('gaji/final/hapus', 'kantor\gaji\gajiController@hapus')->name('final.hapus');
+    Route::get('gaji/final/print', 'kantor\gaji\gajiController@printAll')->name('final.cetakAll');
     Route::get('gaji/final/{id}/detail', 'kantor\gaji\gajiController@detail')->name('detail.gaji');
     Route::get('gaji/final/{id}/print', 'kantor\gaji\gajiController@print')->name('final.cetak');
     Route::resource('gaji/final', 'kantor\gaji\gajiController');

@@ -226,6 +226,63 @@
         </div>
     </div>
 
+    {{-- PRINT SEMUA DATA --}}
+    <div class="modal fade bd-example-modal-lg" id="print" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">
+                    Cetak Semua Data Gaji Pada Bulan <b>{{ $list['bln'] }}</b> Tahun <b>{{ $list['thn'] }}</b>?
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang akan di cetak berjumlah <b>{{ count($list['gaji']) }}</b> data.</a><br>
+                        <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Slip gaji yang dicetak berjumlah <b>3</b> slip setiap Halaman.</a>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    @if(count($list) > 0)
+                        <form class="form-inline" action="{{ route('kepegawaian.final.cetakAll') }}" method="GET">
+                            @csrf
+                            <button class="btn btn-success"><i class="fa-fw fas fa-print nav-icon"></i> Cetak</button>
+                        </form>
+                    @endif
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    {{-- HAPUS DATA --}}
+    <div class="modal fade bd-example-modal-lg" id="hapus" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">
+                    Hapus Validasi Data Gaji
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <p>
+                        <a>Apakah anda yakin ingin menghapus Validasi Gaji bulan <b>{{ $list['bln'] }}</b> Tahun <b>{{ $list['thn'] }}</b> ?</a>
+                    </p>
+                </div>
+                <div class="modal-footer">
+                    @if(count($list) > 0)
+                        <form class="form-inline" action="{{ route('kepegawaian.final.hapus') }}" method="GET">
+                            @csrf
+                            <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button>
+                        </form>
+                    @endif
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     {{-- RECENT DATA --}}
     @foreach($list['recent'] as $key => $item)
     @php

@@ -46,6 +46,7 @@ class gajiController extends Controller
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->select('roles.name as nama_role','users.*')
+                ->where('users.status',null)
                 ->get();
         
         $show = DB::table('gaji_terima')
@@ -54,6 +55,7 @@ class gajiController extends Controller
                 // ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->join('gaji_golongan', 'gaji_golongan.id', '=', 'users.id_gol')
                 ->where('gaji_terima.deleted_at',null)
+                // ->where('users.status',null)
                 ->select('users.nama','users.name','users.nip','gaji_golongan.id as id_golongan','gaji_golongan.nama as nama_golongan','gaji_terima.*')
                 ->get();
 
@@ -64,6 +66,8 @@ class gajiController extends Controller
                 // ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->join('gaji_golongan', 'gaji_golongan.id', '=', 'users.id_gol')
                 ->where('gaji.status',false)
+                ->where('gaji.deleted_at',null)
+                // ->where('users.status',null)
                 ->select('users.nama as nama_user','users.name as akun_user','users.nip as nip_user','gaji_golongan.id as id_golongan','gaji_golongan.nama as nama_golongan','gaji_terima.struktural','gaji_terima.fungsional','gaji_terima.gapok','gaji_terima.insentif','gaji_terima.potong','gaji_terima.infaq','gaji.*')
                 ->get();
 
@@ -194,6 +198,7 @@ class gajiController extends Controller
                 // ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->where('gaji_terima.deleted_at',null)
                 ->where('gaji_terima.delete',null)
+                ->where('users.status',null)
                 ->select('users.id as id_users','users.nama','users.name','users.nip','gaji_terima.*')
                 ->get();
         
@@ -226,15 +231,16 @@ class gajiController extends Controller
                 return Redirect::back()->withErrors('Tanggal Validasi Tidak Valid. Anda hanya bisa melakukan Validasi Data Gaji satu bulan sekali.');
             } else {
                 // Hapus Data Gaji OLD
-                for($count = 0; $count < count($getGaji); $count++)
-                {
-                    $ins = array(
-                        'status' => false
-                    );
-                    // $pushNominal[] = $nominal[$count];
-                    $dataArray[] = $ins; 
-                }
-                gaji::update($dataArray);
+                DB::table('gaji')->where('status',false)->update(array('status' => true));
+                // for($count = 0; $count < count($getGaji); $count++)
+                // {
+                //     $ins = array(
+                //         'status' => true
+                //     );
+                //     // $pushNominal[] = $nominal[$count];
+                //     $dataArray[] = $ins; 
+                // }
+                // gaji::update($dataArray);
                 // Simpan Data Gaji NEW
                 for($count = 0; $count < count($show); $count++)
                 {
@@ -325,7 +331,10 @@ class gajiController extends Controller
         $ref_potong = ref_potong::get();
         $potongHas = potong_has_user::where('id_user', $getIDuser)->get();
         // $dokter = dokter::where('id',(int)$show->dr_pengirim)->first();
-        $tgl = Carbon::parse($show[0]->tgl)->isoFormat('DD-MM-YYYY');
+        // $tgl = Carbon::parse($show[0]->tgl)->isoFormat('DD-MM-YYYY');
+        $tgl = Carbon::now()->isoFormat('DD-MM-YYYY');
+        $bulan = Carbon::parse($show[0]->tgl)->isoFormat('MMMM');
+        $tahun = Carbon::parse($show[0]->tgl)->isoFormat('YYYY');
         $ttd = 'Zainal Muttaqin'; 
 
         // print_r($show);
@@ -339,11 +348,84 @@ class gajiController extends Controller
             'potongHas' => $potongHas,
             'show' => $show,
             'tgl' => $tgl,
+            'bulan' => $bulan,
+            'tahun' => $tahun,
             'ttd' => $ttd
         ];
 
         // print_r($data);
         // die();
         return view('pages.kantor.kepegawaian.gaji.cetak-gaji')->with('list', $data);
+    }
+
+    public function printAll()
+    {
+        $show = DB::table('gaji')
+                ->join('users', 'users.id', '=', 'gaji.id_user')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->join('gaji_golongan', 'gaji_golongan.id', '=', 'users.id_gol')
+                ->join('gaji_terima', 'gaji.id_terima', '=', 'gaji_terima.id')
+                ->where('gaji.status',false)
+                ->where('gaji.deleted_at',null)
+                ->select('roles.name as nama_role','users.masuk_kerja','users.jabatan','users.nama_rek','users.nomor_rek','users.nama','users.name','users.nip','gaji_golongan.id as id_golongan','gaji_golongan.nama as nama_golongan','gaji_terima.*','gaji.id_terima','gaji.total_terima','gaji.total_potong','gaji.total_kotor','gaji.total_bersih','gaji.tgl')
+                ->get();
+        // print_r($show);
+        // die();
+        
+        $struktural = struktural::get();
+        $strukturalHas = struktural_has_user::get();
+        $fungsional = fungsional::get();
+        $fungsionalHas = fungsional_has_user::get();
+        $ref_potong = ref_potong::get();
+        $potongHas = potong_has_user::get();
+        // $dokter = dokter::where('id',(int)$show->dr_pengirim)->first();
+        $tgl = Carbon::now()->isoFormat('DD-MM-YYYY');
+        $bulan = Carbon::parse($show[0]->tgl)->isoFormat('MMMM');
+        $tahun = Carbon::parse($show[0]->tgl)->isoFormat('YYYY');
+        $ttd = 'Zainal Muttaqin'; 
+
+        // print_r($show);
+        // die();
+        $data = [
+            'fungsionalHas' => $fungsionalHas,
+            'strukturalHas' => $strukturalHas,
+            'fungsional' => $fungsional,
+            'struktural' => $struktural,
+            'ref_potong' => $ref_potong,
+            'potongHas' => $potongHas,
+            'show' => $show,
+            'tgl' => $tgl,
+            'bulan' => $bulan,
+            'tahun' => $tahun,
+            'ttd' => $ttd
+        ];
+
+        // print_r($data);
+        // die();
+        return view('pages.kantor.kepegawaian.gaji.cetak-gajiAll')->with('list', $data);
+    }
+
+    public function hapus()
+    {
+        $getGaji = gaji::where('status',false)->where('status',0)->get();
+        // Hapus Data Gaji OLD
+        for($count = 0; $count < count($getGaji); $count++)
+        {
+            $ins = array(
+                'id' => $getGaji[$count]->id
+            );
+            // $pushNominal[] = $nominal[$count];
+            $dataArray[] = $ins; 
+        }
+        // print_r($data->status);
+        // die();
+        DB::table('gaji')->where('status',false)->where('status',0)->update(array('status' => true));
+        gaji::whereIn('id',$dataArray)->delete();
+        
+        // Hapus Data Gaji = make NOT NULL on deleted_at
+        // $deleteGaji = gaji::where('status',false)->where('status',0)->delete();
+
+        return redirect::back()->with('message','Hapus Data Validasi Gaji Berhasil dilakukan');
     }
 }

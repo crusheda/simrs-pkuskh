@@ -33,12 +33,14 @@ class terimaController extends Controller
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->select('roles.name as nama_role','users.*')
+                ->where('users.status',null)
                 ->get();
         $notyet = DB::table('users')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->select('roles.name as nama_role','users.*')
                 ->where('users.id_gol',null)
+                ->where('users.status',null)
                 ->where('roles.name','<>','administrator')
                 ->get();
         $struktural = struktural::get();
@@ -56,6 +58,7 @@ class terimaController extends Controller
                 // ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->join('gaji_golongan', 'gaji_golongan.id', '=', 'users.id_gol')
                 ->where('gaji_terima.deleted_at',null)
+                ->where('users.status',null)
                 ->select('users.nama','users.name','users.nip','gaji_golongan.id as id_golongan','gaji_golongan.nama as nama_golongan','gaji_terima.*')
                 ->get();
 
@@ -406,6 +409,7 @@ class terimaController extends Controller
                 ->where('gaji_terima.id_user',$getID)
                 ->where('gaji_terima.deleted_at',null)
                 ->where('gaji_terima.delete',null)
+                ->where('users.status',null)
                 ->select('roles.name as nama_role','users.masuk_kerja','users.jabatan','users.nama_rek','users.nomor_rek','users.nama','users.name','users.nip','gaji_golongan.id as id_golongan','gaji_golongan.nama as nama_golongan','gaji_terima.*')
                 ->get();
         

@@ -64,9 +64,12 @@
                                 <td>{{ $item->updated_at }}</td>
                                 <td>
                                     <center>
-                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                        <button type="button" class="btn btn-dark btn-sm" onclick="window.location.href='{{ url('kepegawaian/karyawan/'. $item->id) }}'"><i class="fa-fw fas fa-search nav-icon"></i></button>
-                                        <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{{ url('kepegawaian/'. $item->id) }}'" disabled><i class="fa-fw fas fa-download nav-icon text-white"></i></button>
+                                        <div class="btn-group" role="group">
+                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
+                                            <button type="button" class="btn btn-dark btn-sm" onclick="window.location.href='{{ url('kepegawaian/karyawan/'. $item->id) }}'"><i class="fa-fw fas fa-search nav-icon"></i></button>
+                                            {{-- <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{{ url('kepegawaian/'. $item->id) }}'" disabled><i class="fa-fw fas fa-download nav-icon text-white"></i></button> --}}
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#nonaktif{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon text-white"></i></button>
+                                        </div>
                                     </center>
                                 </td>
                             </tr>
@@ -244,6 +247,36 @@
             <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
         </div>
       </div>
+    </div>
+</div>
+@endforeach
+
+@foreach($list['show'] as $item)
+{{-- NONAKTIF KARYAWAN --}}
+<div class="modal fade bd-example-modal-lg" id="nonaktif{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title">
+                Nonaktif Karyawan ID: {{ $item->id }}
+            </h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <p>
+                    <a>Apakah anda yakin ingin menonaktifkan karyawan a/n <b>{{ $item->nama }}</b> ?</a>
+                </p>
+            </div>
+            <div class="modal-footer">
+                @if(count($list) > 0)
+                <form action="{{ route('kepegawaian.karyawan.nonaktif', $item->id) }}" method="POST">
+                        @csrf
+                        <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Submit</button>
+                    </form>
+                @endif
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            </div>
+        </div>
     </div>
 </div>
 @endforeach
