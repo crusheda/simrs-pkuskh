@@ -239,14 +239,15 @@
                 <div class="modal-body">
                     <p>
                         <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang akan di cetak berjumlah <b>{{ count($list['gaji']) }}</b> data.</a><br>
-                        <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Slip gaji yang dicetak berjumlah <b>3</b> slip setiap Halaman.</a>
+                        <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Slip gaji yang dicetak berjumlah <b>1</b> slip setiap Halaman.</a><br>
+                        <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Siapkan <b>Kertas Potongan F4 (8,5in x 13in)</b>.</a>
                     </p>
                 </div>
                 <div class="modal-footer">
                     @if(count($list) > 0)
                         <form class="form-inline" action="{{ route('kepegawaian.final.cetakAll') }}" method="GET">
                             @csrf
-                            <button class="btn btn-success"><i class="fa-fw fas fa-print nav-icon"></i> Cetak</button>
+                            <button class="btn btn-success" id="btn-cetakAll"><i class="fa-fw fas fa-print nav-icon"></i> Cetak</button>
                         </form>
                     @endif
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
@@ -361,6 +362,10 @@
 
         $( "#btn-validasi" ).click(function() {
             $(this).find("i").toggleClass("fa-legal fa-refresh fa-spin");
+        });
+
+        $( "#btn-cetakAll" ).click(function() {
+            $(this).find("i").toggleClass("fa-print fa-refresh fa-spin");
         });
 
         // VALIDASI INPUT NUMBER
