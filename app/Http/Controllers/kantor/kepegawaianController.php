@@ -28,21 +28,28 @@ class kepegawaianController extends Controller
         $name = $auth->name;
         $role = $auth->roles->first()->name; //kabag-keperawatan
 
-        $showSingle = user::whereNotNull('nik')->where('users.status',null)->get();
-        $showSingleBelum = user::where('nik',null)->where('users.status',null)->get();
+        $showSingle = user::whereNotNull('nik')->where('status',null)->get();
+        $showSingleBelum = user::where('nik',null)->where('status',null)->get();
+
+        $user = DB::table('users')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->select('roles.name as nama_role','users.*')
+                ->where('users.status',null)
+                ->get();
 
         $show = DB::table('users')
             ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
             ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-            ->join('foto_profil', 'foto_profil.user_id', '=', 'users.id')
-            ->select('roles.name as nama_role','foto_profil.title as title','foto_profil.filename as filename','users.*')
+            ->select('roles.name as nama_role','users.*')
             ->where('users.status',null)
             ->get();
         
-        // print_r($showbelum);
+        // print_r($showSingle);
         // die();
 
         $data = [
+            'user' => $user,
             'show' => $show,
             'showSingle' => $showSingle,
             'showSingleBelum' => $showSingleBelum
@@ -92,22 +99,32 @@ class kepegawaianController extends Controller
      */
     public function show($id)
     {
-        $show = DB::table('users')
-                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                ->join('foto_profil', 'foto_profil.user_id', '=', 'users.id')
-                ->select('roles.name as nama_role','foto_profil.title as title','foto_profil.filename as filename','users.*')
-                ->where('users.id','=',$id)
-                ->get();
-
-        $foto = foto_profil::where('user_id',$id)->get();
-        // print_r($foto);
-        // die();
+        $foto = foto_profil::where('user_id',$id)->first();
+        if (empty($foto)) {
+            $show = DB::table('users')
+                    ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                    ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                    ->select('roles.name as nama_role','users.*')
+                    ->where('users.id','=',$id)
+                    ->where('users.status',null)
+                    ->get();
+        } else {
+            $show = DB::table('users')
+                    ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                    ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                    ->join('foto_profil', 'foto_profil.user_id', '=', 'users.id')
+                    ->select('roles.name as nama_role','foto_profil.title as title','foto_profil.filename as filename','users.*')
+                    ->where('users.id','=',$id)
+                    ->where('users.status',null)
+                    ->get();
+        }
         
         $data = [
             'show' => $show,
             'foto' => $foto
         ];
+        // print_r($show);
+        // die();
 
         return view('pages.kantor.kepegawaian.detail-karyawan')->with('list', $data);
     }

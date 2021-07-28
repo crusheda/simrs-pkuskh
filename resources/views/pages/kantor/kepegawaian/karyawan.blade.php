@@ -48,24 +48,23 @@
                                 <th><center>AKSI</center></th>
                             </tr>
                         </thead>
-                        <tbody style="text-transform: capitalize">
+                        <tbody>
                             @if(count($list['showSingle']) > 0)
                             @foreach($list['showSingle'] as $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->nip }}</td>
-                                <td>{{ $item->nama }}</td>
-                                <td>{{ $item->nama_role }}</td>
-                                {{-- @if (empty($item->no_str))
-                                    <td><kbd>Belum Disi</kbd></td>
-                                @else
-                                    <td>{{ $item->no_str }}</td>
-                                @endif --}}
+                                <td style="text-transform: capitalize">{{ $item->nama }}</td>
+                                <td>@foreach ($list['user'] as $val) @if ($item->id == $val->id) <kbd>{{ $val->nama_role }}</kbd> @endif @endforeach</td>
                                 <td>{{ $item->updated_at }}</td>
                                 <td>
                                     <center>
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
+                                            @if (empty($item->nip) || empty($item->jabatan) || empty($item->masuk_kerja) || empty($item->no_str) || empty($item->masa_str) || empty($item->masa_sip))
+                                                <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
+                                            @else
+                                                <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
+                                            @endif
                                             <button type="button" class="btn btn-dark btn-sm" onclick="window.location.href='{{ url('kepegawaian/karyawan/'. $item->id) }}'"><i class="fa-fw fas fa-search nav-icon"></i></button>
                                             {{-- <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{{ url('kepegawaian/'. $item->id) }}'" disabled><i class="fa-fw fas fa-download nav-icon text-white"></i></button> --}}
                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#nonaktif{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon text-white"></i></button>
@@ -109,20 +108,14 @@
                                 {{-- <th><center>AKSI</center></th> --}}
                             </tr>
                         </thead>
-                        <tbody style="text-transform: capitalize">
+                        <tbody>
                             @if(count($list['showSingleBelum']) > 0)
                             @foreach($list['showSingleBelum'] as $val => $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->name }}</td>
-                                <td>{{ $item->nama }}</td>
-                                <td>
-                                    @foreach($list['show'] as $key => $items)
-                                    @if ($items->id == $val)
-                                        {{ $items->nama_role }}
-                                    @endif
-                                    @endforeach
-                                </td>
+                                <td style="text-transform: capitalize">{{ $item->nama }}</td>
+                                <td>@foreach ($list['user'] as $val) @if ($item->id == $val->id) <kbd>{{ $val->nama_role }}</kbd> @endif @endforeach</td>
                                 {{-- @if (empty($item->no_str))
                                     <td><kbd>Belum Disi</kbd></td>
                                 @else
@@ -302,7 +295,7 @@
                 buttons: [
                     'excel', 'pdf', 'print'
                 ],
-                order: [[ 4, "desc" ]],
+                order: [[ 3, "desc" ]],
             }
         );
         

@@ -14,10 +14,10 @@
     @can('kepegawaian')
     <div class="col-md-3">
         <div class="card">
-            @if (empty($list['foto'][0]->filename))
+            @if (empty($list['foto']->filename))
                 <img class="card-img-top img-thumbnail" src="{{ url('img/user_unknown.jpg') }}" height="300" alt="Card image cap">
             @else
-                <img class="card-img-top img-thumbnail" src="{{ url('storage/'.substr($list['foto'][0]->filename,7,1000)) }}" height="300" alt="Card image cap">
+                <img class="card-img-top img-thumbnail" src="{{ url('storage/'.substr($list['foto']->filename,7,1000)) }}" height="300" alt="Card image cap">
             @endif
             <div class="card-body">
                 <center><button type="button" class="btn btn-dark" data-toggle="modal" data-target="#ubahFoto" disabled><i class="fa-fw fas fa-download nav-icon"></i> Download</button></center>
@@ -130,8 +130,9 @@
                 
             </div>
             <div class="card-body">
-                <button type="button" class="btn btn-sm btn-danger text-white pull-left" disabled><i class="fa-fw fas fa-check-square nav-icon"></i> LIHAT STATUS</button>
-                <button type="button" class="btn btn-sm btn-warning text-white pull-right" onclick="window.location.href='{{ url('kepegawaian/karyawan/cetak/'. $list['show'][0]->id) }}'" disabled><i class="fa-fw fas fa-print nav-icon"></i> CETAK DOKUMEN</button><br><br>
+                <button type="button" class="btn btn-sm btn-danger text-white pull-left" data-toggle="modal" data-target="#status{{ $list['show'][0]->id }}" data-toggle="tooltip" data-placement="bottom" title="STATUS"><i class="fa-fw fas fa-check-square nav-icon"></i> LIHAT STATUS</button>
+                {{-- <button type="button" class="btn btn-sm btn-warning text-white pull-right" onclick="window.location.href='{{ url('kepegawaian/karyawan/cetak/'. $list['show'][0]->id) }}'" disabled><i class="fa-fw fas fa-print nav-icon"></i> CETAK DOKUMEN</button><br><br> --}}
+                <button type="button" class="btn btn-sm btn-secondary text-white pull-right" disabled><i class="fa-fw fas fa-print nav-icon"></i> CETAK DOKUMEN</button><br><br>
                 <div class="table-responsive">
                     <table class="table table-hover">
                         <thead>
@@ -338,6 +339,34 @@
         <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
     @endcan
 </div>
+
+{{-- RECENT DATA --}}
+@foreach($list['show'] as $key => $item)
+<div class="modal fade bd-example-modal-sm" id="status{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-sm">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title">
+                Status Karyawan ID: {{ $item->id }}</kbd>
+            </h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <center>
+                    @if (empty($item->status))
+                        <kbd style="background-color: darkslategrey;font-color:white">AKTIF</kbd>
+                    @else
+                        <kbd style="background-color: rgb(116, 3, 3);font-color:white">NONAKTIF</kbd>
+                    @endif
+                </center>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            </div>
+        </div>
+    </div>
+</div>
+@endforeach
 
 <script>
     $(document).ready( function () {
