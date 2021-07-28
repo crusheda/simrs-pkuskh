@@ -31,7 +31,7 @@ class logController extends Controller
                 ->select('users.*')
                 ->where('roles.name', 'it')
                 ->where('users.nama', '<>','')
-                ->where('users.nama', '<>','it')
+                ->where('users.name', '<>','it')
                 ->where('users.name', '<>','ztaqin')
                 ->get();
 

@@ -105,7 +105,7 @@
                                 <th>UNIT</th>
                                 {{-- <th>STR</th> --}}
                                 <th>UPDATE</th>
-                                {{-- <th><center>AKSI</center></th> --}}
+                                <th><center>AKSI</center></th>
                             </tr>
                         </thead>
                         <tbody>
@@ -128,6 +128,7 @@
                                         <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{{ url('kepegawaian/'. $item->id) }}'" disabled><i class="fa-fw fas fa-download nav-icon text-white"></i></button>
                                     </center>
                                 </td> --}}
+                                <td><center><button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#nonaktif{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon text-white"></i></button></center></td>
                             </tr>
                             @endforeach
                             @endif
@@ -262,7 +263,7 @@
             </div>
             <div class="modal-footer">
                 @if(count($list) > 0)
-                <form action="{{ route('kepegawaian.karyawan.nonaktif', $item->id) }}" method="POST">
+                <form action="{{ route('kepegawaian.karyawan.nonaktif', $item->id) }}" method="GET">
                         @csrf
                         <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Submit</button>
                     </form>
