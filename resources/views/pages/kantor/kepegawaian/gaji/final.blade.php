@@ -37,7 +37,7 @@
                                 </i>
                                 Validasi
                             </button>
-                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#check" data-toggle="tooltip" data-placement="bottom" title="Data Gagal Masuk"><i class="fa-fw fas fa-info nav-icon text-white"></i></button>
+                            <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#check" data-toggle="tooltip" data-placement="bottom" title="Informasi Gaji" disabled><i class="fa-fw fas fa-info nav-icon text-white"></i></button>
                             <button type="button" class="btn btn-success" data-toggle="modal" data-target="#print" data-toggle="tooltip" data-placement="bottom" title="Print Gaji"><i class="fa-fw fas fa-print nav-icon"></i></button>
                             <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#hapus" data-toggle="tooltip" data-placement="bottom" title="Hapus Gaji Bulan Ini"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                         </div>

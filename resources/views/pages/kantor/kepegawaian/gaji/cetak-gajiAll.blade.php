@@ -36,9 +36,6 @@
             } 
         }
     </style>
-    @php
-        $hitungLoop = 0;
-    @endphp
     @foreach ($list['show'] as $loop => $item)
     <div class="" style="font-family:'Times New Roman', Times, serif;font-size: 13.5pt;margin-top:20px;margin-left:10px;margin-right:40px;margin-bottom:20px">
         <table class="table table-bordered" style="width: 100%;border:2px solid #000 !important;">
@@ -138,20 +135,13 @@
                 <b><u>TOTAL DITERIMA : Rp {{ number_format($item->total_bersih,2,",",".") }}</u></b>
             </div>
             <div class="col-md-5">
-                <br>
                 Sukoharjo, {{ $list['tgl'] }}<br>
                 Direktur Keuangan dan Perencanaan<br><br>
                 {{ $list['ttd'] }}
             </div>
         </div>
     </div>
-    @php
-        $hitungLoop++;
-        if ($hitungLoop == 2) {
-            $hitungLoop = 0;
-            echo '<div class="pagebreak"> </div>';
-        }
-    @endphp
+    <div class="pagebreak"> </div>
     @endforeach
     
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>

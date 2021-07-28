@@ -38,7 +38,7 @@
                             {{ trans('cruds.user.fields.roles') }}
                         </th>
                         <th>
-                            Aksi
+                            <center>Aksi</center>
                         </th>
                     </tr>
                 </thead>
@@ -69,6 +69,7 @@
                                 @endforeach
                             </td>
                             <td>
+                                <center>
                                 <a class="btn btn-xs btn-primary" href="{{ route('admin.users.show', $user->id) }}">
                                     {{ trans('global.view') }}
                                 </a>
@@ -82,7 +83,7 @@
                                     <input type="hidden" name="_token" value="{{ csrf_token() }}">
                                     <input type="submit" class="btn btn-xs btn-danger" value="{{ trans('global.delete') }}">
                                 </form>
-
+                                </center>
                             </td>
 
                         </tr>
