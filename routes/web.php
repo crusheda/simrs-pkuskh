@@ -75,6 +75,13 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
 
 });
 
+// Finger
+Route::get('insentif/finger/{id}/null','excell\fingerController@nullID')->name('setNull.finger');  
+Route::resource('insentif/finger', 'excell\fingerController');
+Route::get('insentif/kehadiran/export', 'excell\insentifController@export')->name('export.insentif');
+Route::get('insentif/kehadiran', 'excell\insentifController@index')->name('insentif.kehadiran');
+Route::post('insentif/kehadiran/import', 'excell\insentifController@import')->name('import.insentif');
+
 // Lab
 Route::group(['middleware' => ['auth'], 'prefix' => 'lab', 'as' => 'lab.'], function () {
     // Route::get('/karyawan/cetak/{id}', 'kantor\kepegawaianController@generatePDF')->name('karyawan.cetak');

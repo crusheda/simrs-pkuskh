@@ -18,11 +18,14 @@ class pilarController extends Controller
      */
     public function index()
     {
-        $show = imutpilar::orderBy('jamselesai','DESC')->limit('50')->get();
+        $show = imutpilar::orderBy('jamawal','DESC')->limit('50')->get();
 
         $data = [
             'show' => $show
         ];
+
+        // print_r($show);
+        // die();
 
         return view('pages.imut.it.pilar')->with('list', $data);
     }

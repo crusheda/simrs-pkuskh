@@ -337,6 +337,26 @@
                     </ul>
                 </li>
             @endcan
+            @can('insentif_kehadiran')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <i class="fa-fw fas fa-percent nav-icon">
+
+                        </i>
+                        Insentif
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("insentif.kehadiran") }}" class="nav-link">
+                                <i class="fa-fw fas fa-retweet nav-icon">
+        
+                                </i>
+                                Kehadiran
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
             @can('gaji')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
