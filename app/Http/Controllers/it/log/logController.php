@@ -30,6 +30,7 @@ class logController extends Controller
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->select('users.*')
                 ->where('roles.name', 'it')
+                ->where('users.status', null)
                 ->where('users.nama', '<>','')
                 ->where('users.name', '<>','it')
                 ->where('users.name', '<>','ztaqin')
@@ -86,10 +87,16 @@ class logController extends Controller
         }
         // print_r($request->lokasi);
         // die();
-        $find = user::where('id', $request->nama)->first();
+        if ($request->id_user == null) {
+            $find = user::where('id', $request->nama)->first();
+            $id = null;
+        } else {
+            $find = user::where('id', $request->nama)->first();
+            $id = $find->id;
+        }
 
         $data = new logit;
-        $data->id_user = $find->id;
+        $data->id_user = $id;
         $data->nama = $find->nama;
         $data->kegiatan = $request->kegiatan;
         

@@ -166,6 +166,7 @@
         <div class="modal-body">
             {{ Form::model($item, array('route' => array('it.supervisi.update', $item->id), 'method' => 'PUT')) }}
                 @csrf
+                <input type="text" class="form-control" name="id_user" value="{{ $item->id_user }}" hidden>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="row">
