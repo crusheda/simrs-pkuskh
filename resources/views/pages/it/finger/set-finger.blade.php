@@ -140,7 +140,7 @@ $(document).ready( function () {
             buttons: [
                 'copy', 'excel', 'pdf', 'print'
             ],
-            order: [[ 1, "desc" ]]
+            order: [[ 1, "asc" ]]
         }
     );
 

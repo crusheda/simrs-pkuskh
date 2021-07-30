@@ -285,7 +285,7 @@
                 buttons: [
                     'copy', 'excel', 'pdf', 'print'
                 ],
-                order: [[ 5, "desc" ]],
+                order: [[ 3, "desc" ]],
             }
         );
         $('#karyawan2').DataTable(
