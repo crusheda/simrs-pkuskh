@@ -287,62 +287,64 @@
     </div>
 
     {{-- RECENT DATA --}}
-    @foreach($list['recent'] as $key => $item)
-    @php
-        $detailRecent = DB::table('gaji')
-                ->join('gaji_terima', 'gaji_terima.id', '=', 'gaji.id_terima')
-                ->join('users', 'users.id', '=', 'gaji.id_user')
-                // ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-                // ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                ->join('gaji_golongan', 'gaji_golongan.id', '=', 'users.id_gol')
-                ->where('gaji.status',true)
-                ->where('gaji.tgl',$item->tgl)
-                ->select('users.nama as nama_user','users.name as akun_user','users.nip as nip_user','gaji_golongan.id as id_golongan','gaji_golongan.nama as nama_golongan','gaji_terima.struktural','gaji_terima.fungsional','gaji_terima.gapok','gaji_terima.insentif','gaji_terima.potong','gaji_terima.infaq','gaji.*')
-                ->get();
-        $countRecent = count($detailRecent);
-    @endphp
-    <div class="modal fade bd-example-modal-xl" id="recent{{ $item->tgl }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h4 class="modal-title">
-                    Rekap Gaji Karyawan <kbd>{{ Carbon\Carbon::parse($item->tgl)->isoFormat('MMMM Y') }}</kbd>
-                </h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <table id="recentGaji" class="table table-hover display">
-                        <thead>
-                            <tr>
-                                <th>USER ID</th>
-                                <th>NAMA</th>
-                                <th>UNIT</th>
-                                <th>GOL</th>
-                                <th>KOTOR</th>
-                                <th>BERSIH</th>
-                            </tr>
-                        </thead>
-                        <tbody>
-                            @for ($i = 0; $i < $countRecent; $i++)
+    @if (count($list['recent'] > 0))
+        @foreach($list['recent'] as $key => $item)
+        @php
+            $detailRecent = DB::table('gaji')
+                    ->join('gaji_terima', 'gaji_terima.id', '=', 'gaji.id_terima')
+                    ->join('users', 'users.id', '=', 'gaji.id_user')
+                    // ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                    // ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                    ->join('gaji_golongan', 'gaji_golongan.id', '=', 'users.id_gol')
+                    ->where('gaji.status',true)
+                    ->where('gaji.tgl',$item->tgl)
+                    ->select('users.nama as nama_user','users.name as akun_user','users.nip as nip_user','gaji_golongan.id as id_golongan','gaji_golongan.nama as nama_golongan','gaji_terima.struktural','gaji_terima.fungsional','gaji_terima.gapok','gaji_terima.insentif','gaji_terima.potong','gaji_terima.infaq','gaji.*')
+                    ->get();
+            $countRecent = count($detailRecent);
+        @endphp
+        <div class="modal fade bd-example-modal-xl" id="recent{{ $item->tgl }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+            <div class="modal-dialog modal-xl">
+                <div class="modal-content">
+                    <div class="modal-header">
+                    <h4 class="modal-title">
+                        Rekap Gaji Karyawan <kbd>{{ Carbon\Carbon::parse($item->tgl)->isoFormat('MMMM Y') }}</kbd>
+                    </h4>
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    </div>
+                    <div class="modal-body">
+                        <table id="recentGaji" class="table table-hover display">
+                            <thead>
                                 <tr>
-                                    <td>{{ $detailRecent[$i]->id_user }}</td>
-                                    <td>{{ $detailRecent[$i]->nama_user }}</td>
-                                    <td>@foreach ($list['user'] as $val) @if ($detailRecent[$i]->id_user == $val->id) {{ $val->nama_role }} @endif @endforeach</td>
-                                    <td>{{ $detailRecent[$i]->nama_golongan }}</td>
-                                    <td>Rp. {{ number_format($detailRecent[$i]->total_kotor,2,",",".") }}</td>
-                                    <td>Rp. {{ number_format($detailRecent[$i]->total_bersih,2,",",".") }}</td>
+                                    <th>USER ID</th>
+                                    <th>NAMA</th>
+                                    <th>UNIT</th>
+                                    <th>GOL</th>
+                                    <th>KOTOR</th>
+                                    <th>BERSIH</th>
                                 </tr>
-                            @endfor
-                        </tbody>
-                    </table>
-                </div>
-                <div class="modal-footer">
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+                            </thead>
+                            <tbody>
+                                @for ($i = 0; $i < $countRecent; $i++)
+                                    <tr>
+                                        <td>{{ $detailRecent[$i]->id_user }}</td>
+                                        <td>{{ $detailRecent[$i]->nama_user }}</td>
+                                        <td>@foreach ($list['user'] as $val) @if ($detailRecent[$i]->id_user == $val->id) {{ $val->nama_role }} @endif @endforeach</td>
+                                        <td>{{ $detailRecent[$i]->nama_golongan }}</td>
+                                        <td>Rp. {{ number_format($detailRecent[$i]->total_kotor,2,",",".") }}</td>
+                                        <td>Rp. {{ number_format($detailRecent[$i]->total_bersih,2,",",".") }}</td>
+                                    </tr>
+                                @endfor
+                            </tbody>
+                        </table>
+                    </div>
+                    <div class="modal-footer">
+                        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+                    </div>
                 </div>
             </div>
         </div>
-    </div>
-    @endforeach
+        @endforeach
+    @endif
 
 @endcan
 

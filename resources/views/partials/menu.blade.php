@@ -91,7 +91,7 @@
                                 Pilar
                                 <span class="badge badge-light">
                                     @php
-                                        echo count(\DB::table('imutpilar')->where('jamselesai',null)->get()); 
+                                        echo count(\DB::table('imutpilar')->where('jamselesai',null)->where('deleted_at',null)->get()); 
                                     @endphp
                                 </span>
                             </a>

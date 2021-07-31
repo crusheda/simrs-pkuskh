@@ -369,18 +369,6 @@
                             $getStruktural = \App\Models\gaji\struktural_has_user::where('id_user', $items->id_user)->get();
                             $getFungsional = \App\Models\gaji\fungsional_has_user::where('id_user', $items->id_user)->get();
                             $getPotong = \App\Models\gaji\potong_has_user::where('id_user', $items->id_user)->get();
-                            $bln = Carbon\Carbon::now()->isoFormat('MM');
-                            $thn = Carbon\Carbon::now()->isoFormat('YYYY');
-                            // $query_string = "SELECT created_at,iuran_pokok FROM gaji_terima WHERE id_user = $items->id_user AND YEAR(created_at) = $thn AND MONTH(created_at) = $bln AND deleted_at IS NULL";
-                            $query_string = "SELECT created_at,iuran_pokok FROM gaji_terima WHERE id_user = $items->id_user AND YEAR(created_at) = $thn AND deleted_at IS NULL";
-                            $getTglQuery = \DB::select($query_string);
-                            // print_r($getTglQuery);
-                            // die();
-                                $tglCarbon = Carbon\Carbon::now()->isoFormat('YYYY-MM'); // 2021-07
-                                $tglTimestamp = Carbon\Carbon::parse($getTglQuery[0]->created_at)->isoFormat('YYYY-MM'); // 2021-07
-                                if ($tglCarbon == $tglTimestamp) {
-                                    $IDiuranPokok = true;
-                                }
                         @endphp
 
                         <div class="col-md-6">
@@ -440,33 +428,37 @@
                             </thead>
                             <tbody>
                                 <tr>
-                                    @if ($items->iuran_pokok == true)
-                                        @if ($IDiuranPokok == true)
-                                            <td>Koperasi / Iuran Pokok<br><sub><kbd>Karyawan Baru</kbd></sub></td>
-                                            <td>
-                                                <div class="input-group mb-2">
-                                                    <div class="input-group-prepend"><div class="input-group-text">Rp </div></div><input type="number" class="form-control" value="100000" disabled><div class="input-group-prepend"><div class="input-group-text">,-</div></div>
-                                                </div>
-                                            </td>
-                                            <td>Sekali Saat Pertama Kali Gajian</td>
-                                        @else
-                                            <td>Koperasi / Iuran Pokok<br><sub><kbd>Karyawan Lama</kbd></sub></td>
-                                            <td>
-                                                <div class="input-group mb-2">
-                                                    <div class="input-group-prepend"><div class="input-group-text">Rp </div></div><input type="number" class="form-control" value="5000" disabled><div class="input-group-prepend"><div class="input-group-text">,-</div></div>
-                                                </div>
-                                            </td>
-                                            <td>Setiap Bulan Untuk Karyawan Lama</td>
+                                    @foreach ($list['getTglQuery'] as $item)
+                                        @if ($item->id_user == $items->id_user)
+                                            @if ($list['tglCarbon'] == Carbon\Carbon::parse($item->created_at)->isoFormat('YYYY-MM'))
+                                                @if ($item->iuran_pokok == 1)
+                                                    <td>Koperasi / Iuran Pokok<br><sub><kbd>Karyawan Baru</kbd></sub></td>
+                                                    <td>
+                                                        <div class="input-group mb-2">
+                                                            <div class="input-group-prepend"><div class="input-group-text">Rp </div></div><input type="number" class="form-control" value="100000" disabled><div class="input-group-prepend"><div class="input-group-text">,-</div></div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Sekali Saat Pertama Kali Gajian</td>
+                                                @else
+                                                    <td>Koperasi / Iuran Wajib<br><sub><kbd>Karyawan Lama</kbd></sub></td>
+                                                    <td>
+                                                        <div class="input-group mb-2">
+                                                            <div class="input-group-prepend"><div class="input-group-text">Rp </div></div><input type="number" class="form-control" value="5000" disabled><div class="input-group-prepend"><div class="input-group-text">,-</div></div>
+                                                        </div>
+                                                    </td>
+                                                    <td>Setiap Bulan Untuk Karyawan Lama</td>
+                                                @endif
+                                            @else
+                                                <td>Koperasi / Iuran Wajib<br><sub><kbd>Karyawan Lama</kbd></sub></td>
+                                                <td>
+                                                    <div class="input-group mb-2">
+                                                        <div class="input-group-prepend"><div class="input-group-text">Rp </div></div><input type="number" class="form-control" value="5000" disabled><div class="input-group-prepend"><div class="input-group-text">,-</div></div>
+                                                    </div>
+                                                </td>
+                                                <td>Setiap Bulan Untuk Karyawan Lama</td>
+                                            @endif
                                         @endif
-                                    @else
-                                        <td>Koperasi / Iuran Pokok<br><sub><kbd>Karyawan Lama</kbd></sub></td>
-                                        <td>
-                                            <div class="input-group mb-2">
-                                                <div class="input-group-prepend"><div class="input-group-text">Rp </div></div><input type="number" class="form-control" value="5000" disabled><div class="input-group-prepend"><div class="input-group-text">,-</div></div>
-                                            </div>
-                                        </td>
-                                        <td>Setiap Bulan Untuk Karyawan Lama</td>
-                                    @endif
+                                    @endforeach
                                 </tr>
                                 @if(count($list['ref_potong']) > 0)
                                 @foreach($list['ref_potong'] as $key => $item)

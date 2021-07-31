@@ -64,8 +64,9 @@ class terimaController extends Controller
 
         $bln = Carbon::now()->isoFormat('MM');
         $thn = Carbon::now()->isoFormat('YYYY');
-        // print_r($potonghas);
-        // die();
+        $tglCarbon = Carbon::now()->isoFormat('YYYY-MM'); // 2021-07
+        $query_string = "SELECT id,id_user,created_at,iuran_pokok FROM gaji_terima WHERE YEAR(created_at) = $thn AND MONTH(created_at) = $bln AND deleted_at IS NULL";
+        $getTglQuery = DB::select($query_string);
 
         $data = [
             'user' => $user,
@@ -79,6 +80,8 @@ class terimaController extends Controller
             'notyet' => $notyet,
             'bln' => $bln,
             'thn' => $thn,
+            'getTglQuery' => $getTglQuery,
+            'tglCarbon' => $tglCarbon,
             'show' => $show
         ];
         // foreach ($data['strukturalHas'] as $key => $value) {
@@ -92,7 +95,7 @@ class terimaController extends Controller
 
         // print_r($data['show']);
         // die();
-        return view('pages.kantor.kepegawaian.gaji.terima')->with('list', $data);
+        return view('pages.kantor.kepegawaian.gaji.terima-gaji')->with('list', $data);
     }
 
     /**
@@ -180,7 +183,7 @@ class terimaController extends Controller
             // Hitung Total Potongan
             $totalPotong = array_sum($pushNominal) + $infaq;
             // Karyawan Baru vs Lama
-            if ($request->baru == true) {
+            if ($request->baru == true || $request->baru == 1) {
                 $totalAkhirPotong = $totalPotong + 100000;
             } else {
                 $totalAkhirPotong = $totalPotong + 5000;
@@ -196,9 +199,9 @@ class terimaController extends Controller
             $data->potong = $totalAkhirPotong;
             $data->infaq = $infaq;
             if (empty($request->baru)) {
-                $data->iuran_pokok = false;
+                $data->iuran_pokok = 0;
             } else {
-                $data->iuran_pokok = true;
+                $data->iuran_pokok = 1;
             }
             $data->id_infaq = $request->infaq;
             $data->user_store = $getUser->id;
@@ -334,12 +337,12 @@ class terimaController extends Controller
                     $iuranPokok = $getTgl[0]->iuran_pokok;
                     $totalPotongFinal = $totalPotong;
                 } else {
-                    if ($getTgl[0]->iuran_pokok != false || !empty($getTgl[0]->iuran_pokok)) {
+                    if ($getTgl[0]->iuran_pokok != 0 || !empty($getTgl[0]->iuran_pokok)) {
                         $totalPotongFinal = ($totalPotong - 100000) + 5000;
                     } else {
                         $totalPotongFinal = $totalPotong;
                     }
-                    $iuranPokok = false;
+                    $iuranPokok = 0;
                 }
 
             // Saving Terima

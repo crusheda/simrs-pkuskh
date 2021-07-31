@@ -176,13 +176,13 @@ class logController extends Controller
         
         $find = user::where('id', $request->nama)->first();
         if ($request->id_user == null) {
-            $id = null;
+            $id_user = null;
         } else {
-            $id = $find->id;
+            $id_user = $find->id;
         }
 
         $data = logit::find($id);
-        $data->id_user = $id;
+        $data->id_user = $id_user;
         $data->nama = $find->nama;
         $data->kegiatan = $request->kegiatan;
         // $data->created_at = $getTgl;
