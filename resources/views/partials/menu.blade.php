@@ -8,6 +8,12 @@
                     <i class="fa-fw fas fa-user-circle nav-icon"></i> {{ Auth::user()->name }} </span>
                 </center>
             </li> --}}
+            <li class="nav-item" style="background-color: #262A2E">
+                <a href="#" class="nav-link disabled text-white" style="font-size: 15px">
+                    <i class="nav-icon fas fa-fw fa-user-circle text-white"></i>
+                    <b>Hi, {{ Auth::user()->nick }}</b>
+                </a>
+            </li>
             <li class="nav-item">
                 <a href="{{ route("home") }}" class="nav-link">
                     <i class="nav-icon fas fa-fw fa-tachometer-alt">

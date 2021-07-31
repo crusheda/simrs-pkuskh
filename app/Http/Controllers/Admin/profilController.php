@@ -51,6 +51,7 @@ class profilController extends Controller
         $showlog = logs::where('user_id', $id)->where('log_type', '=', 'login')->select('log_date')->orderBy('log_date', 'DESC')->get();
         
         $provinsi = ref_desa::select('provinsi')->groupBy('provinsi')->get();
+        // $propinsi = ref_desa::select('propinsi')->groupBy('nama_kabkota')->get();
         $nama_kabkota = ref_desa::select('nama_kabkota')->groupBy('nama_kabkota')->get();
         $kecamatan = ref_desa::select('kecamatan')->groupBy('kecamatan')->get();
         $desa = ref_desa::select('desa')->groupBy('desa')->get();

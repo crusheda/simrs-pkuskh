@@ -56,8 +56,9 @@
 
         <ul class="nav navbar-nav ml-auto" style="font-family: Roboto;text-transform: capitalize;margin-right:10px">
 
-          <button type="button" class="btn btn-dark nav-link text-white" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
-            &nbsp;<i class="fa fa-user-circle fa-lg fa-fw"></i> {{ Auth::user()->name }}&nbsp;&nbsp;
+          <button type="button" class="btn btn-white nav-link" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">
+            {{-- &nbsp;<i class="fa fa-user-circle fa-lg fa-fw"></i> {{ Auth::user()->name }}&nbsp;&nbsp; --}}
+            &nbsp;&nbsp;&nbsp;<i class="fa fa-ellipsis-v fa-lg fa-fw"></i>&nbsp;&nbsp;&nbsp;
           </button>
           <div class="dropdown-menu dropdown-menu-right" style="width: 10rem;">
               <a type="button" class="dropdown-item" href="{{ route('user.index') }}">

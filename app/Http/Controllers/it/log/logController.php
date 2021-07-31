@@ -230,8 +230,8 @@ class logController extends Controller
     public function showGambar($id)
     {
         return Image::make(storage_path() . '/it/log/' . $id )->response();
-        print_r($id);
-        die();
+        // print_r($id);
+        // die();
     }
 
     public function showPDF($id)
