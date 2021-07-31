@@ -102,7 +102,7 @@
                 searching: true,
                 dom: 'Bfrtip',
                 buttons: [
-                    'excel', 'pdf', 'print'
+                    'excel', 'pdf', 'print','colvis'
                 ],
                 order: [[ 6, "desc" ]],
                 pageLength: 50

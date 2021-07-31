@@ -179,7 +179,7 @@ $(document).ready( function () {
             searching: true,
             dom: 'Bfrtip',
             buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
+                'copy', 'excel', 'pdf', 'print','colvis'
             ],
             order: [[ 4, "desc" ]]
         }

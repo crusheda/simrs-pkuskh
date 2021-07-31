@@ -283,7 +283,7 @@
                 searching: true,
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'excel', 'pdf', 'print'
+                    'copy', 'excel', 'pdf', 'print','colvis'
                 ],
                 order: [[ 3, "desc" ]],
             }
@@ -294,7 +294,7 @@
                 searching: true,
                 dom: 'Bfrtip',
                 buttons: [
-                    'excel', 'pdf', 'print'
+                    'excel', 'pdf', 'print','colvis'
                 ],
                 order: [[ 3, "desc" ]],
             }

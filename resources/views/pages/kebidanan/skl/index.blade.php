@@ -282,7 +282,7 @@ $(document).ready( function () {
             searching: true,
             dom: 'Bfrtip',
             buttons: [
-                'copy', 'excel', 'pdf'
+                'copy', 'excel', 'pdf','colvis'
             ],
             order: [[ 1, "desc" ]]
         }

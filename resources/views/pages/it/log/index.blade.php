@@ -316,7 +316,7 @@ $(document).ready( function () {
             searching: true,
             dom: 'Bfrtip',
             buttons: [
-                'copy', 'excel', 'pdf', 'print'
+                'copy', 'excel', 'pdf', 'print','colvis'
             ],
             order: [[ 4, "desc" ]]
         }
