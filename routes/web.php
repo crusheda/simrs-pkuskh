@@ -221,3 +221,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'queue', 'as' => 'queue.'], 
 
 // MAIL
     Route::get('/kirimemail','Mail\InsentifDokterController@index');
+
+// QR CODE
+    Route::get('scanner/api/absensi', 'qrcode\ScannerController@apiAbsensi')->name('api.absensi');
+    Route::post('scanner/post','qrcode\ScannerController@simpan');
+    Route::resource('scanner', 'qrcode\ScannerController');

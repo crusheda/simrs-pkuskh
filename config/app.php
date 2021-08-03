@@ -199,6 +199,7 @@ return [
         Alexusmai\LaravelFileManager\FileManagerServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
+        Milon\Barcode\BarcodeServiceProvider::class,
     ],
 
     /*
@@ -257,6 +258,8 @@ return [
         'Agent'         => Jenssegers\Agent\Facades\Agent::class,
         'Location'      => 'Stevebauman\Location\Facades\Location',
         'Excel'         => Maatwebsite\Excel\Facades\Excel::class,
+        'DNS1D'         => Milon\Barcode\Facades\DNS1DFacade::class,
+        'DNS2D'         => Milon\Barcode\Facades\DNS2DFacade::class,
     ],
 
 ];
