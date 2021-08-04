@@ -10,6 +10,10 @@
 {{-- <script src="{{ asset('js/scan_qrcode/jquery.min.js') }}"></script> --}}
 <script src="{{ asset('js/scan_qrcode/instascan.min.js') }}"></script>
 
+@php
+    $agent = new Jenssegers\Agent\Agent();
+@endphp
+
 <div class="row">
     <div class="col-md-4">
         <div class="card" style="width: 100%">
@@ -21,23 +25,26 @@
                 
             </div>
             <div class="card-body">
-                <center><h3>WAKTU :&nbsp;<b class="text-danger"><a id="date"></a></b></h3></center>
+                <select class="custom-select" name="option" id="option"></select><br><br>
                 <video id="preview" width="100%" height="100%"></video>
+                <center><h5>WAKTU :&nbsp;<b class="text-danger"><a id="date"></a></b></h5></center>
             </div>
         </div>
-        <div class="card" style="width: 100%">
-            <div class="card-header bg-dark text-white">
+        {{-- @if ($agent->isMobile()) --}}
+            <div class="card" style="width: 100%">
+                <div class="card-header bg-dark text-white">
 
-                <i class="fa-fw fas fa-qrcode nav-icon">
+                    <i class="fa-fw fas fa-qrcode nav-icon">
 
-                </i> Generate Barcode
-                
+                    </i> Generate Barcode
+                    
+                </div>
+                <div class="card-body">
+                    <center><h6>Capture And Scan This Barcode</h6></center>
+                    <div class="mb-3" id="barcode"><center>{!! DNS2D::getBarcodeHTML( \Illuminate\Support\Facades\Crypt::encryptString(rand().$list['getId']), 'QRCODE',6,6) !!}</center></div>
+                </div>
             </div>
-            <div class="card-body">
-                <center><h6>Capture And Scan This Barcode</h6></center>
-                <div class="mb-3"><center>{!! DNS2D::getBarcodeHTML( \Illuminate\Support\Facades\Crypt::encryptString(Auth::user()->id), 'QRCODE',6,6) !!}</center></div>
-            </div>
-        </div>
+        {{-- @endif --}}
     </div>
     <div class="col-md-8">
         <div class="card" style="width: 100%">
@@ -53,7 +60,7 @@
                 
             </div>
             <div class="card-body">
-                <h6>Update Terkini : <a id="dateTable">{{ $list['date'] }}</a></h6>
+                <h6>Update Terkini : <b><a id="dateTable" class="text-danger">{{ $list['date'] }}</a></b> (Setiap 10 Detik)</h6><hr>
                 <div class="table-responsive">
                     <table id="table" class="table table-striped display">
                         <thead>
@@ -168,7 +175,18 @@ $(document).ready( function () {
 
     Instascan.Camera.getCameras().then(function(cameras) {
         if (cameras.length > 0) {
-            scanner.start(cameras[2]);
+            var i = cameras;
+            scanner.start(cameras[0]);
+                for (const [key, value] of Object.entries(cameras)) {
+                    $('#option').append(`<option value="${key}">${value.name}</option>`)
+                };
+            $('#option').on('change',function(){
+                for (const [key, value] of Object.entries(cameras)) {
+                    if ($(this).val() == key) {
+                        scanner.start(cameras[key]);
+                    }
+                };
+            });
         } else {
             console.error('No Cameras Found');
         }

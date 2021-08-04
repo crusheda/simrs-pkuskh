@@ -17,7 +17,7 @@ class CreateTableAbsensiKaryawan extends Migration
             $table->bigIncrements('id');
             $table->integer('id_user')->nullable();
             $table->string('nama')->nullable();
-            $table->bigInteger('qrcode')->nullable();
+            $table->string('qrcode',300)->nullable();
             $table->dateTime('tgl_masuk')->nullable();
             $table->dateTime('tgl_pulang')->nullable();
             $table->softDeletes();

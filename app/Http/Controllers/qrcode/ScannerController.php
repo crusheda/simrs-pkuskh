@@ -11,6 +11,7 @@ use App\Models\absensi;
 use App\Models\user;
 use Carbon\Carbon;
 use Illuminate\Support\Facades\Crypt;
+use Auth;
 
 class ScannerController extends Controller
 {
@@ -21,10 +22,20 @@ class ScannerController extends Controller
      */
     public function index()
     {
+        $i = strlen(Auth::user()->id);
+        if ($i == 1) {
+            $getId = '00'.Auth::user()->id;
+        } elseif ($i == 2) {
+            $getId = '0'.Auth::user()->id;
+        } elseif ($i == 3) {
+            $getId = Auth::user()->id;
+        }
+
         $show = absensi::where('deleted_at', null)->orderBy('updated_at','DESC')->limit('50')->get(); // Ambil Data Absen Terakhir
         $date = Carbon::now()->isoFormat('YYYY/MM/DD HH:MM:SS'); // 2021/08/04 01:57:45
         
         $data = [
+            'getId' => $getId,
             'show' => $show,
             'date' => $date,
         ];
@@ -99,7 +110,8 @@ class ScannerController extends Controller
     
     public function simpan(Request $request)
     {
-        $qrcode = Crypt::decryptString($request->qrcode);
+        $getQrcode = Crypt::decryptString($request->qrcode);
+        $qrcode = substr($getQrcode,10,100);
         // $user = DB::table('users')
         //         ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
         //         ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
