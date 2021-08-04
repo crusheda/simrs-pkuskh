@@ -3,7 +3,7 @@
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
-<link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}">
+{{-- {{-- <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}"> --}} --}}
 
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
@@ -42,6 +42,7 @@
                 <div class="card-body">
                     <center><h6>Capture And Scan This Barcode</h6></center>
                     <div class="mb-3" id="barcode"><center>{!! DNS2D::getBarcodeHTML( \Illuminate\Support\Facades\Crypt::encryptString(rand().$list['getId']), 'QRCODE',6,6) !!}</center></div>
+                    {{-- <div class="mb-3" id="barcode"><center>{!! DNS2D::getBarcodeHTML( 'www.simrsku.com', 'QRCODE',6,6) !!}</center></div> --}}
                 </div>
             </div>
         {{-- @endif --}}
@@ -156,9 +157,26 @@ $(document).ready( function () {
     });
 
     
+    // setInterval(function () {
+    //     $.ajax({
+    //         url: "http://localhost:8000/scanner/api/absensi",
+    //         type: 'GET',
+    //         dataType: 'json', // added data type
+    //         success: function(res) {
+    //             $("#tbody").empty();
+    //             $("#dateTable").empty();
+    //             res.forEach(item => {
+    //                 $("#tbody").append(`<tr id="data${item.id}"><td>${item.id}</td> <td>${item.nama}</td> <td>${item.tgl_masuk}</td> <td>${item.tgl_pulang ? item.tgl_pulang : ''}</td></tr>`);
+    //             });
+    //             currentTime = getDateTime();
+    //             document.getElementById("dateTable").innerHTML = currentTime; 
+    //         }
+    //     }); 
+    // },10000);
+
     setInterval(function () {
         $.ajax({
-            url: "http://localhost:8000/scanner/api/absensi",
+            url: "http://simrsku.com/scanner/api/absensi",
             type: 'GET',
             dataType: 'json', // added data type
             success: function(res) {
