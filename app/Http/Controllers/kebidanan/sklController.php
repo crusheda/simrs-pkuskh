@@ -199,4 +199,24 @@ class sklController extends Controller
 
         $templateProcessor->saveAs('php://output');
     }
+
+    public function print($id)
+    {
+        $show = skl::where('id',$id)->first();
+                
+        $tgl = Carbon::parse($show->tgl)->isoFormat('D MMMM Y');
+        $thn = Carbon::parse($show->tgl)->isoFormat('Y');
+        $jam = Carbon::parse($show->tgl)->toTimeString();
+
+        $data = [
+            'show' => $show,
+            'tgl' => $tgl,
+            'thn' => $thn,
+            'jam' => $jam,
+        ];
+
+        // print_r($data);
+        // die();
+        return view('pages.kebidanan.skl.cetak-skl')->with('list', $data);
+    }
 }

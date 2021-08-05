@@ -437,7 +437,7 @@
                                 <input type="number" class="form-control" value="{{ $list['showuser']->th_s3 }}" name="th_s3" id="th_s3" max="9999" placeholder="Tahun Lulus" disabled><br>
                             </div>
                             <div class="col-md-12">
-                                <p><i>Catatan: Kosongi Kolom Pengisian Bila Tidak Ada.</i></p>
+                                <p><i><b>Catatan:</b> <br>Kosongi Kolom Pengisian Bila Tidak Ada.<br>Jika ingin mengisi/merubah Tahun Lulus, lakukan perubahan terlebih dahulu pada kolom Nama Pendidikan.</i></p>
                             </div>
                         </div>
                     </div>

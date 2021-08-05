@@ -165,6 +165,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
     // Kebidanan
         Route::resource('kebidanan/skl', 'kebidanan\sklController');
         Route::get('kebidanan/skl/{id}/cetak','kebidanan\sklController@cetak')->name('skl.cetak');  
+        Route::get('kebidanan/skl/{id}/print','kebidanan\sklController@print')->name('skl.print');  
         // Route::get('cetak/word', 'kebidanan\sklController@word');
 
     // K3

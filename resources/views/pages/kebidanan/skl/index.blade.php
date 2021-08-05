@@ -34,7 +34,7 @@
                             Tambah Identitas Bayi
                         </button>
                     </div>
-                </div><br>
+                </div><hr>
                 <div class="table-responsive">
                     <table id="skl" class="table table-striped display">
                         <thead>
@@ -42,6 +42,7 @@
                                 <th>NO</th>
                                 <th>TGL</th>
                                 <th>IBU</th>
+                                <th>AYAH</th>
                                 <th>ANAK</th>
                                 <th>ALAMAT</th>
                                 <th><center>#</center></th>
@@ -54,12 +55,14 @@
                                 <td>{{ $item->no_surat }}</td>
                                 <td>{{ $item->tgl }}</td>
                                 <td>{{ $item->ibu }}</td>
+                                <td>{{ $item->ayah }}</td>
                                 <td>{{ $item->anak }}</td>
                                 <td>{{ $item->alamat }}</td>
                                 <td>
                                     <center>
                                     <div class="btn-group" role="group">
-                                        <a type="button" href="{{ route('skl.cetak', $item->id) }}" class="btn btn-warning btn-sm"><i class="fa-fw fas fa-print nav-icon text-white"></i></a>
+                                        <button type="button" class="btn btn-warning btn-sm" target="popup" onclick="window.open('{{ $item->id }}/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon text-white"></i></button>
+                                        <a type="button" href="{{ route('skl.cetak', $item->id) }}" class="btn btn-info btn-sm"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
                                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahskl{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
                                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusskl{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                     </div>
@@ -281,9 +284,17 @@ $(document).ready( function () {
             paging: true,
             searching: true,
             dom: 'Bfrtip',
+            stateSave: true,
             buttons: [
-                'copy', 'excel', 'pdf','colvis'
+                'excel', 'pdf','colvis'
             ],
+            language: {
+                buttons: {
+                    colvis: 'Sembunyikan Kolom',
+                    excel: 'Jadikan Excell',
+                    pdf: 'Jadikan PDF',
+                }
+            },
             order: [[ 1, "desc" ]]
         }
     );

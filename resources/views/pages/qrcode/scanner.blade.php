@@ -3,7 +3,7 @@
 @section('content')
 <meta name="csrf-token" content="{{ csrf_token() }}">
 <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
-{{-- {{-- <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}"> --}} --}}
+{{-- {{-- <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}"> --}}
 
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
