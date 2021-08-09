@@ -24,7 +24,7 @@
             File Manager Karyawan
         </div>
         <div class="card-body">
-            <div style="height: 500px;width:100%;margin-top: -10px">
+            <div style="height: 700px;width:100%;margin-top: -10px">
                 <div id="fm"></div>
             </div>
         </div>

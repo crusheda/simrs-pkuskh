@@ -619,14 +619,14 @@
                                 Dokter
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
-                            <a href="{{ route("admin.karyawan.index") }}" class="nav-link">
-                                <i class="fa-fw fas fa-male nav-icon">
+                        <li class="nav-item">
+                            <a href="{{ route("it.user.activity") }}" class="nav-link">
+                                <i class="fa-fw fas fa-eye nav-icon">
         
                                 </i>
-                                Karyawan
+                                User Activity
                             </a>
-                        </li> --}}
+                        </li>
                     </ul>
                 </li>
             @endcan
