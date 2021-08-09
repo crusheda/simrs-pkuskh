@@ -70,6 +70,13 @@ return [
             'url' => env('APP_URL').'/images',
         ],
 
+        'image' => [
+            'driver' => 'local',
+            'root' => public_path('upload'),
+            'url' => env('APP_URL').'/upload',
+            'visibility' => 'public',
+        ],
+
         // File Manager Karyawan
         'managerfile' => [
             'driver'     => 'local',

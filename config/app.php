@@ -200,6 +200,7 @@ return [
         Jenssegers\Agent\AgentServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
+        // Nahid\Talk\TalkServiceProvider::class,
     ],
 
     /*
@@ -260,6 +261,7 @@ return [
         'Excel'         => Maatwebsite\Excel\Facades\Excel::class,
         'DNS1D'         => Milon\Barcode\Facades\DNS1DFacade::class,
         'DNS2D'         => Milon\Barcode\Facades\DNS2DFacade::class,
+        // 'Talk'          => Nahid\Talk\Facades\Talk::class,
     ],
 
 ];

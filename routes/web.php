@@ -5,9 +5,9 @@ Route::get('/kunjungan', 'kunjunganController@index')->name('landing.kunjungan')
 // Route::get('/demos', function () {
 //     return view('index');
 // });
-Route::get('/camweb', function () {
-    return view('test');
-});
+// Route::get('/camweb', function () {
+//     return view('test');
+// });
 // Route::resource('/lokasi', 'other\lokasiController');
 
 Auth::routes(['register' => false]);
@@ -227,3 +227,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'queue', 'as' => 'queue.'], 
     Route::get('scanner/api/absensi', 'qrcode\ScannerController@apiAbsensi')->name('api.absensi');
     Route::post('scanner/post','qrcode\ScannerController@simpan');
     Route::resource('scanner', 'qrcode\ScannerController');
+
+// LiveMessageApp
+Addchat::routes();

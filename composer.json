@@ -8,6 +8,7 @@
         "php": "^7.3",
         "alexusmai/laravel-file-manager": "^2.5",
         "barryvdh/laravel-dompdf": "^0.8.7",
+        "classiebit/addchat-laravel": "^1.0",
         "doctrine/dbal": "^2.9",
         "fideloper/proxy": "^4.0",
         "haruncpi/laravel-simple-filemanager": "^1.0",
@@ -18,12 +19,12 @@
         "laravel/tinker": "~1.0",
         "laravelcollective/html": "^6.0",
         "maatwebsite/excel": "^3.1",
+        "milon/barcode": "^6.0",
         "phpoffice/phpword": "^0.17.0",
-        "pusher/pusher-php-server": "^4.1",
+        "pusher/pusher-php-server": "^5.0",
         "spatie/laravel-permission": "^3.0",
         "stevebauman/location": "^6.0",
-        "unisharp/laravel-filemanager": "^2.2",
-        "milon/barcode": "^6.0"
+        "unisharp/laravel-filemanager": "^2.2"
     },
     "require-dev": {
         "facade/ignition": "^1.4",

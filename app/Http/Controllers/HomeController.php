@@ -6,6 +6,7 @@ use App\Http\Requests;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
+use App\Models\user;
 use Carbon\Carbon;
 use Auth;
 
@@ -30,8 +31,15 @@ class HomeController extends Controller
     {
         $user = Auth::user();
         $role = $user->roles->first()->name;
+        $id = $user->id;
 
-        return view('home');
+        $user = user::where('id',$id)->first();
+
+        $data = [
+            'user' => $user,
+        ];
+
+        return view('home')->with('list', $data);
     }
 
     public function fileManager()

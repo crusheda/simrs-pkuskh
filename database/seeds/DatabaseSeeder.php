@@ -19,5 +19,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(logtgsperawat::class);
         // $this->call(RefDesaSeed::class);
         // $this->call(RefDesaNew::class);
+        // $this->call(ACProfiles::class);
     }
 }

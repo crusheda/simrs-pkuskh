@@ -437,7 +437,7 @@
                                 <input type="number" class="form-control" value="{{ $list['showuser']->th_s3 }}" name="th_s3" id="th_s3" max="9999" placeholder="Tahun Lulus" disabled><br>
                             </div>
                             <div class="col-md-12">
-                                <p><i><b>Catatan:</b> <br>Kosongi Kolom Pengisian Bila Tidak Ada.<br>Jika ingin mengisi/merubah Tahun Lulus, lakukan perubahan terlebih dahulu pada kolom Nama Pendidikan.</i></p>
+                                <p><i><b>Catatan:</b> <br>Kosongi Kolom Pengisian Bila Tidak Ada.<br>Jika ingin mengisi/mengubah Tahun Lulus, lakukan perubahan terlebih dahulu pada kolom Nama Pendidikan.</i></p>
                             </div>
                         </div>
                     </div>
@@ -616,6 +616,10 @@
         <form class="form-auth-small" action="{{ action('Admin\profilController@storeImg') }}" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
             @csrf
             <div class="modal-body">
+                <p>
+                    <i class="fa-fw fas fa-chevron-right nav-icon"></i> Foto yang anda Upload akan digunakan sebagai Foto Profil bukan sebagai dokumen kepegawaian.
+                    {{-- <i class="fa-fw fas fa-chevron-right nav-icon"></i> --}}
+                </p>
                 <input type="file" name="file">
             </div>
             <div class="modal-footer">

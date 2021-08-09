@@ -7,6 +7,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use App\Models\data_users;
 use App\Models\foto_profil;
+use App\Models\ac_profiles;
 use App\Models\user;
 use App\Models\logs;
 use App\Models\location_province;
@@ -372,8 +373,11 @@ class profilController extends Controller
         }else {
             $path = $uploadedFile->store('public/files/foto_profil');
             $title = $request->title ?? $uploadedFile->getClientOriginalName();
+            // print_r($uploadedFile);
+            // die();
+            $save = Storage::disk('image')->put('', $uploadedFile);
         }
-        // print_r($request->lokasi);
+        // print_r($save);
         // die();
         $user  = Auth::user();
         $id    = $user->id;
@@ -381,7 +385,10 @@ class profilController extends Controller
         $role  = $user->roles->first()->name; //kabag-keperawatan
 
         $query = foto_profil::where('user_id', $id)->first();
+        $queryAcProfiles = ac_profiles::where('user_id', $id)->first();
+        $getUser = user::where('id',$id)->first();
 
+        // Save to Foto Profil
         if ($query == null) {
             $data = new foto_profil;
             $data->user_id = $id;
@@ -405,6 +412,24 @@ class profilController extends Controller
             $data->updated_at = $now;
             $data->save();
         }
+
+        // Save to Ac Profiles
+        if ($queryAcProfiles == null) {
+            $chat = new ac_profiles;
+            $chat->user_id = $id;
+            $chat->fullname = $getUser->nama;
+            $chat->avatar = $save;
+            $chat->status = 0;
+            $chat->dt_updated = $now;
+            $chat->save();
+        } else {
+            Storage::disk('image')->delete($queryAcProfiles->avatar);
+            $queryAcProfiles->fullname = $getUser->nama;
+            $queryAcProfiles->avatar = $save;
+            $queryAcProfiles->dt_updated = $now;
+            $queryAcProfiles->save();
+        }
+        
         
         return redirect()->back()->with('message','Ubah Foto Profil Berhasil');
     }
