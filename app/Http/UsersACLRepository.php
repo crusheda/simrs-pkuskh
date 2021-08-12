@@ -53,5 +53,6 @@ class UsersACLRepository implements ACLRepository
         // ['disk' => 'images', 'path' => 'icons/*', 'access' => 1],     // only read all files and foders in this folder
         // ['disk' => 'images', 'path' => 'image*.jpg', 'access' => 0],  // can't read and write (preview, rename, delete..)
         // ['disk' => 'images', 'path' => 'avatar.png', 'access' => 1],  // only read (view)
+        // ROLE : 2 is master.
     }
 }

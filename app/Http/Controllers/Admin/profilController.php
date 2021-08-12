@@ -387,6 +387,12 @@ class profilController extends Controller
         $query = foto_profil::where('user_id', $id)->first();
         $queryAcProfiles = ac_profiles::where('user_id', $id)->first();
         $getUser = user::where('id',$id)->first();
+        $getDetailUser = DB::table('users')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->select('roles.name as nama_role','users.*')
+                ->where('users.id',$id)
+                ->first();
 
         // Save to Foto Profil
         if ($query == null) {
@@ -417,14 +423,14 @@ class profilController extends Controller
         if ($queryAcProfiles == null) {
             $chat = new ac_profiles;
             $chat->user_id = $id;
-            $chat->fullname = $getUser->nama;
+            $chat->fullname = $getUser->nama.' - '.$getDetailUser->nama_role;
             $chat->avatar = $save;
             $chat->status = 0;
             $chat->dt_updated = $now;
             $chat->save();
         } else {
             Storage::disk('image')->delete($queryAcProfiles->avatar);
-            $queryAcProfiles->fullname = $getUser->nama;
+            $queryAcProfiles->fullname = $getUser->nama.' - '.$getDetailUser->nama_role;
             $queryAcProfiles->avatar = $save;
             $queryAcProfiles->dt_updated = $now;
             $queryAcProfiles->save();

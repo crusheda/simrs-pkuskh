@@ -258,6 +258,18 @@
   });
 
   $.fn.dataTable.ext.classes.sPageButton = '';
+  $('.c-notification').change(function() { 
+    Swal.fire({
+      title: 'sadsadsa',
+      text: 'asdsadsadsd',
+      icon: 'OK',
+      showConfirmButton:false,
+      showCancelButton:false,
+      timer: 3000,
+      timerProgressBar: true,
+      backdrop: `rgba(26,27,41,0.8)`,
+    });
+  });
 });
 
     </script>

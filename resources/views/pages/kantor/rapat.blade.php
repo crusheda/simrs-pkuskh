@@ -62,11 +62,13 @@
                                                 <td>{{ $item->created_at->diffForHumans() }}</td>
                                                 <td>
                                                     <center>
-                                                        <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#lihatFile{{ $item->id }}"><i class="fa-fw fas fa-download nav-icon text-white"></i></button>
-                                                        @hasanyrole('kantor|pelayanan')
+                                                        <div class="btn-group" role="group">
+                                                            <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#lihatFile{{ $item->id }}"><i class="fa-fw fas fa-download nav-icon text-white"></i></button>
                                                             <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubahFile{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusFile{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                                        @endhasanyrole
+                                                            @hasanyrole('kantor|pelayanan')
+                                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusFile{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                            @endhasanyrole
+                                                        </div>
                                                     </center>
                                                 </td>
                                             </tr>

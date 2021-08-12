@@ -4,6 +4,7 @@ namespace App\Http\Controllers\kantor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\laporan_bulanan;
 use App\Models\unit;
@@ -151,5 +152,49 @@ class laporanBulananController extends Controller
 
         // redirect
         return Redirect::back()->with('message','Hapus Laporan Bulanan Berhasil');
+    }
+
+    public function filter(Request $request)
+    {
+        $getthn = substr(Carbon::now(),0,4);
+        $thnsend = Carbon::now()->isoFormat('Y');
+        
+        if ($request->query('bulan') == 'Bulan') {
+            $thn = $request->query('tahun');
+            $bln = null;
+        } elseif ($request->query('tahun') == 'Tahun') {
+            $bln = $request->query('bulan');
+            $thn = null;
+        } else {
+            $bln = $request->query('bulan');
+            $thn = $request->query('tahun');
+        }
+        
+        $time= 'Bulan : '.$bln.' Tahun : '.$thn;
+        
+        if($bln && $thn){
+            $query_string = "SELECT * FROM laporan_bulanan WHERE YEAR(updated_at) = $thn AND MONTH(updated_at) = $bln";
+            $show = DB::select($query_string);
+        }
+        elseif($bln && $thn == null){
+            $query_string = "SELECT * FROM laporan_bulanan WHERE MONTH(updated_at) = $bln";
+            $show = DB::select($query_string);
+        }
+        elseif($thn && $bln == null){
+            $query_string = "SELECT * FROM laporan_bulanan WHERE YEAR(updated_at) = $thn";
+            $show = DB::select($query_string);
+        }        
+
+        // print_r($show);
+        // die();
+
+        $data = [
+            'getthn' => $getthn,
+            'show' => $show,
+            'thn'  => $thnsend,
+            'time' => $time
+        ];
+
+        return view('pages.kantor.laporan.filter-bulanan')->with('list', $data);
     }
 }

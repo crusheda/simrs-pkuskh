@@ -34,14 +34,14 @@
                                         <i class="fa-fw fas fa-plus-square nav-icon">
                 
                                         </i>
-                                        Tambah Tindakan Harian
+                                        Masukkan Tindakan
                                     </a>
                                 @else
                                     <a type="button" class="btn btn-success text-white" data-toggle="modal" data-target="#tambahtdk">
                                         <i class="fa-fw fas fa-plus-square nav-icon">
                 
                                         </i>
-                                        Tambah Tindakan Harian
+                                        Masukkan Tindakan
                                     </a>
                                 @endif
                             @endcan
@@ -49,7 +49,7 @@
                     </div>
                     @role('kabag-keperawatan')
                     <div class="col-md-12">
-                        <form class="form-inline" action="{{ route('tdkperawat.cari') }}" method="GET">
+                        <form class="form-inline pull-right" action="{{ route('tdkperawat.cari') }}" method="GET">
                             <span style="width: auto;margin-right:10px">Filter</span>
                             <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="bulan" id="bulan">
                                 <option hidden>Bulan</option>
@@ -70,7 +70,7 @@
                                     
                                 @endphp
                             </select>
-                            <button class="form-control" id="submit" disabled><span class="badge">Cari</span></button>
+                            <button class="form-control btn btn-warning text-white" id="submit" disabled>Filter</button>
                         </form>
                     </div>
                     @endrole
@@ -82,7 +82,11 @@
                             <tr>
                                 <th>ID</th>
                                 <th>NAMA</th>
-                                <th>UNIT</th>
+                                @role('kabag-keperawatan')
+                                    <th>UNIT</th>
+                                @else
+                                    <th>WAKTU</th>
+                                @endrole
                                 <th>TGL</th>
                                 <th class="text-center">ACTION</th>
                             </tr>
@@ -94,24 +98,20 @@
                             <tr>
                                 <td>{{ $id++ }}</td>
                                 <td>{{ $item->name }}</td>
-                                <td>{{ $item->unit }}</td>
+                                @role('kabag-keperawatan')
+                                    <td>{{ $item->unit }}</td>
+                                @else
+                                    <td>{{ \Carbon\Carbon::parse($item->tgl)->diffforhumans() }}</td>
+                                @endrole
                                 <td>{{ $item->tgl }}</td>
                                 <td>
-                                    <center><a type="button" class="btn btn-info btn-sm" href="{{ route('tdkperawat.show', $item->queue) }}"><i class="fa-fw fas fa-search nav-icon"></i> Detail</a></center>
+                                    <center><a type="button" class="btn btn-info btn-sm text-white" href="{{ route('tdkperawat.show', $item->queue) }}"><i class="fa-fw fas fa-search nav-icon"></i> Detail</a></center>
                                 </td>
                             </tr>                                
                             @endforeach
-                            @else
-                                <tr>
-                                    <td colspan=5>Tidak Ada Data</td>
-                                </tr>
                             @endif
                         </tbody>
                     </table>
-                    {{-- {{ $list['convert'] }} --}}
-                    {{-- @foreach ($list['cek'] as $item)
-                        {{ $item }}
-                    @endforeach --}}
                 </div>
             @else
                 <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
@@ -130,42 +130,43 @@
           </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
-        <form class="form-auth-small" action="{{ route('tdkperawat.store') }}" method="POST" enctype="multipart/form-data">
-            @csrf
-            <table id="tdkperawat" class="table table-striped display">
-                <thead>
-                    <tr>
-                        <th>PERNYATAAN</th>
-                        <th>PILIHAN</th>
-                    </tr>
-                </thead>
-                <tbody>
-                    @if(count($list['tdk']) > 0)
-                    @foreach($list['tdk'] as $item)
-                    <tr>
-                        <td><input type="text" class="form-control" style="text-transform: capitalize" name="pertanyaan[]" placeholder="" value="{{ $item->pertanyaan }}" readonly></td>
-                        {{-- <td><input type="text" class="form-control" name="jawaban[]" placeholder=""></td> --}}
-                        
-                        <td>
-                            <select class="custom-select" name="box[]" id="boxy" required>
-                                <option value="0" hidden>Pilih..</option>
-                                <option value="0">0 kali</option>
-                                @for ($i = 0; $i < $item->box; $i++)
-                                    <option value="{{ $i+1 }}">{{ $i+1 }} kali</option>
-                                @endfor
-                            </select>
-                        </td>
-                    </tr>
-                    @endforeach
-                    @else
+        <div class="modal-body">
+            <form class="form-auth-small" action="{{ route('tdkperawat.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <table id="tdkperawat" class="table table-bordered display table-hover">
+                    <thead>
                         <tr>
-                            <td colspan=2>Tidak Ada Data</td>
+                            <th>PERNYATAAN</th>
+                            <th>PILIHAN</th>
                         </tr>
-                    @endif
-                </tbody>
-            </table>
-            <center><button class="btn btn-success btn-sm"><i class="lnr lnr-trash"></i>Submit</button></center><br>
-        </form>
+                    </thead>
+                    <tbody>
+                        @if(count($list['tdk']) > 0)
+                        @foreach($list['tdk'] as $item)
+                        <tr>
+                            <td><input type="text" class="form-control" style="text-transform: capitalize" name="pertanyaan[]" placeholder="" value="{{ $item->pertanyaan }}" readonly></td>
+                            <td>
+                                <select class="custom-select" name="box[]" id="boxy" required>
+                                    <option value="0" hidden>Pilih..</option>
+                                    <option value="0">0 kali</option>
+                                    @for ($i = 0; $i < $item->box; $i++)
+                                        <option value="{{ $i+1 }}">{{ $i+1 }} kali</option>
+                                    @endfor
+                                </select>
+                            </td>
+                        </tr>
+                        @endforeach
+                        @endif
+                    </tbody>
+                </table>
+                <div class="pull-left">
+                    <h6>n.b : Masukkan Tindakan Anda setelah selesai Jaga Shift</h6>
+                </div>
+                <div class="pull-right">
+                    <button class="btn btn-success"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
+                </div>
+            </form>
+        </div>
       </div>
     </div>
 </div>
@@ -242,7 +243,7 @@ $(document).ready( function () {
             searching: true,
             dom: 'Bfrtip',
             buttons: [
-                'copy', 'excel', 'pdf', 'print','colvis'
+                'excel', 'pdf', 'print','colvis'
             ],
             order: [[ 3, "desc" ]]
         }

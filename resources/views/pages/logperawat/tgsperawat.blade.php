@@ -97,7 +97,7 @@
                                         <th>PERNYATAAN</th>
                                         <th>KETERANGAN</th>
                                         <th>TGL</th>
-                                        <th>ACTION</th>
+                                        <th><center>#</center></th>
                                     </tr>
                                 </thead>
                                 <tbody style="text-transform: capitalize">
@@ -110,8 +110,12 @@
                                         <td>{{ $item->ket }}</td>
                                         <td>{{ $item->tgl }}</td>
                                         <td>
-                                            <a type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></a>
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                            <center>
+                                            <div class="btn-group" role="group">
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                <a type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></a>
+                                            </div>
+                                            </center>
                                         </td>
                                     </tr>
                                     @endforeach

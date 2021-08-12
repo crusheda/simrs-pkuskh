@@ -31,7 +31,7 @@
                                 <th>NAMA</th>
                                 <th>UNIT</th>
                                 <th>UPDATE TERAKHIR</th>
-                                <th>ACTION</th>
+                                <th>#</th>
                             </tr>
                         </thead>
                         <tbody style="text-transform: capitalize">
@@ -52,10 +52,6 @@
                                 </td>
                             </tr>
                             @endforeach
-                            @else
-                                <tr>
-                                    <td colspan=4>Tidak Ada Data</td>
-                                </tr>
                             @endif
                         </tbody>
                     </table>
@@ -105,7 +101,7 @@
                                         <th>KETERANGAN</th>
                                         <th>TGL</th>
                                         <th class="text-center">LAMPIRAN</th>
-                                        <th class="text-center">ACTION</th>
+                                        <th class="text-center">#</th>
                                     </tr>
                                 </thead>
                                 <tbody style="text-transform: capitalize">
@@ -118,18 +114,16 @@
                                         <td>{{ $item->ket }}</td>
                                         <td>{{ $item->tgl }}</td>
                                         <td class="text-center">
-                                            <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#show{{ $item->id }}"><i class="fa-fw fas fa-folder-open nav-icon text-white"></i> Detail</button>
+                                            <button type="button" class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#show{{ $item->id }}"><i class="fa-fw fas fa-folder-open nav-icon text-white"></i> Detail</button>
                                         </td>
                                         <td class="text-center">
-                                            <a type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></a>
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                            <div class="btn-group" role="group">
+                                                <a type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></a>
+                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                            </div>
                                         </td>
                                     </tr>
                                     @endforeach
-                                    @else
-                                        <tr>
-                                            <td colspan=5>Tidak Ada Data</td>
-                                        </tr>
                                     @endif
                                 </tbody>
                             </table>

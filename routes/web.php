@@ -145,6 +145,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
         Route::get('/rapat/show4/{id}', 'kantor\rapatController@show4');
         Route::get('/rapat/show5/{id}', 'kantor\rapatController@show5');
         Route::resource('regulasi', 'kantor\regulasiController');
+        Route::get('/laporan/bulanan/filter', 'kantor\laporanBulananController@filter')->name('bulanan.filter');
         Route::resource('laporan/bulanan', 'kantor\laporanBulananController');
 
     // Log Perawat
