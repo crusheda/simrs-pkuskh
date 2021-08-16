@@ -243,7 +243,8 @@ class terimaController extends Controller
         // gaji_terima
         $bln = Carbon::now()->isoFormat('MM');
         $thn = Carbon::now()->isoFormat('YYYY');
-        $query_string = "SELECT potong,infaq,created_at,iuran_pokok FROM gaji_terima WHERE id_user = $request->user_id AND YEAR(created_at) = $thn AND MONTH(created_at) = $bln AND deleted_at IS NULL";
+        // $query_string = "SELECT potong,infaq,created_at,iuran_pokok FROM gaji_terima WHERE id_user = $request->user_id AND YEAR(created_at) = $thn AND MONTH(created_at) = $bln AND deleted_at IS NULL";
+        $query_string = "SELECT potong,infaq,created_at,iuran_pokok FROM gaji_terima WHERE id_user = $request->user_id AND YEAR(created_at) = $thn AND deleted_at IS NULL";
         $getTgl = DB::select($query_string);
         // print_r($getTgl);
         // die();

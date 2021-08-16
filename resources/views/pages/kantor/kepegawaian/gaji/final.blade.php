@@ -20,11 +20,13 @@
                 <i class="fa-fw fas fa-money nav-icon text-danger">
             
                 </i>
-                Detail Gaji Karyawan <b>{{ $list['bln'] }} {{ $list['thn'] }}</b>
+                {{-- Detail Gaji Karyawan <b>{{ $list['bln'] }} {{ $list['thn'] }}</b> --}}
+                Detail Gaji Karyawan <b>@if (count($list['gaji'])>0){{ \Carbon\Carbon::parse($list['gaji'][0]->tgl)->isoFormat('MMMM YYYY') }}@endif</b>
 
                 <span class="pull-right badge badge-warning" style="margin-top:4px">
                     Akses Kepegawaian
                 </span>
+{{-- {{ print_r("DISINI") }}{{ die() }} --}}
                 
             </div>
             <div class="card-body">

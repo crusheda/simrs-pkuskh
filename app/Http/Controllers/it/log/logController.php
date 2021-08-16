@@ -87,16 +87,11 @@ class logController extends Controller
         }
         // print_r($request->lokasi);
         // die();
-        if ($request->id_user == null) {
-            $find = user::where('id', $request->nama)->first();
-            $id = null;
-        } else {
-            $find = user::where('id', $request->nama)->first();
-            $id = $find->id;
-        }
+
+        $find = user::where('id', $request->nama)->first();
 
         $data = new logit;
-        $data->id_user = $id;
+        $data->id_user = $find->id;
         $data->nama = $find->nama;
         $data->kegiatan = $request->kegiatan;
         
@@ -177,15 +172,20 @@ class logController extends Controller
             'tgl' => 'nullable',
             ]);
 
-        $getTgl = Carbon::createFromFormat('Y-m-d H:i:s', $request->tgl)->format('F j, Y @ g:i A');
+        // $getTgl = Carbon::createFromFormat('Y-m-d H:i:s', $request->tgl)->format('F j, Y @ g:i A');
         
         $find = user::where('id', $request->nama)->first();
+        if ($request->id_user == null) {
+            $id = null;
+        } else {
+            $id = $find->id;
+        }
 
         $data = logit::find($id);
-        $data->id_user = $find->id;
+        $data->id_user = $id;
         $data->nama = $find->nama;
         $data->kegiatan = $request->kegiatan;
-        $data->created_at = $getTgl;
+        // $data->created_at = $getTgl;
 
         if ($request->keterangan == '') {
             $data->keterangan = '';

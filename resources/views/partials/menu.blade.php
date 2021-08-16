@@ -89,6 +89,11 @@
 
                                 </i>
                                 Pilar
+                                <span class="badge badge-light">
+                                    @php
+                                        echo count(\DB::table('imutpilar')->where('jamselesai',null)->get()); 
+                                    @endphp
+                                </span>
                             </a>
                         </li>
                         {{-- <li class="nav-item">

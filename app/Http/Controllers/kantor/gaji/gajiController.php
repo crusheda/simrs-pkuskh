@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use App\Models\gaji\gaji;
+use App\Models\gaji\gaji_total;
 use App\Models\gaji\fungsional;
 use App\Models\gaji\struktural;
 use App\Models\gaji\fungsional_has_user;
@@ -207,6 +208,9 @@ class gajiController extends Controller
 
         // Karyawan Baru vs Lama
         // $getKoperasi = $show;
+        if (count($show) == 0) {
+            return Redirect::back()->withErrors('Validasi Gagal, Anda belum mengisi Data Penerimaan Gaji Karyawan.');
+        }
 
         if (empty($tglGaji)) {
             for($count = 0; $count < count($show); $count++)
@@ -221,6 +225,12 @@ class gajiController extends Controller
                     'status' => false,
                     'tgl' => $tgl
                 );
+
+                    $pushTotalTerima[] = $show[$count]->gapok + $show[$count]->struktural + $show[$count]->fungsional + $show[$count]->insentif;
+                    $pushTotalPotong[] = $show[$count]->potong;
+                    $pushTotalKotor[] = $show[$count]->gapok + $show[$count]->struktural + $show[$count]->fungsional + $show[$count]->insentif;
+                    $pushTotalBersih[] = ($show[$count]->gapok + $show[$count]->struktural + $show[$count]->fungsional + $show[$count]->insentif) - $show[$count]->potong;
+
                 $dataArray[] = $ins; 
             }
             gaji::insert($dataArray);
@@ -254,11 +264,29 @@ class gajiController extends Controller
                         'status' => false,
                         'tgl' => $tgl
                     );
+
+                        $pushTotalTerima[] = $show[$count]->gapok + $show[$count]->struktural + $show[$count]->fungsional + $show[$count]->insentif;
+                        $pushTotalPotong[] = $show[$count]->potong;
+                        $pushTotalKotor[] = $show[$count]->gapok + $show[$count]->struktural + $show[$count]->fungsional + $show[$count]->insentif;
+                        $pushTotalBersih[] = ($show[$count]->gapok + $show[$count]->struktural + $show[$count]->fungsional + $show[$count]->insentif) - $show[$count]->potong;
+
                     $dataArray[] = $ins; 
                 }
                 gaji::insert($dataArray);
             }
         }
+        
+        $getTotalGaji = gaji_total::get();
+        if (!empty($getTotalGaji)) {
+            gaji_total::where('deleted_at', null)->delete();
+        }
+        $totgaji = new gaji_total;
+        $totgaji->total_terima = array_sum($pushTotalTerima);
+        $totgaji->total_potong = array_sum($pushTotalPotong);
+        $totgaji->total_kotor = array_sum($pushTotalKotor);
+        $totgaji->total_bersih = array_sum($pushTotalBersih);
+        $totgaji->tgl = $tgl;
+        $totgaji->save();
         
         return redirect::back()->with('message','Proses Validasi berjalan dengan lancar. Data berhasil di Validasi Pada : '.$now);
     }
@@ -372,6 +400,9 @@ class gajiController extends Controller
                 ->get();
         // print_r($show);
         // die();
+        if (count($show) == 0) {
+            return Redirect::back()->withErrors('Cetak Gagal, Anda belum melakukan Validasi gaji bulan ini.');
+        }
         
         $struktural = struktural::get();
         $strukturalHas = struktural_has_user::get();
@@ -409,6 +440,9 @@ class gajiController extends Controller
     public function hapus()
     {
         $getGaji = gaji::where('status',false)->where('status',0)->get();
+        if (count($getGaji) == 0) {
+            return Redirect::back()->withErrors('Validasi Gagal, Anda belum melakukan Validasi gaji bulan ini.');
+        }
         // Hapus Data Gaji OLD
         for($count = 0; $count < count($getGaji); $count++)
         {

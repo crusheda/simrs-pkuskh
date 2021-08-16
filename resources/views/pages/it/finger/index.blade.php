@@ -98,12 +98,12 @@
                     <div class="col-md-12">
                         <p>
                             - Pastikan format dokumen yang diupload sesuai seperti di bawah ini :<br><br>
-                            &nbsp;&nbsp;<kbd>Row 1</kbd> adalah NIP<br><br>
-                            &nbsp;&nbsp;<kbd>Row 2</kbd> adalah NAMA<br><br>
-                            &nbsp;&nbsp;<kbd>Row 3</kbd> adalah UNIT<br><br>
-                            &nbsp;&nbsp;<kbd>Row 4</kbd> adalah JUMLAH TIDAK TERLAMBAT<br><br>
-                            &nbsp;&nbsp;<kbd>Row 5</kbd> adalah JUMLAH TERLAMBAT<br><br>
-                            &nbsp;&nbsp;<kbd>Row 6</kbd> adalah JUMLAH ABSEN 1 KALI<br><br>
+                            &nbsp;&nbsp;<kbd>Row 1</kbd> adalah NIP <b>[INT]</b><br><br>
+                            &nbsp;&nbsp;<kbd>Row 2</kbd> adalah NAMA <b>[STRING]</b><br><br>
+                            &nbsp;&nbsp;<kbd>Row 3</kbd> adalah UNIT <b>[STRING]</b><br><br>
+                            &nbsp;&nbsp;<kbd>Row 4</kbd> adalah JUMLAH TIDAK TERLAMBAT <b>[INT]</b><br><br>
+                            &nbsp;&nbsp;<kbd>Row 5</kbd> adalah JUMLAH TERLAMBAT <b>[INT]</b><br><br>
+                            &nbsp;&nbsp;<kbd>Row 6</kbd> adalah JUMLAH ABSEN 1 KALI <b>[INT]</b><br><br>
                             - Pastikan baris paling atas (Pertama) adalah data pertama yang akan dimasukkan<br>
                             - Disarankan untuk tidak memakai border atau sejenisnya<br>
                             - Ekstensi File yang digunakan yaitu <i>.CSV , .XLS , .XLSX</i>

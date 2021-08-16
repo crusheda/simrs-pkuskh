@@ -371,8 +371,11 @@
                             $getPotong = \App\Models\gaji\potong_has_user::where('id_user', $items->id_user)->get();
                             $bln = Carbon\Carbon::now()->isoFormat('MM');
                             $thn = Carbon\Carbon::now()->isoFormat('YYYY');
-                            $query_string = "SELECT created_at,iuran_pokok FROM gaji_terima WHERE id_user = $items->id_user AND YEAR(created_at) = $thn AND MONTH(created_at) = $bln AND deleted_at IS NULL";
+                            // $query_string = "SELECT created_at,iuran_pokok FROM gaji_terima WHERE id_user = $items->id_user AND YEAR(created_at) = $thn AND MONTH(created_at) = $bln AND deleted_at IS NULL";
+                            $query_string = "SELECT created_at,iuran_pokok FROM gaji_terima WHERE id_user = $items->id_user AND YEAR(created_at) = $thn AND deleted_at IS NULL";
                             $getTglQuery = \DB::select($query_string);
+                            // print_r($getTglQuery);
+                            // die();
                                 $tglCarbon = Carbon\Carbon::now()->isoFormat('YYYY-MM'); // 2021-07
                                 $tglTimestamp = Carbon\Carbon::parse($getTglQuery[0]->created_at)->isoFormat('YYYY-MM'); // 2021-07
                                 if ($tglCarbon == $tglTimestamp) {
