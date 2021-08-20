@@ -37,7 +37,7 @@
     <link href="https://cdnjs.cloudflare.com/ajax/libs/dropzone/5.5.1/min/dropzone.min.css" rel="stylesheet" />
 
     <!-- 1. Addchat css -->
-    <link href="<?php echo asset('assets/addchat/css/addchat.css') ?>" rel="stylesheet">
+    {{-- <link href=" echo asset('assets/addchat/css/addchat.css') ?>" rel="stylesheet"> --}}
 
     {{-- SweetAlert2 --}}
     <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
@@ -55,11 +55,11 @@
 <body class="app header-fixed sidebar-fixed aside-menu-fixed pace-done sidebar-lg-show" id="body">
   
     <!-- 2. AddChat widget -->
-    <div id="addchat_app" 
-        data-baseurl="<?php echo url('') ?>"
-        data-csrfname="<?php echo 'X-CSRF-Token' ?>"
-        data-csrftoken="<?php echo csrf_token() ?>"
-    ></div>
+    {{-- <div id="addchat_app" 
+        data-baseurl="echo url('') ?>"
+        data-csrfname="echo 'X-CSRF-Token' ?>"
+        data-csrftoken="echo csrf_token() ?>"
+    ></div> --}}
 
     <header class="app-header navbar">
         <button class="navbar-toggler sidebar-toggler d-lg-none mr-auto" type="button" data-toggle="sidebar-show">
@@ -165,9 +165,9 @@
 
       <!-- 3. AddChat JS -->
       <!-- Modern browsers -->
-      <script type="module" src="<?php echo asset('assets/addchat/js/addchat.min.js') ?>"></script>
+      {{-- <script type="module" src="echo asset('assets/addchat/js/addchat.min.js') ?>"></script> --}}
       <!-- Fallback support for Older browsers -->
-      <script nomodule src="<?php echo asset('assets/addchat/js/addchat-legacy.min.js') ?>"></script>
+      {{-- <script nomodule src="echo asset('assets/addchat/js/addchat-legacy.min.js') ?>"></script> --}}
 
     <script src="{{ asset('js/main.js') }}"></script>
     <script>

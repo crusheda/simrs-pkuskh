@@ -33,6 +33,12 @@
                             </i>
                             Tambah
                         </a>
+                        <a type="button" class="btn btn-dark text-white" data-toggle="modal" data-target="#" hidden>
+                            <i class="fa-fw fas fa-question-circle nav-icon">
+    
+                            </i>
+                            Struktur Organisasi
+                        </a>
                     </div>
                     @role('pelayanan')
                     <div class="pull-right">
@@ -57,7 +63,7 @@
                                     
                                 @endphp
                             </select>
-                            <button class="form-control btn btn-info text-white" id="submit" disabled>Filter</button>
+                            <button class="form-control btn btn-info text-white" id="submit" disabled><i class="fa-fw fas fa-search nav-icon"></i></button>
                         </form>
                     </div>
                     @endrole
@@ -67,43 +73,49 @@
                 <table id="bulanan" class="table table-striped display">
                     <thead>
                         <tr>
-                            <th>DIBUAT</th>
-                            <th>JUDUL</th>
                             @role('pelayanan')
+                                <th>DIBUAT</th>
+                                <th>JUDUL</th>
                                 <th>BLN / THN</th>
                                 <th>UNIT</th>
                             @else
+                                <th>DIBUAT</th>
+                                <th>DIPERBARUI</th>
+                                <th>JUDUL</th>
                                 <th>BLN / THN</th>
                             @endrole
                             <th>KETERANGAN</th>
-                            <th>
-                                <center>#</center>
-                            </th>
+                            <th>#</th>
                         </tr>
                     </thead>
                     <tbody style="text-transform: capitalize">
                         @if(count($list['show']) > 0)
                         @foreach($list['show'] as $item)
                         <tr>
-                            <td>{{ $item->created_at }}</td>
-                            <td>{{ $item->judul }}</td>
                             @role('pelayanan')
+                                <td>{{ $item->created_at }}</td>
+                                <td>{{ $item->judul }}</td>
                                 <td>{{ $item->bln }} / {{ $item->thn }}</td>
-                                <td>{{ $item->unit }}</td>
+                                <td style="text-transform: uppercase">{{ str_replace("-"," ",$item->unit) }}</td>
                             @else
+                                <td>{{ $item->created_at }}</td>
+                                <td>{{ \Carbon\Carbon::parse($item->updated_at)->diffforhumans() }}</td>
+                                <td>{{ $item->judul }}</td>
                                 <td>{{ $item->bln }} / {{ $item->thn }}</td>
                             @endrole
                             <td>{{ $item->ket }}</td>
                             <td>
-                                <center>
-                                    <div class="btn-group" role="group">
-                                        <a type="button" class="btn btn-success btn-sm" onclick="window.location.href='{{ url('laporan/bulanan/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
-                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                        @role('pelayanan')
+                                <div class="btn-group" role="group">
+                                    <a type="button" class="btn btn-success btn-sm" onclick="window.location.href='{{ url('laporan/bulanan/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
+                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
+                                    @role('pelayanan')
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                    @else
+                                        @if (\Carbon\Carbon::parse($item->updated_at)->isoFormat('YYYY/MM/DD') ==  $list['tgl'])
                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                        @endrole
-                                    </div>
-                                </center>
+                                        @endif
+                                    @endrole
+                                </div>
                             </td>
                         </tr>
                         @endforeach
@@ -122,6 +134,28 @@
         </div>
     </div>
 </div>
+
+{{-- <div class="row">
+    <div class="card" style="width: 100%">
+        <div class="card-header bg-dark">
+
+            <div class="pull-left" style="margin-top: 3px">
+                <i class="fa-fw fas fa-question-circle nav-icon">
+    
+                </i> Lihat Struktur Organisasi
+            </div>
+            <div class="pull-right">
+                <a type="button" class="btn btn-light btn-sm text-dark" data-toggle="modal" data-target="#tambah">
+                    <i class="fa-fw fas fa-plus-square nav-icon">
+
+                    </i>
+                    Tampilkan
+                </a>
+            </div>
+
+        </div>
+    </div>
+</div> --}}
 
 {{-- @role('admin-direksi') --}}
 <div class="modal fade bd-example-modal-lg" id="tambah" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
@@ -282,16 +316,23 @@
                     @if ($item->filename == '')
                     -
                     @else
-                        <b>{{ $item->title }}</b> ({{Storage::size($item->filename)}} bytes)
+                        <b><a href="bulanan/{{ $item->id }}">{{ $item->title }}</a></b> ({{Storage::size($item->filename)}} bytes)
                     @endif
                 </div>
         </div>
         <div class="modal-footer">
-            
-                <center><button class="btn btn-primary pull-right"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button></center><br>
-            </form>
+            <div class="pull-left">
+                @foreach($list['user'] as $items)
+                    @if ($item->id_user == $items->id) Ditambahkan oleh {{ $items->nama }} @endif
+                @endforeach
+            </div>
+            <div class="pull-right">
+                <button class="btn btn-primary"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            </div>
 
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            </form>
+            
         </div>
       </div>
     </div>
@@ -305,6 +346,9 @@
         <div class="modal-header">
           <h5 class="modal-title">
             Ditambahkan <b>{{ $item->updated_at->diffForHumans() }}</b>
+                @foreach($list['user'] as $items)
+                    @if ($item->id_user == $items->id) oleh {{ $items->nama }} @endif
+                @endforeach
           </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
@@ -335,6 +379,13 @@ $(document).ready( function () {
             buttons: [
                 'excel', 'pdf','colvis'
             ],
+            language: {
+                buttons: {
+                    colvis: 'Sembunyikan Kolom',
+                    excel: 'Jadikan Excell',
+                    pdf: 'Jadikan PDF',
+                }
+            },
             order: [[ 0, "desc" ]]
         }
     );

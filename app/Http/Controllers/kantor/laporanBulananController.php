@@ -28,16 +28,25 @@ class laporanBulananController extends Controller
         $name = $user->name;
         $role = $user->roles->first()->name; //kabag-keperawatan
 
+        $tgl = Carbon::now()->isoFormat('YYYY/MM/DD');
         $thn = Carbon::now()->isoFormat('Y');
         
+        $users = DB::table('users')
+                ->where('users.status',null)
+                ->get();
+                
         if (Auth::user()->hasRole('pelayanan')) {
             $show = laporan_bulanan::all();
         }else {
             $show = laporan_bulanan::where('unit', $role)->get();
         }
 
+        // print_r($tgl);
+        // die();
         $data = [
             'show' => $show,
+            'user' => $users,
+            'tgl'  => $tgl,
             'thn'  => $thn,
             'unit' => $unit,
             'role' => $role
@@ -63,6 +72,9 @@ class laporanBulananController extends Controller
      */
     public function store(Request $request)
     {
+        $user = Auth::user();
+        $userId = $user->id;
+
         $this->validate($request,[
             'file' => 'required|file|max:100000',
             ]);
@@ -79,6 +91,7 @@ class laporanBulananController extends Controller
         $data->judul = $request->judul;
         $data->bln = $request->bln;
         $data->thn = $request->thn;
+        $data->id_user = $userId;
         $data->unit = $request->unit;
 
             $data->title = $request->title ?? $uploadedFile->getClientOriginalName();
@@ -99,10 +112,10 @@ class laporanBulananController extends Controller
     public function show($id)
     {
         $data = laporan_bulanan::find($id);
-        // return Storage::download($data->filename, $data->title);
+        return Storage::download($data->filename, $data->title);
         // return Storage::url($data->filename, $data->title);
         // return response()->download(storage_path("app/".$data->filename));
-        return response()->file(storage_path("app/".$data->filename));
+        // return response()->file(storage_path("app/".$data->filename));
     }
 
     /**
@@ -129,7 +142,7 @@ class laporanBulananController extends Controller
         $data->judul = $request->judul;
         $data->bln = $request->bln;
         $data->thn = $request->thn;
-        $data->unit = $request->unit;
+        // $data->unit = $request->unit;
         $data->ket = $request->ket;
 
         $data->save();
@@ -173,16 +186,13 @@ class laporanBulananController extends Controller
         $time= 'Bulan : '.$bln.' Tahun : '.$thn;
         
         if($bln && $thn){
-            $query_string = "SELECT * FROM laporan_bulanan WHERE YEAR(updated_at) = $thn AND MONTH(updated_at) = $bln";
-            $show = DB::select($query_string);
+            $show = laporan_bulanan::where('bln', $bln)->where('thn',$thn)->get();
         }
         elseif($bln && $thn == null){
-            $query_string = "SELECT * FROM laporan_bulanan WHERE MONTH(updated_at) = $bln";
-            $show = DB::select($query_string);
+            $show = laporan_bulanan::where('bln', $bln)->get();
         }
         elseif($thn && $bln == null){
-            $query_string = "SELECT * FROM laporan_bulanan WHERE YEAR(updated_at) = $thn";
-            $show = DB::select($query_string);
+            $show = laporan_bulanan::where('thn',$thn)->get();
         }        
 
         // print_r($show);
