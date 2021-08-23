@@ -32,7 +32,8 @@
     
                             </i>
                             Tambah Identitas Bayi
-                        </button>
+                        </button><br>
+                        <sub>Disarankan untuk menggunakan Browser <b>Google Chrome</b>.</sub>
                     </div>
                 </div><hr>
                 <div class="table-responsive">
@@ -150,7 +151,7 @@
                             </select>
                         </div>
                         <label>Alamat :</label>
-                        <textarea class="form-control" name="alamat" id="alamat" placeholder=""></textarea>
+                        <textarea class="form-control" style="min-height: 100px" maxlength="190" rows="5" name="alamat" id="alamat" placeholder=""></textarea>
                     </div>
                 </div>
 

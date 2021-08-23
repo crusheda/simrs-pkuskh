@@ -21,7 +21,12 @@
             @can('antigen')
             <div class="panel panel-default">
                 <div class="panel-body">
-                    <h5 class="text-center">Data Swab Antigen</h5><hr>
+                    <div class="row">
+                        <div class="col-md-12">
+                            <h5 class="text-center pull-left">Data Swab Antigen</h5>
+                            <button type="button" class="btn btn-dark pull-right" data-toggle="modal" data-target="#show" data-toggle="tooltip" data-placement="bottom" title="DATA PASIEN HARI INI"><i class="fa-fw fas fa-info nav-icon text-white"></i> Informasi</button>
+                        </div>
+                    </div><hr>
                     <div class="row">
                         <div class="col-lg-12 col-md-12 col-sm-12 col-xs-12">
                             <div class="data-table-list">
@@ -93,6 +98,43 @@
         </div>
     </div>
 </div>
+<div class="modal fade bd-example-modal-lg" id="show" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title">
+                Data Pasien Antigen
+            </h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                @if(!empty($list['getpos'][0]->jumlah))
+                    <a><i class="fa-fw fas fa-caret-right nav-icon"></i> ANTIGEN POSITIF (BULAN INI) : <kbd style="background-color: red">{{ $list['getpos'][0]->jumlah }} Pasien</kbd></a> <br><br>
+                @endif
+                @if(!empty($list['getposyear'][0]->jumlah))
+                    <a><i class="fa-fw fas fa-caret-right nav-icon"></i> TOTAL ANTIGEN POSITIF (TAHUN INI) : <kbd style="background-color: RED">{{ $list['getposyear'][0]->jumlah }} Pasien</kbd></a> <br><br>
+                @endif
+                <hr>
+                @if(!empty($list['getneg'][0]->jumlah))
+                    <a><i class="fa-fw fas fa-caret-right nav-icon"></i> ANTIGEN NEGATIF (BULAN INI) : <kbd style="background-color: royalblue">{{ $list['getneg'][0]->jumlah }} Pasien</kbd></a> <br><br>
+                @endif
+                @if(!empty($list['getnegyear'][0]->jumlah))
+                    <a><i class="fa-fw fas fa-caret-right nav-icon"></i> TOTAL ANTIGEN NEGATIF (TAHUN INI) : <kbd style="background-color: royalblue">{{ $list['getnegyear'][0]->jumlah }} Pasien</kbd></a> <br><br>
+                @endif
+                <hr>
+                @if(!empty($list['getmont'][0]->jumlah))
+                    <a><i class="fa-fw fas fa-caret-right nav-icon"></i> TOTAL ANTIGEN BULAN INI : <kbd style="background-color: rgb(23, 106, 4)">{{ $list['getmont'][0]->jumlah }} Pasien</kbd></a> <br><br>
+                @endif
+                @if(!empty($list['getyear'][0]->jumlah))
+                    <a><i class="fa-fw fas fa-caret-right nav-icon"></i> TOTAL ANTIGEN TAHUN INI : <kbd style="background-color: rgba(134, 19, 87, 0.45)">{{ $list['getyear'][0]->jumlah }} Pasien</kbd></a>
+                @endif
+            </div>
+            <div class="modal-footer">
+                <a class="pull-left"><b># Updated {{ \Carbon\Carbon::parse($list['now'])->isoFormat('DD MMMM YYYY') }}</b></a>
+            </div>
+        </div>
+    </div>
+</div>
 
 <script>
     $(document).ready( function () {
@@ -104,6 +146,14 @@
                 buttons: [
                     'excel', 'pdf', 'print','colvis'
                 ],
+                language: {
+                    buttons: {
+                        colvis: 'Sembunyikan Kolom',
+                        excel: 'Jadikan Excell',
+                        pdf: 'Jadikan PDF',
+                        print: 'Cetak Table',
+                    }
+                },
                 order: [[ 6, "desc" ]],
                 pageLength: 50
             }

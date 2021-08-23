@@ -22,8 +22,10 @@
         "milon/barcode": "^6.0",
         "phpoffice/phpword": "^0.17.0",
         "pusher/pusher-php-server": "^5.0",
+        "renatomarinho/laravel-page-speed": "^2.0",
         "spatie/laravel-permission": "^3.0",
         "stevebauman/location": "^6.0",
+        "tobiasdierich/gauge": "^0.0.5",
         "unisharp/laravel-filemanager": "^2.2"
     },
     "require-dev": {

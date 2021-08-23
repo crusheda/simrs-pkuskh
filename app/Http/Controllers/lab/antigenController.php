@@ -94,9 +94,20 @@ class antigenController extends Controller
 
         $pj = 'dr. Endang Tri Peterani, Sp.PK';
 
+        // print_r($request->rm);
+        // die();
+
         $data = new antigen;
         $data->dr_pengirim  = $request->dr_pengirim;
         $data->pemeriksa  = $request->pemeriksa;
+        if ($request->nama == '') {
+            return redirect::back()->withErrors('Nomor RM yang anda masukkan Tidak Valid, mohon ulangi sekali lagi.');
+        }
+        // if (strlen((string)$request->rm) == 5) {
+        //     $rm = '000'.$request->rm;
+        // } else {
+        //     $rm = '00'.$request->rm;
+        // }
         $data->rm           = $request->rm;
         $data->nama         = $request->nama;
         $data->jns_kelamin  = $request->jns_kelamin;
@@ -243,6 +254,11 @@ class antigenController extends Controller
 
     public function showAll()
     {
+        $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
+        $tgl = Carbon::now()->isoFormat('DD');
+        $bln = Carbon::now()->isoFormat('MM');
+        $thn = Carbon::now()->isoFormat('YYYY');
+
         $dokter = dokter::get();
         $show = DB::table('antigen')
                 ->join('dokter', 'dokter.id', '=', 'antigen.dr_pengirim')
@@ -250,10 +266,35 @@ class antigenController extends Controller
                 ->select('dokter.id as dr_id','dokter.nama as dr_nama','dokter.jabatan as dr_jabatan','antigen.*')
                 ->orderBy('tgl','DESC')
                 ->get();
+                
+        $query_string1 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND hasil = 'POSITIF' GROUP BY hasil";
+        $getpos = DB::select($query_string1);
+
+        $query_string2 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND hasil = 'NEGATIF' GROUP BY hasil";
+        $getneg = DB::select($query_string2);
+                
+        $query_string3 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND hasil = 'POSITIF' GROUP BY hasil";
+        $getposyear = DB::select($query_string3);
+
+        $query_string4 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND hasil = 'NEGATIF' GROUP BY hasil";
+        $getnegyear = DB::select($query_string4);
+
+        $query_string5 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln";
+        $getmont = DB::select($query_string5);
+
+        $query_string6 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn";
+        $getyear = DB::select($query_string6);
 
         $data = [
             'show' => $show,
-            'dokter' => $dokter
+            'now' => $now,
+            'dokter' => $dokter,
+            'getpos' => $getpos,
+            'getneg' => $getneg,
+            'getposyear' => $getposyear,
+            'getnegyear' => $getnegyear,
+            'getmont' => $getmont,
+            'getyear' => $getyear,
         ];
 
         return view('pages.lab.antigen-all')->with('list', $data);

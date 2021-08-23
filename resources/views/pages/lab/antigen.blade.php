@@ -133,7 +133,7 @@
                     <div class="row">
                         <div class="col-md-2">
                             <label>RM :</label>
-                            <input type="number" name="rm" id="rm" max="999999" class="form-control" placeholder="" autofocus required><br>
+                            <input type="number" name="rm" id="rm" max="99999999" class="form-control" placeholder="" autofocus required><br>
                         </div>
                         <div class="col-md-6">
                             <label>Pemeriksa :</label>
@@ -186,9 +186,10 @@
                             <input type="text" name="kec" id="kec" class="form-control" hidden>
                             <input type="text" name="kab" id="kab" class="form-control" hidden>
                             <textarea class="form-control" name="alamat" id="alamat1" placeholder="" maxlength="190" rows="8" hidden></textarea>
-                            <textarea class="form-control" id="alamat2" placeholder="" maxlength="190" rows="8" disabled></textarea>
+                            <textarea class="form-control" style="min-height: 100px" id="alamat2" placeholder="" maxlength="190" rows="5" disabled></textarea>
                         </div>
-                    </div>
+                    </div><br>
+                    <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan kembali <kbd>Nomor RM</kbd> sesuai dengan Database Pilar.</a>
 
             </div>
             <div class="modal-footer">
@@ -387,6 +388,18 @@
                 $("#kec").val("");
                 $("#kab").val("");
             } else {
+                if (this.value.length == 4) {
+                    this.value = '0000'+this.value;
+                }
+                if (this.value.length == 5) {
+                    this.value = '000'+this.value;
+                } 
+                if (this.value.length == 6) {
+                    this.value = '00'+this.value;
+                }
+                if (this.value.length < 4) {
+                    this.value = this.value;
+                }
                 $.ajax({
                     url: "http://192.168.1.3:8000/api/all/"+this.value,
                     type: 'GET',
