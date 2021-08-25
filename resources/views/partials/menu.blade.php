@@ -80,6 +80,26 @@
                     </ul>
                 </li>
             @endcan
+            @role('it')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <i class="fa-fw fas fa-coffee nav-icon">
+
+                        </i>
+                        Pilar Hospital
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("it.rev.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-code-fork nav-icon">
+
+                                </i>
+                                Rev
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
             @can('imut_it')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">

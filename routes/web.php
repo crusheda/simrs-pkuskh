@@ -75,6 +75,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
         // Printer
         Route::post('/imut/printer/{id}', 'it\imut\printerController@printerClear')->name('printer.selesai');
         Route::resource('/imut/printer', 'it\imut\printerController');
+    
+    // Pilar
+        // Revisi
+        Route::resource('/pilar/rev', 'it\pilar\revisiPilarController');
+        // API
 
 });
 

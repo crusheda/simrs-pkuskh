@@ -189,7 +189,7 @@
                             <textarea class="form-control" style="min-height: 100px" id="alamat2" placeholder="" maxlength="190" rows="5" disabled></textarea>
                         </div>
                     </div><br>
-                    <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan kembali <kbd>Nomor RM</kbd> sesuai dengan Database Pilar.</a>
+                    <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan <kbd>Nomor RM</kbd> sesuai dengan Database Pilar.</a>
 
             </div>
             <div class="modal-footer">
@@ -268,7 +268,7 @@
                         </div>
                         <div class="col-md-12">
                             <label>Alamat :</label>
-                            <textarea class="form-control" name="alamat3" placeholder="" maxlength="190" rows="8" hidden><?php echo htmlspecialchars($item->alamat); ?></textarea>
+                            <textarea class="form-control" style="min-height: 100px" name="alamat3" placeholder="" maxlength="190" rows="5" hidden><?php echo htmlspecialchars($item->alamat); ?></textarea>
                             <textarea class="form-control" disabled><?php echo htmlspecialchars($item->alamat); ?></textarea>
                         </div>
                     </div><br>

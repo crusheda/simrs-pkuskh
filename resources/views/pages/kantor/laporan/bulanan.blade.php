@@ -39,6 +39,8 @@
                             </i>
                             Struktur Organisasi
                         </a>
+                        <br>
+                        <sub>Role : <b></b></sub>
                     </div>
                     @role('pelayanan')
                     <div class="pull-right">
@@ -196,19 +198,14 @@
                             @endphp
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <input type="text" name="unit" value="{{ $list['role'] }}" hidden>
+                    {{-- <div class="col-md-4">
                         <label>Unit</label>
-                        <input type="text" name="unit" value="{{ $list['role'] }}" hidden>
                         <select class="custom-select" name="unit" id="unit" disabled>
                             <option value="{{ $list['role'] }}" selected>{{ $list['role'] }}</option>
-                            {{-- @foreach($list['unit'] as $name => $item)
-                                <option value="{{ $name }}">{{ $name }}</option>
-                            @endforeach --}}
                         </select>
-                    </div>
-                </div><br>
-                <div class="row">
-                    <div class="col">
+                    </div> --}}
+                    <div class="col-md-4">
                         <label>Judul</label>
                         <input type="text" name="judul" class="form-control" required>
                     </div>
@@ -216,7 +213,7 @@
                 <div class="row">
                     <div class="col">
                         <label>Keterangan :</label>
-                        <textarea class="form-control" name="ket" id="ket1" maxlength="190" rows="8"></textarea>
+                        <textarea class="form-control" style="min-height: 100px" name="ket" id="ket1" maxlength="190" rows="5"></textarea>
                         <span class="help-block">
                             <p id="maxtambah" class="help-block "></p>
                         </span>  
@@ -251,7 +248,7 @@
             {{ Form::model($item, array('route' => array('bulanan.update', $item->id), 'method' => 'PUT')) }}
                 @csrf
                 <div class="row">
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <label>Bulan</label>
                         <select onchange="submitBtn()" class="form-control" name="bln" required>
                             <option hidden>Bulan</option>
@@ -268,7 +265,7 @@
                             ?>
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <div class="col-md-2">
                         <label>Tahun</label>
                         <select onchange="submitBtn()" class="form-control" name="thn" required>
                             <option hidden selected>Tahun</option>
@@ -284,19 +281,14 @@
                             @endphp
                         </select>
                     </div>
-                    <div class="col-md-4">
+                    <input type="text" name="unit" value="{{ $item->unit }}" hidden>
+                    {{-- <div class="col-md-4">
                         <label>Unit</label>
-                        <input type="text" name="unit" value="{{ $item->unit }}" hidden>
                         <select class="custom-select" name="unit" id="unit" disabled>
                             <option value="{{ $item->unit }}" selected>{{ $item->unit }}</option>
-                            {{-- @foreach($list['unit'] as $name => $key)
-                                <option value="{{ $name }}" @if ($item->unit == $name) echo selected @endif>{{ $name }}</option>
-                            @endforeach --}}
                         </select>
-                    </div>
-                </div><br>
-                <div class="row">
-                    <div class="col">
+                    </div> --}}
+                    <div class="col-md-8">
                         <label>Judul</label>
                         <input type="text" name="judul" value="{{ $item->judul }}" class="form-control" required>
                     </div>
@@ -304,7 +296,7 @@
                 <div class="row">
                     <div class="col">
                         <label>Keterangan :</label>
-                        <textarea class="form-control" name="ket" id="ket2" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->ket); ?></textarea>
+                        <textarea class="form-control" style="min-height: 100px" name="ket" id="ket2" placeholder="" maxlength="190" rows="5"><?php echo htmlspecialchars($item->ket); ?></textarea>
                         <span class="help-block">
                             <p id="maxubah" class="help-block "></p>
                         </span>  
