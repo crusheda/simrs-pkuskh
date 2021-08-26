@@ -26,7 +26,14 @@
                     <label>Keterangan :</label>
                     <textarea class="form-control" name="keterangan" id="keterangan" placeholder="" required></textarea>
                     <br>
-                    <center><button class="btn btn-success text-white" id="submit"><i class="fa-fw fas fa-check nav-icon"></i> Submit</button></center>
+                    <div>
+                        <div class="pull-left">
+                            <button class="btn btn-info text-white" onclick="window.location.href='{{ route('it.rev.index') }}'"><i class="fa-fw fas fa-code-fork nav-icon"></i> Revisi</button>
+                        </div>
+                        <div class="pull-right">
+                            <button class="btn btn-success text-white" id="submit"><i class="fa-fw fas fa-check nav-icon"></i> Submit</button>
+                        </div>
+                    </div>
                 </form>
             </div>
         </div>

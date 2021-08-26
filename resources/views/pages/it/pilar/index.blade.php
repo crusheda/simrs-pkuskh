@@ -77,10 +77,23 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Hanya berlaku untuk penghapusan Data Kunjungan Pasien <br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan lagi untuk pengisian Nomer Rekam Medik adalah benar <br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Jika ingin menghapus Kunjungan khusus <kbd>Pasien Inap</kbd> (Jika Diperlukan), harus dalam kondisi Pulang terlebih dahulu <br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Setelah proses Hapus Berhasil, Halaman ini akan Refresh Otomatis dalam 5 detik <br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Fitur ini tidak akan berpengaruh terhadap Rekam Medik yang lainnya <br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Gunakan dengan Hati-hati untuk kemudahan bersama 
+                <hr>
+                <b>Data yang dihapus adalah dari Tabel :</b><br>
+                - DAT_ASSEMBLING <br>
+                - DAT_DIGITALRM <br>
+                - TRANS_JNSPELAYANAN <br>
+                - TRANS_PEMBAYARANPASIEN <br>
+                - TRANS_AKOMODASI <br>
+                - REG_KUNJUNGANPASIEN
             </div>
             <div class="modal-footer">
-                
+               <b>Penghapusan sesuai <i>TRANS_AKOMODASI</i></b>
             </div>
         </div>
     </div>
@@ -125,7 +138,6 @@
             dataType: 'json', // added data type
             success: function(res) {
                 $("#tampil-tbody").empty();
-                // $("#dateTable").empty();
                 res.show.forEach(item => {
                     var e = parseFloat(item.REG_KUNJUNGANPASIEN);
                     $("#tampil-tbody").append(`
@@ -143,9 +155,41 @@
                         </tr>
                     `);
                 });
-                // for (var i = 0, len = res.length; i < len; i++) {
-                //     $("#tampil-tbody").append(`res[i]`);
-                // }
+                Swal.fire({
+                    title: res.title,
+                    text: res.msg,
+                    icon: res.icon,
+                    showConfirmButton:false,
+                    showCancelButton:false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    backdrop: `rgba(26,27,41,0.8)`,
+                });
+            }
+        }); 
+        $.ajax({
+            url: "http://103.155.246.25:8000/api/pilar/"+rm,
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function(res) {
+                $("#tampil-tbody").empty();
+                res.show.forEach(item => {
+                    var e = parseFloat(item.REG_KUNJUNGANPASIEN);
+                    $("#tampil-tbody").append(`
+                        <tr id="data${item.REG_KUNJUNGANPASIEN}">
+                            <td>${item.DAT_PASIEN}</td> 
+                            <td>${item.REG_KUNJUNGANPASIEN}</td> 
+                            <td>${item.NAMAPASIEN}</td> <td>${item.UMUR}</td> 
+                            <td>${item.JNSKELAMIN}</td> <td>${item.TGL_REGISTRASI}</td> 
+                            <td>${item.TGL_DISCHARGE ? item.TGL_DISCHARGE : '<span class="badge badge-dark">NULL</span>'}</td> 
+                            <td>
+                                <button class="btn btn-danger text-white" onclick="batalPeriksa(${e})">
+                                    <i class="fa-fw fas fa-trash nav-icon"></i>
+                                </button>
+                            </td>
+                        </tr>
+                    `);
+                });
                 Swal.fire({
                     title: res.title,
                     text: res.msg,
@@ -186,8 +230,6 @@
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
-                        // $("#antrian").empty();
-                        // console.log(res);
                         Swal.fire({
                             title: res.title,
                             text: res.msg,
@@ -203,18 +245,27 @@
                             window.setTimeout(function(){location.reload()},5000);
                         }
                     },
-                    // error: function(data){
-                    //     Swal.fire({
-                    //         title: 'Maaf!!',
-                    //         text: 'Data RM tidak ditemukan.',
-                    //         icon: 'danger',
-                    //         showConfirmButton:false,
-                    //         showCancelButton:false,
-                    //         timer: 3000,
-                    //         timerProgressBar: true,
-                    //         backdrop: `rgba(26,27,41,0.8)`,
-                    //     });
-                    // }
+                }); 
+                $.ajax({
+                    url: "http://103.155.246.25:8000/api/pilar/batalperiksa/"+goal,
+                    type: 'GET',
+                    dataType: 'json', // added data type
+                    success: function(res) {
+                        Swal.fire({
+                            title: res.title,
+                            text: res.msg,
+                            icon: res.icon,
+                            showConfirmButton:false,
+                            showCancelButton:false,
+                            timer: 5000,
+                            timerProgressBar: true,
+                            backdrop: `rgba(26,27,41,0.8)`,
+                        });
+                        // location.reload();
+                        if (res.icon == 'success') {
+                            window.setTimeout(function(){location.reload()},5000);
+                        }
+                    },
                 }); 
             } else if (result.isDenied) {
                 Swal.fire({
@@ -229,15 +280,6 @@
                 });
             }
         })
-        // var getid = $("#hapus"+id).val();
-        // alert(getid);
-        // console.log(getid);
-        // $("#cek").val(getid);
-        // var id  = $(e).res("REG_KUNJUNGANPASIEN");
-        // var todo  = $("#todo_"+id+" td:nth-child(2)").html();
-        // alert(goal);
-        // console.log(goal+" - "+convID);
-        // $("#cek").val(id);
     }
 
     function hapusTable() {
@@ -250,17 +292,4 @@
 
 @endsection
 
-{{-- 
-<input type="text" class="form-control" id="aik" value="" name="aik">
-<button onclick="myFunction()">Click me</button>
-
-<p id="demo"></p>
-
-<script>
-function myFunction() {
-	var data = $("#aik").val();
-  	document.getElementById("demo").innerHTML = data;
-}
-</script> 
---}}
 
