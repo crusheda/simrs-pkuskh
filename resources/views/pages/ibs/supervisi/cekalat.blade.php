@@ -28,27 +28,27 @@
             <div class="row">
                 <div class="col-md-12">
                     <button class="btn btn-primary text-white pull-left" data-toggle="modal" data-target="#lihatTim">
-                        <i class="fa-fw fas fa-plus-square nav-icon">
+                        <i class="fa-fw fas fa-group nav-icon">
 
                         </i>
                         Lihat Tim
                     </button>
                     @if (Carbon\Carbon::parse($list['cekdata']->tgl_mulai)->isoFormat('YYYY-MM-DD') == Carbon\Carbon::now()->isoFormat('YYYY-MM-DD'))
                         <button class="btn btn-danger text-white pull-right" onclick="batalCek()">
-                            <i class="fa-fw fas fa-close nav-icon">
+                            <i class="fa-fw fas fa-trash nav-icon">
 
                             </i>
                             Batal Cek
                         </button>
                     @else
-                        <button class="btn btn-danger text-white pull-right" disabled><i class="fa-fw fas fa-close nav-icon"></i> Batal Cek</button>
+                        <button class="btn btn-danger text-white pull-right" disabled><i class="fa-fw fas fa-trash nav-icon"></i> Batal Cek</button>
                     @endif
                 </div>
             </div><hr>
             <h5 class="text-center">DAFTAR CEK LIST RUTIN PENGECEKAN FUNGSI DAN KELENGKAPAN BHP<br>INSTALASI BEDAH SENTRAL<br>2021</h5><hr>
             <div class="data-table-list">
                 <div class="table-responsive">
-                    <table id="pilar" class="table table-striped table-hover">
+                    <table id="pilar" class="table table-striped table-bordered">
                         <thead class="thead-dark">
                             <tr>
                                 <th><center>#</center></th>
@@ -58,7 +58,7 @@
                                 <th>Keterangan</th>
                             </tr>
                         </thead>
-                        <tbody id="tampil-tbody"><tr><td colspan="5">Tidak ada data ditemukan.</td></tr></tbody>
+                        <tbody id="tampil-tbody"><tr><td colspan="5"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
                     </table>
                 </div>
             </div>

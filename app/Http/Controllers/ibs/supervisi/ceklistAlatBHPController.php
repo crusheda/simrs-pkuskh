@@ -25,6 +25,7 @@ class ceklistAlatBHPController extends Controller
     {
         $today = Carbon::now();
         $now = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+        $thn = Carbon::now()->isoFormat('YYYY');
         // $show = ibs_supervisi::orderBy('tgl','DESC')->limit('20')->groupBy('')->get();
         $timIbs = ibs_has_tim::orderBy('id_tim', 'DESC')->first();
 
@@ -56,7 +57,7 @@ class ceklistAlatBHPController extends Controller
                 
         $get_data = DB::table('ibs_supervisi')
                 ->join('ibs_refsupervisi','ibs_supervisi.id_supervisi','=','ibs_refsupervisi.id')
-                ->select('ibs_supervisi.id','ibs_supervisi.id_supervisi','ibs_refsupervisi.supervisi as nama_supervisi','ibs_refsupervisi.ruang as nama_ruang','ibs_supervisi.id_tim as kodetim','ibs_supervisi.kondisi','ibs_supervisi.ket')
+                ->select('ibs_supervisi.id','ibs_supervisi.id_supervisi','ibs_refsupervisi.supervisi as nama_supervisi','ibs_refsupervisi.ruang as nama_ruang','ibs_supervisi.id_tim as kodetim','ibs_supervisi.kondisi','ibs_supervisi.ket','ibs_supervisi.tgl','ibs_supervisi.id_user')
                 ->orderBy('ibs_refsupervisi.ruang', 'ASC')
                 ->get();
 
@@ -70,6 +71,7 @@ class ceklistAlatBHPController extends Controller
             'getdata' => $get_data,
             'today' => $today,
             'now' => $now,
+            'thn' => $thn,
             'user' => $user,
             'minus' => $minus,
             'kodetim' => $kodetim,
@@ -197,6 +199,8 @@ class ceklistAlatBHPController extends Controller
         $showtim = DB::table('ibs_has_tim')
                 ->join('users', 'users.id', '=', 'ibs_has_tim.id_user')
                 ->select('users.*','ibs_has_tim.shift','ibs_has_tim.tgl_mulai')
+                ->where('id_tim', $kodetim)
+                ->where('shift', $shift)
                 ->get();
         $today = Carbon::now();
         $cekData = ibs_has_tim::where('id_tim', $kodetim)->where('shift', $shift)->first();
@@ -220,7 +224,7 @@ class ceklistAlatBHPController extends Controller
         }
 
         $getData = ibs_has_tim::where('id_tim', $kodetim)->where('shift', $shift)->first();
-        // print_r($data);
+        // print_r($showtim);
         // die();
 
         $data = [
@@ -302,5 +306,59 @@ class ceklistAlatBHPController extends Controller
         // $data->save();
 
         return response()->json($tgl, 200);
+    }
+
+    public function cari(Request $request)
+    {
+        $thn = Carbon::now()->isoFormat('YYYY');
+        
+        $bulan = $request->query('bulan');
+        $tahun = $request->query('tahun');
+        
+        $time= 'Bulan : '.$bulan.' Tahun : '.$tahun;
+        
+        $user = DB::table('users')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->select('users.*')
+                ->where('roles.name', 'ibs')
+                ->get();
+
+        $show = DB::table('ibs_supervisi')
+                ->join('ibs_has_tim', 'ibs_supervisi.id_tim', '=', 'ibs_has_tim.id_tim')
+                ->select('ibs_supervisi.id_tim as tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
+                ->orderBy('ibs_supervisi.tgl','DESC')
+                ->whereMonth('ibs_supervisi.created_at', $bulan)
+                ->whereYear('ibs_supervisi.created_at', $tahun)
+                ->where('ibs_has_tim.tgl_selesai', '!=', null)
+                ->groupBy('ibs_supervisi.id_tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
+                ->get();
+                
+        $showtim = DB::table('ibs_has_tim')
+                ->join('users', 'users.id', '=', 'ibs_has_tim.id_user')
+                ->select('users.*','ibs_has_tim.id_tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
+                ->get();
+                
+        $get_data = DB::table('ibs_supervisi')
+                ->join('ibs_refsupervisi','ibs_supervisi.id_supervisi','=','ibs_refsupervisi.id')
+                ->select('ibs_supervisi.id','ibs_supervisi.id_supervisi','ibs_refsupervisi.supervisi as nama_supervisi','ibs_refsupervisi.ruang as nama_ruang','ibs_supervisi.id_tim as kodetim','ibs_supervisi.kondisi','ibs_supervisi.ket','ibs_supervisi.tgl','ibs_supervisi.id_user')
+                ->whereMonth('ibs_supervisi.created_at', $bulan)
+                ->whereYear('ibs_supervisi.created_at', $tahun)
+                ->orderBy('ibs_refsupervisi.ruang', 'ASC')
+                ->get();
+                
+        // print_r($show);
+        // die();
+
+        $data = [
+            'getdata' => $get_data,
+            'time' => $time,
+            'thn' => $thn,
+            'user' => $user,
+            'showtim' => $showtim,
+            'show' => $show
+        ];
+
+        return view('pages.ibs.supervisi.cari')->with('list', $data);
     }
 }

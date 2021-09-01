@@ -85,6 +85,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
 
 // IBS
 Route::group(['middleware' => ['auth'], 'prefix' => 'ibs', 'as' => 'ibs.'], function () {
+    Route::get('supervisi/cari', 'ibs\supervisi\ceklistAlatBHPController@cari')->name('supervisi.cari');
     Route::get('supervisi/cek', 'ibs\supervisi\ceklistAlatBHPController@pushTim')->name('supervisi.pushtim');
     Route::get('supervisi/api/{tim}', 'ibs\supervisi\ceklistAlatBHPController@kondisiAlat')->name('supervisi.kondisiAlat');
     Route::get('supervisi/api/{tim}/batal', 'ibs\supervisi\ceklistAlatBHPController@batalCek');
