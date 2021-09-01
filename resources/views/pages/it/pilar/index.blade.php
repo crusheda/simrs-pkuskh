@@ -5,7 +5,7 @@
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
 
-@can('imut_it')
+@role('it')
 <div class="card" style="width: 100%">
     <div class="card-header bg-dark text-white">
 
@@ -65,7 +65,7 @@
         </div>
     </div>
 </div>
-@endcan
+@endrole
 
 <div class="modal fade bd-example-modal-lg" id="readme" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -148,7 +148,7 @@
                             <td>${item.JNSKELAMIN}</td> <td>${item.TGL_REGISTRASI}</td> 
                             <td>${item.TGL_DISCHARGE ? item.TGL_DISCHARGE : '<span class="badge badge-dark">NULL</span>'}</td> 
                             <td>
-                                <button class="btn btn-danger text-white" onclick="batalPeriksa(${e})">
+                                <button class="btn btn-danger text-white btn-sm" onclick="batalPeriksa(${e})">
                                     <i class="fa-fw fas fa-trash nav-icon"></i>
                                 </button>
                             </td>
@@ -183,7 +183,7 @@
                             <td>${item.JNSKELAMIN}</td> <td>${item.TGL_REGISTRASI}</td> 
                             <td>${item.TGL_DISCHARGE ? item.TGL_DISCHARGE : '<span class="badge badge-dark">NULL</span>'}</td> 
                             <td>
-                                <button class="btn btn-danger text-white" onclick="batalPeriksa(${e})">
+                                <button class="btn btn-danger text-white btn-sm" onclick="batalPeriksa(${e})">
                                     <i class="fa-fw fas fa-trash nav-icon"></i>
                                 </button>
                             </td>
@@ -207,9 +207,13 @@
     function batalPeriksa(id) {
         // var num = id;
         var convID = id.toString();
+        if (convID.length == 8) {
+            var goal = '0000'+convID; 
+        } 
         if (convID.length == 9) {
             var goal = '000'+convID; 
-        } else {
+        } 
+        if (convID.length == 10) {
             var goal = '00'+convID; 
         }
         var rm_pasien = goal.substr(0,8);
@@ -236,6 +240,8 @@
                             icon: res.icon,
                             showConfirmButton:false,
                             showCancelButton:false,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
                             timer: 5000,
                             timerProgressBar: true,
                             backdrop: `rgba(26,27,41,0.8)`,
@@ -257,6 +263,8 @@
                             icon: res.icon,
                             showConfirmButton:false,
                             showCancelButton:false,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
                             timer: 5000,
                             timerProgressBar: true,
                             backdrop: `rgba(26,27,41,0.8)`,
@@ -274,6 +282,8 @@
                     icon: 'info',
                     showConfirmButton:false,
                     showCancelButton:false,
+                    allowOutsideClick: false,
+                    allowEscapeKey: false,
                     timer: 3000,
                     timerProgressBar: true,
                     backdrop: `rgba(26,27,41,0.8)`,

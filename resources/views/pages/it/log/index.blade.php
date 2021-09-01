@@ -10,6 +10,7 @@
 <script src="{{ asset('js/fstdropdown.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('css/fstdropdown.css') }}">
 
+@role('it')
 <div class="row">
     <div class="card" style="width: 100%">
         <div class="card-header bg-dark text-white">
@@ -24,63 +25,59 @@
             
         </div>
         <div class="card-body">
-            @can('log_it')
-                <div class="row">
-                    <div class="col-md-12">
-                        <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahlog">
-                            <i class="fa-fw fas fa-plus-square nav-icon">
-    
-                            </i>
-                            Tambah Kegiatan
-                        </a>
-                    </div>
-                </div><br>
-                {{-- <img src="{{ asset('storage/it/log/yussuf.jpg') }}" alt=""> --}}
-                <div class="table-responsive">
-                    <table id="logit" class="table table-striped display">
-                        <thead>
-                            <tr>
-                                <th>NAMA</th>
-                                <th>KEGIATAN</th>
-                                <th>LOKASI</th>
-                                <th>KETERANGAN</th>
-                                <th>TGL</th>
-                                <th><center>AKSI</center></th>
-                            </tr>
-                        </thead>
-                        <tbody style="text-transform: capitalize">
-                            @if(count($list['show']) > 0)
-                            @foreach($list['show'] as $item)
-                            <tr>
-                                <td>{{ $item->nama }}</td>
-                                <td>{{ $item->kegiatan }}</td>
-                                <td>{{ $item->lokasi }}</td>
-                                <td>{{ $item->keterangan }}</td>
-                                <td>{{ $item->created_at }}</td>
-                                <td>
-                                    <center>
-                                        <div class="btn-group" role="group">
-                                            @if ($item->filename != '')
-                                                <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#lihatGambar{{ $item->id }}"><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
-                                                <button type="button" onclick="window.location.href='{{ url('it/supervisi/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></button>
-                                            @else
-                                                <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
-                                                <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa fa-download"></i></button>
-                                            @endif
-                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                        </div>
-                                    </center>
-                                </td>
-                            </tr>
-                            @endforeach
-                            @endif
-                        </tbody>
-                    </table>
+            <div class="row">
+                <div class="col-md-12">
+                    <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahlog">
+                        <i class="fa-fw fas fa-plus-square nav-icon">
+
+                        </i>
+                        Tambah Kegiatan
+                    </a>
                 </div>
-            @else
-                <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
-            @endcan
+            </div><br>
+            {{-- <img src="{{ asset('storage/it/log/yussuf.jpg') }}" alt=""> --}}
+            <div class="table-responsive">
+                <table id="logit" class="table table-striped display">
+                    <thead>
+                        <tr>
+                            <th>NAMA</th>
+                            <th>KEGIATAN</th>
+                            <th>LOKASI</th>
+                            <th>KETERANGAN</th>
+                            <th>TGL</th>
+                            <th><center>AKSI</center></th>
+                        </tr>
+                    </thead>
+                    <tbody style="text-transform: capitalize">
+                        @if(count($list['show']) > 0)
+                        @foreach($list['show'] as $item)
+                        <tr>
+                            <td>{{ $item->nama }}</td>
+                            <td>{{ $item->kegiatan }}</td>
+                            <td>{{ $item->lokasi }}</td>
+                            <td>{{ $item->keterangan }}</td>
+                            <td>{{ $item->created_at }}</td>
+                            <td>
+                                <center>
+                                    <div class="btn-group" role="group">
+                                        @if ($item->filename != '')
+                                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#lihatGambar{{ $item->id }}"><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
+                                            <button type="button" onclick="window.location.href='{{ url('it/supervisi/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></button>
+                                        @else
+                                            <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
+                                            <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa fa-download"></i></button>
+                                        @endif
+                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                    </div>
+                                </center>
+                            </td>
+                        </tr>
+                        @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
         </div>
     </div>
     <div class="card" style="width: 100%">
@@ -90,6 +87,9 @@
         </div>
     </div>
 </div>
+@else
+<p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
+@endrole
 
 <div class="modal fade bd-example-modal-lg" id="tambahlog" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">

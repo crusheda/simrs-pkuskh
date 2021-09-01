@@ -60,6 +60,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
 
     // Dokter
     Route::resource('/dokter', 'Admin\dokterController');
+    Route::get('/kunjungan', 'kunjunganController@kunjungan')->name('pilar.kunjungan');
 
     // Imut
         // Pilar
@@ -79,8 +80,19 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
     // Pilar
         // Revisi
         Route::resource('/pilar/rev', 'it\pilar\revisiPilarController');
-        // API
 
+});
+
+// IBS
+Route::group(['middleware' => ['auth'], 'prefix' => 'ibs', 'as' => 'ibs.'], function () {
+    Route::get('supervisi/cek', 'ibs\supervisi\ceklistAlatBHPController@pushTim')->name('supervisi.pushtim');
+    Route::get('supervisi/api/{tim}', 'ibs\supervisi\ceklistAlatBHPController@kondisiAlat')->name('supervisi.kondisiAlat');
+    Route::get('supervisi/api/{tim}/batal', 'ibs\supervisi\ceklistAlatBHPController@batalCek');
+    Route::get('supervisi/api/{tim}/selesai', 'ibs\supervisi\ceklistAlatBHPController@selesaiCek');
+    Route::post('supervisi/api/kondisi','ibs\supervisi\ceklistAlatBHPController@kondisi');
+    Route::post('supervisi/api/kondisi/ket','ibs\supervisi\ceklistAlatBHPController@ket');
+    Route::resource('supervisi', 'ibs\supervisi\ceklistAlatBHPController');
+    Route::resource('refsupervisi', 'ibs\supervisi\refAlatBHPController');
 });
 
 // Finger
@@ -214,7 +226,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'queue', 'as' => 'queue.'], 
     Route::get('api/provinsi/{id}', 'Admin\profilController@apiProvinsi')->name('api.provinsi');
     Route::get('api/kota/{id}', 'Admin\profilController@apiKota')->name('api.kota');
     Route::get('api/kecamatan/{id}', 'Admin\profilController@apiKecamatan')->name('api.kecamatan');
-
 
 // IPSRS
     Route::post('pengaduan/ipsrs/selesai', 'ipsrs\pengaduan\pengaduanController@selesai')->name('pengaduan.ipsrs.selesai');

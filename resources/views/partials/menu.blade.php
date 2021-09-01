@@ -60,14 +60,14 @@
                     </li>
                 </ul>
             </li> --}}
-            @can('log_it')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
                         <i class="fa-fw fas fa-low-vision nav-icon">
 
                         </i>
-                        Supervisi IT
+                        Supervisi
                     </a>
+                    @role('it')
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
                             <a href="{{ route("it.supervisi.index") }}" class="nav-link">
@@ -78,8 +78,20 @@
                             </a>
                         </li>
                     </ul>
+                    @endrole
+                    @role('ibs')
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("ibs.supervisi.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-leaf nav-icon">
+
+                                </i>
+                                Ceklist Alat & BHP
+                            </a>
+                        </li>
+                    </ul>
+                    @endrole
                 </li>
-            @endcan
             @role('it')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
@@ -90,6 +102,19 @@
                     </a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
+                            <a href="{{ route("it.pilar.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-database nav-icon">
+
+                                </i>
+                                Imut
+                                <span class="badge badge-light">
+                                    @php
+                                        echo count(\DB::table('imutpilar')->where('jamselesai',null)->where('deleted_at',null)->get()); 
+                                    @endphp
+                                </span>
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route("it.rev.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-code-fork nav-icon">
 
@@ -97,10 +122,18 @@
                                 Rev
                             </a>
                         </li>
+                        <li class="nav-item">
+                            <a href="{{ route("it.pilar.kunjungan") }}" class="nav-link">
+                                <i class="fa-fw fas fa-taxi nav-icon">
+
+                                </i>
+                                Kunjungan
+                            </a>
+                        </li>
                     </ul>
                 </li>
             @endcan
-            @can('imut_it')
+            {{-- @can('imut_it')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
                         <i class="fa-fw fas fa-line-chart nav-icon">
@@ -122,7 +155,7 @@
                                 </span>
                             </a>
                         </li>
-                        {{-- <li class="nav-item">
+                        <li class="nav-item">
                             <a href="{{ route("it.printer.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-print nav-icon">
 
@@ -145,10 +178,10 @@
                                 </i>
                                 Jaringan
                             </a>
-                        </li> --}}
+                        </li>
                     </ul>
                 </li>
-            @endcan
+            @endcan --}}
             {{-- @can('penyimpanan_file')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
