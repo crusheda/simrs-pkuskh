@@ -23,6 +23,10 @@ class ceklistAlatBHPController extends Controller
      */
     public function index()
     {
+        $user = Auth::user();
+        $id_user = $user->id;
+        $name_user = $user->name;
+
         $today = Carbon::now();
         $now = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
         $thn = Carbon::now()->isoFormat('YYYY');
@@ -42,14 +46,25 @@ class ceklistAlatBHPController extends Controller
                 ->where('roles.name', 'ibs')
                 ->get();
 
-        $show = DB::table('ibs_supervisi')
-                ->join('ibs_has_tim', 'ibs_supervisi.id_tim', '=', 'ibs_has_tim.id_tim')
-                ->select('ibs_supervisi.id_tim as tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
-                ->orderBy('tgl','DESC')
-                ->limit('20')
-                ->groupBy('ibs_supervisi.id_tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
-                ->get();
-                
+            if ($name_user == 'adik18') {
+                $show = DB::table('ibs_supervisi')
+                        ->join('ibs_has_tim', 'ibs_supervisi.id_tim', '=', 'ibs_has_tim.id_tim')
+                        ->select('ibs_supervisi.id_tim as tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
+                        ->orderBy('tgl','DESC')
+                        ->limit('20')
+                        ->groupBy('ibs_supervisi.id_tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
+                        ->get();
+            } else {
+                $show = DB::table('ibs_supervisi')
+                        ->join('ibs_has_tim', 'ibs_supervisi.id_tim', '=', 'ibs_has_tim.id_tim')
+                        ->select('ibs_supervisi.id_tim as tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
+                        ->orderBy('tgl','DESC')
+                        ->where('user', $id_user)
+                        ->limit('20')
+                        ->groupBy('ibs_supervisi.id_tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
+                        ->get();
+            }
+                        
         $showtim = DB::table('ibs_has_tim')
                 ->join('users', 'users.id', '=', 'ibs_has_tim.id_user')
                 ->select('users.*','ibs_has_tim.id_tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
@@ -103,20 +118,7 @@ class ceklistAlatBHPController extends Controller
      */
     public function store(Request $request)
     {
-        $this->validate($request,[
-            'supervisi' => 'required',
-            'ruang' => 'required',
-            ]);
-
-        $tgl = Carbon::now();
-        $data = new ibs_supervisi;
-        $data->supervisi = $request->supervisi;
-        $data->ruang = $request->ruang;
-        $data->tgl = $tgl;
-
-        $data->save();
-
-        return redirect()->back()->with('message','Tambah Pengecekan Alat dan Kelengkapan BHP Berhasil.');
+        //
     }
 
     /**
@@ -150,17 +152,7 @@ class ceklistAlatBHPController extends Controller
      */
     public function update(Request $request, $id)
     {
-        $this->validate($request,[
-            'supervisi' => 'required',
-            'ruang' => 'required',
-            ]);
-        $data = ibs_refsupervisi::find($id);
-        $data->supervisi = $request->supervisi;
-        $data->ruang = $request->ruang;
-        $data->tgl = $tgl;
-
-        $data->save();
-        return redirect()->back()->with('message','Perubahan Pengecekan Alat dan Kelengkapan BHP Berhasil.');
+        //
     }
 
     /**
@@ -171,11 +163,7 @@ class ceklistAlatBHPController extends Controller
      */
     public function destroy($id)
     {
-        $data = ibs_supervisi::find($id);
-        $data->delete();
-
-        // redirect
-        return redirect()->back()->with('message','Hapus Pengecekan Alat dan Kelengkapan BHP Berhasil.');
+        //
     }
 
     public function pushTim(Request $request)
@@ -184,6 +172,9 @@ class ceklistAlatBHPController extends Controller
             'kodetim' => 'required',
             'shift' => 'required',
             ]);
+
+        $user = Auth::user();
+        $id_user = $user->id;
 
         $kodetim = $request->kodetim;
         $shift = $request->shift;
@@ -213,6 +204,7 @@ class ceklistAlatBHPController extends Controller
                 $data->id_user = $value;
                 $data->shift = $shift;
                 $data->tgl_mulai = $today;
+                $data->user = $id_user;
                 $data->save();
             }
             foreach ($show as $key => $value) {

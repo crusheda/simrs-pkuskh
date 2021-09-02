@@ -98,6 +98,9 @@ class refAlatBHPController extends Controller
             'supervisi' => 'required',
             'ruang' => 'required',
             ]);
+        
+        $tgl = Carbon::now();
+
         $data = ibs_refsupervisi::find($id);
         $data->supervisi = $request->supervisi;
         $data->ruang = $request->ruang;

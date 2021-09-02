@@ -39,7 +39,7 @@
                             </i>
                             Ref
                         </button>
-                        <button class="btn btn-light" data-toggle="modal" data-target="#informasi" style="border-color: black"><i class="fa-fw fas fa-info nav-icon"></i></button>
+                        <button class="btn btn-light" data-toggle="modal" data-target="#readme" style="border-color: black"><i class="fa-fw fas fa-info nav-icon"></i></button>
                     </div>
                     <form class="form-inline pull-right" action="{{ route('ibs.supervisi.cari') }}" method="GET">
                         <span style="width: auto;margin-right:10px">Filter</span>
@@ -147,6 +147,32 @@
 @else
     <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
 @endrole
+
+<div class="modal fade bd-example-modal-lg" id="readme" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            <h4 class="modal-title">
+                Baca Saya !
+            </h4>
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Disarankan anda menggunakan Browser Google Chrome <br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Anda dapat memulai pengecekan dengan klik tombol Mulai, setelah itu masukkan Shift dan Anggota TIM <br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Khusus untuk <kbd>Shift Malam</kbd> diharuskan memulai pengecekan pada saat awal masuk shift <br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Penarikan data harian untuk Pengecekan Alat dan BHP ini dilakukan mulai <kbd>Pukul 00.01 - 23.59 WIB</kbd> <br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan lagi setelah anda melakukan pengecekan untuk mengisi Kondisi Alat maupun menambahkan Keterangan jika diperlukan <br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Jangan lupa klik tombol Simpan (Pojok kanan bawah) setelah semuanya terisi <br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Anda dapat membatalkan pengecekan apabila masih pada hari yang sama <br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Gunakan dengan Hati-hati untuk kemudahan bersama 
+            </div>
+            <div class="modal-footer">
+               <b>TTD <i>Adik Budi Santoso, A.Md.Kep</i></b>
+            </div>
+        </div>
+    </div>
+</div>
 
 <div class="modal fade bd-example-modal-lg" id="tambah" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">

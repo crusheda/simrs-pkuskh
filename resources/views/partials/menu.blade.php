@@ -8,8 +8,8 @@
                     <i class="fa-fw fas fa-user-circle nav-icon"></i> {{ Auth::user()->name }} </span>
                 </center>
             </li> --}}
-            <li class="nav-item" style="background-color: #262A2E">
-                <a href="#" class="nav-link disabled text-white" style="font-size: 15px">
+            <li class="nav-item" style="background-color: #262A2E" onclick="window.location.href='{{ route('user.index') }}'">
+                <a onclick="window.location.href='{{ route('user.index') }}'" class="nav-link disabled text-white" style="font-size: 15px">
                     <i class="nav-icon fas fa-fw fa-user-circle text-white"></i>
                     <b>Hi, {{ Auth::user()->nick }}</b>
                 </a>

@@ -113,14 +113,15 @@
         </div>
         <div class="modal-body">
             @if(count($list) > 0)
-                Keterangan : <b>{{ $item->ket }}</b><br>
-                Nominal : <b>Rp. {{ $item->nominal }},-</b><br>
-                Ditambahkan pada : <b>{{ $item->created_at }}</b>
+                Supervisi : <b>{{ $item->supervisi }}</b><br>
+                Ruang : <b>{{ $item->ruang }},-</b><br>
+                Ditambahkan pada : <b>{{ $item->created_at }}</b><br>
+                Update pada : <b>{{ $item->tgl }}</b>
             @endif
         </div>
         <div class="modal-footer">
             @if(count($list) > 0)
-                <form action="{{ route('kepegawaian.struktural.destroy', $item->id) }}" method="POST">
+                <form action="{{ route('ibs.refsupervisi.destroy', $item->id) }}" method="POST">
                     @method('DELETE')
                     @csrf
                     <button class="btn btn-danger btn-sm"><i class="lnr lnr-trash"></i>Hapus</button>
@@ -143,15 +144,29 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         @if(count($list) > 0)
-        {{ Form::model($item, array('route' => array('kepegawaian.struktural.update', $item->id), 'method' => 'PUT')) }}
+        {{ Form::model($item, array('route' => array('ibs.refsupervisi.update', $item->id), 'method' => 'PUT')) }}
         <div class="modal-body">
             @csrf
-            <label>Keterangan :</label>
-            <input type="text" name="ket" value="{{ $item->ket }}" class="form-control" placeholder="e.g. Direktur Utama" autofocus required>
-            <br>
-            <label>Nominal :</label>
-            <input type="number" name="nominal" value="{{ $item->nominal }}" class="form-control" required>
-            <br>
+            <div class="form-group">
+                <label>Supervisi :</label>
+                <input type="text" name="supervisi" value="{{ $item->supervisi }}" class="form-control" placeholder="e.g. Pengecekan Alat/Mesin" autofocus required>
+            </div>
+            <div class="form-group">
+                <label>Ruang</label>
+                <select name="ruang" class="form-control" required>
+                  <option hidden>Pilih</option>
+                  <option value="Ruang Resusitasi Bayi" @if ($item->ruang == 'Ruang Resusitasi Bayi') echo selected @endif>Ruang Resusitasi Bayi</option>
+                  <option value="Ruang OK 1" @if ($item->ruang == 'Ruang OK 1') echo selected @endif>Ruang OK 1</option>
+                  <option value="Ruang OK 2" @if ($item->ruang == 'Ruang OK 2') echo selected @endif>Ruang OK 2</option>
+                  <option value="Ruang Cuci Tangan Bedah" @if ($item->ruang == 'Ruang Cuci Tangan Bedah') echo selected @endif>Ruang Cuci Tangan Bedah</option>
+                  <option value="Ruang Instrumen" @if ($item->ruang == 'Ruang Instrumen') echo selected @endif>Ruang Instrumen</option>
+                  <option value="Ruang Cuci Alat" @if ($item->ruang == 'Ruang Cuci Alat') echo selected @endif>Ruang Cuci Alat</option>
+                  <option value="Ruang BHP" @if ($item->ruang == 'Ruang BHP') echo selected @endif>Ruang BHP</option>
+                  <option value="Ruang Recovery" @if ($item->ruang == 'Ruang Recovery') echo selected @endif>Ruang Recovery</option>
+                  <option value="Ruang Pre Operasi" @if ($item->ruang == 'Ruang Pre Operasi') echo selected @endif>Ruang Pre Operasi</option>
+                  <option value="Ruang Counter Perawat" @if ($item->ruang == 'Ruang Counter Perawat') echo selected @endif>Ruang Counter Perawat</option>
+                </select>
+            </div>
         </div>
         <div class="modal-footer">
             <button class="btn btn-primary text-white btn-block" id="submit">Submit</button>
