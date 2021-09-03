@@ -187,12 +187,6 @@ class ceklistAlatBHPController extends Controller
                 ->select('users.*')
                 ->where('roles.name', 'ibs')
                 ->get();
-        $showtim = DB::table('ibs_has_tim')
-                ->join('users', 'users.id', '=', 'ibs_has_tim.id_user')
-                ->select('users.*','ibs_has_tim.shift','ibs_has_tim.tgl_mulai')
-                ->where('id_tim', $kodetim)
-                ->where('shift', $shift)
-                ->get();
         $today = Carbon::now();
         $cekData = ibs_has_tim::where('id_tim', $kodetim)->where('shift', $shift)->first();
         // print_r($cekData);
@@ -214,6 +208,13 @@ class ceklistAlatBHPController extends Controller
                 $data->save();
             }
         }
+        
+        $showtim = DB::table('ibs_has_tim')
+                ->join('users', 'users.id', '=', 'ibs_has_tim.id_user')
+                ->select('users.*','ibs_has_tim.shift','ibs_has_tim.tgl_mulai')
+                ->where('id_tim', $kodetim)
+                ->where('shift', $shift)
+                ->get();
 
         $getData = ibs_has_tim::where('id_tim', $kodetim)->where('shift', $shift)->first();
         // print_r($showtim);

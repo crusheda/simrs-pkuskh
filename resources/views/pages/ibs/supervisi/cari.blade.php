@@ -78,7 +78,7 @@
                                     $countNull = App\Models\ibs\ibs_supervisi::where('id_tim', $item->tim)->whereNull('kondisi')->count();
                                     $countNotNull = App\Models\ibs\ibs_supervisi::where('id_tim', $item->tim)->whereNotNull('kondisi')->count();
                                 ?>
-                                @if (!empty($countAll))
+                                {{-- @if (!empty($countAll))
                                     @if ($countAll == $countNotNull)
                                         <span class="badge badge-success text-white">Selesai</span>
                                     @endif
@@ -88,7 +88,16 @@
                                     @if ($countAll == $countNull)
                                         <span class="badge badge-danger text-white">Belum Dikerjakan</span>
                                     @endif
+                                @endif --}}
+                                @if (!empty($countAll))
+                                    @if ($countAll == $countNotNull)
+                                        <span class="badge badge-success text-white">Selesai</span>
+                                    @elseif ($countAll == $countNull)
+                                        <span class="badge badge-danger text-white">Belum Dikerjakan</span>
+                                    @elseif ($countAll != $countNotNull)
+                                        <span class="badge badge-warning text-white">Belum Selesai</span>
                                 @endif
+                            @endif
                             </td>
                             <td>{{ $item->tgl_mulai }}</td>
                             <td>{{ $item->tgl_selesai }}</td>
@@ -236,7 +245,7 @@ $(document).ready( function () {
                     pdf: 'Jadikan PDF',
                 }
             },
-            order: [[ 2, "desc" ]]
+            order: [[ 3, "desc" ]]
         }
     );
 } );

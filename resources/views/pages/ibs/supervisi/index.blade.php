@@ -94,12 +94,10 @@
                                 @if (!empty($countAll))
                                     @if ($countAll == $countNotNull)
                                         <span class="badge badge-success text-white">Selesai</span>
-                                    @endif
-                                    @if ($countAll != $countNotNull)
-                                        <span class="badge badge-warning text-white">Belum Selesai</span>
-                                    @endif
-                                    @if ($countAll == $countNull)
+                                    @elseif ($countAll == $countNull)
                                         <span class="badge badge-danger text-white">Belum Dikerjakan</span>
+                                    @elseif ($countAll != $countNotNull)
+                                        <span class="badge badge-warning text-white">Belum Selesai</span>
                                     @endif
                                 @endif
                             </td>
@@ -354,7 +352,7 @@ $(document).ready( function () {
                     pdf: 'Jadikan PDF',
                 }
             },
-            order: [[ 2, "desc" ]]
+            order: [[ 3, "desc" ]]
         }
     );
 } );
