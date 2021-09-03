@@ -251,3 +251,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'queue', 'as' => 'queue.'], 
 
 // LiveMessageApp
 Addchat::routes();
+
+//loginAndroid
+Route::post('/loginandroid', 'android\APIcontroller@loginAndroid');
