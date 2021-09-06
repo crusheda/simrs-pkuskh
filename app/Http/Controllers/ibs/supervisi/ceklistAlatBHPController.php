@@ -78,9 +78,9 @@ class ceklistAlatBHPController extends Controller
                 
         $get_data = DB::table('ibs_supervisi')
                 ->join('ibs_refsupervisi','ibs_supervisi.id_supervisi','=','ibs_refsupervisi.id')
-                ->select('ibs_supervisi.id','ibs_supervisi.id_supervisi','ibs_refsupervisi.supervisi as nama_supervisi','ibs_refsupervisi.ruang as nama_ruang','ibs_supervisi.id_tim as kodetim','ibs_supervisi.kondisi','ibs_supervisi.ket','ibs_supervisi.tgl','ibs_supervisi.id_user')
+                ->select('ibs_supervisi.id','ibs_supervisi.id_supervisi','ibs_refsupervisi.supervisi as nama_supervisi','ibs_refsupervisi.ruang as nama_ruang','ibs_supervisi.id_tim as kodetim','ibs_supervisi.kondisi','ibs_supervisi.ket','ibs_supervisi.title','ibs_supervisi.filename','ibs_supervisi.tgl','ibs_supervisi.id_user')
                 ->where('ibs_supervisi.deleted_at', null)
-                ->orderBy('ibs_refsupervisi.ruang', 'ASC')
+                ->orderBy('ibs_refsupervisi.id', 'ASC')
                 ->get();
 
         $query_minus = "SELECT id_tim as tim,count(id_tim) as jumlah FROM ibs_supervisi WHERE kondisi IS NULL AND deleted_at IS NULL GROUP BY id_tim,id_tim";
@@ -307,6 +307,24 @@ class ceklistAlatBHPController extends Controller
         return response()->json($tgl, 200);
     }
 
+    public function showLampiran($tim)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss a');
+        $now = Carbon::now();
+
+        $get_data1 = ibs_supervisi::where('id_tim', $tim)->get();
+        $get_data2 = ibs_has_tim::where('id_tim', $tim)->get();
+
+        foreach ($get_data1 as $key => $value) {
+            ibs_supervisi::where('id_tim',$value->id_tim)->delete();
+        }
+        foreach ($get_data2 as $key => $value) {
+            ibs_has_tim::where('id_tim',$value->id_tim)->delete();
+        }
+
+        return response()->json($tgl, 200);
+    }
+
     public function batalCek($tim)
     {
         $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss a');
@@ -374,11 +392,11 @@ class ceklistAlatBHPController extends Controller
                 
         $get_data = DB::table('ibs_supervisi')
                 ->join('ibs_refsupervisi','ibs_supervisi.id_supervisi','=','ibs_refsupervisi.id')
-                ->select('ibs_supervisi.id','ibs_supervisi.id_supervisi','ibs_refsupervisi.supervisi as nama_supervisi','ibs_refsupervisi.ruang as nama_ruang','ibs_supervisi.id_tim as kodetim','ibs_supervisi.kondisi','ibs_supervisi.ket','ibs_supervisi.tgl','ibs_supervisi.id_user')
+                ->select('ibs_supervisi.id','ibs_supervisi.id_supervisi','ibs_refsupervisi.supervisi as nama_supervisi','ibs_refsupervisi.ruang as nama_ruang','ibs_supervisi.id_tim as kodetim','ibs_supervisi.kondisi','ibs_supervisi.ket','ibs_supervisi.title','ibs_supervisi.filename','ibs_supervisi.tgl','ibs_supervisi.id_user')
                 ->where('ibs_supervisi.deleted_at', null)
                 ->whereMonth('ibs_supervisi.created_at', $bulan)
                 ->whereYear('ibs_supervisi.created_at', $tahun)
-                ->orderBy('ibs_refsupervisi.ruang', 'ASC')
+                ->orderBy('ibs_refsupervisi.id', 'ASC')
                 ->get();
                 
         // print_r($show);

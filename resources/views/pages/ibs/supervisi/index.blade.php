@@ -299,6 +299,7 @@
                                     <th>Pengecekan Alat Dan Kelengkapan BHP</th>
                                     <th>Ruang</th>
                                     <th>Kondisi</th>
+                                    <th>Lampiran</th>
                                     <th>Keterangan</th>
                                     <th>Update</th>
                                     <th>User</th>
@@ -319,6 +320,7 @@
                                                     <span class="badge badge-danger">Rusak</span>
                                                 @endif
                                             </td>
+                                            <td>@if ($val->title != null) <a type="button" class="text-primary" onclick="window.location.href='{{ url('ibs/supervisi', $val->id) }}'"><u>{{ $val->title }}</u></a> @endif</td>
                                             <td>{{ $val->ket }}</td>
                                             <td>{{ $val->tgl }}</td>
                                             <td>

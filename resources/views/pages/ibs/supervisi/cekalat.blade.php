@@ -124,28 +124,6 @@
     </div>
 </div>
 
-@foreach($list['getLampiran'] as $item)
-<div class="modal" tabindex="-1" id="showLampiran{{ $item->id }}" role="dialog">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">{{ $item->title }}</h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-            <span aria-hidden="true">&times;</span>
-          </button>
-        </div>
-        <div class="modal-body">
-            <center><img src="{{ url('storage/'.substr($item->filename,7,1000)) }}" style="width:400px" alt="" title="" /></center>
-        </div>
-        <div class="modal-footer">
-          <button onclick="window.location.href='{{ url('ibs/supervisi/'. $item->id) }}'" type="button" class="btn btn-success"><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
-          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
-        </div>
-      </div>
-    </div>
-</div>
-@endforeach
-
 <script>
 $(document).ready( function () {
     setInterval(function () {
@@ -176,7 +154,7 @@ $(document).ready( function () {
                                 <td>${item.nama_ruang}</td> 
                                 <td>${item.kondisi == true ? '<span class="badge badge-success">Baik</span>' : ''}${item.kondisi == false ? '<span class="badge badge-danger">Rusak</span>' : ''}</td> 
                                 <td>${item.ket? item.ket : ''}</td> 
-                                <td><a type="button" class="text-primary" data-toggle="modal" data-target="#showLampiran${item.id}"><u>${item.title == null ? '' : item.title}</u></a></td>
+                                <td><a type="button" class="text-primary" onclick="showLampiran(${item.id})"><u>${item.title == null ? '' : item.title}</u></a></td>
                             </tr>
                         `);
                     });
@@ -221,7 +199,7 @@ function kondisi(id) {
                         showCancelButton:false,
                         allowOutsideClick: false,
                         allowEscapeKey: false,
-                        timer: 3000,
+                        timer: 2000,
                         timerProgressBar: true,
                         backdrop: `rgba(26,27,41,0.8)`,
                     });
@@ -235,7 +213,7 @@ function kondisi(id) {
                         showCancelButton:false,
                         allowOutsideClick: false,
                         allowEscapeKey: false,
-                        timer: 3000,
+                        timer: 2000,
                         timerProgressBar: true,
                         backdrop: `rgba(26,27,41,0.8)`,
                     });
@@ -333,8 +311,8 @@ function lampiran(id) {
                         icon: `success`,
                         showConfirmButton:false,
                         showCancelButton:false,
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
+                        allowOutsideClick: true,
+                        allowEscapeKey: true,
                         timer: 2000,
                         timerProgressBar: true,
                         backdrop: `rgba(26,27,41,0.8)`,
@@ -347,14 +325,35 @@ function lampiran(id) {
                         icon: `error`,
                         showConfirmButton:false,
                         showCancelButton:false,
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
+                        allowOutsideClick: true,
+                        allowEscapeKey: true,
                         timer: 2000,
                         timerProgressBar: true,
                         backdrop: `rgba(26,27,41,0.8)`,
                     });
                 }
             })
+        }
+    })
+}
+
+function showLampiran(id) {
+    Swal.fire({
+        title: 'Lampiran Supervisi '+id,
+        text: 'Refresh halaman ini untuk mengupdate lampiran',
+        imageUrl: './'+id,
+        imageWidth: 400,
+        // imageHeight: 200,
+        imageAlt: 'Lampiran',
+        reverseButtons: true,
+        showDenyButton: false,
+        showCloseButton: true,
+        showCancelButton: false,
+        confirmButtonText: `<i class="fa fa-download"></i> Download`,
+        backdrop: `rgba(26,27,41,0.8)`,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            window.location.href = "http://simrsku.com/ibs/supervisi/"+id;
         }
     })
 }
@@ -395,8 +394,8 @@ function ket(id) {
                         icon: `success`,
                         showConfirmButton:false,
                         showCancelButton:false,
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
+                        allowOutsideClick: true,
+                        allowEscapeKey: true,
                         timer: 2000,
                         timerProgressBar: true,
                         backdrop: `rgba(26,27,41,0.8)`,
@@ -409,8 +408,8 @@ function ket(id) {
                         icon: `error`,
                         showConfirmButton:false,
                         showCancelButton:false,
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
+                        allowOutsideClick: true,
+                        allowEscapeKey: true,
                         timer: 2000,
                         timerProgressBar: true,
                         backdrop: `rgba(26,27,41,0.8)`,
@@ -463,8 +462,8 @@ function selesai() {
                         icon: `error`,
                         showConfirmButton:false,
                         showCancelButton:false,
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
+                        allowOutsideClick: true,
+                        allowEscapeKey: true,
                         timer: 2000,
                         timerProgressBar: true,
                         backdrop: `rgba(26,27,41,0.8)`,
@@ -519,8 +518,8 @@ function batalCek() {
                         icon: `error`,
                         showConfirmButton:false,
                         showCancelButton:false,
-                        allowOutsideClick: false,
-                        allowEscapeKey: false,
+                        allowOutsideClick: true,
+                        allowEscapeKey: true,
                         timer: 2000,
                         timerProgressBar: true,
                         backdrop: `rgba(26,27,41,0.8)`,
