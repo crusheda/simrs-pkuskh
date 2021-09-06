@@ -27,12 +27,15 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    <button class="btn btn-primary text-white pull-left" data-toggle="modal" data-target="#lihatTim">
-                        <i class="fa-fw fas fa-group nav-icon">
+                    <div class="btn-group" role="group">
+                        <button class="btn btn-dark text-white pull-left" onclick="window.location.href='{{ route('ibs.supervisi.index') }}'"><i class="fa-fw fas fa-chevron-left nav-icon"></i></button>
+                        <button class="btn btn-primary text-white pull-left" data-toggle="modal" data-target="#lihatTim">
+                            <i class="fa-fw fas fa-group nav-icon">
 
-                        </i>
-                        Lihat Tim
-                    </button>
+                            </i>
+                            Lihat Tim
+                        </button>
+                    </div>
                     @if (Carbon\Carbon::parse($list['cekdata']->tgl_mulai)->isoFormat('YYYY-MM-DD') == Carbon\Carbon::now()->isoFormat('YYYY-MM-DD'))
                         <button class="btn btn-danger text-white pull-right" onclick="batalCek()">
                             <i class="fa-fw fas fa-trash nav-icon">
@@ -56,9 +59,10 @@
                                 <th>Ruang</th>
                                 <th>Kondisi</th>
                                 <th>Keterangan</th>
+                                <th>Lampiran</th>
                             </tr>
                         </thead>
-                        <tbody id="tampil-tbody"><tr><td colspan="5"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+                        <tbody id="tampil-tbody"><tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
                     </table>
                 </div>
             </div>
@@ -120,6 +124,28 @@
     </div>
 </div>
 
+@foreach($list['getLampiran'] as $item)
+<div class="modal" tabindex="-1" id="showLampiran{{ $item->id }}" role="dialog">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">{{ $item->title }}</h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+            <span aria-hidden="true">&times;</span>
+          </button>
+        </div>
+        <div class="modal-body">
+            <center><img src="{{ url('storage/'.substr($item->filename,7,1000)) }}" style="width:400px" alt="" title="" /></center>
+        </div>
+        <div class="modal-footer">
+          <button onclick="window.location.href='{{ url('ibs/supervisi/'. $item->id) }}'" type="button" class="btn btn-success"><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
+          <button type="button" class="btn btn-secondary" data-dismiss="modal">Close</button>
+        </div>
+      </div>
+    </div>
+</div>
+@endforeach
+
 <script>
 $(document).ready( function () {
     setInterval(function () {
@@ -135,6 +161,9 @@ $(document).ready( function () {
                             <tr id="data${item.id}">
                                 <td>
                                     <center><div class="btn-group" role="group">
+                                        <button class="btn btn-dark text-white btn-sm" onclick="lampiran(${item.id})">
+                                            <i class="fa-fw fas fa-camera nav-icon"></i>
+                                        </button>
                                         <button class="btn btn-warning text-white btn-sm" onclick="ket(${item.id})">
                                             <i class="fa-fw fas fa-edit nav-icon"></i> Ket
                                         </button>
@@ -147,6 +176,7 @@ $(document).ready( function () {
                                 <td>${item.nama_ruang}</td> 
                                 <td>${item.kondisi == true ? '<span class="badge badge-success">Baik</span>' : ''}${item.kondisi == false ? '<span class="badge badge-danger">Rusak</span>' : ''}</td> 
                                 <td>${item.ket? item.ket : ''}</td> 
+                                <td><a type="button" class="text-primary" data-toggle="modal" data-target="#showLampiran${item.id}"><u>${item.title == null ? '' : item.title}</u></a></td>
                             </tr>
                         `);
                     });
@@ -252,6 +282,79 @@ function kondisi(id) {
                     });
                 }
             }); 
+        }
+    })
+}
+
+function lampiran(id) {
+    Swal.fire({
+        title: 'Tambah Lampiran',
+        text: 'Supervisi ID : '+id,
+        input: 'file',
+        onBeforeOpen: () => {
+            $(".swal2-file").change(function () {
+                var reader = new FileReader();
+                reader.readAsDataURL(this.files[0]);
+            });
+        },
+        reverseButtons: true,
+        showDenyButton: false,
+        showCloseButton: true,
+        showCancelButton: true,
+        confirmButtonText: `<i class="fa fa-save"></i> Simpan`,
+        backdrop: `rgba(26,27,41,0.8)`,
+        inputValidator: (value) => {
+            if (!value) {
+                return 'Upload Foto lampiran anda terlebih dahulu!'
+            }
+        },
+        inputAttributes: {
+            'accept': 'image/*',
+            'aria-label': 'Upload Foto lampiran'
+        },
+    }).then((file) => {
+        if (file.value) {
+            var formData = new FormData();
+            var file = $('.swal2-file')[0].files[0];
+            formData.append("fileToUpload", file);
+            formData.append("id", id);
+            $.ajax({
+                headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+                method: 'post',
+                url: "./api/lampiran",  
+                dataType: 'json', 
+                data: formData,
+                processData: false,
+                contentType: false,
+                success: function (res) {
+                    Swal.fire({
+                        title: `Lampiran berhasil di Upload!`,
+                        text: res,
+                        icon: `success`,
+                        showConfirmButton:false,
+                        showCancelButton:false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        backdrop: `rgba(26,27,41,0.8)`,
+                    });
+                },
+                error: function() {
+                    Swal.fire({
+                        title: `Lampiran gagal di Upload!`,
+                        text: res,
+                        icon: `error`,
+                        showConfirmButton:false,
+                        showCancelButton:false,
+                        allowOutsideClick: false,
+                        allowEscapeKey: false,
+                        timer: 2000,
+                        timerProgressBar: true,
+                        backdrop: `rgba(26,27,41,0.8)`,
+                    });
+                }
+            })
         }
     })
 }
@@ -405,6 +508,9 @@ function batalCek() {
                         timerProgressBar: true,
                         backdrop: `rgba(26,27,41,0.8)`,
                     });
+                    if (res) {
+                        window.setTimeout(function(){location.href = "http://simrsku.com/ibs/supervisi"},2000);
+                    }
                 },
                 failure: function(res) {
                     Swal.fire({

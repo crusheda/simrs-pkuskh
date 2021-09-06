@@ -79,15 +79,17 @@
             <div class="modal-body">
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Hanya berlaku untuk penghapusan Data Kunjungan Pasien <br>
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan lagi untuk pengisian Nomer Rekam Medik adalah benar <br>
-                <i class="fa-fw fas fa-caret-right nav-icon"></i> Jika ingin menghapus Kunjungan khusus <kbd>Pasien Inap</kbd> (Jika Diperlukan), harus dalam kondisi Pulang terlebih dahulu <br>
-                <i class="fa-fw fas fa-caret-right nav-icon"></i> Setelah proses Hapus Berhasil, Halaman ini akan Refresh Otomatis dalam 5 detik <br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Jika ingin menghapus Kunjungan khusus <kbd>Pasien Inap</kbd> (Jika Diperlukan), cek terlebih dahulu apakah ada tindakan di Pilar yang masih diperlukan sebelum terhapus oleh Sistem<br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Setelah proses Hapus Berhasil, Halaman ini akan Refresh Otomatis dalam 4 detik, disarankan untuk melakukan pengecekan lagi apakah Trans Akomodasi sudah terhapus sempurna <br>
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Fitur ini tidak akan berpengaruh terhadap Rekam Medik yang lainnya <br>
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Gunakan dengan Hati-hati untuk kemudahan bersama 
                 <hr>
                 <b>Data yang dihapus adalah dari Tabel :</b><br>
                 - DAT_ASSEMBLING <br>
                 - DAT_DIGITALRM <br>
+                - DETAIL_TRANSOBATALKES <br>
                 - TRANS_JNSPELAYANAN <br>
+                - TRANS_DIETMAKAN <br>
                 - TRANS_PEMBAYARANPASIEN <br>
                 - TRANS_AKOMODASI <br>
                 - REG_KUNJUNGANPASIEN

@@ -90,6 +90,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'ibs', 'as' => 'ibs.'], func
     Route::get('supervisi/api/{tim}', 'ibs\supervisi\ceklistAlatBHPController@kondisiAlat')->name('supervisi.kondisiAlat');
     Route::get('supervisi/api/{tim}/batal', 'ibs\supervisi\ceklistAlatBHPController@batalCek');
     Route::get('supervisi/api/{tim}/selesai', 'ibs\supervisi\ceklistAlatBHPController@selesaiCek');
+    Route::post('supervisi/api/lampiran','ibs\supervisi\ceklistAlatBHPController@lampiran');
     Route::post('supervisi/api/kondisi','ibs\supervisi\ceklistAlatBHPController@kondisi');
     Route::post('supervisi/api/kondisi/ket','ibs\supervisi\ceklistAlatBHPController@ket');
     Route::resource('supervisi', 'ibs\supervisi\ceklistAlatBHPController');
@@ -253,4 +254,4 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'queue', 'as' => 'queue.'], 
 Addchat::routes();
 
 //loginAndroid
-Route::post('/loginandroid', 'android\APIcontroller@loginAndroid');
+// Route::post('/loginandroid', 'android\APIcontroller@loginAndroid');

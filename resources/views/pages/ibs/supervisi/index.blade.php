@@ -33,37 +33,41 @@
                             </i>
                             Mulai
                         </button>
-                        <button class="btn btn-dark text-white" onclick="window.location.href='{{ route('ibs.refsupervisi.index') }}'">
-                            <i class="fa-fw fas fa-gears nav-icon">
+                        @if(auth()->user()->name == 'adik18')
+                            <button class="btn btn-dark text-white" onclick="window.location.href='{{ route('ibs.refsupervisi.index') }}'">
+                                <i class="fa-fw fas fa-gears nav-icon">
 
-                            </i>
-                            Ref
-                        </button>
+                                </i>
+                                Ref
+                            </button>
+                        @endif
                         <button class="btn btn-light" data-toggle="modal" data-target="#readme" style="border-color: black"><i class="fa-fw fas fa-info nav-icon"></i></button>
                     </div>
-                    <form class="form-inline pull-right" action="{{ route('ibs.supervisi.cari') }}" method="GET">
-                        <span style="width: auto;margin-right:10px">Filter</span>
-                        <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="bulan" id="bulan">
-                            <option hidden>Bulan</option>
-                            <?php
-                                $bulan=array("","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
-                                $jml_bln=count($bulan);
-                                for($c=1 ; $c < $jml_bln ; $c+=1){
-                                    echo"<option value=$c> $bulan[$c] </option>";
-                                }
-                            ?>
-                        </select>
-                        <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="tahun" id="tahun">
-                            <option hidden>Tahun</option>
-                            @php
-                                for ($i=2021; $i <= $list['thn']; $i++) { 
-                                    echo"<option value=$i> $i </option>";
-                                }
-                                
-                            @endphp
-                        </select>
-                        <button class="form-control btn btn-warning text-white" id="submitCari" disabled><i class="fa-fw fas fa-search nav-icon"></i> Cari</button>
-                    </form>
+                    @if(auth()->user()->name == 'adik18')
+                        <form class="form-inline pull-right" action="{{ route('ibs.supervisi.cari') }}" method="GET">
+                            <span style="width: auto;margin-right:10px">Filter</span>
+                            <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="bulan" id="bulan">
+                                <option hidden>Bulan</option>
+                                <?php
+                                    $bulan=array("","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+                                    $jml_bln=count($bulan);
+                                    for($c=1 ; $c < $jml_bln ; $c+=1){
+                                        echo"<option value=$c> $bulan[$c] </option>";
+                                    }
+                                ?>
+                            </select>
+                            <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="tahun" id="tahun">
+                                <option hidden>Tahun</option>
+                                @php
+                                    for ($i=2021; $i <= $list['thn']; $i++) { 
+                                        echo"<option value=$i> $i </option>";
+                                    }
+                                    
+                                @endphp
+                            </select>
+                            <button class="form-control btn btn-warning text-white" id="submitCari" disabled><i class="fa-fw fas fa-search nav-icon"></i> Cari</button>
+                        </form>
+                    @endif
                 </div>
             </div><br>
             {{-- <img src="{{ asset('storage/it/log/yussuf.jpg') }}" alt=""> --}}
@@ -158,7 +162,8 @@
             <div class="modal-body">
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Disarankan anda menggunakan Browser Google Chrome <br>
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Anda dapat memulai pengecekan dengan klik tombol Mulai, setelah itu masukkan Shift dan Anggota TIM <br>
-                <i class="fa-fw fas fa-caret-right nav-icon"></i> Khusus untuk <kbd>Shift Malam</kbd> diharuskan memulai pengecekan pada saat awal masuk shift <br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Khusus untuk <kbd>Shift Malam</kbd> diharuskan memulai pengecekan pada saat awal masuk shift, batas waktu sampai Pukul 00.00 WIB<br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Jika pengecekan dimulai setelah Pukul 00.00 WIB, maka data akan terhitung pada hari berikutnya<br>
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Penarikan data harian untuk Pengecekan Alat dan BHP ini dilakukan mulai <kbd>Pukul 00.01 - 23.59 WIB</kbd> <br>
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan lagi setelah anda melakukan pengecekan untuk mengisi Kondisi Alat maupun menambahkan Keterangan jika diperlukan <br>
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Jangan lupa klik tombol Simpan (Pojok kanan bawah) setelah semuanya terisi <br>
@@ -285,47 +290,51 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <table class="table table-striped display table-hover">
-                    <thead>
-                        <tr>
-                            <th>ID</th>
-                            <th>Pengecekan Alat Dan Kelengkapan BHP</th>
-                            <th>Ruang</th>
-                            <th>Kondisi</th>
-                            <th>Keterangan</th>
-                            <th>Update</th>
-                            <th>User</th>
-                        </tr>
-                    </thead>
-                    <tbody style="text-transform: capitalize">
-                        @foreach($list['getdata'] as $val)
-                            @if ($val->kodetim == $item->tim)
+                <div class="data-table-list">
+                    <div class="table-responsive">
+                        <table id="lihatCek" class="table table-striped display table-hover">
+                            <thead>
                                 <tr>
-                                    <td>{{ $val->id_supervisi }}</td>
-                                    <td>{{ $val->nama_supervisi }}</td>
-                                    <td>{{ $val->nama_ruang }}</td>
-                                    <td>
-                                        @if ($val->kondisi == '1')
-                                            <span class="badge badge-success">Baik</span>
-                                        @endif
-                                        @if ($val->kondisi == '0')
-                                            <span class="badge badge-danger">Rusak</span>
-                                        @endif
-                                    </td>
-                                    <td>{{ $val->ket }}</td>
-                                    <td>{{ $val->tgl }}</td>
-                                    <td>
-                                        @foreach($list['user'] as $lol)
-                                            @if ($lol->id == $val->id_user)
-                                                {{ $lol->nama }}
-                                            @endif
-                                        @endforeach
-                                    </td>
+                                    <th>ID</th>
+                                    <th>Pengecekan Alat Dan Kelengkapan BHP</th>
+                                    <th>Ruang</th>
+                                    <th>Kondisi</th>
+                                    <th>Keterangan</th>
+                                    <th>Update</th>
+                                    <th>User</th>
                                 </tr>
-                            @endif
-                        @endforeach
-                    </tbody>
-                </table>
+                            </thead>
+                            <tbody style="text-transform: capitalize">
+                                @foreach($list['getdata'] as $val)
+                                    @if ($val->kodetim == $item->tim)
+                                        <tr>
+                                            <td>{{ $val->id_supervisi }}</td>
+                                            <td>{{ $val->nama_supervisi }}</td>
+                                            <td>{{ $val->nama_ruang }}</td>
+                                            <td>
+                                                @if ($val->kondisi == '1')
+                                                    <span class="badge badge-success">Baik</span>
+                                                @endif
+                                                @if ($val->kondisi == '0')
+                                                    <span class="badge badge-danger">Rusak</span>
+                                                @endif
+                                            </td>
+                                            <td>{{ $val->ket }}</td>
+                                            <td>{{ $val->tgl }}</td>
+                                            <td>
+                                                @foreach($list['user'] as $lol)
+                                                    @if ($lol->id == $val->id_user)
+                                                        {{ $lol->nama }}
+                                                    @endif
+                                                @endforeach
+                                            </td>
+                                        </tr>
+                                    @endif
+                                @endforeach
+                            </tbody>
+                        </table>
+                    </div>
+                </div>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
@@ -353,6 +362,25 @@ $(document).ready( function () {
                 }
             },
             order: [[ 3, "desc" ]]
+        }
+    );
+    $('#lihatCek').DataTable(
+        {
+            paging: true,
+            searching: true,
+            dom: 'Bfrtip',
+            buttons: [
+                'excel', 'pdf','colvis'
+            ],
+            language: {
+                buttons: {
+                    colvis: 'Sembunyikan Kolom',
+                    excel: 'Jadikan Excell',
+                    pdf: 'Jadikan PDF',
+                }
+            },
+            order: [[ 0, "asc" ]],
+            pageLength: 100
         }
     );
 } );

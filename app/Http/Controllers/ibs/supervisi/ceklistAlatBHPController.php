@@ -11,6 +11,7 @@ use App\Models\ibs\ibs_supervisi;
 use App\Models\ibs\ibs_has_tim;
 use App\Models\user;
 use Carbon\Carbon;
+use Storage;
 use Response;
 use Auth;
 
@@ -50,17 +51,21 @@ class ceklistAlatBHPController extends Controller
                 $show = DB::table('ibs_supervisi')
                         ->join('ibs_has_tim', 'ibs_supervisi.id_tim', '=', 'ibs_has_tim.id_tim')
                         ->select('ibs_supervisi.id_tim as tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
-                        ->orderBy('tgl','DESC')
-                        ->limit('20')
+                        ->where('ibs_supervisi.deleted_at', null)
+                        ->where('ibs_has_tim.deleted_at', null)
+                        // ->orderBy('tgl','DESC')
+                        // ->limit('20')
                         ->groupBy('ibs_supervisi.id_tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
                         ->get();
             } else {
                 $show = DB::table('ibs_supervisi')
                         ->join('ibs_has_tim', 'ibs_supervisi.id_tim', '=', 'ibs_has_tim.id_tim')
                         ->select('ibs_supervisi.id_tim as tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
-                        ->orderBy('tgl','DESC')
+                        ->where('ibs_supervisi.deleted_at', null)
+                        ->where('ibs_has_tim.deleted_at', null)
+                        // ->orderBy('tgl','DESC')
                         ->where('user', $id_user)
-                        ->limit('20')
+                        // ->limit('20')
                         ->groupBy('ibs_supervisi.id_tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
                         ->get();
             }
@@ -68,18 +73,20 @@ class ceklistAlatBHPController extends Controller
         $showtim = DB::table('ibs_has_tim')
                 ->join('users', 'users.id', '=', 'ibs_has_tim.id_user')
                 ->select('users.*','ibs_has_tim.id_tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
+                ->where('ibs_has_tim.deleted_at', null)
                 ->get();
                 
         $get_data = DB::table('ibs_supervisi')
                 ->join('ibs_refsupervisi','ibs_supervisi.id_supervisi','=','ibs_refsupervisi.id')
                 ->select('ibs_supervisi.id','ibs_supervisi.id_supervisi','ibs_refsupervisi.supervisi as nama_supervisi','ibs_refsupervisi.ruang as nama_ruang','ibs_supervisi.id_tim as kodetim','ibs_supervisi.kondisi','ibs_supervisi.ket','ibs_supervisi.tgl','ibs_supervisi.id_user')
+                ->where('ibs_supervisi.deleted_at', null)
                 ->orderBy('ibs_refsupervisi.ruang', 'ASC')
                 ->get();
 
-        $query_minus = "SELECT id_tim as tim,count(id_tim) as jumlah FROM ibs_supervisi WHERE kondisi IS NULL AND deleted_at IS NULL GROUP BY tim,kondisi";
+        $query_minus = "SELECT id_tim as tim,count(id_tim) as jumlah FROM ibs_supervisi WHERE kondisi IS NULL AND deleted_at IS NULL GROUP BY id_tim,id_tim";
         $minus = DB::select($query_minus);
 
-        // // print_r($minus);
+        // print_r($show);
         // die();
 
         $data = [
@@ -129,7 +136,8 @@ class ceklistAlatBHPController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = ibs_supervisi::find($id);
+        return Storage::download($data->filename, $data->title);
     }
 
     /**
@@ -179,7 +187,7 @@ class ceklistAlatBHPController extends Controller
         $kodetim = $request->kodetim;
         $shift = $request->shift;
 
-        $ruang = ibs_refsupervisi::select('ruang')->orderBy('ruang', 'ASC')->groupBy('ruang')->get();
+        $ruang = ibs_refsupervisi::select('ruang')->orderBy('id', 'ASC')->groupBy('ruang')->get();
         $show = ibs_refsupervisi::get();
         $user = DB::table('users')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
@@ -217,6 +225,7 @@ class ceklistAlatBHPController extends Controller
                 ->get();
 
         $getData = ibs_has_tim::where('id_tim', $kodetim)->where('shift', $shift)->first();
+        $getLampiran = ibs_supervisi::where('id_tim', $kodetim)->get();
         // print_r($showtim);
         // die();
 
@@ -225,6 +234,7 @@ class ceklistAlatBHPController extends Controller
             'tim' => $kodetim,
             'shift' => $shift,
             'showtim' => $showtim,
+            'getLampiran' => $getLampiran,
             'ruang' => $ruang,
             'user' => $user,
             'show' => $show
@@ -237,9 +247,10 @@ class ceklistAlatBHPController extends Controller
     {
         $get_data = DB::table('ibs_supervisi')
                     ->join('ibs_refsupervisi','ibs_supervisi.id_supervisi','=','ibs_refsupervisi.id')
-                    ->select('ibs_supervisi.id','ibs_supervisi.id_supervisi','ibs_refsupervisi.supervisi as nama_supervisi','ibs_refsupervisi.ruang as nama_ruang','ibs_supervisi.id_tim as kodetim','ibs_supervisi.kondisi','ibs_supervisi.ket')
+                    ->select('ibs_supervisi.id','ibs_supervisi.id_supervisi','ibs_refsupervisi.supervisi as nama_supervisi','ibs_refsupervisi.ruang as nama_ruang','ibs_supervisi.id_tim as kodetim','ibs_supervisi.kondisi','ibs_supervisi.ket','ibs_supervisi.title as title','ibs_supervisi.filename as filename')
                     ->where('ibs_supervisi.id_tim', $tim)
-                    ->orderBy('ibs_refsupervisi.ruang', 'ASC')
+                    ->where('ibs_supervisi.deleted_at', null)
+                    ->orderBy('ibs_refsupervisi.id', 'ASC')
                     ->get();
 
         $data = [
@@ -277,13 +288,39 @@ class ceklistAlatBHPController extends Controller
         return response()->json($tgl, 200);
     }
 
+    public function lampiran(Request $request)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss a');
+
+        $uploadedFile = $request->file('fileToUpload'); 
+
+        $title = $uploadedFile->getClientOriginalName();
+        $path = $uploadedFile->storeAs("public/files/ibs/ceklist_alat_bhp/lampiran/", $title);
+        // print_r($path);
+        // die();
+        
+        $data = ibs_supervisi::find($request->id);
+        $data->title = $title;
+        $data->filename = $path;
+        $data->save();
+
+        return response()->json($tgl, 200);
+    }
+
     public function batalCek($tim)
     {
         $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss a');
         $now = Carbon::now();
 
-        ibs_supervisi::whereIn('id_tim',$tim)->delete();
-        ibs_has_tim::whereIn('id_tim',$tim)->delete();
+        $get_data1 = ibs_supervisi::where('id_tim', $tim)->get();
+        $get_data2 = ibs_has_tim::where('id_tim', $tim)->get();
+
+        foreach ($get_data1 as $key => $value) {
+            ibs_supervisi::where('id_tim',$value->id_tim)->delete();
+        }
+        foreach ($get_data2 as $key => $value) {
+            ibs_has_tim::where('id_tim',$value->id_tim)->delete();
+        }
 
         return response()->json($tgl, 200);
     }
@@ -324,17 +361,21 @@ class ceklistAlatBHPController extends Controller
                 ->whereMonth('ibs_supervisi.created_at', $bulan)
                 ->whereYear('ibs_supervisi.created_at', $tahun)
                 ->where('ibs_has_tim.tgl_selesai', '!=', null)
+                ->where('ibs_supervisi.deleted_at', null)
+                ->where('ibs_has_tim.deleted_at', null)
                 ->groupBy('ibs_supervisi.id_tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
                 ->get();
                 
         $showtim = DB::table('ibs_has_tim')
                 ->join('users', 'users.id', '=', 'ibs_has_tim.id_user')
                 ->select('users.*','ibs_has_tim.id_tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
+                ->where('ibs_has_tim.deleted_at', null)
                 ->get();
                 
         $get_data = DB::table('ibs_supervisi')
                 ->join('ibs_refsupervisi','ibs_supervisi.id_supervisi','=','ibs_refsupervisi.id')
                 ->select('ibs_supervisi.id','ibs_supervisi.id_supervisi','ibs_refsupervisi.supervisi as nama_supervisi','ibs_refsupervisi.ruang as nama_ruang','ibs_supervisi.id_tim as kodetim','ibs_supervisi.kondisi','ibs_supervisi.ket','ibs_supervisi.tgl','ibs_supervisi.id_user')
+                ->where('ibs_supervisi.deleted_at', null)
                 ->whereMonth('ibs_supervisi.created_at', $bulan)
                 ->whereYear('ibs_supervisi.created_at', $tahun)
                 ->orderBy('ibs_refsupervisi.ruang', 'ASC')
