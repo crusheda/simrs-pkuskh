@@ -162,6 +162,7 @@ $(document).ready( function () {
             }
         );
     },1000);
+    $("body").addClass('brand-minimized sidebar-minimized');
 } );
 
 function kondisi(id) {

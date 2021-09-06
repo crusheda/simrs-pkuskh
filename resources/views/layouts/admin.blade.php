@@ -53,6 +53,8 @@
 </head>
 
 <body class="app header-fixed sidebar-fixed aside-menu-fixed pace-done sidebar-lg-show" id="body">
+  {{-- GO TO TOP JS --}}
+  <a name="top" class="top"></a> 
   
     <!-- 2. AddChat widget -->
     {{-- <div id="addchat_app" 
@@ -169,6 +171,22 @@
       <!-- Fallback support for Older browsers -->
       {{-- <script nomodule src="echo asset('assets/addchat/js/addchat-legacy.min.js') ?>"></script> --}}
 
+    <a id="goTop" class="btn btn-dark text-white" style="
+      display: none;
+      position: fixed;
+      bottom: 20px;
+      right: 30px;
+      z-index: 99;
+      font-size: 18px;
+      border: none;
+      outline: none;
+      cursor: pointer;
+      padding: 15px;
+      opacity: 70%;
+      border-radius: 15px;
+      ">
+      <i class="fa-fw fas fa-caret-up nav-icon"></i>
+    </a>
     <script src="{{ asset('js/main.js') }}"></script>
     <script>
         $(function() {
@@ -269,6 +287,23 @@
       timerProgressBar: true,
       backdrop: `rgba(26,27,41,0.8)`,
     });
+  });
+  
+  //Get the button
+  var mybutton = document.getElementById("goTop");
+
+  // When the user scrolls down 20px from the top of the document, show the button
+  window.onscroll = function() {scrollFunction()};
+
+  function scrollFunction() {
+    if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+      mybutton.style.display = "block";
+    } else {
+      mybutton.style.display = "none";
+    }
+  }
+  $('#goTop').on('click', function(e){
+    $("html, body").animate({scrollTop: $(".top").offset().top}, 500);
   });
 });
 
