@@ -55,7 +55,7 @@
                         @if(count($list['show']) > 0)
                         @foreach($list['show'] as $item)
                         <tr>
-                            <td><center><button onclick="window.location.href='{{ url('pengaduan/ipsrs/detail/'.$item->id) }}'" type="button" class="btn btn-primary"><i class="fa fa-search"></i></button></center></td>
+                            <td><center><button onclick="window.location.href='{{ url('pengaduan/ipsrs/detail/'.$item->id) }}'" type="button" class="btn btn-primary btn-sm"><i class="fa fa-search"></i></button></center></td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->unit }}</td>
                             <td>{{ $item->lokasi }}</td>
@@ -117,15 +117,23 @@
                             <td>{{ $item->tgl_pengaduan }}</td>
                             <td>
                                 <center>
-                                    @if (empty($item->tgl_selesai))
-                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#lampiran{{ $item->id }}"><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
-                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                    @else
-                                        <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#lampiran{{ $item->id }}"><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
-                                        <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                    @endif
+                                    <div class="btn-group" role="group">
+                                        @if (empty($item->tgl_selesai))
+                                            @if (!empty($item->tgl_diterima))
+                                                <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                                <button type="button" class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#lampiran{{ $item->id }}"><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
+                                                <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                            @else
+                                                <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                                <button type="button" class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#lampiran{{ $item->id }}"><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm text-white" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                            @endif
+                                        @else
+                                            <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                            <button type="button" class="btn btn-info btn-sm text-white" data-toggle="modal" data-target="#lampiran{{ $item->id }}"><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
+                                            <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                        @endif
+                                    </div>
                                 </center>
                             </td>
                         </tr>
@@ -137,71 +145,15 @@
             @endrole
         </div>
     </div>
-</div>
-
-@role('ipsrs')
-    <div class="row">
+    @role('ipsrs')
         <div class="card" style="width: 100%">
-            <div class="card-header bg-dark text-white">
-
-                <i class="fa-fw fas fa-sort-alpha-desc nav-icon text-success">
-            
-                </i> History Pengaduan IPSRS
-                
-            </div>
             <div class="card-body">
-                <div class="table-responsive">
-                    <table id="recent" class="table table-striped display">
-                        <thead>
-                            <tr>
-                                <th><center>DETAIL</center></th>
-                                <th>NAMA</th>
-                                <th>UNIT</th>
-                                <th>LOKASI</th>
-                                <th>STATUS</th>
-                                <th>TGL MULAI</th>
-                                <th>TGL SELESAI</th>
-                            </tr>
-                        </thead>
-                        <tbody style="text-transform: capitalize">
-                            @if(count($list['showrecent']) > 0)
-                            @foreach($list['showrecent'] as $item)
-                            <tr>
-                                <td>
-                                    <center>
-                                        <button onclick="window.location.href='{{ url('pengaduan/ipsrs/detail/'.$item->id) }}'" type="button" class="btn btn-success btn-sm"><i class="fa fa-search"></i></button>
-                                        <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#lampiranIPSRS{{ $item->id }}"><i class="fa-fw fas fa-history nav-icon"></i></button>
-                                    </center>
-                                </td>
-                                <td>{{ $item->nama }}</td>
-                                <td>{{ $item->unit }}</td>
-                                <td>{{ $item->lokasi }}</td>
-                                <td>
-                                @if (!empty($item->tgl_selesai) && empty($item->ket_penolakan))
-                                    <kbd style="background-color: turquoise">Selesai</kbd>
-                                @elseif (!empty($item->ket_penolakan))
-                                    <kbd style="background-color: red">Ditolak</kbd>
-                                @elseif (empty($item->tgl_diterima))
-                                    <kbd style="background-color: rebeccapurple">Diverifikasi</kbd>
-                                @elseif (empty($item->tgl_dikerjakan))
-                                    <kbd style="background-color: salmon">Diterima</kbd>
-                                @elseif (empty($item->tgl_selesai))
-                                    <kbd style="background-color: orange">Dikerjakan</kbd>
-                                @endif
-                                </td>
-                                
-                                <td>{{ $item->tgl_pengaduan }}</td>
-                                <td>{{ $item->tgl_selesai }}</td>
-                            </tr>
-                            @endforeach
-                            @endif
-                        </tbody>
-                    </table>
-                </div>
+                <a><i class="fa-fw fas fa-caret-right nav-icon" style="margin-top: 10px"></i> Klik tombol <b>LIHAT</b> untuk melihat pengaduan yang telah selesai</a>
+                <button class="btn btn-dark pull-right" onclick="window.location.href='{{ url('pengaduan/ipsrs/history') }}'"><i class="fa-fw fas fa-server nav-icon"></i> LIHAT</button>
             </div>
         </div>
-    </div>
-@endrole
+    @endrole
+</div>
 
 {{-- Tambah --}}
 <div class="modal fade bd-example-modal-lg" id="tambah" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
@@ -214,7 +166,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            <form class="form-auth-small" action="{{ route('ipsrs.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="form-auth-small" id="formTambah" action="{{ route('ipsrs.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     {{-- <div class="col-md-4">
@@ -227,25 +179,30 @@
                     </div> --}}
                     <div class="col-md-12">
                         <label>Lokasi : </label>
-                        <input type="text" name="lokasi" id="lokasi" class="form-control" placeholder="" required><br>
+                        <input type="text" name="lokasi" id="lokasi1" class="form-control" placeholder="" required><br>
                     </div>
                 </div>
                 <div class="row">
                     <div class="col">
                         <label>Pengaduan :</label>
-                        <textarea class="form-control" name="pengaduan" id="pengaduan1" placeholder="" maxlength="190" rows="8" required></textarea>
+                        <textarea class="form-control" name="pengaduan" id="pengaduan1" placeholder="" style="min-height: 100px" maxlength="190" rows="5" required></textarea>
                         <span class="help-block">
                             <p id="maxpengaduan1" class="help-block "></p>
                         </span>
                     </div>
                 </div>
+                {{-- <img class="card-img-top img-thumbnail" id="blah" src="#" alt="Lampiran" height="50" alt="Card image cap" /> --}}
                 <label>Lampiran (Optional) : </label><br>
-                <input type="file" name="file">
+                <input type="file" name="file" id="imgInp"><br>
+                <sub>Pastikan upload Foto/Gambar bukan Video, berformat <b>jpg,png,jpeg,gif</b> </sub><hr>
+                <div class="card text-center" style="width: 18rem;">
+                    <img class="card-img-top" id="blah" src="..." alt="Tidak ada lampiran">
+                </div>
 
         </div>
         <div class="modal-footer">
 
-                <center><button class="btn btn-primary"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button></center><br>
+                <center><button class="btn btn-primary" id="btn-simpan" type="submit"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button></center><br>
             </form>
 
             <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Close</button>
@@ -266,7 +223,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                {{ Form::model($item, array('route' => array('ipsrs.update', $item->id), 'method' => 'PUT')) }}
+                {{ Form::model($item, array('route' => array('ipsrs.update', $item->id), 'method' => 'PUT', 'id' => 'formUbah')) }}
                     @csrf
                     <input type="text" name="id" value="{{ $item->id }}" hidden> 
                     <div class="row">
@@ -280,13 +237,13 @@
                         </div> --}}
                         <div class="col">
                             <label>Lokasi : </label>
-                            <input type="text" name="lokasi" id="lokasi" class="form-control" value="{{ $item->lokasi }}" required><br>
+                            <input type="text" name="lokasi" id="lokasi2" class="form-control" value="{{ $item->lokasi }}" required><br>
                         </div>
                     </div>
                     <div class="row">
                         <div class="col">
                             <label>Pengaduan :</label>
-                            <textarea class="form-control" name="pengaduan" id="pengaduan2" placeholder="" maxlength="190" rows="8" required><?php echo htmlspecialchars($item->ket_pengaduan); ?></textarea>
+                            <textarea class="form-control" name="pengaduan" id="pengaduan2" placeholder="" style="min-height: 100px" maxlength="190" rows="8" required><?php echo htmlspecialchars($item->ket_pengaduan); ?></textarea>
                             <span class="help-block">
                                 <p id="maxpengaduan2" class="help-block "></p>
                             </span><br>
@@ -296,7 +253,7 @@
             </div>
             <div class="modal-footer">
                 
-                    <center><button class="btn btn-success pull-right"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button></center><br>
+                    <center><button class="btn btn-success pull-right" type="submit" id="btn-simpan2"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button></center><br>
                 </form>
 
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
@@ -379,53 +336,6 @@
     </div>
 </div>
 @endforeach
-
-@role('ipsrs')
-{{-- Download Lampiran FOTO IPSRS RECENT --}}
-@foreach($list['showrecent'] as $item)
-<div class="modal" tabindex="-1" id="lampiranIPSRS{{ $item->id }}" role="dialog">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">
-                Detail Pengaduan&nbsp;<kbd>ID : {{ $item->id }}</kbd>
-            </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <h6 class="text-left">Keterangan Pengaduan :</h6>
-            <div class="card">
-                <div class="card-body">
-                    <p>{{ $item->ket_pengaduan }}</p>
-                </div>
-            </div><hr>
-            <h6 class="text-left">Lampiran Pengaduan :</h6>
-            @if (empty($item->filename_pengaduan))
-                <div class="card">
-                    <div class="card-body">
-                        <center><p><b>Tidak Ada Lampiran</b></p></center>
-                    </div>
-                </div>
-            @else
-                {{-- <center><img src="{{ url('public/storage/'.substr($item->filename_pengaduan,7,2000)) }}" style="width:400px" alt="" title="" /></center> --}}
-                <center><img src="{{ url('storage/'.substr($item->filename_pengaduan,7,1000)) }}" style="width:400px" alt="" title="" /></center>
-            @endif
-        </div>
-        <div class="modal-footer">
-            @if (empty($item->filename_pengaduan))
-                <button type="button" class="btn btn-secondary" disabled><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
-            @else
-                <button onclick="window.location.href='{{ url('pengaduan/ipsrs/'. $item->id) }}'" type="button" class="btn btn-success"><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
-            @endif
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i> Tutup</button>
-        </div>
-      </div>
-    </div>
-</div>
-@endforeach
-@endrole
 
 {{-- Tombol Lihat Proses Laporan User --}}
 @foreach($list['show'] as $item)
@@ -521,39 +431,6 @@
 </div>
 @endforeach
 
-@role('ipsrs')
-{{-- Recent Detail Laporan --}}
-@foreach($list['showrecent'] as $item)
-<div class="modal" tabindex="-1" id="detail4{{ $item->id }}" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">
-                Detail Laporan&nbsp;<kbd>ID : {{ $item->id }}</kbd>
-            </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <h6>- <b>Status Laporan :</b> 
-                @if ($item->ket_penolakan == null)
-                    <kbd>Laporan Selesai</kbd>
-                @else
-                    <kbd>Laporan Ditolak</kbd>
-                @endif
-            </h6>
-            <h6>- <b>Tgl : </b>{{ $item->tgl_selesai }}</h6>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i> Tutup</button>
-        </div>
-      </div>
-    </div>
-</div>
-@endforeach
-@endrole
-
 <script>
     $(document).ready( function () {
         $('#pengaduan_ipsrs').DataTable(
@@ -572,17 +449,6 @@
                     'excel', 'pdf', 'print'
                 ],
                 order: [[ 4, "desc" ]]
-            }
-        );
-        $('#recent').DataTable(
-            {
-                paging: true,
-                searching: true,
-                dom: 'Bfrtip',
-                buttons: [
-                    'excel', 'pdf', 'print'
-                ],
-                order: [[ 5, "desc" ]]
             }
         );
         $('#maxpengaduan1').text('190 Limit Text');
@@ -609,7 +475,40 @@
                 $('#maxpengaduan2').text(ch + ' Limit Text');     
             }
         }); 
+        
+        $("#formTambah").one('submit', function() {
+            //stop submitting the form to see the disabled button effect
+            $("#btn-simpan").attr('disabled','disabled');
+            $("#btn-simpan").find("i").toggleClass("fa-save fa-refresh fa-spin");
+
+            return true;
+        });
     } );
+</script>
+<script>
+    function readURL(input) {
+        if (input.files && input.files[0]) {
+            var reader = new FileReader();
+
+            reader.onload = function (e) {
+                $('#blah').attr('src', e.target.result);
+            }
+
+            reader.readAsDataURL(input.files[0]);
+        }
+    }
+
+    $("#imgInp").change(function(){
+        readURL(this);
+    });
+    // $( "#btn-simpan" ).click(function() {
+    //     var lokasi = document.getElementById("lokasi1").value;
+    //     var pengaduan = document.getElementById("pengaduan1").value;
+    //     if (lokasi != "" && pengaduan != "" ) {
+    //         $("#btn-simpan").attr("disabled", true);
+    //         $(this).find("i").toggleClass("fa-save fa-refresh fa-spin");
+    //     }
+    // });
 </script>
 {{-- <script>
     function submitBtn() {

@@ -9,7 +9,7 @@
 <script src="{{ asset('js/fstdropdown.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('css/fstdropdown.css') }}">
 
-@role('ibs')
+@hasanyrole('ibs|spv')
 <div class="row">
     <div class="card" style="width: 100%">
         <div class="card-header bg-dark text-white">
@@ -27,12 +27,14 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="btn-group pull-left" role="group">
-                        <button class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
-                            <i class="fa-fw fas fa-plus-square nav-icon">
+                        @role('ibs')
+                            <button class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
+                                <i class="fa-fw fas fa-plus-square nav-icon">
 
-                            </i>
-                            Mulai
-                        </button>
+                                </i>
+                                Mulai
+                            </button>
+                        @endrole
                         @if(auth()->user()->name == 'adik18')
                             <button class="btn btn-dark text-white" onclick="window.location.href='{{ route('ibs.refsupervisi.index') }}'">
                                 <i class="fa-fw fas fa-gears nav-icon">
@@ -41,9 +43,11 @@
                                 Ref
                             </button>
                         @endif
-                        <button class="btn btn-light" data-toggle="modal" data-target="#readme" style="border-color: black"><i class="fa-fw fas fa-info nav-icon"></i></button>
+                        @role('ibs')
+                            <button class="btn btn-light" data-toggle="modal" data-target="#readme" style="border-color: black"><i class="fa-fw fas fa-info nav-icon"></i></button>
+                        @endrole
                     </div>
-                    @if(auth()->user()->name == 'adik18')
+                    @if(auth()->user()->name == 'adik18' || Auth::user()->hasRole('spv'))
                         <form class="form-inline pull-right" action="{{ route('ibs.supervisi.cari') }}" method="GET">
                             <span style="width: auto;margin-right:10px">Filter</span>
                             <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="bulan" id="bulan">
@@ -110,20 +114,22 @@
                             <td>
                                 <div class="btn-group" role="group">
                                     @if ($item->tgl_selesai == null)
-                                        <form class="form-auth-small" action="{{ route('ibs.supervisi.pushtim') }}" method="GET" enctype="multipart/form-data">
-                                            <input type="number" name="kodetim" value="{{ $item->tim }}" hidden>
-                                            <input type="text" name="shift" value="{{ $item->shift }}" hidden>
-                                            <button class="btn btn-danger btn-sm text-white">
-                                                <i class="fa-fw fas fa-share nav-icon"></i> tersisa
-                                                @foreach($list['minus'] as $yoi)
-                                                    @if ($item->tim == $yoi->tim)
-                                                        @if ($yoi->jumlah > 0)
-                                                            <span class="badge badge-light">{{ $yoi->jumlah }}</span>
+                                        @role('ibs')
+                                            <form class="form-auth-small" action="{{ route('ibs.supervisi.pushtim') }}" method="GET" enctype="multipart/form-data">
+                                                <input type="number" name="kodetim" value="{{ $item->tim }}" hidden>
+                                                <input type="text" name="shift" value="{{ $item->shift }}" hidden>
+                                                <button class="btn btn-danger btn-sm text-white">
+                                                    <i class="fa-fw fas fa-share nav-icon"></i> tersisa
+                                                    @foreach($list['minus'] as $yoi)
+                                                        @if ($item->tim == $yoi->tim)
+                                                            @if ($yoi->jumlah > 0)
+                                                                <span class="badge badge-light">{{ $yoi->jumlah }}</span>
+                                                            @endif
                                                         @endif
-                                                    @endif
-                                                @endforeach
-                                            </button>
-                                        </form>
+                                                    @endforeach
+                                                </button>
+                                            </form>
+                                        @endrole
                                     @else
                                         <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#recent{{ $item->tim }}" data-toggle="tooltip" data-placement="bottom" title="RIWAYAT PENGECEKAN"><i class="fa-fw fas fa-history nav-icon text-white"></i></button>
                                     @endif

@@ -27,6 +27,10 @@ class ceklistAlatBHPController extends Controller
         $user = Auth::user();
         $id_user = $user->id;
         $name_user = $user->name;
+        $role_user = $user->roles->first()->name; //kabag-keperawatan
+        // $cek = Auth::user()->hasRole('spv');
+        // print_r($cek);
+        // die();
 
         $today = Carbon::now();
         $now = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
@@ -47,7 +51,7 @@ class ceklistAlatBHPController extends Controller
                 ->where('roles.name', 'ibs')
                 ->get();
 
-            if ($name_user == 'adik18') {
+            if ($name_user == 'adik18' || Auth::user()->hasRole('spv')) {
                 $show = DB::table('ibs_supervisi')
                         ->join('ibs_has_tim', 'ibs_supervisi.id_tim', '=', 'ibs_has_tim.id_tim')
                         ->select('ibs_supervisi.id_tim as tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')

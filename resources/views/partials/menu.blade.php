@@ -60,6 +60,27 @@
                     </li>
                 </ul>
             </li> --}}
+            @if(Auth::user()->hasAnyRole(['ibs', 'spv']))
+            <li class="nav-item nav-dropdown">
+                <a class="nav-link  nav-dropdown-toggle" href="#">
+                    <i class="fa-fw fas fa-low-vision nav-icon">
+
+                    </i>
+                    Supervisi
+                </a>
+                <ul class="nav-dropdown-items">
+                    <li class="nav-item">
+                        <a href="{{ route("ibs.supervisi.index") }}" class="nav-link">
+                            <i class="fa-fw fas fa-calendar-check nav-icon">
+
+                            </i>
+                            Ceklist Alat & BHP IBS
+                        </a>
+                    </li>
+                </ul>
+            </li>
+            @endif
+            @role('it')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
                         <i class="fa-fw fas fa-low-vision nav-icon">
@@ -67,7 +88,6 @@
                         </i>
                         Supervisi
                     </a>
-                    @role('it')
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
                             <a href="{{ route("it.supervisi.index") }}" class="nav-link">
@@ -78,21 +98,7 @@
                             </a>
                         </li>
                     </ul>
-                    @endrole
-                    @role('ibs')
-                    <ul class="nav-dropdown-items">
-                        <li class="nav-item">
-                            <a href="{{ route("ibs.supervisi.index") }}" class="nav-link">
-                                <i class="fa-fw fas fa-leaf nav-icon">
-
-                                </i>
-                                Ceklist Alat & BHP
-                            </a>
-                        </li>
-                    </ul>
-                    @endrole
                 </li>
-            @role('it')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">
                         <i class="fa-fw fas fa-coffee nav-icon">

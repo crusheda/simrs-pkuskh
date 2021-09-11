@@ -11,7 +11,7 @@
     <div class="col-md-3">
         <div class="card">
             <div class="card-header">
-                <button type="button" class="btn btn-sm btn-dark pull-left" onclick="window.location.href='{{ url('pengaduan/ipsrs/') }}'"><i class="fa-fw fas fa-hand-o-left nav-icon"></i> Kembali</button>
+                <button type="button" class="btn btn-sm btn-dark pull-left" onclick="window.location.href='{{ url('pengaduan/ipsrs') }}'"><i class="fa-fw fas fa-hand-o-left nav-icon"></i> Kembali</button>
             </div>
             @if (empty($list['show'][0]->filename_pengaduan))
                 <img class="card-img-top img-thumbnail" src="{{ url('img/no_image.jpg') }}" height="300" alt="Card image cap">
@@ -145,14 +145,14 @@
                     </div>
                     <div class="col-md-12">
                         <label>Pengaduan :</label>
-                        <textarea class="form-control" placeholder="" maxlength="190" rows="8" disabled><?php echo htmlspecialchars($list['show'][0]->ket_pengaduan); ?></textarea>
+                        <textarea class="form-control" placeholder="" style="min-height: 100px" maxlength="190" rows="5" disabled><?php echo htmlspecialchars($list['show'][0]->ket_pengaduan); ?></textarea>
                     </div>
                     @if ($list['show'][0]->ket_diterima)
                         @if (!empty($list['show'][0]->tgl_dikerjakan))
                             <div class="col-md-12">
                                 <hr>
                                 <label>Keterangan Verifikasi :</label>
-                                <textarea class="form-control" placeholder="" maxlength="190" rows="8" disabled><?php echo htmlspecialchars($list['show'][0]->ket_diterima); ?></textarea>
+                                <textarea class="form-control" placeholder="" style="min-height: 100px" maxlength="190" rows="5" disabled><?php echo htmlspecialchars($list['show'][0]->ket_diterima); ?></textarea>
                             </div>
                         @else
                             <div class="col-md-12">
@@ -160,7 +160,7 @@
                                     <hr>
                                     <label>Keterangan Verifikasi :</label>
                                     <input type="text" class="form-control" name="id" value="{{ $list['show'][0]->id }}" hidden>
-                                    <textarea class="form-control" placeholder="" maxlength="190" rows="8" name="ket" required><?php echo htmlspecialchars($list['show'][0]->ket_diterima); ?></textarea><br>
+                                    <textarea class="form-control" placeholder="" style="min-height: 100px" maxlength="190" rows="5" name="ket" required><?php echo htmlspecialchars($list['show'][0]->ket_diterima); ?></textarea><br>
                                     <button type="submit" class="btn btn-warning text-white pull-right"><i class="fa fa-save"></i>&nbsp;&nbsp;Simpan</button>
                                 {{ Form::close() }}
                             </div>
@@ -170,7 +170,7 @@
                         <div class="col-md-12">
                             <hr>
                             <label>Keterangan Penolakan :</label>
-                            <textarea class="form-control" placeholder="" maxlength="190" rows="8" disabled><?php echo htmlspecialchars($list['show'][0]->ket_penolakan); ?></textarea>
+                            <textarea class="form-control" placeholder="" style="min-height: 100px" maxlength="190" rows="5" disabled><?php echo htmlspecialchars($list['show'][0]->ket_penolakan); ?></textarea>
                         </div>
                     @endif
                 </div>
@@ -191,16 +191,16 @@
                         <div class="col-md-12">
                             @if (!empty($list['show'][0]->tgl_selesai))
                                 <label>Keterangan Mulai Dikerjakan :</label>
-                                <textarea class="form-control" placeholder="" maxlength="190" rows="8" disabled><?php echo htmlspecialchars($list['show'][0]->ket_dikerjakan); ?></textarea>
+                                <textarea class="form-control" placeholder="" style="min-height: 100px" maxlength="190" rows="5" disabled><?php echo htmlspecialchars($list['show'][0]->ket_dikerjakan); ?></textarea>
                             @else
                                 {{ Form::model($list['show'][0], array('route' => array('pengaduan.ipsrs.ubah.kerjakan', $list['show'][0]->id), 'method' => 'POST')) }}
                                     <label>Keterangan Mulai Dikerjakan :</label>
                                     <input type="text" class="form-control" name="id" value="{{ $list['show'][0]->id }}" hidden>
-                                    <textarea class="form-control" placeholder="" maxlength="190" rows="8" name="ket" id="ket_dikerjakan2"><?php echo htmlspecialchars($list['show'][0]->ket_dikerjakan); ?></textarea>
+                                    <textarea class="form-control" placeholder="" style="min-height: 100px" maxlength="190" rows="5" name="ket" id="ket_dikerjakan2"><?php echo htmlspecialchars($list['show'][0]->ket_dikerjakan); ?></textarea>
                                     <span class="help-block">
                                         <p id="max_ket_dikerjakan2" class="help-block "></p>
                                     </span>
-                                    <button type="submit" class="btn btn-warning text-white pull-right"><i class="fa fa-save"></i>&nbsp;&nbsp;Simpan</button>
+                                    <button type="submit" class="btn btn-warning text-white pull-right" style="margin-top: -10px"><i class="fa fa-save"></i>&nbsp;&nbsp;Simpan</button>
                                 {{ Form::close() }}
                             @endif
                         </div>

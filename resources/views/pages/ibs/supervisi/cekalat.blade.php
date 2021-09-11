@@ -10,7 +10,7 @@
 <script src="{{ asset('js/fstdropdown.js') }}"></script>
 <link rel="stylesheet" href="{{ asset('css/fstdropdown.css') }}">
 
-@role('ibs')
+@can('supervisi-ibs')
 <div class="row">
     <div class="card" style="width: 100%">
         <div class="card-header bg-dark text-white">
@@ -44,7 +44,16 @@
                             Batal Cek
                         </button>
                     @else
-                        <button class="btn btn-danger text-white pull-right" disabled><i class="fa-fw fas fa-trash nav-icon"></i> Batal Cek</button>
+                        @if(auth()->user()->name == 'adik18')
+                            <button class="btn btn-danger text-white pull-right" onclick="batalCek()">
+                                <i class="fa-fw fas fa-trash nav-icon">
+
+                                </i>
+                                Batal Cek
+                            </button>
+                        @else
+                            <button class="btn btn-danger text-white pull-right" disabled><i class="fa-fw fas fa-trash nav-icon"></i> Batal Cek</button>
+                        @endif
                     @endif
                 </div>
             </div><hr>
@@ -80,7 +89,7 @@
 </div>
 @else
     <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
-@endrole
+@endcan
 
 <div class="modal fade bd-example-modal-lg" id="lihatTim" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
@@ -272,8 +281,10 @@ function lampiran(id) {
         input: 'file',
         onBeforeOpen: () => {
             $(".swal2-file").change(function () {
-                var reader = new FileReader();
-                reader.readAsDataURL(this.files[0]);
+                if (this.files && this.files[0]) {
+                    var reader = new FileReader();
+                    reader.readAsDataURL(this.files[0]);
+                }
             });
         },
         reverseButtons: true,

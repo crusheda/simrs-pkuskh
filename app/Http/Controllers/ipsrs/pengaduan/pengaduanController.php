@@ -71,6 +71,10 @@ class pengaduanController extends Controller
     {
         // tampung berkas yang sudah diunggah ke variabel baru
         // 'file' merupakan nama input yang ada pada form
+        $request->validate([
+            'file' => ['image','mimes:jpg,png,jpeg,gif'],
+        ]);
+        
         $uploadedFile = $request->file('file');    
 
         // simpan berkas yang diunggah ke sub-direktori 'public/files'
@@ -294,6 +298,10 @@ class pengaduanController extends Controller
     {
         // tampung berkas yang sudah diunggah ke variabel baru
         // 'file' merupakan nama input yang ada pada form
+        $request->validate([
+            'catatan' => ['image','mimes:jpg,png,jpeg,gif'],
+        ]);
+
         $uploadedFile = $request->file('catatan');     
 
         // simpan berkas yang diunggah ke sub-direktori 'public/files'
@@ -355,5 +363,24 @@ class pengaduanController extends Controller
         $data->save();
     
         return Redirect::back()->with('message','Laporan Berhasil Diselesaikan');
+    }
+
+    public function history()
+    {
+        $user = Auth::user();
+        $name = $user->name;
+        $role = $user->roles->first()->name; //kabag-keperawatan
+
+        if (Auth::user()->hasRole('ipsrs')) {
+            $showrecent = pengaduan_ipsrs::whereNotNull('tgl_selesai')->get();
+        }else {
+            $showrecent = '';
+        }
+        
+        $data = [
+            'showrecent' => $showrecent
+        ];
+
+        return view('pages.ipsrs.pengaduan.history-laporan')->with('list', $data);
     }
 }
