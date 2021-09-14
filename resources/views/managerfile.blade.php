@@ -29,7 +29,7 @@
             <button type="button" class="btn btn-light btn-sm pull-right text-dark" data-toggle="modal" data-target="#readme" data-toggle="tooltip" data-placement="bottom" title="STRUKTUR BAGIAN 2021"><i class="fa-fw fas fa-question nav-icon text-dark"></i> Struktur Bagian</button>
         </div>
         <div class="card-body">
-            <div style="height: 380px;width:100%;margin-top: -10px">
+            <div style="height: 350px;width:100%;margin-top: -10px">
                 <div id="fm"></div>
             </div>
         </div>
