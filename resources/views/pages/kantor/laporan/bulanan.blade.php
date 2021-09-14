@@ -40,7 +40,7 @@
                             Struktur Organisasi
                         </a>
                         <br>
-                        <sub>Role : <b></b></sub>
+                        {{-- <sub>Role : <b></b></sub> --}}
                     </div>
                     @role('pelayanan')
                     <div class="pull-right">
@@ -121,14 +121,6 @@
                             </td>
                         </tr>
                         @endforeach
-                        @else
-                            <tr>
-                                @role('pelayanan')
-                                    <td colspan=6>Tidak Ada Data</td>
-                                @else
-                                    <td colspan=5>Tidak Ada Data</td>
-                                @endrole
-                            </tr>
                         @endif
                     </tbody>
                 </table>

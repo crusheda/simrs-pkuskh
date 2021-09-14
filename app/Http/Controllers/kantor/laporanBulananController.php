@@ -13,6 +13,7 @@ use Redirect;
 use Storage;
 use Auth;
 use Response;
+use Exception;
 
 class laporanBulananController extends Controller
 {
@@ -75,8 +76,8 @@ class laporanBulananController extends Controller
         $user = Auth::user();
         $userId = $user->id;
 
-        $this->validate($request,[
-            'file' => 'required|file|max:100000',
+        $request->validate([
+            'file' => ['max:100000','mimes:pdf,docx,doc,xls,xlsx,ppt,pptx,rtf'],
             ]);
 
         // tampung berkas yang sudah diunggah ke variabel baru

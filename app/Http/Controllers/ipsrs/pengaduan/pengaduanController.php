@@ -72,7 +72,7 @@ class pengaduanController extends Controller
         // tampung berkas yang sudah diunggah ke variabel baru
         // 'file' merupakan nama input yang ada pada form
         $request->validate([
-            'file' => ['image','mimes:jpg,png,jpeg,gif'],
+            'file' => ['image','mimes:jpg,png,jpeg,gif','max:50000'],
         ]);
         
         $uploadedFile = $request->file('file');    

@@ -540,7 +540,7 @@
                             <i class="fa-fw fas fa-folder-open nav-icon">
 
                             </i>
-                            Penyimpanan File
+                            File Manager
                         </a>
                     </li>
                     <li class="nav-item">
