@@ -241,6 +241,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'queue', 'as' => 'queue.'], 
     Route::get('pengaduan/ipsrs/detail/{id}', 'ipsrs\pengaduan\pengaduanController@detail')->name('pengaduan.ipsrs.detail');
     Route::get('pengaduan/ipsrs/lampiran/catatan/{id}', 'ipsrs\pengaduan\pengaduanController@showCatatan')->name('pengaduan.ipsrs.lampiran.catatan');
     Route::get('pengaduan/ipsrs/history', 'ipsrs\pengaduan\pengaduanController@history')->name('pengaduan.ipsrs.history');
+    // START API
+        Route::get('pengaduan/ipsrs/lampiran/{id}', 'ipsrs\pengaduan\pengaduanController@getLampiran')->name('pengaduan.ipsrs.lampiran');
+    // END API
     Route::resource('pengaduan/ipsrs', 'ipsrs\pengaduan\pengaduanController');
 
 // MAIL

@@ -20,8 +20,9 @@
               </div>
             </div>
             <div class="card-body">
+                <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Klik tombol <kbd>Sembunyikan Kolom</kbd> untuk menampilkan kolom yang tersembunyi.</a><br><br>
                 <div class="table-responsive">
-                    <table id="recent" class="table table-striped display">
+                    <table id="recent" class="table table-striped display" style="width: 100%">
                         <thead>
                             <tr>
                                 <th><center>DETAIL</center></th>
@@ -29,8 +30,14 @@
                                 <th>UNIT</th>
                                 <th>LOKASI</th>
                                 <th>STATUS</th>
-                                <th>TGL MULAI</th>
+                                <th>TGL PENGADUAN</th>
+                                <th>KET PENGADUAN</th>
+                                <th>TGL DITERIMA</th>
+                                <th>KET DITERIMA</th>
+                                <th>TGL DIKERJAKAN</th>
+                                <th>KET DIKERJAKAN</th>
                                 <th>TGL SELESAI</th>
+                                <th>KETERANGAN</th>
                             </tr>
                         </thead>
                         <tbody style="text-transform: capitalize">
@@ -41,7 +48,11 @@
                                     <center>
                                       <div class="btn-group" role="group">
                                         <button onclick="window.location.href='{{ url('pengaduan/ipsrs/detail/'.$item->id) }}'" type="button" class="btn btn-success btn-sm"><i class="fa fa-search"></i></button>
-                                        <button type="button" class="btn btn-info text-white btn-sm" data-toggle="modal" data-target="#lampiranIPSRS{{ $item->id }}"><i class="fa-fw fas fa-history nav-icon"></i></button>
+                                        @if (empty($item->filename_pengaduan))
+                                            <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
+                                        @else
+                                            <button type="button" class="btn btn-info btn-sm text-white" onclick="showLampiran({{ $item->id }})"><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
+                                        @endif
                                       </div>
                                     </center>
                                 </td>
@@ -49,25 +60,54 @@
                                 <td>{{ $item->unit }}</td>
                                 <td>{{ $item->lokasi }}</td>
                                 <td>
-                                @if (!empty($item->tgl_selesai) && empty($item->ket_penolakan))
-                                    <kbd style="background-color: turquoise">Selesai</kbd>
-                                @elseif (!empty($item->ket_penolakan))
-                                    <kbd style="background-color: red">Ditolak</kbd>
-                                @elseif (empty($item->tgl_diterima))
-                                    <kbd style="background-color: rebeccapurple">Diverifikasi</kbd>
-                                @elseif (empty($item->tgl_dikerjakan))
-                                    <kbd style="background-color: salmon">Diterima</kbd>
-                                @elseif (empty($item->tgl_selesai))
-                                    <kbd style="background-color: orange">Dikerjakan</kbd>
-                                @endif
+                                    @if (!empty($item->tgl_selesai) && empty($item->ket_penolakan))
+                                        <kbd style="background-color: turquoise">Selesai</kbd>
+                                    @elseif (!empty($item->ket_penolakan))
+                                        <kbd style="background-color: red">Ditolak</kbd>
+                                    @elseif (empty($item->tgl_diterima))
+                                        <kbd style="background-color: rebeccapurple">Diverifikasi</kbd>
+                                    @elseif (empty($item->tgl_dikerjakan))
+                                        <kbd style="background-color: salmon">Diterima</kbd>
+                                    @elseif (empty($item->tgl_selesai))
+                                        <kbd style="background-color: orange">Dikerjakan</kbd>
+                                    @endif
                                 </td>
                                 
                                 <td>{{ $item->tgl_pengaduan }}</td>
+                                <td>{{ $item->ket_pengaduan }}</td>
+                                <td>{{ $item->tgl_diterima }}</td>
+                                <td>{{ $item->ket_diterima }}</td>
+                                <td>{{ $item->tgl_dikerjakan }}</td>
+                                <td>{{ $item->ket_dikerjakan }}</td>
                                 <td>{{ $item->tgl_selesai }}</td>
+                                <td>
+                                    @if (empty($item->ket_selesai))
+                                        {{ $item->ket_penolakan }}
+                                    @else
+                                        {{ $item->ket_selesai }}
+                                    @endif
+                                </td>
                             </tr>
                             @endforeach
                             @endif
                         </tbody>
+                        <tfoot>
+                            <tr>
+                                <th><center>DETAIL</center></th>
+                                <th>NAMA</th>
+                                <th>UNIT</th>
+                                <th>LOKASI</th>
+                                <th>STATUS</th>
+                                <th>TGL PENGADUAN</th>
+                                <th>KET PENGADUAN</th>
+                                <th>TGL DITERIMA</th>
+                                <th>KET DITERIMA</th>
+                                <th>TGL DIKERJAKAN</th>
+                                <th>KET DIKERJAKAN</th>
+                                <th>TGL SELESAI</th>
+                                <th>KETERANGAN</th>
+                            </tr>
+                        </tfoot>
                     </table>
                 </div>
             </div>
@@ -75,101 +115,53 @@
     </div>
 @endrole
 
-@role('ipsrs')
-{{-- Download Lampiran FOTO IPSRS RECENT --}}
-@foreach($list['showrecent'] as $item)
-<div class="modal" tabindex="-1" id="lampiranIPSRS{{ $item->id }}" role="dialog">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">
-                Detail Pengaduan&nbsp;<kbd>ID : {{ $item->id }}</kbd>
-            </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <h6 class="text-left">Keterangan Pengaduan :</h6>
-            <div class="card">
-                <div class="card-body">
-                    <p>{{ $item->ket_pengaduan }}</p>
-                </div>
-            </div><hr>
-            <h6 class="text-left">Lampiran Pengaduan :</h6>
-            @if (empty($item->filename_pengaduan))
-                <div class="card">
-                    <div class="card-body">
-                        <center><p><b>Tidak Ada Lampiran</b></p></center>
-                    </div>
-                </div>
-            @else
-                {{-- <center><img src="{{ url('public/storage/'.substr($item->filename_pengaduan,7,2000)) }}" style="width:400px" alt="" title="" /></center> --}}
-                <center><img src="{{ url('storage/'.substr($item->filename_pengaduan,7,1000)) }}" style="width:400px" alt="" title="" /></center>
-            @endif
-        </div>
-        <div class="modal-footer">
-            @if (empty($item->filename_pengaduan))
-                <button type="button" class="btn btn-secondary" disabled><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
-            @else
-                <button onclick="window.location.href='{{ url('pengaduan/ipsrs/'. $item->id) }}'" type="button" class="btn btn-success"><i class="fa fa-download"></i>&nbsp;&nbsp;Download</button>
-            @endif
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i> Tutup</button>
-        </div>
-      </div>
-    </div>
-</div>
-@endforeach
-{{-- Recent Detail Laporan --}}
-@foreach($list['showrecent'] as $item)
-<div class="modal" tabindex="-1" id="detail4{{ $item->id }}" role="dialog">
-    <div class="modal-dialog modal-dialog-centered">
-      <div class="modal-content">
-        <div class="modal-header">
-            <h4 class="modal-title">
-                Detail Laporan&nbsp;<kbd>ID : {{ $item->id }}</kbd>
-            </h4>
-            <button type="button" class="close" data-dismiss="modal" aria-label="Close">
-                <span aria-hidden="true">&times;</span>
-            </button>
-        </div>
-        <div class="modal-body">
-            <h6>- <b>Status Laporan :</b> 
-                @if ($item->ket_penolakan == null)
-                    <kbd>Laporan Selesai</kbd>
-                @else
-                    <kbd>Laporan Ditolak</kbd>
-                @endif
-            </h6>
-            <h6>- <b>Tgl : </b>{{ $item->tgl_selesai }}</h6>
-        </div>
-        <div class="modal-footer">
-          <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa fa-remove"></i> Tutup</button>
-        </div>
-      </div>
-    </div>
-</div>
-@endforeach
-@endrole
-
 <script>
+    function showLampiran(id) {
+        Swal.fire({
+            title: 'Lampiran Supervisi '+id,
+            text: 'Refresh halaman ini untuk mengupdate lampiran',
+            imageUrl: './../ipsrs/'+id,
+            imageWidth: 400,
+            // imageHeight: 200,
+            imageAlt: 'Lampiran',
+            reverseButtons: true,
+            showDenyButton: false,
+            showCloseButton: true,
+            showCancelButton: false,
+            confirmButtonText: `<i class="fa fa-download"></i> Download`,
+            backdrop: `rgba(26,27,41,0.8)`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "./../ipsrs/"+id;
+            }
+        })
+    }
   $(document).ready( function () {
+    $("body").addClass('brand-minimized sidebar-minimized');
     $('#recent').DataTable(
         {
             paging: true,
             searching: true,
             dom: 'Bfrtip',
             buttons: [
-                'excel', 'pdf','colvis'
+                'excel', 'print', 'pdf','colvis'
+            ],
+            'columnDefs': [
+                { targets: 6, visible: false },
+                { targets: 8, visible: false },
+                { targets: 10, visible: false },
+                { targets: 12, visible: false },
             ],
             language: {
                 buttons: {
                     colvis: 'Sembunyikan Kolom',
+                    print: 'Cetak',
                     excel: 'Jadikan Excell',
                     pdf: 'Jadikan PDF',
                 }
             },
-            order: [[ 5, "desc" ]]
+            order: [[ 5, "desc" ]],
+            pageLength: 20
         }
     );
   });

@@ -330,6 +330,7 @@
 
 <script>
 $(document).ready( function () {
+    $("body").addClass('brand-minimized sidebar-minimized');
     $('#pengaduan_ipsrs').DataTable(
         {
             paging: true,

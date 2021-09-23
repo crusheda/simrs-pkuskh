@@ -33,14 +33,20 @@ class pengaduanController extends Controller
         if (Auth::user()->hasRole('ipsrs')) {
             $show = pengaduan_ipsrs::where('tgl_selesai', null)->get();
             $showrecent = pengaduan_ipsrs::whereNotNull('tgl_selesai')->get();
+            $shownotyet = '';
+            $showdone = '';
         }else {
             $show = pengaduan_ipsrs::where('unit', $role)->get();
+            $shownotyet = pengaduan_ipsrs::where('unit', $role)->where('tgl_selesai',null)->get();
+            $showdone = pengaduan_ipsrs::where('unit', $role)->where('tgl_selesai','!=',null)->get();
             $showrecent = '';
         }
         $tambahketerangan = pengaduan_ipsrs_catatan::get();
 
         $data = [
             'show' => $show,
+            'shownotyet' => $shownotyet,
+            'showdone' => $showdone,
             'showrecent' => $showrecent,
             'tambahketerangan' => $tambahketerangan,
             'unit' => $unit
@@ -382,5 +388,12 @@ class pengaduanController extends Controller
         ];
 
         return view('pages.ipsrs.pengaduan.history-laporan')->with('list', $data);
+    }
+
+    public function getLampiran($id)
+    {
+        $data = pengaduan_ipsrs::where('id', $id)->get();
+
+        return response()->json($data, 200);
     }
 }
