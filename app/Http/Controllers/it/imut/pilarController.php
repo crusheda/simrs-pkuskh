@@ -138,7 +138,7 @@ class pilarController extends Controller
 
     public function showAll()
     {
-        $show = imutpilar::get();
+        $show = imutpilar::where('jamselesai','!=',null)->get();
 
         $data = [
             'show' => $show

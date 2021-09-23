@@ -131,17 +131,6 @@ class logController extends Controller
     {
         $data = logit::find($id);
         return Storage::download($data->filename, $data->title);
-        // $headers = ["Content-Type"=>"pdf/zip"];
-        // $getfile = Storage::get($data->filename);
-        // print_r($getfile);
-        // die();
-        // return response()->file(storage_path().'/app/'.$data->filename, $headers);
-        // return response()->download(storage_path().'/app/'.$data->filename, $data->title,[],'inline');
-        // return response()->stream(storage_path().'/app/'.$data->filename,200, $headers);
-        // return Response::make(file_get_contents(storage_path().'/app/'.$data->filename), 200, [
-        //     'Content-Type' => 'application/pdf',
-        //     'Content-Disposition' => 'inline; filename="'.$data->filename.'"'
-        // ]);
     }
 
     /**
@@ -227,20 +216,20 @@ class logController extends Controller
         return \Redirect::to('/it/supervisi')->with('message','Hapus Kegiatan Supervisi Berhasil');
     }
 
-    public function showGambar($id)
-    {
-        return Image::make(storage_path() . '/it/log/' . $id )->response();
-        // print_r($id);
-        // die();
-    }
+    // public function showGambar($id)
+    // {
+    //     return Image::make(storage_path() . '/it/log/' . $id )->response();
+    //     // print_r($id);
+    //     // die();
+    // }
 
-    public function showPDF($id)
-    {
-        $file = logit::find($id);
-        // print_r($file);
-        // die();
-        return response()->file(storage_path('/app/'.$file->filename));
-    }
+    // public function showPDF($id)
+    // {
+    //     $file = logit::find($id);
+    //     // print_r($file);
+    //     // die();
+    //     return response()->file(storage_path('/app/'.$file->filename));
+    // }
 
     public function showAll()
     {
@@ -258,5 +247,18 @@ class logController extends Controller
         ];
 
         return view('pages.it.log.indexAll')->with('list', $data);
+    }
+
+    public function getLampiran($id)
+    {
+        $data = logit::where('id', $id)->get();
+
+        return response()->json($data, 200);
+    }
+
+    public function unduhLampiran($id)
+    {
+        $data = logit::find($id);
+        return Storage::download($data->filename, $data->title);
     }
 }

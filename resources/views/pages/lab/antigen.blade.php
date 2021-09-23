@@ -24,7 +24,7 @@
             @can('antigen')
             <div class="row">
                 <div class="col-md-12">
-                    <button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah" data-toggle="tooltip" data-placement="bottom" title="TAMBAH HASIL ANTIGEN PASIEN">
+                    <button type="button" class="btn btn-primary text-white" onclick="autoFocus()" data-toggle="modal" data-target="#tambah" data-toggle="tooltip" data-placement="bottom" title="TAMBAH HASIL ANTIGEN PASIEN">
                         <i class="fa-fw fas fa-plus-square nav-icon">
 
                         </i>

@@ -27,14 +27,20 @@
         <div class="card-body">
             <div class="row">
                 <div class="col-md-12">
-                    <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahlog">
-                        <i class="fa-fw fas fa-plus-square nav-icon">
-
-                        </i>
-                        Tambah Kegiatan
-                    </a>
+                    <div class="pull-left">
+                        <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahlog">
+                            <i class="fa-fw fas fa-plus-square nav-icon">
+    
+                            </i>
+                            Tambah Kegiatan
+                        </a><br>
+                        <sub>Data yang ditampilkan hanya berjumlah 20 data terbaru saja, Klik tombol <b>LIHAT</b> untuk melihat data seluruhnya</sub>
+                    </div>
+                    <div class="pull-right">
+                        <button class="btn btn-dark" onclick="window.location.href='{{ url('it/supervisi/all') }}'"><i class="fa-fw fas fa-server nav-icon"></i> LIHAT</button>
+                    </div>
                 </div>
-            </div><br>
+            </div><hr>
             {{-- <img src="{{ asset('storage/it/log/yussuf.jpg') }}" alt=""> --}}
             <div class="table-responsive">
                 <table id="logit" class="table table-striped display">
@@ -61,13 +67,11 @@
                                 <center>
                                     <div class="btn-group" role="group">
                                         @if ($item->filename != '')
-                                            <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#lihatGambar{{ $item->id }}"><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
-                                            <button type="button" onclick="window.location.href='{{ url('it/supervisi/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></button>
+                                            <button type="button" class="btn btn-info btn-sm text-white" onclick="showLampiran({{ $item->id }})"><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
                                         @else
-                                            <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
-                                            <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa fa-download"></i></button>
+                                            <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
                                         @endif
-                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                        <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubahLog{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
                                         <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusLog{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                     </div>
                                 </center>
@@ -78,12 +82,6 @@
                     </tbody>
                 </table>
             </div>
-        </div>
-    </div>
-    <div class="card" style="width: 100%">
-        <div class="card-body">
-            <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan hanya berjumlah 20 data terbaru saja, Klik tombol <b>LIHAT</b> untuk melihat data seluruhnya</a>
-            <button class="btn btn-dark pull-right" onclick="window.location.href='{{ url('it/supervisi/all') }}'"><i class="fa-fw fas fa-server nav-icon"></i> LIHAT</button>
         </div>
     </div>
 </div>
@@ -159,7 +157,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">
-            Ubah Kegiatan Supervisi IT&nbsp;<span class="pull-right badge badge-info text-white" style="margin-top:5px">{{ $item->updated_at->diffForHumans() }}</span>
+            Ubah kegiatan &nbsp;<span class="pull-right badge badge-info text-white" style="margin-top:5px">{{ $item->updated_at->diffForHumans() }}</span>
           </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
@@ -309,19 +307,40 @@
 @endforeach
 
 <script>
-$(document).ready( function () {
-    $('#logit').DataTable(
-        {
-            paging: true,
-            searching: true,
-            dom: 'Bfrtip',
-            buttons: [
-                'copy', 'excel', 'pdf', 'print','colvis'
-            ],
-            order: [[ 4, "desc" ]]
-        }
-    );
-} );
+    function showLampiran(id) {
+        Swal.fire({
+            title: 'Lampiran Supervisi '+id,
+            text: 'Refresh halaman ini untuk mengupdate lampiran',
+            imageUrl: './supervisi/lampiran/'+id,
+            imageWidth: 400,
+            // imageHeight: 200,
+            imageAlt: 'Lampiran',
+            reverseButtons: true,
+            showDenyButton: false,
+            showCloseButton: true,
+            showCancelButton: false,
+            confirmButtonText: `<i class="fa fa-download"></i> Download`,
+            backdrop: `rgba(26,27,41,0.8)`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = "./supervisi/lampiran/"+id+"/download";
+            }
+        })
+    }
+
+    $(document).ready( function () {
+        $('#logit').DataTable(
+            {
+                paging: true,
+                searching: true,
+                dom: 'Bfrtip',
+                buttons: [
+                    'copy', 'excel', 'pdf', 'print','colvis'
+                ],
+                order: [[ 4, "desc" ]]
+            }
+        );
+    } );
 </script>
 {{-- <script>
     function submitBtn() {

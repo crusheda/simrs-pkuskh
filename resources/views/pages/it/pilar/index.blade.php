@@ -28,11 +28,11 @@
                     <div class="form-group mx-sm-3 mb-2">
                         <div class="input-group mb-3">
                             <div class="input-group-prepend">
-                                <button class="btn btn-warning text-white" onclick="hapusTable()"><i class="fa-fw fas fa-eraser nav-icon"></i></button>
+                                <button class="btn btn-secondary text-white" id="clearfx" onclick="hapusTable()" disabled><i class="fa-fw fas fa-eraser nav-icon"></i></button>
                             </div>
                             <input type="number" name="rm" id="rm" max="99999999" class="form-control" placeholder="" autofocus required>
                             <div class="input-group-append">
-                                <button class="btn btn-success text-white" id="btnshow" onclick="showRM()"><i class="fa-fw fas fa-search nav-icon"></i> Show</button>
+                                <button class="btn btn-success text-white" id="btnshow" type="submit" onclick="showRM()"><i class="fa-fw fas fa-search nav-icon"></i> Show</button>
                             </div>
                         </div>
                     </div>
@@ -105,6 +105,11 @@
     // $(document).ready( function () {
     //     $('#pilar').DataTable();
     // } );
+    $(document).on('keypress',function(e) {
+        if(e.which == 13) {
+            showRM();
+        }
+    });
 
     $("body").addClass('brand-minimized sidebar-minimized');
 
@@ -119,8 +124,12 @@
     });
 
     function showRM() {
-        $('#btnshow').prop('disabled', true); 
+        $('#btnshow').prop('disabled', true).removeClass('btn-success').addClass('btn-secondary');
         var getrm = $("#rm").val();
+        if (getrm == '') {
+            $("#rm").prop('disabled',true);
+            $('#clearfx').prop('disabled', false).removeClass('btn-secondary').addClass('btn-warning'); 
+        }
         if (getrm.length == 4) {
             var rm = '0000'+getrm;
         }
@@ -167,6 +176,7 @@
                     timerProgressBar: true,
                     backdrop: `rgba(26,27,41,0.8)`,
                 });
+                $('#clearfx').prop('disabled', false).removeClass('btn-secondary').addClass('btn-warning'); 
             }
         }); 
         $.ajax({
@@ -297,7 +307,9 @@
     function hapusTable() {
         $("#rm").val("").empty();
         $("#tampil-tbody").empty();
-        $('#btnshow').prop('disabled', false); 
+        $('#btnshow').prop('disabled', false).removeClass('btn-secondary').addClass('btn-success'); 
+        $('#rm').prop('disabled', false); 
+        $('#clearfx').prop('disabled', true).removeClass('btn-warning').addClass('btn-secondary'); 
         $("#tampil-tbody").append(`<tr><td colspan="8">Tidak ada data ditemukan.</td></tr>`);
     }
 </script>

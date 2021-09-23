@@ -50,9 +50,9 @@
                                                     <center>
                                                         <div class="btn-group" role="group">
                                                             @if ($item->filename != '')
-                                                                <button type="button" onclick="window.location.href='{{ url('it/supervisi/'. $item->id) }}'" class="btn btn-success btn-sm text-white"><i class="fa fa-download"></i></button>
+                                                                <button type="button" class="btn btn-info btn-sm text-white" onclick="showLampiran({{ $item->id }})"><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
                                                             @else
-                                                                <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa fa-download"></i></button>
+                                                                <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
                                                             @endif
                                                         </div>
                                                     </center>
@@ -84,6 +84,26 @@
 </div>
 
 <script>
+    function showLampiran(id) {
+        Swal.fire({
+            title: 'Lampiran Supervisi '+id,
+            text: 'Refresh halaman ini untuk mengupdate lampiran',
+            imageUrl: '.././supervisi/lampiran/'+id,
+            imageWidth: 400,
+            // imageHeight: 200,
+            imageAlt: 'Lampiran',
+            reverseButtons: true,
+            showDenyButton: false,
+            showCloseButton: true,
+            showCancelButton: false,
+            confirmButtonText: `<i class="fa fa-download"></i> Download`,
+            backdrop: `rgba(26,27,41,0.8)`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                window.location.href = ".././supervisi/lampiran/"+id+"/download";
+            }
+        })
+    }
     $(document).ready( function () {
         $('#logit').DataTable(
             {
