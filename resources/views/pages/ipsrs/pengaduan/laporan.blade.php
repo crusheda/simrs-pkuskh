@@ -3,6 +3,9 @@
 @section('content')
 <link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
 {{-- <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}"> --}}
+    
+    {{-- Sistem Tracking --}}
+    <link href="{{ asset('css/tracking.css') }}" rel="stylesheet" /> 
 
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
@@ -69,7 +72,19 @@
                         @if(count($list['show']) > 0)
                         @foreach($list['show'] as $item)
                         <tr>
-                            <td><center><button onclick="window.location.href='{{ url('pengaduan/ipsrs/detail/'.$item->id) }}'" type="button" class="btn btn-primary btn-sm"><i class="fa fa-search"></i> PROSES</button></center></td>
+                            <td>
+                                <center>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-primary text-light btn-sm" data-toggle="modal" data-target="#track{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="TRACKING"><i class="fa fa-search"></i></button>
+                                        @if (empty($item->filename_pengaduan))
+                                            <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
+                                        @else
+                                            <button type="button" class="btn btn-warning btn-sm text-white" onclick="showLampiran({{ $item->id }})"><i class="fa-fw fas fa-picture-o nav-icon"></i></button>
+                                        @endif
+                                        <button onclick="window.location.href='{{ url('pengaduan/ipsrs/detail/'.$item->id) }}'" type="button" class="btn btn-danger btn-sm"><i class="fa fa-wrench"></i> Proses</button>
+                                    </div>
+                                </center>
+                            </td>
                             <td>{{ $item->nama }}</td>
                             <td>{{ $item->unit }}</td>
                             <td>{{ $item->lokasi }}</td>
@@ -124,7 +139,7 @@
                         <tr>
                             <td>
                                 <center>
-                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#detail2{{ $item->id }}"><i class="fa-fw fas fa-search nav-icon"></i> Proses</button>
+                                    <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#detail2{{ $item->id }}"><i class="fa-fw fas fa-search nav-icon"></i> Tracking</button>
                                 </center>
                             </td>
                             <td>{{ $item->nama }}</td>
@@ -322,6 +337,185 @@
         </div>
         </div>
     </div>
+
+    {{-- Tombol Lihat Proses Laporan User Oleh IPSRS --}}
+    @foreach($list['show'] as $item)
+    <div class="modal fade bd-example-modal-lg" id="track{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">
+                    Proses Laporan&nbsp;<kbd>ID : {{ $item->id }}</kbd>&nbsp;
+                </h4>
+                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                </div>
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="bg-white p-2 border rounded px-3">
+                                <div class="d-flex flex-row justify-content-between align-items-center order">
+                                    <div class="d-flex flex-column order-details"><span><b>Pengaduan:</b> {{ $item->ket_pengaduan }}</span><span class="date">Dari {{ $item->nama }} Pada {{ \Carbon\Carbon::parse($item->tgl_pengaduan)->isoFormat('DD MMM, YYYY HH:mm A') }}</span></div>
+                                    <div class="tracking-details">Status :
+                                        @if (!empty($item->tgl_selesai) && empty($item->ket_penolakan))
+                                            <td><kbd style="background-color: turquoise">Selesai</kbd></td>
+                                        @elseif (!empty($item->ket_penolakan))
+                                            <td><kbd style="background-color: red">Ditolak</kbd></td>
+                                        @elseif (empty($item->tgl_diterima))
+                                            <td><kbd style="background-color: rebeccapurple">Diverifikasi</kbd></td>
+                                        @elseif (empty($item->tgl_dikerjakan))
+                                            <td><kbd style="background-color: salmon">Diterima</kbd></td>
+                                        @elseif (empty($item->tgl_selesai))
+                                            <td><kbd style="background-color: orange">Dikerjakan</kbd></td>
+                                        @endif
+                                    </div>
+                                </div>
+                                <hr class="divider mb-4">
+                                
+                                {{-- Selesai --}}
+                                @if (!empty($item->tgl_selesai) && empty($item->ket_penolakan))
+                                    <div class="d-flex flex-row justify-content-between align-items-center align-content-center"><span class="dot"></span>
+                                        <hr class="flex-fill track-line"><span class="dot"></span>
+                                        <hr class="flex-fill track-line"><span class="dot"></span>
+                                        <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot"><i class="fa fa-check text-white"></i></span></div>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <div class="d-flex flex-column align-items-start"><span>{{ \Carbon\Carbon::parse($item->tgl_pengaduan)->isoFormat('DD MMM') }}</span><span>Pengaduan</span></div>
+                                        <div class="d-flex flex-column justify-content-center"><span>{{ \Carbon\Carbon::parse($item->tgl_diterima)->isoFormat('DD MMM') }}</span><span>Diterima</span></div>
+                                        <div class="d-flex flex-column justify-content-center align-items-center"><span>{{ \Carbon\Carbon::parse($item->tgl_dikerjakan)->isoFormat('DD MMM') }}</span><span>Dikerjakan</span></div>
+                                        <div class="d-flex flex-column align-items-center"><span>{{ \Carbon\Carbon::parse($item->tgl_selesai)->isoFormat('DD MMM') }}</span><span>Selesai</span></div>
+                                    </div>
+                                {{-- Ditolak --}}
+                                @elseif (!empty($item->ket_penolakan))
+                                    <div class="d-flex flex-row justify-content-between align-items-center align-content-center"><span class="dot-ditolak"></span>
+                                        <hr class="flex-fill track-line-ditolak"><span class="dot-ditolak"></span>
+                                        <hr class="flex-fill track-line-ditolak"><span class="dot-ditolak"></span>
+                                        <hr class="flex-fill track-line-ditolak"><span class="d-flex justify-content-center align-items-center big-dot-ditolak dot-ditolak"><i class="fa fa-close text-white"></i></span></div>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <div class="d-flex flex-column align-items-start"></div>
+                                        <div class="d-flex flex-column justify-content-center"></div>
+                                        <div class="d-flex flex-column justify-content-center align-items-center"></div>
+                                        <div class="d-flex flex-column align-items-center"><span>{{ \Carbon\Carbon::parse($item->tgl_selesai)->isoFormat('DD MMM') }}</span><span>Ditolak</span></div>
+                                    </div>
+                                {{-- Diverifikasi --}}
+                                @elseif (empty($item->tgl_diterima))
+                                    <div class="d-flex flex-row justify-content-between align-items-center align-content-center"><span class="d-flex justify-content-center align-items-center big-dot dot"><i class="fa fa-check text-white"></i></span>
+                                        <hr class="flex-fill"><span class="dot"></span>
+                                        <hr class="flex-fill"><span class="dot"></span>
+                                        <hr class="flex-fill"><span class="dot"></span></div>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <div class="d-flex flex-column align-items-start"><span>{{ \Carbon\Carbon::parse($item->tgl_pengaduan)->isoFormat('DD MMM') }}</span><span>Pengaduan</span></div>
+                                        <div class="d-flex flex-column justify-content-center"><span>-</span><span>Diterima</span></div>
+                                        <div class="d-flex flex-column justify-content-center align-items-center"><span>-</span><span>Dikerjakan</span></div>
+                                        <div class="d-flex flex-column align-items-center"><span>-</span><span>Selesai</span></div>
+                                    </div>
+                                {{-- Diterima --}}
+                                @elseif (empty($item->tgl_dikerjakan))
+                                    <div class="d-flex flex-row justify-content-between align-items-center align-content-center"><span class="dot"></span>
+                                        <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot"><i class="fa fa-check text-white"></i></span>
+                                        <hr class="flex-fill"><span class="dot"></span>
+                                        <hr class="flex-fill"><span class="dot"></span></div>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <div class="d-flex flex-column align-items-start"><span>{{ \Carbon\Carbon::parse($item->tgl_pengaduan)->isoFormat('DD MMM') }}</span><span>Pengaduan</span></div>
+                                        <div class="d-flex flex-column justify-content-center"><span>{{ \Carbon\Carbon::parse($item->tgl_diterima)->isoFormat('DD MMM') }}</span><span>Diterima</span></div>
+                                        <div class="d-flex flex-column justify-content-center align-items-center"><span>-</span><span>Dikerjakan</span></div>
+                                        <div class="d-flex flex-column align-items-center"><span>-</span><span>Selesai</span></div>
+                                    </div>
+                                {{-- Dikerjakan --}}
+                                @elseif (empty($item->tgl_selesai))
+                                    <div class="d-flex flex-row justify-content-between align-items-center align-content-center"><span class="dot"></span>
+                                        <hr class="flex-fill track-line"><span class="dot"></span>
+                                        <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot"><i class="fa fa-check text-white"></i></span>
+                                        <hr class="flex-fill"><span class="dot"></span></div>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <div class="d-flex flex-column align-items-start"><span>{{ \Carbon\Carbon::parse($item->tgl_pengaduan)->isoFormat('DD MMM') }}</span><span>Pengaduan</span></div>
+                                        <div class="d-flex flex-column justify-content-center"><span>{{ \Carbon\Carbon::parse($item->tgl_diterima)->isoFormat('DD MMM') }}</span><span>Diterima</span></div>
+                                        <div class="d-flex flex-column justify-content-center align-items-center"><span>{{ \Carbon\Carbon::parse($item->tgl_dikerjakan)->isoFormat('DD MMM') }}</span><span>Dikerjakan</span></div>
+                                        <div class="d-flex flex-column align-items-center"><span>-</span><span>Selesai</span></div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div><br>
+                    @if ($item->ket_penolakan == null)
+                    <table class="table table-striped display">
+                        <thead>
+                            <tr>
+                                <th>STATUS</th>
+                                <th>TGL</th>
+                                <th>KETERANGAN</th>
+                            </tr>
+                        </thead>
+                        <tbody style="text-transform: capitalize">
+                            <tr>
+                                <th><button class="btn btn-dark btn-sm" type="button" disabled>DITERIMA</button></th>
+                                <td>{{ $item->tgl_diterima }}</td>
+                                <td>{{ $item->ket_diterima }}</td>
+                            </tr>
+                            <tr>
+                                <th><button class="btn btn-dark btn-sm" type="button" data-toggle="collapse" data-target="#collapseExample{{ $item->id }}">DIKERJAKAN</button></th>
+                                <td>{{ $item->tgl_dikerjakan }}</td>
+                                <td>{{ $item->ket_dikerjakan }}</td>
+                            </tr>
+                            <tr>
+                                <th><button class="btn btn-dark btn-sm" type="button" disabled>SELESAI</button></th>
+                                <td>{{ $item->tgl_selesai }}</td>
+                                <td>{{ $item->ket_selesai }}</td>
+                            </tr>
+                        </tbody>
+                    </table>
+                    <p><b># Klik tombol Status <kbd>DIKERJAKAN</kbd> untuk melihat detail Status.</b></p>
+                    @else
+                        <p><b>Laporan Ditolak Pada : </b>{{ $item->tgl_selesai }}</p>
+                        <p><b>Keterangan Penolakan : </b></p>
+                        <textarea class="form-control" disabled><?php echo htmlspecialchars($item->ket_penolakan); ?></textarea>
+                    @endif
+                    <div class="collapse" id="collapseExample{{ $item->id }}">
+                        <div class="card card-body">
+                            <h5><b>Status Dikerjakan</b></h5>
+                            <table class="table table-striped display">
+                                <thead>
+                                    <tr>
+                                        <th>TGL</th>
+                                        <th>KETERANGAN</th>
+                                        <th><center>LAMPIRAN</center></th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    @php
+                                        $data = \App\Models\pengaduan_ipsrs_catatan::where('pengaduan_id', $item->id)->get();
+                                    @endphp
+                                    @if(count($data) > 0)
+                                    @foreach($data as $item)
+                                    <tr>
+                                        <td>{{ $item->created_at }}</td>
+                                        <td>{{ $item->keterangan }}</td>
+                                        <td>
+                                            <center>
+                                                @if (!empty($item->title))
+                                                    <button class="btn btn-success" onclick="window.location.href='{{ url('pengaduan/ipsrs/lampiran/catatan/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon"></i></button>
+                                                @else
+                                                    <button class="btn btn-secondary" disabled><i class="fa-fw fas fa-download nav-icon"></i></button>
+                                                @endif
+                                            </center>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @else
+                                        <tr>
+                                            <td colspan=3>Tidak Ada Data</td>
+                                        </tr>
+                                    @endif
+                                </tbody>
+                            </table>  
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    @endforeach
 @else
     {{-- Tambah --}}
     <div class="modal fade bd-example-modal-lg" id="tambah" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
@@ -362,7 +556,8 @@
                     {{-- <img class="card-img-top img-thumbnail" id="blah" src="#" alt="Lampiran" height="50" alt="Card image cap" /> --}}
                     <label>Lampiran (Optional) : </label><br>
                     <input type="file" name="file" id="imgInp"><br>
-                    <sub>Pastikan upload Foto/Gambar bukan Video, berformat <b>jpg,png,jpeg,gif</b> </sub><hr>
+                    <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Disarankan untuk menyertakan lampiran foto</sub><br>
+                    <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan upload Foto/Gambar bukan Video, berformat <b>jpg,png,jpeg,gif</b> </sub><hr>
                     <div class="card text-center" style="width: 18rem;">
                         <img class="card-img-top" id="blah" src="..." alt="Tidak ada lampiran">
                     </div>
@@ -417,6 +612,7 @@
                                 </span>
                             </div>
                         </div>
+                        <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila laporan sudah <kbd style="background-color: salmon">DITERIMA</kbd> oleh IPSRS, anda tidak dapat lagi mengubah ataupun menghapus laporan ini.</sub>
                 </div>
                 <div class="modal-footer">
                     
@@ -471,6 +667,91 @@
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="bg-white p-2 border rounded px-3">
+                                <div class="d-flex flex-row justify-content-between align-items-center order">
+                                    <div class="d-flex flex-column order-details"><span><b>Pengaduan:</b> {{ $item->ket_pengaduan }}</span><span class="date">Dari {{ $item->nama }} Pada {{ \Carbon\Carbon::parse($item->tgl_pengaduan)->isoFormat('DD MMM, YYYY HH:mm A') }}</span></div>
+                                    <div class="tracking-details">Status :
+                                        @if (!empty($item->tgl_selesai) && empty($item->ket_penolakan))
+                                            <td><kbd style="background-color: turquoise">Selesai</kbd></td>
+                                        @elseif (!empty($item->ket_penolakan))
+                                            <td><kbd style="background-color: red">Ditolak</kbd></td>
+                                        @elseif (empty($item->tgl_diterima))
+                                            <td><kbd style="background-color: rebeccapurple">Diverifikasi</kbd></td>
+                                        @elseif (empty($item->tgl_dikerjakan))
+                                            <td><kbd style="background-color: salmon">Diterima</kbd></td>
+                                        @elseif (empty($item->tgl_selesai))
+                                            <td><kbd style="background-color: orange">Dikerjakan</kbd></td>
+                                        @endif
+                                    </div>
+                                </div>
+                                <hr class="divider mb-4">
+                                
+                                {{-- Selesai --}}
+                                @if (!empty($item->tgl_selesai) && empty($item->ket_penolakan))
+                                    <div class="d-flex flex-row justify-content-between align-items-center align-content-center"><span class="dot"></span>
+                                        <hr class="flex-fill track-line"><span class="dot"></span>
+                                        <hr class="flex-fill track-line"><span class="dot"></span>
+                                        <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot"><i class="fa fa-check text-white"></i></span></div>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <div class="d-flex flex-column align-items-start"><span>{{ \Carbon\Carbon::parse($item->tgl_pengaduan)->isoFormat('DD MMM') }}</span><span>Pengaduan</span></div>
+                                        <div class="d-flex flex-column justify-content-center"><span>{{ \Carbon\Carbon::parse($item->tgl_diterima)->isoFormat('DD MMM') }}</span><span>Diterima</span></div>
+                                        <div class="d-flex flex-column justify-content-center align-items-center"><span>{{ \Carbon\Carbon::parse($item->tgl_dikerjakan)->isoFormat('DD MMM') }}</span><span>Dikerjakan</span></div>
+                                        <div class="d-flex flex-column align-items-center"><span>{{ \Carbon\Carbon::parse($item->tgl_selesai)->isoFormat('DD MMM') }}</span><span>Selesai</span></div>
+                                    </div>
+                                {{-- Ditolak --}}
+                                @elseif (!empty($item->ket_penolakan))
+                                    <div class="d-flex flex-row justify-content-between align-items-center align-content-center"><span class="dot-ditolak"></span>
+                                        <hr class="flex-fill track-line-ditolak"><span class="dot-ditolak"></span>
+                                        <hr class="flex-fill track-line-ditolak"><span class="dot-ditolak"></span>
+                                        <hr class="flex-fill track-line-ditolak"><span class="d-flex justify-content-center align-items-center big-dot-ditolak dot-ditolak"><i class="fa fa-close text-white"></i></span></div>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <div class="d-flex flex-column align-items-start"></div>
+                                        <div class="d-flex flex-column justify-content-center"></div>
+                                        <div class="d-flex flex-column justify-content-center align-items-center"></div>
+                                        <div class="d-flex flex-column align-items-center"><span>{{ \Carbon\Carbon::parse($item->tgl_selesai)->isoFormat('DD MMM') }}</span><span>Ditolak</span></div>
+                                    </div>
+                                {{-- Diverifikasi --}}
+                                @elseif (empty($item->tgl_diterima))
+                                    <div class="d-flex flex-row justify-content-between align-items-center align-content-center"><span class="d-flex justify-content-center align-items-center big-dot dot"><i class="fa fa-check text-white"></i></span>
+                                        <hr class="flex-fill"><span class="dot"></span>
+                                        <hr class="flex-fill"><span class="dot"></span>
+                                        <hr class="flex-fill"><span class="dot"></span></div>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <div class="d-flex flex-column align-items-start"><span>{{ \Carbon\Carbon::parse($item->tgl_pengaduan)->isoFormat('DD MMM') }}</span><span>Pengaduan</span></div>
+                                        <div class="d-flex flex-column justify-content-center"><span>-</span><span>Diterima</span></div>
+                                        <div class="d-flex flex-column justify-content-center align-items-center"><span>-</span><span>Dikerjakan</span></div>
+                                        <div class="d-flex flex-column align-items-center"><span>-</span><span>Selesai</span></div>
+                                    </div>
+                                {{-- Diterima --}}
+                                @elseif (empty($item->tgl_dikerjakan))
+                                    <div class="d-flex flex-row justify-content-between align-items-center align-content-center"><span class="dot"></span>
+                                        <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot"><i class="fa fa-check text-white"></i></span>
+                                        <hr class="flex-fill"><span class="dot"></span>
+                                        <hr class="flex-fill"><span class="dot"></span></div>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <div class="d-flex flex-column align-items-start"><span>{{ \Carbon\Carbon::parse($item->tgl_pengaduan)->isoFormat('DD MMM') }}</span><span>Pengaduan</span></div>
+                                        <div class="d-flex flex-column justify-content-center"><span>{{ \Carbon\Carbon::parse($item->tgl_diterima)->isoFormat('DD MMM') }}</span><span>Diterima</span></div>
+                                        <div class="d-flex flex-column justify-content-center align-items-center"><span>-</span><span>Dikerjakan</span></div>
+                                        <div class="d-flex flex-column align-items-center"><span>-</span><span>Selesai</span></div>
+                                    </div>
+                                {{-- Dikerjakan --}}
+                                @elseif (empty($item->tgl_selesai))
+                                    <div class="d-flex flex-row justify-content-between align-items-center align-content-center"><span class="dot"></span>
+                                        <hr class="flex-fill track-line"><span class="dot"></span>
+                                        <hr class="flex-fill track-line"><span class="d-flex justify-content-center align-items-center big-dot dot"><i class="fa fa-check text-white"></i></span>
+                                        <hr class="flex-fill"><span class="dot"></span></div>
+                                    <div class="d-flex flex-row justify-content-between align-items-center">
+                                        <div class="d-flex flex-column align-items-start"><span>{{ \Carbon\Carbon::parse($item->tgl_pengaduan)->isoFormat('DD MMM') }}</span><span>Pengaduan</span></div>
+                                        <div class="d-flex flex-column justify-content-center"><span>{{ \Carbon\Carbon::parse($item->tgl_diterima)->isoFormat('DD MMM') }}</span><span>Diterima</span></div>
+                                        <div class="d-flex flex-column justify-content-center align-items-center"><span>{{ \Carbon\Carbon::parse($item->tgl_dikerjakan)->isoFormat('DD MMM') }}</span><span>Dikerjakan</span></div>
+                                        <div class="d-flex flex-column align-items-center"><span>-</span><span>Selesai</span></div>
+                                    </div>
+                                @endif
+                            </div>
+                        </div>
+                    </div><br>
                     @if ($item->ket_penolakan == null)
                     <table class="table table-striped display">
                         <thead>
@@ -557,8 +838,8 @@
 <script>
     function showLampiran(id) {
         Swal.fire({
-            title: 'Lampiran Supervisi '+id,
-            text: 'Refresh halaman ini untuk mengupdate lampiran',
+            title: 'Lampiran ID : '+id,
+            // text: '',
             imageUrl: './ipsrs/'+id,
             imageWidth: 400,
             // imageHeight: 200,
@@ -566,7 +847,8 @@
             reverseButtons: true,
             showDenyButton: false,
             showCloseButton: true,
-            showCancelButton: false,
+            showCancelButton: true,
+            cancelButtonText: `<i class="fa fa-close"></i> Tutup`,
             confirmButtonText: `<i class="fa fa-download"></i> Download`,
             backdrop: `rgba(26,27,41,0.8)`,
         }).then((result) => {
