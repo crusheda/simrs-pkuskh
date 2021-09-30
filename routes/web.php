@@ -5,9 +5,12 @@ Route::get('/kunjungan', 'kunjunganController@index')->name('landing.kunjungan')
 // Route::get('/demos', function () {
 //     return view('index');
 // });
-// Route::get('/camweb', function () {
-//     return view('test');
-// });
+Route::get('/vaksin', function () {
+    return view('pages.vaksin.index');
+});
+Route::get('/vaksin2', function () {
+    return view('pages.butterfly.inner-page');
+});
 // Route::resource('/lokasi', 'other\lokasiController');
 
 Auth::routes(['register' => false]);

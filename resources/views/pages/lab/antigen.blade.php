@@ -133,7 +133,7 @@
                     <div class="row">
                         <div class="col-md-2">
                             <label>RM :</label>
-                            <input type="number" name="rm" id="rm" max="99999999" class="form-control" placeholder="" autofocus required><br>
+                            <input type="number" name="rm" id="rm" max="99999999" class="form-control" placeholder="" required><br>
                         </div>
                         <div class="col-md-6">
                             <label>Pemeriksa :</label>
