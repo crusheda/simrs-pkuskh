@@ -679,6 +679,14 @@
                             </a>
                         </li>
                         <li class="nav-item">
+                            <a href="{{ route("it.roleuser.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-drivers-license nav-icon">
+        
+                                </i>
+                                Set User Role
+                            </a>
+                        </li>
+                        <li class="nav-item">
                             <a href="{{ route("it.user.activity") }}" class="nav-link">
                                 <i class="fa-fw fas fa-eye nav-icon">
         

@@ -59,6 +59,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
     Route::get('/user-activity', function () {
         return view('pages.it.user-activity');
     })->name('user.activity');
+
+    Route::resource('roleuser', 'it\setUserRoleController');
     
     // Antrian Poli
     Route::resource('/antrian/poli', 'queue\admin\setQueuePoliController');
