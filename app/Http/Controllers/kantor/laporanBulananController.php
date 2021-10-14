@@ -42,6 +42,12 @@ class laporanBulananController extends Controller
                 ->where('users.status',null)
                 ->get();
 
+        $unitku = DB::table('set_role_users')
+            ->join('roles', 'set_role_users.id_roles', '=', 'roles.id')
+            ->where('set_role_users.id_user', $id)
+            ->select('roles.name')
+            ->first();
+
         // TRUE / FALSE Tombol Tambah Laporan
         $getRole = setRoleUser::get();
         $tambah = false;
@@ -50,8 +56,6 @@ class laporanBulananController extends Controller
                 $tambah = true;
             }
         }
-        // print_r($tambah);
-        // die();
 
         // GET ALL NAME ROLE OF AUTH
         // $rl = [];
@@ -220,10 +224,7 @@ class laporanBulananController extends Controller
         $karu_kebidanan = ['karu-kebidanan'];
         $karu_kasir = ['karu-kasir'];
 
-        // Define Role WhereIn Query
-        // $r = $role_+str_replace('-','_',$role);
-        // print_r($r);
-        // die();
+        // ------------------------------------------------------------------------------------------------------------------------
 
         // Direktur
         if ($user->hasRole('direktur-keuangan-perencanaan')) { $r = $direktur_keuangan_perencanaan; }
@@ -321,18 +322,6 @@ class laporanBulananController extends Controller
                     );
             }
         } 
-        
-        //     foreach ($rl as $keys => $values) {
-        //         array_push($show,laporan_bulanan::where('unit', $values['name'])->get());
-        //     }
-        //     // print_r($show[0][0]->ket);
-        //     // die();
-        //                         CONTOH ----->        $values['name'] == ''
-
-        // $e = [];
-        // // Admin SIMRSKU.COM
-        // if (Auth::user()->hasRole('it')) {
-        // }
 
         $data = [
             'show' => $show,
@@ -346,8 +335,10 @@ class laporanBulananController extends Controller
             'tglAfter1Day'  => $tglAfter1Day,
             'thn'  => $thn,
             'unit' => $unit,
+            'unitku' => $unitku,
             'role' => $role
         ];
+        
         return view('pages.kantor.laporan.bulanan')->with('list', $data);
     }
 

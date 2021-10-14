@@ -28,6 +28,7 @@
                 <div class="col-md-12">
                     <div class="pull-left">
                         <div class="btn-group" role="group">
+                            <button type="button" class="btn btn-warning pull-left text-white" onclick="window.location.href='{{ url('laporan/bulanan/') }}'"><i class="fa-fw fas fa-caret-left nav-icon"></i></button> 
                             <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
                                 <i class="fa-fw fas fa-plus-square nav-icon">
         

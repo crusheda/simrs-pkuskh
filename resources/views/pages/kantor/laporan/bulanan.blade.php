@@ -527,7 +527,7 @@
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Batas ukuran maksimum dokumen adalah <strong>100 mb</strong>.
         </div>
         <div class="modal-footer">
-                User :&nbsp;<strong>{{ Auth::user()->nama }}</strong> &nbsp;
+                User :&nbsp;<strong>{{ Auth::user()->nama }}</strong> &nbsp;| Unit :&nbsp;<strong>{{ $list['unitku']->name }}</strong>&nbsp;
                 <center><button class="btn btn-success" id="btn-simpan"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button></center><br>
             </form>
 
@@ -665,10 +665,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
-            Keterangan dari Verifikator <b></b>
-                @foreach($list['user'] as $items)
-                    @if ($item->id_user == $items->id) oleh {{ $items->nama }} @endif
-                @endforeach
+            Keterangan dari Verifikator
           </h5>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
@@ -721,7 +718,8 @@
                   <p>Hal ini terjadi dikarenakan pada Update Penyesuaian Sistem Laporan Bulanan yang dilakukan pada Bulan Oktober 2021 kali ini
                      hanya menampilkan dokumen sesuai masing-masing Unit / Bagian yang sudah ditentukan pada Struktur Bagian RS 2021. Tapi tenang saja, dokumen yang anda Upload terdahulu
                      masih dapat anda Download dengan Masuk ke halaman berikutnya ( Klik tombol <kbd style="background-color: rgb(26, 158, 26)">Lanjutkan</kbd> ) di bawah ini. Halaman Backup Dokumen Laporan Bulanan
-                     ini hanya bersifat sementara saja. mohon untuk menguploadnya sesuai masing-masing Bagian agar dapat diverifikasi oleh Atasan Terkait.</p>
+                     ini hanya bersifat sementara saja. mohon untuk menguploadnya menyesuaikan masing-masing Bagian agar dapat diverifikasi oleh Atasan Terkait.<br><br>
+                     <i class="fa-fw fas fa-caret-right nav-icon"></i> Tombol Backup ini akan dihilangkan pada akhir Bulan Oktober 2021. Dimohon untuk masing-masing bagian melakukan <kbd style="background-color: rgb(237, 78, 78)">Backup</kbd> dokumen dan menguploadnya ulang lagi. Terima kasih atas kerjasamanya.</p>
             </div>
             <div class="modal-footer">
                 <button type="button" class="btn btn-success" onclick="window.location.href='{{ route('bulanan.old') }}'"><i class="fa-fw fas fa-thumbs-up nav-icon"></i> Lanjutkan</button>
@@ -917,7 +915,7 @@
                     @if(Auth::user()->hasAnyRole([
                         'karu-kasir',
                         ]))
-                        <h3><strong>Kepala Sub Bagian </strong></h3>
+                        <h3><strong>Kepala Sub Bagian Akuntansi, Pajak, dan Verifikasi</strong></h3>
                     @endif
                 </h6>
                 <hr>

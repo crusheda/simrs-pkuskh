@@ -32,16 +32,16 @@ class antigenController extends Controller
         // $now = Carbon::now()->isoFormat('%Y-%m-%dT%H:%M:%S');
         // $now = Carbon::createFromFormat('Y-m-d', $tgl);
         
-        $query_string1 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl AND hasil = 'POSITIF' GROUP BY hasil";
+        $query_string1 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl AND hasil = 'POSITIF' AND deleted_at IS NULL GROUP BY hasil";
         $getpos = DB::select($query_string1);
 
-        $query_string2 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl AND hasil = 'NEGATIF' GROUP BY hasil";
+        $query_string2 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl AND hasil = 'NEGATIF' AND deleted_at IS NULL GROUP BY hasil";
         $getneg = DB::select($query_string2);
 
-        $query_string3 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl";
+        $query_string3 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl AND deleted_at IS NULL";
         $gettoday = DB::select($query_string3);
 
-        $query_string4 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln";
+        $query_string4 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND deleted_at IS NULL";
         $getmont = DB::select($query_string4);
 
         $dokter = dokter::get();
@@ -267,22 +267,22 @@ class antigenController extends Controller
                 ->orderBy('tgl','DESC')
                 ->get();
                 
-        $query_string1 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND hasil = 'POSITIF' GROUP BY hasil";
+        $query_string1 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND hasil = 'POSITIF' AND deleted_at IS NULL GROUP BY hasil";
         $getpos = DB::select($query_string1);
 
-        $query_string2 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND hasil = 'NEGATIF' GROUP BY hasil";
+        $query_string2 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND hasil = 'NEGATIF' AND deleted_at IS NULL GROUP BY hasil";
         $getneg = DB::select($query_string2);
                 
-        $query_string3 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND hasil = 'POSITIF' GROUP BY hasil";
+        $query_string3 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND hasil = 'POSITIF' AND deleted_at IS NULL GROUP BY hasil";
         $getposyear = DB::select($query_string3);
 
-        $query_string4 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND hasil = 'NEGATIF' GROUP BY hasil";
+        $query_string4 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND hasil = 'NEGATIF' AND deleted_at IS NULL GROUP BY hasil";
         $getnegyear = DB::select($query_string4);
 
-        $query_string5 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln";
+        $query_string5 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND deleted_at IS NULL";
         $getmont = DB::select($query_string5);
 
-        $query_string6 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn";
+        $query_string6 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND deleted_at IS NULL";
         $getyear = DB::select($query_string6);
 
         $data = [
