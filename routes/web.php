@@ -172,6 +172,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
         Route::get('/rapat/show5/{id}', 'kantor\rapatController@show5');
         Route::resource('regulasi', 'kantor\regulasiController');
         Route::get('/laporan/bulanan/filter', 'kantor\laporanBulananController@filter')->name('bulanan.filter');
+        Route::post('laporan/bulanan/api/','kantor\laporanBulananController@verifikasi'); // API
+        Route::post('laporan/bulanan/api/ket/','kantor\laporanBulananController@ket'); // API
+        Route::get('laporan/bulanan/api/{id}/verified', 'kantor\laporanBulananController@verified'); // API
+        Route::get('laporan/bulanan/old', 'kantor\laporanBulananController@old')->name('bulanan.old');
         Route::resource('laporan/bulanan', 'kantor\laporanBulananController');
 
     // Log Perawat
