@@ -97,26 +97,24 @@
 
                 <div class="row">
                     <div class="col">
-                        <label>User :</label>
+                        <label>Nama Karyawan :</label>
                         <div class="input-group mb-3">
-                            <select class="custom-select" name="user" id="user" required>
-                                <option value="" hidden>Pilih</option>
-                                    @foreach($list['user'] as $key => $item)
-                                        <option value="{{ $item->id }}">{{ $item->nama }}</option>
-                                    @endforeach
-                                </optgroup>
+                            <select class="fstdropdown-select" name="user" autofocus required>
+                                <option value="">Pilih</option>
+                                @foreach($list['user'] as $key => $item)
+                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="col">
                         <label>Role :</label>
                         <div class="input-group mb-3">
-                            <select class="custom-select" name="role" id="role" required>
-                                <option value="" hidden>Pilih</option>
-                                    @foreach($list['role'] as $key => $item)
-                                        <option value="{{ $item->id }}">{{ $item->name }}</option>
-                                    @endforeach
-                                </optgroup>
+                            <select class="fstdropdown-select" name="role" required>
+                                <option value="">Pilih</option>
+                                @foreach($list['role'] as $key => $item)
+                                    <option value="{{ $item->id }}">{{ $item->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
@@ -149,26 +147,24 @@
                 @csrf
                 <div class="row">
                     <div class="col">
-                        <label>User :</label>
+                        <label>Nama Karyawan :</label>
                         <div class="input-group mb-3">
-                            <select class="custom-select" name="user" id="user" required>
-                                <option value="" hidden>Pilih</option>
-                                    @foreach($list['user'] as $key => $items)
-                                        <option value="{{ $items->id }}" @if ($item->id_user == $items->id) echo selected @endif>{{ $items->nama }}</option>
-                                    @endforeach
-                                </optgroup>
+                            <select class="fstdropdown-select" name="user" autofocus required>
+                                <option value="">Pilih</option>
+                                @foreach($list['user'] as $key => $items)
+                                    <option value="{{ $items->id }}" @if ($item->id_user == $items->id) echo selected @endif>{{ $items->nama }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
                     <div class="col">
                         <label>Role :</label>
                         <div class="input-group mb-3">
-                            <select class="custom-select" name="role" id="role" required>
-                                <option value="" hidden>Pilih</option>
-                                    @foreach($list['role'] as $key => $items)
-                                        <option value="{{ $items->id }}" @if ($item->id_roles == $items->id) echo selected @endif>{{ $items->name }}</option>
-                                    @endforeach
-                                </optgroup>
+                            <select class="fstdropdown-select" name="role" required>
+                                <option value="">Pilih</option>
+                                @foreach($list['role'] as $key => $items)
+                                    <option value="{{ $items->id }}" @if ($item->id_roles == $items->id) echo selected @endif>{{ $items->name }}</option>
+                                @endforeach
                             </select>
                         </div>
                     </div>
