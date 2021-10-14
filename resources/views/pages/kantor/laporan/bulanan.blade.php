@@ -527,7 +527,7 @@
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Batas ukuran maksimum dokumen adalah <strong>100 mb</strong>.
         </div>
         <div class="modal-footer">
-                User :&nbsp;<strong>{{ Auth::user()->nama }}</strong> &nbsp;| Unit :&nbsp;<strong>{{ $list['unitku']->name }}</strong>&nbsp;
+                User :&nbsp;<strong>{{ Auth::user()->nama }}</strong> &nbsp;| Unit :&nbsp;<strong>@if(!empty($list['unitku']->name) || $list['unitku']->name != null){{ $list['unitku']->name }}@endif</strong>&nbsp;
                 <center><button class="btn btn-success" id="btn-simpan"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button></center><br>
             </form>
 
