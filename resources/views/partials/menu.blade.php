@@ -387,6 +387,58 @@
                     </ul>
                 </li>
             @endcan
+            @can('surveilans-ppi')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <i class="fa-fw fas fa-tags nav-icon">
+
+                        </i>
+                        Surveilans PPI
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("plebitis.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-caret-right nav-icon">
+
+                                </i>
+                                Plebitis
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route("ido.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-caret-right nav-icon">
+
+                                </i>
+                                IDO
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route("isk.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-caret-right nav-icon">
+
+                                </i>
+                                ISK
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route("decubitus.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-caret-right nav-icon">
+
+                                </i>
+                                Decubitus
+                            </a>
+                        </li>
+                        <li class="nav-item">
+                            <a href="{{ route("vap.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-caret-right nav-icon">
+
+                                </i>
+                                VAP
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
             @can('kepegawaian')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">

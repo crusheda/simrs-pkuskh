@@ -142,21 +142,21 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
     Route::resource('gaji/final', 'kantor\gaji\gajiController');
 });
 
-        // Pengadaan
-            // Route::get('/pengadaan/log/', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
-            Route::get('/pengadaan/log/cari', 'it\pengadaan\logPengadaanController@showLog')->name('cari.log');
-            Route::resource('/pengadaan/log', 'it\pengadaan\logPengadaanController');
-            Route::resource('/pengadaan/all', 'it\pengadaan\pengadaanAllController');
-            Route::resource('pengadaan/rutin', 'it\pengadaan\pengadaanController');
-            Route::resource('pengadaan/nonrutin', 'it\pengadaan\pengadaanNonRutinController');
-            // Route::get('/pengadaan/jenis-pengadaan', 'it\pengadaan\pengadaanController@linkToPengadaan')->name('pengadaan.pilih');
-            Route::resource('barang', 'it\pengadaan\barangPengadaanController');
-            // Route::resource('pengadaan/rutin', 'it\pengadaan\rutinController');
-            // Route::get('pengadaan/nonrutin/token/{token}','it\pengadaan\nonrutinController@getbyapi')->name('api.nonrutin');
-            // Route::get('pengadaan/rutin/cetak/{token}','it\pengadaan\rutinController@generatePDF')->name('rutin.cetak');
-            // Route::get('pengadaan/nonrutin/cetak/{token}','it\pengadaan\nonrutinController@generatePDF')->name('nonrutin.cetak');
-            Route::get('/pengadaan/api/barang/{id}', 'it\pengadaan\barangPengadaanController@apifile')->name('barang.api');
-            Route::get('pengadaan/all/{id}/cetak','it\pengadaan\pengadaanAllController@generatePDF')->name('pengadaan.cetak');
+    // Pengadaan
+        // Route::get('/pengadaan/log/', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
+        Route::get('/pengadaan/log/cari', 'it\pengadaan\logPengadaanController@showLog')->name('cari.log');
+        Route::resource('/pengadaan/log', 'it\pengadaan\logPengadaanController');
+        Route::resource('/pengadaan/all', 'it\pengadaan\pengadaanAllController');
+        Route::resource('pengadaan/rutin', 'it\pengadaan\pengadaanController');
+        Route::resource('pengadaan/nonrutin', 'it\pengadaan\pengadaanNonRutinController');
+        // Route::get('/pengadaan/jenis-pengadaan', 'it\pengadaan\pengadaanController@linkToPengadaan')->name('pengadaan.pilih');
+        Route::resource('barang', 'it\pengadaan\barangPengadaanController');
+        // Route::resource('pengadaan/rutin', 'it\pengadaan\rutinController');
+        // Route::get('pengadaan/nonrutin/token/{token}','it\pengadaan\nonrutinController@getbyapi')->name('api.nonrutin');
+        // Route::get('pengadaan/rutin/cetak/{token}','it\pengadaan\rutinController@generatePDF')->name('rutin.cetak');
+        // Route::get('pengadaan/nonrutin/cetak/{token}','it\pengadaan\nonrutinController@generatePDF')->name('nonrutin.cetak');
+        Route::get('/pengadaan/api/barang/{id}', 'it\pengadaan\barangPengadaanController@apifile')->name('barang.api');
+        Route::get('pengadaan/all/{id}/cetak','it\pengadaan\pengadaanAllController@generatePDF')->name('pengadaan.cetak');
 
     // Kantor Route
         Route::post('absensi/{id}/tambah', 'kantor\absensiController@tambahKehadiran')->name('absensi.hadir');
@@ -270,3 +270,10 @@ Addchat::routes();
 
 //loginAndroid
 // Route::post('/loginandroid', 'android\APIcontroller@loginAndroid');
+
+// PPI
+    Route::resource('surveilans/ppi/plebitis', 'ppi\PlebitisController');
+    Route::resource('surveilans/ppi/ido', 'ppi\IdoController');
+    Route::resource('surveilans/ppi/isk', 'ppi\IskController');
+    Route::resource('surveilans/ppi/decubitus', 'ppi\DecubitusController');
+    Route::resource('surveilans/ppi/vap', 'ppi\VapController');

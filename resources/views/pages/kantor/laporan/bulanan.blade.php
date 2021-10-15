@@ -527,7 +527,8 @@
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Batas ukuran maksimum dokumen adalah <strong>100 mb</strong>.
         </div>
         <div class="modal-footer">
-                User :&nbsp;<strong>{{ Auth::user()->nama }}</strong> &nbsp;| Unit :&nbsp;<strong>@if(!empty($list['unitku']->name) || $list['unitku']->name != null){{ $list['unitku']->name }}@endif</strong>&nbsp;
+                User :&nbsp;<strong>{{ Auth::user()->nama }}</strong> 
+                {{-- &nbsp;| Unit :&nbsp;<strong>@if(!empty($list['unitku']->name) || $list['unitku']->name != null){{ $list['unitku']->name }}@endif</strong>&nbsp; --}}
                 <center><button class="btn btn-success" id="btn-simpan"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button></center><br>
             </form>
 
@@ -810,7 +811,8 @@
                         'kasubag-diklat',
                         'kasubag-marketing',
                         ]))
-                        <h3><strong>Kepala Bagian Perencanaan dan Pengembangan RS</strong></h3>
+                        <h3><strong>Kepala Bagian Perencanaan dan Pengembangan RS</strong></h3> <strong>&</strong><br>
+                        <h3><strong>Kepala Sub Bagian Keperawatan Rawat Jalan dan Gawat Darurat</strong></h3>
                     @endif
                         
                     @if(Auth::user()->hasAnyRole([
@@ -900,7 +902,7 @@
                         'karu-bangsal4',
                         'karu-kebidanan',
                         ]))
-                        <h3><strong>Kepala Sub Bagian Rawat Inap</strong></h3> <br>&<br>
+                        <h3><strong>Kepala Sub Bagian Rawat Inap</strong></h3> &<br>
                         <h3><strong>Kepala Sub Bagian Keperawatan Rawat Inap</strong></h3>
                     @endif
                     
@@ -908,7 +910,7 @@
                         'karu-igd',
                         'karu-poli',
                         ]))
-                        <h3><strong>Kepala Sub Bagian Rawat Jalan dan Gawat Darurat</strong></h3> <br>&<br>
+                        <h3><strong>Kepala Sub Bagian Rawat Jalan dan Gawat Darurat</strong></h3> &<br>
                         <h3><strong>Kepala Sub Bagian Keperawatan Rawat Jalan dan Gawat Darurat</strong></h3>
                     @endif
                     
