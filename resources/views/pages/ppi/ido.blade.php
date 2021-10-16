@@ -17,7 +17,7 @@
 
             <i class="fa-fw fas fa-list-alt nav-icon text-info">
 
-            </i> Daftar Bantu Plebitis
+            </i> Daftar Bantu IDO (Infeksi Daerah Operasi)
 
             <span class="pull-right badge badge-warning" style="margin-top:4px">
                 Akses Pribadi
@@ -55,8 +55,7 @@
                                 <th>NO RM</th>
                                 <th>NAMA</th>
                                 <th>UMUR</th>
-                                <th>TGL PASANG</th>
-                                <th>ASAL PASANG</th>
+                                <th>TGL OPERASI</th>
                                 <th>TGL DITEMUKAN</th>
                                 <th>KETERANGAN</th>
                                 <th>TGL DITAMBAHKAN</th>
@@ -71,8 +70,7 @@
                                 <td>{{ $item->rm }}</td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->umur }}</td>
-                                <td>{{ $item->tgl_pasang }}</td>
-                                <td>{{ $item->asal_pasang }}</td>
+                                <td>{{ $item->tgl_operasi }}</td>
                                 <td>{{ $item->tgl_ditemukan }}</td>
                                 <td>{{ $item->ket }}</td>
                                 <td>{{ $item->created_at }}</td>
@@ -120,7 +118,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            <form class="form-auth-small" action="{{ route('plebitis.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="form-auth-small" action="{{ route('ido.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col">
@@ -162,19 +160,8 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label>*Tgl Awal Pasang Infus :</label>
-                            <input type="date" name="tgl_pasang" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label>*Asal Pasang : </label>
-                            <select name="asal_pasang" class="form-control" required>
-                                <option hidden>Pilih</option>
-                                <option value="igd">IGD</option>
-                                <option value="poli">POLIKLINIK</option>
-                                <option value="bangsal">BANGSAL</option>
-                            </select>
+                            <label>*Tgl Operasi :</label>
+                            <input type="date" name="tgl_operasi" class="form-control" required>
                         </div>
                     </div>
                     <div class="col">
@@ -212,7 +199,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            {{ Form::model($item, array('route' => array('plebitis.update', $item->id), 'method' => 'PUT')) }}
+            {{ Form::model($item, array('route' => array('ido.update', $item->id), 'method' => 'PUT')) }}
                 @csrf
                 <div class="row">
                     <div class="col">
@@ -238,18 +225,8 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label>*Tgl Awal Pasang Infus : </label>
-                            <input type="date" name="tgl_pasang" value="<?php echo strftime('%Y-%m-%d', strtotime($item->tgl_pasang)); ?>" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label>*Asal Pasang : </label>
-                            <select name="asal_pasang" class="form-control">
-                                <option value="igd"     @if ($item->asal_pasang == 'igd') echo selected @endif>IGD</option>
-                                <option value="poli"    @if ($item->asal_pasang == 'poli') echo selected @endif>POLIKLINIK</option>
-                                <option value="bangsal" @if ($item->asal_pasang == 'bangsal') echo selected @endif>BANGSAL</option>
-                            </select>
+                            <label>*Tgl Operasi : </label>
+                            <input type="date" name="tgl_operasi" value="<?php echo strftime('%Y-%m-%d', strtotime($item->tgl_operasi)); ?>" class="form-control">
                         </div>
                     </div>
                     <div class="col">
@@ -291,7 +268,7 @@
             <p>Apakah anda yakin ingin menghapus Data <b>{{ $item->nama }}</b>?</p>
         </div>
         <div class="modal-footer">
-            <form action="{{ route('plebitis.destroy', $item->id) }}" method="POST">
+            <form action="{{ route('ido.destroy', $item->id) }}" method="POST">
                 @method('DELETE')
                 @csrf
                 <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button>
@@ -318,7 +295,7 @@
                     <tbody>
                         <tr>
                             <th class="table-warning">Judul Indikator</th>
-                            <td>Infeksi Darah Perifer / Phlebitis</td>
+                            <td>Infeksi Daerah Operasi (IDO)</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Kategori Indikator</th>
@@ -334,11 +311,18 @@
                         </tr>
                         <tr>
                             <th class="table-warning">Tujuan</th>
-                            <td>Menurunnya kejadian infeksi aliran darah perifer (Plebitis)</td>
+                            <td>Menurunnya kejadian Infeksi Daerah Operasi (IDO)</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Definisi Operasional</th>
-                            <td>Phlebitis merupakan inflamaasi pada vena, yang ditandai dengan adanya daerah yang merah, nyeri dan pembengkakan di daerah penusukan atau sepanjang vena</td>
+                            <td>
+                                Infeksi Daerah Operasi adalah Infeksi yang terjadi pada daerah insisi daerah operasi dalam waktu 30 hari tanpa implan dan satu tahun dengan implan pasca bedah. <br>
+                                Kriteria : <br>
+                                <b>a.</b> Pus keluar dari luka operasi atau drain yang dipasang diatas fascia <br>
+                                <b>b.</b> Biakan positif dari cairan yang keluar dari luka atau jaringan yang diambil secara aseptic <br>
+                                <b>c.</b> Sengaja dibuka oleh dokter karena terdapat tanda peradangan kecuali hasil biakan negatif, paling sedikit terdapat satu dari tanda-tanda infeksi berikut ini : nyeri, bengkak lokal, kemerahan dan hangat lokal <br>
+                                <b>d.</b> Dokter yang menangani menyatakan terjadi infeksi
+                            </td>
                         </tr>
                         <tr>
                             <th class="table-warning">Frekuensi Pengumpulan Data</th>
@@ -346,36 +330,40 @@
                         </tr>
                         <tr>
                             <th class="table-warning">Numerator</th>
-                            <td>Jumlah kasus Phlebitis</td>
+                            <td>Jumlah kasus Infeksi Daerah Operasi (IDO)</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Denumerator</th>
-                            <td>Seluruh pasien yang terpasang Kateter Intravena</td>
+                            <td>Jumlah pasien operasi / kasus operasi</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Inklusi</th>
-                            <td>Pasien rawat inap yang terpasang Kateter Intravena</td>
+                            <td>Kasus Operasi</td>
+                        </tr>
+                        <tr>
+                            <th class="table-warning">Eksklusi</th>
+                            <td>Prosedur Sirkumsisi</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Formula</th>
-                            <td>(Jumlah kasus / Jumlah hari semua pasien yang terpasang Kateter Intravena) x 1000</td>
+                            <td>(Jumlah kasus IDO / Jumlah kasus operasi) / 100</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Sumber Data</th>
-                            <td>Instalasi Rawat Inap</td>
+                            <td>Rekam Medis</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Standart</th>
-                            <td>≤ 5 %</td>
+                            <td>≤ 2 %</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Kriteria Penilaian</th>
                             <td>
-                                Hasil ≤ 5 % → Skor = 100 <br>
-                                5 % < Hasil ≤ 10 % → Skor = 75 <br>
-                                10 % < Hasil ≤ 15 % → Skor = 50 <br>
-                                15 % < Hasil ≤ 20 % → Skor = 25 <br>
-                                Hasil > 20 % → Skor = 0
+                                Hasil ≤ 2 % → Skor = 100 <br>
+                                2 % < Hasil ≤ 3 % → Skor = 75 <br>
+                                3 % < Hasil ≤ 4 % → Skor = 50 <br>
+                                4 % < Hasil ≤ 5 % → Skor = 25 <br>
+                                Hasil > 5 % → Skor = 0
                             </td>
                         </tr>
                         <tr>
@@ -413,7 +401,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            <form class="form-auth-small" action="{{ route('plebitis.formula') }}" method="POST" enctype="multipart/form-data">
+            <form class="form-auth-small" action="{{ route('ido.formula') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col">
@@ -424,7 +412,7 @@
                                     <input type="number" name="jumlah_kasus" max="99999999" class="form-control" placeholder="" aria-describedby="help" autofocus required>
                                 </div>
                                 <small id="help" class="text-muted">
-                                    Jumlah hari semua pasien yang terpasang <strong>Kateter Intravena</strong>
+                                    Jumlah kasus operasi
                                 </small>
                             </div>
                         </div>

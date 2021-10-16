@@ -15,7 +15,7 @@ class CreateTableVap extends Migration
     {
         Schema::create('ppi_vap', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('rm')->nullable();
+            $table->string('rm')->nullable();
             $table->string('nama')->nullable();
             $table->string('umur')->nullable();
             $table->date('tgl_dicatat')->nullable();

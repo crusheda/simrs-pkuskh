@@ -17,7 +17,7 @@
 
             <i class="fa-fw fas fa-list-alt nav-icon text-info">
 
-            </i> Daftar Bantu Plebitis
+            </i> Daftar Bantu Decubitus
 
             <span class="pull-right badge badge-warning" style="margin-top:4px">
                 Akses Pribadi
@@ -51,16 +51,21 @@
                     <table id="table" class="table table-striped display" style="width: 100%">
                         <thead>
                             <tr>
-                                <th>ID</th>
-                                <th>NO RM</th>
-                                <th>NAMA</th>
-                                <th>UMUR</th>
-                                <th>TGL PASANG</th>
-                                <th>ASAL PASANG</th>
-                                <th>TGL DITEMUKAN</th>
-                                <th>KETERANGAN</th>
-                                <th>TGL DITAMBAHKAN</th>
-                                <th><center>#</center></th>
+                                <th rowspan="2">ID</th>
+                                <th rowspan="2">NO RM</th>
+                                <th rowspan="2">NAMA</th>
+                                <th rowspan="2">UMUR</th>
+                                <th rowspan="2">TGL PENCATATAN</th>
+                                <th colspan="4"><center>RESIKO DEKUBITUS</center></th>
+                                <th rowspan="2">KETERANGAN (TANDA/GEJALA)</th>
+                                <th rowspan="2">TGL DITAMBAHKAN</th>
+                                <th rowspan="2"><center>#</center></th>
+                            </tr>
+                            <tr>
+                                <th>TIDAK MAMPU BERGERAK TANPA BANTUAN</th>
+                                <th>MAL NUTRISI</th>
+                                <th>BERBARING LAMA</th>
+                                <th>KONDISI KRONIK</th>
                             </tr>
                         </thead>
                         <tbody style="text-transform: capitalize">
@@ -71,9 +76,11 @@
                                 <td>{{ $item->rm }}</td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->umur }}</td>
-                                <td>{{ $item->tgl_pasang }}</td>
-                                <td>{{ $item->asal_pasang }}</td>
-                                <td>{{ $item->tgl_ditemukan }}</td>
+                                <td>{{ $item->tgl_dicatat }}</td>
+                                <td><center>@if($item->resiko1 == true)<i class="fa-fw fas fa-check nav-icon"></i>@endif</center></td>
+                                <td><center>@if($item->resiko2 == true)<i class="fa-fw fas fa-check nav-icon"></i>@endif</center></td>
+                                <td><center>@if($item->resiko3 == true)<i class="fa-fw fas fa-check nav-icon"></i>@endif</center></td>
+                                <td><center>@if($item->resiko4 == true)<i class="fa-fw fas fa-check nav-icon"></i>@endif</center></td>
                                 <td>{{ $item->ket }}</td>
                                 <td>{{ $item->created_at }}</td>
                                 <td>
@@ -120,7 +127,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            <form class="form-auth-small" action="{{ route('plebitis.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="form-auth-small" action="{{ route('decubitus.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col">
@@ -162,31 +169,39 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label>*Tgl Awal Pasang Infus :</label>
-                            <input type="date" name="tgl_pasang" class="form-control" required>
+                            <h6>*Resiko Dekubitus :</h6>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="resiko" id="exampleRadios1" value="resiko1" style="width: 20px;height: 20px;">
+                                <label class="form-check-label" for="exampleRadios1" style="margin-top:4px">
+                                    &nbsp;&nbsp;Tidak mampu bergerak tanpa bantuan
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="resiko" id="exampleRadios2" value="resiko2" style="width: 20px;height: 20px;">
+                                <label class="form-check-label" for="exampleRadios2" style="margin-top:4px">
+                                    &nbsp;&nbsp;Mal Nutrisi
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="resiko" id="exampleRadios3" value="resiko3" style="width: 20px;height: 20px;">
+                                <label class="form-check-label" for="exampleRadios3" style="margin-top:4px">
+                                    &nbsp;&nbsp;Berbaring Lama
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="resiko" id="exampleRadios3" value="resiko3" style="width: 20px;height: 20px;">
+                                <label class="form-check-label" for="exampleRadios3" style="margin-top:4px">
+                                    &nbsp;&nbsp;Kondisi Kronik
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label>*Asal Pasang : </label>
-                            <select name="asal_pasang" class="form-control" required>
-                                <option hidden>Pilih</option>
-                                <option value="igd">IGD</option>
-                                <option value="poli">POLIKLINIK</option>
-                                <option value="bangsal">BANGSAL</option>
-                            </select>
+                            <label>Keterangan (Tanda / Gejala) :</label>
+                            <textarea class="form-control" rows="5" name="ket" required></textarea>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label>*Tgl Ditemukan : </label>
-                            <input type="date" name="tgl_ditemukan" value="<?php echo strftime('%Y-%m-%d', strtotime($list['now'])); ?>" class="form-control" required>
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Keterangan (Tanda dan Gejala) :</label>
-                    <textarea class="form-control" rows="5" name="ket"></textarea>
                 </div>
 
         </div>
@@ -212,7 +227,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            {{ Form::model($item, array('route' => array('plebitis.update', $item->id), 'method' => 'PUT')) }}
+            {{ Form::model($item, array('route' => array('decubitus.update', $item->id), 'method' => 'PUT')) }}
                 @csrf
                 <div class="row">
                     <div class="col">
@@ -238,30 +253,39 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label>*Tgl Awal Pasang Infus : </label>
-                            <input type="date" name="tgl_pasang" value="<?php echo strftime('%Y-%m-%d', strtotime($item->tgl_pasang)); ?>" class="form-control">
+                            <h6>*Resiko Dekubitus :</h6>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="resiko" id="exampleRadios1" value="resiko1" style="width: 20px;height: 20px;" @if($item->resiko1 != '') checked @endif>
+                                <label class="form-check-label" for="exampleRadios1" style="margin-top:4px">
+                                    &nbsp;&nbsp;Tidak mampu bergerak tanpa bantuan
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="resiko" id="exampleRadios2" value="resiko2" style="width: 20px;height: 20px;" @if($item->resiko2 != '') checked @endif>
+                                <label class="form-check-label" for="exampleRadios2" style="margin-top:4px">
+                                    &nbsp;&nbsp;Mal Nutrisi
+                                </label>
+                            </div>
+                            <div class="form-check mb-3">
+                                <input class="form-check-input" type="radio" name="resiko" id="exampleRadios3" value="resiko3" style="width: 20px;height: 20px;" @if($item->resiko3 != '') checked @endif>
+                                <label class="form-check-label" for="exampleRadios3" style="margin-top:4px">
+                                    &nbsp;&nbsp;Berbaring Lama
+                                </label>
+                            </div>
+                            <div class="form-check">
+                                <input class="form-check-input" type="radio" name="resiko" id="exampleRadios3" value="resiko4" style="width: 20px;height: 20px;" @if($item->resiko4 != '') checked @endif>
+                                <label class="form-check-label" for="exampleRadios3" style="margin-top:4px">
+                                    &nbsp;&nbsp;Kondisi Kronik
+                                </label>
+                            </div>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label>*Asal Pasang : </label>
-                            <select name="asal_pasang" class="form-control">
-                                <option value="igd"     @if ($item->asal_pasang == 'igd') echo selected @endif>IGD</option>
-                                <option value="poli"    @if ($item->asal_pasang == 'poli') echo selected @endif>POLIKLINIK</option>
-                                <option value="bangsal" @if ($item->asal_pasang == 'bangsal') echo selected @endif>BANGSAL</option>
-                            </select>
+                            <label>Keterangan (Tanda / Gejala) :</label>
+                            <textarea class="form-control" rows="5" name="ket" required><?php echo htmlspecialchars($item->ket); ?></textarea>
                         </div>
                     </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label>*Tgl Ditemukan : </label>
-                            <input type="date" name="tgl_ditemukan" value="<?php echo strftime('%Y-%m-%d', strtotime($item->tgl_ditemukan)); ?>" class="form-control">
-                        </div>
-                    </div>
-                </div>
-                <div class="form-group">
-                    <label>Keterangan (Tanda dan Gejala) :</label>
-                    <textarea class="form-control" rows="5" name="ket"><?php echo htmlspecialchars($item->ket); ?></textarea>
                 </div>
 
         </div>
@@ -291,7 +315,7 @@
             <p>Apakah anda yakin ingin menghapus Data <b>{{ $item->nama }}</b>?</p>
         </div>
         <div class="modal-footer">
-            <form action="{{ route('plebitis.destroy', $item->id) }}" method="POST">
+            <form action="{{ route('decubitus.destroy', $item->id) }}" method="POST">
                 @method('DELETE')
                 @csrf
                 <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button>
@@ -318,7 +342,7 @@
                     <tbody>
                         <tr>
                             <th class="table-warning">Judul Indikator</th>
-                            <td>Infeksi Darah Perifer / Phlebitis</td>
+                            <td>Decubitus</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Kategori Indikator</th>
@@ -334,11 +358,19 @@
                         </tr>
                         <tr>
                             <th class="table-warning">Tujuan</th>
-                            <td>Menurunnya kejadian infeksi aliran darah perifer (Plebitis)</td>
+                            <td>Terselenggaranya pelayanan keperawatan yang aman dan efektif</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Definisi Operasional</th>
-                            <td>Phlebitis merupakan inflamaasi pada vena, yang ditandai dengan adanya daerah yang merah, nyeri dan pembengkakan di daerah penusukan atau sepanjang vena</td>
+                            <td>
+                                Kejadian Decubitus adalah terjadinya pasien yang mengalami decubitus selama dalam perawatan rawat inap di RS.<br>
+                                Kriteria : <br>
+                                <b>a.</b> Pasien paling tidak mempunyai 2 gejala dan tanda sebagai berikut yang tidak diketahui penyebab lainnya : kemerahan sakit atau pembengkakan ditepian luka decubitus <br>
+                                <b>b.</b> Minimal ditemukan 1 dari bukti berikut : <br>
+                                - Hasil kultur positif dari cairan atau jaringan yang diambil secara benar. <br>
+                                - Hasil kultur darah positif. <br>
+                                <b>c.</b> Dokter yang merawat menyatakan adanya decubitus dan diberi pengobatan antimikroba
+                            </td>
                         </tr>
                         <tr>
                             <th class="table-warning">Frekuensi Pengumpulan Data</th>
@@ -346,36 +378,40 @@
                         </tr>
                         <tr>
                             <th class="table-warning">Numerator</th>
-                            <td>Jumlah kasus Phlebitis</td>
+                            <td>Jumlah kasus Decubitus</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Denumerator</th>
-                            <td>Seluruh pasien yang terpasang Kateter Intravena</td>
+                            <td>Jumlah hari tirah baring</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Inklusi</th>
-                            <td>Pasien rawat inap yang terpasang Kateter Intravena</td>
+                            <td>Pasien rawat inap tirah baring</td>
+                        </tr>
+                        <tr>
+                            <th class="table-warning">Eksklusi</th>
+                            <td>Pasien yang masuk rawat inap RS sudah mengalami decubitus</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Formula</th>
-                            <td>(Jumlah kasus / Jumlah hari semua pasien yang terpasang Kateter Intravena) x 1000</td>
+                            <td>(Jumlah kasus Decubitus / Jumlah hari tirah baring) / 1000</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Sumber Data</th>
-                            <td>Instalasi Rawat Inap</td>
+                            <td>Rekam Medis</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Standart</th>
-                            <td>≤ 5 %</td>
+                            <td>≤ 1,5 %</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Kriteria Penilaian</th>
                             <td>
-                                Hasil ≤ 5 % → Skor = 100 <br>
-                                5 % < Hasil ≤ 10 % → Skor = 75 <br>
-                                10 % < Hasil ≤ 15 % → Skor = 50 <br>
-                                15 % < Hasil ≤ 20 % → Skor = 25 <br>
-                                Hasil > 20 % → Skor = 0
+                                Hasil ≤ 1,5 % → Skor = 100 <br>
+                                1,5 % < Hasil ≤ 5 % → Skor = 75 <br>
+                                5 % < Hasil ≤ 10 % → Skor = 50 <br>
+                                10 % < Hasil ≤ 15 % → Skor = 25 <br>
+                                Hasil > 15 % → Skor = 0
                             </td>
                         </tr>
                         <tr>
@@ -413,7 +449,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            <form class="form-auth-small" action="{{ route('plebitis.formula') }}" method="POST" enctype="multipart/form-data">
+            <form class="form-auth-small" action="{{ route('decubitus.formula') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col">
@@ -507,7 +543,7 @@ $(document).ready( function () {
                     pdf: 'Jadikan PDF',
                 }
             },
-            order: [[ 8, "desc" ]]
+            order: [[ 10, "desc" ]]
         }
     );
 

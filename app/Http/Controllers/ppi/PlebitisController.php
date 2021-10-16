@@ -28,9 +28,13 @@ class PlebitisController extends Controller
         $role = $user->roles->first()->name; //kabag-keperawatan
         
         $show = plebitis::get();
+        $user = DB::table('users')
+                ->where('users.status',null)
+                ->get();
 
         $data = [
             'show' => $show,
+            'user' => $user,
             'role' => $role,
             'now' => $now,
         ];
@@ -59,32 +63,22 @@ class PlebitisController extends Controller
         $user = Auth::user();
         $user_id = $user->id;
 
-        // print_r($request->rm);
-        // die();
-
-        $data = new antigen;
-        $data->dr_pengirim  = $request->dr_pengirim;
-        $data->pemeriksa  = $request->pemeriksa;
         if ($request->nama == '') {
             return redirect::back()->withErrors('Nomor RM yang anda masukkan Tidak Valid, mohon ulangi sekali lagi.');
         }
 
-        $data->rm           = $request->rm;
-        $data->nama         = $request->nama;
-        $data->jns_kelamin  = $request->jns_kelamin;
-        $data->umur         = $request->umur;
-        $data->alamat       = $request->alamat.', '.strtoupper($request->kec).', '.strtoupper($request->kab);
-        $data->tgl          = $request->tgl;
-        $data->hasil        = $request->hasil;
-        $data->pj           = $pj;
-        $data->user_id      = $user_id;
-
-        $data->desa         = $request->des;
-        $data->kecamatan    = $request->kec;
-        $data->kabupaten    = $request->kab;
-        
+        $data = new plebitis;
+        $data->rm = $request->rm;
+        $data->nama = $request->nama;
+        $data->umur = $request->umur;
+        $data->tgl_pasang = $request->tgl_pasang;
+        $data->asal_pasang = $request->asal_pasang;
+        $data->tgl_ditemukan = $request->tgl_ditemukan;
+        $data->ket  = $request->ket;
+        $data->id_user  = $user_id;
         $data->save();
-        return redirect::back()->with('message','Hasil Antigen Berhasil Ditambahkan a/n '.$request->nama);
+
+        return redirect::back()->with('message','Data berhasil ditambahkan a/n '.$request->nama);
     }
 
     /**
@@ -118,7 +112,14 @@ class PlebitisController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+        $data = plebitis::find($id);
+        $data->tgl_pasang = $request->tgl_pasang;
+        $data->asal_pasang = $request->asal_pasang;
+        $data->tgl_ditemukan = $request->tgl_ditemukan;
+        $data->ket  = $request->ket;
+        $data->save();
+        
+        return redirect::back()->with('message','Data berhasil diubah a/n '.$data->nama);
     }
 
     /**
@@ -129,6 +130,10 @@ class PlebitisController extends Controller
      */
     public function destroy($id)
     {
-        //
+        $data = plebitis::find($id);
+        $nama = $data->nama;
+        $data->delete();
+
+        return redirect::back()->with('message','Data a/n '.$nama.' berhasil dihapus');
     }
 }

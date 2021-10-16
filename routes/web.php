@@ -272,8 +272,13 @@ Addchat::routes();
 // Route::post('/loginandroid', 'android\APIcontroller@loginAndroid');
 
 // PPI
+    Route::post('surveilans/ppi/plebitis/formula','ppi\PlebitisController@formula')->name('plebitis.formula');
     Route::resource('surveilans/ppi/plebitis', 'ppi\PlebitisController');
+    Route::post('surveilans/ppi/ido/formula','ppi\IdoController@formula')->name('ido.formula');
     Route::resource('surveilans/ppi/ido', 'ppi\IdoController');
+    Route::post('surveilans/ppi/isk/formula','ppi\IskController@formula')->name('isk.formula');
     Route::resource('surveilans/ppi/isk', 'ppi\IskController');
+    Route::post('surveilans/ppi/decubitus/formula','ppi\DecubitusController@formula')->name('decubitus.formula');
     Route::resource('surveilans/ppi/decubitus', 'ppi\DecubitusController');
+    Route::post('surveilans/ppi/vap/formula','ppi\VapController@formula')->name('vap.formula');
     Route::resource('surveilans/ppi/vap', 'ppi\VapController');

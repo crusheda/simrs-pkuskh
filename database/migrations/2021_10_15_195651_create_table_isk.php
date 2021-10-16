@@ -15,7 +15,7 @@ class CreateTableIsk extends Migration
     {
         Schema::create('ppi_isk', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('rm')->nullable();
+            $table->string('rm')->nullable();
             $table->string('nama')->nullable();
             $table->string('umur')->nullable();
             $table->string('gejala')->nullable();

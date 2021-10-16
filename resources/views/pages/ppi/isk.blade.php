@@ -17,7 +17,7 @@
 
             <i class="fa-fw fas fa-list-alt nav-icon text-info">
 
-            </i> Daftar Bantu Plebitis
+            </i> Daftar Bantu ISK (Infeksi Saluran Kemih)
 
             <span class="pull-right badge badge-warning" style="margin-top:4px">
                 Akses Pribadi
@@ -55,10 +55,9 @@
                                 <th>NO RM</th>
                                 <th>NAMA</th>
                                 <th>UMUR</th>
-                                <th>TGL PASANG</th>
-                                <th>ASAL PASANG</th>
-                                <th>TGL DITEMUKAN</th>
-                                <th>KETERANGAN</th>
+                                <th>TANDA / GEJALA</th>
+                                <th>ALASAN</th>
+                                <th>HASIL LAB</th>
                                 <th>TGL DITAMBAHKAN</th>
                                 <th><center>#</center></th>
                             </tr>
@@ -71,10 +70,9 @@
                                 <td>{{ $item->rm }}</td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->umur }}</td>
-                                <td>{{ $item->tgl_pasang }}</td>
-                                <td>{{ $item->asal_pasang }}</td>
-                                <td>{{ $item->tgl_ditemukan }}</td>
-                                <td>{{ $item->ket }}</td>
+                                <td>{{ $item->gejala }}</td>
+                                <td>{{ $item->alasan }}</td>
+                                <td>{{ $item->hasil }}</td>
                                 <td>{{ $item->created_at }}</td>
                                 <td>
                                     <center>
@@ -120,7 +118,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            <form class="form-auth-small" action="{{ route('plebitis.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="form-auth-small" action="{{ route('isk.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col">
@@ -162,31 +160,20 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label>*Tgl Awal Pasang Infus :</label>
-                            <input type="date" name="tgl_pasang" class="form-control" required>
+                            <label>*Tanda dan Gejala :</label>
+                            <input type="text" name="gejala" class="form-control" required>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label>*Asal Pasang : </label>
-                            <select name="asal_pasang" class="form-control" required>
-                                <option hidden>Pilih</option>
-                                <option value="igd">IGD</option>
-                                <option value="poli">POLIKLINIK</option>
-                                <option value="bangsal">BANGSAL</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label>*Tgl Ditemukan : </label>
-                            <input type="date" name="tgl_ditemukan" value="<?php echo strftime('%Y-%m-%d', strtotime($list['now'])); ?>" class="form-control" required>
+                            <label>*Alasan Pemasangan Kateter Urin :</label>
+                            <input type="text" name="alasan" class="form-control" required>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Keterangan (Tanda dan Gejala) :</label>
-                    <textarea class="form-control" rows="5" name="ket"></textarea>
+                    <label>*Hasil Pemeriksaan Lab (Pemeriksaan Urin) :</label>
+                    <textarea class="form-control" rows="5" name="hasil" required></textarea>
                 </div>
 
         </div>
@@ -212,7 +199,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            {{ Form::model($item, array('route' => array('plebitis.update', $item->id), 'method' => 'PUT')) }}
+            {{ Form::model($item, array('route' => array('isk.update', $item->id), 'method' => 'PUT')) }}
                 @csrf
                 <div class="row">
                     <div class="col">
@@ -238,30 +225,20 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label>*Tgl Awal Pasang Infus : </label>
-                            <input type="date" name="tgl_pasang" value="<?php echo strftime('%Y-%m-%d', strtotime($item->tgl_pasang)); ?>" class="form-control">
+                            <label>*Tanda dan Gejala :</label>
+                            <input type="text" name="gejala" value="{{ $item->gejala }}" class="form-control" required>
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
-                            <label>*Asal Pasang : </label>
-                            <select name="asal_pasang" class="form-control">
-                                <option value="igd"     @if ($item->asal_pasang == 'igd') echo selected @endif>IGD</option>
-                                <option value="poli"    @if ($item->asal_pasang == 'poli') echo selected @endif>POLIKLINIK</option>
-                                <option value="bangsal" @if ($item->asal_pasang == 'bangsal') echo selected @endif>BANGSAL</option>
-                            </select>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label>*Tgl Ditemukan : </label>
-                            <input type="date" name="tgl_ditemukan" value="<?php echo strftime('%Y-%m-%d', strtotime($item->tgl_ditemukan)); ?>" class="form-control">
+                            <label>*Alasan Pemasangan Kateter Urin :</label>
+                            <input type="text" name="alasan" value="{{ $item->alasan }}" class="form-control" required>
                         </div>
                     </div>
                 </div>
                 <div class="form-group">
-                    <label>Keterangan (Tanda dan Gejala) :</label>
-                    <textarea class="form-control" rows="5" name="ket"><?php echo htmlspecialchars($item->ket); ?></textarea>
+                    <label>Hasil Pemeriksaan Lab (Pemeriksaan Urin) :</label>
+                    <textarea class="form-control" rows="5" name="hasil"><?php echo htmlspecialchars($item->hasil); ?></textarea>
                 </div>
 
         </div>
@@ -291,7 +268,7 @@
             <p>Apakah anda yakin ingin menghapus Data <b>{{ $item->nama }}</b>?</p>
         </div>
         <div class="modal-footer">
-            <form action="{{ route('plebitis.destroy', $item->id) }}" method="POST">
+            <form action="{{ route('isk.destroy', $item->id) }}" method="POST">
                 @method('DELETE')
                 @csrf
                 <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button>
@@ -318,7 +295,7 @@
                     <tbody>
                         <tr>
                             <th class="table-warning">Judul Indikator</th>
-                            <td>Infeksi Darah Perifer / Phlebitis</td>
+                            <td>Infeksi Saluran Kemih (ISK)</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Kategori Indikator</th>
@@ -338,7 +315,18 @@
                         </tr>
                         <tr>
                             <th class="table-warning">Definisi Operasional</th>
-                            <td>Phlebitis merupakan inflamaasi pada vena, yang ditandai dengan adanya daerah yang merah, nyeri dan pembengkakan di daerah penusukan atau sepanjang vena</td>
+                            <td>
+                                Infeksi Saluran Kencing (ISK) adalah infeksi yang terjadi sebagai akibat dari pemasangan kateter > 48 jam<br>
+                                Kriteria : <br>
+                                <b>a.</b> Gejala dan Tanda : <br>
+                                Umum : demam, urgensi, frekuensi, disuria, nyeri suprapublik. <br>
+                                Usia < 1 Tahun : demam, hipotermi, apneu, bradikardi, letargia, muntah-muntah. <br>
+                                <b>b.</b> Nitrit dan/atau leukosit esterase positif dengan carik celup (dipstick) <br>
+                                <b>c.</b> Pyuria > 10 leukosit /LPB sedimen urin atau > 10 leukosit/mL atau > 3 leukosit/LPB dari urine tanpa dilakukan sentrifus <br>
+                                <b>d.</b> Terdapat koloni mikroorganisme pada hasil pemeriksaan urine kultur <br>
+                                <b>e.</b> Diagnosis dokter yang merawat menyatakan adanya ISK <br>
+                                <b>f.</b> Terapi dokter sesuai ISK
+                            </td>
                         </tr>
                         <tr>
                             <th class="table-warning">Frekuensi Pengumpulan Data</th>
@@ -346,41 +334,45 @@
                         </tr>
                         <tr>
                             <th class="table-warning">Numerator</th>
-                            <td>Jumlah kasus Phlebitis</td>
+                            <td>Jumlah kasus Infeksi Saluran Kemih (ISK)</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Denumerator</th>
-                            <td>Seluruh pasien yang terpasang Kateter Intravena</td>
+                            <td>Jumlah lama hari pemakaian kateter urina menetap</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Inklusi</th>
-                            <td>Pasien rawat inap yang terpasang Kateter Intravena</td>
+                            <td>Pasien rawat inap dengan kateter terpasang > 48 jam</td>
+                        </tr>
+                        <tr>
+                            <th class="table-warning">Eksklusi</th>
+                            <td>Pasien yang terpasang kateter urine ≤ 48 jam</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Formula</th>
-                            <td>(Jumlah kasus / Jumlah hari semua pasien yang terpasang Kateter Intravena) x 1000</td>
+                            <td>(Jumlah kasus ISK / Jumlah lama hari pemakaian kateter urine) / 1000</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Sumber Data</th>
-                            <td>Instalasi Rawat Inap</td>
+                            <td>Rekam Medis</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Standart</th>
-                            <td>≤ 5 %</td>
+                            <td>≤ 4,7 %</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Kriteria Penilaian</th>
                             <td>
-                                Hasil ≤ 5 % → Skor = 100 <br>
-                                5 % < Hasil ≤ 10 % → Skor = 75 <br>
-                                10 % < Hasil ≤ 15 % → Skor = 50 <br>
-                                15 % < Hasil ≤ 20 % → Skor = 25 <br>
-                                Hasil > 20 % → Skor = 0
+                                Hasil ≤ 4,7 % → Skor = 100 <br>
+                                4,7 % < Hasil ≤ 5,2 % → Skor = 75 <br>
+                                5,2 % < Hasil ≤ 5,7 % → Skor = 50 <br>
+                                5,7 % < Hasil ≤ 6,2 % → Skor = 25 <br>
+                                Hasil > 6,2 % → Skor = 0
                             </td>
                         </tr>
                         <tr>
                             <th class="table-warning">PIC</th>
-                            <td>IPCLN dan IPCN</td>
+                            <td>Ka Unit pelayanan rawat inap/ketua komite/panitia/Tim PPI</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Referensi</th>
@@ -413,7 +405,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            <form class="form-auth-small" action="{{ route('plebitis.formula') }}" method="POST" enctype="multipart/form-data">
+            <form class="form-auth-small" action="{{ route('isk.formula') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col">
@@ -424,7 +416,7 @@
                                     <input type="number" name="jumlah_kasus" max="99999999" class="form-control" placeholder="" aria-describedby="help" autofocus required>
                                 </div>
                                 <small id="help" class="text-muted">
-                                    Jumlah hari semua pasien yang terpasang <strong>Kateter Intravena</strong>
+                                    Jumlah hari pemakaian <strong>Kateter Urine</strong>
                                 </small>
                             </div>
                         </div>

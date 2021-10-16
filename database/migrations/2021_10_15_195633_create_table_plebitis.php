@@ -15,7 +15,7 @@ class CreateTablePlebitis extends Migration
     {
         Schema::create('ppi_plebitis', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('rm')->nullable();
+            $table->string('rm')->nullable();
             $table->string('nama')->nullable();
             $table->string('umur')->nullable();
             $table->date('tgl_pasang')->nullable();

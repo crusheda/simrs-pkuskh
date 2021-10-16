@@ -15,7 +15,7 @@ class CreateTableDecubitus extends Migration
     {
         Schema::create('ppi_decubitus', function (Blueprint $table) {
             $table->bigIncrements('id');
-            $table->integer('rm')->nullable();
+            $table->string('rm')->nullable();
             $table->string('nama')->nullable();
             $table->string('umur')->nullable();
             $table->date('tgl_dicatat')->nullable();
