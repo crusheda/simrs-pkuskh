@@ -68,7 +68,7 @@ class logController extends Controller
             'keterangan' => 'nullable',
             'lokasi' => 'nullable',
             'title' => 'nullable',
-            'file' => 'nullable|file|max:1000000',
+            'file' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:50000',
             ]);
 
         // tampung berkas yang sudah diunggah ke variabel baru

@@ -311,7 +311,7 @@
         Swal.fire({
             title: 'Lampiran Supervisi '+id,
             text: 'Refresh halaman ini untuk mengupdate lampiran',
-            imageUrl: './supervisi/lampiran/'+id,
+            imageUrl: './supervisi/'+id,
             imageWidth: 400,
             // imageHeight: 200,
             imageAlt: 'Lampiran',
@@ -323,7 +323,7 @@
             backdrop: `rgba(26,27,41,0.8)`,
         }).then((result) => {
             if (result.isConfirmed) {
-                window.location.href = "./supervisi/lampiran/"+id+"/download";
+                window.location.href = "./supervisi/"+id;
             }
         })
     }
