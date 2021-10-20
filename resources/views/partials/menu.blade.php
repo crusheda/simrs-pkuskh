@@ -439,6 +439,36 @@
                     </ul>
                 </li>
             @endcan
+            @can('pengajuan-pengeluaran')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle" href="#">
+                        <i class="fa-fw fas fa-money nav-icon">
+
+                        </i>
+                        Keuangan
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        @role('kasir|kabag-keuangan|it')
+                        <li class="nav-item">
+                            <a href="{{ route("pendapatan.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-bar-chart nav-icon">
+
+                                </i>
+                                Pendapatan
+                            </a>
+                        </li>
+                        @endrole
+                        <li class="nav-item">
+                            <a href="{{ route("pengajuan.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-area-chart nav-icon">
+
+                                </i>
+                                Pengajuan
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan
             @can('kepegawaian')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">

@@ -111,6 +111,10 @@ Route::get('insentif/kehadiran/export', 'excell\insentifController@export')->nam
 Route::get('insentif/kehadiran', 'excell\insentifController@index')->name('insentif.kehadiran');
 Route::post('insentif/kehadiran/import', 'excell\insentifController@import')->name('import.insentif');
 
+// Keuangan
+Route::resource('pendapatan', 'keuangan\pengajuan_pengeluaran\pendapatanKasirController');
+Route::resource('pengajuan', 'keuangan\pengajuan_pengeluaran\pengajuanPembayaranController');
+
 // Lab
 Route::group(['middleware' => ['auth'], 'prefix' => 'lab', 'as' => 'lab.'], function () {
     // Route::get('/karyawan/cetak/{id}', 'kantor\kepegawaianController@generatePDF')->name('karyawan.cetak');
