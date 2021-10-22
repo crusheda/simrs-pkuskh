@@ -31,9 +31,9 @@ class CreateTablePengajuanPembayaran extends Migration
             $table->longText('ket')->nullable();
             $table->date('tgl')->nullable();
             $table->dateTime('verif_kabag')->nullable();
-            $table->dateTime('status_kabag')->nullable();
+            $table->longText('status_kabag')->nullable();
             $table->dateTime('verif_kasubag')->nullable();
-            $table->dateTime('status_kasubag')->nullable();
+            $table->longText('status_kasubag')->nullable();
             $table->integer('id_user')->nullable();
             $table->integer('id_kabag')->nullable();
             $table->integer('id_kasubag')->nullable();

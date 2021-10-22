@@ -113,6 +113,11 @@ Route::post('insentif/kehadiran/import', 'excell\insentifController@import')->na
 
 // Keuangan
 Route::resource('pendapatan', 'keuangan\pengajuan_pengeluaran\pendapatanKasirController');
+Route::get('pengajuan/verifikasi', 'keuangan\pengajuan_pengeluaran\pengajuanPembayaranController@showVerif')->name('pengajuan.showverif');
+Route::put('pengajuan/verifikasi/kabag/{post}','keuangan\pengajuan_pengeluaran\pengajuanPembayaranController@verifikasikabag')->name('pengajuan.verifikasikabag');
+Route::delete('pengajuan/verifikasi/kabag/hapus/{post}','keuangan\pengajuan_pengeluaran\pengajuanPembayaranController@destroyVerifKabag')->name('pengajuan.destroyverifkabag');
+Route::put('pengajuan/verifikasi/kasubag/{post}','keuangan\pengajuan_pengeluaran\pengajuanPembayaranController@verifikasikasubag')->name('pengajuan.verifikasikasubag');
+Route::delete('pengajuan/verifikasi/kasubag/hapus/{post}','keuangan\pengajuan_pengeluaran\pengajuanPembayaranController@destroyVerifKasubag')->name('pengajuan.destroyverifkasubag');
 Route::resource('pengajuan', 'keuangan\pengajuan_pengeluaran\pengajuanPembayaranController');
 
 // Lab

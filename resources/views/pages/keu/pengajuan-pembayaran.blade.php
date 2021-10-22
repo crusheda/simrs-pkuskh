@@ -35,6 +35,14 @@
                                 </i>
                                 Tambah
                             </button>
+                            @role('kasubag-perbendaharaan-keuangan|kabag-keuangan')
+                                <button type="button" class="btn btn-dark text-white" onclick="window.location.href='{{ route('pengajuan.showverif') }}'">
+                                    <i class="fa-fw fas fa-check-square nav-icon">
+            
+                                    </i>
+                                    Verifikasi
+                                </button>
+                            @endrole
                         </div>
                     </div>
                 </div><hr>
@@ -45,7 +53,7 @@
                                 <th>ID</th>
                                 <th>JENIS</th>
                                 <th>PBF</th>
-                                <th>TGL PEMBELIAN</th>
+                                <th>PEMBELIAN</th>
                                 <th>NO. FAKTUR</th>
                                 <th>JATUH TEMPO</th>
                                 <th>TRANSAKSI</th>
@@ -64,30 +72,30 @@
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->jenis }}</td>
                                 <td>{{ $item->pbf }}</td>
-                                <td>{{ $item->tgl_pembelian }}</td>
+                                <td>{{ \Carbon\Carbon::parse($item->tgl_pembelian)->isoFormat('dddd, D MMM Y') }}</td>
                                 <td><kbd>{{ $item->no_faktur }}</kbd></td>
-                                <td>{{ $item->tgl_jatuh_tempo }}</td>
+                                <td>{{ \Carbon\Carbon::parse($item->tgl_jatuh_tempo)->isoFormat('dddd, D MMM Y') }}</td>
                                 <td>{{ $item->transaksi }}</td>
-                                <td>{{ $item->bank }}</td>
-                                <td>{{ $item->no_rek }}</td>
+                                <td>@if ($item->bank == null) - @else {{ $item->bank }} @endif</td>
+                                <td>@if ($item->bank == null) - @else {{ $item->no_rek }} @endif</td>
                                 <td>Rp. {{ number_format($item->nominal,0,",",".") }}</td>
                                 <td>{{ $item->id_user }}</td>
-                                <td>{{ \Carbon\Carbon::parse($item->created_at)->isoFormat('dddd, D MMM Y') }}</td>
+                                <td>{{ $item->created_at }}</td>
                                 <td>
                                     <center>
                                         @role('kabag-keuangan|it')
                                             <div class="btn-group" role="group">
                                                 <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm text-white" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                             </div>
                                         @else
                                             <div class="btn-group" role="group">
                                                 @if (\Carbon\Carbon::parse($item->updated_at)->isoFormat('YYYY/MM/DD') == \Carbon\Carbon::now()->isoFormat('YYYY/MM/DD'))
                                                     <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                    <button type="button" class="btn btn-danger btn-sm text-white" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                                 @else
                                                     <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                                    <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                    <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                                 @endif
                                             </div>
                                         @endrole
@@ -119,6 +127,7 @@
         <div class="modal-body">
             <form class="form-auth-small" action="{{ route('pengajuan.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Pengubahan / Penghapusan data hanya berlaku pada <strong>Hari saat Anda mengupload saja</strong> !!<hr>
                 <div class="row">
                     <div class="col-md-6">
                         <div class="form-group">
@@ -155,13 +164,13 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Tgl Pembelian :</label>
-                            <input type="date" name="tgl_pembelian" class="form-control" value="<?php echo strftime('%Y-%m-%d', strtotime(\Carbon\Carbon::now())); ?>">
+                            <input type="date" name="tgl_pembelian" class="form-control" value="<?php echo strftime('%Y-%m-%d', strtotime(\Carbon\Carbon::now())); ?>" required>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Tgl Jatuh Tempo :</label>
-                            <input type="date" name="tgl_jatuh_tempo" class="form-control" value="<?php echo strftime('%Y-%m-%d', strtotime(\Carbon\Carbon::now()->addDay(5))); ?>">
+                            <input type="date" name="tgl_jatuh_tempo" class="form-control" value="<?php echo strftime('%Y-%m-%d', strtotime(\Carbon\Carbon::now())); ?>" required>
                         </div>
                     </div>
                 </div>
@@ -169,7 +178,7 @@
                     <div class="col">
                         <div class="form-group">
                             <label>Transaksi :</label>
-                            <select name="transaksi" class="form-control" required>
+                            <select name="transaksi" id="transaksi_tambah" class="form-control" required>
                                 <option hidden>Pilih Transaksi</option>
                                 <option value="TRANSFER">TRANSFER</option>
                                 <option value="CEK">CEK</option>
@@ -180,21 +189,21 @@
                     <div class="col">
                         <div class="form-group">
                             <label>Nominal :</label>
-                            <input type="text" name="nominal" id="rupiah_tambah" class="form-control" placeholder="Masukkan Nominal" required>
+                            <input type="text" name="nominal" id="rupiah_tambah" maxlength="17" class="form-control" placeholder="Masukkan Nominal" required>
                         </div>
                     </div>
                 </div>
-                <div class="row" id="transfer" hidden>
+                <div class="row" id="transfer_tambah" hidden>
                     <div class="col">
                         <div class="form-group">
                             <label>Bank :</label>
-                            <input type="text" name="bank" class="form-control" placeholder="Masukkan Nama Bank" required>
+                            <input type="text" name="bank" id="bank_tambah" class="form-control" placeholder="Masukkan Nama Bank">
                         </div>
                     </div>
                     <div class="col">
                         <div class="form-group">
                             <label>Nomor Rekening :</label>
-                            <input type="text" name="no_rek" class="form-control" placeholder="Masukkan Nomor Rekening" required>
+                            <input type="text" name="no_rek" id="no_rek_tambah" class="form-control" placeholder="Masukkan Nomor Rekening">
                         </div>
                     </div>
                 </div>
@@ -202,7 +211,7 @@
         </div>
         <div class="modal-footer">
                 User :&nbsp;<strong>{{ Auth::user()->nama }}</strong> 
-                <button class="btn btn-secondary" id="btn-simpan" disabled><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
+                <button class="btn btn-success" id="btn-simpan"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
             </form>
 
             <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
@@ -225,74 +234,89 @@
             {{ Form::model($item, array('route' => array('pengajuan.update', $item->id), 'method' => 'PUT')) }}
                 @csrf
                 <div class="row">
-                    <div class="col">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label><kbd>Rekam Medik</kbd></label>
-                            <input type="text" value="{{ $item->rm }}" class="form-control" disabled>
+                            <label>Jenis :</label>
+                            <div class="input-group mb-3">
+                                <select class="fstdropdown-select" name="jenis" required>
+                                    <option value="" hidden>Pilih</option>
+                                    <option value="TRANSFER"    @if ($item->jenis == 'TRANSFER') echo selected @endif>TRANSFER</option>
+                                    <option value="CEK"         @if ($item->jenis == 'CEK') echo selected @endif>CEK</option>
+                                    <option value="CASH"        @if ($item->jenis == 'CASH') echo selected @endif>CASH</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label>Nama :</label>
-                            <input type="text" value="{{ $item->nama }}" class="form-control" disabled>
+                            <label>PBF :</label>
+                            <div class="input-group mb-3">
+                                <select class="fstdropdown-select" name="pbf" required>
+                                    <option value="" hidden>Pilih</option>
+                                    <option value="TRANSFER"    @if ($item->pbf == 'TRANSFER') echo selected @endif>TRANSFER</option>
+                                    <option value="CEK"         @if ($item->pbf == 'CEK') echo selected @endif>CEK</option>
+                                    <option value="CASH"        @if ($item->pbf == 'CASH') echo selected @endif>CASH</option>
+                                </select>
+                            </div>
                         </div>
                     </div>
-                    <div class="col">
+                    <div class="col-md-6">
                         <div class="form-group">
-                            <label>Poliklinik :</label>
-                            <input type="text" value="{{ $item->poli }}" class="form-control" disabled>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label>Cara Bayar :</label>
-                            <input type="text" value="{{ $item->cara_bayar }}" class="form-control" disabled>
-                        </div>
-                    </div>
-                </div>
-                <hr>
-                <div class="row">
-                    <div class="col-md-5">
-                        <div class="form-group">
-                            <label>Nominal :</label>
-                            <input type="text" name="nominal" id="rupiah_edit" value="Rp. {{ number_format($item->nominal,0,",",".") }}" class="form-control" placeholder="Masukkan Nominal" required>
-                        </div>
-                    </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Bank :</label>
-                            <select name="bank" class="form-control" required>
-                                <option hidden>Pilih</option>
-                                <option value="CASH"    @if ($item->bank == 'CASH') echo selected @endif>CASH</option>
-                                <option value="ASB"     @if ($item->bank == 'ASB') echo selected @endif>ASB</option>
-                                <option value="BRI"     @if ($item->bank == 'BRI') echo selected @endif>BRI</option>
-                                <option value="MANDIRI" @if ($item->bank == 'MANDIRI') echo selected @endif>MANDIRI</option>
-                                <option value="PIUTANG" @if ($item->bank == 'PIUTANG') echo selected @endif>PIUTANG</option>
-                            </select>
+                            <label>Nomor Faktur :</label>
+                            <input type="text" name="no_faktur" value="{{ $item->no_faktur }}" class="form-control" placeholder="Masukkan Nomor Faktur" required>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
-                            <label>Shift :</label>
-                            <select name="shift" class="form-control" required>
-                                <option hidden>Pilih</option>
-                                <option value="PAGI"    @if ($item->shift == 'PAGI') echo selected @endif>PAGI</option>
-                                <option value="MIDDLE"  @if ($item->shift == 'MIDDLE') echo selected @endif>MIDDLE</option>
-                                <option value="SIANG"   @if ($item->shift == 'SIANG') echo selected @endif>SIANG</option>
-                                <option value="MALAM"   @if ($item->shift == 'MALAM') echo selected @endif>MALAM</option>
-                            </select>
+                            <label>Tgl Pembelian :</label>
+                            <input type="date" name="tgl_pembelian" class="form-control" value="<?php echo strftime('%Y-%m-%d', strtotime($item->tgl_pembelian)); ?>">
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Tgl Jatuh Tempo :</label>
+                            <input type="date" name="tgl_jatuh_tempo" class="form-control" value="<?php echo strftime('%Y-%m-%d', strtotime($item->tgl_jatuh_tempo)); ?>">
                         </div>
                     </div>
                 </div>
-                <div class="form-group">
-                    <label>Keterangan (Tanda / Gejala) :</label>
-                    <textarea class="form-control" style="min-height: 100px" rows="5" name="ket"><?php echo htmlspecialchars($item->ket); ?></textarea>
+                <div class="row">
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Transaksi :</label>
+                            <select name="transaksi" id="transaksi_edit{{ $item->id }}" class="form-control" onclick="ubahTransaksi({{ $item->id }})" required>
+                                <option hidden>Pilih Transaksi</option>
+                                <option value="TRANSFER"    @if ($item->transaksi == 'TRANSFER') echo selected @endif>TRANSFER</option>
+                                <option value="CEK"         @if ($item->transaksi == 'CEK') echo selected @endif>CEK</option>
+                                <option value="CASH"        @if ($item->transaksi == 'CASH') echo selected @endif>CASH</option>
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Nominal :</label>
+                            <input type="text" name="nominal" id="rupiah_edit" maxlength="17" value="Rp. {{ number_format($item->nominal,0,",",".") }}" class="form-control" placeholder="Masukkan Nominal" required>
+                        </div>
+                    </div>
+                </div>
+                <div class="row" id="transfer_edit{{ $item->id }}" @if ($item->bank == null && $item->no_rek == null) echo hidden @endif>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Bank :</label>
+                            <input type="text" name="bank" id="bank_edit{{ $item->id }}" value="{{ $item->bank }}" class="form-control" placeholder="Masukkan Nama Bank" @if ($item->bank != null) echo required @endif>
+                        </div>
+                    </div>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Nomor Rekening :</label>
+                            <input type="text" name="no_rek" id="no_rek_edit{{ $item->id }}" value="{{ $item->no_rek }}" class="form-control" placeholder="Masukkan Nomor Rekening" @if ($item->no_rek != null) echo required @endif>
+                        </div>
+                    </div>
                 </div>
 
         </div>
         <div class="modal-footer">
             
-                <button class="btn btn-primary pull-right"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
+                <button class="btn btn-success pull-right"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
             </form>
 
             <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
@@ -341,9 +365,10 @@ $(document).ready( function () {
                 'excel', 'pdf','colvis'
             ],
             'columnDefs': [
-                // { targets: 0, visible: false },
-                // { targets: 9, visible: false },
-                // { targets: 10, visible: false },
+                { targets: 0, visible: false },
+                { targets: 7, visible: false },
+                { targets: 8, visible: false },
+                { targets: 10, visible: false },
             ],
             language: {
                 buttons: {
@@ -352,15 +377,9 @@ $(document).ready( function () {
                     pdf: 'Jadikan PDF',
                 }
             },
-            order: [[ 8, "desc" ]]
+            order: [[ 11, "desc" ]]
         }
     );
-    
-    // Set modal form input to autofocus when autofocus attribute is set
-    $("#tambah").on('shown.bs.modal', function () {
-        // $(this).find($.attr('autofocus')).focus();
-        $(this).find('[autofocus]').focus();
-    });
 
     $("body").addClass('brand-minimized sidebar-minimized');
 
@@ -381,63 +400,74 @@ $(document).ready( function () {
 
         return true;
     });
+
+    $('#transaksi_tambah').change(function() { 
+        if (this.value == 'TRANSFER') {
+            $("#bank_tambah").val("").prop('required', true);
+            $("#no_rek_tambah").val("").prop('required', true);
+            $('#transfer_tambah').prop('hidden', false);
+        } else {
+            $("#bank_tambah").val("").prop('required', false);
+            $("#no_rek_tambah").val("").prop('required', false);
+            $('#transfer_tambah').prop('hidden', true);
+        }
+    });
+
+    // $('#transaksi_edit').change(function() { 
+    //     if (this.value == 'TRANSFER') {
+    //         $("#bank_edit").val("").prop('required', true);
+    //         $("#no_rek_edit").val("").prop('required', true);
+    //         $('#transfer_edit').prop('hidden', false);
+    //     } else {
+    //         $("#bank_edit").val("").prop('required', false);
+    //         $("#no_rek_edit").val("").prop('required', false);
+    //         $('#transfer_edit').prop('hidden', true);
+    //     }
+    // });
+
 } );
 </script>
 <script type="text/javascript">
+/* FUNCTION - FUNCTION */
     
     // RUPIAH TAMBAH
-        var rupiah = document.getElementById('rupiah_tambah');
-        rupiah.addEventListener('keyup', function(e){
-            // tambahkan 'Rp.' pada saat form di ketik
-            // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-            rupiah.value = formatRupiah(this.value, 'Rp. ');
-        });
-
-        /* Fungsi formatRupiah */
-        function formatRupiah(angka, prefix){
-            var number_string = angka.replace(/[^,\d]/g, '').toString(),
-            split   		= number_string.split(','),
-            sisa     		= split[0].length % 3,
-            rupiah     		= split[0].substr(0, sisa),
-            ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
-
-            // tambahkan titik jika yang di input sudah menjadi angka ribuan
-            if(ribuan){
-                separator = sisa ? '.' : '';
-                rupiah += separator + ribuan.join('.');
-            }
-
-            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-            return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
-        }
-    
+    var rupiah_tambah = document.getElementById('rupiah_tambah');
     // RUPIAH EDIT
-        var rupiah = document.getElementById('rupiah_edit');
-        rupiah.addEventListener('keyup', function(e){
+    var rupiah_edit = document.getElementById('rupiah_edit');
+
+    if (rupiah_tambah) {
+        rupiah_tambah.addEventListener('keyup', function(e){
             // tambahkan 'Rp.' pada saat form di ketik
             // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
-            rupiah.value = formatRupiah(this.value, 'Rp. ');
+            rupiah_tambah.value = formatRupiah(this.value, 'Rp. ');
         });
+    }
+    if (rupiah_edit) {
+        rupiah_edit.addEventListener('keyup', function(e){
+            // tambahkan 'Rp.' pada saat form di ketik
+            // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+            rupiah_edit.value = formatRupiah(this.value, 'Rp. ');
+        });
+    }
 
-        /* Fungsi formatRupiah */
-        function formatRupiah(angka, prefix){
-            var number_string = angka.replace(/[^,\d]/g, '').toString(),
-            split   		= number_string.split(','),
-            sisa     		= split[0].length % 3,
-            rupiah     		= split[0].substr(0, sisa),
-            ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+    /* Fungsi formatRupiah */
+    function formatRupiah(angka, prefix){
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split   		= number_string.split(','),
+        sisa     		= split[0].length % 3,
+        rupiah     		= split[0].substr(0, sisa),
+        ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
 
-            // tambahkan titik jika yang di input sudah menjadi angka ribuan
-            if(ribuan){
-                separator = sisa ? '.' : '';
-                rupiah += separator + ribuan.join('.');
-            }
-
-            rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
-            return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
         }
-</script>
-<script>
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
+    
     function onlyNumberKey(evt) {
         // Only ASCII character in that range allowed
         var ASCIICode = (evt.which) ? evt.which : evt.keyCode
@@ -445,5 +475,18 @@ $(document).ready( function () {
             return false;
         return true;
     }
+
+    function ubahTransaksi(params) {
+        if ($("#transaksi_edit"+params).val() == 'TRANSFER') {
+            $("#bank_edit"+params).val("").prop('required', true);
+            $("#no_rek_edit"+params).val("").prop('required', true);
+            $('#transfer_edit'+params).prop('hidden', false);
+        } else {
+            $("#bank_edit"+params).val("").prop('required', false);
+            $("#no_rek_edit"+params).val("").prop('required', false);
+            $('#transfer_edit'+params).prop('hidden', true);
+        }
+    }
+
 </script>
 @endsection

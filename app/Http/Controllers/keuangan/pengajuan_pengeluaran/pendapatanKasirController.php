@@ -71,6 +71,14 @@ class pendapatanKasirController extends Controller
      */
     public function store(Request $request)
     {
+        if ($request->bank == 'Pilih' && $request->shift == 'Pilih') {
+            return redirect::back()->withErrors('Gagal menambahkan data, anda belum mengisi Bank & Shift');
+        } elseif ($request->bank == 'Pilih') {
+            return redirect::back()->withErrors('Gagal menambahkan data, anda belum mengisi Bank');
+        } elseif ($request->shift == 'Pilih') {
+            return redirect::back()->withErrors('Gagal menambahkan data, anda belum mengisi Shift');
+        }
+
         $user = Auth::user();
         $userId = $user->id;
 
@@ -124,7 +132,13 @@ class pendapatanKasirController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
-    {
+    {        
+        if ($request->bank == 'Pilih') {
+            return redirect::back()->withErrors('Mohon maaf, anda belum mengisi Bank');
+        } elseif ($request->shift == 'Pilih') {
+            return redirect::back()->withErrors('Mohon maaf, anda belum mengisi Shift');
+        }
+
         $nominal = str_replace(".","",(str_replace("Rp. ", "", $request->nominal)));
 
         $data = pendapatan_kasir::find($id);
