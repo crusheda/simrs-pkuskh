@@ -322,6 +322,8 @@ class laporanBulananController extends Controller
                     );
             }
         } 
+        // print_r($show);
+        // die();
 
         $data = [
             'show' => $show,

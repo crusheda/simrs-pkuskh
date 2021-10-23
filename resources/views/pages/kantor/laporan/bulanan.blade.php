@@ -13,6 +13,10 @@
 
 <div class="row">
     @if(Auth::user()->hasAnyRole([
+        'perencanaan',
+        'pelayanan',
+        'direktur-utama',
+
         'kasubag-perencanaan-it',
         'kasubag-diklat',
         'kasubag-marketing',
@@ -46,9 +50,17 @@
         'direktur-umum-kepegawaian',
         'direktur-pelayanan-keperawatan-penunjang',
     ]))
-    <div class="col-md-6">
+        @if (Auth::user()->hasAnyRole([
+            'perencanaan',
+            'pelayanan',
+            'direktur-utama',
+        ]))
+            <div class="col-md-12">
+        @else
+            <div class="col-md-6">
+        @endif
     @else
-    <div class="col-md-12">
+        <div class="col-md-12">
     @endif
         <div class="card" style="width: 100%">
             <div class="card-header bg-dark text-white">
@@ -335,132 +347,112 @@
         'direktur-umum-kepegawaian',
         'direktur-pelayanan-keperawatan-penunjang',
     ]))
-    <div class="col-md-6">
-        <div class="card" style="width: 100%">
-            <div class="card-header bg-dark">
-
-                <i class="fa-fw fas fa-check-square nav-icon text-danger">
-
-                </i> Tabel Verifikasi Laporan Bulanan
-
-                <span class="pull-right badge badge-danger text-dark" style="margin-top:4px">
-                    Akses Verifikator
-                </span>
-                
-            </div>
-            <div class="card-body">
-                <div class="row">
-                    <div class="col-md-12">
+        @if (Auth::user()->hasAnyRole([
+            'perencanaan',
+            'pelayanan',
+            'direktur-utama',
+        ]))
+        @else
+            <div class="col-md-6">
+                <div class="card" style="width: 100%">
+                    <div class="card-header bg-dark">
+        
+                        <i class="fa-fw fas fa-check-square nav-icon text-danger">
+        
+                        </i> Tabel Verifikasi Laporan Bulanan
+        
+                        <span class="pull-right badge badge-danger text-dark" style="margin-top:4px">
+                            Akses Verifikator
+                        </span>
+                        
+                    </div>
+                    <div class="card-body">
                         <div class="row">
-                            <div class="col">
-                                <div class="pull-left">
-                                    <a type="button" class="btn btn-dark text-white" data-toggle="modal" data-target="#readme" data-toggle="tooltip" data-placement="bottom" title="STRUKTUR BAGIAN 2021">
-                                        <i class="fa-fw fas fa-question-circle nav-icon">
-                
-                                        </i>
-                                        Struktur Organisasi
-                                    </a>
+                            <div class="col-md-12">
+                                <div class="row">
+                                    <div class="col">
+                                        <div class="pull-left">
+                                            <a type="button" class="btn btn-dark text-white" data-toggle="modal" data-target="#readme" data-toggle="tooltip" data-placement="bottom" title="STRUKTUR BAGIAN 2021">
+                                                <i class="fa-fw fas fa-question-circle nav-icon">
+                        
+                                                </i>
+                                                Struktur Organisasi
+                                            </a>
+                                        </div>
+                                        <div class="pull-right">
+                                        </div>
+                                    </div>
                                 </div>
-                                <div class="pull-right">
+                                <hr>
+                                <div class="table-responsive">
+                                    <table id="bulanan-user-verif" class="table table-striped display" style="width:100%">
+                                        <thead>
+                                            <tr>
+                                                <th>ID</th>
+                                                <th><center>VERIF</center></th>
+                                                <th>DIBUAT</th>
+                                                <th>DIPERBARUI</th>
+                                                <th>JUDUL</th>
+                                                <th>BLN / THN</th>
+                                                <th>KETERANGAN</th>
+                                                <th><center>AKSI</center></th>
+                                            </tr>
+                                        </thead>
+                                        <tbody style="text-transform: capitalize">
+                                            @if(count($list['show']) > 0)
+                                                @foreach($list['show'] as $keys => $items)
+                                                    @foreach($items as $key => $item)
+                                                        <tr>
+                                                            <td>{{ $item->id }}</td>
+                                                            <td>
+                                                                <center>
+                                                                    <div class="btn-group" role="group">
+                                                                        @if ($item->tgl_verif == null)
+                                                                            <button class="btn btn-danger text-white btn-sm" onclick="verifikasi({{ $item->id }})">
+                                                                                <i class="fa-fw fas fa-square nav-icon"></i>
+                                                                            </button>
+                                                                        @else
+                                                                            <button class="btn btn-info text-white btn-sm" onclick="verified({{ $item->id }})">
+                                                                                <i class="fa-fw fas fa-check-square nav-icon"></i>
+                                                                            </button>
+                                                                        @endif
+                                                                        @if ($item->ket_verif == null)
+                                                                            <button class="btn btn-warning text-white btn-sm" onclick="ket({{ $item->id }})">
+                                                                                <i class="fa-fw fas fa-edit nav-icon"></i>
+                                                                            </button>
+                                                                        @else
+                                                                            <button class="btn btn-success text-white btn-sm" data-toggle="modal" data-target="#ket{{ $item->id }}">
+                                                                                <i class="fa-fw fas fa-edit nav-icon"></i>
+                                                                            </button>
+                                                                        @endif
+                                                                    </div>
+                                                                </center>
+                                                            </td>
+                                                            <td>{{ $item->created_at }}</td>
+                                                            <td>{{ \Carbon\Carbon::parse($item->updated_at)->diffforhumans() }}</td>
+                                                            <td>{{ $item->judul }}</td>
+                                                            <td>{{ $item->bln }} / {{ $item->thn }}</td>
+                                                            <td>{{ $item->ket }}</td>
+                                                            <td>
+                                                                <center>
+                                                                <div class="btn-group" role="group">
+                                                                    <a type="button" class="btn btn-success btn-sm" onclick="window.location.href='{{ url('laporan/bulanan/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i> {{ number_format(Storage::size($item->filename) / 1048576,2) }} MB</a>
+                                                                </div>
+                                                                </center>
+                                                            </td>
+                                                        </tr>
+                                                    @endforeach
+                                                @endforeach
+                                            @endif
+                                        </tbody>
+                                    </table>
                                 </div>
                             </div>
-                        </div>
-                        <hr>
-                        <div class="table-responsive">
-                            <table id="bulanan-user-verif" class="table table-striped display" style="width:100%">
-                                <thead>
-                                    <tr>
-                                        <th>ID</th>
-                                        <th><center>VERIF</center></th>
-                                        <th>DIBUAT</th>
-                                        <th>DIPERBARUI</th>
-                                        <th>JUDUL</th>
-                                        <th>BLN / THN</th>
-                                        <th>KETERANGAN</th>
-                                        <th><center>AKSI</center></th>
-                                    </tr>
-                                </thead>
-                                <tbody style="text-transform: capitalize">
-                                    @if(count($list['show']) > 0)
-                                        @foreach($list['show'] as $keys => $items)
-                                            @foreach($items as $key => $item)
-                                                <tr>
-                                                    <td>{{ $item->id }}</td>
-                                                    <td>
-                                                        <center>
-                                                            <div class="btn-group" role="group">
-                                                                @if(Auth::user()->hasAnyRole([
-                                                                        'perencanaan',
-                                                                        'pelayanan',
-                                                                        'direktur-utama',
-                                                                    ]))
-                                                                    <button type="button" class="btn btn-dark btn-sm" data-toggle="modal" data-target="#status{{ $item->id }}"><i class="fa-fw fas fa-check-square nav-icon text-white"></i></button>
-                                                                @else
-                                                                    @if ($item->tgl_verif == null)
-                                                                        <button class="btn btn-danger text-white btn-sm" onclick="verifikasi({{ $item->id }})">
-                                                                            <i class="fa-fw fas fa-square nav-icon"></i>
-                                                                        </button>
-                                                                    @else
-                                                                        <button class="btn btn-info text-white btn-sm" onclick="verified({{ $item->id }})">
-                                                                            <i class="fa-fw fas fa-check-square nav-icon"></i>
-                                                                        </button>
-                                                                    @endif
-                                                                @endif
-                                                                @if ($item->ket_verif == null)
-                                                                    <button class="btn btn-warning text-white btn-sm" onclick="ket({{ $item->id }})">
-                                                                        <i class="fa-fw fas fa-edit nav-icon"></i>
-                                                                    </button>
-                                                                @else
-                                                                    <button class="btn btn-success text-white btn-sm" data-toggle="modal" data-target="#ket{{ $item->id }}">
-                                                                        <i class="fa-fw fas fa-edit nav-icon"></i>
-                                                                    </button>
-                                                                @endif
-                                                            </div>
-                                                        </center>
-                                                    </td>
-                                                    <td>{{ $item->created_at }}</td>
-                                                    <td>{{ \Carbon\Carbon::parse($item->updated_at)->diffforhumans() }}</td>
-                                                    <td>{{ $item->judul }}</td>
-                                                    <td>{{ $item->bln }} / {{ $item->thn }}</td>
-                                                    <td>{{ $item->ket }}</td>
-                                                    <td>
-                                                        <center>
-                                                        <div class="btn-group" role="group">
-                                                            <a type="button" class="btn btn-success btn-sm" onclick="window.location.href='{{ url('laporan/bulanan/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i> {{ number_format(Storage::size($item->filename) / 1048576,2) }} MB</a>
-                                                            {{-- @if ($list['role'] == $item->unit)
-                                                                AFTER 3 DAY
-                                                                @if (\Carbon\Carbon::parse($item->updated_at)->isoFormat('YYYY/MM/DD') ==  $list['tglAfter3Day'])
-                                                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                                                @endif
-                                                                AFTER 2 DAY
-                                                                @if (\Carbon\Carbon::parse($item->updated_at)->isoFormat('YYYY/MM/DD') ==  $list['tglAfter2Day'])
-                                                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                                                @endif
-                                                                AFTER 1 DAY
-                                                                @if (\Carbon\Carbon::parse($item->updated_at)->isoFormat('YYYY/MM/DD') ==  $list['tglAfter1Day'])
-                                                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                                                @endif
-                                                                TODAY
-                                                                @if (\Carbon\Carbon::parse($item->updated_at)->isoFormat('YYYY/MM/DD') ==  $list['tgl'])
-                                                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                                                @endif
-                                                            @endif --}}
-                                                        </div>
-                                                        </center>
-                                                    </td>
-                                                </tr>
-                                            @endforeach
-                                        @endforeach
-                                    @endif
-                                </tbody>
-                            </table>
                         </div>
                     </div>
                 </div>
             </div>
-        </div>
-    </div>
+        @endif
     @endif
     
 </div>
