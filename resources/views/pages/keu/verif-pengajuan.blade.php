@@ -25,7 +25,7 @@
             
         </div>
         <div class="card-body">
-            @role('kasubag-perbendaharaan-keuangan|kabag-keuangan')
+            @role('kasubag-perbendaharaan|kabag-keuangan')
                 <div class="table-responsive">
                     @role('kabag-keuangan')
                         <table id="table-kabag" class="table table-striped display" style="width: 100%">

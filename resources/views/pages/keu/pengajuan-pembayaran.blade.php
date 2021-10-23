@@ -35,12 +35,18 @@
                                 </i>
                                 Tambah
                             </button>
-                            @role('kasubag-perbendaharaan-keuangan|kabag-keuangan')
+                            @role('kasubag-perbendaharaan|kabag-keuangan')
                                 <button type="button" class="btn btn-dark text-white" onclick="window.location.href='{{ route('pengajuan.showverif') }}'">
                                     <i class="fa-fw fas fa-check-square nav-icon">
             
                                     </i>
                                     Verifikasi
+                                </button>
+                                <button type="button" class="btn btn-warning text-white" onclick="window.location.href='{{ route('pbf.index') }}'">
+                                    <i class="fa-fw fas fa-sort-amount-asc nav-icon">
+            
+                                    </i>
+                                    PBF
                                 </button>
                             @endrole
                         </div>
@@ -133,11 +139,11 @@
                         <div class="form-group">
                             <label>Jenis :</label>
                             <div class="input-group mb-3">
-                                <select class="fstdropdown-select" name="jenis" required>
+                                <select class="form-control" name="jenis" id="jenis_tambah" required>
                                     <option value="" hidden>Pilih</option>
-                                    <option value="TRANSFER">TRANSFER</option>
-                                    <option value="CEK">CEK</option>
-                                    <option value="CASH">CASH</option>
+                                    @foreach($list['jenis'] as $key => $item)
+                                        <option value="{{ $item->jenis }}"><label>{{ $item->jenis }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -146,11 +152,8 @@
                         <div class="form-group">
                             <label>PBF :</label>
                             <div class="input-group mb-3">
-                                <select class="fstdropdown-select" name="pbf" required>
+                                <select class="form-control" name="pbf" id="pbf_tambah" disabled required>
                                     <option value="" hidden>Pilih</option>
-                                    <option value="TRANSFER">TRANSFER</option>
-                                    <option value="CEK">CEK</option>
-                                    <option value="CASH">CASH</option>
                                 </select>
                             </div>
                         </div>
@@ -238,11 +241,11 @@
                         <div class="form-group">
                             <label>Jenis :</label>
                             <div class="input-group mb-3">
-                                <select class="fstdropdown-select" name="jenis" required>
+                                <select class="form-control" name="jenis" id="jenis_edit" required>
                                     <option value="" hidden>Pilih</option>
-                                    <option value="TRANSFER"    @if ($item->jenis == 'TRANSFER') echo selected @endif>TRANSFER</option>
-                                    <option value="CEK"         @if ($item->jenis == 'CEK') echo selected @endif>CEK</option>
-                                    <option value="CASH"        @if ($item->jenis == 'CASH') echo selected @endif>CASH</option>
+                                    @foreach($list['jenis'] as $key => $items)
+                                        <option value="{{ $items->jenis }}" @if ($items->jenis == $item->jenis) echo selected @endif><label>{{ $items->jenis }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -251,11 +254,11 @@
                         <div class="form-group">
                             <label>PBF :</label>
                             <div class="input-group mb-3">
-                                <select class="fstdropdown-select" name="pbf" required>
+                                <select class="form-control" name="pbf" id="pbf_edit" disabled required>
                                     <option value="" hidden>Pilih</option>
-                                    <option value="TRANSFER"    @if ($item->pbf == 'TRANSFER') echo selected @endif>TRANSFER</option>
-                                    <option value="CEK"         @if ($item->pbf == 'CEK') echo selected @endif>CEK</option>
-                                    <option value="CASH"        @if ($item->pbf == 'CASH') echo selected @endif>CASH</option>
+                                    @foreach($list['pbf'] as $key => $items)
+                                        <option value="{{ $items->id }}" @if ($items->id == $item->pbf) echo selected @endif><label>{{ $items->pbf }}</option>
+                                    @endforeach
                                 </select>
                             </div>
                         </div>
@@ -411,6 +414,34 @@ $(document).ready( function () {
             $("#no_rek_tambah").val("").prop('required', false);
             $('#transfer_tambah').prop('hidden', true);
         }
+    });
+
+    $('#jenis_tambah').change(function() { 
+        $('#pbf_tambah').prop('disabled', false);
+
+        $.ajax({
+            url: "./pbf/api/"+this.value,
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function(res) {
+                $("#pbf_tambah").val("").find('option').remove();
+                $("#pbf_tambah").append('<option value="" hidden>Pilih</option>');
+
+                var len = res.length;   
+                var sel = document.getElementById('pbf_tambah');
+                for(var i = 0; i < len; i++) {
+                    var opt = document.createElement('option');
+                    opt.innerHTML = res[i]['pbf'];
+                    opt.value = res[i]['id'];
+                    sel.appendChild(opt);
+                }
+                // res.forEach(item => {
+                //     $("#pbf_tambah").append(`
+                //         <option value="${item.id}" hidden>${item.pbf}</option>
+                //     `);
+                // });
+            }
+        });
     });
 
     // $('#transaksi_edit').change(function() { 

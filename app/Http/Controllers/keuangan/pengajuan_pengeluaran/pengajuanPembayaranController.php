@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\pengajuan_pembayaran;
+use App\Models\pbf;
 use App\User;
 use Carbon\Carbon;
 use Redirect;
@@ -30,6 +31,8 @@ class pengajuanPembayaranController extends Controller
         $tahun = Carbon::now()->isoFormat('YYYY');
         
         $show = pengajuan_pembayaran::get();
+        $pbf = pbf::get();
+        $jenis = pbf::select('jenis')->groupBy('jenis')->get();
 
         // $show = DB::table('keu_pendapatan_kasir')
         //         ->orderBy('tgl','DESC')
@@ -41,6 +44,8 @@ class pengajuanPembayaranController extends Controller
 
         $data = [
             'show' => $show,
+            'jenis' => $jenis,
+            'pbf' => $pbf,
             'now' => $now,
         ];
         
@@ -193,7 +198,7 @@ class pengajuanPembayaranController extends Controller
 
         $user = Auth::user();
         $name = $user->name;
-        if ( Auth::user()->hasRole("kasubag-perbendaharaan-keuangan") ) {
+        if ( Auth::user()->hasRole("kasubag-perbendaharaan") ) {
             $show = DB::table('keu_pengajuan_pembayaran')
                     ->orderBy('tgl','DESC')
                     ->where('verif_kabag', '!=', null)

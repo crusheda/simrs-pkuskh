@@ -15,8 +15,8 @@ class CreateTablePengajuanPembayaran extends Migration
     {
         Schema::create('keu_pengajuan_pembayaran', function (Blueprint $table) {
             $table->bigIncrements('id');
+            $table->integer('pbf')->nullable();
             $table->string('jenis')->nullable();
-            $table->string('pbf')->nullable();
             $table->string('tgl_pembelian')->nullable();
             $table->string('no_faktur')->nullable();
             $table->string('title')->nullable();

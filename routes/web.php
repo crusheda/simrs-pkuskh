@@ -119,6 +119,8 @@ Route::delete('pengajuan/verifikasi/kabag/hapus/{post}','keuangan\pengajuan_peng
 Route::put('pengajuan/verifikasi/kasubag/{post}','keuangan\pengajuan_pengeluaran\pengajuanPembayaranController@verifikasikasubag')->name('pengajuan.verifikasikasubag');
 Route::delete('pengajuan/verifikasi/kasubag/hapus/{post}','keuangan\pengajuan_pengeluaran\pengajuanPembayaranController@destroyVerifKasubag')->name('pengajuan.destroyverifkasubag');
 Route::resource('pengajuan', 'keuangan\pengajuan_pengeluaran\pengajuanPembayaranController');
+Route::get('pbf/api/{jenis}', 'keuangan\pengajuan_pengeluaran\pbfController@apiPbf')->name('api.pbf');
+Route::resource('pbf', 'keuangan\pengajuan_pengeluaran\pbfController');
 
 // Lab
 Route::group(['middleware' => ['auth'], 'prefix' => 'lab', 'as' => 'lab.'], function () {
