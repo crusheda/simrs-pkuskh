@@ -252,6 +252,26 @@
                 </ul>
             </li>
             @endrole
+            {{-- @can('sisrute')
+                <li class="nav-item nav-dropdown">
+                    <a class="nav-link  nav-dropdown-toggle">
+                        <i class="fa-fw fas fa-heartbeat nav-icon">
+
+                        </i>
+                        Sisrute
+                    </a>
+                    <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("sisrute.diagnosis") }}" class="nav-link">
+                                <i class="fa-fw fas fa-book nav-icon">
+
+                                </i>
+                                Diagnosis
+                            </a>
+                        </li>
+                    </ul>
+                </li>
+            @endcan --}}
             @can('log_perawat')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle">
@@ -288,7 +308,6 @@
                     </ul>
                 </li>
             @endcan
-
             @can('skl')
                 <li class="nav-item nav-dropdown">
                     <a class="nav-link  nav-dropdown-toggle" href="#">

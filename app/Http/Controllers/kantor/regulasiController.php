@@ -4,8 +4,10 @@ namespace App\Http\Controllers\kantor;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\regulasi;
+use App\Models\regulasi_note;
 use App\Models\unit;
 use Carbon\Carbon;
 use Redirect;
@@ -21,23 +23,36 @@ class regulasiController extends Controller
      */
     public function index()
     {
-        $unit = unit::pluck('id','name','nama');
         $user = Auth::user();
         $name = $user->name;
-        $role = $user->roles->first()->name; //kabag-keperawatan
+        // $role = $user->roles->first()->name; //kabag-keperawatan
+        $unit = $user->roles; //kabag-keperawatan
+
+        $today = Carbon::now()->isoFormat('YYYY/MM/DD');
+        
+        $users = DB::table('users')
+                ->get();
+
+        foreach ($unit as $key => $value) {
+            $role[] = $value->name;
+        }
 
         $thn = Carbon::now()->isoFormat('Y');
         
-        if (Auth::user()->hasRole(['kantor', 'admin-direksi'])) {
-            $show = regulasi::all();
-        }else {
-            $show = regulasi::where('unit', $role)->get();
-        }
+        $show = regulasi::all();
+        $note = regulasi_note::orderBy('updated_at','DESC')->get();
+        // $show = DB::table('regulasi')
+        //     ->join('regulasi_note', 'regulasi.id', '=', 'regulasi_note.id_regulasi')
+        //     ->where('regulasi.deleted_at', null)
+        //     // ->select('regulasi.*','regulasi_note.id_regulasi','regulasi_note.note','regulasi_note.updated_at')
+        //     ->get();
 
         $data = [
+            'user' => $users,
             'show' => $show,
+            'note' => $note,
             'thn'  => $thn,
-            'unit' => $unit,
+            'today' => $today,
             'role' => $role
         ];
         return view('pages.kantor.regulasi')->with('list', $data);
@@ -62,8 +77,16 @@ class regulasiController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'file' => 'required|file|max:100000',
+            'file' => ['max:100000','mimes:pdf,docx,doc,xls,xlsx,ppt,pptx,rtf'],
             ]);
+
+        $user = Auth::user();
+        $id_user = $user->id;
+        $unit = $user->roles; //kabag-keperawatan
+
+        foreach ($unit as $key => $value) {
+            $role[] = $value->name;
+        }
 
         // tampung berkas yang sudah diunggah ke variabel baru
         // 'file' merupakan nama input yang ada pada form
@@ -84,10 +107,11 @@ class regulasiController extends Controller
         }
 
         $data = new regulasi;
+        $data->id_user = $id_user;
         $data->sah = $request->sah;
         $data->judul = $request->judul;
         $data->jenis = $request->jenis;
-        $data->unit = $request->unit;
+        $data->unit = json_encode($role);
 
             $data->title = $request->title ?? $uploadedFile->getClientOriginalName();
             $data->filename = $path;
@@ -134,7 +158,6 @@ class regulasiController extends Controller
         $data->sah = $request->sah;
         $data->judul = $request->judul;
         $data->jenis = $request->jenis;
-        $data->unit = $request->unit;
         $data->ket = $request->ket;
 
         $data->save();
@@ -157,5 +180,19 @@ class regulasiController extends Controller
 
         // redirect
         return Redirect::back()->with('message','Hapus Regulasi Berhasil');
+    }
+
+    public function addNote(Request $request, $id)
+    {
+        $user = Auth::user();
+        $id_user = $user->id;
+
+        $data = new regulasi_note;
+        $data->id_regulasi = $id;
+        $data->id_user = $id_user;
+        $data->note = $request->note;
+        $data->save();
+
+        return Redirect::back()->with('message','Tambah Catatan Regulasi Berhasil');
     }
 }

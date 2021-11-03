@@ -383,11 +383,6 @@ function hapusRm() {
     $("#cara_bayar").append('<option value="" hidden>...</option>'); 
     $('#cara_bayar').prop('disabled', true);
 }
-$(document).on('keypress',function(e) {
-    if(e.which == 13) {
-        hapusRm();
-    }
-});
 $(document).ready( function () {
     $('#table').DataTable(
         {
@@ -561,6 +556,16 @@ $(document).ready( function () {
         if (ASCIICode > 31 && (ASCIICode < 48 || ASCIICode > 57))
             return false;
         return true;
+    }
+
+    function simpan() {
+        $("#tambah").one('submit', function() {
+            //stop submitting the form to see the disabled button effect
+            $("#btn-simpan").attr('disabled','disabled');
+            $("#btn-simpan").find("i").toggleClass("fa-save fa-refresh fa-spin");
+
+            return true;
+        });
     }
 
 </script>

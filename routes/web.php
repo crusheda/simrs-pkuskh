@@ -48,6 +48,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::resource('karyawan', 'Admin\karyawanController');
 });
 
+// Other
+Route::get('/sisrute/diagnosis', function () {
+    return view('pages.sisrute.diagnosis');
+})->name('sisrute.diagnosis');
+
 // IT
 Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], function () {
     // Route::get('home', 'it\itController@index')->name('it.home');
@@ -181,6 +186,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
         Route::get('/rapat/show3/{id}', 'kantor\rapatController@show3');
         Route::get('/rapat/show4/{id}', 'kantor\rapatController@show4');
         Route::get('/rapat/show5/{id}', 'kantor\rapatController@show5');
+        Route::put('regulasi/note/{post}','kantor\regulasiController@addNote')->name('regulasi.note');
         Route::resource('regulasi', 'kantor\regulasiController');
         Route::get('/laporan/bulanan/filter', 'kantor\laporanBulananController@filter')->name('bulanan.filter');
         Route::post('laporan/bulanan/api/','kantor\laporanBulananController@verifikasi'); // API
@@ -293,3 +299,4 @@ Addchat::routes();
     Route::resource('surveilans/ppi/decubitus', 'ppi\DecubitusController');
     Route::post('surveilans/ppi/vap/formula','ppi\VapController@formula')->name('vap.formula');
     Route::resource('surveilans/ppi/vap', 'ppi\VapController');
+    

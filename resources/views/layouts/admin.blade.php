@@ -1,3 +1,6 @@
+<?PHP
+header('Access-Control-Allow-Origin: *');
+?>
 <!DOCTYPE html>
 <html>
 
@@ -49,6 +52,7 @@
     <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
     
     @yield('styles')
+    @yield('css-styles')
     @FilemanagerScript
 </head>
 
@@ -309,6 +313,7 @@
 
     </script>
     @yield('scripts')
+    @yield('js-scripts')
 </body>
 
 </html>

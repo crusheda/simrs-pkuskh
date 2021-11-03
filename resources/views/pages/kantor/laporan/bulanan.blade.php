@@ -276,9 +276,9 @@
                                                 <td>
                                                     <center>
                                                     <div class="btn-group" role="group">
-                                                        <a type="button" class="btn btn-success btn-sm" onclick="window.location.href='{{ url('laporan/bulanan/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i> {{ number_format(Storage::size($item->filename) / 1048576,2) }} MB</a>
+                                                        <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulanan/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon"></i> {{ number_format(Storage::size($item->filename) / 1048576,2) }} MB</a>
                                                         @if ($item->tgl_verif == null)
-                                                            @if ($list['role'] == $item->unit)
+                                                            {{-- @if ($list['role'] == $item->unit) --}}
                                                                 {{-- AFTER 3 DAY --}}
                                                                 @if (\Carbon\Carbon::parse($item->updated_at)->isoFormat('YYYY/MM/DD') ==  $list['tglAfter3Day'])
                                                                     <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
@@ -296,7 +296,7 @@
                                                                     <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
                                                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                                                 @endif
-                                                            @endif
+                                                            {{-- @endif --}}
                                                         @endif
                                                     </div>
                                                     </center>
@@ -803,8 +803,7 @@
                         'kasubag-diklat',
                         'kasubag-marketing',
                         ]))
-                        <h3><strong>Kepala Bagian Perencanaan dan Pengembangan RS</strong></h3> <strong>&</strong><br>
-                        <h3><strong>Kepala Sub Bagian Keperawatan Rawat Jalan dan Gawat Darurat</strong></h3>
+                        <h3><strong>Kepala Bagian Perencanaan dan Pengembangan RS</strong></h3>
                     @endif
                         
                     @if(Auth::user()->hasAnyRole([
@@ -894,7 +893,7 @@
                         'karu-bangsal4',
                         'karu-kebidanan',
                         ]))
-                        <h3><strong>Kepala Sub Bagian Rawat Inap</strong></h3> &<br>
+                        <h3><strong>Kepala Sub Bagian Rawat Inap</strong></h3><br>
                         <h3><strong>Kepala Sub Bagian Keperawatan Rawat Inap</strong></h3>
                     @endif
                     
@@ -902,7 +901,7 @@
                         'karu-igd',
                         'karu-poli',
                         ]))
-                        <h3><strong>Kepala Sub Bagian Rawat Jalan dan Gawat Darurat</strong></h3> &<br>
+                        <h3><strong>Kepala Sub Bagian Rawat Jalan dan Gawat Darurat</strong></h3><br>
                         <h3><strong>Kepala Sub Bagian Keperawatan Rawat Jalan dan Gawat Darurat</strong></h3>
                     @endif
                     

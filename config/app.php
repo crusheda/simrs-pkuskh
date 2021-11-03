@@ -201,6 +201,7 @@ return [
         Jenssegers\Agent\AgentServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
+        // BaklySystems\LaravelMessenger\LaravelMessengerServiceProvider::class,
         // Nahid\Talk\TalkServiceProvider::class,
     ],
 
@@ -263,6 +264,7 @@ return [
         'DNS1D'         => Milon\Barcode\Facades\DNS1DFacade::class,
         'DNS2D'         => Milon\Barcode\Facades\DNS2DFacade::class,
         // 'Talk'          => Nahid\Talk\Facades\Talk::class,
+        // 'Messenger' => BaklySystems\LaravelMessenger\Facades\Messenger::class,
     ],
 
 ];
