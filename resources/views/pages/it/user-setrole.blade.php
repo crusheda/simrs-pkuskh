@@ -83,7 +83,7 @@
 
 {{-- @role('admin-direksi') --}}
 <div class="modal fade bd-example-modal-lg" id="tambah" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xl">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">
@@ -122,7 +122,7 @@
             
         </div>
         <div class="modal-footer">
-
+                <a>Role disini hanya untuk menambahkan Akses <kbd>Tambah Laporan Bulanan</kbd> untuk Pengguna Simrsku</a>
                 <button class="btn btn-success" id="btn-simpan"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
             </form>
 

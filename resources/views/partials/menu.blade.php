@@ -279,8 +279,22 @@
 
                         </i>
                         Log Perawat
+                        @if (\Carbon\Carbon::now()->isoFormat('MM') == '11')
+                            <span class="badge badge-info">Baru</span>
+                        @endif
                     </a>
                     <ul class="nav-dropdown-items">
+                        <li class="nav-item">
+                            <a href="{{ route("tindakan-harian.index") }}" class="nav-link">
+                                <i class="fa-fw fas fa-book nav-icon">
+
+                                </i>
+                                Tindakan Harian
+                                @if (\Carbon\Carbon::now()->isoFormat('MM') == '11')
+                                    <span class="badge badge-info">Baru</span>
+                                @endif
+                            </a>
+                        </li>
                         <li class="nav-item">
                             <a href="{{ route("tdkperawat.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-address-book nav-icon">
@@ -634,16 +648,19 @@
 
                     </i>
                     Administrasi
+                    @if (\Carbon\Carbon::now()->isoFormat('MM') == '11')
+                        <span class="badge badge-light">Baru</span>
+                    @endif
                 </a>
                 <ul class="nav-dropdown-items">
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="{{ route("managerfile") }}" class="nav-link">
                             <i class="fa-fw fas fa-folder-open nav-icon">
 
                             </i>
                             File Manager
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a href="{{ route("bulanan.index") }}" class="nav-link">
                             <i class="fa-fw fas fa-book nav-icon">
@@ -666,6 +683,20 @@
 
                             </i>
                             Regulasi
+                            @if (\Carbon\Carbon::now()->isoFormat('MM') == '11')
+                                <span class="badge badge-light">Baru</span>
+                            @endif
+                        </a>
+                    </li>
+                    <li class="nav-item">
+                        <a href="{{ route("perencanaan.index") }}" class="nav-link">
+                            <i class="fa-fw fas fa-puzzle-piece nav-icon">
+
+                            </i>
+                            RKA
+                            @if (\Carbon\Carbon::now()->isoFormat('MM') == '11')
+                                <span class="badge badge-light">Baru</span>
+                            @endif
                         </a>
                     </li>
                 </ul>

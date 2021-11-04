@@ -109,6 +109,12 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'ibs', 'as' => 'ibs.'], func
     Route::resource('refsupervisi', 'ibs\supervisi\refAlatBHPController');
 });
 
+// PERENCANAAN
+Route::get('perencanaan/table', 'perencanaan\rkaController@table')->name('api.perencanaan.table');
+Route::post('perencanaan/upload','perencanaan\rkaController@upload')->name('api.perencanaan.upload');
+Route::get('perencanaan/hapus/{id}', 'perencanaan\rkaController@hapus')->name('api.perencanaan.hapus');
+Route::resource('perencanaan', 'perencanaan\rkaController');
+
 // Finger
 Route::get('insentif/finger/{id}/null','excell\fingerController@nullID')->name('setNull.finger');  
 Route::resource('insentif/finger', 'excell\fingerController');
@@ -202,6 +208,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
             Route::resource('logprofkpr', 'perawat\logProfKprController');
 
         // Tindakan Harian
+            Route::resource('tindakan-harian', 'perawat\tindakan_harian\tindakanHarianController');
             Route::get('/tdkperawat/cari', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
             Route::resource('tdkperawat', 'perawat\tdkPerawatController');
             Route::get('tdkperawat/{id}/cetak','perawat\tdkPerawatController@generatePDF')->name('tdkperawat.cetak');

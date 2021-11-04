@@ -42,12 +42,6 @@ class laporanBulananController extends Controller
                 ->where('users.status',null)
                 ->get();
 
-        $unitku = DB::table('set_role_users')
-            ->join('roles', 'set_role_users.id_roles', '=', 'roles.id')
-            ->where('set_role_users.id_user', $id)
-            ->select('roles.name')
-            ->first();
-
         // TRUE / FALSE Tombol Tambah Laporan
         $getRole = setRoleUser::get();
         $tambah = false;
@@ -56,18 +50,6 @@ class laporanBulananController extends Controller
                 $tambah = true;
             }
         }
-
-        // GET ALL NAME ROLE OF AUTH
-        // $rl = [];
-        // foreach ($user->roles as $key => $value) {
-        //     array_push($rl,
-        //         ['name' => $value->name]
-        //     );
-        // }
-
-        // $getIdUser = laporan_bulanan::select('id_user')->where('id_user','!=',null)->get();
-        // print_r($getIdUser[0]->id_user);
-        // die();
 
         // DIREKTUR
         $direktur_keuangan_perencanaan = [
@@ -337,7 +319,6 @@ class laporanBulananController extends Controller
             'tglAfter1Day'  => $tglAfter1Day,
             'thn'  => $thn,
             'unit' => $unit,
-            'unitku' => $unitku,
             'role' => $role
         ];
         
@@ -364,6 +345,11 @@ class laporanBulananController extends Controller
     {
         $user = Auth::user();
         $userId = $user->id;
+        $unit = $user->roles; //kabag-keperawatan
+
+        foreach ($unit as $key => $value) {
+            $role[] = $value->name;
+        }
 
         $request->validate([
             'file' => ['max:100000','mimes:pdf,docx,doc,xls,xlsx,ppt,pptx,rtf'],
@@ -389,7 +375,7 @@ class laporanBulananController extends Controller
         $data->bln = $request->bln;
         $data->thn = $request->thn;
         $data->id_user = $userId;
-        $data->unit = $unit->name;
+        $data->unit = json_encode($role);
 
             $data->title = $request->title ?? $uploadedFile->getClientOriginalName();
             $data->filename = $path;

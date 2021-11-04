@@ -173,7 +173,9 @@
                                 <option hidden>Pilih</option>
                                 <option value="igd">IGD</option>
                                 <option value="poli">POLIKLINIK</option>
-                                <option value="bangsal">BANGSAL</option>
+                                <option value="bangsal3">BANGSAL LT 3</option>
+                                <option value="bangsal4">BANGSAL LT 4</option>
+                                <option value="kebidanan">KEBIDANAN</option>
                             </select>
                         </div>
                     </div>
@@ -246,9 +248,11 @@
                         <div class="form-group">
                             <label>*Asal Pasang : </label>
                             <select name="asal_pasang" class="form-control">
-                                <option value="igd"     @if ($item->asal_pasang == 'igd') echo selected @endif>IGD</option>
-                                <option value="poli"    @if ($item->asal_pasang == 'poli') echo selected @endif>POLIKLINIK</option>
-                                <option value="bangsal" @if ($item->asal_pasang == 'bangsal') echo selected @endif>BANGSAL</option>
+                                <option value="igd"         @if ($item->asal_pasang == 'igd') echo selected @endif>IGD</option>
+                                <option value="poli"        @if ($item->asal_pasang == 'poli') echo selected @endif>POLIKLINIK</option>
+                                <option value="bangsal3"    @if ($item->asal_pasang == 'bangsal3') echo selected @endif>BANGSAL LT 3</option>
+                                <option value="bangsal4"    @if ($item->asal_pasang == 'bangsal4') echo selected @endif>BANGSAL LT 4</option>
+                                <option value="kebidanan"   @if ($item->asal_pasang == 'kebidanan') echo selected @endif>KEBIDANAN</option>
                             </select>
                         </div>
                     </div>

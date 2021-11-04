@@ -111,12 +111,12 @@
                                         Set User
                                     </a>
                                 @endrole
-                                <a type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#backup">
+                                {{-- <a type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#backup">
                                     <i class="fa-fw fas fa-server nav-icon">
             
                                     </i>
                                     Backup
-                                </a>
+                                </a> --}}
                                 @if(Auth::user()->hasAnyRole([
                                     'it',
                                     'pelayanan',
@@ -159,7 +159,7 @@
                         @endrole
                     </div>
                 </div><hr>
-                @role('pelayanan|direktur-utama')
+                @role('it|pelayanan|direktur-utama')
                     <div class="table-responsive">
                         <table id="bulanan-admin" class="table table-striped display" style="width:100%">
                             <thead>
@@ -210,12 +210,20 @@
                                                     @if ($item->id_user == $items->id) {{ $items->nama }} @endif
                                                 @endforeach
                                             </td>
-                                            <td style="text-transform: uppercase">{{ str_replace("-"," ",$item->unit) }}</td>
+                                            <td style="text-transform: uppercase">
+                                                @if (json_decode($item->unit) != null)
+                                                    @foreach (json_decode($item->unit) as $key => $value)
+                                                        <kbd>{{ str_replace("-"," ",$value) }}</kbd>
+                                                    @endforeach
+                                                @else
+                                                    <kbd>{{ str_replace("-"," ",$item->unit) }}</kbd>
+                                                @endif
+                                            </td>
                                             <td>{{ $item->ket }}</td>
                                             <td>
                                                 <center>
                                                 <div class="btn-group" role="group">
-                                                    <a type="button" class="btn btn-success btn-sm" onclick="window.location.href='{{ url('laporan/bulanan/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i> {{ number_format(Storage::size($item->filename) / 1048576,2) }} MB</a>
+                                                    <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulanan/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i> {{ number_format(Storage::size($item->filename) / 1048576,2) }} MB</a>
                                                     <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
                                                     <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                                 </div>
@@ -436,7 +444,7 @@
                                                             <td>
                                                                 <center>
                                                                 <div class="btn-group" role="group">
-                                                                    <a type="button" class="btn btn-success btn-sm" onclick="window.location.href='{{ url('laporan/bulanan/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i> {{ number_format(Storage::size($item->filename) / 1048576,2) }} MB</a>
+                                                                    <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulanan/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i> {{ number_format(Storage::size($item->filename) / 1048576,2) }} MB</a>
                                                                 </div>
                                                                 </center>
                                                             </td>
@@ -520,7 +528,6 @@
         </div>
         <div class="modal-footer">
                 User :&nbsp;<strong>{{ Auth::user()->nama }}</strong> 
-                {{-- &nbsp;| Unit :&nbsp;<strong>@if(!empty($list['unitku']->name) || $list['unitku']->name != null){{ $list['unitku']->name }}@endif</strong>&nbsp; --}}
                 <center><button class="btn btn-success" id="btn-simpan"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button></center><br>
             </form>
 
@@ -624,8 +631,8 @@
 @endforeach
 
 @foreach($list['showall'] as $item)
-<div class="modal" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-    <div class="modal-dialog">
+<div class="modal fade" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h5 class="modal-title">
@@ -653,7 +660,7 @@
 @endforeach
 
 @foreach($list['showall'] as $item)
-<div class="modal" id="ket{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+<div class="modal fade" id="ket{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -697,7 +704,7 @@
     </div>
 </div>
 
-<div class="modal fade bd-example-modal-lg" id="backup" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+{{-- <div class="modal fade bd-example-modal-lg" id="backup" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
@@ -720,7 +727,7 @@
             </div>
         </div>
     </div>
-</div>
+</div> --}}
 
 <div class="modal fade bd-example-modal-lg" id="roles" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">

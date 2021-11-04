@@ -49,7 +49,7 @@
                     </div>
                     @role('kabag-keperawatan')
                     <div class="col-md-12">
-                        <form class="form-inline pull-right" action="{{ route('tdkperawat.cari') }}" method="GET">
+                        <form class="form-inline" action="{{ route('tdkperawat.cari') }}" method="GET">
                             <span style="width: auto;margin-right:10px">Filter</span>
                             <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="bulan" id="bulan">
                                 <option hidden>Bulan</option>
@@ -98,11 +98,19 @@
                             <tr>
                                 <td>{{ $id++ }}</td>
                                 <td>{{ $item->name }}</td>
-                                @role('kabag-keperawatan')
-                                    <td>{{ $item->unit }}</td>
-                                @else
-                                    <td>{{ \Carbon\Carbon::parse($item->tgl)->diffforhumans() }}</td>
-                                @endrole
+                                <td>
+                                    @role('kabag-keperawatan')
+                                        @if (json_decode($item->unit) != null)
+                                            @foreach (json_decode($item->unit) as $key => $value)
+                                                <kbd>{{ str_replace("-"," ",$value) }}</kbd>
+                                            @endforeach
+                                        @else
+                                            <kbd>{{ str_replace("-"," ",$item->unit) }}</kbd>
+                                        @endif
+                                    @else
+                                        {{ \Carbon\Carbon::parse($item->tgl)->diffforhumans() }}
+                                    @endrole
+                                </td>
                                 <td>{{ $item->tgl }}</td>
                                 <td>
                                     <center><a type="button" class="btn btn-info btn-sm text-white" href="{{ route('tdkperawat.show', $item->queue) }}"><i class="fa-fw fas fa-search nav-icon"></i> Detail</a></center>
@@ -119,7 +127,6 @@
         </div>
     </div>
 </div>
-
 
 <div class="modal fade bd-example-modal-lg" id="tambahtdk" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">

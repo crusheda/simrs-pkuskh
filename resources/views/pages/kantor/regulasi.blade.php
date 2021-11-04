@@ -38,6 +38,7 @@
                 <table id="regulasi" class="table table-striped display">
                     <thead>
                         <tr>
+                            <th>ID</th>
                             <th>DISAHKAN</th>
                             <th>JUDUL</th>
                             <th>JENIS</th>
@@ -52,7 +53,8 @@
                         @if(count($list['show']) > 0)
                         @foreach($list['show'] as $item)
                         <tr>
-                            <td>{{ $item->sah }}</td>
+                            <td>{{ $item->id }}</td>
+                            <td>{{ \Carbon\Carbon::parse($item->sah)->isoFormat('D MMMM Y') }}</td>
                             <td>{{ $item->judul }}</td>
                             <td>{{ $item->jenis }}</td>
                             <td>
@@ -390,7 +392,7 @@ $(document).ready( function () {
             'columnDefs': [
                 // { "width": "5%", "targets": 1 },
                 // { targets: 0, visible: false },
-                // { targets: 3, visible: false },
+                // { targets: 4, visible: false },
                 // { targets: 6, visible: false },
                 // { targets: 8, visible: false },
             ],
@@ -401,7 +403,7 @@ $(document).ready( function () {
                     pdf: 'Jadikan PDF',
                 }
             },
-            order: [[ 5, "desc" ]]
+            order: [[ 7, "desc" ]]
         }
     );
 } );

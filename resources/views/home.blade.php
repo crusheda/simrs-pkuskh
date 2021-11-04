@@ -20,6 +20,21 @@
       </div>
     </div>
   @endif
+  <div class="col-md-3">
+    <div class="card">
+        <div class="card-header">
+            <i class="fa-fw fas fa-upload nav-icon text-primary">
+
+            </i> <b>Upload Dokumen RKA</b>
+        </div>
+        <div class="card-body">
+            <h6>Upload Rencana Kerja dan Anggaran 2022 Rumah Sakit PKU muhammadiyah Sukoharjo</h6>
+        </div>
+        <div class="card-footer">
+            <a class="btn btn-success pull-right" href="perencanaan">Upload Sekarang</a>
+        </div>
+    </div>
+  </div>
 
   {{-- LOG PERAWAT --}}
   @role('kabag-keperawatan')
