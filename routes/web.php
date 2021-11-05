@@ -186,6 +186,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
         Route::post('absensi/{id}/hapus', 'kantor\absensiController@hapusKehadiran')->name('absensi.hapus');
         Route::resource('absensi', 'kantor\absensiController');
         Route::resource('rapat', 'kantor\rapatController');
+        Route::get('/rapat/zip/{id}', 'kantor\rapatController@showAll');
         Route::get('/rapat/show/{id}', 'kantor\rapatController@show');
         Route::get('/rapat/show2/{id}', 'kantor\rapatController@show2');
         Route::get('/rapat/show2all/{id}', 'kantor\rapatController@show2all');

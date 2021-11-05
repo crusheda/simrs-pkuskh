@@ -15,20 +15,20 @@ class CreateNotulenMigration extends Migration
     {
         Schema::create('rapat', function (Blueprint $table) {
             $table->increments('id');
-            $table->string('nama');
-            $table->string('kepala')->nullable();
-            $table->dateTime('tanggal');
-            $table->string('lokasi');
+            $table->string('nama')->nullable();
+            $table->integer('kepala')->nullable();
+            $table->dateTime('tanggal')->nullable();
+            $table->string('lokasi')->nullable();
 
-                $table->string('title1', 200);
-                $table->string('title2', 200);
-                $table->string('title3', 200);
-                $table->string('title4', 200);
+                $table->string('title1', 200)->nullable();
+                $table->longText('title2')->nullable();
+                $table->string('title3', 200)->nullable();
+                $table->string('title4', 200)->nullable();
                 
-                $table->string('filename1', 200);
-                $table->string('filename2', 200);
-                $table->string('filename3', 200);
-                $table->string('filename4', 200);
+                $table->string('filename1', 200)->nullable();
+                $table->longText('filename2')->nullable();
+                $table->string('filename3', 200)->nullable();
+                $table->string('filename4', 200)->nullable();
 
             $table->string('keterangan',500)->nullable();
             $table->rememberToken();

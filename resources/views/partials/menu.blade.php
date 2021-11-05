@@ -683,9 +683,6 @@
 
                             </i>
                             Regulasi
-                            @if (\Carbon\Carbon::now()->isoFormat('MM') == '11')
-                                <span class="badge badge-light">Baru</span>
-                            @endif
                         </a>
                     </li>
                     <li class="nav-item">
@@ -694,9 +691,6 @@
 
                             </i>
                             RKA
-                            @if (\Carbon\Carbon::now()->isoFormat('MM') == '11')
-                                <span class="badge badge-light">Baru</span>
-                            @endif
                         </a>
                     </li>
                 </ul>
