@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Storage;
 use Redirect;
 use Auth;
+use File;
 use Validator;
 use ZipArchive;
 use Carbon\Carbon;
@@ -80,7 +81,7 @@ class rapatController extends Controller
         
         if ($request->hasFile('file2')) {
             foreach ($uploadedFile2 as $file) {
-                $array_filename2[] = $file->store('public/files/rapat/');
+                $array_filename2[] = $file->store('public/files/rapat/'.$id_user);
                 $array_title2[] = $file->getClientOriginalName();
             }
         }
@@ -135,6 +136,8 @@ class rapatController extends Controller
 
         // Define Where ZIP will be Saved and Named
         $zip_path = storage_path().'/app/public/files/notulen/materi/multiple/'.$name.' - '.$tgl_materi.'.zip'; // Folder dibuat manual dulu
+        
+        // Name File ZIP
         $zip_name = $name.' - '.$tgl_materi.'.zip';
 
         // Making ZIP ARCHIVE
@@ -203,8 +206,15 @@ class rapatController extends Controller
         $filename_mentah = json_decode($data->title2);
 
         // Define Where ZIP will be Saved and Named
-        $zip_path = storage_path().'/app/public/files/rapat/'.$data->id_user.'/zip/'.$name.' - '.$tgl.'.zip'; // Folder dibuat manual dulu
+        $zip_path = storage_path().'/app/public/files/rapat/'.$data->id_user.'/zip'.'/'.$name.' - '.$tgl.'.zip'; // Folder dibuat manual dulu
         $zip_name = $name.' - '.$tgl.'.zip';
+
+        // Check if Folder exist
+        $path_folder_zip = storage_path().'/app/public/files/rapat/'.$data->id_user.'/zip';
+        if(!File::exists($path_folder_zip)) {
+            // Make Directory for ZIP
+            File::makeDirectory($path_folder_zip);
+        }
 
         // Making ZIP ARCHIVE
         $zip = new ZipArchive();
