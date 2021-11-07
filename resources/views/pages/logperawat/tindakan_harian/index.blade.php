@@ -29,7 +29,7 @@
                         @role('it|kabag-keperawatan')
                             <form class="form-inline" action="{{ route('tindakan-harian.cari') }}" method="GET">
                                 <span style="width: auto;margin-right:10px">Filter</span>
-                                <select onchange="submitBtn()" class="form-control" name="unit_cari" id="unit_cari" style="margin-right:10px">
+                                {{-- <select onchange="submitBtn()" class="form-control" name="unit_cari" id="unit_cari" style="margin-right:10px">
                                     <option hidden>Unit</option>
                                     <option value="igd">IGD</option>
                                     <option value="icu">ICU</option>
@@ -38,7 +38,7 @@
                                     <option value="kebidanan">KEBIDANAN</option>
                                     <option value="bangsal-dewasa">BANGSAL DEWASA</option>
                                     <option value="bangsal-anak">BANGSAL ANAK</option>
-                                </select>
+                                </select> --}}
                                 <select onchange="submitBtn()" class="form-control" name="shift_cari" id="shift_cari" style="margin-right:10px">
                                     <option hidden>Shift</option>
                                     <option value="pagi">PAGI</option>
@@ -58,7 +58,7 @@
                                 <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="tahun" id="tahun">
                                     <option hidden>Tahun</option>
                                     @php
-                                        for ($i=2021; $i <= $list['thn']; $i++) { 
+                                        for ($i=2020; $i <= $list['thn']; $i++) { 
                                             echo"<option value=$i> $i </option>";
                                         }
                                         
@@ -343,13 +343,13 @@ $(document).ready( function () {
 </script>
 <script>
     function submitBtn() {
-        var unit = $("#unit_cari").val();
+        // var unit = $("#unit_cari").val();
         var shift = $("#shift_cari").val();
         var bulan = $("#bulan").val();
         var tahun = $("#tahun").val();
 
-        if ( unit != 'Unit' || shift != 'Shift' || bulan != 'Bulan' || tahun != 'Tahun' ) {
-            $('#submit_filter').prop('disabled', true).removeClass('btn-secondary').addClass('btn-primary');
+        if ( shift != 'Shift' || bulan != 'Bulan' || tahun != 'Tahun' ) {
+            $('#submit_filter').prop('disabled', false).removeClass('btn-secondary').addClass('btn-primary');
         }
     }
     function saveData() {

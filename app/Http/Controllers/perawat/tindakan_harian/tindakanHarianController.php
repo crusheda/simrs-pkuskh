@@ -201,18 +201,25 @@ class tindakanHarianController extends Controller
      */
     public function update(Request $request, $id)
     {
-            $pernyataan = $request->input('pernyataan');
-            $jawaban = $request->input('box');
-            
-            for($count = 0; $count < count($pernyataan); $count++)
-            {
-                $ins = array(
-                    'shift' => $request->shift,
-                    'jawaban'  => $jawaban[$count],
-                );
-                
-                tindakan_harian::where('queue',$id)->where('pernyataan',$pernyataan[$count])->update($ins);
+        if (Auth::user()->hasRole('kabag-keperawatan')) {
+        } else {
+            $validasi = tindakan_harian::where('queue',$id)->first();
+            if (Auth::user()->id != $validasi->id_user) {
+                return Redirect::back()->withErrors(['Maaf, anda tidak diperbolehkan mengganti tindakan harian perawat lain']);
             }
+        }
+        $pernyataan = $request->input('pernyataan');
+        $jawaban = $request->input('box');
+        
+        for($count = 0; $count < count($pernyataan); $count++)
+        {
+            $ins = array(
+                'shift' => $request->shift,
+                'jawaban'  => $jawaban[$count],
+            );
+            
+            tindakan_harian::where('queue',$id)->where('pernyataan',$pernyataan[$count])->update($ins);
+        }
 
         return redirect()->back()->with('message','Tambah Tindakan Harian Berhasil.');
     }
@@ -225,6 +232,13 @@ class tindakanHarianController extends Controller
      */
     public function destroy($id)
     {
+        if (Auth::user()->hasRole('kabag-keperawatan')) {
+        } else {
+            $validasi = tindakan_harian::where('queue',$id)->first();
+            if (Auth::user()->id != $validasi->id_user) {
+                return Redirect::back()->withErrors(['Maaf, anda tidak diperbolehkan menghapus tindakan harian perawat lain']);
+            }
+        }
         tindakan_harian::where('queue', $id)->delete();
 
         return redirect()->back()->with('message','Hapus Tindakan Harian Berhasil.');
@@ -241,57 +255,107 @@ class tindakanHarianController extends Controller
     {
         $thn = Carbon::now()->isoFormat('YYYY');
         
+        // $unit = $request->unit_cari;
+        $shift = $request->shift_cari;
         $bulan = $request->query('bulan');
         $tahun = $request->query('tahun');
-        
-        $time= 'Bulan : '.$bulan.' Tahun : '.$tahun;
-        
-        $user = DB::table('users')
-                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                ->select('users.*')
-                ->where('roles.name', 'ibs')
-                ->get();
 
-        $show = DB::table('ibs_supervisi')
-                ->join('ibs_has_tim', 'ibs_supervisi.id_tim', '=', 'ibs_has_tim.id_tim')
-                ->select('ibs_supervisi.id_tim as tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
-                ->orderBy('ibs_supervisi.tgl','DESC')
-                ->whereMonth('ibs_supervisi.created_at', $bulan)
-                ->whereYear('ibs_supervisi.created_at', $tahun)
-                ->where('ibs_has_tim.tgl_selesai', '!=', null)
-                ->where('ibs_supervisi.deleted_at', null)
-                ->where('ibs_has_tim.deleted_at', null)
-                ->groupBy('ibs_supervisi.id_tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
+        if ($shift != 'Shift' && $bulan != 'Bulan' && $tahun != 'Tahun') {
+            $show = DB::table('tindakan_harian_perawat')
+                ->join('logperawat', 'logperawat.id', '=', 'tindakan_harian_perawat.pernyataan')
+                ->select('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan',DB::raw('SUM(tindakan_harian_perawat.jawaban) as total_jawaban'))
+                ->orderBy('tindakan_harian_perawat.tgl','DESC')
+                ->where('tindakan_harian_perawat.shift', $shift)
+                ->whereMonth('tindakan_harian_perawat.tgl', $bulan)
+                ->whereYear('tindakan_harian_perawat.tgl', $tahun)
+                ->where('tindakan_harian_perawat.deleted_at', null)
+                ->groupBy('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan')
                 ->get();
-                
-        $showtim = DB::table('ibs_has_tim')
-                ->join('users', 'users.id', '=', 'ibs_has_tim.id_user')
-                ->select('users.*','ibs_has_tim.id_tim','ibs_has_tim.shift','ibs_has_tim.tgl_mulai','ibs_has_tim.tgl_selesai')
-                ->where('ibs_has_tim.deleted_at', null)
+        } elseif ($shift == 'Shift' && $bulan == 'Bulan' && $tahun == 'Tahun') {
+            return Redirect::back()->withErrors(['Maaf, anda belum memilih satupun pilihan filter yang ada']);
+        } 
+        
+        elseif ($shift == 'Shift' && $bulan == 'Bulan' && $tahun != 'Tahun') {
+            // $shift = '';
+            // $bulan = '';
+            $show = DB::table('tindakan_harian_perawat')
+                ->join('logperawat', 'logperawat.id', '=', 'tindakan_harian_perawat.pernyataan')
+                ->select('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan',DB::raw('SUM(tindakan_harian_perawat.jawaban) as total_jawaban'))
+                ->orderBy('tindakan_harian_perawat.tgl','DESC')
+                ->whereYear('tindakan_harian_perawat.tgl', $tahun)
+                ->where('tindakan_harian_perawat.deleted_at', null)
+                ->groupBy('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan')
                 ->get();
-                
-        $get_data = DB::table('ibs_supervisi')
-                ->join('ibs_refsupervisi','ibs_supervisi.id_supervisi','=','ibs_refsupervisi.id')
-                ->select('ibs_supervisi.id','ibs_supervisi.id_supervisi','ibs_refsupervisi.supervisi as nama_supervisi','ibs_refsupervisi.ruang as nama_ruang','ibs_supervisi.id_tim as kodetim','ibs_supervisi.kondisi','ibs_supervisi.ket','ibs_supervisi.title','ibs_supervisi.filename','ibs_supervisi.tgl','ibs_supervisi.id_user')
-                ->where('ibs_supervisi.deleted_at', null)
-                ->whereMonth('ibs_supervisi.created_at', $bulan)
-                ->whereYear('ibs_supervisi.created_at', $tahun)
-                ->orderBy('ibs_refsupervisi.id', 'ASC')
+        } elseif ($shift == 'Shift' && $bulan != 'Bulan' && $tahun == 'Tahun') {
+            // $shift = '';
+            // $tahun = '';
+            $show = DB::table('tindakan_harian_perawat')
+                ->join('logperawat', 'logperawat.id', '=', 'tindakan_harian_perawat.pernyataan')
+                ->select('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan',DB::raw('SUM(tindakan_harian_perawat.jawaban) as total_jawaban'))
+                ->orderBy('tindakan_harian_perawat.tgl','DESC')
+                ->whereMonth('tindakan_harian_perawat.tgl', $bulan)
+                ->where('tindakan_harian_perawat.deleted_at', null)
+                ->groupBy('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan')
                 ->get();
-                
-        // print_r($show);
+        } elseif ($shift != 'Shift' && $bulan == 'Bulan' && $tahun == 'Tahun') {
+            // $bulan = '';
+            // $tahun = '';
+            $show = DB::table('tindakan_harian_perawat')
+                ->join('logperawat', 'logperawat.id', '=', 'tindakan_harian_perawat.pernyataan')
+                ->select('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan',DB::raw('SUM(tindakan_harian_perawat.jawaban) as total_jawaban'))
+                ->orderBy('tindakan_harian_perawat.tgl','DESC')
+                ->where('tindakan_harian_perawat.shift', $shift)
+                ->where('tindakan_harian_perawat.deleted_at', null)
+                ->groupBy('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan')
+                ->get();
+        }
+
+        elseif ($shift == 'Shift' && $bulan != 'Bulan' && $tahun != 'Tahun') {
+            // $shift = '';
+            $show = DB::table('tindakan_harian_perawat')
+                ->join('logperawat', 'logperawat.id', '=', 'tindakan_harian_perawat.pernyataan')
+                ->select('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan',DB::raw('SUM(tindakan_harian_perawat.jawaban) as total_jawaban'))
+                ->orderBy('tindakan_harian_perawat.tgl','DESC')
+                ->whereMonth('tindakan_harian_perawat.tgl', $bulan)
+                ->whereYear('tindakan_harian_perawat.tgl', $tahun)
+                ->where('tindakan_harian_perawat.deleted_at', null)
+                ->groupBy('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan')
+                ->get();
+        } elseif ($shift != 'Shift' && $bulan == 'Bulan' && $tahun != 'Tahun') {
+            // $bulan = '';
+            $show = DB::table('tindakan_harian_perawat')
+                ->join('logperawat', 'logperawat.id', '=', 'tindakan_harian_perawat.pernyataan')
+                ->select('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan',DB::raw('SUM(tindakan_harian_perawat.jawaban) as total_jawaban'))
+                ->orderBy('tindakan_harian_perawat.tgl','DESC')
+                ->where('tindakan_harian_perawat.shift', $shift)
+                ->whereYear('tindakan_harian_perawat.tgl', $tahun)
+                ->where('tindakan_harian_perawat.deleted_at', null)
+                ->groupBy('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan')
+                ->get();
+        } elseif ($shift != 'Shift' && $bulan != 'Bulan' && $tahun == 'Tahun') {
+            // $tahun = '';
+            $show = DB::table('tindakan_harian_perawat')
+                ->join('logperawat', 'logperawat.id', '=', 'tindakan_harian_perawat.pernyataan')
+                ->select('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan',DB::raw('SUM(tindakan_harian_perawat.jawaban) as total_jawaban'))
+                ->orderBy('tindakan_harian_perawat.tgl','DESC')
+                ->where('tindakan_harian_perawat.shift', $shift)
+                ->whereMonth('tindakan_harian_perawat.tgl', $bulan)
+                ->where('tindakan_harian_perawat.deleted_at', null)
+                ->groupBy('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan')
+                ->get();
+        }
+            
+        // print_r($show[0][0]->shift);
         // die();
 
         $data = [
-            'getdata' => $get_data,
-            'time' => $time,
+            'show' => $show,
+            'shift' => $shift,
+            'bulan' => $bulan,
+            'tahun' => $tahun,
             'thn' => $thn,
-            'user' => $user,
-            'showtim' => $showtim,
-            'show' => $show
         ];
 
-        return view('pages.ibs.supervisi.cari')->with('list', $data);
+        return view('pages.logperawat.tindakan_harian.cari')->with('list', $data);
     }
 }
