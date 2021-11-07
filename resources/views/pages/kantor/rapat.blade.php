@@ -341,6 +341,8 @@
                         @foreach (str_replace(['"','[',']'],'',json_decode($item->title2)) as $val)
                             <i class="fa-fw fas fa-caret-right nav-icon"></i> {{ $val }} <br>
                         @endforeach
+                        @foreach (str_replace(['"','[',']'],'',json_decode($item->filename2)) as $val)
+                        {{ number_format(Storage::size($item->filename) / 1048576,2) }}
                     @endif
                     <p></p>
                     <h6>File download akan digabungkan dan dikonversikan dalam bentuk <kbd>ZIP FILE</kbd></h6>
@@ -377,7 +379,7 @@
                         pdf: 'Jadikan PDF',
                     }
                 },
-                order: [[ 3, "desc" ]]
+                order: [[ 6, "desc" ]]
             }
         );
     } );

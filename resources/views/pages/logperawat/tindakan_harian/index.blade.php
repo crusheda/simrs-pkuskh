@@ -51,13 +51,13 @@
                                 <button class="form-control btn btn-warning text-white" id="submit" disabled>Filter</button>
                             </form>
                         @else
-                            {{-- <button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah" @if (count($list['show']) > 0) @if (\Carbon\Carbon::parse($list['show'][0]->updated_at)->isoFormat('YYYY/MM/DD') ==  $list['today']) @else echo disabled @endif @endif>
+                            <button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah" @if (count($list['show']) > 0) @if (\Carbon\Carbon::parse($list['show'][0]->updated_at)->isoFormat('YYYY/MM/DD') ==  $list['today']) @else echo disabled @endif @endif>
                                 <i class="fa-fw fas fa-plus-square nav-icon">
         
                                 </i>
                                 Tambah Tindakan
-                            </button> --}}
-                            <button class="btn btn-primary text-white" disabled><i class="fa-fw fas fa-hourglass-half nav-icon"></i> Coming soon...</button>
+                            </button>
+                            {{-- <button class="btn btn-primary text-white" disabled><i class="fa-fw fas fa-hourglass-half nav-icon"></i> Coming soon...</button> --}}
                         @endrole
                     </div>
                 </div>
@@ -92,11 +92,16 @@
                                         <td>
                                             <center>
                                                 <div class="btn-group" role="group">
-                                                    <button type="button" class="btn btn-info btn-sm" data-toggle="modal" data-target="#detail{{ $item->id }}"><i class="fa-fw fas fa-search nav-icon text-white"></i></button>
+                                                    <button type="button" class="btn btn-warning btn-sm" onclick="editData({{ $item->queue }})"><i class="fa-fw fas fa-search nav-icon text-white"></i></button>
+                                                    {{-- <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#detail{{ $item->queue }}"><i class="fa-fw fas fa-search nav-icon text-white"></i></button> --}}
                                                     @role('it|kabag-keperawatan')
-                                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->queue }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                                     @else
-                                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}" @if (\Carbon\Carbon::parse($item->updated_at)->isoFormat('YYYY/MM/DD') ==  $list['today']) echo disabled @endif><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                        @if (\Carbon\Carbon::parse($item->tgl)->isoFormat('YYYY/MM/DD') ==  $list['today'])
+                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->queue }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                        @else
+                                                            <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                        @endif
                                                     @endrole
                                                 </div>
                                             </center>
@@ -188,6 +193,87 @@
     </div>
 </div>
 
+@foreach($list['show_all'] as $item)
+<div class="modal fade bd-example-modal-lg" id="detail{{ $item->queue }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">
+            Detail Tindakan Harian <kbd style="background-color: rgb(0, 166, 255)">ID : {{ $item->queue }}</kbd>
+          </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            {{ Form::model($item, array('route' => array('tindakan-harian.update', $item->queue), 'method' => 'PUT')) }}
+                @csrf
+                <div class="row">
+                    <div class="col-md-9">
+                        <div class="form-group">
+                            <label><kbd>User</kbd></label>
+                            <h5>{{ $item->nama }}</h5>
+                            @if($item->updated_at != null) <sub style="margin-top:-30px">Diupdate pada : {{ $item->updated_at }} </sub> @endif
+                        </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Shift :</label>
+                            <select name="shift" id="shift" class="form-control" required>
+                              <option value="pagi"  @if($item->shift == 'pagi') echo selected @endif>PAGI</option>
+                              <option value="siang" @if($item->shift == 'siang') echo selected @endif>SIANG</option>
+                              <option value="malam" @if($item->shift == 'malam') echo selected @endif>MALAM</option>
+                            </select>
+                        </div>
+                    </div>
+                </div>
+                <table id="tambah" class="table table-bordered display table-hover">
+                    <thead>
+                        <tr>
+                            <th>PERNYATAAN</th>
+                            <th style="width: 20%">PILIHAN</th>
+                        </tr>
+                    </thead>
+                    <tbody id="tampil-tr{{ $item->queue }}"><tr id="tr-proses"><td colspan="2"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+                </table>
+        </div>
+        <div class="modal-footer">
+
+                <a>@if($item->updated_at != null) {{ \Carbon\Carbon::parse($item->updated_at)->isoFormat('dddd, D MMMM Y') }} @endif</a>
+                <button class="btn btn-success" id="btn-simpan" onclick="saveData()"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
+                <button type="button" class="btn btn-secondary text-white" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            {!! Form::close() !!}
+        </div>
+      </div>
+    </div>
+</div>
+@endforeach
+
+@foreach($list['show_all'] as $item)
+<div class="modal fade" id="hapus{{ $item->queue }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+            <a class="pull-left"><kbd>ID : {{ $item->id }}</kbd>&nbsp;</a>
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <p>Apakah anda yakin ingin menghapus Tindakan Harian {{ $item->nama }}</b>?</p>
+        </div>
+        <div class="modal-footer">
+            <form action="{{ route('tindakan-harian.destroy', $item->queue) }}" method="POST">
+                @method('DELETE')
+                @csrf
+                <a>Ditambahkan <b>{{ \Carbon\Carbon::parse($item->tgl)->diffForHumans() }}</b></a>
+                <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button>
+            </form>
+            <button type="button" class="btn btn-secondary text-white" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+        </div>
+      </div>
+    </div>
+</div>
+@endforeach
+
 <script>
 $(document).ready( function () {
     $('#table').DataTable(
@@ -256,7 +342,7 @@ $(document).ready( function () {
                     icon: 'warning',
                     showConfirmButton:false,
                     showCancelButton:true,
-                    cancelButtonText: `<i class="fa fa-close"></i> Batal`,
+                    cancelButtonText: `<i class="fa fa-close"></i> Tutup`,
                     timer: 3000,
                     timerProgressBar: true,
                     backdrop: `rgba(26,27,41,0.8)`,
@@ -270,6 +356,43 @@ $(document).ready( function () {
                 return true;
             }
         });
+    }
+
+    function editData(queue) {
+        $('#detail'+queue).modal('show');
+        $.ajax(
+            {
+                url: "./tindakan-harian/api/"+queue+"/edit",
+                type: 'GET',
+                dataType: 'json', // added data type
+                success: function(res) {
+                    $("#tampil-tr"+queue).empty();
+                    Object.entries(res).forEach(([key, item]) => {
+                        $("#tampil-tr"+queue).append(`
+                            <tr id="data${item.id}">
+                                <td hidden><input type="text" class="form-control" name="pernyataan[]" value="${item.id_pernyataan}"></td>
+                                <td>${item.pernyataan}</td>
+                                <td id="select_ajax${item.id}"></td>
+                            </tr>
+                        `);
+                        var html="";
+                        html += '<select class="custom-select" name="box[]" required>';
+                        for(var count=0; count <= item.jawaban; count++){
+                            html += '<option value="'+count+'"';
+                            if(item.jawaban == count){
+                                html += 'selected';    
+                            }
+                            html += '>'+count+' Kali</option>';
+                        }
+                        html += '</select>';      
+                        
+                        $("#select_ajax"+item.id).append(html); 
+                        console.log(key);
+                    });
+                    // $('#table').DataTable().columns.adjust();
+                }
+            }
+        );
     }
 </script>
 

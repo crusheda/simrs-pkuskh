@@ -83,8 +83,13 @@ class tindakanHarianController extends Controller
             $pernyataan = logperawat::whereIn('id', $array_pernyataan)->get();
         }   
         
+        // print_r($showEdit);
+        // die();
+
         $data = [
             'show' => $show,
+            'show_all' => $showAll,
+            // 'show_edit' => $showEdit,
             'pernyataan' => $pernyataan,
             'user' => $user,
             'thn' => $thn,
@@ -190,7 +195,20 @@ class tindakanHarianController extends Controller
      */
     public function update(Request $request, $id)
     {
-        //
+            $pernyataan = $request->input('pernyataan');
+            $jawaban = $request->input('box');
+            
+            for($count = 0; $count < count($pernyataan); $count++)
+            {
+                $ins = array(
+                    'shift' => $request->shift,
+                    'jawaban'  => $jawaban[$count],
+                );
+                
+                tindakan_harian::where('queue',$id)->where('pernyataan',$pernyataan[$count])->update($ins);
+            }
+
+        return redirect()->back()->with('message','Tambah Tindakan Harian Berhasil.');
     }
 
     /**
@@ -201,6 +219,15 @@ class tindakanHarianController extends Controller
      */
     public function destroy($id)
     {
-        //
+        tindakan_harian::where('queue', $id)->delete();
+
+        return redirect()->back()->with('message','Hapus Tindakan Harian Berhasil.');
+    }
+
+    public function getDataEdit($queue)
+    {
+        $show = tindakan_harian::leftJoin('logperawat', 'tindakan_harian_perawat.pernyataan', '=', 'logperawat.id')->select('tindakan_harian_perawat.id','tindakan_harian_perawat.queue','tindakan_harian_perawat.shift','tindakan_harian_perawat.pernyataan as id_pernyataan','logperawat.pertanyaan as pernyataan','tindakan_harian_perawat.jawaban')->where('tindakan_harian_perawat.queue', $queue)->orderBy('tindakan_harian_perawat.id','asc')->get();
+        
+        return response()->json($show, 200);
     }
 }

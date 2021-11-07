@@ -209,6 +209,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
             Route::resource('logprofkpr', 'perawat\logProfKprController');
 
         // Tindakan Harian
+            Route::get('tindakan-harian/api/{id}/edit', 'perawat\tindakan_harian\tindakanHarianController@getDataEdit')->name('tindakan-harian.api.edit'); 
             Route::resource('tindakan-harian', 'perawat\tindakan_harian\tindakanHarianController');
             Route::get('/tdkperawat/cari', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
             Route::resource('tdkperawat', 'perawat\tdkPerawatController');
