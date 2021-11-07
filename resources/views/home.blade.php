@@ -37,40 +37,22 @@
   </div>
 
   {{-- LOG PERAWAT --}}
-  @role('kabag-keperawatan')
-  @else
+  @role('igd|icu|bangsal-dewasa|bangsal-anak|kebidanan|ibs|poli')
     @can('log_perawat')
     <div class="col-md-3">
-      @if ($list['recentLogPerawat'] == 0)
-        <div class="card">
-          <div class="card-header">
-              <i class="fa-fw fas fa-check nav-icon text-success">
+      <div class="card">
+        <div class="card-header">
+            <i class="fa-fw fas fa-warning nav-icon text-danger">
 
-              </i> <b>Tindakan Harian Perawat</b>
-          </div>
-          <div class="card-body">
-              <h6>Anda <kbd>Sudah Mengisi</kbd> Tindakan Hari Ini.</h6>
-          </div>
-          <div class="card-footer">
-              <button class="btn btn-secondary pull-right" disabled>Masukkan Tindakan</button>
-          </div>
+            </i> <b>Tindakan Harian Perawat</b>
         </div>
-      @elseif ($list['recentLogPerawat'] == 1)
-        <div class="card">
-          <div class="card-header">
-              <i class="fa-fw fas fa-warning nav-icon text-danger">
-
-              </i> <b>Tindakan Harian Perawat</b>
-          </div>
-          <div class="card-body">
-              <h6>Anda <kbd style="background-color: rgb(223, 29, 29)">Belum Mengisi</kbd> Tindakan Hari Ini.</h6>
-          </div>
-          <div class="card-footer">
-              <a class="btn btn-primary pull-right" href="{{ route('tdkperawat.index') }}">Masukkan Tindakan</a>
-          </div>
+        <div class="card-body">
+            <h6>Silakan mengisi tindakan hari anda setelah selesai Jaga Shift</h6>
         </div>
-      @elseif ($list['recentLogPerawat'] == 2)
-      @endif
+        <div class="card-footer">
+            <a class="btn btn-primary pull-right" href="{{ route('tindakan-harian.index') }}">Masukkan Tindakan</a>
+        </div>
+      </div>
     </div>
     @endcan
   @endrole

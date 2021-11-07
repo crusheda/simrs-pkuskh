@@ -27,8 +27,24 @@
                 <div class="row">
                     <div class="col-md-12">
                         @role('it|kabag-keperawatan')
-                            <form class="form-inline" action="{{ route('tdkperawat.cari') }}" method="GET">
+                            <form class="form-inline" action="{{ route('tindakan-harian.cari') }}" method="GET">
                                 <span style="width: auto;margin-right:10px">Filter</span>
+                                <select onchange="submitBtn()" class="form-control" name="unit_cari" id="unit_cari" style="margin-right:10px">
+                                    <option hidden>Unit</option>
+                                    <option value="igd">IGD</option>
+                                    <option value="icu">ICU</option>
+                                    <option value="ibs">IBS</option>
+                                    <option value="poli">POLIKLINIK</option>
+                                    <option value="kebidanan">KEBIDANAN</option>
+                                    <option value="bangsal-dewasa">BANGSAL DEWASA</option>
+                                    <option value="bangsal-anak">BANGSAL ANAK</option>
+                                </select>
+                                <select onchange="submitBtn()" class="form-control" name="shift_cari" id="shift_cari" style="margin-right:10px">
+                                    <option hidden>Shift</option>
+                                    <option value="pagi">PAGI</option>
+                                    <option value="siang">SIANG</option>
+                                    <option value="malam">MALAM</option>
+                                </select>
                                 <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="bulan" id="bulan">
                                     <option hidden>Bulan</option>
                                     <?php
@@ -42,13 +58,13 @@
                                 <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="tahun" id="tahun">
                                     <option hidden>Tahun</option>
                                     @php
-                                        for ($i=2020; $i <= $list['thn']; $i++) { 
+                                        for ($i=2021; $i <= $list['thn']; $i++) { 
                                             echo"<option value=$i> $i </option>";
                                         }
                                         
                                     @endphp
                                 </select>
-                                <button class="form-control btn btn-warning text-white" id="submit" disabled>Filter</button>
+                                <button class="form-control btn btn-secondary text-white" id="submit_filter" disabled><i class="fa-fw fas fa-filter nav-icon text-white"></i> Submit</button>
                             </form>
                         @else
                             <button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah" @if (count($list['show']) > 0) @if (\Carbon\Carbon::parse($list['show'][0]->updated_at)->isoFormat('YYYY/MM/DD') ==  $list['today']) @else echo disabled @endif @endif>
@@ -238,7 +254,11 @@
         <div class="modal-footer">
 
                 <a>@if($item->updated_at != null) {{ \Carbon\Carbon::parse($item->updated_at)->isoFormat('dddd, D MMMM Y') }} @endif</a>
-                <button class="btn btn-success" id="btn-simpan" onclick="saveData()"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
+                @if (\Carbon\Carbon::parse($item->tgl)->isoFormat('YYYY/MM/DD') ==  $list['today'])
+                    <button class="btn btn-success" id="btn-simpan" onclick="saveData()"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
+                @else
+                    <button class="btn btn-secondary text-white" disabled><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
+                @endif
                 <button type="button" class="btn btn-secondary text-white" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
             {!! Form::close() !!}
         </div>
@@ -323,10 +343,13 @@ $(document).ready( function () {
 </script>
 <script>
     function submitBtn() {
-        var bulan = document.getElementById("bulan").value;
-        var tahun = document.getElementById("tahun").value;
-        if (bulan != "Bln" && tahun != "Thn" ) {
-            document.getElementById("submit").disabled = false;
+        var unit = $("#unit_cari").val();
+        var shift = $("#shift_cari").val();
+        var bulan = $("#bulan").val();
+        var tahun = $("#tahun").val();
+
+        if ( unit != 'Unit' || shift != 'Shift' || bulan != 'Bulan' || tahun != 'Tahun' ) {
+            $('#submit_filter').prop('disabled', true).removeClass('btn-secondary').addClass('btn-primary');
         }
     }
     function saveData() {
