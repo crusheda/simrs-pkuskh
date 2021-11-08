@@ -79,14 +79,15 @@
                                                             @else
                                                                 <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#download{{ $item->id }}"><i class="fa-fw fas fa-download nav-icon text-white"></i></button>   
                                                             @endif
-                                                            @if (\Carbon\Carbon::parse($item->created_at)->isoFormat('YYYY/MM/DD') ==  $list['today'])
-                                                                @if(Auth::user()->id == $item->id_user)
-                                                                    <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubahFile{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusFile{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                                                @endif
-                                                            @endif
                                                             @hasanyrole('it|kantor|pelayanan')
                                                                 <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusFile{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                            @else
+                                                                @if (\Carbon\Carbon::parse($item->created_at)->isoFormat('YYYY/MM/DD') ==  $list['today'])
+                                                                    @if(Auth::user()->id == $item->id_user)
+                                                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubahFile{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
+                                                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusFile{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                                    @endif
+                                                                @endif
                                                             @endhasanyrole
                                                         </div>
                                                     </center>
@@ -331,20 +332,37 @@
             <div class="modal-content">
                 <div class="modal-header">
                 <h4 class="modal-title">
-                    {{ $item->nama }}'s Files
+                    {{ $item->nama }}'s Files Description
                 </h4>
                 <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
                 </div>
                 <div class="modal-body">
-                    <h5>Deskripsi File:</h5>
                     @if ($item->title2 != null)
-                        @foreach (str_replace(['"','[',']'],'',json_decode($item->title2)) as $val)
-                            <i class="fa-fw fas fa-caret-right nav-icon"></i> {{ $val }} <br>
-                        @endforeach
-                        @foreach (str_replace(['"','[',']'],'',json_decode($item->filename2)) as $val)
-                        {{ number_format(Storage::size($item->filename) / 1048576,2) }}
+                        <div class="table-responsive">
+                            <table class="table table-striped table-bordered">
+                                <thead>
+                                    <tr>
+                                        <th>Nama File</th>
+                                        <th>Ukuran</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                    <tr>
+                                        <td>
+                                            @foreach (str_replace(['"','[',']'],'',json_decode($item->title2)) as $val)
+                                                <i class="fa-fw fas fa-caret-right nav-icon"></i> {{ $val }}<br>
+                                            @endforeach
+                                        </td>
+                                        <td>
+                                            @foreach (str_replace(['"','[',']'],'',json_decode($item->filename2)) as $val)
+                                                {{ number_format(Storage::size($val) / 1048576,2) }} Mb<br>
+                                            @endforeach
+                                        </td>
+                                    </tr>
+                                </tbody>
+                            </table>
+                        </div>
                     @endif
-                    <p></p>
                     <h6>File download akan digabungkan dan dikonversikan dalam bentuk <kbd>ZIP FILE</kbd></h6>
                 </div>
                 <div class="modal-footer">

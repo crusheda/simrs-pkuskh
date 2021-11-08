@@ -61,24 +61,6 @@
 
 <script>
 $(document).ready( function () {
-    // $('#table').DataTable(
-    //     {
-    //         paging: true,
-    //         searching: true,
-    //         dom: 'Bfrtip',
-    //         buttons: [
-    //             'excel', 'pdf', 'colvis'
-    //         ],
-    //         language: {
-    //             buttons: {
-    //                 colvis: 'Sembunyikan Kolom',
-    //                 excel: 'Jadikan Excell',
-    //                 pdf: 'Jadikan PDF',
-    //             }
-    //         },
-    //         order: [[ 3, "desc" ]]
-    //     }
-    // );
     $.ajax(
         {
             url: "./perencanaan/table",
@@ -98,6 +80,9 @@ $(document).ready( function () {
                                 <center>
                                     <div class="btn-group" role="group">
                                         <a type="button" href="./perencanaan/${item.id}" class="btn btn-success btn-sm"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
+                                        @role('it|kabag-perencanaan|kasubag-perencanaan-it')
+                                            <button type="button" onclick="hapus(${item.id})" class="btn btn-danger btn-sm"><i class="fa-fw fas fa-trash nav-icon text-white"></i></button>
+                                        @endrole
                                     </div>
                                 </center>
                             </td>
@@ -187,6 +172,60 @@ function upload() {
     })
 }
 
+function hapus(id) {
+    Swal.fire({
+        title: 'Apakah anda yakin?',
+        text: 'Untuk menghapus RKA ID : '+id,
+        icon: 'warning',
+        reverseButtons: false,
+        showDenyButton: false,
+        showCloseButton: false,
+        showCancelButton: true,
+        focusCancel: true,
+        confirmButtonColor: '#FF4845',
+        confirmButtonText: `<i class="fa fa-trash"></i> Hapus`,
+        cancelButtonText: `<i class="fa fa-close"></i> Close`,
+        backdrop: `rgba(26,27,41,0.8)`,
+    }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+                url: "./perencanaan/hapus/"+id,
+                type: 'GET',
+                dataType: 'json', // added data type
+                success: function(res) {
+                    Swal.fire({
+                        title: `RKA berhasil dihapus!`,
+                        text: 'Pada '+res,
+                        icon: `success`,
+                        showConfirmButton:false,
+                        showCancelButton:false,
+                        allowOutsideClick: true,
+                        allowEscapeKey: false,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        backdrop: `rgba(26,27,41,0.8)`,
+                    });
+                    refresh();
+                },
+                error: function(res) {
+                    Swal.fire({
+                        title: `RKA gagal di hapus!`,
+                        text: 'Pada '+res,
+                        icon: `error`,
+                        showConfirmButton:false,
+                        showCancelButton:false,
+                        allowOutsideClick: true,
+                        allowEscapeKey: true,
+                        timer: 3000,
+                        timerProgressBar: true,
+                        backdrop: `rgba(26,27,41,0.8)`,
+                    });
+                }
+            }); 
+        }
+    })
+}
+
 function refresh() {
     // var table = $('#myTable').DataTable().destroy();
     $("#tampil-tbody").empty().append(`<tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
@@ -198,7 +237,7 @@ function refresh() {
             success: function(res) {
                 $("#tampil-tbody").empty();
                 if(res.length == 0){
-                    $("#tampil-tbody").append(`<tr><td colspan="6"><i class="fa fa-frown fa-fw"></i> Tidak ada data yang masuk...</td></tr>`);
+                    $("#tampil-tbody").append(`<tr><td colspan="6"><center><i class="fa fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
                 } else {
                     res.forEach(item => {
                         $("#tampil-tbody").append(`
@@ -212,6 +251,9 @@ function refresh() {
                                     <center>
                                         <div class="btn-group" role="group">
                                             <a type="button" href="./perencanaan/${item.id}" class="btn btn-success btn-sm"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
+                                            @role('it|kabag-perencanaan|kasubag-perencanaan-it')
+                                                <button type="button" onclick="hapus(${item.id})" class="btn btn-danger btn-sm"><i class="fa-fw fas fa-trash nav-icon text-white"></i></button>
+                                            @endrole
                                         </div>
                                     </center>
                                 </td>

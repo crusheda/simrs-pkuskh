@@ -269,6 +269,7 @@ class tindakanHarianController extends Controller
                 ->whereMonth('tindakan_harian_perawat.tgl', $bulan)
                 ->whereYear('tindakan_harian_perawat.tgl', $tahun)
                 ->where('tindakan_harian_perawat.deleted_at', null)
+                ->where('tindakan_harian_perawat.jawaban','!=', '0')
                 ->groupBy('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan')
                 ->get();
         } elseif ($shift == 'Shift' && $bulan == 'Bulan' && $tahun == 'Tahun') {
@@ -284,6 +285,7 @@ class tindakanHarianController extends Controller
                 ->orderBy('tindakan_harian_perawat.tgl','DESC')
                 ->whereYear('tindakan_harian_perawat.tgl', $tahun)
                 ->where('tindakan_harian_perawat.deleted_at', null)
+                ->where('tindakan_harian_perawat.jawaban','!=', '0')
                 ->groupBy('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan')
                 ->get();
         } elseif ($shift == 'Shift' && $bulan != 'Bulan' && $tahun == 'Tahun') {
@@ -295,6 +297,7 @@ class tindakanHarianController extends Controller
                 ->orderBy('tindakan_harian_perawat.tgl','DESC')
                 ->whereMonth('tindakan_harian_perawat.tgl', $bulan)
                 ->where('tindakan_harian_perawat.deleted_at', null)
+                ->where('tindakan_harian_perawat.jawaban','!=', '0')
                 ->groupBy('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan')
                 ->get();
         } elseif ($shift != 'Shift' && $bulan == 'Bulan' && $tahun == 'Tahun') {
@@ -306,6 +309,7 @@ class tindakanHarianController extends Controller
                 ->orderBy('tindakan_harian_perawat.tgl','DESC')
                 ->where('tindakan_harian_perawat.shift', $shift)
                 ->where('tindakan_harian_perawat.deleted_at', null)
+                ->where('tindakan_harian_perawat.jawaban','!=', '0')
                 ->groupBy('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan')
                 ->get();
         }
@@ -319,6 +323,7 @@ class tindakanHarianController extends Controller
                 ->whereMonth('tindakan_harian_perawat.tgl', $bulan)
                 ->whereYear('tindakan_harian_perawat.tgl', $tahun)
                 ->where('tindakan_harian_perawat.deleted_at', null)
+                ->where('tindakan_harian_perawat.jawaban','!=', '0')
                 ->groupBy('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan')
                 ->get();
         } elseif ($shift != 'Shift' && $bulan == 'Bulan' && $tahun != 'Tahun') {
@@ -330,6 +335,7 @@ class tindakanHarianController extends Controller
                 ->where('tindakan_harian_perawat.shift', $shift)
                 ->whereYear('tindakan_harian_perawat.tgl', $tahun)
                 ->where('tindakan_harian_perawat.deleted_at', null)
+                ->where('tindakan_harian_perawat.jawaban','!=', '0')
                 ->groupBy('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan')
                 ->get();
         } elseif ($shift != 'Shift' && $bulan != 'Bulan' && $tahun == 'Tahun') {
@@ -341,6 +347,7 @@ class tindakanHarianController extends Controller
                 ->where('tindakan_harian_perawat.shift', $shift)
                 ->whereMonth('tindakan_harian_perawat.tgl', $bulan)
                 ->where('tindakan_harian_perawat.deleted_at', null)
+                ->where('tindakan_harian_perawat.jawaban','!=', '0')
                 ->groupBy('tindakan_harian_perawat.nama','tindakan_harian_perawat.unit','logperawat.pertanyaan')
                 ->get();
         }

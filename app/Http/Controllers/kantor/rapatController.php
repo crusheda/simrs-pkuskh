@@ -63,7 +63,7 @@ class rapatController extends Controller
         $request->validate([
             'keterangan' => 'nullable',
             // 'file2' => 'required',
-            'file2.*' => ['required','mimes:doc,docx,xls,xlsx,ppt,pptx,pdf','max:50000'],
+            'file2.*' => ['required','mimes:doc,docx,xls,xlsx,ppt,pptx,pdf,jpg,gif,png,jpeg','max:50000'],
             ]);
         // request()->validate([
         //     'file' => 'required',

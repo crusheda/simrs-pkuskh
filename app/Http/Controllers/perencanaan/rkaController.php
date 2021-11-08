@@ -146,10 +146,10 @@ class rkaController extends Controller
     
     public function hapus($id)
     {
-        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm:ss a');
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
         $now = Carbon::now();
 
-        $delete = rka::where('id_tim', $id)->delete();
+        rka::where('id', $id)->delete();
 
         return response()->json($tgl, 200);
     }
