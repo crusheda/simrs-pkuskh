@@ -3,6 +3,14 @@
 <head>
 	<title>Login | SIMRSKU</title>
 	<meta charset="UTF-8">
+	<meta name="title" content="SIMRSKU"/>
+	<meta name="description" content="Sistem Informasi Manajemen Rumah Sakit PKU Muhammadiyah Sukoharjo yang dirancang untuk memudahkan kinerja karyawan. Developer : ">
+	<meta name="keywords" content="SIMRSKU RS PKU MUHAMMADIYAH SUKOHARJO">
+	<meta name="revisit-after" content="3 days">
+	<meta name="coverage" content="Worldwide">
+	<meta name="distribution" content="Global">
+	<meta name="author" content="Yussuf Faisal, S.Kom">
+	<meta name="url" content="simrsku.com">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 <!--===============================================================================================-->	
 	{{-- <link rel="icon" type="image/png" href="{{ asset('css-login/images/icons/favicon.ico') }}"/> --}}

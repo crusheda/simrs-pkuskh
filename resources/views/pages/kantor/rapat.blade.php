@@ -237,6 +237,7 @@
                         <label>Keterangan :</label>
                         <textarea class="form-control" name="keterangan" maxlength="190" rows="8"><?php echo htmlspecialchars($item->keterangan); ?></textarea>
                     </div>
+                    <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Waktu pengubahan berkas rapat hanya berlaku pada hari saat anda mengupload</sub>
                     
             </div>
             <div class="modal-footer">
@@ -367,7 +368,7 @@
                 </div>
                 <div class="modal-footer">
                     <a>{{ $item->updated_at->diffForHumans() }}</a>
-                    <button type="button" onclick="window.location.href='{{ url('rapat/zip/'. $item->id) }}'" class="btn btn-success text-white"><i class="fa fa-download"></i> Download</button>
+                    <button type="button" data-target="_self" onclick="window.location.href='{{ url('rapat/zip/'. $item->id) }}'" class="btn btn-success text-white"><i class="fa fa-download"></i> Download</button>
                     <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
                 </div>
             </div>
