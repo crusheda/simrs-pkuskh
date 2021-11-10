@@ -13,7 +13,6 @@
 
 <div class="row">
     @if(Auth::user()->hasAnyRole([
-        'perencanaan',
         'pelayanan',
         'direktur-utama',
 
@@ -51,7 +50,6 @@
         'direktur-pelayanan-keperawatan-penunjang',
     ]))
         @if (Auth::user()->hasAnyRole([
-            'perencanaan',
             'pelayanan',
             'direktur-utama',
         ]))
@@ -81,8 +79,7 @@
                             <div class="btn-group" role="group">
                                 @if ($list['tambah'] == true)
                                     @if(Auth::user()->hasAnyRole([
-                                            'perencanaan',
-                                            'pelayanan',
+                                            // 'pelayanan',
                                             'direktur-utama',
                                             'direktur-keuangan-perencanaan',
                                             'direktur-umum-kepegawaian',
@@ -118,7 +115,7 @@
                                     Backup
                                 </a> --}}
                                 @if(Auth::user()->hasAnyRole([
-                                    'it',
+                                    // 'it',
                                     'pelayanan',
                                     'direktur-utama',
                                     'direktur-umum-kepegawaian',
@@ -159,7 +156,7 @@
                         @endrole
                     </div>
                 </div><hr>
-                @role('it|pelayanan|direktur-utama')
+                @role('pelayanan|direktur-utama')
                     <div class="table-responsive">
                         <table id="bulanan-admin" class="table table-striped display" style="width:100%">
                             <thead>
@@ -476,13 +473,13 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            <form class="form-auth-small" action="{{ route('bulanan.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="form-auth-small" name="formTambah" action="{{ route('bulanan.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Setelah menambahkan laporan, anda dapat mengubahnya hanya sampai <strong>3 hari kedepan</strong>. Penghapusan dokumen laporan hanya berlaku pada <strong>Hari saat Anda mengupload saja</strong>.<br><i class="fa-fw fas fa-caret-right nav-icon"></i> Bila terjadi kesalahan sistem mohon hubungi <kbd>102</kbd> . Terima Kasih. :)<hr>
                 <div class="row">
                     <div class="col-md-4">
                         <label>Bulan</label>
-                        <select onchange="submitBtn()" class="form-control" name="bln" required>
+                        <select onchange="submitBtn()" class="form-control" name="bln" id="bln-tambah" required>
                             <option hidden>Bulan</option>
                             <?php
                                 $bulan=array("","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
@@ -495,7 +492,7 @@
                     </div>
                     <div class="col-md-4">
                         <label>Tahun</label>
-                        <select onchange="submitBtn()" class="form-control" name="thn" required>
+                        <select onchange="submitBtn()" class="form-control" name="thn" id="thn-tambah" required>
                             <option hidden selected>Tahun</option>
                             @php
                                 for ($i=2018; $i <= $list['thn']; $i++) { 
@@ -528,7 +525,7 @@
         </div>
         <div class="modal-footer">
                 User :&nbsp;<strong>{{ Auth::user()->nama }}</strong> 
-                <center><button class="btn btn-success" id="btn-simpan"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button></center><br>
+                <button class="btn btn-success" id="btn-simpan" onclick="saveData()"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
             </form>
 
             <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
@@ -1172,13 +1169,13 @@ $(document).ready( function () {
         }
     });
     
-    $("#tambah").one('submit', function() {
-        //stop submitting the form to see the disabled button effect
-        $("#btn-simpan").attr('disabled','disabled');
-        $("#btn-simpan").find("i").toggleClass("fa-save fa-refresh fa-spin");
+    // $("#tambah").one('submit', function() {
+    //     //stop submitting the form to see the disabled button effect
+    //     $("#btn-simpan").attr('disabled','disabled');
+    //     $("#btn-simpan").find("i").toggleClass("fa-save fa-refresh fa-spin");
 
-        return true;
-    });
+    //     return true;
+    // });
 });
 </script>
 <script>
@@ -1189,5 +1186,34 @@ $(document).ready( function () {
             document.getElementById("submit").disabled = false;
         }
     } 
+    function saveData() {
+        $("#tambah").one('submit', function() {
+            //stop submitting the form to see the disabled button effect
+            let x = document.forms["formTambah"]["bln-tambah"].value;
+            let y = document.forms["formTambah"]["thn-tambah"].value;
+            if (x == "Bulan" || y == "Tahun") {
+
+                Swal.fire({
+                    position: 'top',
+                    title: 'Perhatian',
+                    text: 'Anda belum memasukkan Bulan / Tahun',
+                    icon: 'warning',
+                    showConfirmButton:false,
+                    showCancelButton:true,
+                    cancelButtonText: `<i class="fa fa-close"></i> Tutup`,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    backdrop: `rgba(26,27,41,0.8)`,
+                });
+
+                return false;
+            } else {
+                $("#btn-simpan").attr('disabled','disabled');
+                $("#btn-simpan").find("i").toggleClass("fa-save fa-refresh fa-spin");
+
+                return true;
+            }
+        });
+    }
 </script>
 @endsection

@@ -195,7 +195,6 @@
                             <select name="shift" class="form-control" required>
                                 <option hidden>Pilih</option>
                                 <option value="PAGI">PAGI</option>
-                                <option value="MIDDLE">MIDDLE</option>
                                 <option value="SIANG">SIANG</option>
                                 <option value="MALAM">MALAM</option>
                             </select>
@@ -285,7 +284,6 @@
                             <select name="shift" class="form-control" required>
                                 <option hidden>Pilih</option>
                                 <option value="PAGI"    @if ($item->shift == 'PAGI') echo selected @endif>PAGI</option>
-                                <option value="MIDDLE"  @if ($item->shift == 'MIDDLE') echo selected @endif>MIDDLE</option>
                                 <option value="SIANG"   @if ($item->shift == 'SIANG') echo selected @endif>SIANG</option>
                                 <option value="MALAM"   @if ($item->shift == 'MALAM') echo selected @endif>MALAM</option>
                             </select>

@@ -25,6 +25,7 @@ class pengajuanPembayaranController extends Controller
      */
     public function index()
     {
+        $user = User::get();
         $now = Carbon::now();
         $hari = Carbon::now()->isoFormat('DD');
         $bulan = Carbon::now()->isoFormat('MM');
@@ -44,6 +45,7 @@ class pengajuanPembayaranController extends Controller
 
         $data = [
             'show' => $show,
+            'user' => $user,
             'jenis' => $jenis,
             'pbf' => $pbf,
             'now' => $now,
@@ -97,6 +99,9 @@ class pengajuanPembayaranController extends Controller
         }
         if ($request->no_rek != null) {
             $data->no_rek = $request->no_rek;
+        }
+        if ($request->no_cek != null) {
+            $data->no_cek = $request->no_cek;
         }
         $data->nominal = $nominal;
         $data->tgl = $now;
@@ -167,8 +172,12 @@ class pengajuanPembayaranController extends Controller
         } else {
             $data->no_rek = null;
         }
+        if ($request->no_cek != null) {
+            $data->no_cek = $request->no_cek;
+        } else {
+            $data->no_cek = null;
+        }
         $data->nominal = $nominal;
-        $data->id_user = $userId;
         $data->save();
 
         return Redirect::back()->with('message','Ubah Data Pengajuan Pembayaran Berhasil');

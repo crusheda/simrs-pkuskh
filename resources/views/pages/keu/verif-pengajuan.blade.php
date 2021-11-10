@@ -15,6 +15,8 @@
     <div class="card" style="width: 100%">
         <div class="card-header bg-dark text-white">
 
+            <button type="button" class="btn btn-sm btn-light pull-left" onclick="window.location.href='{{ route('pengajuan.index') }}'"><i class="fa-fw fas fa-hand-o-left nav-icon"></i> Kembali</button>
+            &nbsp;&nbsp;
             <i class="fa-fw fas fa-check-square nav-icon text-info">
 
             </i> Verifikasi Data Pengajuan Pembayaran
@@ -288,7 +290,7 @@
 </div>
 @endforeach
 
-{{-- HAPUS VERIFIKASI KABAG --}}
+{{-- HAPUS VERIFIKASI KASUBAG --}}
 @foreach($list['show'] as $item)
 <div class="modal" id="hapusverifkasubag{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">

@@ -7,7 +7,9 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use App\Models\pbf;
+use App\User;
 use Carbon\Carbon;
+use Auth;
 
 class pbfController extends Controller
 {
@@ -18,11 +20,13 @@ class pbfController extends Controller
      */
     public function index()
     {
+        $user = User::get();
         $show = pbf::get();
         $jenis = pbf::select('jenis')->groupBy('jenis')->get();
 
         $data = [
             'show' => $show,
+            'user' => $user,
             'jenis' => $jenis,
         ];
 
@@ -51,8 +55,12 @@ class pbfController extends Controller
             'pbf' => 'nullable',
             'jenis' => 'nullable',
             ]);
+
+        $user = Auth::user();
+        $userId = $user->id;
             
         $data = new pbf;
+        $data->id_user = $userId;
         $data->pbf = $request->pbf;
         $data->jenis = $request->jenis;
 
@@ -92,13 +100,20 @@ class pbfController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $user = Auth::user();
+        $userId = $user->id;
+
         $data = pbf::find($id);
-        $data->pbf = $request->pbf;
-        $data->jenis = $request->jenis;
-
-        $data->save();
-
-        return redirect()->back()->with('message','Ubah PBF Berhasil');
+        if ($data->id_user != $userId) {
+            return redirect::back()->withErrors('Aksi pengubahan gagal, hanya User terkait yang dapat mengubah ataupun menghapus supplier '.$data->pbf);
+        } else {
+            $data->pbf = $request->pbf;
+            $data->jenis = $request->jenis;
+    
+            $data->save();
+    
+            return redirect()->back()->with('message','Ubah PBF Berhasil');
+        }
     }
 
     /**
@@ -109,11 +124,17 @@ class pbfController extends Controller
      */
     public function destroy($id)
     {
-        $data = pbf::find($id);
-        $data->delete();
+        $user = Auth::user();
+        $userId = $user->id;
 
-        // redirect
-        return redirect()->back()->with('message','Hapus PBF Berhasil');
+        $data = pbf::find($id);
+        if ($data->id_user != $userId) {
+            return redirect::back()->withErrors('Aksi penghapusan gagal, hanya User terkait yang dapat mengubah ataupun menghapus supplier '.$data->pbf);
+        } else {
+            $data->delete();
+    
+            return redirect()->back()->with('message','Hapus PBF Berhasil');
+        }
     }
 
     public function apiPbf($jenis)

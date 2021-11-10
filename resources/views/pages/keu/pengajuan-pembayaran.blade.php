@@ -35,18 +35,18 @@
                                 </i>
                                 Tambah
                             </button>
+                            <button type="button" class="btn btn-warning text-white" onclick="window.location.href='{{ route('pbf.index') }}'">
+                                <i class="fa-fw fas fa-sort-amount-asc nav-icon">
+        
+                                </i>
+                                Supplier
+                            </button>
                             @role('kasubag-perbendaharaan|kabag-keuangan')
                                 <button type="button" class="btn btn-dark text-white" onclick="window.location.href='{{ route('pengajuan.showverif') }}'">
                                     <i class="fa-fw fas fa-check-square nav-icon">
             
                                     </i>
                                     Verifikasi
-                                </button>
-                                <button type="button" class="btn btn-warning text-white" onclick="window.location.href='{{ route('pbf.index') }}'">
-                                    <i class="fa-fw fas fa-sort-amount-asc nav-icon">
-            
-                                    </i>
-                                    PBF
                                 </button>
                             @endrole
                         </div>
@@ -65,6 +65,7 @@
                                 <th>TRANSAKSI</th>
                                 <th>BANK</th>
                                 <th>NO. REK</th>
+                                <th>NO. CEK</th>
                                 <th>NOMINAL</th>
                                 <th>USER</th>
                                 <th>DITAMBAHKAN</th>
@@ -83,9 +84,16 @@
                                 <td>{{ \Carbon\Carbon::parse($item->tgl_jatuh_tempo)->isoFormat('dddd, D MMM Y') }}</td>
                                 <td>{{ $item->transaksi }}</td>
                                 <td>@if ($item->bank == null) - @else {{ $item->bank }} @endif</td>
-                                <td>@if ($item->bank == null) - @else {{ $item->no_rek }} @endif</td>
+                                <td>@if ($item->no_rek == null) - @else {{ $item->no_rek }} @endif</td>
+                                <td>@if ($item->no_cek == null) - @else {{ $item->no_cek }} @endif</td>
                                 <td>Rp. {{ number_format($item->nominal,0,",",".") }}</td>
-                                <td>{{ $item->id_user }}</td>
+                                <td>
+                                    @foreach ($list['user'] as $us)
+                                        @if ($item->id_user == $us->id)
+                                            {{ $us->nama }}
+                                        @endif
+                                    @endforeach
+                                </td>
                                 <td>{{ $item->created_at }}</td>
                                 <td>
                                     <center>
@@ -150,7 +158,7 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>PBF :</label>
+                            <label>Supplier :</label>
                             <div class="input-group mb-3">
                                 <select class="form-control" name="pbf" id="pbf_tambah" disabled required>
                                     <option value="" hidden>Pilih</option>
@@ -173,7 +181,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Tgl Jatuh Tempo :</label>
-                            <input type="date" name="tgl_jatuh_tempo" class="form-control" value="<?php echo strftime('%Y-%m-%d', strtotime(\Carbon\Carbon::now())); ?>" required>
+                            <input type="date" name="tgl_jatuh_tempo" class="form-control" required>
                         </div>
                     </div>
                 </div>
@@ -206,9 +214,18 @@
                     <div class="col">
                         <div class="form-group">
                             <label>Nomor Rekening :</label>
-                            <input type="text" name="no_rek" id="no_rek_tambah" class="form-control" placeholder="Masukkan Nomor Rekening">
+                            <input type="number" name="no_rek" id="no_rek_tambah" class="form-control" placeholder="Masukkan Nomor Rekening">
                         </div>
                     </div>
+                </div>
+                <div class="row" id="cek_tambah" hidden>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Nomor Cek :</label>
+                            <input type="text" name="no_cek" id="no_cek_tambah" class="form-control" placeholder="Masukkan Nomor Cek">
+                        </div>
+                    </div>
+                    <div class="col"></div>
                 </div>
 
         </div>
@@ -229,7 +246,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">
-            Ubah Data&nbsp;<span class="pull-right badge badge-info text-white" style="margin-top:5px">{{ \Carbon\Carbon::parse($item->updated_at)->diffForHumans() }}</span>
+            Ubah Data&nbsp;<span class="pull-right badge badge-info text-white" style="margin-top:5px">ID : {{ $item->id }}</span>
           </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
@@ -241,8 +258,7 @@
                         <div class="form-group">
                             <label>Jenis :</label>
                             <div class="input-group mb-3">
-                                <select class="form-control" name="jenis" id="jenis_edit" required>
-                                    <option value="" hidden>Pilih</option>
+                                <select class="form-control" name="jenis" id="jenis_edit{{ $item->id }}" onclick="ubahJenis({{ $item->id }})" required>
                                     @foreach($list['jenis'] as $key => $items)
                                         <option value="{{ $items->jenis }}" @if ($items->jenis == $item->jenis) echo selected @endif><label>{{ $items->jenis }}</option>
                                     @endforeach
@@ -252,12 +268,11 @@
                     </div>
                     <div class="col-md-6">
                         <div class="form-group">
-                            <label>PBF :</label>
+                            <label>Supplier :</label>
                             <div class="input-group mb-3">
-                                <select class="form-control" name="pbf" id="pbf_edit" disabled required>
-                                    <option value="" hidden>Pilih</option>
-                                    @foreach($list['pbf'] as $key => $items)
-                                        <option value="{{ $items->id }}" @if ($items->id == $item->pbf) echo selected @endif><label>{{ $items->pbf }}</option>
+                                <select class="form-control" name="pbf" id="pbf_edit{{ $item->id }}" disabled required>
+                                    @foreach($list['pbf'] as $key => $val)
+                                        <option value="{{ $val->id }}" @if ($val->id == $item->pbf) echo selected @endif><label>{{ $val->pbf }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -311,14 +326,23 @@
                     <div class="col">
                         <div class="form-group">
                             <label>Nomor Rekening :</label>
-                            <input type="text" name="no_rek" id="no_rek_edit{{ $item->id }}" value="{{ $item->no_rek }}" class="form-control" placeholder="Masukkan Nomor Rekening" @if ($item->no_rek != null) echo required @endif>
+                            <input type="number" name="no_rek" id="no_rek_edit{{ $item->id }}" value="{{ $item->no_rek }}" class="form-control" placeholder="Masukkan Nomor Rekening" @if ($item->no_rek != null) echo required @endif>
                         </div>
                     </div>
+                </div>
+                <div class="row" id="cek_edit{{ $item->id }}" @if ($item->no_cek == null) echo hidden @endif>
+                    <div class="col">
+                        <div class="form-group">
+                            <label>Nomor Cek :</label>
+                            <input type="text" name="no_cek" id="no_cek_edit{{ $item->id }}" value="{{ $item->no_cek }}" class="form-control" placeholder="Masukkan Nomor Cek" @if ($item->no_cek != null) echo required @endif>
+                        </div>
+                    </div>
+                    <div class="col"></div>
                 </div>
 
         </div>
         <div class="modal-footer">
-            
+                <a>{{ \Carbon\Carbon::parse($item->updated_at)->diffForHumans() }}</a>
                 <button class="btn btn-success pull-right"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
             </form>
 
@@ -371,7 +395,8 @@ $(document).ready( function () {
                 { targets: 0, visible: false },
                 { targets: 7, visible: false },
                 { targets: 8, visible: false },
-                { targets: 10, visible: false },
+                { targets: 9, visible: false },
+                { targets: 11, visible: false },
             ],
             language: {
                 buttons: {
@@ -408,11 +433,25 @@ $(document).ready( function () {
         if (this.value == 'TRANSFER') {
             $("#bank_tambah").val("").prop('required', true);
             $("#no_rek_tambah").val("").prop('required', true);
+            $("#no_cek_tambah").val("").prop('required', false);
             $('#transfer_tambah').prop('hidden', false);
+            $('#cek_tambah').prop('hidden', true);
         } else {
-            $("#bank_tambah").val("").prop('required', false);
-            $("#no_rek_tambah").val("").prop('required', false);
-            $('#transfer_tambah').prop('hidden', true);
+            if (this.value == 'CEK') {
+                $("#bank_tambah").val("").prop('required', false);
+                $("#no_rek_tambah").val("").prop('required', false);
+                $("#no_cek_tambah").val("").prop('required', true);
+                $('#transfer_tambah').prop('hidden', true);
+                $('#cek_tambah').prop('hidden', false);
+            } else {
+                if (this.value == 'CASH') {
+                    $("#bank_tambah").val("").prop('required', false);
+                    $("#no_rek_tambah").val("").prop('required', false);
+                    $("#no_cek_tambah").val("").prop('required', false);
+                    $('#transfer_tambah').prop('hidden', true);
+                    $('#cek_tambah').prop('hidden', true);
+                }
+            }
         }
     });
 
@@ -435,27 +474,9 @@ $(document).ready( function () {
                     opt.value = res[i]['id'];
                     sel.appendChild(opt);
                 }
-                // res.forEach(item => {
-                //     $("#pbf_tambah").append(`
-                //         <option value="${item.id}" hidden>${item.pbf}</option>
-                //     `);
-                // });
             }
         });
     });
-
-    // $('#transaksi_edit').change(function() { 
-    //     if (this.value == 'TRANSFER') {
-    //         $("#bank_edit").val("").prop('required', true);
-    //         $("#no_rek_edit").val("").prop('required', true);
-    //         $('#transfer_edit').prop('hidden', false);
-    //     } else {
-    //         $("#bank_edit").val("").prop('required', false);
-    //         $("#no_rek_edit").val("").prop('required', false);
-    //         $('#transfer_edit').prop('hidden', true);
-    //     }
-    // });
-
 } );
 </script>
 <script type="text/javascript">
@@ -511,13 +532,50 @@ $(document).ready( function () {
         if ($("#transaksi_edit"+params).val() == 'TRANSFER') {
             $("#bank_edit"+params).val("").prop('required', true);
             $("#no_rek_edit"+params).val("").prop('required', true);
+            $("#no_cek_edit"+params).val("").prop('required', false);
             $('#transfer_edit'+params).prop('hidden', false);
+            $('#cek_edit'+params).prop('hidden', true);
         } else {
-            $("#bank_edit"+params).val("").prop('required', false);
-            $("#no_rek_edit"+params).val("").prop('required', false);
-            $('#transfer_edit'+params).prop('hidden', true);
+            if ($("#transaksi_edit"+params).val() == 'CEK') {
+                $("#bank_edit"+params).val("").prop('required', false);
+                $("#no_rek_edit"+params).val("").prop('required', false);
+                $("#no_cek_edit"+params).val("").prop('required', true);
+                $('#transfer_edit'+params).prop('hidden', true);
+                $('#cek_edit'+params).prop('hidden', false);
+            } else {
+                if ($("#transaksi_edit"+params).val() == 'CASH') {
+                    $("#bank_edit"+params).val("").prop('required', false);
+                    $("#no_rek_edit"+params).val("").prop('required', false);
+                    $("#no_cek_edit"+params).val("").prop('required', false);
+                    $('#transfer_edit'+params).prop('hidden', true);
+                    $('#cek_edit'+params).prop('hidden', true);
+                }
+            }
         }
     }
 
+    function ubahJenis(params) {
+        $('#pbf_edit'+params).prop('disabled', false);
+        var jenis = $('#jenis_edit'+params).val();
+
+        $.ajax({
+            url: "./pbf/api/"+jenis,
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function(res) {
+                $("#pbf_edit"+params).val("").find('option').remove();
+                $("#pbf_edit"+params).append('<option value="" hidden>Pilih</option>');
+
+                var len = res.length;   
+                var sel = document.getElementById('pbf_edit'+params);
+                for(var i = 0; i < len; i++) {
+                    var opt = document.createElement('option');
+                    opt.innerHTML = res[i]['pbf'];
+                    opt.value = res[i]['id'];
+                    sel.appendChild(opt);
+                }
+            }
+        });
+    }
 </script>
 @endsection
