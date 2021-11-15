@@ -10,6 +10,7 @@ use App\Models\pbf;
 use App\User;
 use Carbon\Carbon;
 use Auth;
+use Redirect;
 
 class pbfController extends Controller
 {

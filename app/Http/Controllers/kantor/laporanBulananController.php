@@ -396,9 +396,6 @@ class laporanBulananController extends Controller
     {
         $data = laporan_bulanan::find($id);
         return Storage::download($data->filename, $data->title);
-        // return Storage::url($data->filename, $data->title);
-        // return response()->download(storage_path("app/".$data->filename));
-        // return response()->file(storage_path("app/".$data->filename));
     }
 
     /**

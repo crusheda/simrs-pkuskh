@@ -653,14 +653,14 @@
                     @endif
                 </a>
                 <ul class="nav-dropdown-items">
-                    {{-- <li class="nav-item">
+                    <li class="nav-item">
                         <a href="{{ route("managerfile") }}" class="nav-link">
                             <i class="fa-fw fas fa-folder-open nav-icon">
 
                             </i>
                             File Manager
                         </a>
-                    </li> --}}
+                    </li>
                     <li class="nav-item">
                         <a href="{{ route("bulanan.index") }}" class="nav-link">
                             <i class="fa-fw fas fa-book nav-icon">

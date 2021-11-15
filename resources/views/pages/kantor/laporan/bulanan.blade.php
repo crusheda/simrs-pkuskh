@@ -462,7 +462,6 @@
     
 </div>
 
-
 <div class="modal fade bd-example-modal-lg" id="tambah" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
