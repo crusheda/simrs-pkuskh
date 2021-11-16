@@ -47,6 +47,7 @@
                     </div>
                 </div>
             </div>
+            <sub>Data yang ditampilkan adalah data laporan yang sudah anda Upload</sub>
             <hr>
             <div class="table-responsive">
                 <table id="table" class="table table-striped" style="width:100%">
@@ -84,9 +85,14 @@
             <div class="row">
                 <div class="col-md-12">
                     <div class="pull-left">
-                        <button class="btn btn-warning text-white" onclick="refreshAdmin()">
-                            <i class="fa-fw fas fa-refresh nav-icon"></i>
-                        </button>
+                        <div class="btn-group" role="group">
+                            <button class="btn btn-warning text-white" onclick="refreshAdmin()">
+                                <i class="fa-fw fas fa-refresh nav-icon"></i>
+                            </button>
+                            <button class="btn btn-danger text-white" onclick="restore()">
+                                <i class="fa-fw fas fa-history nav-icon"></i> Restore Data
+                            </button>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -99,12 +105,13 @@
                             <th><center>STATUS</center></th>
                             <th>DIUPDATE</th>
                             <th>JUDUL</th>
+                            <th>UNIT</th>
                             <th>BLN / THN</th>
                             <th>KETERANGAN</th>
                             <th><center>AKSI</center></th>
                         </tr>
                     </thead>
-                    <tbody id="tampil-tbody-admin"><tr><td colspan="7"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+                    <tbody id="tampil-tbody-admin"><tr><td colspan="8"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
                 </table>
             </div>
         </div>
@@ -123,7 +130,7 @@
         <div class="modal-body">
             <form class="form-auth-small" name="formTambah" action="{{ route('bulanan.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <i class="fa-fw fas fa-caret-right nav-icon"></i> Setelah menambahkan laporan, anda dapat mengubahnya hanya sampai <strong>3 hari kedepan</strong>. Penghapusan dokumen laporan hanya berlaku pada <strong>Hari saat Anda mengupload saja</strong>.<br><i class="fa-fw fas fa-caret-right nav-icon"></i> Bila terjadi kesalahan sistem mohon hubungi <kbd>102</kbd> . Terima Kasih. :)<hr>
+                <i class="fa-fw fas fa-info-circle nav-icon"></i> Pengubahan atau Penghapusan dokumen laporan hanya berlaku pada <strong>Hari saat Anda mengupload saja</strong><hr>
                 <div class="row">
                     <div class="col-md-4">
                         <label>Bulan</label>
@@ -196,24 +203,26 @@
                 <button class="btn btn-warning text-white" onclick="refreshVerif()">
                     <i class="fa-fw fas fa-refresh nav-icon"></i>
                 </button>
-                <button class="btn btn-success text-white" disabled>
-                    <i class="fa-fw fas fa-history nav-icon"></i> Riwayat
+                <button class="btn btn-success text-white" onclick="window.location.href='{{ route('riwayat.laporan.bulanan') }}'">
+                    <i class="fa-fw fas fa-history nav-icon"></i> Riwayat Verifikasi
                 </button>
             </div>
+            <br>
+            <sub>Data yang ditampilkan khusus Laporan yang belum terverifikasi</sub>
             <hr>
             <table id="tableverif" class="table table-striped table-bordered" style="width:100%">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>UNIT</th>
                         <th>DIUPDATE</th>
                         <th>JUDUL</th>
+                        <th>UNIT</th>
                         <th>BLN / THN</th>
                         <th>KETERANGAN</th>
                         <th><center>AKSI</center></th>
                     </tr>
                 </thead>
-                <tbody id="tampil-verif"><tr><td colspan="7"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+                <tbody id="tampil-verif"><tr><td colspan="8"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
             </table>
         </div>
         <div class="modal-footer">
@@ -617,27 +626,35 @@
                 success: function(res) {
                     $("#tampil-tbody-admin").empty();
                     res.show.forEach(item => {
+                        if(item.unit) {
+                            try {
+                                var un = JSON.parse(item.unit);
+                            } catch(e) {
+                                var un = item.unit;
+                            }
+                        }
                         $("#tampil-tbody-admin").append(`
                             <tr id="data${item.id}">
-                                <td>${item.id}</td>
+                                <td><kbd>${item.id}</kbd></td>
                                 <td>
                                     <center>
                                         <div class="btn-group" role="group">
                                             ${item.tgl_verif == null ?
-                                                '<button class="btn btn-dark text-white btn-sm" onclick="verifikasi('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
+                                                '<button class="btn btn-dark text-white btn-sm" onclick="verifikasiAdmin('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
                                             :
                                                 '<button class="btn btn-info text-white btn-sm" onclick="verified('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
                                             }
                                             ${item.ket_verif == null ?
-                                                '<button class="btn btn-dark text-white btn-sm" onclick="ket('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
+                                                '<button class="btn btn-dark text-white btn-sm" onclick="ketAdmin('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
                                             :
-                                                '<button class="btn btn-info text-white btn-sm" onclick="ketHapus('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
+                                                '<button class="btn btn-info text-white btn-sm" onclick="ketHapusAdmin('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
                                             }
                                         </div>
                                     </center>
                                 </td>
                                 <td>${item.updated_at}</td>
                                 <td>${item.judul}</td>
+                                <td>${un}</td>
                                 <td>${item.bln} / ${item.thn}</td>
                                 <td>${item.ket != null ? item.ket : ''}</td>
                                 <td>
@@ -731,6 +748,7 @@
                 dataType: 'json', // added data type
                 success: function(res) {
                     $("#tampil-tbody").empty();
+                    $('#table').DataTable().clear().destroy();
                     var date = new Date().toISOString().split('T')[0];
                     res.show.forEach(item => {
                         var updet = item.updated_at.substring(0, 10);
@@ -755,13 +773,40 @@
                             </tr>
                         `);
                     });
+                    $('#table').DataTable(
+                        {
+                            paging: true,
+                            searching: true,
+                            dom: 'Bfrtip',
+                            buttons: [
+                                'excel', 'pdf','colvis'
+                            ],
+                            select: {
+                                style: 'single'
+                            },
+                            'columnDefs': [
+                                // { targets: 0, visible: false },
+                                // { targets: 3, visible: false },
+                                // { targets: 6, visible: false },
+                                // { targets: 8, visible: false },
+                            ],
+                            language: {
+                                buttons: {
+                                    colvis: 'Sembunyikan Kolom',
+                                    excel: 'Jadikan Excell',
+                                    pdf: 'Jadikan PDF',
+                                }
+                            },
+                            order: [[ 1, "desc" ]],
+                            pageLength: 10
+                        }
+                    ).columns.adjust();
                 }
             }
         );
     }
     
-    function refreshVerif() {
-        $("#tampil-verif").empty().append(`<tr><td colspan="7"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
+    function verif() {
         $.ajax(
             {
                 url: "./bulan/tableverif",
@@ -771,12 +816,70 @@
                     $('#modal-verif').modal('show');
                     $("#tampil-verif").empty();
                     res.forEach(item => {
+                        if(item.unit) {
+                            try {
+                                var un = JSON.parse(item.unit);
+                            } catch(e) {
+                                var un = item.unit;
+                            }
+                        }
                         $("#tampil-verif").append(`
                             <tr id="data${item.id}">
-                                <td>${item.id}</td> 
-                                <td>${item.unit}</td>
+                                <td><kbd>${item.id}</kbd></td>
                                 <td>${item.updated_at}</td>
                                 <td>${item.judul}</td>
+                                <td>${un}</td>
+                                <td>${item.bln} / ${item.thn}</td>
+                                <td>${item.ket ? item.ket : '' }</td>
+                                <td>
+                                    <center>
+                                        <div class="btn-group" role="group">
+                                            ${item.tgl_verif == null ?
+                                                '<button class="btn btn-dark text-white btn-sm" onclick="verifikasi('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
+                                            :
+                                                '<button class="btn btn-info text-white btn-sm" onclick="verified('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
+                                            }
+                                            ${item.ket_verif == null ?
+                                                '<button class="btn btn-dark text-white btn-sm" onclick="ket('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
+                                            :
+                                                '<button class="btn btn-info text-white btn-sm" onclick="ketHapus('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
+                                            }
+                                            <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulan/${item.id}') }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
+                                        </div>
+                                    </center>
+                                </td>
+                            </tr>
+                        `);
+                    });
+                }
+            }
+        );
+    }
+
+    function refreshVerif() {
+        $("#tampil-verif").empty().append(`<tr><td colspan="8"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
+        $.ajax(
+            {
+                url: "./bulan/tableverif",
+                type: 'GET',
+                dataType: 'json', // added data type
+                success: function(res) {
+                    $('#modal-verif').modal('show');
+                    $("#tampil-verif").empty();
+                    res.forEach(item => {
+                        if(item.unit) {
+                            try {
+                                var un = JSON.parse(item.unit);
+                            } catch(e) {
+                                var un = item.unit;
+                            }
+                        }
+                        $("#tampil-verif").append(`
+                            <tr id="data${item.id}">
+                                <td><kbd>${item.id}</kbd></td>
+                                <td>${item.updated_at}</td>
+                                <td>${item.judul}</td>
+                                <td>${un}</td>
                                 <td>${item.bln} / ${item.thn}</td>
                                 <td>${item.ket ? item.ket : '' }</td>
                                 <td>
@@ -805,7 +908,7 @@
     }
 
     function refreshAdmin() {
-        $("#tampil-tbody-admin").empty().append(`<tr><td colspan="7"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
+        $("#tampil-tbody-admin").empty().append(`<tr><td colspan="8"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
         $.ajax(
             {
                 url: "./bulan/tableadmin",
@@ -813,28 +916,37 @@
                 dataType: 'json', // added data type
                 success: function(res) {
                     $("#tampil-tbody-admin").empty();
+                    $('#tableadmin').DataTable().clear().destroy();
                     res.show.forEach(item => {
+                        if(item.unit) {
+                            try {
+                                var un = JSON.parse(item.unit);
+                            } catch(e) {
+                                var un = item.unit;
+                            }
+                        }
                         $("#tampil-tbody-admin").append(`
                             <tr id="data${item.id}">
-                                <td>${item.id}</td>
+                                <td><kbd>${item.id}</kbd></td>
                                 <td>
                                     <center>
                                         <div class="btn-group" role="group">
                                             ${item.tgl_verif == null ?
-                                                '<button class="btn btn-dark text-white btn-sm" onclick="verifikasi('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
+                                                '<button class="btn btn-dark text-white btn-sm" onclick="verifikasiAdmin('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
                                             :
                                                 '<button class="btn btn-info text-white btn-sm" onclick="verified('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
                                             }
                                             ${item.ket_verif == null ?
-                                                '<button class="btn btn-dark text-white btn-sm" onclick="ket('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
+                                                '<button class="btn btn-dark text-white btn-sm" onclick="ketAdmin('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
                                             :
-                                                '<button class="btn btn-info text-white btn-sm" onclick="ketHapus('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
+                                                '<button class="btn btn-info text-white btn-sm" onclick="ketHapusAdmin('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
                                             }
                                         </div>
                                     </center>
                                 </td>
                                 <td>${item.updated_at}</td>
                                 <td>${item.judul}</td>
+                                <td>${un}</td>
                                 <td>${item.bln} / ${item.thn}</td>
                                 <td>${item.ket != null ? item.ket : ''}</td>
                                 <td>
@@ -849,6 +961,34 @@
                             </tr>
                         `);
                     });
+                    $('#tableadmin').DataTable(
+                        {
+                            paging: true,
+                            searching: true,
+                            dom: 'Bfrtip',
+                            buttons: [
+                                'excel', 'pdf','colvis'
+                            ],
+                            select: {
+                                style: 'single'
+                            },
+                            'columnDefs': [
+                                // { targets: 0, visible: false },
+                                // { targets: 3, visible: false },
+                                // { targets: 6, visible: false },
+                                // { targets: 8, visible: false },
+                            ],
+                            language: {
+                                buttons: {
+                                    colvis: 'Sembunyikan Kolom',
+                                    excel: 'Jadikan Excell',
+                                    pdf: 'Jadikan PDF',
+                                }
+                            },
+                            order: [[ 2, "desc" ]],
+                            pageLength: 10
+                        }
+                    ).columns.adjust();
                 }
             }
         );
@@ -932,6 +1072,54 @@
         })
     }
 
+    function verifikasiAdmin(id) {
+        Swal.fire({
+            title: 'Verifikasi Laporan?',
+            text: 'Laporan ID : '+id,
+            icon: 'info',
+            reverseButtons: true,
+            focusConfirm: true,
+            showDenyButton: true,
+            showCloseButton: true,
+            showCancelButton: false,
+            confirmButtonText: `<i class="fa fa-thumbs-up"></i> Verifikasi`,
+            denyButtonText: `<i class="fa fa-thumbs-down"></i> Batal`,
+            backdrop: `rgba(26,27,41,0.8)`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'POST',
+                    url: './bulan/api/', 
+                    dataType: 'json', 
+                    data: { 
+                        id: id,
+                        verifikasi: true,
+                    }, 
+                    success: function(res) {
+                        Swal.fire({
+                            title: 'Verifikasi Berhasil!',
+                            text: 'Laporan berhasil diverifikasi oleh '+res.nama,
+                            icon: 'success',
+                            showConfirmButton:false,
+                            showCancelButton:false,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            backdrop: `rgba(26,27,41,0.8)`,
+                        });
+                        if (res) {
+                            refreshAdmin();
+                        }
+                    }
+                }); 
+            }
+        })
+    }
+
     function verified(id) {
         $.ajax({
             method: 'GET',
@@ -1006,6 +1194,57 @@
         })
     }
     
+    function ketAdmin(id) {
+        Swal.fire({
+            title: 'Keterangan Verifikasi',
+            text: 'ID : '+id,
+            input: 'textarea',
+            reverseButtons: true,
+            showDenyButton: false,
+            showCloseButton: true,
+            showCancelButton: true,
+            confirmButtonText: `<i class="fa fa-send"></i> Kirim`,
+            backdrop: `rgba(26,27,41,0.8)`,
+            inputValidator: (value) => {
+                if (!value) {
+                    return 'Pengisian keterangan tidak boleh kosong!'
+                }
+            }
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                    headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'POST',
+                    url: './bulan/api/ket/', 
+                    dataType: 'json', 
+                    data: { 
+                        id: id,
+                        ket: result.value,
+                    }, 
+                    success: function(res) {
+                        Swal.fire({
+                            title: `Keterangan Ditambahkan!`,
+                            text: res,
+                            icon: `success`,
+                            showConfirmButton:false,
+                            showCancelButton:false,
+                            allowOutsideClick: false,
+                            allowEscapeKey: false,
+                            timer: 3000,
+                            timerProgressBar: true,
+                            backdrop: `rgba(26,27,41,0.8)`,
+                        });
+                        if (res) {
+                            refreshAdmin();
+                        }
+                    }
+                }); 
+            }
+        })
+    }
+    
     function ketHapus(id) {
         $.ajax({
             method: 'GET',
@@ -1057,6 +1296,57 @@
         }); 
     }
     
+    function ketHapusAdmin(id) {
+        $.ajax({
+            method: 'GET',
+            url: './bulan/api/ket/'+id, 
+            dataType: 'json', 
+            data: { 
+                id: id
+            }, 
+            success: function(res) {
+                Swal.fire({
+                    title: 'Keterangan',
+                    text: res.ket_verif,
+                    focusCancel: true,
+                    showConfirmButton:true,
+                    confirmButtonText: `<i class="fa fa-trash"></i> Hapus`,
+                    confirmButtonColor: '#FF4845',
+                    showCancelButton: true,
+                    cancelButtonText: `<i class="fa fa-close"></i> Tutup`,
+                    showCloseButton: true,
+                    backdrop: `rgba(26,27,41,0.8)`,
+                }).then((result) => {
+                    if (result.isConfirmed) {
+                        $.ajax({
+                            method: 'GET',
+                            url: './bulan/api/ket/'+id+'/hapus', 
+                            dataType: 'json', 
+                            data: { 
+                                id: id
+                            }, 
+                            success: function(val) {
+                                Swal.fire({
+                                    title: 'Keterangan berhasil dihapus!',
+                                    text: val.text,
+                                    icon: val.icon,
+                                    showConfirmButton:false,
+                                    showCancelButton:false,
+                                    timer: 3000,
+                                    timerProgressBar: true,
+                                    backdrop: `rgba(26,27,41,0.8)`,
+                                });
+                                if (val) {
+                                    refreshAdmin();
+                                }
+                            }
+                        }); 
+                    }
+                })
+            }
+        }); 
+    }
+    
     function ketLihat(id) {
         $.ajax({
             method: 'GET',
@@ -1078,50 +1368,6 @@
                 });
             }
         }); 
-    }
-
-    function verif() {
-        $.ajax(
-            {
-                url: "./bulan/tableverif",
-                type: 'GET',
-                dataType: 'json', // added data type
-                success: function(res) {
-                    $('#modal-verif').modal('show');
-                    $("#tampil-verif").empty();
-                    console.log(Object.keys(res).length);
-                    res.forEach(item => {
-                        $("#tampil-verif").append(`
-                            <tr id="data${item.id}">
-                                <td>${item.id}</td> 
-                                <td>${item.unit}</td>
-                                <td>${item.updated_at}</td>
-                                <td>${item.judul}</td>
-                                <td>${item.bln} / ${item.thn}</td>
-                                <td>${item.ket ? item.ket : '' }</td>
-                                <td>
-                                    <center>
-                                        <div class="btn-group" role="group">
-                                            ${item.tgl_verif == null ?
-                                                '<button class="btn btn-dark text-white btn-sm" onclick="verifikasi('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
-                                            :
-                                                '<button class="btn btn-info text-white btn-sm" onclick="verified('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
-                                            }
-                                            ${item.ket_verif == null ?
-                                                '<button class="btn btn-dark text-white btn-sm" onclick="ket('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
-                                            :
-                                                '<button class="btn btn-info text-white btn-sm" onclick="ketHapus('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
-                                            }
-                                            <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulan/${item.id}') }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
-                                        </div>
-                                    </center>
-                                </td>
-                            </tr>
-                        `);
-                    });
-                }
-            }
-        );
     }
 </script>
 @endsection

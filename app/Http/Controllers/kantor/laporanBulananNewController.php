@@ -435,9 +435,217 @@ class laporanBulananNewController extends Controller
     
     public function ketHapus($id)
     {
-        laporan_bulanan::where('id',$id)->delete();
+        laporan_bulanan::where('id',$id)->update(['ket_verif' => null,'tgl_ket_verif' => null]);
 
         $text = 'Silakan mengisi ulang keterangan';
+        $icon = 'success';
+
+        $data = [
+            'text' => $text,
+            'icon' => $icon,
+        ];
+        return response()->json($data, 200);
+    }
+
+    public function riwayatVerifikasi()
+    {
+        $user = Auth::user();
+        $id = $user->id;
+        $name = $user->name;
+        $role = $user->roles; //kabag-keperawatan
+
+        $tgl = Carbon::now()->isoFormat('YYYY/MM/DD');
+        $thn = Carbon::now()->isoFormat('Y');
+
+        $show = laporan_bulanan::all();
+
+        // print_r($show);
+        // die();
+
+        $data = [
+            'show' => $show,
+            'user' => $user,
+            'tgl'  => $tgl,
+            'thn'  => $thn,
+            'role' => $role
+        ];
+        
+        return view('pages.kantor.laporan.bulanan.riwayatLaporanBulanan')->with('list', $data);
+    }
+
+    public function tableRiwayatVerifikasi()
+    {
+        $user = Auth::user();
+
+        // VERIF DIRUT
+        $dirut = [
+            'spv',
+            'mpp',
+            'pmkp',
+            'pkrs',
+            'ppi',
+            'spi',
+            'asuransi',
+            'komite-keperawatan',
+            'komite-medik',
+            'direktur-keuangan-perencanaan',
+            'direktur-umum-kepegawaian',
+            'direktur-pelayanan-keperawatan-penunjang',
+        ];
+
+        // VERIF DIREKTUR
+        $verif_direktur_keuangan_perencanaan = [
+            'kabag-perencanaan',
+            'kabag-keuangan',
+        ];
+        $verif_direktur_umum_kepegawaian = [
+            'kabag-rumah-tangga',
+            'kabag-kepegawaian',
+            'kabag-umum',
+        ];
+        $verif_direktur_pelayanan_keperawatan_penunjang = [
+            'kabag-penunjang',
+            'kabag-keperawatan',
+            'kabag-pelayanan-medik',
+        ];
+
+        // VERIF KABAG
+        $verif_kabag_perencanaan = [
+            'kasubag-perencanaan-it',
+            'kasubag-diklat',
+            'kasubag-marketing',
+        ];
+        $verif_kabag_keuangan = [
+            'kasubag-perbendaharaan',
+            'kasubag-verifikasi-akuntansi-pajak',
+        ];
+        $verif_kabag_rumah_tangga = [
+            'kasubag-aset-gudang',
+            'kasubag-ipsrs',
+            'kasubag-kesling-k3',
+        ];
+        $verif_kabag_kepegawaian = [
+            'kasubag-kepegawaian',
+            'kasubag-aik',
+        ];
+        $verif_kabag_umum = [
+            'kasubag-tata-usaha',
+            'kasubag-humas',
+            'kasubag-penunjang-operasional',
+        ];
+        $verif_kabag_penunjang = [
+            'kasubag-penunjang-medik',
+            'kasubag-penunjang-nonmedik',
+        ];
+        $verif_kabag_keperawatan = [
+            'kasubag-keperawatan-rajal-gadar',
+            'kasubag-keperawatan-ranap',
+        ];
+        $verif_kabag_pelayanan_medik = [
+            'kasubag-rajal-gadar',
+            'kasubag-ranap',
+        ];
+
+        // VERIF KASUBAG
+        $verif_kasubag_perencanaan_it = [''];
+        $verif_kasubag_diklat = [''];
+        $verif_kasubag_marketing = [''];
+        $verif_kasubag_perbendaharaan = [''];
+        $verif_kasubag_verifikasi_akuntansi_pajak = ['karu-kasir'];
+        $verif_kasubag_aset_gudang = [''];
+        $verif_kasubag_ipsrs = [''];
+        $verif_kasubag_kesling_k3 = [''];
+        $verif_kasubag_kepegawaian = [''];
+        $verif_kasubag_aik = [''];
+        $verif_kasubag_tata_usaha = [''];
+        $verif_kasubag_humas = [''];
+        $verif_kasubag_penunjang_operasional = ['karu-driver','karu-cs','karu-security'];
+        $verif_kasubag_penunjang_medik = ['karu-lab','karu-rm-informasi','karu-radiologi','karu-rehab','karu-farmasi'];
+        $verif_kasubag_penunjang_nonmedik = ['karu-gizi','karu-laundry','karu-cssd','karu-binroh'];
+        $verif_kasubag_keperawatan_rajal_gadar = ['karu-igd','karu-poli'];
+        $verif_kasubag_keperawatan_ranap = ['karu-icu','karu-ibs','karu-bangsal3','karu-bangsal4','karu-kebidanan'];
+        $verif_kasubag_rajal_gadar = ['karu-igd','karu-poli'];
+        $verif_kasubag_ranap = ['karu-icu','karu-ibs','karu-bangsal3','karu-bangsal4','karu-kebidanan'];
+
+        // ------------------------------------------------------------------------------------------------------------------------
+        // Direktur
+        if ($user->hasRole('direktur-utama')) { $r = $dirut; }
+        elseif ($user->hasRole('direktur-keuangan-perencanaan')) { $r = $verif_direktur_keuangan_perencanaan; }
+        elseif ($user->hasRole('direktur-umum-kepegawaian')) { $r = $verif_direktur_umum_kepegawaian; }
+        elseif ($user->hasRole('direktur-pelayanan-keperawatan-penunjang')) { $r = $verif_direktur_pelayanan_keperawatan_penunjang; }
+
+        // Kabag
+        elseif ($user->hasRole('kabag-perencanaan')) { $r = $verif_kabag_perencanaan; }
+        elseif ($user->hasRole('kabag-keuangan')) { $r = $verif_kabag_keuangan; }
+        elseif ($user->hasRole('kabag-rumah-tangga')) { $r = $verif_kabag_rumah_tangga; }
+        elseif ($user->hasRole('kabag-kepegawaian')) { $r = $verif_kabag_kepegawaian; }
+        elseif ($user->hasRole('kabag-umum')) { $r = $verif_kabag_umum; }
+        elseif ($user->hasRole('kabag-penunjang')) { $r = $verif_kabag_penunjang; }
+        elseif ($user->hasRole('kabag-keperawatan')) { $r = $verif_kabag_keperawatan; }
+        elseif ($user->hasRole('kabag-pelayanan-medik')) { $r = $verif_kabag_pelayanan_medik; }
+
+        // Kasubag
+        elseif ($user->hasRole('kasubag-perencanaan-it')) { $r = $verif_kasubag_perencanaan_it; }
+        elseif ($user->hasRole('kasubag-diklat')) { $r = $verif_kasubag_diklat; }
+        elseif ($user->hasRole('kasubag-marketing')) { $r = $verif_kasubag_marketing; }
+        elseif ($user->hasRole('kasubag-perbendaharaan')) { $r = $verif_kasubag_perbendaharaan; }
+        elseif ($user->hasRole('kasubag-verifikasi-akuntansi-pajak')) { $r = $verif_kasubag_verifikasi_akuntansi_pajak; }
+        elseif ($user->hasRole('kasubag-aset-gudang')) { $r = $verif_kasubag_aset_gudang; }
+        elseif ($user->hasRole('kasubag-ipsrs')) { $r = $verif_kasubag_ipsrs; }
+        elseif ($user->hasRole('kasubag-kesling-k3')) { $r = $verif_kasubag_kesling_k3; }
+        elseif ($user->hasRole('kasubag-kepegawaian')) { $r = $verif_kasubag_kepegawaian; }
+        elseif ($user->hasRole('kasubag-aik')) { $r = $verif_kasubag_aik; }
+        elseif ($user->hasRole('kasubag-tata-usaha')) { $r = $verif_kasubag_tata_usaha; }
+        elseif ($user->hasRole('kasubag-humas')) { $r = $verif_kasubag_humas; }
+        elseif ($user->hasRole('kasubag-penunjang-operasional')) { $r = $verif_kasubag_penunjang_operasional; }
+        elseif ($user->hasRole('kasubag-penunjang-medik')) { $r = $verif_kasubag_penunjang_medik; }
+        elseif ($user->hasRole('kasubag-penunjang-nonmedik')) { $r = $verif_kasubag_penunjang_nonmedik; }
+        elseif ($user->hasRole('kasubag-keperawatan-rajal-gadar')) { $r = $verif_kasubag_keperawatan_rajal_gadar; }
+        elseif ($user->hasRole('kasubag-keperawatan-ranap')) { $r = $verif_kasubag_keperawatan_ranap; }
+        elseif ($user->hasRole('kasubag-rajal-gadar')) { $r = $verif_kasubag_rajal_gadar; }
+        elseif ($user->hasRole('kasubag-ranap')) { $r = $verif_kasubag_ranap; }
+
+            if (!empty($r)) {
+                $show = laporan_bulanan::leftJoin('set_role_users', 'laporan_bulanan.id_user', '=', 'set_role_users.id_user')
+                    ->leftJoin('roles', 'set_role_users.id_roles', '=', 'roles.id')
+                    ->select('roles.name','laporan_bulanan.*')
+                    ->where('laporan_bulanan.deleted_at', null)
+                    ->where('laporan_bulanan.tgl_verif', '!=', null)
+                    ->whereIn('roles.name', $r)
+                    ->orderBy('laporan_bulanan.updated_at', 'desc')
+                    ->get();
+                $verified = laporan_bulanan::leftJoin('set_role_users', 'laporan_bulanan.id_user', '=', 'set_role_users.id_user')
+                    ->leftJoin('roles', 'set_role_users.id_roles', '=', 'roles.id')
+                    ->select('roles.name','laporan_bulanan.*')
+                    ->where('laporan_bulanan.deleted_at', null)
+                    ->where('laporan_bulanan.tgl_verif', '!=', null)
+                    ->whereIn('roles.name', $r)
+                    ->orderBy('laporan_bulanan.updated_at', 'desc')
+                    ->count();
+                $unverified = laporan_bulanan::leftJoin('set_role_users', 'laporan_bulanan.id_user', '=', 'set_role_users.id_user')
+                    ->leftJoin('roles', 'set_role_users.id_roles', '=', 'roles.id')
+                    ->select('roles.name','laporan_bulanan.*')
+                    ->where('laporan_bulanan.deleted_at', null)
+                    ->where('laporan_bulanan.tgl_verif', null)
+                    ->whereIn('roles.name', $r)
+                    ->orderBy('laporan_bulanan.updated_at', 'desc')
+                    ->count();
+            }
+        
+        $data = [
+            'show' => $show,
+            'verified' => $verified,
+            'unverified' => $unverified,
+        ];
+
+        return response()->json($data, 200);
+    }
+
+    public function hapusVerif($id)
+    {
+        laporan_bulanan::where('id',$id)->update(['tgl_verif' => null,'id_verif' => null]);
+
+        $text = 'Silakan melakukan Verifikasi Ulang';
         $icon = 'success';
 
         $data = [

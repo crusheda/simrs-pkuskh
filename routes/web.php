@@ -213,6 +213,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
         Route::get('laporan/bulan/tableverif', 'kantor\laporanBulananNewController@tableVerifikasi');
         Route::get('laporan/bulan/table', 'kantor\laporanBulananNewController@table')->name('api.laporan.bulan');
         Route::get('laporan/bulan/tableadmin', 'kantor\laporanBulananNewController@tableadmin');
+        Route::get('laporan/bulan/verif/{id}/hapus', 'kantor\laporanBulananNewController@hapusVerif');
+        Route::get('laporan/bulan/riwayat/table', 'kantor\laporanBulananNewController@tableRiwayatVerifikasi');
+        Route::get('laporan/bulan/riwayat', 'kantor\laporanBulananNewController@riwayatVerifikasi')->name('riwayat.laporan.bulanan');
         Route::resource('laporan/bulan', 'kantor\laporanBulananNewController');
 
     // Log Perawat
