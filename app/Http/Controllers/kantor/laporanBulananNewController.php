@@ -206,12 +206,33 @@ class laporanBulananNewController extends Controller
         return response()->json($data, 200);
     }
 
+    public function tampilRiwayatTerhapus()
+    {
+        $user = Auth::user();
+
+        $data = [
+            'user' => $user,
+        ];
+        
+        return view('pages.kantor.laporan.bulanan.restoreLaporanBulanan')->with('list', $data);
+    }
+
+    public function tableRiwayatTerhapus()
+    {
+        $data = DB::table('laporan_bulanan')->join('users','laporan_bulanan.id_user','=','users.id')->select('users.nama','laporan_bulanan.*')->where('laporan_bulanan.deleted_at', '!=', null)->orderBy('laporan_bulanan.deleted_at','desc')->get();
+        // print_r($data);
+        // die();
+        return response()->json($data, 200);
+    }
+
     public function tableadmin()
     {
         $user = Auth::user();
         $id = $user->id;
 
-        $show = laporan_bulanan::orderBy('updated_at','desc')->get();
+        // $show = laporan_bulanan::orderBy('updated_at','desc')->get();
+        $show = DB::table('laporan_bulanan')->join('users','laporan_bulanan.id_user','=','users.id')->select('users.nama','laporan_bulanan.*')->where('laporan_bulanan.deleted_at', null)->orderBy('laporan_bulanan.updated_at','desc')->get();
+        
         
         $tgl = Carbon::now()->isoFormat('YYYY/MM/DD');
 
@@ -354,20 +375,18 @@ class laporanBulananNewController extends Controller
         elseif ($user->hasRole('kasubag-keperawatan-ranap')) { $r = $verif_kasubag_keperawatan_ranap; }
         elseif ($user->hasRole('kasubag-rajal-gadar')) { $r = $verif_kasubag_rajal_gadar; }
         elseif ($user->hasRole('kasubag-ranap')) { $r = $verif_kasubag_ranap; }
-
-        if ($user->hasRole('pelayanan') || $user->hasRole('perencanaan') || $user->hasRole('direktur-utama')) {
-            $show = laporan_bulanan::all();
-        } else {
-            if (!empty($r)) {
-                $show = laporan_bulanan::leftJoin('set_role_users', 'laporan_bulanan.id_user', '=', 'set_role_users.id_user')
-                    ->leftJoin('roles', 'set_role_users.id_roles', '=', 'roles.id')
-                    ->select('roles.name','laporan_bulanan.*')
-                    ->where('laporan_bulanan.deleted_at', null)
-                    ->where('laporan_bulanan.tgl_verif', null)
-                    ->whereIn('roles.name', $r)
-                    ->orderBy('laporan_bulanan.updated_at', 'desc')
-                    ->get();
-            }
+        // print_r($r);
+        // die();
+        if (!empty($r)) {
+            $show = laporan_bulanan::leftJoin('set_role_users', 'laporan_bulanan.id_user', '=', 'set_role_users.id_user')
+                ->leftJoin('roles', 'set_role_users.id_roles', '=', 'roles.id')
+                ->leftJoin('users', 'laporan_bulanan.id_user', '=', 'users.id')
+                ->select('users.nama','roles.name','laporan_bulanan.*')
+                ->where('laporan_bulanan.deleted_at', null)
+                ->where('laporan_bulanan.tgl_verif', null)
+                ->whereIn('roles.name', $r)
+                ->orderBy('laporan_bulanan.updated_at', 'desc')
+                ->get();
         }
         // print_r($show);
         // die();
@@ -608,7 +627,8 @@ class laporanBulananNewController extends Controller
             if (!empty($r)) {
                 $show = laporan_bulanan::leftJoin('set_role_users', 'laporan_bulanan.id_user', '=', 'set_role_users.id_user')
                     ->leftJoin('roles', 'set_role_users.id_roles', '=', 'roles.id')
-                    ->select('roles.name','laporan_bulanan.*')
+                    ->leftJoin('users', 'laporan_bulanan.id_user', '=', 'users.id')
+                    ->select('users.nama','roles.name','laporan_bulanan.*')
                     ->where('laporan_bulanan.deleted_at', null)
                     ->where('laporan_bulanan.tgl_verif', '!=', null)
                     ->whereIn('roles.name', $r)
@@ -646,6 +666,20 @@ class laporanBulananNewController extends Controller
         laporan_bulanan::where('id',$id)->update(['tgl_verif' => null,'id_verif' => null]);
 
         $text = 'Silakan melakukan Verifikasi Ulang';
+        $icon = 'success';
+
+        $data = [
+            'text' => $text,
+            'icon' => $icon,
+        ];
+        return response()->json($data, 200);
+    }
+
+    public function batalHapus($id)
+    {
+        DB::table('laporan_bulanan')->where('id',$id)->update(['deleted_at' => null]);
+
+        $text = 'Laporan berhasil direstore';
         $icon = 'success';
 
         $data = [

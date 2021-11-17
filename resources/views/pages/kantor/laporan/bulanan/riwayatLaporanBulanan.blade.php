@@ -47,13 +47,14 @@
                             <th>ID</th>
                             <th>DIUPDATE</th>
                             <th>JUDUL</th>
+                            <th>USER</th>
                             <th>UNIT</th>
                             <th>BLN / THN</th>
                             <th>KETERANGAN</th>
                             <th><center>AKSI</center></th>
                         </tr>
                     </thead>
-                    <tbody id="tampil-tbody"><tr><td colspan="7"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+                    <tbody id="tampil-tbody"><tr><td colspan="8"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
                 </table>
             </div>
         </div>
@@ -82,6 +83,7 @@
                                 <td>${item.id} ${item.tgl_verif != null ? '<i class="fa-fw fas fa-check nav-icon"></i>' : '' }</td>
                                 <td>${item.updated_at}</td>
                                 <td>${item.judul}</td>
+                                <td>${item.nama}</td>
                                 <td>${un}</td>
                                 <td>${item.bln} / ${item.thn}</td>
                                 <td>${item.ket}</td>
@@ -138,7 +140,7 @@
 <script>
     // FUNCTION - FUNCTION
     function refresh() {
-        $("#tampil-tbody").empty().append(`<tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
+        $("#tampil-tbody").empty().append(`<tr><td colspan="8"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
         $.ajax(
             {
                 url: "./riwayat/table",
@@ -160,6 +162,7 @@
                                 <td>${item.id} ${item.tgl_verif != null ? '<i class="fa-fw fas fa-check nav-icon"></i>' : '' }</td>
                                 <td>${item.updated_at}</td>
                                 <td>${item.judul}</td>
+                                <td>${item.nama}</td>
                                 <td>${un}</td>
                                 <td>${item.bln} / ${item.thn}</td>
                                 <td>${item.ket}</td>

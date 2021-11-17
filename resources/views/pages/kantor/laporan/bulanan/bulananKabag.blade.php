@@ -89,13 +89,14 @@
                             <button class="btn btn-warning text-white" onclick="refreshAdmin()">
                                 <i class="fa-fw fas fa-refresh nav-icon"></i>
                             </button>
-                            <button class="btn btn-danger text-white" onclick="restore()">
+                            <button class="btn btn-danger text-white" onclick="window.location.href='{{ route('restore.laporan.bulanan') }}'">
                                 <i class="fa-fw fas fa-history nav-icon"></i> Restore Data
                             </button>
                         </div>
                     </div>
                 </div>
             </div>
+            <sub>Anda login sebagai <kbd>SUPER USER</kbd> Laporan Bulanan, Data yang ditampilkan adalah Seluruh data laporan bulanan user.</sub>
             <hr>
             <div class="table-responsive">
                 <table id="tableadmin" class="table table-striped" style="width:100%">
@@ -105,13 +106,14 @@
                             <th><center>STATUS</center></th>
                             <th>DIUPDATE</th>
                             <th>JUDUL</th>
+                            <th>USER</th>
                             <th>UNIT</th>
                             <th>BLN / THN</th>
                             <th>KETERANGAN</th>
                             <th><center>AKSI</center></th>
                         </tr>
                     </thead>
-                    <tbody id="tampil-tbody-admin"><tr><td colspan="8"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+                    <tbody id="tampil-tbody-admin"><tr><td colspan="9"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
                 </table>
             </div>
         </div>
@@ -216,13 +218,14 @@
                         <th>ID</th>
                         <th>DIUPDATE</th>
                         <th>JUDUL</th>
+                        <th>USER</th>
                         <th>UNIT</th>
                         <th>BLN / THN</th>
                         <th>KETERANGAN</th>
                         <th><center>AKSI</center></th>
                     </tr>
                 </thead>
-                <tbody id="tampil-verif"><tr><td colspan="8"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+                <tbody id="tampil-verif"><tr><td colspan="9"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
             </table>
         </div>
         <div class="modal-footer">
@@ -654,6 +657,7 @@
                                 </td>
                                 <td>${item.updated_at}</td>
                                 <td>${item.judul}</td>
+                                <td>${item.nama}</td>
                                 <td>${un}</td>
                                 <td>${item.bln} / ${item.thn}</td>
                                 <td>${item.ket != null ? item.ket : ''}</td>
@@ -828,6 +832,7 @@
                                 <td><kbd>${item.id}</kbd></td>
                                 <td>${item.updated_at}</td>
                                 <td>${item.judul}</td>
+                                <td>${item.nama}</td>
                                 <td>${un}</td>
                                 <td>${item.bln} / ${item.thn}</td>
                                 <td>${item.ket ? item.ket : '' }</td>
@@ -857,7 +862,7 @@
     }
 
     function refreshVerif() {
-        $("#tampil-verif").empty().append(`<tr><td colspan="8"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
+        $("#tampil-verif").empty().append(`<tr><td colspan="9"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
         $.ajax(
             {
                 url: "./bulan/tableverif",
@@ -879,6 +884,7 @@
                                 <td><kbd>${item.id}</kbd></td>
                                 <td>${item.updated_at}</td>
                                 <td>${item.judul}</td>
+                                <td>${item.nama}</td>
                                 <td>${un}</td>
                                 <td>${item.bln} / ${item.thn}</td>
                                 <td>${item.ket ? item.ket : '' }</td>
@@ -908,7 +914,7 @@
     }
 
     function refreshAdmin() {
-        $("#tampil-tbody-admin").empty().append(`<tr><td colspan="8"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
+        $("#tampil-tbody-admin").empty().append(`<tr><td colspan="9"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
         $.ajax(
             {
                 url: "./bulan/tableadmin",
@@ -946,6 +952,7 @@
                                 </td>
                                 <td>${item.updated_at}</td>
                                 <td>${item.judul}</td>
+                                <td>${item.nama}</td>
                                 <td>${un}</td>
                                 <td>${item.bln} / ${item.thn}</td>
                                 <td>${item.ket != null ? item.ket : ''}</td>
