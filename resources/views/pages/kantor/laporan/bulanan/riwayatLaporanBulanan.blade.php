@@ -290,7 +290,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     method: 'POST',
-                    url: './api/ket/', 
+                    url: './api/ket', 
                     dataType: 'json', 
                     data: { 
                         id: id,

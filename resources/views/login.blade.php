@@ -4,7 +4,7 @@
 	<title>Login | SIMRSKU</title>
 	<meta charset="UTF-8">
 	<meta name="title" content="SIMRSKU"/>
-	<meta name="description" content="Sistem Informasi Manajemen Rumah Sakit PKU Muhammadiyah Sukoharjo yang dirancang untuk memudahkan kinerja karyawan. Developer : ">
+	<meta name="description" content="Sistem Informasi Manajemen Rumah Sakit PKU Muhammadiyah Sukoharjo yang dirancang untuk memudahkan kinerja karyawan.">
 	<meta name="keywords" content="SIMRSKU RS PKU MUHAMMADIYAH SUKOHARJO">
 	<meta name="revisit-after" content="3 days">
 	<meta name="coverage" content="Worldwide">

@@ -1051,7 +1051,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     method: 'POST',
-                    url: './bulan/api/', 
+                    url: './bulan/api', 
                     dataType: 'json', 
                     data: { 
                         id: id,
@@ -1099,7 +1099,7 @@
                         'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     method: 'POST',
-                    url: './bulan/api/', 
+                    url: './bulan/api', 
                     dataType: 'json', 
                     data: { 
                         id: id,
@@ -1173,7 +1173,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     method: 'POST',
-                    url: './bulan/api/ket/', 
+                    url: './bulan/api/ket', 
                     dataType: 'json', 
                     data: { 
                         id: id,
@@ -1224,7 +1224,7 @@
                     'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
                     },
                     method: 'POST',
-                    url: './bulan/api/ket/', 
+                    url: './bulan/api/ket', 
                     dataType: 'json', 
                     data: { 
                         id: id,

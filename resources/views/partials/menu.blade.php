@@ -666,17 +666,17 @@
                             <i class="fa-fw fas fa-book nav-icon">
 
                             </i>
-                            Laporan Bulanan *
+                            Laporan Bulanan
                         </a>
                     </li>
-                    <li class="nav-item">
+                    {{-- <li class="nav-item">
                         <a href="{{ route("bulanan.index") }}" class="nav-link">
                             <i class="fa-fw fas fa-book nav-icon">
 
                             </i>
                             Laporan Bulanan
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a href="{{ route("rapat.index") }}" class="nav-link">
                             <i class="fa-fw fas fa-inbox nav-icon">
