@@ -648,9 +648,6 @@
 
                     </i>
                     Administrasi
-                    @if (\Carbon\Carbon::now()->isoFormat('MM') == '11')
-                        <span class="badge badge-light">Baru</span>
-                    @endif
                 </a>
                 <ul class="nav-dropdown-items">
                     <li class="nav-item">

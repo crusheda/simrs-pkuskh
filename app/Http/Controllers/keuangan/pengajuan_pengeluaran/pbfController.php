@@ -105,15 +105,24 @@ class pbfController extends Controller
         $userId = $user->id;
 
         $data = pbf::find($id);
-        if ($data->id_user != $userId) {
-            return redirect::back()->withErrors('Aksi pengubahan gagal, hanya User terkait yang dapat mengubah ataupun menghapus supplier '.$data->pbf);
-        } else {
+        if ($user->hasRole('kabag-keuangan|it')) {
             $data->pbf = $request->pbf;
             $data->jenis = $request->jenis;
     
             $data->save();
     
             return redirect()->back()->with('message','Ubah PBF Berhasil');
+        } else {
+            if ($data->id_user != $userId) {
+                return redirect::back()->withErrors('Aksi pengubahan gagal, hanya User terkait yang dapat mengubah ataupun menghapus supplier '.$data->pbf);
+            } else {
+                $data->pbf = $request->pbf;
+                $data->jenis = $request->jenis;
+        
+                $data->save();
+        
+                return redirect()->back()->with('message','Ubah PBF Berhasil');
+            }
         }
     }
 
@@ -129,12 +138,18 @@ class pbfController extends Controller
         $userId = $user->id;
 
         $data = pbf::find($id);
-        if ($data->id_user != $userId) {
-            return redirect::back()->withErrors('Aksi penghapusan gagal, hanya User terkait yang dapat mengubah ataupun menghapus supplier '.$data->pbf);
-        } else {
+        if ($user->hasRole('kabag-keuangan|it')) {
             $data->delete();
     
             return redirect()->back()->with('message','Hapus PBF Berhasil');
+        } else {
+            if ($data->id_user != $userId) {
+                return redirect::back()->withErrors('Aksi penghapusan gagal, hanya User terkait yang dapat mengubah ataupun menghapus supplier '.$data->pbf);
+            } else {
+                $data->delete();
+        
+                return redirect()->back()->with('message','Hapus PBF Berhasil');
+            }
         }
     }
 

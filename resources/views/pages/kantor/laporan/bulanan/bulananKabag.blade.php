@@ -90,7 +90,7 @@
                                 <i class="fa-fw fas fa-refresh nav-icon"></i>
                             </button>
                             <button class="btn btn-danger text-white" onclick="window.location.href='{{ route('restore.laporan.bulanan') }}'">
-                                <i class="fa-fw fas fa-history nav-icon"></i> Restore Data
+                                <i class="fa-fw fas fa-history nav-icon"></i> Deleted Data
                             </button>
                         </div>
                     </div>
@@ -1373,7 +1373,7 @@
                     showCloseButton: true,
                     backdrop: `rgba(26,27,41,0.8)`,
                 });
-            }
+            }   
         }); 
     }
 </script>

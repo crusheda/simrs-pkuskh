@@ -41,8 +41,27 @@
                             <tr>
                                 <th>USER_ID</th>
                                 <th>NIP</th>
+                                <th>NIK</th>
                                 <th>NAMA</th>
+                                <th>ALAMAT (KTP)</th>
+                                <th>ALAMAT (DOM)</th>
                                 <th>UNIT</th>
+                                <th>NO.HP</th>
+                                <th>MASUK KERJA</th>
+                                <th>JABATAN</th>
+                                <th>STATUS KAWIN</th>
+                                <th>LAHIR</th>
+                                <th>JK</th>
+                                <th>SD</th>
+                                <th>SMP</th>
+                                <th>SMA</th>
+                                <th>D1</th>
+                                <th>D2</th>
+                                <th>D3</th>
+                                <th>D4</th>
+                                <th>S1</th>
+                                <th>S2</th>
+                                <th>S3</th>
                                 {{-- <th>STR</th> --}}
                                 <th>UPDATE</th>
                                 <th><center>AKSI</center></th>
@@ -54,8 +73,27 @@
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->nip }}</td>
+                                <td>{{ $item->nik }}</td>
                                 <td style="text-transform: capitalize">{{ $item->nama }}</td>
+                                <td>{{ $item->alamat_ktp }}</td>
+                                <td>{{ $item->alamat_dom }}</td>
                                 <td>@foreach ($list['user'] as $val) @if ($item->id == $val->id) <kbd>{{ $val->nama_role }}</kbd> @endif @endforeach</td>
+                                <td>{{ $item->no_hp }}</td>
+                                <td>{{ $item->masuk_kerja }}</td>
+                                <td>{{ $item->jabatan }}</td>
+                                <td>{{ $item->status_kawin }}</td>
+                                <td>{{ $item->temp_lahir }}, {{ $item->tgl_lahir }}</td>
+                                <td>{{ $item->jns_kelamin }}</td>
+                                <td>{{ $item->sd }} ({{ $item->th_sd }})</td>
+                                <td>{{ $item->smp }} ({{ $item->th_smp }})</td>
+                                <td>{{ $item->sma }} ({{ $item->th_sma }})</td>
+                                <td>{{ $item->d1 }} ({{ $item->th_d1 }})</td>
+                                <td>{{ $item->d2 }} ({{ $item->th_d2 }})</td>
+                                <td>{{ $item->d3 }} ({{ $item->th_d3 }})</td>
+                                <td>{{ $item->d4 }} ({{ $item->th_d4 }})</td>
+                                <td>{{ $item->s1 }} ({{ $item->th_s1 }})</td>
+                                <td>{{ $item->s1 }} ({{ $item->th_s2 }})</td>
+                                <td>{{ $item->s3 }} ({{ $item->th_s3 }})</td>
                                 <td>{{ $item->updated_at }}</td>
                                 <td>
                                     <center>
@@ -283,9 +321,37 @@
                 searching: true,
                 dom: 'Bfrtip',
                 buttons: [
-                    'copy', 'excel', 'pdf', 'print','colvis'
+                    'excel', 'pdf','colvis'
                 ],
-                order: [[ 3, "desc" ]],
+                'columnDefs': [
+                    { targets: 0, visible: false },
+                    { targets: 2, visible: false },
+                    { targets: 5, visible: false },
+                    { targets: 7, visible: false },
+                    { targets: 8, visible: false },
+                    { targets: 9, visible: false },
+                    { targets: 10, visible: false },
+                    { targets: 12, visible: false },
+                    { targets: 13, visible: false },
+                    { targets: 14, visible: false },
+                    { targets: 15, visible: false },
+                    { targets: 16, visible: false },
+                    { targets: 17, visible: false },
+                    { targets: 18, visible: false },
+                    { targets: 19, visible: false },
+                    { targets: 20, visible: false },
+                    { targets: 21, visible: false },
+                    { targets: 22, visible: false },
+                ],
+                language: {
+                    buttons: {
+                        colvis: 'Sembunyikan Kolom',
+                        excel: 'Jadikan Excell',
+                        pdf: 'Jadikan PDF',
+                    }
+                },
+                order: [[ 24, "desc" ]],
+                pageLength: 20
             }
         );
         $('#karyawan2').DataTable(
