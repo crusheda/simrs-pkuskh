@@ -658,14 +658,16 @@
                             File Manager
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route('bulan.index') }}" class="nav-link">
-                            <i class="fa-fw fas fa-book nav-icon">
+                    @can('laporan')
+                        <li class="nav-item">
+                            <a href="{{ route('bulan.index') }}" class="nav-link">
+                                <i class="fa-fw fas fa-book nav-icon">
 
-                            </i>
-                            Laporan Bulanan
-                        </a>
-                    </li>
+                                </i>
+                                Laporan Bulanan
+                            </a>
+                        </li>
+                    @endcan
                     {{-- <li class="nav-item">
                         <a href="{{ route("bulanan.index") }}" class="nav-link">
                             <i class="fa-fw fas fa-book nav-icon">

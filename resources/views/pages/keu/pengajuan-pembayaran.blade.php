@@ -150,7 +150,7 @@
                                 <select class="form-control" name="jenis" id="jenis_tambah" required>
                                     <option value="" hidden>Pilih</option>
                                     @foreach($list['jenis'] as $key => $item)
-                                        <option value="{{ $item->jenis }}"><label>{{ $item->jenis }}</option>
+                                        <option value="{{ $item->jenis }}" style="text-transform: uppercase"><label>{{ $item->jenis }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -260,7 +260,7 @@
                             <div class="input-group mb-3">
                                 <select class="form-control" name="jenis" id="jenis_edit{{ $item->id }}" onclick="ubahJenis({{ $item->id }})" required>
                                     @foreach($list['jenis'] as $key => $items)
-                                        <option value="{{ $items->jenis }}" @if ($items->jenis == $item->jenis) echo selected @endif><label>{{ $items->jenis }}</option>
+                                        <option value="{{ $items->jenis }}" @if ($items->jenis == $item->jenis) echo selected @endif style="text-transform: uppercase"><label>{{ $items->jenis }}</option>
                                     @endforeach
                                 </select>
                             </div>
@@ -472,6 +472,7 @@ $(document).ready( function () {
                     var opt = document.createElement('option');
                     opt.innerHTML = res[i]['pbf'];
                     opt.value = res[i]['id'];
+                    opt.style = 'text-transform: uppercase';
                     sel.appendChild(opt);
                 }
             }
@@ -572,6 +573,7 @@ $(document).ready( function () {
                     var opt = document.createElement('option');
                     opt.innerHTML = res[i]['pbf'];
                     opt.value = res[i]['id'];
+                    opt.style = 'text-transform: uppercase';
                     sel.appendChild(opt);
                 }
             }

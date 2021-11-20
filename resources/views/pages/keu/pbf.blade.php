@@ -7,7 +7,6 @@
 <script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
 <script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
 
-@role('kabag-keuangan|it')
 <div class="row">
     <div class="col-md-4">
         <div class="card" style="width: 100%">
@@ -100,9 +99,6 @@
         </div>
     </div>
 </div>
-@else
-    <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
-@endrole
 
 @foreach($list['show'] as $item)
 <div class="modal fade bd-example-modal-lg" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
