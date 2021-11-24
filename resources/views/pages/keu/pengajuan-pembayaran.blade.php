@@ -78,7 +78,13 @@
                             <tr>
                                 <td>{{ $item->id }}</td>
                                 <td>{{ $item->jenis }}</td>
-                                <td>{{ $item->pbf }}</td>
+                                <td>
+                                    @foreach ($list['pbf'] as $us)
+                                        @if ($item->pbf == $us->id)
+                                            {{ $us->pbf }}
+                                        @endif
+                                    @endforeach
+                                </td>
                                 <td>{{ \Carbon\Carbon::parse($item->tgl_pembelian)->isoFormat('dddd, D MMM Y') }}</td>
                                 <td><kbd>{{ $item->no_faktur }}</kbd></td>
                                 <td>{{ \Carbon\Carbon::parse($item->tgl_jatuh_tempo)->isoFormat('dddd, D MMM Y') }}</td>
@@ -104,9 +110,14 @@
                                             </div>
                                         @else
                                             <div class="btn-group" role="group">
-                                                @if (\Carbon\Carbon::parse($item->updated_at)->isoFormat('YYYY/MM/DD') == \Carbon\Carbon::now()->isoFormat('YYYY/MM/DD'))
-                                                    <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                                    <button type="button" class="btn btn-danger btn-sm text-white" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                @if (Auth::user()->id == $item->id_user)
+                                                    @if (\Carbon\Carbon::parse($item->updated_at)->isoFormat('YYYY/MM/DD') == \Carbon\Carbon::now()->isoFormat('YYYY/MM/DD'))
+                                                        <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                                        <button type="button" class="btn btn-danger btn-sm text-white" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                    @else
+                                                        <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                                        <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                    @endif
                                                 @else
                                                     <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-edit nav-icon"></i></button>
                                                     <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
@@ -208,7 +219,17 @@
                     <div class="col">
                         <div class="form-group">
                             <label>Bank :</label>
-                            <input type="text" name="bank" id="bank_tambah" class="form-control" placeholder="Masukkan Nama Bank">
+                            {{-- <input type="text" name="bank" id="bank_tambah" class="form-control" placeholder="Masukkan Nama Bank"> --}}
+                            <select name="bank" id="bank_tambah" class="form-control" required>
+                                <option value="bri">BRI</option>
+                                <option value="bca">BCA</option>
+                                <option value="bni">BNI</option>
+                                <option value="jateng">BANK JATENG</option>
+                                <option value="bsi">BSI</option>
+                                <option value="cimb">CIMB NIAGA</option>
+                                <option value="mandiri">MANDIRI</option>
+                                <option value="lainnya">LAINNYA</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col">
@@ -320,7 +341,17 @@
                     <div class="col">
                         <div class="form-group">
                             <label>Bank :</label>
-                            <input type="text" name="bank" id="bank_edit{{ $item->id }}" value="{{ $item->bank }}" class="form-control" placeholder="Masukkan Nama Bank" @if ($item->bank != null) echo required @endif>
+                            {{-- <input type="text" name="bank" id="bank_edit{{ $item->id }}" value="{{ $item->bank }}" class="form-control" placeholder="Masukkan Nama Bank" @if ($item->bank != null) echo required @endif> --}}
+                            <select name="bank" id="bank_edit{{ $item->id }}" class="form-control" required>
+                                <option value="bri"     @if ($item->bank == 'bri') echo selected @endif>BRI</option>
+                                <option value="bca"     @if ($item->bank == 'bca') echo selected @endif>BCA</option>
+                                <option value="bni"     @if ($item->bank == 'bni') echo selected @endif>BNI</option>
+                                <option value="jateng"  @if ($item->bank == 'jateng') echo selected @endif>BANK JATENG</option>
+                                <option value="bsi"     @if ($item->bank == 'bsi') echo selected @endif>BSI</option>
+                                <option value="cimb"    @if ($item->bank == 'cimb') echo selected @endif>CIMB NIAGA</option>
+                                <option value="mandiri" @if ($item->bank == 'mandiri') echo selected @endif>MANDIRI</option>
+                                <option value="lainnya" @if ($item->bank == 'lainnya') echo selected @endif>LAINNYA</option>
+                            </select>
                         </div>
                     </div>
                     <div class="col">

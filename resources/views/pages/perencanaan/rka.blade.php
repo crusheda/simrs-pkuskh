@@ -59,6 +59,15 @@
     </div>
 </div>
 
+{{-- content = "<tr><td>" + element.name + "</td><td>" 
+    + element.time + "</td><td>" 
+    + element.type + "</td><td>"
+    + element.change_in_balance + "</td><td>"
+    + element.method + "</td><td>";
+if (element.status == 'New Transaction')
+content += "<td><button type='button' class='tooltips btn-u btn-u-xs btn-u-purple' data-toggle='tooltip' data-placement='right' title='Your transaction is currently being processed'>Pending</button></td></tr>";
+$('#overviewlist tbody').append(content); --}}
+
 <script>
 $(document).ready( function () {
     $.ajax(
@@ -68,7 +77,10 @@ $(document).ready( function () {
             dataType: 'json', // added data type
             success: function(res) {
                 $("#tampil-tbody").empty();
+                var date = new Date().toISOString().split('T')[0];
                 res.forEach(item => {
+                    var updet = item.updated_at.substring(0, 10);
+                    var userID = "{{ Auth::user()->id }}";
                     $("#tampil-tbody").append(`
                         <tr id="data${item.id}">
                             <td>${item.id}</td> 
@@ -79,9 +91,13 @@ $(document).ready( function () {
                             <td>
                                 <center>
                                     <div class="btn-group" role="group">
-                                        <a type="button" href="./perencanaan/${item.id}" class="btn btn-success btn-sm"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
                                         @role('it|kabag-perencanaan|kasubag-perencanaan-it')
+                                            <a type="button" href="./perencanaan/${item.id}" class="btn btn-success btn-sm"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
                                             <button type="button" onclick="hapus(${item.id})" class="btn btn-danger btn-sm"><i class="fa-fw fas fa-trash nav-icon text-white"></i></button>
+                                        @else
+                                            ${updet == date ?
+                                                '<a type="button" href="./perencanaan/'+item.id+'" class="btn btn-success btn-sm"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>' : '<button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-download nav-icon text-white"></i></button>'
+                                            }
                                         @endrole
                                     </div>
                                 </center>
@@ -236,10 +252,13 @@ function refresh() {
             dataType: 'json', // added data type
             success: function(res) {
                 $("#tampil-tbody").empty();
+                var date = new Date().toISOString().split('T')[0];
                 if(res.length == 0){
                     $("#tampil-tbody").append(`<tr><td colspan="6"><center><i class="fa fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
                 } else {
                     res.forEach(item => {
+                        var updet = item.updated_at.substring(0, 10);
+                        var userID = "{{ Auth::user()->id }}";
                         $("#tampil-tbody").append(`
                             <tr id="data${item.id}">
                                 <td>${item.id}</td> 
@@ -250,9 +269,13 @@ function refresh() {
                                 <td>
                                     <center>
                                         <div class="btn-group" role="group">
-                                            <a type="button" href="./perencanaan/${item.id}" class="btn btn-success btn-sm"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
                                             @role('it|kabag-perencanaan|kasubag-perencanaan-it')
+                                                <a type="button" href="./perencanaan/${item.id}" class="btn btn-success btn-sm"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
                                                 <button type="button" onclick="hapus(${item.id})" class="btn btn-danger btn-sm"><i class="fa-fw fas fa-trash nav-icon text-white"></i></button>
+                                            @else
+                                                ${updet == date ?
+                                                    '<a type="button" href="./perencanaan/'+item.id+'" class="btn btn-success btn-sm"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>' : '<button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-download nav-icon text-white"></i></button>'
+                                                }
                                             @endrole
                                         </div>
                                     </center>

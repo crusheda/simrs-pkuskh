@@ -44,6 +44,12 @@
                                 </button>
                             @endrole
                             <button type="button" class="btn btn-warning text-white" data-toggle="modal" data-target="#kamus" data-toggle="tooltip" data-placement="bottom" title="Kamus Indikator"><i class="fa-fw fas fa-feed nav-icon"></i></button>
+                            <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#api">
+                                <i class="fa-fw fas fa-podcast nav-icon">
+        
+                                </i>
+                                API
+                            </button>
                         </div>
                     </div>
                 </div><hr>
@@ -326,6 +332,35 @@
     </div>
 </div>
 @endforeach
+
+<div class="modal fade bd-example-modal-lg" id="api" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h5 class="modal-title">
+              API Problems
+          </h5>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            Bagaimana jika Nomer Rekam Medik yang sudah diinputkan akan tetapi tidak muncul otomatis data Pasiennya padahal Data sudah benar / valid? Ada 2 tahapan yang harus dilakukan, khusus anda yang memakai Browser <kbd>Google Chrome</kbd> . <br>
+            <hr>
+            <h5>Tahap 1</h5>
+            <i class="fa-fw fas fa-caret-right nav-icon"></i> Tulis pada Bilah Alamat (Address Bar), <a><strong>chrome://flags</strong></a> <br>
+            <i class="fa-fw fas fa-caret-right nav-icon"></i> Setelah itu akan muncul tampilan seperti gambar di bawah ini <br><br>
+            <img class="img-fluid rounded" src="{{ url('img/API-problems/url.png') }}"><br><br>
+            <h5>Tahap 2</h5>
+            <i class="fa-fw fas fa-caret-right nav-icon"></i> Ketik <strong>Block insecure private network requests</strong> pada kolom pencarian <br>
+            <i class="fa-fw fas fa-caret-right nav-icon"></i> Ubah pilihan dari <kbd style="background-color: #8AB4F8">Default</kbd> menjadi <kbd style="background-color: #8AB4F8">Disabled</kbd> <br><br>
+            <img class="img-fluid rounded" src="{{ url('img/API-problems/search.png') }}">
+        </div>
+        <div class="modal-footer">
+            <a></a>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+        </div>
+      </div>
+    </div>
+</div>
 
 <div class="modal" id="kamus" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
