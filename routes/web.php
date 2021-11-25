@@ -328,4 +328,7 @@ Addchat::routes();
     Route::resource('surveilans/ppi/decubitus', 'ppi\DecubitusController');
     Route::post('surveilans/ppi/vap/formula','ppi\VapController@formula')->name('vap.formula');
     Route::resource('surveilans/ppi/vap', 'ppi\VapController');
+
+// ABSEN
+Route::resource('absen', 'absen\cameraController');
     

@@ -112,6 +112,7 @@ class rkaController extends Controller
     public function upload(Request $request)
     {
         $now = Carbon::now();
+        $verifikasi = rka::get();
         $tahun = Carbon::now()->isoFormat('YYYY');
         $tgl = $now->isoFormat('dddd, D MMMM Y, HH:mm:ss a');
         // print_r($now);
@@ -120,6 +121,11 @@ class rkaController extends Controller
         $uploadedFile = $request->file('fileToUpload'); 
 
         $title = $uploadedFile->getClientOriginalName();
+        foreach ($verifikasi as $key => $value) {
+            if ($value->title == $title) {
+                return response()->json($value->title, 500);
+            }
+        }
         $path = $uploadedFile->storeAs("public/files/perencanaan/rka/", $title);
         
         $user = Auth::user();

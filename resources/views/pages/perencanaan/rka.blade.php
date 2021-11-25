@@ -59,14 +59,29 @@
     </div>
 </div>
 
-{{-- content = "<tr><td>" + element.name + "</td><td>" 
-    + element.time + "</td><td>" 
-    + element.type + "</td><td>"
-    + element.change_in_balance + "</td><td>"
-    + element.method + "</td><td>";
-if (element.status == 'New Transaction')
-content += "<td><button type='button' class='tooltips btn-u btn-u-xs btn-u-purple' data-toggle='tooltip' data-placement='right' title='Your transaction is currently being processed'>Pending</button></td></tr>";
-$('#overviewlist tbody').append(content); --}}
+{{-- $("#tampil-tbody").append(`
+<tr id="data${item.id}">
+    <td>${item.id}</td> 
+    <td>${item.nama}</td>  
+    <td>${JSON.parse(item.unit)}</td>  
+    <td>${item.title}</td>  
+    <td>${item.tgl}</td>  
+    <td>
+        <center>
+            <div class="btn-group" role="group">
+                @role('it|kabag-perencanaan|kasubag-perencanaan-it')
+                    <a type="button" href="./perencanaan/${item.id}" class="btn btn-success btn-sm"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
+                    <button type="button" onclick="hapus(${item.id})" class="btn btn-danger btn-sm"><i class="fa-fw fas fa-trash nav-icon text-white"></i></button>
+                @else
+                    ${updet == date ?
+                        '<a type="button" href="./perencanaan/'+item.id+'" class="btn btn-success btn-sm"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>' : '<button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-download nav-icon text-white"></i></button>'
+                    }
+                @endrole
+            </div>
+        </center>
+    </td>
+</tr>
+`); --}}
 
 <script>
 $(document).ready( function () {
@@ -78,34 +93,62 @@ $(document).ready( function () {
             success: function(res) {
                 $("#tampil-tbody").empty();
                 var date = new Date().toISOString().split('T')[0];
-                res.forEach(item => {
-                    var updet = item.updated_at.substring(0, 10);
-                    var userID = "{{ Auth::user()->id }}";
-                    $("#tampil-tbody").append(`
-                        <tr id="data${item.id}">
-                            <td>${item.id}</td> 
-                            <td>${item.nama}</td>  
-                            <td>${JSON.parse(item.unit)}</td>  
-                            <td>${item.title}</td>  
-                            <td>${item.tgl}</td>  
-                            <td>
-                                <center>
-                                    <div class="btn-group" role="group">
-                                        @role('it|kabag-perencanaan|kasubag-perencanaan-it')
-                                            <a type="button" href="./perencanaan/${item.id}" class="btn btn-success btn-sm"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
-                                            <button type="button" onclick="hapus(${item.id})" class="btn btn-danger btn-sm"><i class="fa-fw fas fa-trash nav-icon text-white"></i></button>
-                                        @else
-                                            ${updet == date ?
-                                                '<a type="button" href="./perencanaan/'+item.id+'" class="btn btn-success btn-sm"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>' : '<button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-download nav-icon text-white"></i></button>'
-                                            }
-                                        @endrole
-                                    </div>
-                                </center>
-                            </td>
-                        </tr>
-                    `);
-                });
-                $('#table').DataTable().columns.adjust();
+                var userID = "{{ Auth::user()->id }}";
+                var adminID = "{{ Auth::user()->hasRole('it|kabag-perencanaan|kasubag-perencanaan-it') }}";
+                if(res.length == 0){
+                    $("#tampil-tbody").append(`<tr><td colspan="6"><center><i class="fa fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
+                } else {
+                    res.forEach(item => {
+                        var updet = item.updated_at.substring(0, 10);
+                        content = "<tr id='data"+ item.id +"'><td>" + item.id + "</td><td>" 
+                                    + item.nama + "</td><td>" 
+                                    + JSON.parse(item.unit) + "</td><td>" 
+                                    + item.title + "</td><td>"
+                                    + item.tgl + "</td>";
+                        content += "<td><center><div class='btn-group' role='group'>";
+                        if (adminID)
+                            content += "<a type='button' href='./perencanaan/"+item.id+"' class='btn btn-success btn-sm'><i class='fa-fw fas fa-download nav-icon text-white'></i></a>"
+                                    + "<button type='button' onclick='hapus("+item.id+")' class='btn btn-danger btn-sm'><i class='fa-fw fas fa-trash nav-icon text-white'></i></button>";
+                        else            
+                            if (item.id_user == userID)
+                                if (updet == date)
+                                    content += "<a type='button' href='./perencanaan/"+item.id+"' class='btn btn-success btn-sm'><i class='fa-fw fas fa-download nav-icon text-white'></i></a>";
+                                else
+                                content += "<button type='button' class='btn btn-secondary btn-sm' disabled><i class='fa-fw fas fa-download nav-icon text-white'></i></button>";
+                            else
+                                content += "<button type='button' class='btn btn-secondary btn-sm' disabled><i class='fa-fw fas fa-download nav-icon text-white'></i></button>";
+                        content += "</div></center></td>";
+                        $('#tampil-tbody').append(content);
+                    });
+                }
+                $('#table').DataTable(
+                    {
+                        paging: true,
+                        searching: true,
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'excel', 'pdf','colvis'
+                        ],
+                        select: {
+                            style: 'single'
+                        },
+                        'columnDefs': [
+                            // { targets: 0, visible: false },
+                            // { targets: 3, visible: false },
+                            // { targets: 6, visible: false },
+                            // { targets: 8, visible: false },
+                        ],
+                        language: {
+                            buttons: {
+                                colvis: 'Sembunyikan Kolom',
+                                excel: 'Jadikan Excell',
+                                pdf: 'Jadikan PDF',
+                            }
+                        },
+                        order: [[ 4, "desc" ]],
+                        pageLength: 10
+                    }
+                ).columns.adjust();
             }
         }
     );
@@ -172,7 +215,7 @@ function upload() {
                 error: function(res) {
                     Swal.fire({
                         title: `Dokumen gagal di Upload!`,
-                        text: res,
+                        text: 'Dokumen dengan Nama file anda sudah ada atau digunakan pengguna lain',
                         icon: `error`,
                         showConfirmButton:false,
                         showCancelButton:false,
@@ -252,39 +295,63 @@ function refresh() {
             dataType: 'json', // added data type
             success: function(res) {
                 $("#tampil-tbody").empty();
+                $('#table').DataTable().clear().destroy();
                 var date = new Date().toISOString().split('T')[0];
+                var userID = "{{ Auth::user()->id }}";
+                var adminID = "{{ Auth::user()->hasRole('it|kabag-perencanaan|kasubag-perencanaan-it') }}";
                 if(res.length == 0){
                     $("#tampil-tbody").append(`<tr><td colspan="6"><center><i class="fa fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
                 } else {
                     res.forEach(item => {
                         var updet = item.updated_at.substring(0, 10);
-                        var userID = "{{ Auth::user()->id }}";
-                        $("#tampil-tbody").append(`
-                            <tr id="data${item.id}">
-                                <td>${item.id}</td> 
-                                <td>${item.nama}</td>  
-                                <td>${JSON.parse(item.unit)}</td>  
-                                <td>${item.title}</td>  
-                                <td>${item.tgl}</td>  
-                                <td>
-                                    <center>
-                                        <div class="btn-group" role="group">
-                                            @role('it|kabag-perencanaan|kasubag-perencanaan-it')
-                                                <a type="button" href="./perencanaan/${item.id}" class="btn btn-success btn-sm"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
-                                                <button type="button" onclick="hapus(${item.id})" class="btn btn-danger btn-sm"><i class="fa-fw fas fa-trash nav-icon text-white"></i></button>
-                                            @else
-                                                ${updet == date ?
-                                                    '<a type="button" href="./perencanaan/'+item.id+'" class="btn btn-success btn-sm"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>' : '<button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-download nav-icon text-white"></i></button>'
-                                                }
-                                            @endrole
-                                        </div>
-                                    </center>
-                                </td>
-                            </tr>
-                        `);
+                        content = "<tr id='data"+ item.id +"'><td>" + item.id + "</td><td>" 
+                                    + item.nama + "</td><td>" 
+                                    + JSON.parse(item.unit) + "</td><td>" 
+                                    + item.title + "</td><td>"
+                                    + item.tgl + "</td>";
+                        content += "<td><center><div class='btn-group' role='group'>";
+                        if (adminID)
+                            content += "<a type='button' href='./perencanaan/"+item.id+"' class='btn btn-success btn-sm'><i class='fa-fw fas fa-download nav-icon text-white'></i></a>";
+                        else            
+                            if (item.id_user == userID)
+                                if (updet == date)
+                                    content += "<a type='button' href='./perencanaan/"+item.id+"' class='btn btn-success btn-sm'><i class='fa-fw fas fa-download nav-icon text-white'></i></a>";
+                                else
+                                content += "<button type='button' class='btn btn-secondary btn-sm' disabled><i class='fa-fw fas fa-download nav-icon text-white'></i></button>";
+                            else
+                                content += "<button type='button' class='btn btn-secondary btn-sm' disabled><i class='fa-fw fas fa-download nav-icon text-white'></i></button>";
+                        content += "</div></center></td>";
+                        $('#tampil-tbody').append(content);
                     });
                 }
-                $('#table').DataTable().columns.adjust();
+                $('#table').DataTable(
+                    {
+                        paging: true,
+                        searching: true,
+                        dom: 'Bfrtip',
+                        buttons: [
+                            'excel', 'pdf','colvis'
+                        ],
+                        select: {
+                            style: 'single'
+                        },
+                        'columnDefs': [
+                            // { targets: 0, visible: false },
+                            // { targets: 3, visible: false },
+                            // { targets: 6, visible: false },
+                            // { targets: 8, visible: false },
+                        ],
+                        language: {
+                            buttons: {
+                                colvis: 'Sembunyikan Kolom',
+                                excel: 'Jadikan Excell',
+                                pdf: 'Jadikan PDF',
+                            }
+                        },
+                        order: [[ 4, "desc" ]],
+                        pageLength: 10
+                    }
+                ).columns.adjust();
             }
         }
     );
