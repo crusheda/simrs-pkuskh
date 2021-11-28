@@ -658,7 +658,7 @@
                             File Manager
                         </a>
                     </li>
-                    @can('laporan')
+                    @if(auth()->user()->can('laporan') || auth()->user()->can('admin-laporan'))
                         <li class="nav-item">
                             <a href="{{ route('bulan.index') }}" class="nav-link">
                                 <i class="fa-fw fas fa-book nav-icon">
@@ -667,7 +667,7 @@
                                 Laporan Bulanan
                             </a>
                         </li>
-                    @endcan
+                    @endif
                     {{-- <li class="nav-item">
                         <a href="{{ route("bulanan.index") }}" class="nav-link">
                             <i class="fa-fw fas fa-book nav-icon">

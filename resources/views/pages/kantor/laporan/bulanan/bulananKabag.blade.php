@@ -66,8 +66,6 @@
             </div>
         </div>
     </div>
-@else
-    <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
 @endcan
 
 @can('admin-laporan')

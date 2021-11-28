@@ -11,42 +11,62 @@
 </style> --}}
 
 <div class="row">
-    <div class="card" style="width: 100%">
-        <div class="card-header bg-dark text-white">
-
-            <i class="fa-fw fas fa-camera nav-icon text-info">
-
-            </i> Absen dengan Kamera
-
-            <span class="pull-right badge badge-warning" style="margin-top:4px">
-                Akses Publik
-            </span>
-            
+    <div class="col-md-3">
+        <div class="card" style="width: 100%">
+            <div class="card-header bg-dark text-white">
+    
+                <i class="fa-fw fas fa-camera nav-icon text-info">
+    
+                </i> Absen dengan Kamera
+                
+            </div>
+            <div class="card-body">
+                <form class="form-auth-small" method="POST" action="{{ route('absen.store') }}" enctype="multipart/form-data">
+                    <center>
+                        <div id="my_camera"></div>
+                        <br>
+                        <input type="button" class="btn btn-primary btn-lg" value="Ambil Gambar" onClick="take_snapshot()">
+                        <input type="hidden" name="image" class="image-tag">
+                    </center>
+                    <hr>
+                    <center>
+                        <div id="results">Hasil Foto absen anda akan muncul disini</div>
+                        <br>
+                        <button class="btn btn-success btn-lg"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
+                    </center>
+                </form>
+            </div>
         </div>
-        <div class="card-body">
-            <form class="form-auth-small" method="POST" action="{{ route('absen.store') }}" enctype="multipart/form-data">
-                <div class="row">
-                    <div class="col">
-                        <div class="jumbotron" style="height: 100%;width: 100%;margin-bottom: -30px;">
-                            <center>
-                                <div id="my_camera" style="margin-top: -30px;"></div>
-                                <br>
-                                <input type="button" class="btn btn-primary btn-lg" value="Ambil Gambar" onClick="take_snapshot()">
-                                <input type="hidden" name="image" class="image-tag">
-                            </center>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="jumbotron" style="height: 100%;width: 100%;margin-bottom: -30px;">
-                            <center>
-                                <div id="results" style="margin-top: -30px;">Hasil Foto absen anda akan muncul disini</div>
-                                <br>
-                                <button class="btn btn-success btn-lg"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
-                            </center>
-                        </div>
-                    </div>
+    </div>
+    <div class="col-md-9">
+        <div class="card" style="width: 100%">
+            <div class="card-header bg-dark text-white">
+    
+                <i class="fa-fw fas fa-camera nav-icon text-info">
+    
+                </i> Riwayat Absensi
+    
+                <span class="pull-right badge badge-warning" style="margin-top:4px">
+                    Akses Publik
+                </span>
+                
+            </div>
+            <div class="card-body">
+                <div class="table-responsive">
+                    <table id="table" class="table table-striped display" style="width: 100%">
+                        <thead>
+                            <tr>
+                                <th>ID</th>
+                                <th>NAMA</th>
+                                {{-- <th>ROLE</th> --}}
+                                <th>TGL</th>
+                                <th><center>FOTO</center></th>
+                            </tr>
+                        </thead>
+                        <tbody id="tampil-tbody"><tr><td colspan="4"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+                    </table>
                 </div>
-            </form>
+            </div>
         </div>
     </div>
 </div>
@@ -56,12 +76,15 @@
     $("body").addClass('brand-minimized sidebar-minimized');
 
     Webcam.set({
-        width: 490,
-        height: 390,
+        width: 290,
+        height: 190,
+        // dest_width: 490,
+        // dest_height: 390,
         // width: 400,
         // height: 390,
         image_format: 'jpeg',
-        jpeg_quality: 90
+        jpeg_quality: 90,
+        force_flash: false
     });
   
     Webcam.attach( '#my_camera' );
@@ -69,7 +92,7 @@
     function take_snapshot() {
         Webcam.snap( function(data_uri) {
             $(".image-tag").val(data_uri);
-            document.getElementById('results').innerHTML = '<img src="'+data_uri+'"/>';
+            document.getElementById('results').innerHTML = '<img src="'+data_uri+'" width="250" height="190"/>';
         } );
     }
 </script>
