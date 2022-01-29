@@ -10,15 +10,12 @@
 @can('laporan')
     <div class="card" style="width: 100%">
         <div class="card-header bg-dark text-white">
-            
             <i class="fa-fw fas fa-book nav-icon text-info">
 
             </i> Laporan Bulanan
-
             <span class="pull-right badge badge-warning" style="margin-top:4px">
                 Akses Publik
             </span>
-            
         </div>
         <div class="card-body">
             <div class="row">

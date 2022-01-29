@@ -1,5 +1,7 @@
 <?php
-Route::resource('/', 'WelcomeController');
+// Route::resource('/', 'WelcomeController');
+Route::get('/', 'maintenance\maintenanceController@index')->name('maintenance');
+
 Route::get('/kunjungan', 'kunjunganController@index')->name('landing.kunjungan');
 // Route::resource('/antrian', 'queuePoliController');
 // Route::get('/demos', function () {
