@@ -1,7 +1,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-	<title>Login | SIMRSKU</title>
+	<title>Masuk Akun | SIMRSMU</title>
 	<meta charset="UTF-8">
 	<meta name="title" content="SIMRSKU"/>
 	<meta name="description" content="Sistem Informasi Manajemen Rumah Sakit PKU Muhammadiyah Sukoharjo yang dirancang untuk memudahkan kinerja karyawan.">
