@@ -279,9 +279,9 @@
 
                         </i>
                         Log Perawat
-                        @if (\Carbon\Carbon::now()->isoFormat('MM') == '11')
+                        {{-- @if (\Carbon\Carbon::now()->isoFormat('MM') == '11')
                             <span class="badge badge-info">Baru</span>
-                        @endif
+                        @endif --}}
                     </a>
                     <ul class="nav-dropdown-items">
                         <li class="nav-item">
@@ -290,19 +290,19 @@
 
                                 </i>
                                 Tindakan Harian
-                                @if (\Carbon\Carbon::now()->isoFormat('MM') == '11')
+                                {{-- @if (\Carbon\Carbon::now()->isoFormat('MM') == '11')
                                     <span class="badge badge-info">Baru</span>
-                                @endif
+                                @endif --}}
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="{{ route("tdkperawat.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-address-book nav-icon">
 
                                 </i>
                                 Tindakan Harian
                             </a>
-                        </li>
+                        </li> --}}
                         <li class="nav-item">
                             <a href="{{ route("profkpr.index") }}" class="nav-link">
                                 <i class="fa-fw fas fa-id-badge nav-icon">

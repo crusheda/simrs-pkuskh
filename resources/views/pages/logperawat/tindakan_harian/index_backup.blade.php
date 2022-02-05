@@ -26,67 +26,62 @@
             @can('log_perawat')
                 <div class="row">
                     <div class="col-md-12">
-                        <div class="pull-left">
-                            @role('it|kabag-keperawatan')
-                                <form class="form-inline" action="{{ route('tindakan-harian.cari') }}" method="GET">
-                                    <span style="width: auto;margin-right:10px">Filter</span>
-                                    {{-- <select onchange="submitBtn()" class="form-control" name="unit_cari" id="unit_cari" style="margin-right:10px">
-                                        <option hidden>Unit</option>
-                                        <option value="igd">IGD</option>
-                                        <option value="icu">ICU</option>
-                                        <option value="ibs">IBS</option>
-                                        <option value="poli">POLIKLINIK</option>
-                                        <option value="kebidanan">KEBIDANAN</option>
-                                        <option value="bangsal-dewasa">BANGSAL DEWASA</option>
-                                        <option value="bangsal-anak">BANGSAL ANAK</option>
-                                    </select> --}}
-                                    <select onchange="submitBtn()" class="form-control" name="shift_cari" id="shift_cari" style="margin-right:10px">
-                                        <option hidden>Shift</option>
-                                        <option value="pagi">PAGI</option>
-                                        <option value="siang">SIANG</option>
-                                        <option value="malam">MALAM</option>
-                                    </select>
-                                    <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="bulan" id="bulan">
-                                        <option hidden>Bulan</option>
-                                        <?php
-                                            $bulan=array("","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
-                                            $jml_bln=count($bulan);
-                                            for($c=1 ; $c < $jml_bln ; $c+=1){
-                                                echo"<option value=$c> $bulan[$c] </option>";
-                                            }
-                                        ?>
-                                    </select>
-                                    <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="tahun" id="tahun">
-                                        <option hidden>Tahun</option>
-                                        @php
-                                            for ($i=2020; $i <= $list['thn']; $i++) { 
-                                                echo"<option value=$i> $i </option>";
-                                            }
-                                            
-                                        @endphp
-                                    </select>
-                                    <button class="form-control btn btn-secondary text-white" id="submit_filter" disabled><i class="fa-fw fas fa-filter nav-icon text-white"></i> Submit</button>
-                                </form>
-                            @else
-                                <button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah" @if (count($list['show']) > 0) @if (\Carbon\Carbon::parse($list['show'][0]->updated_at)->isoFormat('YYYY/MM/DD') ==  $list['today']) @else echo disabled @endif @endif>
-                                    <i class="fa-fw fas fa-plus-square nav-icon">
-            
-                                    </i>
-                                    Tambah Tindakan
-                                </button>
-                                {{-- <button class="btn btn-primary text-white" disabled><i class="fa-fw fas fa-hourglass-half nav-icon"></i> Coming soon...</button> --}}
-                            @endrole
-                        </div>
-                        <div class="pull-right">
-                            <button type="button" class="btn btn-info text-white" onclick="refreshTable()"><span class="fa fa-refresh"></span> Refresh</button>
-                        </div>
+                        @role('it|kabag-keperawatan')
+                            <form class="form-inline" action="{{ route('tindakan-harian.cari') }}" method="GET">
+                                <span style="width: auto;margin-right:10px">Filter</span>
+                                {{-- <select onchange="submitBtn()" class="form-control" name="unit_cari" id="unit_cari" style="margin-right:10px">
+                                    <option hidden>Unit</option>
+                                    <option value="igd">IGD</option>
+                                    <option value="icu">ICU</option>
+                                    <option value="ibs">IBS</option>
+                                    <option value="poli">POLIKLINIK</option>
+                                    <option value="kebidanan">KEBIDANAN</option>
+                                    <option value="bangsal-dewasa">BANGSAL DEWASA</option>
+                                    <option value="bangsal-anak">BANGSAL ANAK</option>
+                                </select> --}}
+                                <select onchange="submitBtn()" class="form-control" name="shift_cari" id="shift_cari" style="margin-right:10px">
+                                    <option hidden>Shift</option>
+                                    <option value="pagi">PAGI</option>
+                                    <option value="siang">SIANG</option>
+                                    <option value="malam">MALAM</option>
+                                </select>
+                                <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="bulan" id="bulan">
+                                    <option hidden>Bulan</option>
+                                    <?php
+                                        $bulan=array("","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
+                                        $jml_bln=count($bulan);
+                                        for($c=1 ; $c < $jml_bln ; $c+=1){
+                                            echo"<option value=$c> $bulan[$c] </option>";
+                                        }
+                                    ?>
+                                </select>
+                                <select onchange="submitBtn()" class="form-control" style="width: auto;margin-right:10px" name="tahun" id="tahun">
+                                    <option hidden>Tahun</option>
+                                    @php
+                                        for ($i=2020; $i <= $list['thn']; $i++) { 
+                                            echo"<option value=$i> $i </option>";
+                                        }
+                                        
+                                    @endphp
+                                </select>
+                                <button class="form-control btn btn-secondary text-white" id="submit_filter" disabled><i class="fa-fw fas fa-filter nav-icon text-white"></i> Submit</button>
+                            </form>
+                        @else
+                            <button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah" @if (count($list['show']) > 0) @if (\Carbon\Carbon::parse($list['show'][0]->updated_at)->isoFormat('YYYY/MM/DD') ==  $list['today']) @else echo disabled @endif @endif>
+                                <i class="fa-fw fas fa-plus-square nav-icon">
+        
+                                </i>
+                                Tambah Tindakan
+                            </button>
+                            {{-- <button class="btn btn-primary text-white" disabled><i class="fa-fw fas fa-hourglass-half nav-icon"></i> Coming soon...</button> --}}
+                        @endrole
                     </div>
                 </div>
                 <hr>
                 <div class="row">
                     <div class="col-md-12">
                         <div class="table-responsive">
-                            <table class="table datatables table-striped" id="tableku" style="width: 100%">
+                            <table id="table" class="table table-striped table-hover display">
                                 <thead>
                                     <tr>
                                         <th>ID</th>
@@ -97,7 +92,40 @@
                                         <th><center>#</center></th>
                                     </tr>
                                 </thead>
-                                <tbody id="tampil-tbody"><tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+                                <tbody style="text-transform: capitalize">
+                                    @if(count($list['show']) > 0)
+                                    @foreach($list['show'] as $item)
+                                    <tr>
+                                        <td>{{ $item->queue }}</td>
+                                        <td>{{ $item->shift }}</td>
+                                        <td>{{ $item->nama }}</td>
+                                        <td>
+                                            @foreach (json_decode($item->unit) as $key => $value)
+                                                <kbd>{{ $value }}</kbd>
+                                            @endforeach
+                                        </td>
+                                        <td>{{ $item->tgl }}</td>
+                                        <td>
+                                            <center>
+                                                <div class="btn-group" role="group">
+                                                    <button type="button" class="btn btn-warning btn-sm" onclick="editData({{ $item->queue }})"><i class="fa-fw fas fa-search nav-icon text-white"></i></button>
+                                                    {{-- <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#detail{{ $item->queue }}"><i class="fa-fw fas fa-search nav-icon text-white"></i></button> --}}
+                                                    @role('it|kabag-keperawatan')
+                                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->queue }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                    @else
+                                                        @if (\Carbon\Carbon::parse($item->tgl)->isoFormat('YYYY/MM/DD') ==  $list['today'])
+                                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->queue }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                        @else
+                                                            <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                        @endif
+                                                    @endrole
+                                                </div>
+                                            </center>
+                                        </td>
+                                    </tr>
+                                    @endforeach
+                                    @endif
+                                </tbody>
                             </table>
                         </div>
                     </div>
@@ -105,11 +133,6 @@
             @else
                 <p class="text-center">Maaf, anda tidak mempunyai <kbd>HAK AKSES</kbd> halaman ini.</p>
             @endcan
-        </div>
-        <div class="card-footer">
-            @role('it|kabag-keperawatan')
-                <button class="btn btn-dark text-white pull-right" onclick="window.location.href='{{ route('tdkperawat.index') }}'"><i class="fa fa-history"></i> Data Tindakan Harian Lama</button>
-            @endrole
         </div>
     </div>
 </div>
@@ -273,71 +296,6 @@
 
 <script>
 $(document).ready( function () {
-    
-    $.ajax(
-      {
-        url: "./tindakan-harian/table",
-        type: 'GET',
-        dataType: 'json', // added data type
-        success: function(res) {
-          $("#tampil-tbody").empty();
-          if(res.show.length == 0){
-          } else {
-            res.show.forEach(item => {
-
-                content = "<tr id='data"+ item.queue +"'><td>" + item.queue + "</td><td>" 
-                + item.shift + "</td><td>" 
-                + item.nama + "</td><td>"
-                + $.each(JSON.parse(item.unit), function( index, value ) { value }) + "</td><td>"
-                + item.tgl + "</td>"
-                // + item.unit.forEach(val => { item.val })
-                + "<td><center><div class='btn-group' role='group'>"
-                + "<button type='button' class='btn btn-warning btn-sm' onclick='editData("+item.queue+")'><i class='fa-fw fas fa-search nav-icon text-white'></i></button>"
-                + "@role('it|kabag-keperawatan')"
-                + "<button type='button' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#hapus"+item.queue+"'><i class='fa-fw fas fa-trash nav-icon text-white'></i></button>"
-                + "@else"
-                + "<button type='button' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#hapus"+item.queue+"'><i class='fa-fw fas fa-trash nav-icon text-white'></i></button>"
-                + "@endrole"
-                + "</div></center></td></tr>";
-                $('#tampil-tbody').append(content);
-
-                // html = "";
-                // html += "<tr id='data"+ item.queue +"'><td>" + item.queue + "</td><td>" ;
-                // $.each(item.unit, function( index, value ) {
-                //     html += value;
-                // });
-                // html += '</td></tr>';
-                // $('#tampil-tbody').empty('').append(html);
-            });
-          }
-          $('#tableku').DataTable(
-            {
-              paging: true,
-              searching: true,
-              dom: 'Bfrtip',
-              buttons: [
-                  'excel', 'pdf','colvis',
-              ],
-              'columnDefs': [
-                //   { targets: 0, visible: false },
-                //   { targets: 4, visible: false },
-                //   { targets: 6, visible: false },
-                //   { targets: 9, visible: false },
-              ],
-              language: {
-                  buttons: {
-                      colvis: 'Sembunyikan Kolom',
-                      excel: 'Jadikan Excell',
-                      pdf: 'Jadikan PDF',
-                  }
-              },
-              order: [[ 4, "desc" ]],
-              pageLength: 10
-            }
-          );
-        }
-      }
-    );
     $('#table').DataTable(
         {
             paging: true,
@@ -384,67 +342,6 @@ $(document).ready( function () {
 } );
 </script>
 <script>
-    
-  function refreshTable() {
-        $("#tampil-tbody").empty().append(`<tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
-        $.ajax(
-        {
-            url: "./tindakan-harian/table",
-            type: 'GET',
-            dataType: 'json', // added data type
-            success: function(res) {
-            $("#tampil-tbody").empty();
-            $('#tableku').DataTable().clear().destroy();
-            if(res.show.length == 0){
-            } else {
-                res.show.forEach(item => {
-
-                    content = "<tr id='data"+ item.queue +"'><td>" + item.queue + "</td><td>" 
-                    + item.shift + "</td><td>" 
-                    + item.nama + "</td><td>"
-                    + $.each(JSON.parse(item.unit), function( index, value ) { value }) + "</td><td>"
-                    + item.tgl + "</td>"
-                    // + item.unit.forEach(val => { item.val })
-                    + "<td><center><div class='btn-group' role='group'>"
-                    + "<button type='button' class='btn btn-warning btn-sm' onclick='editData("+item.queue+")'><i class='fa-fw fas fa-search nav-icon text-white'></i></button>"
-                    + "@role('it|kabag-keperawatan')"
-                    + "<button type='button' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#hapus"+item.queue+"'><i class='fa-fw fas fa-trash nav-icon text-white'></i></button>"
-                    + "@else"
-                    + "<button type='button' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#hapus"+item.queue+"'><i class='fa-fw fas fa-trash nav-icon text-white'></i></button>"
-                    + "@endrole"
-                    + "</div></center></td></tr>";
-                    $('#tampil-tbody').append(content);
-                });
-            }
-            $('#tableku').DataTable(
-                {
-                paging: true,
-                searching: true,
-                dom: 'Bfrtip',
-                buttons: [
-                    'excel', 'pdf','colvis',
-                ],
-                'columnDefs': [
-                    //   { targets: 0, visible: false },
-                    //   { targets: 4, visible: false },
-                    //   { targets: 6, visible: false },
-                    //   { targets: 9, visible: false },
-                ],
-                language: {
-                    buttons: {
-                        colvis: 'Sembunyikan Kolom',
-                        excel: 'Jadikan Excell',
-                        pdf: 'Jadikan PDF',
-                    }
-                },
-                order: [[ 4, "desc" ]],
-                pageLength: 10
-                }
-            );
-            }
-        }
-        );
-    }
     function submitBtn() {
         // var unit = $("#unit_cari").val();
         var shift = $("#shift_cari").val();

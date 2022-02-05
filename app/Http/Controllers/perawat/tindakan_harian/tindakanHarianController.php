@@ -365,4 +365,83 @@ class tindakanHarianController extends Controller
 
         return view('pages.logperawat.tindakan_harian.cari')->with('list', $data);
     }
+
+    // API
+    public function table()
+    {
+        $now = Carbon::now();
+        // print_r($now);
+        // die();
+
+        $thn = Carbon::now()->isoFormat('YYYY');
+        $today = Carbon::now()->isoFormat('YYYY/MM/DD');
+
+        $user = Auth::user();
+        $id_user = $user->id;
+        $name = $user->name;
+        $unit = $user->roles;
+
+        $showAll = tindakan_harian::all();
+
+        if (Auth::user()->hasRole('kabag-keperawatan')) {
+            $show = tindakan_harian::select('queue','shift','nama','unit','tgl')->groupBy('queue','shift','nama','unit','tgl')->orderBy('tgl','desc')->get();
+            $pernyataan = null;
+        }
+        else {
+            $get_pernyataan = logperawat::orderBy('updated_at','DESC')->get();
+            
+            // GET ROLE
+            foreach ($unit as $key => $value) {
+                foreach ($get_pernyataan as $py => $item) {
+                    if ($value->name == $item->unit) {
+                        $array_pernyataan[] = $item->id;
+                    }
+                }
+                $role[] = $value->name;
+            }
+            
+            // GET DATA
+            $getId = [];
+            if (count($showAll) > 0) {
+                foreach ($showAll as $key => $value) {
+                    $arr = json_decode($value->unit);
+                    foreach ($arr as $ky => $val) {
+                        foreach ($role as $gt => $item) {
+                            // print_r($val);
+                            if ($val == $item) {
+                                $getId[] = $value->id;
+                            }
+                        }
+                    }
+                }
+            } else {
+                $show = $showAll;
+            }
+
+            // JIKA USER BELUM PERNAH MEMASUKKAN TINDAKAN HARIAN
+            if (!empty($getId)) {
+                $show = tindakan_harian::whereIn('id', $getId)->select('queue','shift','nama','unit','tgl')->groupBy('queue','shift','nama','unit','tgl')->orderBy('tgl','desc')->get();
+            } else {
+                $show = tindakan_harian::where('id_user', $id_user)->select('queue','shift','nama','unit','tgl')->groupBy('queue','shift','nama','unit','tgl')->orderBy('tgl','desc')->get();
+            }
+
+            $pernyataan = logperawat::whereIn('id', $array_pernyataan)->get();
+        }
+
+        // print_r($show);
+        // die();
+
+        $data = [
+            // 'users' => $users,
+            'show' => $show,
+            'show_all' => $showAll,
+            // 'show_edit' => $showEdit,
+            'pernyataan' => $pernyataan,
+            'user' => $user,
+            'thn' => $thn,
+            'today' => $today,
+        ];
+
+        return response()->json($data, 200);
+    }
 }
