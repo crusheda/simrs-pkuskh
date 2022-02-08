@@ -41,7 +41,7 @@ class tindakanHarianController extends Controller
         //     }
         // )->get();
 
-        $showAll = tindakan_harian::all();
+        // $showAll = tindakan_harian::all();
 
         if (Auth::user()->hasRole('kabag-keperawatan')) {
             $show = tindakan_harian::select('queue','shift','nama','unit','tgl')->groupBy('queue','shift','nama','unit','tgl')->orderBy('tgl','desc')->get();
@@ -94,7 +94,7 @@ class tindakanHarianController extends Controller
         $data = [
             // 'users' => $users,
             'show' => $show,
-            'show_all' => $showAll,
+            // 'show_all' => $showAll,
             // 'show_edit' => $showEdit,
             'pernyataan' => $pernyataan,
             'user' => $user,
@@ -370,8 +370,6 @@ class tindakanHarianController extends Controller
     public function table()
     {
         $now = Carbon::now();
-        // print_r($now);
-        // die();
 
         $thn = Carbon::now()->isoFormat('YYYY');
         $today = Carbon::now()->isoFormat('YYYY/MM/DD');
@@ -424,22 +422,10 @@ class tindakanHarianController extends Controller
             } else {
                 $show = tindakan_harian::where('id_user', $id_user)->select('queue','shift','nama','unit','tgl')->groupBy('queue','shift','nama','unit','tgl')->orderBy('tgl','desc')->get();
             }
-
-            $pernyataan = logperawat::whereIn('id', $array_pernyataan)->get();
         }
 
-        // print_r($show);
-        // die();
-
         $data = [
-            // 'users' => $users,
             'show' => $show,
-            'show_all' => $showAll,
-            // 'show_edit' => $showEdit,
-            'pernyataan' => $pernyataan,
-            'user' => $user,
-            'thn' => $thn,
-            'today' => $today,
         ];
 
         return response()->json($data, 200);

@@ -186,7 +186,7 @@
     </div>
 </div>
 
-@foreach($list['show_all'] as $item)
+@foreach($list['show'] as $item)
 <div class="modal fade bd-example-modal-lg" id="detail{{ $item->queue }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-xl">
       <div class="modal-content">
@@ -229,7 +229,7 @@
                 </table>
         </div>
         <div class="modal-footer">
-
+            
                 <a>@if($item->updated_at != null) {{ \Carbon\Carbon::parse($item->updated_at)->isoFormat('dddd, D MMMM Y') }} @endif</a>
                 @if (\Carbon\Carbon::parse($item->tgl)->isoFormat('YYYY/MM/DD') ==  $list['today'])
                     <button class="btn btn-success" id="btn-simpan" onclick="saveData()"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
@@ -244,7 +244,7 @@
 </div>
 @endforeach
 
-@foreach($list['show_all'] as $item)
+@foreach($list['show'] as $item)
 <div class="modal fade" id="hapus{{ $item->queue }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
