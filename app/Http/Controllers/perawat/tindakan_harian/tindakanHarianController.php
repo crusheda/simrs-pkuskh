@@ -41,7 +41,7 @@ class tindakanHarianController extends Controller
         //     }
         // )->get();
 
-        // $showAll = tindakan_harian::all();
+        $showAll = tindakan_harian::all();
 
         if (Auth::user()->hasRole('kabag-keperawatan')) {
             $show = tindakan_harian::select('queue','shift','nama','unit','tgl')->groupBy('queue','shift','nama','unit','tgl')->orderBy('tgl','desc')->get();
