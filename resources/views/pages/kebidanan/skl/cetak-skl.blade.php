@@ -99,7 +99,7 @@
                         <b>dr. H. Ahmad Sutamat, Sp.OG</b>
                     @elseif ($list['show']->dr == 3)
                         <img src="{{ asset('doc/kebidanan/ttd-febrian.png') }}" width="45%"><br>
-                        <b>dr. Febrian Andhika Adiyana, Sp.OG</b>
+                        <b>dr. Febrian Andhika A., Sp.OG</b>
                     @endif
                 </p>
             </div>
