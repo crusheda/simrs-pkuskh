@@ -94,10 +94,12 @@
                     @if ($list['show']->dr == 1)
                         <br><br>
                         <b>dr. Gede Sri Dhyana, Sp.OG</b>
-                    @else
-                        
+                    @elseif ($list['show']->dr == 2)
                         <img src="{{ asset('doc/kebidanan/ttd-ahmad.png') }}" width="65%"><br>
                         <b>dr. H. Ahmad Sutamat, Sp.OG</b>
+                    @elseif ($list['show']->dr == 3)
+                        <img src="{{ asset('doc/kebidanan/ttd-febrian.png') }}" width="45%"><br>
+                        <b>dr. Febrian Andhika Adiyana, Sp.OG</b>
                     @endif
                 </p>
             </div>

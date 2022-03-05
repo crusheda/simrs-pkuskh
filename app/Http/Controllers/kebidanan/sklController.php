@@ -173,7 +173,9 @@ class sklController extends Controller
             $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor(public_path().'/doc/kebidanan/skl-gede.docx');
         }elseif ($data->dr == 2) {
             $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor(public_path().'/doc/kebidanan/skl-ahmad.docx');
-        }else {
+        }elseif ($data->dr == 3) {
+            $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor(public_path().'/doc/kebidanan/skl-febrian.docx');
+        }elseif ($data->dr == null) {
             return redirect('/kebidanan/skl')->with('message','Maaf, Input Dokter Belum Terisi');
         }
         

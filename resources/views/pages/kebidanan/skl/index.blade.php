@@ -144,10 +144,11 @@
                         </div>
                         <div class="form-group">
                             <label>Nama Dokter : </label>
-                            <select class="fstdropdown-select" id="dr" name="dr" required>
+                            <select class="custom-select" id="dr" name="dr" required>
                                 <option selected="selected" value="" hidden>Pilih</option>
                                 <option value="1">dr. Gede Sri Dhyana, Sp.OG</option>
                                 <option value="2">dr. H. Ahmad Sutamat, Sp.OG</option>
+                                <option value="3">dr. Febrian Andhika Adiyana, Sp.OG</option>
                             </select>
                         </div>
                         <label>Alamat :</label>
@@ -229,10 +230,11 @@
                     </div>
                     <div class="form-group">
                         <label>Nama Dokter : </label>
-                        <select class="fstdropdown-select" id="dr" name="dr" required>
+                        <select class="custom-select" id="dr" name="dr" required>
                             <option selected="selected" value="" hidden>Pilih</option>
                             <option value="1" @if ($item->dr == '1') echo selected @endif>dr. Gede Sri Dhyana, Sp.OG</option>
                             <option value="2" @if ($item->dr == '2') echo selected @endif>dr. H. Ahmad Sutamat, Sp.OG</option>
+                            <option value="3" @if ($item->dr == '3') echo selected @endif>dr. Febrian Andhika Adiyana, Sp.OG</option>
                         </select>
                     </div>
                     <label>Alamat :</label>
