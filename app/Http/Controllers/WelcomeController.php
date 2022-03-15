@@ -26,7 +26,7 @@ class WelcomeController extends Controller
         ];
 
         if (Auth::check()) {
-            return Redirect::to('home');
+            return Redirect::to('welcome');
         } else {
             return view('login')->with('list', $data);
         }

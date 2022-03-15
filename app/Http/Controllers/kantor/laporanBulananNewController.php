@@ -336,7 +336,7 @@ class laporanBulananNewController extends Controller
         $verif_kasubag_keperawatan_rajal_gadar = ['karu-igd','karu-poli'];
         $verif_kasubag_keperawatan_ranap = ['karu-icu','karu-ibs','karu-bangsal3','karu-bangsal4','karu-kebidanan'];
         $verif_kasubag_rajal_gadar = ['karu-igd','karu-poli'];
-        $verif_kasubag_ranap = ['karu-icu','karu-ibs','karu-bangsal3','karu-bangsal4','karu-kebidanan'];
+        $verif_kasubag_ranap = ['karu-icu','karu-ibs','karu-bangsal3','karu-bangsal4','karu-kebidanan','perinatologi'];
 
         // ------------------------------------------------------------------------------------------------------------------------
         // Direktur

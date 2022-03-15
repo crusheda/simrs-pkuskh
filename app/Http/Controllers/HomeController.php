@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use Spatie\Permission\Models\Role;
 use App\Models\tdkperawat;
 use App\Models\user;
+use App\Models\logs;
 use Carbon\Carbon;
 use Auth;
 
@@ -69,6 +70,29 @@ class HomeController extends Controller
         ];
 
         return view('home')->with('list', $data);
+    }
+
+    public function newIndex()
+    {
+        $user = Auth::user();
+        $name = $user->name;
+        $role = $user->roles->first()->name;
+        $id = $user->id;
+        
+        $foto = DB::table('foto_profil')
+                ->where('user_id', '=', $id)
+                // ->get()
+                ->first();  
+                
+        $showlog = logs::where('user_id', $id)->where('log_type', '=', 'login')->select('log_date')->orderBy('log_date', 'DESC')->get();
+        
+        $data = [
+            'user' => $user,
+            'foto' => $foto,
+            'showlog' => $showlog,
+        ];
+
+        return view('pages.new.dashboard')->with('list', $data);
     }
 
     public function fileManager()

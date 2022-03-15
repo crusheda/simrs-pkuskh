@@ -81,7 +81,7 @@ class profilController extends Controller
         // print_r($data['nama_kabkota']);
         // die();
 
-        return view('profil')->with('list', $data);
+        return view('pages.new.profil')->with('list', $data);
     }
 
     /**
