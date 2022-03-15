@@ -214,7 +214,7 @@
           <i class="fas fa-cog"></i> Ubah Password
         </a>
         <div class="dropdown-divider"></div>
-        <a href="#" class="dropdown-item has-icon text-danger">
+        <a href="#" class="dropdown-item has-icon text-danger" onclick="event.preventDefault(); document.getElementById('logoutform').submit();">
           <i class="fas fa-sign-out-alt"></i> Logout
         </a>
       </div>

@@ -3,7 +3,12 @@
 <head>
   <meta charset="UTF-8">
   <meta content="width=device-width, initial-scale=1, maximum-scale=1, shrink-to-fit=no" name="viewport">
-  <title>Dashboard - {{ Auth::user()->name }}</title>
+  <meta name="csrf-token" content="{{ csrf_token() }}">
+  <title>SIMRSMU - {{ Auth::user()->name }}</title>
+
+  {{-- Logo PKU --}}
+  <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/pku_ico.png') }}">
+  <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('img/pku_ico.png') }}">
 
   <!-- General CSS Files -->
   <link rel="stylesheet" href="assets/modules/bootstrap/css/bootstrap.min.css">
@@ -33,6 +38,7 @@
 
 <body>
   <div id="app">
+    <a name="top" class="top"></a> 
     <div class="main-wrapper main-wrapper-1">
       
       @include('pages.new.inc.navbar')
@@ -55,13 +61,16 @@
       </div>
       <footer class="main-footer">
         <div class="footer-left">
-          Copyright &copy; 2018 <div class="bullet"></div> Design By <a href="https://nauval.in/">Muhamad Nauval Azhar</a>
+          Copyright &copy; 2020 <div class="bullet"></div> Develop By <a href="#">Yussuf Faisal</a>
         </div>
         <div class="footer-right">
           
         </div>
       </footer>
     </div>
+    <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
+        {{ csrf_field() }}
+    </form>
   </div>
 
   <!-- General JS Scripts -->
@@ -85,5 +94,40 @@
   <!-- Template JS File -->
   <script src="assets/js/scripts.js"></script>
   <script src="assets/js/custom.js"></script>
+  {{-- GOTO TOP --}}
+  <a id="goTop" class="btn btn-dark text-white" style="
+    display: none;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
+    z-index: 99;
+    font-size: 10px;
+    border: none;
+    outline: none;
+    cursor: pointer;
+    padding: 15px;
+    opacity: 100%;
+    border-radius: 15px;
+    background-color:#6777EF;
+  ">
+  <i class="fas fa-chevron-up"></i></a>
+  <script>
+    //Get the button
+    var mybutton = document.getElementById("goTop");
+
+    // When the user scrolls down 20px from the top of the document, show the button
+    window.onscroll = function() {scrollFunction()};
+
+    function scrollFunction() {
+      if (document.body.scrollTop > 50 || document.documentElement.scrollTop > 50) {
+        mybutton.style.display = "block";
+      } else {
+        mybutton.style.display = "none";
+      }
+    }
+    $('#goTop').on('click', function(e){
+      $("html, body").animate({scrollTop: $(".top").offset().top}, 500);
+    });
+  </script>
 </body>
 </html>
