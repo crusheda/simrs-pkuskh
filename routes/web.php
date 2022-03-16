@@ -32,8 +32,8 @@ Route::get('/home', 'HomeController@index')->name('home');
 Route::get('/home/file-manager', 'HomeController@fileManager')->name('managerfile');
 
 // PROFIL KARYAWAN
-// Route::resource('user', 'Admin\profilController');
-// Route::post('/user/foto', 'Admin\profilController@storeImg');
+Route::resource('user', 'Admin\profilController');
+Route::post('/user/foto', 'Admin\profilController@storeImg');
 
 // Route::post('/antrian/poli/antrian', 'queueController@tambahAntrianSaatIni')->name('antriansaatini');
 // Route::get('/', 'HomeController@index'); //file manager
@@ -44,9 +44,6 @@ Route::get('/welcome', 'HomeController@newIndex')->name('welcome');
     //Profil
     Route::resource('profil', 'Admin\profilController');
     Route::post('/profil/foto', 'Admin\profilController@storeImg');
-
-
-
 
 
 

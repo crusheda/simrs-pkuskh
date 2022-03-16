@@ -68,7 +68,7 @@ class antigenController extends Controller
 
         // print_r($data['show']);
         // die();
-        return view('pages.lab.antigen')->with('list', $data);
+        return view('pages.new.lab.antigen')->with('list', $data);
     }
 
     /**

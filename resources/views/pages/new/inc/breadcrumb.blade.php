@@ -19,6 +19,12 @@
       $b1 = 'Dashboard'; 
       $b2 = 'Profil'; 
     }
+    if ($route == 'lab.antigen.index') {
+      $title = 'Data Antigen';
+      $b1 = 'Dashboard'; 
+      $b2 = 'Lab'; 
+      $b3 = 'Antigen'; 
+    }
 
 @endphp
 <h1>{{ $title }}</h1>

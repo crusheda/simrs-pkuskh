@@ -195,16 +195,17 @@
       </div>
     </li> --}}
     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
-      @if (!empty($list['foto']->filename))
-        <img alt="image" src="{{ url('storage/'.substr($list['foto']->filename,7,1000)) }}" class="rounded-circle mr-1">
+      <?php $foto_profil = DB::table('foto_profil')->where('user_id', Auth::user()->id)->first(); ?>
+      @if (!empty($foto_profil->filename))
+        <img alt="image" src="{{ url('storage/'.substr($foto_profil->filename,7,1000)) }}" class="rounded-circle mr-1">
       @else
-        <img alt="image" src="assets/img/avatar/avatar-1.png" class="rounded-circle mr-1">
+        <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}" class="rounded-circle mr-1">
       @endif
       <div class="d-sm-none d-lg-inline-block">Hai, {{ Auth::user()->name }}</div></a>
       <div class="dropdown-menu dropdown-menu-right">
         <div class="dropdown-title" style="margin-bottom: -10px"><i class="fas fa-clock"></i>&nbsp;@if (!empty($list['showlog'][1])) {{ \Carbon\Carbon::parse($list['showlog'][1]->log_date)->diffForHumans() }} @else - @endif</div>
         <hr>
-        <a href="profil" class="dropdown-item has-icon">
+        <a href="{{ route('profil.index') }}" class="dropdown-item has-icon">
           <i class="far fa-user"></i> Profil
         </a>
         {{-- <a href="features-activities.html" class="dropdown-item has-icon">
