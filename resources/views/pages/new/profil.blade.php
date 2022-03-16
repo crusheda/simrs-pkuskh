@@ -17,22 +17,22 @@
         @endif
         <div class="profile-widget-items">
           <div class="profile-widget-item">
-            <div class="profile-widget-item-label">Total Login</div>
-            <div class="profile-widget-item-value">-</div>
+            <div class="profile-widget-item-label mb-2">Total Login</div>
+            <div class="profile-widget-item-value mb-2">-</div>
           </div>
           <div class="profile-widget-item">
-            <div class="profile-widget-item-label">Terakhir Ubah Profil</div>
-            <div class="profile-widget-item-value">-</div>
+            <div class="profile-widget-item-label mb-2">Terakhir Ubah Profil</div>
+            <div class="profile-widget-item-value mb-2">-</div>
           </div>
           <div class="profile-widget-item">
-            <div class="profile-widget-item-label">Status Kepegawaian</div>
-            <div class="profile-widget-item-value">
+            <div class="profile-widget-item-label mb-2">Status Kepegawaian</div>
+            <div class="profile-widget-item-value mb-2">
               <button class="btn btn-primary"><i class="fas fa-file-contract"></i> Lihat</button>
             </div>
           </div>
           <div class="profile-widget-item">
-            <div class="profile-widget-item-label">Foto Profil</div>
-            <div class="profile-widget-item-value">
+            <div class="profile-widget-item-label mb-2">Foto Profil</div>
+            <div class="profile-widget-item-value mb-2">
               <div class="btn-group">
                 <button class="btn btn-warning"><i class="fas fa-edit"></i></button>
                 <button class="btn btn-info"><i class="fas fa-download"></i></button>
@@ -94,21 +94,21 @@
             </div>
             <div class="form-group col-md-8 col-12">
               <label>Nama Lengkap, Gelar</label>
-              <input type="text" id="nama" name="nama" class="form-control" value="{{ $list['user']->nama }}">
+              <input type="text" id="nama" name="nama" class="form-control" value="{{ $list['user']->nama }}" required>
               <div class="invalid-feedback">
                 Tuliskan Nama Lengkap Anda.
               </div>
             </div>
             <div class="form-group col-md-4 col-12">
               <label>Nama Panggilan</label>
-              <input type="text" id="nick" name="nick" class="form-control" value="{{ Auth::user()->nick }}">
+              <input type="text" id="nick" name="nick" class="form-control" value="{{ Auth::user()->nick }}" required>
               <div class="invalid-feedback">
                 Tuliskan Nama Panggilan Anda.
               </div>
             </div>
             <div class="form-group col-md-3 col-12">
               <label>Tempat Lahir</label>
-              <select class="form-control select2" id="temp_lahir" name="temp_lahir">
+              <select class="form-control select2" id="temp_lahir" name="temp_lahir" required>
                 <option selected="selected" value="">Pilih Kota</option>
                 @foreach($list['nama_kabkota'] as $item)
                     <option value="{{ $item->nama_kabkota }}" @if ($list['showuser']->temp_lahir == $item->nama_kabkota) echo selected @endif>{{ $item->nama_kabkota }}</option>
@@ -117,7 +117,7 @@
             </div>
             <div class="form-group col-md-3 col-12">
               <label>Tanggal Lahir</label>
-              <input type="date" id="tgl_lahir" name="tgl_lahir" class="form-control" value="<?php echo strftime('%Y-%m-%d', strtotime($list['showuser']->tgl_lahir)); ?>" required="">
+              <input type="date" id="tgl_lahir" name="tgl_lahir" class="form-control" value="<?php echo strftime('%Y-%m-%d', strtotime($list['showuser']->tgl_lahir)); ?>" required>
               <div class="invalid-feedback">
                 Please fill in the email
               </div>
@@ -125,7 +125,7 @@
             <div class="form-group col-md-3 col-12">
               <div class="form-group">
                 <label>Jenis Kelamin</label>
-                <select class="form-control selectric" id="jns_kelamin" name="jns_kelamin">
+                <select class="form-control selectric" id="jns_kelamin" name="jns_kelamin" required>
                   <option value="LAKI-LAKI" @if ($list['showuser']->jns_kelamin == 'LAKI-LAKI') echo selected @endif>Laki-laki</option>
                   <option value="PEREMPUAN" @if ($list['showuser']->jns_kelamin == 'PEREMPUAN') echo selected @endif>Perempuan</option>
                 </select>
@@ -137,7 +137,7 @@
             <div class="form-group col-md-3 col-12">
               <div class="form-group">
                 <label>Status Kawin</label>
-                <select class="form-control selectric" id="status_kawin" name="status_kawin">
+                <select class="form-control selectric" id="status_kawin" name="status_kawin" required>
                   <option value="">Pilih</option>
                   <option value="BELUM" @if ($list['showuser']->status_kawin == 'BELUM') echo selected @endif>Belum</option>
                   <option value="SUDAH" @if ($list['showuser']->status_kawin == 'SUDAH') echo selected @endif>Sudah</option>
@@ -154,28 +154,28 @@
           <div class="row">
             <div class="form-group col-md-6 col-12">
               <label>Email</label>
-              <input type="email" id="email" name="email" class="form-control" value="{{ $list['user']->email }}">
+              <input type="email" id="email" name="email" class="form-control" value="{{ $list['user']->email }}" required>
               <div class="invalid-feedback">
                 Please fill in the email
               </div>
             </div>
             <div class="form-group col-md-6 col-12">
               <label>No. HP / Whatsapp</label>
-              <input type="text" id="no_hp" name="no_hp" class="form-control" value="{{ $list['showuser']->no_hp }}" required="">
+              <input type="text" id="no_hp" name="no_hp" class="form-control" value="{{ $list['showuser']->no_hp }}" required>
               <div class="invalid-feedback">
                 Please fill in the email
               </div>
             </div>
             <div class="form-group col-md-6 col-12">
               <label>Instagram</label>
-              <input type="text" id="ig" name="ig" class="form-control" value="{{ $list['showuser']->ig }}" required="">
+              <input type="text" id="ig" name="ig" class="form-control" value="{{ $list['showuser']->ig }}">
               <div class="invalid-feedback">
                 Please fill in the email
               </div>
             </div>
             <div class="form-group col-md-6 col-12">
               <label>Facebook</label>
-              <input type="text" id="fb" name="fb" class="form-control" value="{{ $list['showuser']->fb }}" required="">
+              <input type="text" id="fb" name="fb" class="form-control" value="{{ $list['showuser']->fb }}">
               <div class="invalid-feedback">
                 Please fill in the email
               </div>
@@ -290,13 +290,143 @@
                 </div>
               </div>
               <div class="col-md-12">
-                <label>Alamat Lengkap :</label>
-                <textarea class="form-control" name="alamat_dom" id="alamat_dom" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($list['showuser']->alamat_dom); ?></textarea>
+                <div class="form-group">
+                  <label>Alamat Lengkap :</label>
+                  <textarea class="form-control" name="alamat_dom" id="alamat_dom" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($list['showuser']->alamat_dom); ?></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+          <hr style="margin-top: -5px">
+          <center><div class="font-weight-bold mb-3">Pendidikan Formal</div></center>
+          <div class="row">
+            <div class="col-md-1">
+              <label style="margin-top: 5px">SD</label><br><br>
+            </div>
+            <div class="col-md-8">
+              <input type="text" id="sd" name="sd" value="{{ $list['showuser']->sd }}" class="form-control" placeholder="Nama Sekolah Dasar">
+            </div>
+            <div class="col-md-3">
+              <input type="number" id="th_sd" name="th_sd" value="{{ $list['showuser']->th_sd }}" class="form-control" max="9999" placeholder="Tahun Lulus">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+              <label style="margin-top: 5px">SMP</label><br><br>
+            </div>
+            <div class="col-md-8">
+              <input type="text" id="smp" name="smp" value="{{ $list['showuser']->smp }}" class="form-control" placeholder="Nama Sekolah Menengah Pertama">
+            </div>
+            <div class="col-md-3">
+              <input type="number" id="th_smp" name="th_smp" value="{{ $list['showuser']->th_smp }}" class="form-control" max="9999" placeholder="Tahun Lulus">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+              <label style="margin-top: 5px">SMA</label><br><br>
+            </div>
+            <div class="col-md-8">
+              <input type="text" id="sma" name="sma" value="{{ $list['showuser']->sma }}" class="form-control" placeholder="Nama Sekolah Menengah Atas">
+            </div>
+            <div class="col-md-3">
+              <input type="number" id="th_sma" name="th_sma" value="{{ $list['showuser']->th_sma }}" class="form-control" max="9999" placeholder="Tahun Lulus">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+              <label style="margin-top: 5px">D1</label><br><br>
+            </div>
+            <div class="col-md-8">
+              <input type="text" id="d1" name="d1" value="{{ $list['showuser']->d1 }}" class="form-control" placeholder="Nama Universitas">
+            </div>
+            <div class="col-md-3">
+              <input type="number" id="th_d1" name="th_d1" value="{{ $list['showuser']->th_d1 }}" class="form-control" max="9999" placeholder="Tahun Lulus">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+              <label style="margin-top: 5px">D3</label><br><br>
+            </div>
+            <div class="col-md-8">
+              <input type="text" id="d3" name="s3" value="{{ $list['showuser']->d3 }}" class="form-control" placeholder="Nama Universitas">
+            </div>
+            <div class="col-md-3">
+              <input type="number" id="th_d3" name="th_d3" value="{{ $list['showuser']->th_d3 }}" class="form-control" max="9999" placeholder="Tahun Lulus">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+              <label style="margin-top: 5px">S1/D4</label><br><br>
+            </div>
+            <div class="col-md-8">
+              <input type="text" id="s1" name="s1" value="{{ $list['showuser']->s1 }}" class="form-control" placeholder="Nama Universitas">
+            </div>
+            <div class="col-md-3">
+              <input type="number" id="th_s1" name="th_s1" value="{{ $list['showuser']->th_s1 }}" class="form-control" max="9999" placeholder="Tahun Lulus">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+              <label style="margin-top: 5px">S2</label><br><br>
+            </div>
+            <div class="col-md-8">
+              <input type="text" id="s2" name="s2" value="{{ $list['showuser']->s2 }}" class="form-control" placeholder="Nama Universitas">
+            </div>
+            <div class="col-md-3">
+              <input type="number" id="th_s2" name="th_s2" value="{{ $list['showuser']->th_s2 }}" class="form-control" max="9999" placeholder="Tahun Lulus">
+            </div>
+          </div>
+          <div class="row">
+            <div class="col-md-1">
+              <label style="margin-top: 5px">S3</label><br><br>
+            </div>
+            <div class="col-md-8">
+              <input type="text" id="s3" name="s3" value="{{ $list['showuser']->s3 }}" class="form-control" placeholder="Nama Universitas">
+            </div>
+            <div class="col-md-3">
+              <input type="number" id="th_s3" name="th_s3" value="{{ $list['showuser']->th_s3 }}" class="form-control" max="9999" placeholder="Tahun Lulus">
+            </div>
+          </div>
+          <hr style="margin-top: 5px">
+          <center><div class="font-weight-bold mb-3">Dokumen Kepegawaian</div></center>
+          <div class="row">
+            <div class="col-md-12">
+              <div class="form-group">
+                <label>Pengalaman Kerja</label>
+                <textarea class="form-control" name="pengalaman_kerja" id="pengalaman_kerja" placeholder=""><?php echo htmlspecialchars($list['user']->pengalaman_kerja); ?></textarea>
+              </div>
+            </div>
+          </div>
+          <hr style="margin-top: -3px">
+          <center><div class="font-weight-bold mb-3">Dokumen Medis</div></center>
+          <div class="row">
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Riwayat Penyakit</label>
+                <textarea class="form-control" name="riwayat_penyakit_keluarga" id="riwayat_penyakit_keluarga" placeholder=""><?php echo htmlspecialchars($list['user']->riwayat_penyakit_keluarga); ?></textarea>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Riwayat Penyakit Keluarga</label>
+                <textarea class="form-control" name="riwayat_penyakit" id="riwayat_penyakit" placeholder=""><?php echo htmlspecialchars($list['user']->riwayat_penyakit); ?></textarea>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Riwayat Operasi</label>
+                <textarea class="form-control" name="riwayat_operasi" id="riwayat_operasi" placeholder=""><?php echo htmlspecialchars($list['user']->riwayat_operasi); ?></textarea>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label>Riwayat Penggunaan Obat</label>
+                <textarea class="form-control" name="riwayat_penggunaan_obat" id="riwayat_penggunaan_obat" placeholder=""><?php echo htmlspecialchars($list['user']->riwayat_penggunaan_obat); ?></textarea>
               </div>
             </div>
           </div>
         </div>
-        <div class="card-footer text-right">
+        <div class="card-footer text-right" style="margin-top: -10px">
           <button class="btn btn-primary"><i class="fas fa-save"></i> Simpan Perubahan</button>
         </div>
       </form>

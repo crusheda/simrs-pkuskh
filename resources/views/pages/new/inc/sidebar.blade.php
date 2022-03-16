@@ -13,8 +13,8 @@
       <li class="dropdown">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
         <ul class="dropdown-menu">
-          <li class="active"><a class="nav-link" href="index-0.html">Halaman Utama</a></li>
-          <li><a class="nav-link" href="index.html">Kunjungan Pasien</a></li>
+          <li class="active"><a class="nav-link" href="welcome">Halaman Utama</a></li>
+          <li><a class="nav-link" href="kunjungan">Kunjungan Pasien</a></li>
         </ul>
       </li>
       <li class="menu-header">Unit IT</li>
@@ -22,8 +22,8 @@
       <li class="dropdown">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-bug"></i> <span>Pilar</span></a>
         <ul class="dropdown-menu">
-          <li><a class="nav-link" href="layout-default.html">Indikator Mutu</a></li>
-          <li><a class="nav-link" href="layout-transparent.html">Revisi</a></li>
+          <li><a class="nav-link" href="pilar/imut">Indikator Mutu</a></li>
+          <li><a class="nav-link" href="pilar/revisi">Revisi</a></li>
         </ul>
       </li>
       {{-- <li class="dropdown">
