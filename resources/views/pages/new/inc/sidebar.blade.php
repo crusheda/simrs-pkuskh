@@ -13,8 +13,8 @@
       <li class="dropdown">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
         <ul class="dropdown-menu">
-          <li class="active"><a class="nav-link" href="welcome">Halaman Utama</a></li>
-          <li><a class="nav-link" href="kunjungan">Kunjungan Pasien</a></li>
+          <li class="active"><a class="nav-link" href="{{ route("welcome") }}">Halaman Utama</a></li>
+          <li><a class="nav-link" href="{{ route("it.pilar.kunjungan") }}">Kunjungan Pasien</a></li>
         </ul>
       </li>
       <li class="menu-header">Unit IT</li>
@@ -49,8 +49,8 @@
       <li class="dropdown">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-vial"></i> <span>Laboratorium</span></a>
         <ul class="dropdown-menu">
-          <li><a class="nav-link" href="lab/antigen">Antigen</a></li>
-          <li><a class="nav-link" href="#">PCR</a></li>
+          <li><a class="nav-link" href="{{ route("lab.antigen.index") }}">Antigen</a></li>
+          <li><a class="nav-link" href="#"><del>PCR</del></a></li>
         </ul>
       </li>
       {{-- <li class="dropdown">

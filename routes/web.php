@@ -147,6 +147,7 @@ Route::resource('pbf', 'keuangan\pengajuan_pengeluaran\pbfController');
 // Lab
 Route::group(['middleware' => ['auth'], 'prefix' => 'lab', 'as' => 'lab.'], function () {
     // Route::get('/karyawan/cetak/{id}', 'kantor\kepegawaianController@generatePDF')->name('karyawan.cetak');
+    Route::get('antigen/all/api','lab\antigenController@apiShowAll')->name('antigen.apiall');  
     Route::get('antigen/all','lab\antigenController@showAll')->name('antigen.all');  
     Route::resource('/antigen', 'lab\antigenController');
     Route::get('antigen/{id}/cetak','lab\antigenController@cetak')->name('antigen.cetak');  

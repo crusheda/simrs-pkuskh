@@ -258,6 +258,44 @@ class antigenController extends Controller
         $tgl = Carbon::now()->isoFormat('DD');
         $bln = Carbon::now()->isoFormat('MM');
         $thn = Carbon::now()->isoFormat('YYYY');
+ 
+        $query_string1 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND hasil = 'POSITIF' AND deleted_at IS NULL GROUP BY hasil";
+        $getpos = DB::select($query_string1);
+
+        $query_string2 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND hasil = 'NEGATIF' AND deleted_at IS NULL GROUP BY hasil";
+        $getneg = DB::select($query_string2);
+                
+        $query_string3 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND hasil = 'POSITIF' AND deleted_at IS NULL GROUP BY hasil";
+        $getposyear = DB::select($query_string3);
+
+        $query_string4 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND hasil = 'NEGATIF' AND deleted_at IS NULL GROUP BY hasil";
+        $getnegyear = DB::select($query_string4);
+
+        $query_string5 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND deleted_at IS NULL";
+        $getmont = DB::select($query_string5);
+
+        $query_string6 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND deleted_at IS NULL";
+        $getyear = DB::select($query_string6);
+
+        $data = [
+            'now' => $now,
+            'getpos' => $getpos,
+            'getneg' => $getneg,
+            'getposyear' => $getposyear,
+            'getnegyear' => $getnegyear,
+            'getmont' => $getmont,
+            'getyear' => $getyear,
+        ];
+
+        return view('pages.new.lab.antigen-all')->with('list', $data);
+    }
+
+    public function apiShowAll()
+    {
+        $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
+        $tgl = Carbon::now()->isoFormat('DD');
+        $bln = Carbon::now()->isoFormat('MM');
+        $thn = Carbon::now()->isoFormat('YYYY');
 
         $dokter = dokter::get();
         $show = DB::table('antigen')
@@ -297,6 +335,9 @@ class antigenController extends Controller
             'getyear' => $getyear,
         ];
 
-        return view('pages.lab.antigen-all')->with('list', $data);
+        // print_r($data);
+        // die();
+
+        return response()->json($data, 200);
     }
 }
