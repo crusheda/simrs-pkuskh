@@ -1,121 +1,100 @@
-<?php header('Access-Control-Allow-Origin: *'); ?>
-@extends('layouts.admin')
+@extends('layouts.newAdmin')
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
-{{-- <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}"> --}}
-
-<script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
-<script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
-
-<script src="{{ asset('js/fstdropdown.js') }}"></script>
-<link rel="stylesheet" href="{{ asset('css/fstdropdown.css') }}">
-
 <div class="row">
-    <div class="card" style="width: 100%">
-        <div class="card-header bg-dark text-white">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+          <h4>Daftar Bantu Plebitis</h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
+                        <i class="fa-fw fas fa-plus-square nav-icon">
 
-            <i class="fa-fw fas fa-list-alt nav-icon text-info">
+                        </i>
+                        Tambah
+                    </button>
+                    @role('ppi')
+                        <button type="button" class="btn btn-dark text-white" data-toggle="modal" data-target="#formula">
+                            <i class="fa-fw fas fa-calculator nav-icon">
+    
+                            </i>
+                            Formula
+                        </button>
+                    @endrole
+                    <button type="button" class="btn btn-warning text-white" data-toggle="modal" data-target="#kamus" data-toggle="tooltip" data-placement="bottom" title="Kamus Indikator"><i class="fa-fw fas fa-rss nav-icon"></i></button>
+                    <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#api">
+                        <i class="fa-fw fas fa-podcast nav-icon">
 
-            </i> Daftar Bantu Plebitis
-
-            <span class="pull-right badge badge-warning" style="margin-top:4px">
-                Akses Pribadi
-            </span>
-            
-        </div>
-        <div class="card-body">
-            @can('surveilans-ppi')
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
-                                <i class="fa-fw fas fa-plus-square nav-icon">
-        
-                                </i>
-                                Tambah
-                            </button>
-                            @role('ppi')
-                                <button type="button" class="btn btn-dark text-white" data-toggle="modal" data-target="#formula">
-                                    <i class="fa-fw fas fa-calculator nav-icon">
-            
-                                    </i>
-                                    Formula
-                                </button>
-                            @endrole
-                            <button type="button" class="btn btn-warning text-white" data-toggle="modal" data-target="#kamus" data-toggle="tooltip" data-placement="bottom" title="Kamus Indikator"><i class="fa-fw fas fa-feed nav-icon"></i></button>
-                            <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#api">
-                                <i class="fa-fw fas fa-podcast nav-icon">
-        
-                                </i>
-                                API
-                            </button>
-                        </div>
-                    </div>
-                </div><hr>
-                <div class="table-responsive">
-                    <table id="table" class="table table-striped display" style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>NO RM</th>
-                                <th>NAMA</th>
-                                <th>UMUR</th>
-                                <th>TGL PASANG</th>
-                                <th>ASAL PASANG</th>
-                                <th>TGL DITEMUKAN</th>
-                                <th>KETERANGAN</th>
-                                <th>TGL DITAMBAHKAN</th>
-                                <th><center>#</center></th>
-                            </tr>
-                        </thead>
-                        <tbody style="text-transform: capitalize">
-                            @if(count($list['show']) > 0)
-                            @foreach($list['show'] as $item)
-                            <tr>
-                                <td>{{ $item->id }}</td>
-                                <td>{{ $item->rm }}</td>
-                                <td>{{ $item->nama }}</td>
-                                <td>{{ $item->umur }}</td>
-                                <td>{{ $item->tgl_pasang }}</td>
-                                <td>{{ $item->asal_pasang }}</td>
-                                <td>{{ $item->tgl_ditemukan }}</td>
-                                <td>{{ $item->ket }}</td>
-                                <td>{{ $item->created_at }}</td>
-                                <td>
-                                    <center>
-                                        @role('ppi|it')
-                                            <div class="btn-group" role="group">
-                                                <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                            </div>
-                                        @else
-                                            <div class="btn-group" role="group">
-                                                @if (\Carbon\Carbon::parse($item->updated_at)->isoFormat('YYYY/MM/DD') == \Carbon\Carbon::now()->isoFormat('YYYY/MM/DD'))
-                                                    <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                                @else
-                                                    <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                                    <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                                @endif
-                                            </div>
-                                        @endrole
-                                    </center>
-                                </td>
-                            </tr>
-                            @endforeach
-                            @endif
-                        </tbody>
-                    </table>
+                        </i>
+                        API
+                    </button>
                 </div>
-            @else
-                <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
-            @endcan
+            </div>
+        </div><hr>
+        <div class="table-responsive">
+          <table id="table" class="table table-striped display" style="width: 100%">
+              <thead>
+                  <tr>
+                      <th>ID</th>
+                      <th>NO RM</th>
+                      <th>NAMA</th>
+                      <th>UMUR</th>
+                      <th>TGL PASANG</th>
+                      <th>ASAL PASANG</th>
+                      <th>TGL DITEMUKAN</th>
+                      <th>KETERANGAN</th>
+                      <th>TGL DITAMBAHKAN</th>
+                      <th><center>#</center></th>
+                  </tr>
+              </thead>
+              <tbody style="text-transform: capitalize">
+                  @if(count($list['show']) > 0)
+                  @foreach($list['show'] as $item)
+                  <tr>
+                      <td>{{ $item->id }}</td>
+                      <td>{{ $item->rm }}</td>
+                      <td>{{ $item->nama }}</td>
+                      <td>{{ $item->umur }}</td>
+                      <td>{{ $item->tgl_pasang }}</td>
+                      <td>{{ $item->asal_pasang }}</td>
+                      <td>{{ $item->tgl_ditemukan }}</td>
+                      <td>{{ $item->ket }}</td>
+                      <td>{{ $item->created_at }}</td>
+                      <td>
+                          <center>
+                              @role('ppi|it')
+                                  <div class="btn-group" role="group">
+                                      <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                      <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                  </div>
+                              @else
+                                  <div class="btn-group" role="group">
+                                      @if (\Carbon\Carbon::parse($item->updated_at)->isoFormat('YYYY/MM/DD') == \Carbon\Carbon::now()->isoFormat('YYYY/MM/DD'))
+                                          <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                      @else
+                                          <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                          <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                      @endif
+                                  </div>
+                              @endrole
+                          </center>
+                      </td>
+                  </tr>
+                  @endforeach
+                  @endif
+              </tbody>
+          </table>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
-@can('surveilans-ppi')
 <div class="modal fade bd-example-modal-lg" id="tambah" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -164,7 +143,7 @@
                         </div>
                     </div>
                 </div>
-                <hr>
+                <hr style="margin-top: -5px">
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
@@ -203,7 +182,7 @@
                 <button class="btn btn-secondary" id="btn-simpan" disabled><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
             </form>
 
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
@@ -215,7 +194,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">
-            Ubah Data&nbsp;<span class="pull-right badge badge-info text-white" style="margin-top:5px">{{ $item->updated_at->diffForHumans() }}</span>
+            Ubah Data&nbsp;<span class="pull-right badge badge-info text-white">{{ $item->updated_at->diffForHumans() }}</span>
           </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
@@ -280,7 +259,7 @@
                 <button class="btn btn-primary pull-right"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
             </form>
 
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
@@ -288,7 +267,7 @@
 @endforeach
 
 @foreach($list['show'] as $item)
-<div class="modal" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+<div class="modal fade" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -306,7 +285,7 @@
                 @csrf
                 <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button>
             </form>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
@@ -336,13 +315,13 @@
         </div>
         <div class="modal-footer">
             <a></a>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
 </div>
 
-<div class="modal" id="kamus" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+<div class="modal fade" id="kamus" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -436,7 +415,7 @@
         </div>
         <div class="modal-footer">
             <h6>Surveilans PPI</h6>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
@@ -503,12 +482,11 @@
                 <button class="btn btn-success" id="btn-simpan-formula"><i class="fa-fw fas fa-calculator nav-icon"></i> Hitung</button>
             </form>
 
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
 </div>
-@endcan
 
 <script>
 function hapusRm() {
@@ -533,24 +511,32 @@ $(document).ready( function () {
             searching: true,
             dom: 'Bfrtip',
             stateSave: true,
+            // 'columnDefs': [
+            //     { targets: 0, visible: false },
+            // ],
             buttons: [
-                'excel', 'pdf','colvis'
+              {
+                extend: 'copyHtml5',
+                className: 'btn-info',
+                text: 'Salin Baris',
+                download: 'open',
+              },
+              {
+                extend: 'excelHtml5',
+                className: 'btn-success',
+                text: 'Export Excell',
+                download: 'open',
+              },
+              {
+                extend: 'pdfHtml5',
+                className: 'btn-warning',
+                text: 'Cetak PDF',
+                download: 'open',
+              },
             ],
-            'columnDefs': [
-                { targets: 0, visible: false },
-            ],
-            language: {
-                buttons: {
-                    colvis: 'Sembunyikan Kolom',
-                    excel: 'Jadikan Excell',
-                    pdf: 'Jadikan PDF',
-                }
-            },
             order: [[ 8, "desc" ]]
         }
     );
-
-    $("body").addClass('brand-minimized sidebar-minimized');
 
     // VALIDASI INPUT NUMBER
     $('input[type=number][max]:not([max=""])').on('input', function(ev) {
@@ -585,21 +571,7 @@ $(document).ready( function () {
             $('#rm').prop('disabled', true); 
             $("#rm_save").val(this.value);
             $.ajax({
-                url: "http://192.168.1.3:8000/api/rm/"+this.value,
-                type: 'GET',
-                dataType: 'json', // added data type
-                success: function(res) {
-                    $("#nama").val(res.data.NAMAPASIEN);
-                    $("#nama_show").val(res.data.NAMAPASIEN);
-                    $("#umur").val(res.data.UMUR);
-                    $("#umur_show").val(res.data.UMUR);
-                    if (res.logic == 1) {
-                        $('#btn-simpan').prop('disabled', false).removeClass('btn-secondary').addClass('btn-success'); 
-                    }
-                }
-            });
-            $.ajax({
-                url: "http://103.155.246.25:8000/api/rm/"+this.value,
+                url: "/api/rm/"+this.value,
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {

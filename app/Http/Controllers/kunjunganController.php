@@ -22,6 +22,6 @@ class kunjunganController extends Controller
             'yest' => $yest
         ];
 
-        return view('pages.it.kunjungan')->with('list', $data);
+        return view('pages.new.kunjungan')->with('list', $data);
     }
 }

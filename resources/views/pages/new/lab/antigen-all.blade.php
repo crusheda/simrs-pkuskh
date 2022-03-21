@@ -8,7 +8,10 @@
           <h4>Tabel Antigen Keseluruhan</h4>
       </div>
       <div class="card-body">
-        <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i> Refresh</button>
+        <div class="btn-group">
+          <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location.href='{{ route('lab.antigen.index') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i></button>
+          <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i> Refresh</button>
+        </div>
         <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#show" data-toggle="tooltip" data-placement="bottom" title="DATA PASIEN HARI INI"><i class="fa-fw fas fa-info nav-icon text-white"></i> Informasi</button>
         <hr>
         <div class="table-responsive">
@@ -72,7 +75,6 @@
   </div>
 </div>
 
-<script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
 <script>
   $(document).ready( function () {
     $.ajax(
@@ -81,7 +83,6 @@
         type: 'GET',
         dataType: 'json', // added data type
         success: function(res) {
-          console.log("BISA");
           $("#tampil-tbody").empty();
           if(res.show.length == 0){
             $("#tampil-tbody").append(`<tr><td colspan="6"><center><i class="fa fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
@@ -150,7 +151,6 @@ function refresh() {
       type: 'GET',
       dataType: 'json', // added data type
       success: function(res) {
-        console.log("BISA");
         $("#tampil-tbody").empty();
         $('#tableku').DataTable().clear().destroy();
         if(res.show.length == 0){

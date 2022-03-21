@@ -40,6 +40,7 @@ Route::post('/user/foto', 'Admin\profilController@storeImg');
 
 // NEW SIMRSMU.COM
 Route::get('/welcome', 'HomeController@newIndex')->name('welcome');
+Route::get('/kunjungan', 'kunjunganController@kunjungan')->name('kunjungan');
     
     //Profil
     Route::resource('profil', 'Admin\profilController');
@@ -83,7 +84,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
 
     // Dokter
     Route::resource('/dokter', 'Admin\dokterController');
-    Route::get('/kunjungan', 'kunjunganController@kunjungan')->name('pilar.kunjungan');
 
     // Imut
         // Pilar

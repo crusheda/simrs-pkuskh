@@ -24,6 +24,10 @@
   <link rel="stylesheet" href="{{ asset('assets/modules/select2/dist/css/select2.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/jquery-selectric/selectric.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css') }}">
+  
+  {{-- SweetAlert2 --}}
+  <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
+  <link rel="stylesheet" href="{{ asset('sweetalert2/sweetalert2.min.css') }}">
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
@@ -37,6 +41,7 @@
 
   gtag('config', 'UA-94034622-3');
 </script>
+<script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
 <!-- /END GA --></head>
 
 <body>
@@ -64,7 +69,7 @@
       </div>
       <footer class="main-footer">
         <div class="footer-left">
-          Copyright &copy; 2020 <div class="bullet"></div> Develop By <a href="#">Yussuf Faisal</a>
+          Copyright &copy; 2020 <div class="bullet"></div> Develop By <a href="#">Lakon Web</a>
         </div>
         <div class="footer-right">
           

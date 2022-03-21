@@ -39,7 +39,7 @@ class IskController extends Controller
             'now' => $now,
         ];
         
-        return view('pages.ppi.isk')->with('list', $data);
+        return view('pages.new.laporan.ppi.isk')->with('list', $data);
     }
 
     /**

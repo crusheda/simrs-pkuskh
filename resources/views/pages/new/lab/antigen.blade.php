@@ -321,7 +321,6 @@
     </div>
 @endcan
 
-<script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
 <script>
   $(document).ready( function () {
     $("#tableku").dataTable({
@@ -350,6 +349,7 @@
         },
       ],
       order: [[ 5, "desc" ]],
+      pageLength: 10
       // "columnDefs": [
       //   { "sortable": false, "targets": [0,2,3] }
       // ],

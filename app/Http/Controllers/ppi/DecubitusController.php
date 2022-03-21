@@ -39,7 +39,7 @@ class DecubitusController extends Controller
             'now' => $now,
         ];
         
-        return view('pages.ppi.decubitus')->with('list', $data);
+        return view('pages.new.laporan.ppi.decubitus')->with('list', $data);
     }
 
     /**

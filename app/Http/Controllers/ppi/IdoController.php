@@ -39,7 +39,7 @@ class IdoController extends Controller
             'now' => $now,
         ];
         
-        return view('pages.ppi.ido')->with('list', $data);
+        return view('pages.new.laporan.ppi.ido')->with('list', $data);
     }
 
     /**

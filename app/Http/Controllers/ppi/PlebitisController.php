@@ -39,7 +39,7 @@ class PlebitisController extends Controller
             'now' => $now,
         ];
         
-        return view('pages.ppi.plebitis')->with('list', $data);
+        return view('pages.new.laporan.ppi.plebitis')->with('list', $data);
     }
 
     /**

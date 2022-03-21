@@ -54,7 +54,7 @@ class kepegawaianController extends Controller
             'showSingle' => $showSingle,
             'showSingleBelum' => $showSingleBelum
         ];
-        return view('pages.kantor.kepegawaian.karyawan')->with('list', $data);
+        return view('pages.new.kepegawaian.karyawan')->with('list', $data);
     }
 
     /**
@@ -126,7 +126,7 @@ class kepegawaianController extends Controller
         // print_r($show);
         // die();
 
-        return view('pages.kantor.kepegawaian.detail-karyawan')->with('list', $data);
+        return view('pages.new.kepegawaian.detail-karyawan')->with('list', $data);
     }
 
     /**
@@ -190,7 +190,7 @@ class kepegawaianController extends Controller
         // print_r($yest2);
         // die();
 
-        $pdf = PDF::loadView('pages.kantor.kepegawaian.cetak-karyawan', $data);
+        $pdf = PDF::loadView('pages.new.kepegawaian.cetak-karyawan', $data);
         // return $pdf->download();
         return $pdf->stream($filename);
     }

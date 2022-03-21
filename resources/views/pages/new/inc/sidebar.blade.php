@@ -14,7 +14,24 @@
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-tachometer-alt"></i><span>Dashboard</span></a>
         <ul class="dropdown-menu">
           <li class="active"><a class="nav-link" href="{{ route("welcome") }}">Halaman Utama</a></li>
-          <li><a class="nav-link" href="{{ route("it.pilar.kunjungan") }}">Kunjungan Pasien</a></li>
+          <li><a class="nav-link" href="{{ route("kunjungan") }}">Kunjungan Pasien</a></li>
+        </ul>
+      </li>
+      <li class="nav-item dropdown">
+        <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-archive"></i><span>Laporan</span></a>
+        <ul class="dropdown-menu">
+          <li class="nav-item"><a href="{{ route("ipsrs.index") }}" class="nav-link">Pengaduan IPSRS</a></li>
+          <li class="nav-item"><a href="{{ route("logperawat.index") }}" class="nav-link">Log Perawat</a></li>
+          <li class="nav-item"><a href="{{ route("accidentreport.index") }}" class="nav-link">Accident Report</a></li>
+          <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Surveilans PPI</a>
+            <ul class="dropdown-menu">
+              <li class="nav-item"><a href="{{ route("plebitis.index") }}" class="nav-link">Plebitis</a></li>
+              <li class="nav-item"><a href="{{ route("ido.index") }}" class="nav-link">IDO</a></li>
+              <li class="nav-item"><a href="{{ route("isk.index") }}" class="nav-link">ISK</a></li>
+              <li class="nav-item"><a href="{{ route("decubitus.index") }}" class="nav-link">Decubitus</a></li>
+              <li class="nav-item"><a href="{{ route("vap.index") }}" class="nav-link">VAP</a></li>
+            </ul>
+          </li>
         </ul>
       </li>
       <li class="menu-header">Unit IT</li>
@@ -45,12 +62,26 @@
           </li>
         </ul>
       </li>
+      <li class="menu-header">Unit Kepegawaian</li>
+      <li class="dropdown">
+        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-id-card-alt"></i> <span>Kepegawaian</span></a>
+        <ul class="dropdown-menu">
+          <li><a class="nav-link" href="{{ route("kepegawaian.karyawan.index") }}">Data Karyawan</a></li>
+        </ul>
+      </li>
       <li class="menu-header">Unit LAB</li>
       <li class="dropdown">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-vial"></i> <span>Laboratorium</span></a>
         <ul class="dropdown-menu">
           <li><a class="nav-link" href="{{ route("lab.antigen.index") }}">Antigen</a></li>
           <li><a class="nav-link" href="#"><del>PCR</del></a></li>
+        </ul>
+      </li>
+      <li class="menu-header">Unit Kebidanan</li>
+      <li class="dropdown">
+        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-address-book"></i> <span>Kebidanan</span></a>
+        <ul class="dropdown-menu">
+          <li><a class="nav-link" href="{{ route("skl.index") }}">SKL</a></li>
         </ul>
       </li>
       {{-- <li class="dropdown">

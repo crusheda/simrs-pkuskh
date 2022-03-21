@@ -1,118 +1,96 @@
-<?php header('Access-Control-Allow-Origin: *'); ?>
-@extends('layouts.admin')
+@extends('layouts.newAdmin')
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
-{{-- <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}"> --}}
-
-<script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
-<script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
-
-<script src="{{ asset('js/fstdropdown.js') }}"></script>
-<link rel="stylesheet" href="{{ asset('css/fstdropdown.css') }}">
-
 <div class="row">
-    <div class="card" style="width: 100%">
-        <div class="card-header bg-dark text-white">
+  <div class="col-12">
+    <div class="card">
+      <div class="card-header">
+          <h4>Daftar Bantu IDO (Infeksi Daerah Operasi)</h4>
+      </div>
+      <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
+                        <i class="fa-fw fas fa-plus-square nav-icon">
 
-            <i class="fa-fw fas fa-list-alt nav-icon text-info">
+                        </i>
+                        Tambah
+                    </button>
+                    @role('ppi')
+                        <button type="button" class="btn btn-dark text-white" data-toggle="modal" data-target="#formula">
+                            <i class="fa-fw fas fa-calculator nav-icon">
+    
+                            </i>
+                            Formula
+                        </button>
+                    @endrole
+                    <button type="button" class="btn btn-warning text-white" data-toggle="modal" data-target="#kamus" data-toggle="tooltip" data-placement="bottom" title="Kamus Indikator"><i class="fa-fw fas fa-rss nav-icon"></i></button>
+                    <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#api">
+                        <i class="fa-fw fas fa-podcast nav-icon">
 
-            </i> Daftar Bantu Plebitis
-
-            <span class="pull-right badge badge-warning" style="margin-top:4px">
-                Akses Pribadi
-            </span>
-            
-        </div>
-        <div class="card-body">
-            @can('surveilans-ppi')
-                <div class="row">
-                    <div class="col-md-12">
-                        <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
-                                <i class="fa-fw fas fa-plus-square nav-icon">
-        
-                                </i>
-                                Tambah
-                            </button>
-                            @role('ppi')
-                                <button type="button" class="btn btn-dark text-white" data-toggle="modal" data-target="#formula">
-                                    <i class="fa-fw fas fa-calculator nav-icon">
-            
-                                    </i>
-                                    Formula
-                                </button>
-                            @endrole
-                            <button type="button" class="btn btn-warning text-white" data-toggle="modal" data-target="#kamus" data-toggle="tooltip" data-placement="bottom" title="Kamus Indikator"><i class="fa-fw fas fa-feed nav-icon"></i></button>
-                            <button type="button" class="btn btn-danger text-white" data-toggle="modal" data-target="#api">
-                                <i class="fa-fw fas fa-podcast nav-icon">
-        
-                                </i>
-                                API
-                            </button>
-                        </div>
-                    </div>
-                </div><hr>
-                <div class="table-responsive">
-                    <table id="table" class="table table-striped display" style="width: 100%">
-                        <thead>
-                            <tr>
-                                <th>ID</th>
-                                <th>NO RM</th>
-                                <th>NAMA</th>
-                                <th>UMUR</th>
-                                <th>TGL PASANG</th>
-                                <th>ASAL PASANG</th>
-                                <th>TGL DITEMUKAN</th>
-                                <th>KETERANGAN</th>
-                                <th>TGL DITAMBAHKAN</th>
-                                <th><center>#</center></th>
-                            </tr>
-                        </thead>
-                        <tbody style="text-transform: capitalize">
-                            @if(count($list['show']) > 0)
-                            @foreach($list['show'] as $item)
-                            <tr>
-                                <td>{{ $item->id }}</td>
-                                <td>{{ $item->rm }}</td>
-                                <td>{{ $item->nama }}</td>
-                                <td>{{ $item->umur }}</td>
-                                <td>{{ $item->tgl_pasang }}</td>
-                                <td>{{ $item->asal_pasang }}</td>
-                                <td>{{ $item->tgl_ditemukan }}</td>
-                                <td>{{ $item->ket }}</td>
-                                <td>{{ $item->created_at }}</td>
-                                <td>
-                                    <center>
-                                        @role('ppi|it')
-                                            <div class="btn-group" role="group">
-                                                <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                            </div>
-                                        @else
-                                            <div class="btn-group" role="group">
-                                                @if (\Carbon\Carbon::parse($item->updated_at)->isoFormat('YYYY/MM/DD') == \Carbon\Carbon::now()->isoFormat('YYYY/MM/DD'))
-                                                    <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                                    <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                                @else
-                                                    <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                                    <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                                @endif
-                                            </div>
-                                        @endrole
-                                    </center>
-                                </td>
-                            </tr>
-                            @endforeach
-                            @endif
-                        </tbody>
-                    </table>
+                        </i>
+                        API
+                    </button>
                 </div>
-            @else
-                <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
-            @endcan
+            </div>
+        </div><hr>
+        <div class="table-responsive">
+          <table id="table" class="table table-striped display" style="width: 100%">
+              <thead>
+                  <tr>
+                      <th>ID</th>
+                      <th>NO RM</th>
+                      <th>NAMA</th>
+                      <th>UMUR</th>
+                      <th>TGL OPERASI</th>
+                      <th>TGL DITEMUKAN</th>
+                      <th>KETERANGAN</th>
+                      <th>TGL DITAMBAHKAN</th>
+                      <th><center>#</center></th>
+                  </tr>
+              </thead>
+              <tbody style="text-transform: capitalize">
+                  @if(count($list['show']) > 0)
+                  @foreach($list['show'] as $item)
+                  <tr>
+                      <td>{{ $item->id }}</td>
+                      <td>{{ $item->rm }}</td>
+                      <td>{{ $item->nama }}</td>
+                      <td>{{ $item->umur }}</td>
+                      <td>{{ $item->tgl_operasi }}</td>
+                      <td>{{ $item->tgl_ditemukan }}</td>
+                      <td>{{ $item->ket }}</td>
+                      <td>{{ $item->created_at }}</td>
+                      <td>
+                          <center>
+                              @role('ppi|it')
+                                  <div class="btn-group" role="group">
+                                      <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                      <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                  </div>
+                              @else
+                                  <div class="btn-group" role="group">
+                                      @if (\Carbon\Carbon::parse($item->updated_at)->isoFormat('YYYY/MM/DD') == \Carbon\Carbon::now()->isoFormat('YYYY/MM/DD'))
+                                          <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                          <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                      @else
+                                          <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                          <button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                      @endif
+                                  </div>
+                              @endrole
+                          </center>
+                      </td>
+                  </tr>
+                  @endforeach
+                  @endif
+              </tbody>
+          </table>
         </div>
+      </div>
     </div>
+  </div>
 </div>
 
 @can('surveilans-ppi')
@@ -126,7 +104,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            <form class="form-auth-small" action="{{ route('plebitis.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="form-auth-small" action="{{ route('ido.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col">
@@ -168,21 +146,8 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label>*Tgl Awal Pasang Infus :</label>
-                            <input type="date" name="tgl_pasang" class="form-control" required>
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label>*Asal Pasang : </label>
-                            <select name="asal_pasang" class="form-control" required>
-                                <option hidden>Pilih</option>
-                                <option value="igd">IGD</option>
-                                <option value="poli">POLIKLINIK</option>
-                                <option value="bangsal3">BANGSAL LT 3</option>
-                                <option value="bangsal4">BANGSAL LT 4</option>
-                                <option value="kebidanan">KEBIDANAN</option>
-                            </select>
+                            <label>*Tgl Operasi :</label>
+                            <input type="date" name="tgl_operasi" class="form-control" required>
                         </div>
                     </div>
                     <div class="col">
@@ -203,7 +168,7 @@
                 <button class="btn btn-secondary" id="btn-simpan" disabled><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
             </form>
 
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
@@ -215,12 +180,12 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">
-            Ubah Data&nbsp;<span class="pull-right badge badge-info text-white" style="margin-top:5px">{{ $item->updated_at->diffForHumans() }}</span>
+            Ubah Data&nbsp;<span class="pull-right badge badge-info text-white">{{ $item->updated_at->diffForHumans() }}</span>
           </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            {{ Form::model($item, array('route' => array('plebitis.update', $item->id), 'method' => 'PUT')) }}
+            {{ Form::model($item, array('route' => array('ido.update', $item->id), 'method' => 'PUT')) }}
                 @csrf
                 <div class="row">
                     <div class="col">
@@ -246,20 +211,8 @@
                 <div class="row">
                     <div class="col">
                         <div class="form-group">
-                            <label>*Tgl Awal Pasang Infus : </label>
-                            <input type="date" name="tgl_pasang" value="<?php echo strftime('%Y-%m-%d', strtotime($item->tgl_pasang)); ?>" class="form-control">
-                        </div>
-                    </div>
-                    <div class="col">
-                        <div class="form-group">
-                            <label>*Asal Pasang : </label>
-                            <select name="asal_pasang" class="form-control">
-                                <option value="igd"         @if ($item->asal_pasang == 'igd') echo selected @endif>IGD</option>
-                                <option value="poli"        @if ($item->asal_pasang == 'poli') echo selected @endif>POLIKLINIK</option>
-                                <option value="bangsal3"    @if ($item->asal_pasang == 'bangsal3') echo selected @endif>BANGSAL LT 3</option>
-                                <option value="bangsal4"    @if ($item->asal_pasang == 'bangsal4') echo selected @endif>BANGSAL LT 4</option>
-                                <option value="kebidanan"   @if ($item->asal_pasang == 'kebidanan') echo selected @endif>KEBIDANAN</option>
-                            </select>
+                            <label>*Tgl Operasi : </label>
+                            <input type="date" name="tgl_operasi" value="<?php echo strftime('%Y-%m-%d', strtotime($item->tgl_operasi)); ?>" class="form-control">
                         </div>
                     </div>
                     <div class="col">
@@ -280,7 +233,7 @@
                 <button class="btn btn-primary pull-right"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
             </form>
 
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
@@ -288,7 +241,7 @@
 @endforeach
 
 @foreach($list['show'] as $item)
-<div class="modal" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+<div class="modal fade" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
         <div class="modal-header">
@@ -301,12 +254,12 @@
             <p>Apakah anda yakin ingin menghapus Data <b>{{ $item->nama }}</b>?</p>
         </div>
         <div class="modal-footer">
-            <form action="{{ route('plebitis.destroy', $item->id) }}" method="POST">
+            <form action="{{ route('ido.destroy', $item->id) }}" method="POST">
                 @method('DELETE')
                 @csrf
                 <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button>
             </form>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
@@ -336,13 +289,13 @@
         </div>
         <div class="modal-footer">
             <a></a>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
 </div>
 
-<div class="modal" id="kamus" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+<div class="modal fade" id="kamus" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
@@ -357,7 +310,7 @@
                     <tbody>
                         <tr>
                             <th class="table-warning">Judul Indikator</th>
-                            <td>Infeksi Darah Perifer / Phlebitis</td>
+                            <td>Infeksi Daerah Operasi (IDO)</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Kategori Indikator</th>
@@ -373,11 +326,18 @@
                         </tr>
                         <tr>
                             <th class="table-warning">Tujuan</th>
-                            <td>Menurunnya kejadian infeksi aliran darah perifer (Plebitis)</td>
+                            <td>Menurunnya kejadian Infeksi Daerah Operasi (IDO)</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Definisi Operasional</th>
-                            <td>Phlebitis merupakan inflamaasi pada vena, yang ditandai dengan adanya daerah yang merah, nyeri dan pembengkakan di daerah penusukan atau sepanjang vena</td>
+                            <td>
+                                Infeksi Daerah Operasi adalah Infeksi yang terjadi pada daerah insisi daerah operasi dalam waktu 30 hari tanpa implan dan satu tahun dengan implan pasca bedah. <br>
+                                Kriteria : <br>
+                                <b>a.</b> Pus keluar dari luka operasi atau drain yang dipasang diatas fascia <br>
+                                <b>b.</b> Biakan positif dari cairan yang keluar dari luka atau jaringan yang diambil secara aseptic <br>
+                                <b>c.</b> Sengaja dibuka oleh dokter karena terdapat tanda peradangan kecuali hasil biakan negatif, paling sedikit terdapat satu dari tanda-tanda infeksi berikut ini : nyeri, bengkak lokal, kemerahan dan hangat lokal <br>
+                                <b>d.</b> Dokter yang menangani menyatakan terjadi infeksi
+                            </td>
                         </tr>
                         <tr>
                             <th class="table-warning">Frekuensi Pengumpulan Data</th>
@@ -385,36 +345,40 @@
                         </tr>
                         <tr>
                             <th class="table-warning">Numerator</th>
-                            <td>Jumlah kasus Phlebitis</td>
+                            <td>Jumlah kasus Infeksi Daerah Operasi (IDO)</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Denumerator</th>
-                            <td>Seluruh pasien yang terpasang Kateter Intravena</td>
+                            <td>Jumlah pasien operasi / kasus operasi</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Inklusi</th>
-                            <td>Pasien rawat inap yang terpasang Kateter Intravena</td>
+                            <td>Kasus Operasi</td>
+                        </tr>
+                        <tr>
+                            <th class="table-warning">Eksklusi</th>
+                            <td>Prosedur Sirkumsisi</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Formula</th>
-                            <td>(Jumlah kasus / Jumlah hari semua pasien yang terpasang Kateter Intravena) x 1000</td>
+                            <td>(Jumlah kasus IDO / Jumlah kasus operasi) / 100</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Sumber Data</th>
-                            <td>Instalasi Rawat Inap</td>
+                            <td>Rekam Medis</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Standart</th>
-                            <td>≤ 5 %</td>
+                            <td>≤ 2 %</td>
                         </tr>
                         <tr>
                             <th class="table-warning">Kriteria Penilaian</th>
                             <td>
-                                Hasil ≤ 5 % → Skor = 100 <br>
-                                5 % < Hasil ≤ 10 % → Skor = 75 <br>
-                                10 % < Hasil ≤ 15 % → Skor = 50 <br>
-                                15 % < Hasil ≤ 20 % → Skor = 25 <br>
-                                Hasil > 20 % → Skor = 0
+                                Hasil ≤ 2 % → Skor = 100 <br>
+                                2 % < Hasil ≤ 3 % → Skor = 75 <br>
+                                3 % < Hasil ≤ 4 % → Skor = 50 <br>
+                                4 % < Hasil ≤ 5 % → Skor = 25 <br>
+                                Hasil > 5 % → Skor = 0
                             </td>
                         </tr>
                         <tr>
@@ -436,7 +400,7 @@
         </div>
         <div class="modal-footer">
             <h6>Surveilans PPI</h6>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
@@ -452,7 +416,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            <form class="form-auth-small" action="{{ route('plebitis.formula') }}" method="POST" enctype="multipart/form-data">
+            <form class="form-auth-small" action="{{ route('ido.formula') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col">
@@ -463,7 +427,7 @@
                                     <input type="number" name="jumlah_kasus" max="99999999" class="form-control" placeholder="" aria-describedby="help" autofocus required>
                                 </div>
                                 <small id="help" class="text-muted">
-                                    Jumlah hari semua pasien yang terpasang <strong>Kateter Intravena</strong>
+                                    Jumlah kasus operasi
                                 </small>
                             </div>
                         </div>
@@ -503,7 +467,7 @@
                 <button class="btn btn-success" id="btn-simpan-formula"><i class="fa-fw fas fa-calculator nav-icon"></i> Hitung</button>
             </form>
 
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-close nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
@@ -534,23 +498,28 @@ $(document).ready( function () {
             dom: 'Bfrtip',
             stateSave: true,
             buttons: [
-                'excel', 'pdf','colvis'
+              {
+                extend: 'copyHtml5',
+                className: 'btn-info',
+                text: 'Salin Baris',
+                download: 'open',
+              },
+              {
+                extend: 'excelHtml5',
+                className: 'btn-success',
+                text: 'Export Excell',
+                download: 'open',
+              },
+              {
+                extend: 'pdfHtml5',
+                className: 'btn-warning',
+                text: 'Cetak PDF',
+                download: 'open',
+              },
             ],
-            'columnDefs': [
-                { targets: 0, visible: false },
-            ],
-            language: {
-                buttons: {
-                    colvis: 'Sembunyikan Kolom',
-                    excel: 'Jadikan Excell',
-                    pdf: 'Jadikan PDF',
-                }
-            },
             order: [[ 8, "desc" ]]
         }
     );
-
-    $("body").addClass('brand-minimized sidebar-minimized');
 
     // VALIDASI INPUT NUMBER
     $('input[type=number][max]:not([max=""])').on('input', function(ev) {
@@ -585,21 +554,7 @@ $(document).ready( function () {
             $('#rm').prop('disabled', true); 
             $("#rm_save").val(this.value);
             $.ajax({
-                url: "http://192.168.1.3:8000/api/rm/"+this.value,
-                type: 'GET',
-                dataType: 'json', // added data type
-                success: function(res) {
-                    $("#nama").val(res.data.NAMAPASIEN);
-                    $("#nama_show").val(res.data.NAMAPASIEN);
-                    $("#umur").val(res.data.UMUR);
-                    $("#umur_show").val(res.data.UMUR);
-                    if (res.logic == 1) {
-                        $('#btn-simpan').prop('disabled', false).removeClass('btn-secondary').addClass('btn-success'); 
-                    }
-                }
-            });
-            $.ajax({
-                url: "http://103.155.246.25:8000/api/rm/"+this.value,
+                url: "/api/rm/"+this.value,
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {

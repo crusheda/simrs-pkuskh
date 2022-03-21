@@ -41,7 +41,7 @@ class accidentReportController extends Controller
         // print_r($data);
         // die();
 
-        return view('pages.k3.accident_report.index')->with('list', $data);
+        return view('pages.new.laporan.k3.accidentreport')->with('list', $data);
     }
 
     /**

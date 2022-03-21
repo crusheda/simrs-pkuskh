@@ -37,7 +37,7 @@ class sklController extends Controller
         // print_r($data);
         // die();
 
-        return view('pages.kebidanan.skl.index')->with('list', $data);
+        return view('pages.new.kebidanan.skl')->with('list', $data);
     }
 
     /**

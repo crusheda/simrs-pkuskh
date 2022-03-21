@@ -54,7 +54,7 @@ class pengaduanController extends Controller
         // print_r($data);
         // die();
 
-        return view('pages.ipsrs.pengaduan.laporan')->with('list', $data);
+        return view('pages.new.laporan.ipsrs.pengaduan')->with('list', $data);
     }
 
     /**
@@ -234,7 +234,7 @@ class pengaduanController extends Controller
         // print_r($cari);
         // die();
 
-        return view('pages.ipsrs.pengaduan.detail-laporan')->with('list', $data);
+        return view('pages.new.laporan.ipsrs.detail-pengaduan')->with('list', $data);
     }
 
     public function terima(Request $request)
@@ -387,7 +387,7 @@ class pengaduanController extends Controller
             'showrecent' => $showrecent
         ];
 
-        return view('pages.ipsrs.pengaduan.history-laporan')->with('list', $data);
+        return view('pages.new.laporan.ipsrs.history-pengaduan')->with('list', $data);
     }
 
     public function getLampiran($id)

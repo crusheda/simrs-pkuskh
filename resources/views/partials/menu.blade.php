@@ -128,14 +128,14 @@
                                 Rev
                             </a>
                         </li>
-                        <li class="nav-item">
+                        {{-- <li class="nav-item">
                             <a href="{{ route("it.pilar.kunjungan") }}" class="nav-link">
                                 <i class="fa-fw fas fa-taxi nav-icon">
 
                                 </i>
                                 Kunjungan
                             </a>
-                        </li>
+                        </li> --}}
                     </ul>
                 </li>
             @endcan

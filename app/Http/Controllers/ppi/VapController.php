@@ -36,7 +36,7 @@ class VapController extends Controller
             'now' => $now,
         ];
         
-        return view('pages.ppi.vap')->with('list', $data);
+        return view('pages.new.laporan.ppi.vap')->with('list', $data);
     }
 
     /**
