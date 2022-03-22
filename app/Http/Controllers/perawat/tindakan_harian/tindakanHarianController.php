@@ -28,6 +28,7 @@ class tindakanHarianController extends Controller
 
         $thn = Carbon::now()->isoFormat('YYYY');
         $today = Carbon::now()->isoFormat('YYYY/MM/DD');
+        $nowaday = Carbon::now()->isoFormat('D MMM Y');
 
         $user = Auth::user();
         $id_user = $user->id;
@@ -100,9 +101,10 @@ class tindakanHarianController extends Controller
             'user' => $user,
             'thn' => $thn,
             'today' => $today,
+            'nowaday' => $nowaday,
         ];
 
-        return view('pages.logperawat.tindakan_harian.index')->with('list', $data);
+        return view('pages.new.laporan.logperawat.log.tindakan-harian')->with('list', $data);
     }
 
     /**
@@ -363,7 +365,7 @@ class tindakanHarianController extends Controller
             'thn' => $thn,
         ];
 
-        return view('pages.logperawat.tindakan_harian.cari')->with('list', $data);
+        return view('pages.new.laporan.logperawat.log.tindakan-harian-cari')->with('list', $data);
     }
 
     // API

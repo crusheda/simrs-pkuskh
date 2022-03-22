@@ -23,6 +23,7 @@ class tdkPerawatController extends Controller
     public function index()
     {
         $now = Carbon::now();
+        $today = Carbon::now()->isoFormat('YYYY/MM/DD');
         // ex : $user->created_at->isoFormat('dddd, D MMMM Y');      "Minggu, 28 Juni 2020"
         // ex : $post->updated_at->diffForHumans();                  "2 hari yang lalu"
 
@@ -31,58 +32,27 @@ class tdkPerawatController extends Controller
         $name = $user->name;
         $role = $user->roles->first()->name; //kabag-keperawatan
         
-        if (Auth::user()->hasRole('kabag-keperawatan')) {
             $show = DB::table('tdkperawat')
                 ->select('queue' ,'name' ,'unit' ,'tgl')
                 ->where('deleted_at', null)
                 ->groupBy('queue' ,'name' ,'unit' ,'tgl')
                 ->get();
             $tdk = logperawat::get();
-            $recent = '1';
-        }
-        else {
-            $show = DB::table('tdkperawat')
-                ->select('queue' ,'name' ,'unit' ,'tgl')
-                ->where('unit', $role)
-                ->where('name', $name)
-                ->where('deleted_at', null)
-                ->groupBy('queue' ,'name' ,'unit' ,'tgl')
-                ->get();
-            
-            if ($user->hasPermissionTo('log_perawat')) {
-                $tdk = logperawat::where('unit', $role)->get();
-                $query = tdkperawat::where('unit', $role)->where('name', $name)->where('deleted_at','=', null)->orderBy('id', 'DESC')->first();
-                if ($query == null) {
-                    $recent = 1;
-                } else {
-                    $convert_query = Carbon::parse($query->tgl)->isoFormat('D MMMM Y');
-                    $convert_now = Carbon::now()->isoFormat('D MMMM Y'); // sesuai tgl kalender di PC
-                    if ($convert_now == $convert_query) {
-                        $recent = 0;
-                    } else {
-                        $recent = 1;
-                    }
-                }
-                
-            } else {
-                $tdk = null;
-                $recent = 0;
-            }
-        }
         // print_r($convert_query);
         // die();    
         
         $data = [
             'show' => $show,
             'tdk' => $tdk,
-            'recent' => $recent,
             'thn' => $thn,
             'now' => $now,
+            'today' => $today,
             // 'convert' => $convert,
             // 'cek' => $cek
         ];
 
-        return view('pages.logperawat.tdkperawat')->with('list', $data);
+        // return view('pages.logperawat.tdkperawat')->with('list', $data);
+        return view('pages.new.laporan.logperawat.log.tindakan-harian-old')->with('list', $data);
     }
 
     /**

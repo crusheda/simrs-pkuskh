@@ -25,10 +25,30 @@
       $b2 = 'Kunjungan'; 
     }
     // LOG PERAWAT
-    if ($route == 'logperawat.index') {
-      $title = 'Log Perawat';
+    if ($route == 'tindakan-harian.index') {
+      $title = 'Tindakan Harian';
       $b1 = 'Laporan'; 
       $b2 = 'Log Perawat';
+      $b3 = 'Tindakan Harian';
+    }
+    if ($route == 'tindakan-harian.cari') {
+      $title = 'Filter - Tindakan Harian';
+      $b1 = 'Laporan'; 
+      $b2 = 'Log Perawat';
+      $b3 = 'Tindakan Harian';
+      $b4 = 'Filter';
+    }
+    if ($route == 'tgsperawat.index') {
+      $title = 'Penunjang Tugas';
+      $b1 = 'Laporan'; 
+      $b2 = 'Log Perawat';
+      $b3 = 'Penunjang Tugas';
+    }
+    if ($route == 'profkpr.index') {
+      $title = 'Profesi Keperawatan';
+      $b1 = 'Laporan'; 
+      $b2 = 'Log Perawat';
+      $b3 = 'Profesi Keperawatan';
     }
 
       // IPSRS
