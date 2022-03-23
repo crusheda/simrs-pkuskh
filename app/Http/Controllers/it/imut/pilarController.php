@@ -27,7 +27,8 @@ class pilarController extends Controller
         // print_r($show);
         // die();
 
-        return view('pages.imut.it.pilar')->with('list', $data);
+        // return view('pages.imut.it.pilar')->with('list', $data);
+        return view('pages.new.it.imut.pilar')->with('list', $data);
     }
 
     /**
@@ -37,7 +38,7 @@ class pilarController extends Controller
      */
     public function create()
     {
-        return view('pages.imut.it.pilar');
+        // return view('pages.imut.it.pilar');
     }
 
     /**
@@ -144,6 +145,6 @@ class pilarController extends Controller
             'show' => $show
         ];
 
-        return view('pages.imut.it.pilarAll')->with('list', $data);
+        return view('pages.new.it.imut.pilarAll')->with('list', $data);
     }
 }

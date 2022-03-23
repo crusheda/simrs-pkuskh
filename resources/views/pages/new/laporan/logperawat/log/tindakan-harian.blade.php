@@ -122,7 +122,7 @@
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Shift :</label>
-                            <select name="shift" class="form-control" required>
+                            <select name="shift" class="form-control selectric" required>
                               <option hidden>Pilih</option>
                               <option value="pagi">PAGI</option>
                               <option value="siang">SIANG</option>
@@ -145,7 +145,7 @@
                             <td hidden><input type="text" class="form-control" name="pernyataan[]" value="{{ $item->id }}"></td>
                             <td>{{ $item->pertanyaan }}</td>
                             <td>
-                                <select class="custom-select" name="box[]" required>
+                                <select class="form-control selectric" name="box[]" required>
                                     <option value="0"hidden>0 kali</option>
                                     @for ($i = 0; $i < $item->box; $i++)
                                         <option value="{{ $i+1 }}">{{ $i+1 }} kali</option>

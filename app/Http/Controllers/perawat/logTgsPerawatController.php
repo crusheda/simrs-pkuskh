@@ -27,7 +27,7 @@ class logTgsPerawatController extends Controller
         // print_r($data);
         // die();
 
-        return view('pages.logperawat.pernyataantgsperawat')->with('list', $data);
+        return view('pages.new.laporan.logperawat.log.indikator.pernyataan-tgsperawat')->with('list', $data);
     }
 
     /**

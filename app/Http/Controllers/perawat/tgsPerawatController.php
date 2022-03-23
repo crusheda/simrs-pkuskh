@@ -68,7 +68,7 @@ class tgsPerawatController extends Controller
         // print_r($data['show']);
         // die();
 
-        return view('pages.logperawat.tgsperawat')->with('list', $data);
+        return view('pages.new.laporan.logperawat.log.penunjang-tugas')->with('list', $data);
     }
 
     /**
@@ -133,7 +133,7 @@ class tgsPerawatController extends Controller
         ];
         // print_r($data['recent']);
         // die();
-        return view('pages.logperawat.detail-tgsperawat')->with('list', $data);
+        return view('pages.new.laporan.logperawat.log.detail-penunjang-tugas')->with('list', $data);
     }
 
     /**

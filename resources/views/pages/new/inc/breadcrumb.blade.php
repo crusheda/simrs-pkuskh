@@ -24,6 +24,28 @@
       $b1 = 'Dashboard'; 
       $b2 = 'Kunjungan'; 
     }
+    // PERNYATAAN LOG PERAWAT
+    if ($route == 'logperawat.index') {
+      $title = 'Indikator Tindakan Harian';
+      $b1 = 'Laporan'; 
+      $b2 = 'Log Perawat';
+      $b3 = 'Tindakan Harian';
+      $b4 = 'Tambah Indikator';
+    }
+    if ($route == 'logtgsperawat.index') {
+      $title = 'Indikator Penunjang Tugas';
+      $b1 = 'Laporan'; 
+      $b2 = 'Log Perawat';
+      $b3 = 'Penunjang Tugas';
+      $b4 = 'Tambah Indikator';
+    }
+    if ($route == 'logprofkpr.index') {
+      $title = 'Indikator Profesi Keperawatan';
+      $b1 = 'Laporan'; 
+      $b2 = 'Log Perawat';
+      $b3 = 'Profesi Keperawatan';
+      $b4 = 'Tambah Indikator';
+    }
     // LOG PERAWAT
     if ($route == 'tindakan-harian.index') {
       $title = 'Tindakan Harian';
@@ -44,11 +66,25 @@
       $b2 = 'Log Perawat';
       $b3 = 'Penunjang Tugas';
     }
+    if ($route == 'tgsperawat.show') {
+      $title = 'Detail Penunjang Tugas';
+      $b1 = 'Laporan'; 
+      $b2 = 'Log Perawat';
+      $b3 = 'Penunjang Tugas';
+      $b4 = 'Detail Penunjang Tugas';
+    }
     if ($route == 'profkpr.index') {
       $title = 'Profesi Keperawatan';
       $b1 = 'Laporan'; 
       $b2 = 'Log Perawat';
       $b3 = 'Profesi Keperawatan';
+    }
+    if ($route == 'profkpr.show') {
+      $title = 'Detail Profesi Keperawatan';
+      $b1 = 'Laporan'; 
+      $b2 = 'Log Perawat';
+      $b3 = 'Profesi Keperawatan';
+      $b4 = 'Detail Profesi Keperawatan';
     }
 
       // IPSRS
@@ -129,6 +165,13 @@
     }
 
     // KEPEGAWAIAN
+    if ($route == 'kepegawaian.karyawan.index') {
+      $title = 'Data Seluruh Karyawan';
+      $b1 = 'Kepegawaian'; 
+      $b2 = 'Data Karyawan';
+    }
+
+    // IT
     if ($route == 'kepegawaian.karyawan.index') {
       $title = 'Data Seluruh Karyawan';
       $b1 = 'Kepegawaian'; 

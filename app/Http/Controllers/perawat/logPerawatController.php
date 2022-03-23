@@ -27,7 +27,7 @@ class logPerawatController extends Controller
         // print_r($data);
         // die();
 
-        return view('pages.logperawat.pertanyaanlog')->with('list', $data);
+        return view('pages.new.laporan.logperawat.log.indikator.pernyataan-tindakan-harian')->with('list', $data);
     }
 
     /**
@@ -37,7 +37,7 @@ class logPerawatController extends Controller
      */
     public function create()
     {
-        return view('pages.logperawat.pertanyaanlog');
+        // return view('pages.logperawat.pertanyaanlog');
     }
 
     /**

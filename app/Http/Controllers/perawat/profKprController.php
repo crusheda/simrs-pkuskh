@@ -70,7 +70,7 @@ class profKprController extends Controller
         // print_r($data['show']);
         // die();
 
-        return view('pages.logperawat.profkpr')->with('list', $data);
+        return view('pages.new.laporan.logperawat.log.profesi-keperawatan')->with('list', $data);
     }
 
     /**
@@ -149,7 +149,7 @@ class profKprController extends Controller
         ];
         // print_r($data['recent']);
         // die();
-        return view('pages.logperawat.detail-profkpr')->with('list', $data);
+        return view('pages.new.laporan.logperawat.log.detail-profesi-keperawatan')->with('list', $data);
     }
 
     /**

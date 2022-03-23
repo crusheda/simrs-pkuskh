@@ -24,8 +24,8 @@
           <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Log Perawat</a>
             <ul class="dropdown-menu">
               <li class="nav-item"><a href="{{ route("tindakan-harian.index") }}" class="nav-link">Tindakan Harian</a></li>
-              <li class="nav-item"><a href="{{ route("tgsperawat.index") }}" class="nav-link">Profesi Keperawatan</a></li>
-              <li class="nav-item"><a href="{{ route("profkpr.index") }}" class="nav-link">Penunjang Tugas</a></li>
+              <li class="nav-item"><a href="{{ route("profkpr.index") }}" class="nav-link">Profesi Keperawatan</a></li>
+              <li class="nav-item"><a href="{{ route("tgsperawat.index") }}" class="nav-link">Penunjang Tugas</a></li>
             </ul>
           </li>
           <li class="nav-item"><a href="{{ route("ipsrs.index") }}" class="nav-link">Pengaduan IPSRS</a></li>
@@ -45,8 +45,8 @@
       <li class="dropdown">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-bug"></i> <span>Pilar</span></a>
         <ul class="dropdown-menu">
-          <li><a class="nav-link" href="pilar/imut">Indikator Mutu</a></li>
-          <li><a class="nav-link" href="pilar/revisi">Revisi</a></li>
+          <li><a class="nav-link" href="{{ route("it.pilar.index") }}">Indikator Mutu</a></li>
+          <li><a class="nav-link" href="{{ route("it.supervisi.index") }}">Revisi</a></li>
         </ul>
       </li>
       <li class="nav-item dropdown">

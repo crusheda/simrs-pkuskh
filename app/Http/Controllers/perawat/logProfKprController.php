@@ -27,7 +27,7 @@ class logProfKprController extends Controller
         // print_r($data);
         // die();
 
-        return view('pages.logperawat.pernyataanprofkpr')->with('list', $data);
+        return view('pages.new.laporan.logperawat.log.indikator.pernyataan-profkpr')->with('list', $data);
     }
 
     /**
