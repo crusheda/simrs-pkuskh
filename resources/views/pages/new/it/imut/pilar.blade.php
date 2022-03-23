@@ -1,7 +1,7 @@
 @extends('layouts.newAdmin')
 
 @section('content')
-@role('it')
+@hasrole('it')
 <div class="row">
     <div class="col-md-4">
         <div class="card">
@@ -17,11 +17,17 @@
                     <label>Keterangan :</label>
                     <textarea class="form-control" name="keterangan" id="keterangan" placeholder="" required></textarea>
                     <br>
+                    <center>
                     <div class="btn-group">
-                        <button class="btn btn-success text-white pull-right" id="submit"><i class="fa-fw fas fa-check nav-icon"></i> Submit</button>
+                        <button class="btn btn-primary text-white pull-right" id="submit"><i class="fa-fw fas fa-check nav-icon"></i> Submit</button>
                 </form>
-                        <button class="btn btn-info text-white pull-left" onclick="window.location.href='{{ route('it.rev.index') }}'"><i class="fa-fw fas fa-code-branch nav-icon"></i> Revisi</button>
-                    </div>
+                        {{-- <button class="btn btn-dark text-white pull-left" onclick="window.location.href='{{ route('it.rev.index') }}'"><i class="fa-fw fas fa-code-branch nav-icon"></i> Revisi</button> --}}
+                        <button class="btn btn-secondary text-white pull-left disabled"><i class="fa-fw fas fa-code-branch nav-icon"></i> Revisi</button>
+                    </div></center>
+            </div>
+            <div class="card-footer">
+                <a class="pull-left"><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan hanya berjumlah 50 data terbaru saja<br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Klik tombol <u><a href="#" onclick="window.location.href='{{ url('it/imut/pilar/all') }}'"><b>LIHAT</b></a></u> untuk melihat Rekapitulasi Data keseluruhan</a>
             </div>
         </div>
     </div>
@@ -31,8 +37,6 @@
               <h4>Table</h4>
             </div>
             <div class="card-body">
-                <a class="pull-left"><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan hanya berjumlah 50 data terbaru saja<br><i class="fa-fw fas fa-caret-right nav-icon"></i> Klik tombol <u><a href="#" onclick="window.location.href='{{ url('it/imut/pilar/all') }}'"><b>LIHAT</b></a></u> untuk melihat Rekapitulasi Data keseluruhan</a>
-                <br><br><hr>
                 <div class="data-table-list">
                     <div class="table-responsive">
                         <table id="table_imut" class="table table-striped">
@@ -88,7 +92,7 @@
         </div>
     </div>
 </div>
-@endrole
+@endhasrole
 
 @foreach($list['show'] as $item)
 <div class="modal fade bd-example-modal-lg" id="hapusPilar{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
@@ -119,7 +123,7 @@
                     </a> --}}
                     @method('DELETE')
                     @csrf
-                    <button class="btn btn-danger btn-sm"><i class="fas fa-trash"></i> Hapus</button>
+                    <button class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
                 </form>
             @endif
         </div>

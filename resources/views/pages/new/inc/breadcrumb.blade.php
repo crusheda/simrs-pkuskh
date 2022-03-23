@@ -10,6 +10,11 @@
     // print_r($route);
     // die();
 
+    // AUTH
+    if ($route == 'auth.change_password') {
+      $title = 'Ubah Password';
+      $b1 = 'Ubah Password'; 
+    }
     // PUBLIK
     if ($route == 'welcome') {
       $title = 'Dashboard';
@@ -172,10 +177,25 @@
     }
 
     // IT
-    if ($route == 'kepegawaian.karyawan.index') {
-      $title = 'Data Seluruh Karyawan';
-      $b1 = 'Kepegawaian'; 
-      $b2 = 'Data Karyawan';
+    if ($route == 'it.pilar.index') {
+      $title = 'Indikator Mutu Pilar';
+      $b1 = 'Pilar'; 
+      $b2 = 'Indikator Mutu';
+    }
+    if ($route == 'it.pilar.all') {
+      $title = 'Rekap Indikator Mutu Pilar';
+      $b1 = 'Pilar'; 
+      $b2 = 'Indikator Mutu';
+      $b3 = 'Rekap Indikator Mutu';
+    }
+    if ($route == 'it.supervisi.index') {
+      $title = 'Supervisi IT';
+      $b1 = 'Supervisi IT'; 
+    }
+    if ($route == 'it.logit.all') {
+      $title = 'Rekap Supervisi IT';
+      $b1 = 'Supervisi IT'; 
+      $b2 = 'Rekap Supervisi IT'; 
     }
 
 @endphp

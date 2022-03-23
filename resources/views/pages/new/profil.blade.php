@@ -27,16 +27,21 @@
           <div class="profile-widget-item">
             <div class="profile-widget-item-label mb-2">Status Kepegawaian</div>
             <div class="profile-widget-item-value mb-2">
-              <button class="btn btn-primary"><i class="fas fa-file-contract"></i> Lihat</button>
+              <button class="btn btn-primary disabled"><i class="fas fa-file-contract"></i> Lihat</button>
             </div>
           </div>
           <div class="profile-widget-item">
             <div class="profile-widget-item-label mb-2">Foto Profil</div>
             <div class="profile-widget-item-value mb-2">
               <div class="btn-group">
-                <button class="btn btn-warning"><i class="fas fa-edit"></i></button>
-                <button class="btn btn-info"><i class="fas fa-download"></i></button>
-                <button class="btn btn-danger"><i class="fas fa-trash"></i></button>
+                <button class="btn btn-warning" data-toggle="modal" data-target="#ubahFoto"><i class="fas fa-edit"></i></button>
+                @if (empty($list['foto']->filename))
+                  <button class="btn btn-secondary disabled"><i class="fas fa-download"></i></button>
+                @else
+                  <button class="btn btn-info" onclick="window.location.href='{{ url('./profil/'.$list['user']->id) }}'"><i class="fas fa-download"></i></button>
+                @endif
+                  {{-- <img class="card-img-top img-thumbnail" src="{{ url('storage/'.substr($list['foto']->filename,7,1000)) }}" height="300" alt="Card image cap"> --}}
+                <button class="btn btn-danger" data-toggle="modal" data-target="#hapusFoto"><i class="fas fa-trash"></i></button>
               </div>
             </div>
           </div>
@@ -434,6 +439,57 @@
   </div>
 </div>
 
+<!-- Ubah Foto Profil -->
+<div class="modal fade" id="ubahFoto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Ubah Foto Profil</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      <form class="form-auth-small" action="{{ action('Admin\profilController@storeImg') }}" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
+          @csrf
+          <div class="modal-body">
+              <p>
+                  <i class="fa-fw fas fa-chevron-right nav-icon"></i> Foto yang anda Upload akan digunakan sebagai Foto Profil bukan sebagai dokumen kepegawaian.
+                  {{-- <i class="fa-fw fas fa-chevron-right nav-icon"></i> --}}
+              </p>
+              <input type="file" name="file">
+          </div>
+          <div class="modal-footer">
+              <button type="submit" class="btn btn-primary"><i class="fas fa-upload"></i> Upload</button>
+          </div>
+      </form>
+    </div>
+  </div>
+</div>
+
+<!-- Hapus Foto Profil -->
+<div class="modal fade" id="hapusFoto" tabindex="-1" role="dialog" aria-labelledby="exampleModalCenterTitle" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="exampleModalLongTitle">Hapus Foto Profil</h5>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close">
+          <span aria-hidden="true">&times;</span>
+        </button>
+      </div>
+      {{-- <form class="form-auth-small" action="#" method="POST" enctype="multipart/form-data" accept-charset="UTF-8">
+          @csrf --}}
+          <div class="modal-body">
+              <p>
+                Maaf, fitur ini belum tersedia.
+              </p>
+          </div>
+          <div class="modal-footer">
+              <button type="submit" class="btn btn-secondary disabled"><i class="fas fa-trash"></i> Hapus</button>
+          </div>
+      {{-- </form> --}}
+    </div>
+  </div>
+</div>
 
 <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
 <script>

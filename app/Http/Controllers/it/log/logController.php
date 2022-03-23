@@ -41,7 +41,7 @@ class logController extends Controller
             'show' => $show
         ];
 
-        return view('pages.it.log.index')->with('list', $data);
+        return view('pages.new.it.supervisi.supervisi')->with('list', $data);
     }
 
     /**
@@ -246,7 +246,7 @@ class logController extends Controller
             'show' => $show
         ];
 
-        return view('pages.it.log.indexAll')->with('list', $data);
+        return view('pages.new.it.supervisi.supervisiAll')->with('list', $data);
     }
 
     public function getLampiran($id)

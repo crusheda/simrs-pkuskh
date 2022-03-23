@@ -316,7 +316,8 @@ class profilController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = foto_profil::where('user_id', $id)->first();
+        return Storage::download($data->filename, $data->title);
     }
 
     /**

@@ -25,6 +25,7 @@ class ChangePasswordController extends Controller
      * @var string $redirectTo
      */
     protected $redirectTo = '/change_password';
+    // protected $redirectTo = '/ubah_password';
 
     /**
      * Change password form
@@ -36,6 +37,7 @@ class ChangePasswordController extends Controller
         $user = Auth::getUser();
 
         return view('auth.change_password', compact('user'));
+        // return view('pages.new.ubah-password', compact('user'));
     }
 
     /**

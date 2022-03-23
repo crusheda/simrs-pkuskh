@@ -21,35 +21,56 @@
         <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-archive"></i><span>Laporan</span></a>
         <ul class="dropdown-menu">
           <li class="nav-item"><a href="{{ route("accidentreport.index") }}" class="nav-link">Accident Report</a></li>
-          <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Log Perawat</a>
-            <ul class="dropdown-menu">
-              <li class="nav-item"><a href="{{ route("tindakan-harian.index") }}" class="nav-link">Tindakan Harian</a></li>
-              <li class="nav-item"><a href="{{ route("profkpr.index") }}" class="nav-link">Profesi Keperawatan</a></li>
-              <li class="nav-item"><a href="{{ route("tgsperawat.index") }}" class="nav-link">Penunjang Tugas</a></li>
-            </ul>
+          @can('log_perawat')
+            <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Log Perawat</a>
+              <ul class="dropdown-menu">
+                <li class="nav-item"><a href="{{ route("tindakan-harian.index") }}" class="nav-link">Tindakan Harian</a></li>
+                <li class="nav-item"><a href="{{ route("profkpr.index") }}" class="nav-link">Profesi Keperawatan</a></li>
+                <li class="nav-item"><a href="{{ route("tgsperawat.index") }}" class="nav-link">Penunjang Tugas</a></li>
+              </ul>
+            </li>
+          @endcan
+          <li class="nav-item">
+            <a href="{{ route("ipsrs.index") }}" class="nav-link">Pengaduan IPSRS&nbsp;
+              <h6><span class="badge badge-light" style="margin-top: 5px">
+                  @role('ipsrs')
+                      @php
+                          echo count(\DB::table('pengaduan_ipsrs')->where('tgl_selesai',null)->get()); 
+                      @endphp
+                  @else
+                      @php
+                          $getid = Auth::user()->id;
+                          echo count(\DB::table('pengaduan_ipsrs')->where('tgl_selesai',null)->where('user_id',$getid)->get()); 
+                      @endphp
+                  @endrole
+              </span></h6>
+            </a>
           </li>
-          <li class="nav-item"><a href="{{ route("ipsrs.index") }}" class="nav-link">Pengaduan IPSRS</a></li>
-          <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Surveilans PPI</a>
-            <ul class="dropdown-menu">
-              <li class="nav-item"><a href="{{ route("plebitis.index") }}" class="nav-link">Plebitis</a></li>
-              <li class="nav-item"><a href="{{ route("ido.index") }}" class="nav-link">IDO</a></li>
-              <li class="nav-item"><a href="{{ route("isk.index") }}" class="nav-link">ISK</a></li>
-              <li class="nav-item"><a href="{{ route("decubitus.index") }}" class="nav-link">Decubitus</a></li>
-              <li class="nav-item"><a href="{{ route("vap.index") }}" class="nav-link">VAP</a></li>
-            </ul>
-          </li>
+          @can('surveilans-ppi')
+            <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Surveilans PPI</a>
+              <ul class="dropdown-menu">
+                <li class="nav-item"><a href="{{ route("plebitis.index") }}" class="nav-link">Plebitis</a></li>
+                <li class="nav-item"><a href="{{ route("ido.index") }}" class="nav-link">IDO</a></li>
+                <li class="nav-item"><a href="{{ route("isk.index") }}" class="nav-link">ISK</a></li>
+                <li class="nav-item"><a href="{{ route("decubitus.index") }}" class="nav-link">Decubitus</a></li>
+                <li class="nav-item"><a href="{{ route("vap.index") }}" class="nav-link">VAP</a></li>
+              </ul>
+            </li>
+          @endcan
         </ul>
       </li>
+      @hasrole('it')
       <li class="menu-header">Unit IT</li>
-      <li><a class="nav-link" href="#"><i class="fas fa-briefcase"></i> <span>Supervisi</span></a></li>
+      <li><a class="nav-link" href="{{ route("it.supervisi.index") }}"><i class="fas fa-briefcase"></i> <span>Supervisi</span></a></li>
       <li class="dropdown">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-bug"></i> <span>Pilar</span></a>
         <ul class="dropdown-menu">
           <li><a class="nav-link" href="{{ route("it.pilar.index") }}">Indikator Mutu</a></li>
-          <li><a class="nav-link" href="{{ route("it.supervisi.index") }}">Revisi</a></li>
+          <li><a class="nav-link" href="#"><del>Revisi</del></a></li>
         </ul>
       </li>
-      <li class="nav-item dropdown">
+      @endhasrole
+      {{-- <li class="nav-item dropdown">
         <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-clone"></i><span>Multiple Dropdown</span></a>
         <ul class="dropdown-menu">
           <li class="nav-item"><a href="#" class="nav-link">Not Dropdown Link</a></li>
@@ -67,7 +88,8 @@
             </ul>
           </li>
         </ul>
-      </li>
+      </li> --}}
+      @hasrole('it|kepegawaian')
       <li class="menu-header">Unit Kepegawaian</li>
       <li class="dropdown">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-id-card-alt"></i> <span>Kepegawaian</span></a>
@@ -75,6 +97,8 @@
           <li><a class="nav-link" href="{{ route("kepegawaian.karyawan.index") }}">Data Karyawan</a></li>
         </ul>
       </li>
+      @endhasrole
+      @hasrole('it|lab')
       <li class="menu-header">Unit LAB</li>
       <li class="dropdown">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-vial"></i> <span>Laboratorium</span></a>
@@ -83,6 +107,8 @@
           <li><a class="nav-link" href="#"><del>PCR</del></a></li>
         </ul>
       </li>
+      @endhasrole
+      @hasrole('it|kebidanan')
       <li class="menu-header">Unit Kebidanan</li>
       <li class="dropdown">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-address-book"></i> <span>Kebidanan</span></a>
@@ -90,6 +116,7 @@
           <li><a class="nav-link" href="{{ route("skl.index") }}">SKL</a></li>
         </ul>
       </li>
+      @endhasrole
       {{-- <li class="dropdown">
         <a href="#" class="nav-link has-dropdown"><i class="fas fa-ellipsis-h"></i> <span>Utilities</span></a>
         <ul class="dropdown-menu">

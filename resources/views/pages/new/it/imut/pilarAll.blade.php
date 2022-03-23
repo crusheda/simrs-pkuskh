@@ -1,7 +1,7 @@
 @extends('layouts.newAdmin')
 
 @section('content')
-@role('it')
+@hasrole('it')
 <div class="row">
   <div class="col-12">
     <div class="card">
@@ -75,7 +75,7 @@
     </div>
   </div>
 </div>
-@endrole
+@endhasrole
 
 @foreach($list['show'] as $item)
 <div class="modal fade bd-example-modal-lg" id="editPilar{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">

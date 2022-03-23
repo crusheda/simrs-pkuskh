@@ -1,10 +1,11 @@
-@extends('layouts.newAdmin')
 
+
+@extends('layouts.admin')
 @section('content')
+
 <div class="card">
-  <div class="col-12">
     <div class="card-header">
-        <h4>Bcrypt Hash Password Laravel</h4>
+        Change password
     </div>
 
     <div class="card-body">
@@ -12,7 +13,7 @@
             @csrf
             @method('PATCH')
             <div class="form-group {{ $errors->has('current_password') ? 'has-error' : '' }}">
-                <label for="current_password">Password sekarang *</label>
+                <label for="current_password">Current password *</label>
                 <input type="password" id="current_password" name="current_password" class="form-control" required>
                 @if($errors->has('current_password'))
                     <em class="invalid-feedback">
@@ -21,7 +22,7 @@
                 @endif
             </div>
             <div class="form-group {{ $errors->has('new_password') ? 'has-error' : '' }}">
-                <label for="new_password">Password baru *</label>
+                <label for="new_password">New password *</label>
                 <input type="password" id="new_password" name="new_password" class="form-control" required>
                 @if($errors->has('new_password'))
                     <em class="invalid-feedback">
@@ -30,7 +31,7 @@
                 @endif
             </div>
             <div class="form-group {{ $errors->has('new_password_confirmation') ? 'has-error' : '' }}">
-                <label for="new_password_confirmation">Konfirmasi password baru *</label>
+                <label for="new_password_confirmation">New password confirmation *</label>
                 <input type="password" id="new_password_confirmation" name="new_password_confirmation" class="form-control" required>
                 @if($errors->has('new_password_confirmation'))
                     <em class="invalid-feedback">
@@ -38,13 +39,13 @@
                     </em>
                 @endif
             </div>
-            <p><b>Catatan :</b> Jangan bagikan password anda kepada orang lain.</p>
+            <p>Catatan: Password yang anda masukkan akan diproses oleh sistem menggunakan <i><b>Bcrypt Hash Password dari laravel</b></i>. Jangan bagikan password anda kepada orang lain.</p>
             <div>
-                <input class="btn btn-danger" type="submit" value="Submit">
+                <input class="btn btn-danger" type="submit" value="{{ trans('global.save') }}">
             </div>
         </form>
 
+
     </div>
-  </div>
 </div>
 @endsection

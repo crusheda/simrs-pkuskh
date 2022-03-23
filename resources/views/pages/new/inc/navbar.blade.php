@@ -211,7 +211,7 @@
         {{-- <a href="features-activities.html" class="dropdown-item has-icon">
           <i class="fas fa-bolt"></i> Activities
         </a> --}}
-        <a href="ubah-password" class="dropdown-item has-icon">
+        <a href="{{ route('auth.change_password') }}" class="dropdown-item has-icon">
           <i class="fas fa-cog"></i> Ubah Password
         </a>
         <div class="dropdown-divider"></div>
