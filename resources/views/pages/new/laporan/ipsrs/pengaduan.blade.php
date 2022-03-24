@@ -431,41 +431,43 @@
                     <div class="collapse" id="collapseExample{{ $item->id }}">
                         <div class="card card-body">
                             <h5><b>Status Dikerjakan</b></h5>
-                            <table class="table table-striped display">
-                                <thead>
-                                    <tr>
-                                        <th>TGL</th>
-                                        <th>KETERANGAN</th>
-                                        <th><center>LAMPIRAN</center></th>
-                                    </tr>
-                                </thead>
-                                <tbody>
-                                    @php
-                                        $data = \App\Models\pengaduan_ipsrs_catatan::where('pengaduan_id', $item->id)->get();
-                                    @endphp
-                                    @if(count($data) > 0)
-                                    @foreach($data as $item)
-                                    <tr>
-                                        <td>{{ $item->created_at }}</td>
-                                        <td>{{ $item->keterangan }}</td>
-                                        <td>
-                                            <center>
-                                                @if (!empty($item->title))
-                                                    <button class="btn btn-success" onclick="window.location.href='{{ url('pengaduan/ipsrs/lampiran/catatan/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon"></i></button>
-                                                @else
-                                                    <button class="btn btn-secondary disabled"><i class="fa-fw fas fa-download nav-icon"></i></button>
-                                                @endif
-                                            </center>
-                                        </td>
-                                    </tr>
-                                    @endforeach
-                                    @else
+                            <div class="table-responsive">
+                                <table class="table table-striped display">
+                                    <thead>
                                         <tr>
-                                            <td colspan=3>Tidak Ada Data</td>
+                                            <th>TGL</th>
+                                            <th>KETERANGAN</th>
+                                            <th><center>LAMPIRAN</center></th>
                                         </tr>
-                                    @endif
-                                </tbody>
-                            </table>  
+                                    </thead>
+                                    <tbody>
+                                        @php
+                                            $data = \App\Models\pengaduan_ipsrs_catatan::where('pengaduan_id', $item->id)->get();
+                                        @endphp
+                                        @if(count($data) > 0)
+                                        @foreach($data as $item)
+                                        <tr>
+                                            <td>{{ $item->created_at }}</td>
+                                            <td>{{ $item->keterangan }}</td>
+                                            <td>
+                                                <center>
+                                                    @if (!empty($item->title))
+                                                        <button class="btn btn-success" onclick="window.location.href='{{ url('pengaduan/ipsrs/lampiran/catatan/'. $item->id) }}'"><i class="fa-fw fas fa-download nav-icon"></i></button>
+                                                    @else
+                                                        <button class="btn btn-secondary disabled"><i class="fa-fw fas fa-download nav-icon"></i></button>
+                                                    @endif
+                                                </center>
+                                            </td>
+                                        </tr>
+                                        @endforeach
+                                        @else
+                                            <tr>
+                                                <td colspan=3>Tidak Ada Data</td>
+                                            </tr>
+                                        @endif
+                                    </tbody>
+                                </table>
+                            </div>
                         </div>
                     </div>
                 </div>
