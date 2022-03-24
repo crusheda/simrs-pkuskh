@@ -97,6 +97,6 @@ class HomeController extends Controller
 
     public function fileManager()
     {
-        return view('managerfile');
+        return view('pages.new.administrasi.filemanajer');
     }
 }

@@ -32,7 +32,8 @@ class UsersController extends Controller
         // print_r($data);
         // die();
 
-        return view('admin.users.index', compact('users'))->with('list', $data);
+        // return view('admin.users.index', compact('users'))->with('list', $data);
+        return view('pages.new.administrator.pengguna.users.index', compact('users'))->with('list', $data);
     }
 
     /**

@@ -103,7 +103,7 @@
       </div>
       <footer class="main-footer">
         <div class="footer-left">
-          Copyright &copy; 2020 <div class="bullet"></div> Develop By <a href="#">Lakon Web</a>
+          Copyright &copy; 2020 <div class="bullet"></div> Develop By <a href="#" data-toggle="modal" data-target="#lakonweb" data-toggle="tooltip" data-placement="bottom" title="Lebih dekat dengan Developer">Lakon Web</a>
         </div>
         <div class="footer-right">
           
@@ -113,6 +113,25 @@
     <form id="logoutform" action="{{ route('logout') }}" method="POST" style="display: none;">
         {{ csrf_field() }}
     </form>
+  </div>
+  
+  <div class="modal fade" id="lakonweb" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+            {{-- <h4 class="modal-title">
+              Siapa kami ?
+            </h4> --}}
+            <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+            </div>
+            <div class="modal-body">
+              <center><img src="{{ asset('img/lakon-web/popup-lakon-web.png') }}" class="img-fluid" alt="Responsive image"></center>
+            </div>
+            {{-- <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+            </div> --}}
+        </div>
+    </div>
   </div>
 
   <!-- General JS Scripts -->

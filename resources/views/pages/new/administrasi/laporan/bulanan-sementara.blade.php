@@ -638,7 +638,7 @@ header('Access-Control-Allow-Origin: *');
                                     <i class="fa-fw fas fa-caret-right nav-icon"></i> Kami sedang melakukan perbaikan tampilan dan performa<br>
                                     <i class="fa-fw fas fa-caret-right nav-icon"></i> Upload dokumen laporan dengan menggunakan akun sesuai Unit / Bagian anda agar dokumen dapat diverifikasi oleh masing-masing verifikator.<br>
                                     <i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila laporan telah berhasil diverifikasi oleh Atasan terkait, anda tidak lagi dapat mengubah / menghapus Laporan bulanan.<br>
-                                    <i class="fa-fw fas fa-caret-right nav-icon"></i> Bantu kami apabila anda mendapati suatu kesalahan sistem / <kbd><i class="fa-fw fas fa-bug nav-icon"></i> BUG</kbd> 
+                                    <i class="fa-fw fas fa-caret-right nav-icon"></i> Segera melapor IT apabila anda mengalami kesalahan sistem / <kbd><i class="fa-fw fas fa-bug nav-icon"></i> BUG</kbd> 
                                 </p>
                             </div>
                             <div class="modal-footer">

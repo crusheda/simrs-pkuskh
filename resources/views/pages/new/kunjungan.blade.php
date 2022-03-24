@@ -6,11 +6,11 @@
         <div class="card">
           <div class="card-header">
               <h4>Data Rawat Inap <span class="badge badge-danger">HARI INI</span></h4>
+              <sub>Data diambil dari Pilar Hospital</sub>
           </div>
             <div class="card-body">
                 <div class="data-table-list">
                     <div class="table-responsive">
-                        {{-- <small><kbd>Data Pasien</kbd> yang ditampilkan diurutkan berdasarkan <b>Tanggal Keluar</b> terakhir.</small><br><br> --}}
                         <table id="pilar" class="table table-striped table-hover">
                             <thead class="thead-dark">
                                 <tr>
@@ -100,6 +100,7 @@
         <div class="card" style="width: 100%">
           <div class="card-header">
               <h4>Data Kunjungan Rawat Jalan <span class="badge badge-info">KEMARIN</span></kbd></h4>
+              <sub>Data diambil dari Pilar Hospital</sub>
           </div>
             <div class="card-body">
                 <div class="data-table-list">

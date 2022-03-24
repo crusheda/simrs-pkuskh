@@ -261,6 +261,13 @@
       $b1 = 'Administrator'; 
       $b2 = 'Notifikasi';
     }
+      // Users
+      if ($route == 'admin.users.index') {
+        $title = 'Daftar Pengguna Simrsmu';
+        $b1 = 'Administrator'; 
+        $b2 = 'Atur Pengguna';
+        $b3 = 'Users';
+      }
 
 @endphp
 <h1>{{ $title }}</h1>

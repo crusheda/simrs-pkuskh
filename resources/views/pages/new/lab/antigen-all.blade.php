@@ -11,8 +11,8 @@
         <div class="btn-group">
           <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location.href='{{ route('lab.antigen.index') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i></button>
           <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i> Refresh</button>
+          <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#show" data-toggle="tooltip" data-placement="bottom" title="DATA PASIEN HARI INI"><i class="fa-fw fas fa-info nav-icon text-white"></i> Informasi</button>
         </div>
-        <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#show" data-toggle="tooltip" data-placement="bottom" title="DATA PASIEN HARI INI"><i class="fa-fw fas fa-info nav-icon text-white"></i> Informasi</button>
         <hr>
         <div class="table-responsive">
           <table id="tableku" class="table table-striped">

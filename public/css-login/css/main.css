@@ -182,7 +182,8 @@ iframe {
   align-items: center;
   padding: 15px;
   
-  background-color: #2F353A;
+  /* background-color: #2F353A; */
+  background-color: #f5f3f3;
 }
 
 

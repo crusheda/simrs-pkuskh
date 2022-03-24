@@ -23,7 +23,7 @@
     @yield('styles')
 </head>
 
-<body class="header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden login-page" style="background-color: #2F353A">
+<body class="header-fixed sidebar-fixed aside-menu-fixed aside-menu-hidden login-page" style="background-color: #f5f3f3">
     <div class="app flex-row align-items-center">
         <div class="container">
             
