@@ -10,7 +10,7 @@ header('Access-Control-Allow-Origin: *');
     <meta http-equiv="X-UA-Compatible" content="ie=edge">
     <meta name="csrf-token" content="{{ csrf_token() }}">
 
-    <title>SIMRS | {{ Auth::user()->name }}</title>
+    <title>SIMRSMU - {{ Auth::user()->name }}</title>
     {{-- <link href="{{ asset('css/bootstrap.min.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/font-awesome.css') }}" rel="stylesheet" />
     <link href="{{ asset('css/all.css') }}" rel="stylesheet" />
@@ -114,7 +114,7 @@ header('Access-Control-Allow-Origin: *');
                                 <div class="col-md-12">
                                     <div class="pull-left">
                                         <div class="btn-group" role="group">
-                                            <button type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location.href='{{ route('welcome') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i></button>
+                                            <button type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location.href='{{ route('welcome') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i> Kembali</button>
                                             <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
                                                 <i class="fa-fw fas fa-plus-square nav-icon">
 
@@ -137,7 +137,10 @@ header('Access-Control-Allow-Origin: *');
                                     </div>
                                 </div>
                             </div>
-                            <sub>Data yang ditampilkan adalah data laporan yang sudah anda Upload</sub>
+                            <sub>
+                                <i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan pada tabel di bawah adalah laporan yang sudah anda Upload<br>
+                                <i class="fa-fw fas fa-caret-right nav-icon"></i> Klik tombol <kbd><i class="fa-fw fas fa-check-square nav-icon"></i> Verifikasi</kbd> apabila anda ingin melakukan verifikasi laporan
+                            </sub>
                             <hr>
                             <div class="table-responsive">
                                 <table id="table" class="table table-striped" style="width:100%">
@@ -631,9 +634,11 @@ header('Access-Control-Allow-Origin: *');
                                 </h6>
                                 <hr>
                                 <p class="text-left">
+                                    <i class="fa-fw fas fa-caret-right nav-icon"></i> Sistem Laporan Bulanan ini tetap bisa digunakan<br>
+                                    <i class="fa-fw fas fa-caret-right nav-icon"></i> Kami sedang melakukan perbaikan tampilan dan performa<br>
                                     <i class="fa-fw fas fa-caret-right nav-icon"></i> Upload dokumen laporan dengan menggunakan akun sesuai Unit / Bagian anda agar dokumen dapat diverifikasi oleh masing-masing verifikator.<br>
                                     <i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila laporan telah berhasil diverifikasi oleh Atasan terkait, anda tidak lagi dapat mengubah / menghapus Laporan bulanan.<br>
-                                    <i class="fa-fw fas fa-caret-right nav-icon"></i> Jika ada kesalahan sistem <kbd><i class="fa-fw fas fa-bug nav-icon"></i> BUG</kbd> , mohon segera melapor bagian IT untuk segera ditindaklanjuti.
+                                    <i class="fa-fw fas fa-caret-right nav-icon"></i> Bantu kami apabila anda mendapati suatu kesalahan sistem / <kbd><i class="fa-fw fas fa-bug nav-icon"></i> BUG</kbd> 
                                 </p>
                             </div>
                             <div class="modal-footer">

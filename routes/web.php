@@ -49,6 +49,8 @@ Route::get('/kunjungan', 'kunjunganController@kunjungan')->name('kunjungan');
 
 
 // Admin
+Route::get('api/notif', 'notifController@apiNotif')->name('api.notif');
+Route::resource('notif', 'notifController');
 Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], function () {
     Route::resource('permissions', 'Admin\PermissionsController');
     Route::delete('permissions_mass_destroy', 'Admin\PermissionsController@massDestroy')->name('permissions.mass_destroy');

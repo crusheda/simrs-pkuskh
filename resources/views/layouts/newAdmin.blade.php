@@ -26,6 +26,9 @@
   <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap-timepicker/css/bootstrap-timepicker.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap-colorpicker/dist/css/bootstrap-colorpicker.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/modules/summernote/summernote-bs4.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/modules/codemirror/lib/codemirror.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/modules/codemirror/theme/duotone-dark.css') }}">
   
   {{-- SweetAlert2 --}}
   <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
@@ -64,6 +67,35 @@
 
           <div class="section-body">
 
+            @if(session('message'))
+                <div class="row mb-2">
+                    <div class="col-lg-12">
+                        <div class="alert alert-success" role="alert">{{ session('message') }}
+                          <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                            <span aria-hidden="true">&times;</span>
+                          </button>
+                        </div>
+                    </div>
+                </div>
+            @endif
+            @if($errors->count() > 0)
+                <div class="alert alert-danger">
+                    <ul class="list-unstyled">
+                        @foreach($errors->all() as $error)
+                            <li>{{ $error }}</li>
+                        @endforeach
+                    </ul>
+                </div>
+            @endif
+            @if( Session::has('status') )
+              <p class="feedback-success">{{ Session::get('status') }}</p>
+            @endif
+            @if (session('alert'))
+              <div class="alert alert-success">
+                  {{ session('alert') }}
+              </div>
+            @endif
+            
             @yield('content')
           
           </div>
@@ -108,6 +140,8 @@
   <script src="{{ asset('assets/modules/prism/prism.js') }}"></script>
 
   <!-- Page Specific JS File -->
+  <script src="{{ asset('assets/modules/summernote/summernote-bs4.js') }}"></script>
+  <script src="{{ asset('assets/modules/codemirror/lib/codemirror.js') }}"></script>
   <script src="{{ asset('assets/js/page/modules-datatables.js') }}"></script>
   <script src="{{ asset('assets/js/page/bootstrap-modal.js') }}"></script>
 

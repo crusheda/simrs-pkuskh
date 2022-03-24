@@ -1,15 +1,18 @@
 <?php
 
-namespace App\Http\Controllers\ibs\supervisi;
+namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\RedirectResponse;
-use App\Models\ibs\ibs_refsupervisi;
+use Spatie\Permission\Models\Role;
+use App\Models\notif;
 use Carbon\Carbon;
+use Auth;
+use Redirect;
 
-class refAlatBHPController extends Controller
+class notifController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -18,7 +21,7 @@ class refAlatBHPController extends Controller
      */
     public function index()
     {
-        $show = ibs_refsupervisi::get();
+        $show = notif::get();
 
         $data = [
             'show' => $show,
@@ -26,7 +29,7 @@ class refAlatBHPController extends Controller
         // print_r($data);
         // die();
 
-        return view('pages.new.ibs.supervisi.alatbhp.ref')->with('list', $data);
+        return view('pages.new.administrator.notif')->with('list', $data);
     }
 
     /**
@@ -48,19 +51,25 @@ class refAlatBHPController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            'supervisi' => 'required',
-            'ruang' => 'required',
+            'judul' => 'required',
+            'icon' => 'required',
+            'ket' => 'required',
+            'tgl' => 'required',
             ]);
             
-        $tgl = Carbon::now();
-        $data = new ibs_refsupervisi;
-        $data->supervisi = $request->supervisi;
-        $data->ruang = $request->ruang;
+        // print_r($icon);
+        // die();
+        $tgl = Carbon::parse($request->tgl);
+        $data = new notif;
+        $data->judul = $request->judul;
+        $data->icon = $request->icon;
+        $data->ket = $request->ket;
         $data->tgl = $tgl;
+        $data->status = true;
 
         $data->save();
 
-        return redirect()->back()->with('message','Tambah Pengecekan Alat dan Kelengkapan BHP Berhasil.');
+        return redirect()->back()->with('message','Tambah Notifikasi Berhasil.');
     }
 
     /**
@@ -95,19 +104,20 @@ class refAlatBHPController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'supervisi' => 'required',
-            'ruang' => 'required',
-            ]);
-        
-        $tgl = Carbon::now();
+            'judul' => 'required',
+            'icon' => 'required',
+            'ket' => 'required',
+            'tgl' => 'required',
+        ]);
 
-        $data = ibs_refsupervisi::find($id);
-        $data->supervisi = $request->supervisi;
-        $data->ruang = $request->ruang;
-        $data->tgl = $tgl;
+        $data = new notif;
+        $data->judul = $request->judul;
+        $data->icon = $request->icon;
+        $data->ket = $request->ket;
+        $data->tgl = $request->tgl;
 
         $data->save();
-        return redirect()->back()->with('message','Perubahan Pengecekan Alat dan Kelengkapan BHP Berhasil.');
+        return redirect()->back()->with('message','Perubahan Notifikasi Berhasil.');
     }
 
     /**
@@ -118,10 +128,17 @@ class refAlatBHPController extends Controller
      */
     public function destroy($id)
     {
-        $data = ibs_refsupervisi::find($id);
+        $data = notif::find($id);
         $data->delete();
 
         // redirect
-        return redirect()->back()->with('message','Hapus Pengecekan Alat dan Kelengkapan BHP Berhasil.');
+        return redirect()->back()->with('message','Hapus Notifikasi Berhasil.');
+    }
+
+    public function apiNotif()
+    {
+        $show = notif::where('status', true)->where('deleted_at', null)->orderBy('id', 'desc')->get();
+
+        return response()->json($show, 200);
     }
 }

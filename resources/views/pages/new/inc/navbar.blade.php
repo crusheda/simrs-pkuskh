@@ -135,65 +135,30 @@
         </div>
       </div>
     </li> --}}
-    {{-- <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep"><i class="far fa-bell"></i></a>
+    {{-- <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep" onclick="lihatNotif()"><i class="far fa-bell"></i></a> --}}
+    <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg" onclick="lihatNotif()"><i class="far fa-bell-slash"></i></a>
       <div class="dropdown-menu dropdown-list dropdown-menu-right">
-        <div class="dropdown-header">Notifications
-          <div class="float-right">
+        <div class="dropdown-header">Notifikasi
+          {{-- <div class="float-right">
             <a href="#">Mark All As Read</a>
-          </div>
+          </div> --}}
         </div>
-        <div class="dropdown-list-content dropdown-list-icons">
-          <a href="#" class="dropdown-item dropdown-item-unread">
+        <div class="dropdown-list-content dropdown-list-icons" id="notif">
+          {{-- <a href="#" class="dropdown-item dropdown-item-unread">
             <div class="dropdown-item-icon bg-primary text-white">
               <i class="fas fa-code"></i>
             </div>
             <div class="dropdown-item-desc">
-              Template update is available now!
+              Kami sedang melakukan update tampilan pada website Simrsmu
               <div class="time text-primary">2 Min Ago</div>
             </div>
-          </a>
-          <a href="#" class="dropdown-item">
-            <div class="dropdown-item-icon bg-info text-white">
-              <i class="far fa-user"></i>
-            </div>
-            <div class="dropdown-item-desc">
-              <b>You</b> and <b>Dedik Sugiharto</b> are now friends
-              <div class="time">10 Hours Ago</div>
-            </div>
-          </a>
-          <a href="#" class="dropdown-item">
-            <div class="dropdown-item-icon bg-success text-white">
-              <i class="fas fa-check"></i>
-            </div>
-            <div class="dropdown-item-desc">
-              <b>Kusnaedi</b> has moved task <b>Fix bug header</b> to <b>Done</b>
-              <div class="time">12 Hours Ago</div>
-            </div>
-          </a>
-          <a href="#" class="dropdown-item">
-            <div class="dropdown-item-icon bg-danger text-white">
-              <i class="fas fa-exclamation-triangle"></i>
-            </div>
-            <div class="dropdown-item-desc">
-              Low disk space. Let's clean it!
-              <div class="time">17 Hours Ago</div>
-            </div>
-          </a>
-          <a href="#" class="dropdown-item">
-            <div class="dropdown-item-icon bg-info text-white">
-              <i class="fas fa-bell"></i>
-            </div>
-            <div class="dropdown-item-desc">
-              Welcome to Stisla template!
-              <div class="time">Yesterday</div>
-            </div>
-          </a>
+          </a> --}}
         </div>
         <div class="dropdown-footer text-center">
-          <a href="#">View All <i class="fas fa-chevron-right"></i></a>
+          <a href="#">Lihat Semua <i class="fas fa-chevron-right"></i></a>
         </div>
       </div>
-    </li> --}}
+    </li>
     <li class="dropdown"><a href="#" data-toggle="dropdown" class="nav-link dropdown-toggle nav-link-lg nav-link-user">
       <?php $foto_profil = DB::table('foto_profil')->where('user_id', Auth::user()->id)->first(); ?>
       @if (!empty($foto_profil->filename))
@@ -222,3 +187,28 @@
     </li>
   </ul>
 </nav>
+
+<script>
+  function lihatNotif() {
+    $('#notif').empty();
+    $.ajax({
+      url: "./api/notif",
+      type: 'GET',
+      dataType: 'json', // added data type
+      success: function(res) {
+        res.forEach(item => {
+            var tgl = item.tgl.substring(0,7);
+            content = "<a href='#' class='dropdown-item'>" 
+                        + "<div class='dropdown-item-icon bg-info text-white'>" 
+                        + "<i class='fas " + item.icon + "'></i>" 
+                        + "</div>" 
+                        + "<div class='dropdown-item-desc'>"
+                        + item.ket + "<div class='time'>" + tgl + "</div>"
+                        + "</div>"
+                        + "</a>";
+            $('#notif').append(content);
+        });
+      }
+    });
+  }
+</script>

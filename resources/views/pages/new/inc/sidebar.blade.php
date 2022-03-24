@@ -92,6 +92,26 @@
           <li><a class="nav-link" href="#"><del>Revisi</del></a></li>
         </ul>
       </li>
+      <li class="nav-item dropdown">
+        <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-lock"></i><span>Administrator</span></a>
+        <ul class="dropdown-menu">
+          <li class="nav-item"><a href="{{ route("notif.index") }}" class="nav-link">Notifikasi</a></li>
+          <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Atur Pengguna</a>
+            <ul class="dropdown-menu">
+              <li class="nav-item"><a href="#" class="nav-link">Permissions</a></li>
+              <li class="nav-item"><a href="#" class="nav-link">Roles</a></li>
+              <li class="nav-item"><a href="#" class="nav-link">Users</a></li>
+            </ul>
+          </li>
+          <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Other</a>
+            <ul class="dropdown-menu">
+              <li class="nav-item"><a href="#" class="nav-link">Unit</a></li>
+              <li class="nav-item"><a href="#" class="nav-link">Set Role Finger</a></li>
+              <li class="nav-item"><a href="#" class="nav-link">User Activity</a></li>
+            </ul>
+          </li>
+        </ul>
+      </li>
       @endhasrole
       @if(Auth::user()->hasAnyRole(['ibs', 'spv']))
       <li class="menu-header">Unit IBS</li>

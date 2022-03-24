@@ -26,7 +26,7 @@
                                 <i class="fa-fw fas fa-indent nav-icon">
 
                                 </i>
-                                Ref
+                                Indikator
                             </button>
                         @endrole
                     </div>

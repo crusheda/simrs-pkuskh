@@ -1,43 +1,60 @@
 @extends('layouts.newAdmin')
 
 @section('content')
-@role('ibs')
+@role('it')
 <div class="row">
-    <div class="col-md-4">
+    <div class="col-md-12">
         <div class="card">
             <div class="card-header">
-              <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location.href='{{ route('ibs.supervisi.index') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i> Kembali</button>&nbsp;
               <h4>Tambah</h4>
             </div>
             <div class="card-body">
-                    <form class="form-auth-small" action="{{ route('ibs.refsupervisi.store') }}" method="POST" enctype="multipart/form-data">
-                        @csrf
+                <form class="form-auth-small" action="{{ route('notif.store') }}" method="POST" enctype="multipart/form-data">
+                    @csrf
+                    <div class="row">
+                      <div class="col-md-5">
                         <div class="form-group">
-                            <label>Supervisi :</label>
-                            <input type="text" name="supervisi" class="form-control" placeholder="e.g. Pengecekan Alat/Mesin" autofocus required>
+                            <label>Judul :</label>
+                            <input type="text" name="judul" class="form-control" placeholder="e.g. Update tampilan terbaru v.2" autofocus required>
                         </div>
+                      </div>
+                      <div class="col-md-2">
                         <div class="form-group">
-                            <label>Ruang</label>
-                            <select name="ruang" class="form-control selectric" required>
-                              <option hidden>Pilih</option>
-                              <option value="Ruang Resusitasi Bayi">Ruang Resusitasi Bayi</option>
-                              <option value="Ruang OK 1">Ruang OK 1</option>
-                              <option value="Ruang OK 2">Ruang OK 2</option>
-                              <option value="Ruang Cuci Tangan Bedah">Ruang Cuci Tangan Bedah</option>
-                              <option value="Ruang Instrumen">Ruang Instrumen</option>
-                              <option value="Ruang Cuci Alat">Ruang Cuci Alat</option>
-                              <option value="Ruang BHP">Ruang BHP</option>
-                              <option value="Ruang Recovery">Ruang Recovery</option>
-                              <option value="Ruang Pre Operasi">Ruang Pre Operasi</option>
-                              <option value="Ruang Counter Perawat">Ruang Counter Perawat</option>
-                            </select>
+                          <label>Bulan Berakhir :</label>
+                          <input type="month" name="tgl" class="form-control" required>
                         </div>
-                        <button class="btn btn-success text-white" id="submit"><i class="fa-fw fas fa-save nav-icon"></i> Tambah</button>
-                    </form>
+                      </div>
+                      <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Icon :</label>
+                            {{-- <input type="text" name="icon" class="form-control" placeholder="e.g. <i class='fas fa-trash'></i>" autofocus required> --}}
+                              <div class="input-group">
+                                <div class="input-group-prepend">
+                                  <span class="input-group-text">Ketikan awalan fa-</span>
+                                </div>
+                                <input type="text" name="icon" class="form-control" value="fa-info-circle">
+                            </div>
+                        </div>
+                      </div>
+                      <div class="col-md-2">
+                        <div class="form-group">
+                          <label>Warna Icon</label>
+                          <input type="text" name="bg" class="form-control colorpickerinput">
+                        </div>
+                      </div>
+                      <div class="col-md-12">
+                        <div class="form-group">
+                          <label>Konten</label>
+                          <textarea name="ket" class="summernote"></textarea required>
+                        </div>
+                      </div>
+                    </div>
+                    <button class="btn btn-primary text-white" id="submit"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
+                </form>
             </div>
         </div>
     </div>
-    <div class="col-md-8">
+    <div class="col-md-12">
         <div class="card">
             <div class="card-header">
                 <h4>Tabel</h4>
@@ -48,9 +65,10 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Supervisi</th>
-                                <th>Ruang</th>
-                                <th>Tgl</th>
+                                <th>Judul</th>
+                                <th>Ket</th>
+                                <th>Bulan</th>
+                                <th>Icon</th>
                                 <th><center>#</center></th>
                             </tr>
                         </thead>
@@ -59,9 +77,10 @@
                                 @foreach($list['show'] as $item)
                                 <tr>
                                     <td>{{ $item->id }}</td>
-                                    <td>{{ $item->supervisi }}</td>
-                                    <td>{{ $item->ruang }}</td>
-                                    <td>{{ $item->tgl }}</td>
+                                    <td>{{ $item->judul }}</td>
+                                    <td>{{ $item->ket }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->tgl)->isoFormat('MMMM Y') }}</td>
+                                    <td>{{ $item->icon }}</td>
                                     <td>
                                         <center>
                                             <div class="btn-group" role="group">
@@ -85,41 +104,8 @@
 @endrole
 
 @foreach($list['show'] as $item)
-<div class="modal fade bd-example-modal-lg" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">
-            Yakin ingin Menghapus?
-          </h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-            @if(count($list) > 0)
-                Supervisi : <b>{{ $item->supervisi }}</b><br>
-                Ruang : <b>{{ $item->ruang }},-</b><br>
-                Ditambahkan pada : <b>{{ $item->created_at }}</b><br>
-                Update pada : <b>{{ $item->tgl }}</b>
-            @endif
-        </div>
-        <div class="modal-footer">
-            @if(count($list) > 0)
-                <form action="{{ route('ibs.refsupervisi.destroy', $item->id) }}" method="POST">
-                    @method('DELETE')
-                    @csrf
-                    <button class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Batal</button>
-                </form>
-            @endif
-        </div>
-      </div>
-    </div>
-</div>
-@endforeach
-
-@foreach($list['show'] as $item)
 <div class="modal fade bd-example-modal-lg" id="edit{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-    <div class="modal-dialog">
+    <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">
@@ -158,6 +144,39 @@
         </div>
         {{ Form::close() }}
         @endif
+      </div>
+    </div>
+</div>
+@endforeach
+
+@foreach($list['show'] as $item)
+<div class="modal fade bd-example-modal-lg" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">
+            Yakin ingin Menghapus?
+          </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            @if(count($list) > 0)
+                Judul : <b>{{ $item->supervisi }}</b><br>
+                Waktu : <b>{{ $item->ruang }},-</b><br>
+                Ditambahkan pada : <b>{{ $item->created_at }}</b><br>
+                Update pada : <b>{{ $item->tgl }}</b>
+            @endif
+        </div>
+        <div class="modal-footer">
+            @if(count($list) > 0)
+                <form action="{{ route('ibs.refsupervisi.destroy', $item->id) }}" method="POST">
+                    @method('DELETE')
+                    @csrf
+                    <button class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
+                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Batal</button>
+                </form>
+            @endif
+        </div>
       </div>
     </div>
 </div>

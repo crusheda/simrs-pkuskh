@@ -233,7 +233,33 @@
     // IBS
     if ($route == 'ibs.supervisi.index') {
       $title = 'Ceklist Alat dan Bahan Habis Pakai';
-      $b1 = 'Ceklist Alat & BHP'; 
+      $b1 = 'Supervisi'; 
+      $b2 = 'Ceklist Alat & BHP'; 
+    }
+    if ($route == 'ibs.supervisi.pushtim') {
+      $title = 'Ceklist Alat dan Bahan Habis Pakai';
+      $b1 = 'Supervisi'; 
+      $b2 = 'Ceklist Alat & BHP'; 
+      $b3 = 'Mulai Pengecekan Kelengkapan Alat & BHP'; 
+    }
+    if ($route == 'ibs.supervisi.cari') {
+      $title = 'Filter Ceklist Alat & BHP';
+      $b1 = 'Supervisi'; 
+      $b2 = 'Ceklist Alat & BHP'; 
+      $b3 = 'Filter Ceklist Alat & BHP'; 
+    }
+    if ($route == 'ibs.refsupervisi.index') {
+      $title = 'Indikator Supervisi Alat dan BHP';
+      $b1 = 'Supervisi'; 
+      $b2 = 'Ceklist Alat & BHP'; 
+      $b3 = 'Indikator'; 
+    }
+
+    // Administrator
+    if ($route == 'notif.index') {
+      $title = 'Notifikasi';
+      $b1 = 'Administrator'; 
+      $b2 = 'Notifikasi';
     }
 
 @endphp
