@@ -108,7 +108,7 @@ class ceklistAlatBHPController extends Controller
         // print_r($show);
         // die();
 
-        return view('pages.ibs.supervisi.index')->with('list', $data);
+        return view('pages.new.ibs.supervisi.alatbhp.ceklist-alat-bhp')->with('list', $data);
     }
 
     /**
@@ -244,7 +244,7 @@ class ceklistAlatBHPController extends Controller
             'show' => $show
         ];
 
-        return view('pages.ibs.supervisi.cekalat')->with('list', $data);
+        return view('pages.new.ibs.supervisi.mulaicek')->with('list', $data);
     }
 
     public function kondisiAlat($tim)
@@ -415,6 +415,6 @@ class ceklistAlatBHPController extends Controller
             'show' => $show
         ];
 
-        return view('pages.ibs.supervisi.cari')->with('list', $data);
+        return view('pages.new.ibs.supervisi.cari-ceklist-alat-bhp')->with('list', $data);
     }
 }

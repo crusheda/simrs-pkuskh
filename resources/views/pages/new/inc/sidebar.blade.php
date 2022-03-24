@@ -18,6 +18,29 @@
         </ul>
       </li>
       <li class="nav-item dropdown">
+        <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-book-open"></i><span>Administrasi</span></a>
+        <ul class="dropdown-menu">
+          <li class="nav-item"><a href="{{ route("rapat.index") }}" class="nav-link">Berkas Rapat</a></li>
+          <li class="nav-item"><a href="{{ route("managerfile") }}" class="nav-link">File Manager</a></li>
+          @if(auth()->user()->can('laporan') || auth()->user()->can('admin-laporan'))
+            <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Laporan</a>
+              <ul class="dropdown-menu">
+                <li class="nav-item"><a href="{{ route('bulan.index') }}" class="nav-link">Bulanan</a></li>
+                {{-- <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Link 2</a>
+                  <ul class="dropdown-menu">
+                    <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
+                    <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
+                  </ul>
+                </li> --}}
+              </ul>
+            </li>
+          @endif
+          <li class="nav-item"><a href="{{ route("regulasi.index") }}" class="nav-link">Regulasi</a></li>
+          <li class="nav-item"><a href="{{ route("perencanaan.index") }}" class="nav-link">RKA</a></li>
+        </ul>
+      </li>
+      <li class="nav-item dropdown">
         <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-archive"></i><span>Laporan</span></a>
         <ul class="dropdown-menu">
           <li class="nav-item"><a href="{{ route("accidentreport.index") }}" class="nav-link">Accident Report</a></li>
@@ -70,6 +93,15 @@
         </ul>
       </li>
       @endhasrole
+      @if(Auth::user()->hasAnyRole(['ibs', 'spv']))
+      <li class="menu-header">Unit IBS</li>
+      <li class="dropdown">
+        <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-calendar-check"></i> <span>Supervisi</span></a>
+        <ul class="dropdown-menu">
+          <li><a class="nav-link" href="{{ route("ibs.supervisi.index") }}">Ceklist Alat & BHP</a></li>
+        </ul>
+      </li>
+      @endif
       {{-- <li class="nav-item dropdown">
         <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="far fa-clone"></i><span>Multiple Dropdown</span></a>
         <ul class="dropdown-menu">

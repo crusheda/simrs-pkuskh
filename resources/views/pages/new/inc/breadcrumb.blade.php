@@ -29,6 +29,38 @@
       $b1 = 'Dashboard'; 
       $b2 = 'Kunjungan'; 
     }
+    // ADMINISTRASI
+      // LAPORAN BULANAN
+      if ($route == 'bulan.index') {
+        $title = 'Laporan Bulanan';
+        $b1 = 'Administrasi'; 
+        $b2 = 'Laporan'; 
+        $b3 = 'Bulanan'; 
+      }
+      // REGULASI
+      if ($route == 'regulasi.index') {
+        $title = 'Regulasi';
+        $b1 = 'Administrasi'; 
+        $b2 = 'Regulasi'; 
+      }
+      // BERKAS RAPAT
+      if ($route == 'rapat.index') {
+        $title = 'Berkas Rapat';
+        $b1 = 'Administrasi'; 
+        $b2 = 'Berkas Rapat';
+      }
+      // File Manajer
+      if ($route == 'managerfile') {
+        $title = 'File Manajer';
+        $b1 = 'Administrasi'; 
+        $b2 = 'File Manajer';
+      }
+      // RKA
+      if ($route == 'perencanaan.index') {
+        $title = 'Rencana Kerja Anggaran';
+        $b1 = 'Administrasi'; 
+        $b2 = 'RKA';
+      }
     // PERNYATAAN LOG PERAWAT
     if ($route == 'logperawat.index') {
       $title = 'Indikator Tindakan Harian';
@@ -196,6 +228,12 @@
       $title = 'Rekap Supervisi IT';
       $b1 = 'Supervisi IT'; 
       $b2 = 'Rekap Supervisi IT'; 
+    }
+
+    // IBS
+    if ($route == 'ibs.supervisi.index') {
+      $title = 'Ceklist Alat dan Bahan Habis Pakai';
+      $b1 = 'Ceklist Alat & BHP'; 
     }
 
 @endphp

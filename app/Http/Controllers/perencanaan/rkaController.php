@@ -32,7 +32,8 @@ class rkaController extends Controller
             'show' => $show,
         ];
 
-        return view('pages.perencanaan.rka')->with('list', $data);
+        // return view('pages.perencanaan.rka')->with('list', $data);
+        return view('pages.new.administrasi.rka')->with('list', $data);
     }
 
     /**

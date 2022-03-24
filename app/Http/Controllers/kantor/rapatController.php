@@ -39,7 +39,8 @@ class rapatController extends Controller
             'tgl' => $tgl,
             'today' => $today,
         ];
-        return view('pages.kantor.rapat')->with('list', $data);
+        // return view('pages.kantor.rapat')->with('list', $data);
+        return view('pages.new.administrasi.berkas-rapat')->with('list', $data);
     }
 
     /**
@@ -261,7 +262,7 @@ class rapatController extends Controller
     public function edit($id)
     {
         $data = rapat::find($id);
-        return view('pages.kantor.edit-notulen')->with('list', $data);
+        // return view('pages.kantor.edit-notulen')->with('list', $data);
     }
 
     /**

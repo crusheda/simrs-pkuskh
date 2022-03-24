@@ -55,7 +55,7 @@ class regulasiController extends Controller
             'today' => $today,
             'role' => $role
         ];
-        return view('pages.kantor.regulasi')->with('list', $data);
+        return view('pages.new.administrasi.regulasi')->with('list', $data);
     }
 
     /**
