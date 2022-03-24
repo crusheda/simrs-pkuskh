@@ -92,7 +92,7 @@
             </div>
             <div class="form-group col-md-7 col-12">
               <label>NIK</label>
-              <input type="text" id="nik" name="nik" class="form-control" value="ujang@maman.com" required="" autofocus>
+              <input type="text" id="nik" name="nik" class="form-control" value="{{ $list['user']->nik }}" autofocus required>
               <div class="invalid-feedback">
                 Please fill in the email
               </div>

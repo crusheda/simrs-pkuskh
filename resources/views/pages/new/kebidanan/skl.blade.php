@@ -76,42 +76,42 @@
                       <div class="row">
                           <div class="col">
                               <label>No Surat : </label>
-                              <input type="number" name="no_surat" id="no_surat" value="{{ $list['nomer'] }}" class="form-control" placeholder="" disabled>
-                              <input type="number" name="no_surat" id="no_surat" value="{{ $list['nomer'] }}" class="form-control" placeholder="" hidden>
+                              <input type="number" name="no_surat" value="{{ $list['nomer'] }}" class="form-control" placeholder="" disabled>
+                              <input type="number" name="no_surat" value="{{ $list['nomer'] }}" class="form-control" placeholder="" hidden>
                           </div>
                           <div class="col">
                               <label>Waktu :</label>
-                              <input type="datetime-local" name="tgl" id="tgl" class="form-control" placeholder="">
+                              <input type="datetime-local" name="tgl" class="form-control" placeholder="">
                           </div>
                       </div>
                       <hr>
                       <div class="row">
                           <div class="col">
                               <label>Nama Ibu : </label>
-                              <input type="text" name="ibu" id="ibu" class="form-control" placeholder="" required>
+                              <input type="text" name="ibu" class="form-control" placeholder="" required>
                           </div>
                           <div class="col">
                               <label>Nama Ayah : </label>
-                              <input type="text" name="ayah" id="ayah" class="form-control" placeholder="" required>
+                              <input type="text" name="ayah" class="form-control" placeholder="" required>
                           </div>
                       </div>
                       <br>
                       <label>Nama Anak : </label>
-                      <input type="text" name="anak" id="anak" class="form-control" placeholder="">
+                      <input type="text" name="anak" class="form-control" placeholder="">
                       <br>
                       <div class="row">
                           <div class="col">
                               <label>Berat Badan : </label>
-                              <input type="number" name="bb" id="bb" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="4" class="form-control" placeholder="gram" required>
+                              <input type="number" name="bb" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="4" class="form-control" placeholder="gram" required>
                           </div>
                           <div class="col">
                               <label>Tinggi Badan : </label>
-                              <input type="number" name="tb" id="tb" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="2" class="form-control" placeholder="cm" required>
+                              <input type="number" name="tb" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="2" class="form-control" placeholder="cm" required>
                           </div>
                           <div class="col">
                               <div class="form-group">
                                   <label>Jenis Kelamin</label>
-                                  <select id="kelamin" name="kelamin" class="form-control selectric" style="width: 100%">
+                                  <select name="kelamin" class="form-control selectric" style="width: 100%">
                                     <option hidden>Pilih</option>
                                     <option value="laki-laki">Laki-laki</option>
                                     <option value="perempuan">Perempuan</option>
@@ -121,7 +121,7 @@
                       </div>
                       <div class="form-group">
                           <label>Nama Dokter : </label>
-                          <select class="form-control selectric" id="dr" name="dr" style="width: 100%" required>
+                          <select class="form-control selectric" name="dr" style="width: 100%" required>
                               <option selected="selected" value="" hidden>Pilih</option>
                               <option value="1">dr. Gede Sri Dhyana, Sp.OG</option>
                               <option value="2">dr. H. Ahmad Sutamat, Sp.OG</option>
@@ -163,41 +163,41 @@
                       <div class="col">
                           <label>No Surat : </label>
                           <input type="number" value="{{ $item->no_surat }}" class="form-control" disabled>
-                          <input type="number" id="no_surat" name="no_surat" value="{{ $item->no_surat }}" hidden>
+                          <input type="number" name="no_surat" value="{{ $item->no_surat }}" hidden>
                       </div>
                       <div class="col">
                           <label>Waktu :</label>
-                          <input type="datetime-local" name="tgl" id="tgl" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($item->tgl)); ?>" class="form-control" placeholder="">
+                          <input type="datetime-local" name="tgl" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($item->tgl)); ?>" class="form-control" placeholder="">
                       </div>
                   </div>
                   <hr>
                   <div class="row">
                       <div class="col">
                           <label>Nama Ibu : </label>
-                          <input type="text" name="ibu" id="ibu" value="{{ $item->ibu }}" class="form-control" placeholder="" required>
+                          <input type="text" name="ibu" value="{{ $item->ibu }}" class="form-control" placeholder="" required>
                       </div>
                       <div class="col">
                           <label>Nama Ayah : </label>
-                          <input type="text" name="ayah" id="ayah" value="{{ $item->ayah }}" class="form-control" placeholder="" required>
+                          <input type="text" name="ayah" value="{{ $item->ayah }}" class="form-control" placeholder="" required>
                       </div>
                   </div>
                   <br>
                   <label>Nama Anak : </label>
-                  <input type="text" name="anak" id="anak" value="{{ $item->anak }}" class="form-control" placeholder="">
+                  <input type="text" name="anak" value="{{ $item->anak }}" class="form-control" placeholder="">
                   <br>
                   <div class="row">
                       <div class="col">
                           <label>Berat Badan : </label>
-                          <input type="number" name="bb" id="bb" value="{{ $item->bb }}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="4" class="form-control" placeholder="gram" required>
+                          <input type="number" name="bb" value="{{ $item->bb }}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="4" class="form-control" placeholder="gram" required>
                       </div>
                       <div class="col">
                           <label>Tinggi Badan : </label>
-                          <input type="number" name="tb" id="tb" value="{{ $item->tb }}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="2" class="form-control" placeholder="cm" required>
+                          <input type="number" name="tb" value="{{ $item->tb }}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="2" class="form-control" placeholder="cm" required>
                       </div>
                       <div class="col">
                           <div class="form-group">
                               <label>Jenis Kelamin</label>
-                              <select id="kelamin" name="kelamin" class="form-control selectric" style="width: 100%">
+                              <select name="kelamin" class="form-control selectric" style="width: 100%">
                                 <option hidden>Pilih</option>
                                 <option value="laki-laki" @if ($item->kelamin == 'laki-laki') echo selected @endif>Laki-laki</option>
                                 <option value="perempuan" @if ($item->kelamin == 'perempuan') echo selected @endif>Perempuan</option>
@@ -207,7 +207,7 @@
                   </div>
                   <div class="form-group">
                       <label>Nama Dokter : </label>
-                      <select class="form-control selectric" id="dr" name="dr" style="width: 100%" required>
+                      <select class="form-control selectric" name="dr" style="width: 100%" required>
                           <option selected="selected" value="" hidden>Pilih</option>
                           <option value="1" @if ($item->dr == '1') echo selected @endif>dr. Gede Sri Dhyana, Sp.OG</option>
                           <option value="2" @if ($item->dr == '2') echo selected @endif>dr. H. Ahmad Sutamat, Sp.OG</option>
@@ -215,7 +215,7 @@
                       </select>
                   </div>
                   <label>Alamat :</label>
-                  <textarea class="form-control" name="alamat" id="alamat"><?php echo htmlspecialchars($item->alamat); ?></textarea>
+                  <textarea class="form-control" name="alamat"><?php echo htmlspecialchars($item->alamat); ?></textarea>
               </div>
 
       </div>
