@@ -119,25 +119,21 @@
                         </div>
                         <div class="col-md-8">
                             <label>Dokter Pengirim :</label>
-                            <div class="input-group mb-3">
-                                <select class="custom-select" name="dr_pengirim" id="dr_pengirim" required>
-                                    <option value="" hidden>Pilih</option>
-                                        @foreach($list['dokter'] as $key => $item)
-                                            <option value="{{ $item->id }}"><label><b>{{ $item->jabatan }}</b></label> - {{ $item->nama }}</option>
-                                        @endforeach
-                                    </optgroup>
-                                </select>
-                            </div>
+                            <select class="form-control select2" name="dr_pengirim" id="dr_pengirim" style="width: 100%" required>
+                                <option value="" hidden>Pilih</option>
+                                    @foreach($list['dokter'] as $key => $item)
+                                        <option value="{{ $item->id }}"><label><b>{{ $item->jabatan }}</b></label> - {{ $item->nama }}</option>
+                                    @endforeach
+                                </optgroup>
+                            </select>
                         </div>
                         <div class="col-md-4">
                             <label>Hasil :</label>
-                            <div class="input-group mb-3">
-                                <select class="custom-select" name="hasil" id="hasil" required>
-                                    <option value="" hidden>Pilih</option>
-                                    <option value="POSITIF">POSITIF</option>
-                                    <option value="NEGATIF">NEGATIF</option>
-                                </select>
-                            </div>
+                            <select class="form-control selectric" name="hasil" id="hasil" style="width: 100%" required>
+                                <option value="" hidden>Pilih</option>
+                                <option value="POSITIF">POSITIF</option>
+                                <option value="NEGATIF">NEGATIF</option>
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label>Nama :</label>
@@ -206,24 +202,20 @@
                         </div>
                         <div class="col-md-8">
                             <label>Dokter Pengirim :</label>
-                            <div class="input-group mb-3">
-                                <select class="custom-select" name="dr_pengirim">
-                                    <option value="" hidden>Pilih</option>
-                                    @foreach($list['dokter'] as $key)
-                                        <option value="{{ $key->id }}" @if ($item->dr_pengirim == $key->id) echo selected @endif><label>{{ $key->jabatan }}</label> - {{ $key->nama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                            <select class="form-control select2" style="width: 100%" name="dr_pengirim" required>
+                                <option value="" hidden>Pilih</option>
+                                @foreach($list['dokter'] as $key)
+                                    <option value="{{ $key->id }}" @if ($item->dr_pengirim == $key->id) echo selected @endif><label>{{ $key->jabatan }}</label> - {{ $key->nama }}</option>
+                                @endforeach
+                            </select>
                         </div>
                         <div class="col-md-4">
                             <label>Hasil :</label>
-                            <div class="input-group mb-3">
-                                <select class="custom-select" name="hasil" required>
-                                    <option value="" hidden>Pilih</option>
-                                    <option value="POSITIF" @if ($item->hasil == 'POSITIF') echo selected @endif>POSITIF</option>
-                                    <option value="NEGATIF" @if ($item->hasil == 'NEGATIF') echo selected @endif>NEGATIF</option>
-                                </select>
-                            </div>
+                            <select class="form-control selectric" name="hasil" style="width: 100%" required>
+                                <option value="" hidden>Pilih</option>
+                                <option value="POSITIF" @if ($item->hasil == 'POSITIF') echo selected @endif>POSITIF</option>
+                                <option value="NEGATIF" @if ($item->hasil == 'NEGATIF') echo selected @endif>NEGATIF</option>
+                            </select>
                         </div>
                         <div class="col-md-6">
                             <label>Nama :</label>
