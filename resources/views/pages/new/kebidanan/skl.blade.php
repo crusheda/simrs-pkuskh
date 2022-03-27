@@ -187,18 +187,9 @@
                   <br>
                   <div class="row">
                       <div class="col">
-                          <label>Berat Badan : </label>
-                          <input type="number" name="bb" value="{{ $item->bb }}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="4" class="form-control" placeholder="gram" required>
-                      </div>
-                      <div class="col">
-                          <label>Tinggi Badan : </label>
-                          <input type="number" name="tb" value="{{ $item->tb }}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="2" class="form-control" placeholder="cm" required>
-                      </div>
-                      <div class="col">
                           <div class="form-group">
                               <label>Jenis Kelamin</label>
-                              <select name="kelamin" class="form-control selectric" style="width: 100%">
-                                <option hidden>Pilih</option>
+                              <select name="kelamin" class="form-control select2" style="width: 100%">
                                 <option value="laki-laki" @if ($item->kelamin == 'laki-laki') echo selected @endif>Laki-laki</option>
                                 <option value="perempuan" @if ($item->kelamin == 'perempuan') echo selected @endif>Perempuan</option>
                               </select>
@@ -207,8 +198,7 @@
                   </div>
                   <div class="form-group">
                       <label>Nama Dokter : </label>
-                      <select class="form-control selectric" name="dr" style="width: 100%" required>
-                          <option selected="selected" value="" hidden>Pilih</option>
+                      <select class="form-control select2" name="dr" style="width: 100%" required>
                           <option value="1" @if ($item->dr == '1') echo selected @endif>dr. Gede Sri Dhyana, Sp.OG</option>
                           <option value="2" @if ($item->dr == '2') echo selected @endif>dr. H. Ahmad Sutamat, Sp.OG</option>
                           <option value="3" @if ($item->dr == '3') echo selected @endif>dr. Febrian Andhika Adiyana, Sp.OG</option>
