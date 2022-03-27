@@ -106,57 +106,75 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-3">
-                            <label>RM :</label>
-                            <input type="number" name="rm" id="rm" max="99999999" class="form-control" placeholder="" required><br>
+                            <div class="form-group">
+                                <label>RM :</label>
+                                <input type="number" name="rm" id="rm" max="99999999" class="form-control" placeholder="" required>
+                            </div>
                         </div>
                         <div class="col-md-5">
-                            <label>Pemeriksa :</label>
-                            <input type="text" name="pemeriksa" id="pemeriksa" class="form-control" placeholder="Optional"><br>
+                            <div class="form-group">
+                                <label>Pemeriksa :</label>
+                                <input type="text" name="pemeriksa" id="pemeriksa" class="form-control" placeholder="Optional">
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <label>Tgl :</label>
-                            <input type="datetime-local" name="tgl" class="form-control" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($list['now'])); ?>" required><br>
+                            <div class="form-group">
+                                <label>Tgl :</label>
+                                <input type="datetime-local" name="tgl" class="form-control" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($list['now'])); ?>" required>
+                            </div>
                         </div>
                         <div class="col-md-8">
-                            <label>Dokter Pengirim :</label>
-                            <select class="form-control select2" name="dr_pengirim" id="dr_pengirim" style="width: 100%" required>
-                                <option value="" hidden>Pilih</option>
-                                    @foreach($list['dokter'] as $key => $item)
-                                        <option value="{{ $item->id }}"><label><b>{{ $item->jabatan }}</b></label> - {{ $item->nama }}</option>
-                                    @endforeach
-                                </optgroup>
-                            </select>
+                            <div class="form-group">
+                                <label>Dokter Pengirim :</label>
+                                <select class="form-control select2" name="dr_pengirim" id="dr_pengirim" style="width: 100%" required>
+                                    <option value="" hidden>Pilih</option>
+                                        @foreach($list['dokter'] as $key => $item)
+                                            <option value="{{ $item->id }}"><label><b>{{ $item->jabatan }}</b></label> - {{ $item->nama }}</option>
+                                        @endforeach
+                                    </optgroup>
+                                </select>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <label>Hasil :</label>
-                            <select class="form-control selectric" name="hasil" id="hasil" style="width: 100%" required>
-                                <option value="" hidden>Pilih</option>
-                                <option value="POSITIF">POSITIF</option>
-                                <option value="NEGATIF">NEGATIF</option>
-                            </select>
+                            <div class="form-group">
+                                <label>Hasil :</label>
+                                <select class="form-control selectric" name="hasil" id="hasil" style="width: 100%" required>
+                                    <option value="" hidden>Pilih</option>
+                                    <option value="POSITIF">POSITIF</option>
+                                    <option value="NEGATIF">NEGATIF</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="col-md-6">
-                            <label>Nama :</label>
-                            <input type="text" name="nama" id="nama1" class="form-control" placeholder="" hidden>
-                            <input type="text" id="nama2" class="form-control" disabled><br>
+                            <div class="form-group">
+                                <label>Nama :</label>
+                                <input type="text" name="nama" id="nama1" class="form-control" placeholder="" hidden>
+                                <input type="text" id="nama2" class="form-control" disabled>
+                            </div>
                         </div>
                         <div class="col-md-3">
-                            <label>Jenis Kelamin :</label>
-                            <input type="text" name="jns_kelamin" id="jns_kelamin1" class="form-control" hidden>
-                            <input type="text" id="jns_kelamin2" class="form-control" disabled><br>
+                            <div class="form-group">
+                                <label>Jenis Kelamin :</label>
+                                <input type="text" name="jns_kelamin" id="jns_kelamin1" class="form-control" hidden>
+                                <input type="text" id="jns_kelamin2" class="form-control" disabled>
+                            </div>
                         </div>
                         <div class="col-md-3">
-                            <label>Umur :</label>
-                            <input type="text" name="umur" id="umur1" class="form-control" hidden>
-                            <input type="text" id="umur2" class="form-control" disabled><br>
+                            <div class="form-group">
+                                <label>Umur :</label>
+                                <input type="text" name="umur" id="umur1" class="form-control" hidden>
+                                <input type="text" id="umur2" class="form-control" disabled>
+                            </div>
                         </div>
                         <div class="col-md-12">
-                            <label>Alamat :</label>
-                            <input type="text" name="des" id="des" class="form-control" hidden>
-                            <input type="text" name="kec" id="kec" class="form-control" hidden>
-                            <input type="text" name="kab" id="kab" class="form-control" hidden>
-                            <textarea class="form-control" name="alamat" id="alamat1" placeholder="" maxlength="190" rows="8" hidden></textarea>
-                            <textarea class="form-control" style="min-height: 100px" id="alamat2" placeholder="" maxlength="190" rows="5" disabled></textarea>
+                            <div class="form-group">
+                                <label>Alamat :</label>
+                                <input type="text" name="des" id="des" class="form-control" hidden>
+                                <input type="text" name="kec" id="kec" class="form-control" hidden>
+                                <input type="text" name="kab" id="kab" class="form-control" hidden>
+                                <textarea class="form-control" name="alamat" id="alamat1" placeholder="" maxlength="190" rows="8" hidden></textarea>
+                                <textarea class="form-control" style="min-height: 100px" id="alamat2" placeholder="" maxlength="190" rows="5" disabled></textarea>
+                            </div>
                         </div>
                     </div><br>
                     <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan <kbd>Nomor RM</kbd> sesuai dengan Database Pilar.</a>
@@ -188,54 +206,72 @@
                     @csrf
                     <div class="row">
                         <div class="col-md-3">
-                            <label>RM :</label>
-                            <input type="number" name="rm" max="999999" value="{{ $item->rm }}" class="form-control" hidden><br>
-                            <input type="number" value="{{ $item->rm }}" class="form-control" disabled><br>
+                            <div class="form-group">
+                                <label>RM :</label>
+                                <input type="number" name="rm" max="999999" value="{{ $item->rm }}" class="form-control" hidden>
+                                <input type="number" value="{{ $item->rm }}" class="form-control" disabled>
+                            </div>
                         </div>
                         <div class="col-md-5">
-                            <label>Pemeriksa :</label>
-                            <input type="text" name="pemeriksa" value="{{ $item->pemeriksa }}" class="form-control" placeholder="Optional"><br>
+                            <div class="form-group">
+                                <label>Pemeriksa :</label>
+                                <input type="text" name="pemeriksa" value="{{ $item->pemeriksa }}" class="form-control" placeholder="Optional">
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <label>Tgl :</label>
-                            <input type="datetime-local" name="tgl" class="form-control" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($item->tgl)); ?>"><br>
+                            <div class="form-group">
+                                <label>Tgl :</label>
+                                <input type="datetime-local" name="tgl" class="form-control" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($item->tgl)); ?>">
+                            </div>
                         </div>
                         <div class="col-md-8">
-                            <label>Dokter Pengirim :</label>
-                            <select class="form-control select2" style="width: 100%" name="dr_pengirim" required>
-                                <option value="" hidden>Pilih</option>
-                                @foreach($list['dokter'] as $key)
-                                    <option value="{{ $key->id }}" @if ($item->dr_pengirim == $key->id) echo selected @endif><label>{{ $key->jabatan }}</label> - {{ $key->nama }}</option>
-                                @endforeach
-                            </select>
+                            <div class="form-group">
+                                <label>Dokter Pengirim :</label>
+                                <select class="form-control select2" style="width: 100%" name="dr_pengirim" required>
+                                    <option value="" hidden>Pilih</option>
+                                    @foreach($list['dokter'] as $key)
+                                        <option value="{{ $key->id }}" @if ($item->dr_pengirim == $key->id) echo selected @endif><label>{{ $key->jabatan }}</label> - {{ $key->nama }}</option>
+                                    @endforeach
+                                </select>
+                            </div>
                         </div>
                         <div class="col-md-4">
-                            <label>Hasil :</label>
-                            <select class="form-control selectric" name="hasil" style="width: 100%" required>
-                                <option value="" hidden>Pilih</option>
-                                <option value="POSITIF" @if ($item->hasil == 'POSITIF') echo selected @endif>POSITIF</option>
-                                <option value="NEGATIF" @if ($item->hasil == 'NEGATIF') echo selected @endif>NEGATIF</option>
-                            </select>
+                            <div class="form-group">
+                                <label>Hasil :</label>
+                                <select class="form-control selectric" name="hasil" style="width: 100%" required>
+                                    <option value="" hidden>Pilih</option>
+                                    <option value="POSITIF" @if ($item->hasil == 'POSITIF') echo selected @endif>POSITIF</option>
+                                    <option value="NEGATIF" @if ($item->hasil == 'NEGATIF') echo selected @endif>NEGATIF</option>
+                                </select>
+                            </div>
                         </div>
                         <div class="col-md-6">
-                            <label>Nama :</label>
-                            <input type="text" name="nama" value="{{ $item->nama }}" class="form-control" placeholder="" hidden required>
-                            <input type="text" value="{{ $item->nama }}" class="form-control" disabled><br>
+                            <div class="form-group">
+                                <label>Nama :</label>
+                                <input type="text" name="nama" value="{{ $item->nama }}" class="form-control" placeholder="" hidden required>
+                                <input type="text" value="{{ $item->nama }}" class="form-control" disabled>
+                            </div>
                         </div>
                         <div class="col-md-3">
-                            <label>Jenis Kelamin :</label>
-                            <input type="text" name="jns_kelamin" value="{{ $item->jns_kelamin }}" class="form-control" hidden>
-                            <input type="text" value="{{ $item->jns_kelamin }}" class="form-control" disabled><br>
+                            <div class="form-group">
+                                <label>Jenis Kelamin :</label>
+                                <input type="text" name="jns_kelamin" value="{{ $item->jns_kelamin }}" class="form-control" hidden>
+                                <input type="text" value="{{ $item->jns_kelamin }}" class="form-control" disabled>
+                            </div>
                         </div>
                         <div class="col-md-3">
-                            <label>Umur :</label>
-                            <input type="text" name="umur" value="{{ $item->umur }}" class="form-control" hidden>
-                            <input type="text" value="{{ $item->umur }}" class="form-control" disabled><br>
+                            <div class="form-group">
+                                <label>Umur :</label>
+                                <input type="text" name="umur" value="{{ $item->umur }}" class="form-control" hidden>
+                                <input type="text" value="{{ $item->umur }}" class="form-control" disabled>
+                            </div>
                         </div>
                         <div class="col-md-12">
-                            <label>Alamat :</label>
-                            <textarea class="form-control" style="min-height: 100px" name="alamat3" placeholder="" maxlength="190" rows="5" hidden><?php echo htmlspecialchars($item->alamat); ?></textarea>
-                            <textarea class="form-control" disabled><?php echo htmlspecialchars($item->alamat); ?></textarea>
+                            <div class="form-group">
+                                <label>Alamat :</label>
+                                <textarea class="form-control" style="min-height: 100px" name="alamat3" placeholder="" maxlength="190" rows="5" hidden><?php echo htmlspecialchars($item->alamat); ?></textarea>
+                                <textarea class="form-control" disabled><?php echo htmlspecialchars($item->alamat); ?></textarea>
+                            </div>
                         </div>
                     </div><br>
                     <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Jika terdapat kesalahan pada penulisan <kbd>Nomor RM</kbd> , silakan Hapus data dan Input ulang kembali</a>

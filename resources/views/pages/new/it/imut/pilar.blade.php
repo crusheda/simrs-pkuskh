@@ -19,14 +19,14 @@
                     <br>
                     <center>
                     <div class="btn-group">
-                        <button class="btn btn-primary text-white pull-right" id="submit"><i class="fa-fw fas fa-check nav-icon"></i> Submit</button>
+                        <button type="submit" class="btn btn-primary text-white" id="submit"><i class="fa-fw fas fa-check nav-icon"></i> Submit</button>
                 </form>
                         {{-- <button class="btn btn-dark text-white pull-left" onclick="window.location.href='{{ route('it.rev.index') }}'"><i class="fa-fw fas fa-code-branch nav-icon"></i> Revisi</button> --}}
-                        <button class="btn btn-secondary text-white pull-left disabled"><i class="fa-fw fas fa-code-branch nav-icon"></i> Revisi</button>
+                        <button class="btn btn-secondary text-white disabled" disabled><i class="fa-fw fas fa-code-branch nav-icon"></i> Revisi</button>
                     </div></center>
             </div>
             <div class="card-footer">
-                <a class="pull-left"><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan hanya berjumlah 50 data terbaru saja<br>
+                <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan hanya berjumlah 50 data terbaru saja<br>
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Klik tombol <u><a href="#" onclick="window.location.href='{{ url('it/imut/pilar/all') }}'"><b>LIHAT</b></a></u> untuk melihat Rekapitulasi Data keseluruhan</a>
             </div>
         </div>
