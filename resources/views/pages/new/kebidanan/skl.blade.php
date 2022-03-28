@@ -5,16 +5,25 @@
   <div class="col-12">
     <div class="card">
       <div class="card-header">
-          <h4>Tabel Antigen Keseluruhan</h4>
+          <h4>Tabel</h4>
       </div>
       <div class="card-body">
-        <button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahbayi">
+        <div class="btn-group">
+          <button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahbayi" data-toggle="tooltip" data-placement="bottom" title="Tambah Identitas Bayi">
             <i class="fa-fw fas fa-plus-square nav-icon">
-
+              
             </i>
             Tambah Identitas Bayi
-        </button><br>
-        <sub>Disarankan untuk menggunakan Browser <b>Google Chrome</b>.</sub><hr>
+          </button>
+          <button type="button" class="btn btn-secondary disabled" data-toggle="tooltip" data-placement="bottom" title="Lihat Semua Data" disabled>
+              <i class="fa-fw fas fa-history nav-icon">
+  
+              </i>
+              Lihat Semua Data
+          </button>
+        </div>
+        <br>
+        <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Disarankan untuk menggunakan Browser <b>Google Chrome</b><br><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan pada tabel dibawah hanya berjumlah 30 data saja</sub><hr>
         <div class="table-responsive">
           <table id="table" class="table table-striped">
             <thead>
