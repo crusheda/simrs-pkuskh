@@ -187,6 +187,14 @@
                   <br>
                   <div class="row">
                       <div class="col">
+                          <label>Berat Badan : </label>
+                          <input type="number" name="bb" id="bb" value="{{ $item->bb }}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="4" class="form-control" placeholder="gram" required>
+                      </div>
+                      <div class="col">
+                          <label>Tinggi Badan : </label>
+                          <input type="number" name="tb" id="tb" value="{{ $item->tb }}" oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);" maxlength="2" class="form-control" placeholder="cm" required>
+                      </div>
+                      <div class="col">
                           <div class="form-group">
                               <label>Jenis Kelamin</label>
                               <select name="kelamin" class="form-control select2" style="width: 100%">
@@ -222,7 +230,7 @@
 @endforeach
 
 @foreach($list['show'] as $item)
-<div class="modal" id="hapusskl{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+<div class="modal fade" id="hapusskl{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
   <div class="modal-dialog">
     <div class="modal-content">
       <div class="modal-header">
