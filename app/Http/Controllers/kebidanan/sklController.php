@@ -20,7 +20,7 @@ class sklController extends Controller
      */
     public function index()
     {
-        $show = skl::limit(50)->get();
+        $show = skl::limit(50)->orderBy('no_surat', 'DESC')->get();
         
         $query = skl::orderBy('no_surat', 'DESC')->first();
         if ($query != null) {
