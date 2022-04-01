@@ -31,6 +31,14 @@ class antigenController extends Controller
         // $tgl = Carbon::parse($data->tgl)->isoFormat('%Y-%m-%dT%H:%M:%S');
         // $now = Carbon::now()->isoFormat('%Y-%m-%dT%H:%M:%S');
         // $now = Carbon::createFromFormat('Y-m-d', $tgl);
+        $show = DB::table('antigen')
+            ->join('dokter', 'dokter.id', '=', 'antigen.dr_pengirim')
+            ->where('antigen.deleted_at',null)
+            ->select('dokter.id as dr_id','dokter.nama as dr_nama','dokter.jabatan as dr_jabatan','antigen.*')
+            ->orderBy('tgl','DESC')
+            ->limit('50')
+            ->get();
+        $dokter = dokter::get();
         
         $query_string1 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl AND hasil = 'POSITIF' AND deleted_at IS NULL GROUP BY hasil";
         $getpos = DB::select($query_string1);
@@ -44,19 +52,10 @@ class antigenController extends Controller
         $query_string4 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND deleted_at IS NULL";
         $getmont = DB::select($query_string4);
 
-        $dokter = dokter::get();
-        $show = DB::table('antigen')
-                ->join('dokter', 'dokter.id', '=', 'antigen.dr_pengirim')
-                ->where('antigen.deleted_at',null)
-                ->select('dokter.id as dr_id','dokter.nama as dr_nama','dokter.jabatan as dr_jabatan','antigen.*')
-                ->orderBy('tgl','DESC')
-                ->limit('30')
-                ->get();
-
         $data = [
+            'now' => $now,
             'show' => $show,
             'dokter' => $dokter,
-            'now' => $now,
             'getpos' => $getpos,
             'getneg' => $getneg,
             'gettoday' => $gettoday,
@@ -337,6 +336,25 @@ class antigenController extends Controller
 
         // print_r($data);
         // die();
+
+        return response()->json($data, 200);
+    }
+
+    public function apiGet()
+    {
+        $dokter = dokter::get();
+        $show = DB::table('antigen')
+                ->join('dokter', 'dokter.id', '=', 'antigen.dr_pengirim')
+                ->where('antigen.deleted_at',null)
+                ->select('dokter.id as dr_id','dokter.nama as dr_nama','dokter.jabatan as dr_jabatan','antigen.*')
+                ->orderBy('tgl','DESC')
+                ->limit('50')
+                ->get();
+
+        $data = [
+            'show' => $show,
+            'dokter' => $dokter,
+        ];
 
         return response()->json($data, 200);
     }

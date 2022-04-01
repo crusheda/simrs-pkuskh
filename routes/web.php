@@ -151,6 +151,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'lab', 'as' => 'lab.'], func
     // Route::get('/karyawan/cetak/{id}', 'kantor\kepegawaianController@generatePDF')->name('karyawan.cetak');
     Route::get('antigen/all/api','lab\antigenController@apiShowAll')->name('antigen.apiall');  
     Route::get('antigen/all','lab\antigenController@showAll')->name('antigen.all');  
+    Route::get('antigen/api/get','lab\antigenController@apiGet')->name('antigen.apiget');  
     Route::resource('/antigen', 'lab\antigenController');
     Route::get('antigen/{id}/cetak','lab\antigenController@cetak')->name('antigen.cetak');  
     Route::get('antigen/{id}/print','lab\antigenController@print')->name('antigen.print');  

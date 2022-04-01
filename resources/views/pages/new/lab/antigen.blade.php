@@ -19,9 +19,10 @@
             </i>
             Tambah Hasil
             </button>
+            <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i></button>
             <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#show" data-toggle="tooltip" data-placement="bottom" title="DATA PASIEN HARI INI"><i class="fa-fw fas fa-info nav-icon text-white"></i> Informasi</button><br>
         </div><br>
-        <sub>Data yang ditampilkan hanya berjumlah 30 data terbaru saja, Klik <a href="#" onclick="window.location.href='{{ url('lab/antigen/all') }}'"><strong><u>Disini</u></strong></a> untuk melihat data seluruhnya.</sub>
+        <sub>Data yang ditampilkan hanya berjumlah 50 data terbaru saja, Klik <a href="#" onclick="window.location.href='{{ url('lab/antigen/all') }}'"><strong><u>Disini</u></strong></a> untuk melihat data seluruhnya.</sub>
         <hr>
         <div class="table-responsive">
           <table class="table table-striped" id="tableku">
@@ -37,41 +38,7 @@
                 <th><center>AKSI</center></th>
               </tr>
             </thead>
-            <tbody>
-              @if(count($list) > 0)
-                  @foreach($list['show'] as $key => $item)
-                  <tr>
-                      <td>
-                          @php
-                              echo \App\Models\dokter::where('id', $item->dr_pengirim)->pluck('nama')->first();
-                          @endphp
-                      </td>
-                      <td><b><kbd>{{ $item->rm }}</kbd></b></td>
-                      <td>{{ $item->nama }}</td>
-                      <td>{{ $item->jns_kelamin }} / {{ $item->umur }}</td>
-                      <td>{{ $item->alamat }}</td>
-                      <td>{{ $item->tgl }}</td>
-                      <td>
-                          @if ($item->hasil == "POSITIF")
-                              <kbd style="background-color: red">{{ $item->hasil }}</kbd>
-                          @else
-                              <kbd style="background-color: royalblue">{{ $item->hasil }}</kbd>
-                          @endif
-                      </td>
-                      <td>
-                          <center>
-                              <div class="btn-group" role="group">
-                                  <button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('antigen/{{ $item->id }}/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>
-                                  <a type="button" class="btn btn-success btn-sm" href="{{ route('lab.antigen.cetak', $item->id) }}" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></a>
-                                  <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                  <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                              </div>
-                          </center>
-                      </td>
-                  </tr>
-                  @endforeach
-              @endif
-            </tbody>
+            <tbody id="tampil-tbody"><tr><td colspan="8"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
             <tfoot>
                 <tr>
                     <th>DOKTER PENGIRIM</th>
@@ -351,39 +318,108 @@
     </div>
 @endcan
 
+{{-- <center>
+    <div class="btn-group" role="group">
+        <button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('antigen/{{ $item->id }}/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>
+        <a type="button" class="btn btn-success btn-sm" href="{{ route('lab.antigen.cetak', $item->id) }}" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></a>
+        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
+        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+    </div>
+</center> --}}
+
 <script>
   $(document).ready( function () {
-    $("#tableku").dataTable({
-      dom: 'Bfrtip',
-      buttons: [
-        // 'copyHtml5',
-        // 'excelHtml5',
-        // 'csvHtml5',
+    $.ajax(
         {
-          extend: 'copyHtml5',
-          className: 'btn-info',
-          text: 'Salin Baris',
-          download: 'open',
-        },
-        {
-          extend: 'excelHtml5',
-          className: 'btn-success',
-          text: 'Export Excell',
-          download: 'open',
-        },
-        {
-          extend: 'pdfHtml5',
-          className: 'btn-warning',
-          text: 'Cetak PDF',
-          download: 'open',
-        },
-      ],
-      order: [[ 5, "desc" ]],
-      pageLength: 10
-      // "columnDefs": [
-      //   { "sortable": false, "targets": [0,2,3] }
-      // ],
-    });
+            url: "./antigen/api/get",
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function(res) {
+                $("#tampil-tbody").empty();
+                // var date = new Date().toISOString().split('T')[0];
+                if(res.show.length == 0){
+                    $("#tampil-tbody").append(`<tr><td colspan="8"><center><i class="fas fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
+                } else {
+                    res.show.forEach(item => {
+                        // var updet = item.updated_at.substring(0, 10);
+                        content = "<tr id='data"+ item.id +"'><td>" 
+                                    + item.dr_nama + "</td><td>" 
+                                    + item.rm + "</td><td>" 
+                                    + item.nama + "</td><td>"
+                                    + item.jns_kelamin + " / " + item.umur + "</td><td>"
+                                    + item.alamat + "</td><td>"
+                                    + item.tgl + "</td><td>";
+                                    if (item.hasil == "POSITIF")
+                                        content += "<kbd style='background-color: red'>" + item.hasil + "</kbd>";
+                                    else
+                                        content += "<kbd style='background-color: royalblue'>"+item.hasil+"</kbd>";
+
+                        content += "<td><center><div class='btn-group' role='group'>";
+                            content += `<button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('antigen/`+item.id+`/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>`;
+                            content += `<button type="button" class="btn btn-success btn-sm" onclick="window.open('antigen/`+item.id+`/cetak')" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></button>`;
+                            content += `<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah`+item.id+`" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>`;
+                            content += `<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus`+item.id+`" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                        content += "</div></center></td></tr>";
+                        $('#tampil-tbody').append(content);
+                    });
+                }
+                $('#tableku').DataTable(
+                    {
+                        paging: true,
+                        searching: true,
+                        dom: 'Bfrtip',
+                        buttons: [
+                            {
+                                extend: 'copyHtml5',
+                                className: 'btn-info',
+                                text: 'Salin Baris',
+                                download: 'open',
+                            },
+                            {
+                                extend: 'excelHtml5',
+                                className: 'btn-success',
+                                text: 'Export Excell',
+                                download: 'open',
+                            },
+                            {
+                                extend: 'pdfHtml5',
+                                className: 'btn-warning',
+                                text: 'Cetak PDF',
+                                download: 'open',
+                            },
+                        ],
+                        order: [[ 5, "desc" ]],
+                        pageLength: 10
+                    }
+                ).columns.adjust();
+            }
+        }
+    );
+    // $("#tableku").dataTable({
+    //   dom: 'Bfrtip',
+    //   buttons: [
+    //     {
+    //       extend: 'copyHtml5',
+    //       className: 'btn-info',
+    //       text: 'Salin Baris',
+    //       download: 'open',
+    //     },
+    //     {
+    //       extend: 'excelHtml5',
+    //       className: 'btn-success',
+    //       text: 'Export Excell',
+    //       download: 'open',
+    //     },
+    //     {
+    //       extend: 'pdfHtml5',
+    //       className: 'btn-warning',
+    //       text: 'Cetak PDF',
+    //       download: 'open',
+    //     },
+    //   ],
+    //   order: [[ 5, "desc" ]],
+    //   pageLength: 10
+    // });
     
     // VALIDASI INPUT NUMBER
     $('input[type=number][max]:not([max=""])').on('input', function(ev) {
@@ -466,5 +502,73 @@
         }
     });
   })
+
+function refresh() {
+  $("#tampil-tbody").empty().append(`<tr><td colspan="8"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
+  $.ajax(
+    {
+      url: "./antigen/api/get",
+      type: 'GET',
+      dataType: 'json', // added data type
+      success: function(res) {
+        $("#tampil-tbody").empty();
+        $('#tableku').DataTable().clear().destroy();
+        if(res.show.length == 0){
+            $("#tampil-tbody").append(`<tr><td colspan="8"><center><i class="fa fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
+        } else {
+            res.show.forEach(item => {
+                // var updet = item.updated_at.substring(0, 10);
+                content = "<tr id='data"+ item.id +"'><td>" 
+                            + item.dr_nama + "</td><td>" 
+                            + item.rm + "</td><td>" 
+                            + item.nama + "</td><td>"
+                            + item.jns_kelamin + " / " + item.umur + "</td><td>"
+                            + item.alamat + "</td><td>"
+                            + item.tgl + "</td><td>";
+                            if (item.hasil == "POSITIF")
+                                content += "<kbd style='background-color: red'>" + item.hasil + "</kbd>";
+                            else
+                                content += "<kbd style='background-color: royalblue'>"+item.hasil+"</kbd>";
+
+                content += "<td><center><div class='btn-group' role='group'>";
+                    content += `<button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('antigen/`+item.id+`/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>`;
+                    content += `<button type="button" class="btn btn-success btn-sm" onclick="window.open('antigen/`+item.id+`/cetak')" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></button>`;
+                    content += `<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah`+item.id+`" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>`;
+                    content += `<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus`+item.id+`" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                content += "</div></center></td></tr>";
+                $('#tampil-tbody').append(content);
+            });
+        }
+        $('#tableku').DataTable(
+            {
+              dom: 'Bfrtip',
+              buttons: [
+                {
+                  extend: 'copyHtml5',
+                  className: 'btn-info',
+                  text: 'Salin Baris',
+                  download: 'open',
+                },
+                {
+                  extend: 'excelHtml5',
+                  className: 'btn-success',
+                  text: 'Export Excell',
+                  download: 'open',
+                },
+                {
+                  extend: 'pdfHtml5',
+                  className: 'btn-warning',
+                  text: 'Cetak PDF',
+                  download: 'open',
+                },
+              ],
+              order: [[ 5, "desc" ]],
+              pageLength: 10
+            }
+        ).columns.adjust();
+      }
+    }
+  );
+}
 </script>
 @endsection
