@@ -29,6 +29,7 @@
   <link rel="stylesheet" href="{{ asset('assets/modules/summernote/summernote-bs4.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/codemirror/lib/codemirror.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/codemirror/theme/duotone-dark.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/modules/izitoast/css/iziToast.min.css') }}">
   
   {{-- SweetAlert2 --}}
   <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
@@ -70,7 +71,7 @@
             @if(session('message'))
                 <div class="row mb-2">
                     <div class="col-lg-12">
-                        <div class="alert alert-success" role="alert">{{ session('message') }}
+                        <div class="alert alert-primary" role="alert">{{ session('message') }}
                           <button type="button" class="close" data-dismiss="alert" aria-label="Close">
                             <span aria-hidden="true">&times;</span>
                           </button>
@@ -157,12 +158,13 @@
   <script src="{{ asset('assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script>
   <script src="{{ asset('assets/modules/jquery-ui/jquery-ui.min.js') }}"></script>
   <script src="{{ asset('assets/modules/prism/prism.js') }}"></script>
+  <script src="{{ asset('assets/modules/izitoast/js/iziToast.min.js') }}"></script>
 
   <!-- Page Specific JS File -->
-  <script src="{{ asset('assets/modules/summernote/summernote-bs4.js') }}"></script>
+  {{-- <script src="{{ asset('assets/modules/summernote/summernote-bs4.js') }}"></script>
   <script src="{{ asset('assets/modules/codemirror/lib/codemirror.js') }}"></script>
   <script src="{{ asset('assets/js/page/modules-datatables.js') }}"></script>
-  <script src="{{ asset('assets/js/page/bootstrap-modal.js') }}"></script>
+  <script src="{{ asset('assets/js/page/bootstrap-modal.js') }}"></script> --}}
 
   <!-- Template JS File -->
   <script src="{{ asset('assets/js/scripts.js') }}"></script>

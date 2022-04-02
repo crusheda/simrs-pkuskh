@@ -28,45 +28,30 @@ class antigenController extends Controller
         $tgl = Carbon::now()->isoFormat('DD');
         $bln = Carbon::now()->isoFormat('MM');
         $thn = Carbon::now()->isoFormat('YYYY');
-        // $tgl = Carbon::parse($data->tgl)->isoFormat('%Y-%m-%dT%H:%M:%S');
-        // $now = Carbon::now()->isoFormat('%Y-%m-%dT%H:%M:%S');
-        // $now = Carbon::createFromFormat('Y-m-d', $tgl);
-        $show = DB::table('antigen')
-            ->join('dokter', 'dokter.id', '=', 'antigen.dr_pengirim')
-            ->where('antigen.deleted_at',null)
-            ->select('dokter.id as dr_id','dokter.nama as dr_nama','dokter.jabatan as dr_jabatan','antigen.*')
-            ->orderBy('tgl','DESC')
-            ->limit('50')
-            ->get();
+
         $dokter = dokter::get();
         
-        $query_string1 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl AND hasil = 'POSITIF' AND deleted_at IS NULL GROUP BY hasil";
-        $getpos = DB::select($query_string1);
+        // $query_string1 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl AND hasil = 'POSITIF' AND deleted_at IS NULL GROUP BY hasil";
+        // $getpos = DB::select($query_string1);
 
-        $query_string2 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl AND hasil = 'NEGATIF' AND deleted_at IS NULL GROUP BY hasil";
-        $getneg = DB::select($query_string2);
+        // $query_string2 = "SELECT hasil,count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl AND hasil = 'NEGATIF' AND deleted_at IS NULL GROUP BY hasil";
+        // $getneg = DB::select($query_string2);
 
-        $query_string3 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl AND deleted_at IS NULL";
-        $gettoday = DB::select($query_string3);
+        // $query_string3 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND DAY(tgl) = $tgl AND deleted_at IS NULL";
+        // $gettoday = DB::select($query_string3);
 
-        $query_string4 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND deleted_at IS NULL";
-        $getmont = DB::select($query_string4);
+        // $query_string4 = "SELECT count(hasil) as jumlah FROM antigen WHERE YEAR(tgl) = $thn AND MONTH(tgl) = $bln AND deleted_at IS NULL";
+        // $getmont = DB::select($query_string4);
 
         $data = [
             'now' => $now,
-            'show' => $show,
             'dokter' => $dokter,
-            'getpos' => $getpos,
-            'getneg' => $getneg,
-            'gettoday' => $gettoday,
-            'getmont' => $getmont
+            // 'getpos' => $getpos,
+            // 'getneg' => $getneg,
+            // 'gettoday' => $gettoday,
+            // 'getmont' => $getmont
         ];
-        
-        // print_r($getmont);
-        // die();
 
-        // print_r($data['show']);
-        // die();
         return view('pages.new.lab.antigen')->with('list', $data);
     }
 
@@ -342,20 +327,61 @@ class antigenController extends Controller
 
     public function apiGet()
     {
-        $dokter = dokter::get();
         $show = DB::table('antigen')
                 ->join('dokter', 'dokter.id', '=', 'antigen.dr_pengirim')
                 ->where('antigen.deleted_at',null)
                 ->select('dokter.id as dr_id','dokter.nama as dr_nama','dokter.jabatan as dr_jabatan','antigen.*')
                 ->orderBy('tgl','DESC')
-                ->limit('50')
+                ->limit('30')
                 ->get();
 
         $data = [
+            'show' => $show,
+        ];
+
+        return response()->json($data, 200);
+    }
+    
+    public function getubah($id)
+    {
+        $show = antigen::where('id', $id)->first();
+        
+        $tgl = Carbon::parse($show->tgl)->isoFormat('YYYY-MM-DD');
+        $waktu = Carbon::parse($show->tgl)->isoFormat('HH:mm:ss');
+        
+        $dokter = dokter::get();
+
+        $data = [
+            'id' => $id,
+            'tgl' => $tgl,
+            'waktu' => $waktu,
             'show' => $show,
             'dokter' => $dokter,
         ];
 
         return response()->json($data, 200);
+    }
+    
+    public function ubah(Request $request)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        $data = antigen::find($request->id);
+        $data->pemeriksa    = $request->pemeriksa;
+        $data->tgl          = $request->tgl;
+        $data->dr_pengirim  = $request->dr_pengirim;
+        $data->hasil        = $request->hasil;
+        $data->save();
+        
+        return response()->json($tgl, 200);
+    }
+    
+    public function hapus($id)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        antigen::where('id', $id)->delete();
+
+        return response()->json($tgl, 200);
     }
 }

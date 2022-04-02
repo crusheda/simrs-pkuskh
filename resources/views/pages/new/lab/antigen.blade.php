@@ -19,10 +19,10 @@
             </i>
             Tambah Hasil
             </button>
-            <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i></button>
-            <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#show" data-toggle="tooltip" data-placement="bottom" title="DATA PASIEN HARI INI"><i class="fa-fw fas fa-info nav-icon text-white"></i> Informasi</button><br>
+            <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i> Refresh</button>
+            {{-- <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#show" data-toggle="tooltip" data-placement="bottom" title="DATA PASIEN HARI INI"><i class="fa-fw fas fa-info nav-icon text-white"></i> Informasi</button><br> --}}
         </div><br>
-        <sub>Data yang ditampilkan hanya berjumlah 50 data terbaru saja, Klik <a href="#" onclick="window.location.href='{{ url('lab/antigen/all') }}'"><strong><u>Disini</u></strong></a> untuk melihat data seluruhnya.</sub>
+        <sub>Data yang ditampilkan hanya berjumlah 30 data terbaru saja, Klik <a href="#" onclick="window.location.href='{{ url('lab/antigen/all') }}'"><strong><u>Disini</u></strong></a> untuk melihat data seluruhnya.</sub>
         <hr>
         <div class="table-responsive">
           <table class="table table-striped" id="tableku">
@@ -158,136 +158,84 @@
         </div>
     </div>
 
-    @foreach($list['show'] as $item)
-    <div class="modal fade bd-example-modal-lg" id="ubah{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal fade bd-example-modal-lg" id="ubah" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
             <h4 class="modal-title">
-                Ubah Hasil Antigen&nbsp;<span class="pull-right badge badge-info text-white">ID : {{ $item->id }}</span>
+                Ubah Hasil Antigen&nbsp;<span class="pull-right badge badge-info text-white">ID : <a id="show_id"></a></span>
             </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                {{ Form::model($item, array('route' => array('lab.antigen.update', $item->id), 'method' => 'PUT')) }}
-                    @csrf
-                    <div class="row">
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>RM :</label>
-                                <input type="number" name="rm" max="999999" value="{{ $item->rm }}" class="form-control" hidden>
-                                <input type="number" value="{{ $item->rm }}" class="form-control" disabled>
-                            </div>
+                <input type="text" id="id_edit" hidden>
+                <div class="row">
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>RM :</label>
+                            <input type="number" id="rm_edit" class="form-control" disabled>
                         </div>
-                        <div class="col-md-5">
-                            <div class="form-group">
-                                <label>Pemeriksa :</label>
-                                <input type="text" name="pemeriksa" value="{{ $item->pemeriksa }}" class="form-control" placeholder="Optional">
-                            </div>
+                    </div>
+                    <div class="col-md-5">
+                        <div class="form-group">
+                            <label>Pemeriksa :</label>
+                            <input type="text" id="pemeriksa_edit" class="form-control" placeholder="Optional">
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Tgl :</label>
-                                <input type="datetime-local" name="tgl" class="form-control" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($item->tgl)); ?>">
-                            </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Tgl :</label>
+                            <input type="datetime-local" id="tgl_edit" class="form-control">
                         </div>
-                        <div class="col-md-8">
-                            <div class="form-group">
-                                <label>Dokter Pengirim :</label>
-                                <select class="form-control select2" style="width: 100%" name="dr_pengirim" required>
-                                    <option value="" hidden>Pilih</option>
-                                    @foreach($list['dokter'] as $key)
-                                        <option value="{{ $key->id }}" @if ($item->dr_pengirim == $key->id) echo selected @endif><label>{{ $key->jabatan }}</label> - {{ $key->nama }}</option>
-                                    @endforeach
-                                </select>
-                            </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label>Dokter Pengirim :</label>
+                            <select class="form-control select2" style="width: 100%" id="dr_pengirim_edit" required></select>
                         </div>
-                        <div class="col-md-4">
-                            <div class="form-group">
-                                <label>Hasil :</label>
-                                <select class="form-control selectric" name="hasil" style="width: 100%" required>
-                                    <option value="" hidden>Pilih</option>
-                                    <option value="POSITIF" @if ($item->hasil == 'POSITIF') echo selected @endif>POSITIF</option>
-                                    <option value="NEGATIF" @if ($item->hasil == 'NEGATIF') echo selected @endif>NEGATIF</option>
-                                </select>
-                            </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Hasil :</label>
+                            <select class="form-control select" id="hasil_edit" style="width: 100%" required></select>
                         </div>
-                        <div class="col-md-6">
-                            <div class="form-group">
-                                <label>Nama :</label>
-                                <input type="text" name="nama" value="{{ $item->nama }}" class="form-control" placeholder="" hidden required>
-                                <input type="text" value="{{ $item->nama }}" class="form-control" disabled>
-                            </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Nama :</label>
+                            <input type="text" class="form-control" id="nama_edit" disabled>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Jenis Kelamin :</label>
-                                <input type="text" name="jns_kelamin" value="{{ $item->jns_kelamin }}" class="form-control" hidden>
-                                <input type="text" value="{{ $item->jns_kelamin }}" class="form-control" disabled>
-                            </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Jenis Kelamin :</label>
+                            <input type="text" class="form-control" id="jns_kelamin_edit" disabled>
                         </div>
-                        <div class="col-md-3">
-                            <div class="form-group">
-                                <label>Umur :</label>
-                                <input type="text" name="umur" value="{{ $item->umur }}" class="form-control" hidden>
-                                <input type="text" value="{{ $item->umur }}" class="form-control" disabled>
-                            </div>
+                    </div>
+                    <div class="col-md-3">
+                        <div class="form-group">
+                            <label>Umur :</label>
+                            <input type="text" class="form-control" id="umur_edit" disabled>
                         </div>
-                        <div class="col-md-12">
-                            <div class="form-group">
-                                <label>Alamat :</label>
-                                <textarea class="form-control" style="min-height: 100px" name="alamat3" placeholder="" maxlength="190" rows="5" hidden><?php echo htmlspecialchars($item->alamat); ?></textarea>
-                                <textarea class="form-control" disabled><?php echo htmlspecialchars($item->alamat); ?></textarea>
-                            </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Alamat :</label>
+                            <textarea class="form-control" id="alamat_edit" disabled></textarea>
                         </div>
-                    </div><br>
-                    <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Jika terdapat kesalahan pada penulisan <kbd>Nomor RM</kbd> , silakan Hapus data dan Input ulang kembali</a>
-                    
+                    </div>
+                </div>
+                <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Jika terdapat kesalahan pada penulisan <kbd>Nomor RM</kbd> , silakan Hapus data dan Input ulang kembali</a>
             </div>
             <div class="modal-footer">
-                
-                    <center><button class="btn btn-primary pull-right"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button></center><br>
-                </form>
-
+                <button class="btn btn-primary pull-right" id="submit_edit" onclick="ubah()"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
             </div>
         </div>
         </div>
     </div>
-    @endforeach
 
-    @foreach($list['show'] as $item)
-    <div class="modal fade bd-example-modal-lg" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
-            <div class="modal-content">
-                <div class="modal-header">
-                <h4 class="modal-title">
-                    ID : {{ $item->id }}
-                </h4>
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                </div>
-                <div class="modal-body">
-                    <p>
-                        @if(count($list) > 0)
-                            <a>Apakah anda yakin ingin menghapus Hasil Antigen Pasien a/n {{ $item->nama }} dengan Nomer RM : <kbd>{{ $item->rm }}</kbd> ?</a>
-                        @endif
-                    </p>
-                </div>
-                <div class="modal-footer">
-                    @if(count($list) > 0)
-                        <form action="{{ route('lab.antigen.destroy', $item->id) }}" method="POST">
-                            @method('DELETE')
-                            @csrf
-                            <button class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
-                        </form>
-                    @endif
-                </div>
-            </div>
-        </div>
-    </div>
-    @endforeach
-    
-    <div class="modal fade bd-example-modal-lg" id="show" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    {{-- <div class="modal fade bd-example-modal-lg" id="show" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
         <div class="modal-dialog">
             <div class="modal-content">
                 <div class="modal-header">
@@ -315,17 +263,8 @@
                 </div>
             </div>
         </div>
-    </div>
+    </div> --}}
 @endcan
-
-{{-- <center>
-    <div class="btn-group" role="group">
-        <button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('antigen/{{ $item->id }}/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>
-        <a type="button" class="btn btn-success btn-sm" href="{{ route('lab.antigen.cetak', $item->id) }}" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></a>
-        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-    </div>
-</center> --}}
 
 <script>
   $(document).ready( function () {
@@ -357,8 +296,8 @@
                         content += "<td><center><div class='btn-group' role='group'>";
                             content += `<button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('antigen/`+item.id+`/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>`;
                             content += `<button type="button" class="btn btn-success btn-sm" onclick="window.open('antigen/`+item.id+`/cetak')" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></button>`;
-                            content += `<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah`+item.id+`" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>`;
-                            content += `<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus`+item.id+`" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                            content += `<button type="button" class="btn btn-warning btn-sm" onclick="showUbah(${item.id})" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>`;
+                            content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(${item.id})" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
                         content += "</div></center></td></tr>";
                         $('#tampil-tbody').append(content);
                     });
@@ -395,31 +334,6 @@
             }
         }
     );
-    // $("#tableku").dataTable({
-    //   dom: 'Bfrtip',
-    //   buttons: [
-    //     {
-    //       extend: 'copyHtml5',
-    //       className: 'btn-info',
-    //       text: 'Salin Baris',
-    //       download: 'open',
-    //     },
-    //     {
-    //       extend: 'excelHtml5',
-    //       className: 'btn-success',
-    //       text: 'Export Excell',
-    //       download: 'open',
-    //     },
-    //     {
-    //       extend: 'pdfHtml5',
-    //       className: 'btn-warning',
-    //       text: 'Cetak PDF',
-    //       download: 'open',
-    //     },
-    //   ],
-    //   order: [[ 5, "desc" ]],
-    //   pageLength: 10
-    // });
     
     // VALIDASI INPUT NUMBER
     $('input[type=number][max]:not([max=""])').on('input', function(ev) {
@@ -533,8 +447,8 @@ function refresh() {
                 content += "<td><center><div class='btn-group' role='group'>";
                     content += `<button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('antigen/`+item.id+`/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>`;
                     content += `<button type="button" class="btn btn-success btn-sm" onclick="window.open('antigen/`+item.id+`/cetak')" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></button>`;
-                    content += `<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah`+item.id+`" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>`;
-                    content += `<button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus`+item.id+`" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                    content += `<button type="button" class="btn btn-warning btn-sm" onclick="showUbah(${item.id})" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>`;
+                    content += `<button type="button" class="btn btn-danger btn-sm onclick="hapus(${item.id})" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
                 content += "</div></center></td></tr>";
                 $('#tampil-tbody').append(content);
             });
@@ -569,6 +483,137 @@ function refresh() {
       }
     }
   );
+}
+function showUbah(id) {
+    $('#ubah').modal('show');
+    $.ajax(
+        {
+            url: "./antigen/api/getubah/"+id,
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function(res) {
+                var tgl = res.tgl + 'T' + res.waktu;
+                document.getElementById('show_id').innerHTML = res.show.id;
+                $("#id_edit").val(res.show.id);
+                $("#rm_edit").val(res.show.rm);
+                $("#pemeriksa_edit").val(res.show.pemeriksa);
+                $("#tgl_edit").val(tgl); // yyyy-MM-ddThh:mm
+                // document.getElementById('tgl_edit').value = tgl;
+                $("#nama_edit").val(res.show.nama);
+                $("#jns_kelamin_edit").val(res.show.jns_kelamin);
+                $("#umur_edit").val(res.show.umur);
+                $("#alamat_edit").val(res.show.alamat);
+                $("#dr_pengirim_edit").find('option').remove();
+                $("#hasil_edit").find('option').remove();
+                res.dokter.forEach(item => {
+                    $("#dr_pengirim_edit").append(`
+                        <option value="${item.id}" ${item.id == res.show.dr_pengirim? "selected":""}>${item.nama} (${item.jabatan})</option>
+                    `);
+                });
+                $("#hasil_edit").append(`
+                    <option value="POSITIF" ${res.show.hasil == 'POSITIF'? "selected":""}>POSITIF</option>
+                    <option value="NEGATIF" ${res.show.hasil == 'NEGATIF'? "selected":""}>NEGATIF</option>
+                `);
+            }
+        }
+    );
+}
+
+function ubah() {
+    var id          = $("#id_edit").val();
+    var pemeriksa   = $("#pemeriksa_edit").val();
+    var tgl         = $("#tgl_edit").val();
+    var dr_pengirim = $("#dr_pengirim_edit").val();
+    var hasil       = $("#hasil_edit").val();
+
+    if (pemeriksa == "" || tgl == "") {
+        Swal.fire({
+        title: 'Pesan Galat!',
+        text: 'Mohon lengkapi semua data terlebih dahulu',
+        icon: 'error',
+        showConfirmButton:false,
+        showCancelButton:false,
+        allowOutsideClick: true,
+        allowEscapeKey: true,
+        timer: 3000,
+        timerProgressBar: true,
+        backdrop: `rgba(26,27,41,0.8)`,
+        });
+    } else {
+        $.ajax({
+        headers: {
+            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        },
+        method: 'POST',
+        url: './antigen/api/ubah/'+id, 
+        dataType: 'json', 
+        data: { 
+            id: id,
+            pemeriksa: pemeriksa,
+            tgl: tgl,
+            dr_pengirim: dr_pengirim,
+            hasil: hasil,
+        }, 
+        success: function(res) {
+            iziToast.success({
+                title: 'Sukses!',
+                message: 'Ubah hasil Antigen berhasil pada '+res,
+                position: 'topRight'
+            });
+            if (res) {
+                $('#ubah').modal('hide');
+                refresh();
+            }
+        }
+        });
+    }
+}
+
+function hapus(id) {
+    Swal.fire({
+      title: 'Apakah anda yakin?',
+      text: 'Hasil Antigen ID : '+id,
+      icon: 'warning',
+      reverseButtons: false,
+      showDenyButton: false,
+      showCloseButton: false,
+      showCancelButton: true,
+      focusCancel: true,
+      confirmButtonColor: '#FF4845',
+      confirmButtonText: `<i class="fa fa-trash"></i> Hapus`,
+      cancelButtonText: `<i class="fa fa-times"></i> Batal`,
+      backdrop: `rgba(26,27,41,0.8)`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "./antigen/api/hapus/"+id,
+          type: 'GET',
+          dataType: 'json', // added data type
+          success: function(res) {
+            iziToast.success({
+                title: 'Sukses!',
+                message: 'Hapus hasil Antigen berhasil pada '+res,
+                position: 'topRight'
+            });
+            refresh();
+          },
+          error: function(res) {
+            Swal.fire({
+              title: `Gagal di hapus!`,
+              text: 'Pada '+res,
+              icon: `error`,
+              showConfirmButton:false,
+              showCancelButton:false,
+              allowOutsideClick: true,
+              allowEscapeKey: true,
+              timer: 3000,
+              timerProgressBar: true,
+              backdrop: `rgba(26,27,41,0.8)`,
+            });
+          }
+        }); 
+      }
+    })
 }
 </script>
 @endsection
