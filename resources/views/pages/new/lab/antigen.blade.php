@@ -268,7 +268,7 @@
 
 <script>
   $(document).ready( function () {
-    $("body").addClass('sidebar-mini');
+    // $("body").addClass('sidebar-mini');
     $.ajax(
         {
             url: "./antigen/api/get",

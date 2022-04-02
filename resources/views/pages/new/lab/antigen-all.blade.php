@@ -144,7 +144,6 @@
   })
   
 function refresh() {
-  $("body").addClass('sidebar-mini');
   $("#tampil-tbody").empty().append(`<tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
   $.ajax(
     {

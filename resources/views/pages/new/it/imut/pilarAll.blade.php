@@ -120,7 +120,6 @@
 
 <script>
     $(document).ready( function () {
-        $("body").addClass('sidebar-mini');
         $('#table_imut').DataTable(
             {
                 paging: true,

@@ -266,7 +266,6 @@
 
 <script>
   $(document).ready( function () {
-      $("body").addClass('sidebar-mini');
       $('#table').DataTable(
           {
               paging: true,
