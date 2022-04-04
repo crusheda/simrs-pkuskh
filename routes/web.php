@@ -74,6 +74,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
     Route::get('supervisi/all','it\log\logController@showAll')->name('logit.all');  
     // Route::get('supervisi/lampiran/{id}', 'it\log\logController@getLampiran');
     // Route::get('supervisi/lampiran/{id}/download', 'it\log\logController@unduhLampiran');
+    Route::resource('refsupervisi', 'it\log\refLogController');
     Route::resource('supervisi', 'it\log\logController');
     Route::get('/user-activity', function () {
         return view('pages.it.user-activity');
