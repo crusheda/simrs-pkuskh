@@ -60,8 +60,14 @@ class notifController extends Controller
         // print_r($icon);
         // die();
         $tgl = Carbon::parse($request->tgl);
+        
         $data = new notif;
         $data->judul = $request->judul;
+        if ($request->color == null) {
+            $data->color = "#6777ef";
+        } else {
+            $data->color = $request->color;
+        }
         $data->icon = $request->icon;
         $data->ket = $request->ket;
         $data->tgl = $tgl;

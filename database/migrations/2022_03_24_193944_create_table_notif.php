@@ -16,6 +16,7 @@ class CreateTableNotif extends Migration
         Schema::create('notif', function (Blueprint $table) {
             $table->bigIncrements('id');
             $table->date('tgl')->nullable();
+            $table->string('color')->nullable();
             $table->string('icon')->nullable();
             $table->string('judul')->nullable();
             $table->longText('ket')->nullable();

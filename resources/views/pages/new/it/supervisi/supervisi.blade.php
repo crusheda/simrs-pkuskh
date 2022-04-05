@@ -9,12 +9,21 @@
             <h4>Tabel Supervisi</h4>
         </div>
         <div class="card-body">
-            <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahlog">
-                <i class="fa-fw fas fa-plus-square nav-icon">
-
-                </i>
-                Tambah Kegiatan
-            </a><br><br>
+            <div class="btn-group">
+                <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahlog">
+                    <i class="fa-fw fas fa-plus-square nav-icon">
+    
+                    </i>
+                    Tambah Kegiatan
+                </a>
+                <a type="button" class="btn btn-dark text-white" href="{{ route("it.refsupervisi.index") }}">
+                    <i class="fa-fw fas fa-rss nav-icon">
+    
+                    </i>
+                    Indikator
+                </a>
+            </div>
+            <br><br>
             <sub>
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan hanya berjumlah 20 data terbaru saja<br>
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Klik tombol <a href="#" onclick="window.location.href='{{ url('it/supervisi/all') }}'"><u><b>LIHAT</b></u></a> untuk melihat data seluruhnya

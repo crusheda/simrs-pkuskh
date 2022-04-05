@@ -39,7 +39,7 @@
                       <div class="col-md-2">
                         <div class="form-group">
                           <label>Warna Icon</label>
-                          <input type="text" name="bg" class="form-control colorpickerinput">
+                          <input type="text" name="color" class="form-control colorpickerinput">
                         </div>
                       </div>
                       <div class="col-md-12">
@@ -114,28 +114,46 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         @if(count($list) > 0)
-        {{ Form::model($item, array('route' => array('ibs.refsupervisi.update', $item->id), 'method' => 'PUT')) }}
+        {{ Form::model($item, array('route' => array('notif.update', $item->id), 'method' => 'PUT')) }}
         <div class="modal-body">
             @csrf
-            <div class="form-group">
-                <label>Supervisi :</label>
-                <input type="text" name="supervisi" value="{{ $item->supervisi }}" class="form-control" placeholder="e.g. Pengecekan Alat/Mesin" autofocus required>
-            </div>
-            <div class="form-group">
-                <label>Ruang</label>
-                <select name="ruang" class="form-control selectric" required>
-                  <option hidden>Pilih</option>
-                  <option value="Ruang Resusitasi Bayi" @if ($item->ruang == 'Ruang Resusitasi Bayi') echo selected @endif>Ruang Resusitasi Bayi</option>
-                  <option value="Ruang OK 1" @if ($item->ruang == 'Ruang OK 1') echo selected @endif>Ruang OK 1</option>
-                  <option value="Ruang OK 2" @if ($item->ruang == 'Ruang OK 2') echo selected @endif>Ruang OK 2</option>
-                  <option value="Ruang Cuci Tangan Bedah" @if ($item->ruang == 'Ruang Cuci Tangan Bedah') echo selected @endif>Ruang Cuci Tangan Bedah</option>
-                  <option value="Ruang Instrumen" @if ($item->ruang == 'Ruang Instrumen') echo selected @endif>Ruang Instrumen</option>
-                  <option value="Ruang Cuci Alat" @if ($item->ruang == 'Ruang Cuci Alat') echo selected @endif>Ruang Cuci Alat</option>
-                  <option value="Ruang BHP" @if ($item->ruang == 'Ruang BHP') echo selected @endif>Ruang BHP</option>
-                  <option value="Ruang Recovery" @if ($item->ruang == 'Ruang Recovery') echo selected @endif>Ruang Recovery</option>
-                  <option value="Ruang Pre Operasi" @if ($item->ruang == 'Ruang Pre Operasi') echo selected @endif>Ruang Pre Operasi</option>
-                  <option value="Ruang Counter Perawat" @if ($item->ruang == 'Ruang Counter Perawat') echo selected @endif>Ruang Counter Perawat</option>
-                </select>
+            <div class="row">
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label>Judul :</label>
+                    <input type="text" name="judul" value="{{ $item->judul }}" class="form-control" placeholder="e.g. Update tampilan terbaru v.2" autofocus required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Bulan Berakhir :</label>
+                  <input type="month" name="tgl" class="form-control" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($item->tgl)); ?>" required>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                    <label>Icon :</label>
+                    {{-- <input type="text" name="icon" class="form-control" placeholder="e.g. <i class='fas fa-trash'></i>" autofocus required> --}}
+                      <div class="input-group">
+                        <div class="input-group-prepend">
+                          <span class="input-group-text">Ketikan awalan fa-</span>
+                        </div>
+                        <input type="text" name="icon" value="{{ $item->icon }}" class="form-control" value="fa-info-circle">
+                    </div>
+                </div>
+              </div>
+              <div class="col-md-6">
+                <div class="form-group">
+                  <label>Warna Icon</label>
+                  <input type="text" name="color" value="{{ $item->color }}" class="form-control colorpickerinput">
+                </div>
+              </div>
+              <div class="col-md-12">
+                <div class="form-group">
+                  <label>Konten</label>
+                  <textarea name="ket" class="summernote"><?php echo htmlspecialchars($item->ket); ?></textarea required>
+                </div>
+              </div>
             </div>
         </div>
         <div class="modal-footer">
@@ -161,15 +179,17 @@
         </div>
         <div class="modal-body">
             @if(count($list) > 0)
-                Judul : <b>{{ $item->supervisi }}</b><br>
-                Waktu : <b>{{ $item->ruang }},-</b><br>
+                Judul : <b>{{ $item->judul }}</b><br>
+                Icon / Color : <b>{{ $item->Icon }}</b> / <b>{{ $item->color }}</b><br>
+                Tgl : <b>{{ $item->tgl }}</b><br>
                 Ditambahkan pada : <b>{{ $item->created_at }}</b><br>
-                Update pada : <b>{{ $item->tgl }}</b>
+                Update pada : <b>{{ $item->updated_at }}</b><br>
+                Keterangan : <b>{{ $item->ket }}</b>
             @endif
         </div>
         <div class="modal-footer">
             @if(count($list) > 0)
-                <form action="{{ route('ibs.refsupervisi.destroy', $item->id) }}" method="POST">
+                <form action="{{ route('notif.destroy', $item->id) }}" method="POST">
                     @method('DELETE')
                     @csrf
                     <button class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>

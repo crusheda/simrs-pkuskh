@@ -135,8 +135,8 @@
         </div>
       </div>
     </li> --}}
-    {{-- <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg beep" onclick="lihatNotif()"><i class="far fa-bell"></i></a> --}}
-    <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg" onclick="lihatNotif()"><i class="far fa-bell-slash"></i></a>
+    <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg" onclick="lihatNotif()"><i class="far fa-bell"></i></a>
+    {{-- <li class="dropdown dropdown-list-toggle"><a href="#" data-toggle="dropdown" class="nav-link notification-toggle nav-link-lg" onclick="lihatNotif()"><i class="far fa-bell-slash"></i></a> --}}
       <div class="dropdown-menu dropdown-list dropdown-menu-right">
         <div class="dropdown-header">Notifikasi
           {{-- <div class="float-right">
@@ -187,7 +187,20 @@
     </li>
   </ul>
 </nav>
-
+<script>
+  $(document).ready( function () {
+    $.ajax({
+      url: "./api/notif",
+      type: 'GET',
+      dataType: 'json', // added data type
+      success: function(res) {
+        if (res.length != 0) {
+          $('.notification-toggle').addClass('beep');
+        }
+      }
+    });
+  })
+</script>
 <script>
   function lihatNotif() {
     $('#notif').empty();
@@ -199,7 +212,7 @@
         res.forEach(item => {
             var tgl = item.tgl.substring(0,7);
             content = "<a href='#' class='dropdown-item'>" 
-                        + "<div class='dropdown-item-icon bg-info text-white'>" 
+                        + "<div class='dropdown-item-icon text-white' style='background-color: " + item.color + "'>" 
                         + "<i class='fas " + item.icon + "'></i>" 
                         + "</div>" 
                         + "<div class='dropdown-item-desc'>"
@@ -212,3 +225,4 @@
     });
   }
 </script>
+#6777ef
