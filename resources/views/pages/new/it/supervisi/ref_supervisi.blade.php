@@ -6,8 +6,8 @@
     <div class="col-md-4">
         <div class="card">
             <div class="card-header">
-              <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location.href='{{ route('it.supervisi.index') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i> Kembali</button>&nbsp;
-              <h4>Tambah</h4>
+              <button type="button" class="btn btn-dark" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location.href='{{ route('it.supervisi.index') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i> Kembali</button>&nbsp;
+              {{-- <h4>Tambah</h4> --}}
             </div>
             <div class="card-body">
                     <form class="form-auth-small" action="{{ route('it.refsupervisi.store') }}" method="POST" enctype="multipart/form-data">
@@ -20,12 +20,15 @@
                             <label>Kategori :</label>
                             <select name="kategori" class="form-control selectric" required>
                               <option hidden>Pilih</option>
-                              <option value="">Komputer</option>
-                              <option value="">Printer</option>
-                              <option value="">Printer</option>
+                              <option value="komputer">Komputer</option>
+                              <option value="printer">Printer</option>
+                              <option value="design">Design</option>
+                              <option value="pilar">Pilar</option>
+                              <option value="rutin">Rutinitas</option>
+                              <option value="lainnya">Lainnya</option>
                             </select>
                         </div>
-                        <button class="btn btn-success text-white" id="submit"><i class="fa-fw fas fa-save nav-icon"></i> Tambah</button>
+                        <button class="btn btn-primary text-white" id="submit"><i class="fa-fw fas fa-save nav-icon"></i> Tambah</button>
                     </form>
             </div>
         </div>
@@ -54,7 +57,7 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->kegiatan }}</td>
                                     <td>{{ $item->kategori }}</td>
-                                    <td>{{ $item->tgl }}</td>
+                                    <td>{{ $item->created_at }}</td>
                                     <td>
                                         <center>
                                             <div class="btn-group" role="group">

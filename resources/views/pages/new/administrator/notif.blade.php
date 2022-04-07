@@ -39,7 +39,7 @@
                       <div class="col-md-2">
                         <div class="form-group">
                           <label>Warna Icon</label>
-                          <input type="text" name="color" class="form-control colorpickerinput">
+                          <input type="text" name="color" class="form-control colorpickerinput" placeholder="Default #6777ef">
                         </div>
                       </div>
                       <div class="col-md-12">
@@ -145,7 +145,7 @@
               <div class="col-md-6">
                 <div class="form-group">
                   <label>Warna Icon</label>
-                  <input type="text" name="color" value="{{ $item->color }}" class="form-control colorpickerinput">
+                  <input type="text" name="color" value="{{ $item->color }}" class="form-control colorpickerinput" placeholder="Default #6777ef">
                 </div>
               </div>
               <div class="col-md-12">

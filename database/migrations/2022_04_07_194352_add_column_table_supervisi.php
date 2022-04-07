@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class CreateTableRefLogit extends Migration
+class AddColumnTableSupervisi extends Migration
 {
     /**
      * Run the migrations.
@@ -13,12 +13,8 @@ class CreateTableRefLogit extends Migration
      */
     public function up()
     {
-        Schema::create('ref_logit', function (Blueprint $table) {
-            $table->bigIncrements('id');
-            $table->string('kegiatan')->nullable();
-            $table->string('kategori')->nullable();
-            $table->timestamps();
-            $table->softDeletes();
+        Schema::table('logit', function (Blueprint $table) {
+            $table->date('tgl')->after('filename')->nullable();
         });
     }
 
@@ -29,6 +25,6 @@ class CreateTableRefLogit extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('ref_logit');
+        //
     }
 }

@@ -118,6 +118,11 @@ class notifController extends Controller
 
         $data = new notif;
         $data->judul = $request->judul;
+        if ($request->color == null) {
+            $data->color = "#6777ef";
+        } else {
+            $data->color = $request->color;
+        }
         $data->icon = $request->icon;
         $data->ket = $request->ket;
         $data->tgl = $request->tgl;
