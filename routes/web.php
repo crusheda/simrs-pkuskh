@@ -3,6 +3,10 @@ Route::resource('/', 'WelcomeController');
 // Route::get('/', 'maintenance\maintenanceController@index')->name('maintenance');
 
 Route::get('/kunjungan', 'kunjunganController@index')->name('landing.kunjungan');
+
+// LAKON WEB
+Route::get('/lakonweb', 'lakonwebController@index')->name('lakonweb.index');
+
 // Route::resource('/antrian', 'queuePoliController');
 // Route::get('/demos', function () {
 //     return view('index');
@@ -26,7 +30,7 @@ Route::post('edit_akun/{id}', 'Admin\UsersController@ubahData')->name('ubah.akun
 // })->middleware('guest')->name('password.request');
 
 // Other
-Route::get('/home', 'HomeController@index')->name('home');
+// Route::get('/home', 'HomeController@index')->name('home');
 
 // MANAGER FILE
 Route::get('/home/file-manager', 'HomeController@fileManager')->name('managerfile');
@@ -74,6 +78,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], functi
     Route::get('supervisi/all','it\log\logController@showAll')->name('logit.all');  
     // Route::get('supervisi/lampiran/{id}', 'it\log\logController@getLampiran');
     // Route::get('supervisi/lampiran/{id}/download', 'it\log\logController@unduhLampiran');
+    Route::get('supervisi/api/ref/kategori/{id}', 'it\log\refLogController@getKegiatan');
     Route::resource('refsupervisi', 'it\log\refLogController');
     Route::resource('supervisi', 'it\log\logController');
     Route::get('/user-activity', function () {

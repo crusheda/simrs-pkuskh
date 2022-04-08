@@ -117,4 +117,11 @@ class refLogController extends Controller
         // redirect
         return redirect()->back()->with('message','Hapus Indikator Supervisi Berhasil.');
     }
+
+    public function getKegiatan($id)
+    {
+        $data = ref_logit::where('id', $id)->get();
+
+        return response()->json($data, 200);
+    }
 }

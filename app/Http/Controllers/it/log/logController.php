@@ -6,11 +6,13 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use App\Models\logit;
+use App\Models\ref_logit;
 use App\Models\user;
 use Illuminate\Http\Request;
 use Carbon\Carbon;
 use Storage;
 use Response;
+use Redirect;
 use Auth;
 use \PDF;
 use Image;
@@ -25,6 +27,7 @@ class logController extends Controller
     public function index()
     {
         $show = logit::orderBy('created_at','DESC')->limit('20')->get();
+        $ref = ref_logit::orderBy('kategori','DESC')->get();
         $user = DB::table('users')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
@@ -38,6 +41,7 @@ class logController extends Controller
 
         $data = [
             'user' => $user,
+            'ref' => $ref,
             'show' => $show
         ];
 
@@ -71,6 +75,11 @@ class logController extends Controller
             'file' => 'nullable|image|mimes:jpg,png,jpeg,gif|max:50000',
             ]);
 
+        if ($request->kegiatan == "Pilih") {
+            return Redirect::back()->withErrors(['msg' => 'Pilih Kegiatan terlebih dahulu']);
+        } else {
+            $kegiatan = $request->kegiatan;
+        }
         // tampung berkas yang sudah diunggah ke variabel baru
         // 'file' merupakan nama input yang ada pada form
         $uploadedFile = $request->file('file');     
@@ -93,7 +102,8 @@ class logController extends Controller
         $data = new logit;
         $data->id_user = $find->id;
         $data->nama = $find->nama;
-        $data->kegiatan = $request->kegiatan;
+
+        $data->kegiatan = $kegiatan;
         
             $data->title = $title;
             

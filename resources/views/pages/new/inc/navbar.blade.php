@@ -190,7 +190,7 @@
 <script>
   $(document).ready( function () {
     $.ajax({
-      url: "./api/notif",
+      url: "../././././api/notif",
       type: 'GET',
       dataType: 'json', // added data type
       success: function(res) {
@@ -205,7 +205,7 @@
   function lihatNotif() {
     $('#notif').empty();
     $.ajax({
-      url: "./api/notif",
+      url: "../././././api/notif",
       type: 'GET',
       dataType: 'json', // added data type
       success: function(res) {

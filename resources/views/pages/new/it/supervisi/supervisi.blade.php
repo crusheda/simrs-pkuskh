@@ -90,7 +90,7 @@
             <form class="form-auth-small" action="{{ route('it.supervisi.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
-                    <div class="col-md-12">
+                    <div class="col-md-6">
                         <div class="form-group">
                             <label>Nama :</label>
                             <select class="form-control selectric" name="nama" required>
@@ -103,26 +103,41 @@
                         </div>
                     </div>
                     <div class="col-md-6">
-                        <label>Kegiatan : </label>
-                        <input type="text" name="kegiatan" id="kegiatan" class="form-control" placeholder="" autofocus required>
-                        <br>
+                        <div class="form-group">
+                            <label>Lokasi :</label>
+                            <input type="text" name="lokasi" id="lokasi" class="form-control" placeholder="">
+                        </div>
                     </div>
                     <div class="col-md-6">
-                        <label>Lokasi :</label>
-                        <input type="text" name="lokasi" id="lokasi" class="form-control" placeholder="">
-                        <br>
+                        <div class="form-group">
+                            <label>Kategori :</label>
+                            <select class="form-control selectric" id="kategori_add" name="kategori" required>
+                                <option hidden>Pilih</option>
+                                @foreach($list['ref'] as $item)
+                                    <option value="{{ $item->id }}">{{ $item->kategori }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Kegiatan :</label>
+                            <select class="form-control select2" id="kegiatan_add" name="kegiatan" style="width:100%" disabled required></select>
+                        </div>
                     </div>
                     <div class="col-md-12">
-                        <label>Keterangan :</label>
-                        <textarea class="form-control" name="keterangan" id="keterangan" placeholder=""></textarea>
-                        <br>
+                        <div class="form-group">
+                            <label>Keterangan :</label>
+                            <textarea class="form-control" name="keterangan" id="keterangan" placeholder=""></textarea>
+                        </div>
                     </div>
                     <div class="col-md-3">
-                        <label>Upload Lampiran :</label>
-                        <input type="file" name="file">
-                        <span class="help-block text-danger">{{ $errors->first('file') }}</span>
+                        <div class="form-group">
+                            <label>Upload Lampiran :</label>
+                            <input type="file" name="file">
+                            <span class="help-block text-danger">{{ $errors->first('file') }}</span>
+                        </div>
                     </div>
-                    <br>
                 </div>
 
         </div>
@@ -345,6 +360,35 @@
                 order: [[ 4, "desc" ]]
             }
         );
+        $('#kategori_add').change(function() { 
+        // console.log(this.value);
+            if (this.value == "Pilih") {
+                $("#kegiatan_add").attr('disabled', true);
+                $("#kegiatan_add").val("").find('option').remove();
+                // $("#kegiatan_add").append('<option hidden>Pilih</option>');
+            } else {
+                $.ajax({
+                    url: "./supervisi/api/ref/kategori/"+this.value,
+                    type: 'GET',
+                    dataType: 'json', // added data type
+                    success: function(res) {
+                        $("#kegiatan_add").val("").find('option').remove();
+                        $("#kegiatan_add").attr('disabled', false);
+                        $("#kegiatan_add").append('<option hidden>Pilih</option>');
+                         
+                        var len = res.length;   
+                        var sel = document.getElementById('kegiatan_add');
+                        for(var i = 0; i < len; i++) {
+                            var opt = document.createElement('option');
+                            opt.innerHTML = res[i]['kegiatan'];
+                            opt.value = res[i]['id'];
+                            sel.appendChild(opt);
+                        }
+                    }
+                });
+            }
+            
+        });
     } );
 </script>
 @endsection
