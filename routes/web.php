@@ -11,12 +11,12 @@ Route::get('/lakonweb', 'lakonwebController@index')->name('lakonweb.index');
 // Route::get('/demos', function () {
 //     return view('index');
 // });
-Route::get('/vaksin', function () {
-    return view('pages.vaksin.index');
-});
-Route::get('/vaksin2', function () {
-    return view('pages.butterfly.inner-page');
-});
+// Route::get('/vaksin', function () {
+//     return view('pages.vaksin.index');
+// });
+// Route::get('/vaksin2', function () {
+//     return view('pages.butterfly.inner-page');
+// });
 // Route::resource('/lokasi', 'other\lokasiController');
 
 Auth::routes(['register' => false]);
@@ -50,8 +50,6 @@ Route::get('/kunjungan', 'kunjunganController@kunjungan')->name('kunjungan');
     Route::resource('profil', 'Admin\profilController');
     Route::post('/profil/foto', 'Admin\profilController@storeImg');
 
-
-
 // Admin
 Route::get('api/notif', 'notifController@apiNotif')->name('api.notif');
 Route::resource('notif', 'notifController');
@@ -67,9 +65,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
 });
 
 // Other
-Route::get('/sisrute/diagnosis', function () {
-    return view('pages.sisrute.diagnosis');
-})->name('sisrute.diagnosis');
+// Route::get('/sisrute/diagnosis', function () {
+//     return view('pages.sisrute.diagnosis');
+// })->name('sisrute.diagnosis');
 
 // IT
 Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], function () {
@@ -189,20 +187,20 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
 });
 
     // Pengadaan
-        // Route::get('/pengadaan/log/', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
-        Route::get('/pengadaan/log/cari', 'it\pengadaan\logPengadaanController@showLog')->name('cari.log');
-        Route::resource('/pengadaan/log', 'it\pengadaan\logPengadaanController');
-        Route::resource('/pengadaan/all', 'it\pengadaan\pengadaanAllController');
-        Route::resource('pengadaan/rutin', 'it\pengadaan\pengadaanController');
-        Route::resource('pengadaan/nonrutin', 'it\pengadaan\pengadaanNonRutinController');
-        // Route::get('/pengadaan/jenis-pengadaan', 'it\pengadaan\pengadaanController@linkToPengadaan')->name('pengadaan.pilih');
-        Route::resource('barang', 'it\pengadaan\barangPengadaanController');
-        // Route::resource('pengadaan/rutin', 'it\pengadaan\rutinController');
-        // Route::get('pengadaan/nonrutin/token/{token}','it\pengadaan\nonrutinController@getbyapi')->name('api.nonrutin');
-        // Route::get('pengadaan/rutin/cetak/{token}','it\pengadaan\rutinController@generatePDF')->name('rutin.cetak');
-        // Route::get('pengadaan/nonrutin/cetak/{token}','it\pengadaan\nonrutinController@generatePDF')->name('nonrutin.cetak');
-        Route::get('/pengadaan/api/barang/{id}', 'it\pengadaan\barangPengadaanController@apifile')->name('barang.api');
-        Route::get('pengadaan/all/{id}/cetak','it\pengadaan\pengadaanAllController@generatePDF')->name('pengadaan.cetak');
+        // // Route::get('/pengadaan/log/', 'perawat\tdkPerawatController@cariLog')->name('tdkperawat.cari');
+        // Route::get('/pengadaan/log/cari', 'it\pengadaan\logPengadaanController@showLog')->name('cari.log');
+        // Route::resource('/pengadaan/log', 'it\pengadaan\logPengadaanController');
+        // Route::resource('/pengadaan/all', 'it\pengadaan\pengadaanAllController');
+        // Route::resource('pengadaan/rutin', 'it\pengadaan\pengadaanController');
+        // Route::resource('pengadaan/nonrutin', 'it\pengadaan\pengadaanNonRutinController');
+        // // Route::get('/pengadaan/jenis-pengadaan', 'it\pengadaan\pengadaanController@linkToPengadaan')->name('pengadaan.pilih');
+        // Route::resource('barang', 'it\pengadaan\barangPengadaanController');
+        // // Route::resource('pengadaan/rutin', 'it\pengadaan\rutinController');
+        // // Route::get('pengadaan/nonrutin/token/{token}','it\pengadaan\nonrutinController@getbyapi')->name('api.nonrutin');
+        // // Route::get('pengadaan/rutin/cetak/{token}','it\pengadaan\rutinController@generatePDF')->name('rutin.cetak');
+        // // Route::get('pengadaan/nonrutin/cetak/{token}','it\pengadaan\nonrutinController@generatePDF')->name('nonrutin.cetak');
+        // Route::get('/pengadaan/api/barang/{id}', 'it\pengadaan\barangPengadaanController@apifile')->name('barang.api');
+        // Route::get('pengadaan/all/{id}/cetak','it\pengadaan\pengadaanAllController@generatePDF')->name('pengadaan.cetak');
 
     // Kantor Route
         Route::post('absensi/{id}/tambah', 'kantor\absensiController@tambahKehadiran')->name('absensi.hadir');
@@ -362,3 +360,6 @@ Addchat::routes();
 // ABSEN
 Route::resource('absen', 'absen\cameraController');
 
+// Pengadaan
+Route::get('pengadaan', 'publik\pengadaan\pengadaanController@index')->name('pengadaan.index');
+Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController');

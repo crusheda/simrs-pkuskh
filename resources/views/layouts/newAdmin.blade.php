@@ -15,6 +15,10 @@
   <link rel="stylesheet" href="{{ asset('assets/modules/fontawesome/css/all.min.css') }}">
 
   <!-- CSS Libraries -->
+    {{-- <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" /> --}}
+    {{-- <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" /> --}}
+    <link href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css" rel="stylesheet" />
+    {{-- <link href="https://cdn.datatables.net/select/1.3.0/css/select.dataTables.min.css" rel="stylesheet" /> --}}
   <link rel="stylesheet" href="{{ asset('assets/modules/datatables/datatables.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css') }}">
@@ -30,6 +34,9 @@
   <link rel="stylesheet" href="{{ asset('assets/modules/codemirror/lib/codemirror.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/codemirror/theme/duotone-dark.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/izitoast/css/iziToast.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/modules/jqvmap/dist/jqvmap.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/modules/owlcarousel2/dist/assets/owl.carousel.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/modules/owlcarousel2/dist/assets/owl.theme.default.min.css') }}">
   
   {{-- SweetAlert2 --}}
   <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
@@ -152,15 +159,21 @@
   <script src="{{ asset('assets/modules/bootstrap-tagsinput/dist/bootstrap-tagsinput.min.js') }}"></script>
   <script src="{{ asset('assets/modules/select2/dist/js/select2.full.min.js') }}"></script>
   <script src="{{ asset('assets/modules/jquery-selectric/jquery.selectric.min.js') }}"></script>
-  <script src="{{ asset('assets/modules/datatables/datatables.min.js') }}"></script>
-  <script src="{{ asset('assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
-  {{-- <script src="{{ asset('assets/modules/datatables/DataTables-1.10.16/js/buttons.colVis.min.js') }}"></script> --}}
-  <script src="{{ asset('assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script>
   <script src="{{ asset('assets/modules/jquery-ui/jquery-ui.min.js') }}"></script>
   <script src="{{ asset('assets/modules/prism/prism.js') }}"></script>
   <script src="{{ asset('assets/modules/izitoast/js/iziToast.min.js') }}"></script>
+  <script src="{{ asset('assets/modules/jquery.sparkline.min.js') }}"></script>
+  <script src="{{ asset('assets/modules/chart.min.js') }}"></script>
+  <script src="{{ asset('assets/modules/owlcarousel2/dist/owl.carousel.min.js') }}"></script>
+  <script src="{{ asset('assets/modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
+  
+  <script src="{{ asset('assets/modules/datatables/datatables.min.js') }}"></script>
+  <script src="{{ asset('assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
+  <script src="{{ asset('assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script>
+  <script src="//cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
 
   <!-- Page Specific JS File -->
+  {{-- <script src="{{ asset('assets/js/page/index.js') }}"></script> --}}
   {{-- <script src="{{ asset('assets/modules/summernote/summernote-bs4.js') }}"></script>
   <script src="{{ asset('assets/modules/codemirror/lib/codemirror.js') }}"></script>
   <script src="{{ asset('assets/js/page/modules-datatables.js') }}"></script>
@@ -169,6 +182,7 @@
   <!-- Template JS File -->
   <script src="{{ asset('assets/js/scripts.js') }}"></script>
   <script src="{{ asset('assets/js/custom.js') }}"></script>
+
   {{-- GOTO TOP --}}
   <a id="goTop" class="btn btn-dark text-white" style="
     display: none;
@@ -205,6 +219,96 @@
     });
     
     $('.modal').appendTo("body"); 
+  </script>
+  <script>
+    $(function() {
+      let copyButtonTrans = '{{ trans('global.datatables.copy') }}'
+      let csvButtonTrans = '{{ trans('global.datatables.csv') }}'
+      let excelButtonTrans = '{{ trans('global.datatables.excel') }}'
+      let pdfButtonTrans = '{{ trans('global.datatables.pdf') }}'
+      let printButtonTrans = '{{ trans('global.datatables.print') }}'
+      let colvisButtonTrans = '{{ trans('global.datatables.colvis') }}'
+
+      let languages = {
+        'en': 'https://cdn.datatables.net/plug-ins/1.10.19/i18n/English.json'
+      };
+
+      $.extend(true, $.fn.dataTable.Buttons.defaults.dom.button, { className: 'btn' })
+      $.extend(true, $.fn.dataTable.defaults, {
+        language: {
+          url: languages['{{ app()->getLocale() }}']
+        },
+        columnDefs: [{
+            orderable: false,
+            className: 'select-checkbox',
+            targets: 0
+        }, {
+            orderable: false,
+            searchable: false,
+            targets: -1
+        }],
+        select: {
+          style:    'multi+shift',
+          selector: 'td:first-child'
+        },
+        order: [],
+        scrollX: true,
+        pageLength: 100,
+        dom: 'lBfrtip<"actions">',
+        buttons: [
+          {
+            extend: 'copy',
+            className: 'btn-default',
+            text: copyButtonTrans,
+            exportOptions: {
+              columns: ':visible'
+            }
+          },
+          {
+            extend: 'csv',
+            className: 'btn-default',
+            text: csvButtonTrans,
+            exportOptions: {
+              columns: ':visible'
+            }
+          },
+          {
+            extend: 'excel',
+            className: 'btn-default',
+            text: excelButtonTrans,
+            exportOptions: {
+              columns: ':visible'
+            }
+          },
+          {
+            extend: 'pdf',
+            className: 'btn-default',
+            text: pdfButtonTrans,
+            exportOptions: {
+              columns: ':visible'
+            }
+          },
+          {
+            extend: 'print',
+            className: 'btn-default',
+            text: printButtonTrans,
+            exportOptions: {
+              columns: ':visible'
+            }
+          },
+          {
+            extend: 'colvis',
+            className: 'btn-default',
+            text: colvisButtonTrans,
+            exportOptions: {
+              columns: ':visible'
+            }
+          }
+        ]
+      });
+
+      $.fn.dataTable.ext.classes.sPageButton = '';
+    })
   </script>
 </body>
 </html>

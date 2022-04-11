@@ -82,6 +82,7 @@
           @endcan
         </ul>
       </li>
+      <li class="nav-item {{ request()->routeIs('pengadaan.index') ? 'active' : '' }}"><a class="nav-link" href="{{ route("pengadaan.index") }}"><i class="fas fa-shopping-cart"></i> <span>Pengadaan</span></a></li>
       @hasrole('it')
       <li class="menu-header">Unit IT</li>
       <li class="nav-item {{ request()->routeIs('it.supervisi.index') ? 'active' : '' }}"><a class="nav-link" href="{{ route("it.supervisi.index") }}"><i class="fas fa-briefcase"></i> <span>Supervisi</span></a></li>

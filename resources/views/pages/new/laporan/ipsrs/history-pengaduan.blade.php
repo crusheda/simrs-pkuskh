@@ -176,6 +176,14 @@
                 text: 'Cetak PDF',
                 download: 'open',
               },
+              {
+                extend: 'colvis',
+                className: 'btn-dark',
+                text: 'Sembunyikan Kolom',
+                exportOptions: {
+                    columns: ':visible'
+                }
+              },
             ],
             order: [[ 5, "desc" ]],
             pageLength: 20

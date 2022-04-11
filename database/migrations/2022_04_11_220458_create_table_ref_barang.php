@@ -4,7 +4,7 @@ use Illuminate\Database\Migrations\Migration;
 use Illuminate\Database\Schema\Blueprint;
 use Illuminate\Support\Facades\Schema;
 
-class AddColumnTableBarang extends Migration
+class CreateTableRefBarang extends Migration
 {
     /**
      * Run the migrations.
@@ -13,8 +13,11 @@ class AddColumnTableBarang extends Migration
      */
     public function up()
     {
-        Schema::table('barang', function (Blueprint $table) {
-            $table->string('total')->after('count')->nullable();
+        Schema::create('ref_barang', function (Blueprint $table) {
+            $table->bigIncrements('id');
+            $table->string('nama')->nullable();
+            $table->timestamps();
+            $table->softDeletes();
         });
     }
 
@@ -25,6 +28,6 @@ class AddColumnTableBarang extends Migration
      */
     public function down()
     {
-        Schema::dropIfExists('barang');
+        Schema::dropIfExists('ref_barang');
     }
 }

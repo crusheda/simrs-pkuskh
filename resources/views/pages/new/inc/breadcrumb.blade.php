@@ -61,6 +61,18 @@
         $b1 = 'Administrasi'; 
         $b2 = 'RKA';
       }
+    // ADMINISTRASI
+      // PENGADAAN
+      if ($route == 'pengadaan.index') {
+        $title = 'Pengadaan Barang';
+        $b1 = 'Pengadaan';
+      }
+      // BARANG PENGADAAN
+      if ($route == 'barang.index') {
+        $title = 'Data Barang';
+        $b1 = 'Pengadaan';
+        $b2 = 'Barang'; 
+      }
     // PERNYATAAN LOG PERAWAT
     if ($route == 'logperawat.index') {
       $title = 'Indikator Tindakan Harian';

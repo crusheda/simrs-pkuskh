@@ -199,7 +199,7 @@
               <tr>
                   <td>
                     <center>
-                      <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#detail2{{ $item->id }}"><i class="fa-fw fas fa-history nav-icon"></i> Riwayat</button>
+                      <button type="button" class="btn btn-primary btn-sm" data-toggle="modal" data-target="#detail2{{ $item->id }}"><i class="fa-fw fas fa-history nav-icon"></i> Riwayat</button>
                     </center>
                   </td>
                   <td>{{ $item->nama }}</td>
