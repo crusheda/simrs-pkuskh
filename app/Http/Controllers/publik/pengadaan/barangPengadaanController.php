@@ -9,6 +9,7 @@ use Illuminate\Http\RedirectResponse;
 use App\Models\pengadaan\ref_barang;
 use App\Models\pengadaan\barang;
 use Carbon\Carbon;
+use Auth;
 
 class barangPengadaanController extends Controller
 {
@@ -19,7 +20,7 @@ class barangPengadaanController extends Controller
      */
     public function index()
     {
-        $show = barang::get();
+        $show = barang::join('ref_barang', 'ref_barang.id', '=', 'barang.ref_barang')->get(['barang.*','ref_barang.nama as ref']);
         $ref_barang = ref_barang::get();
 
         $data = [
@@ -51,8 +52,27 @@ class barangPengadaanController extends Controller
     public function store(Request $request)
     {
         $tgl = Carbon::now();
+
+        $uploadedFile = $request->file('file');    
+
+        // simpan berkas yang diunggah ke sub-direktori 'public/files'
+        // direktori 'files' otomatis akan dibuat jika belum ada
+        if ($uploadedFile == '') {
+            $path = null;
+            $title = null;
+        }else {
+            $path = $uploadedFile->store('public/files/pengadaan/barang/');
+            $title = $uploadedFile->getClientOriginalName();
+        }
+
         $data = new barang;
-        $data->tgl = $tgl;
+        $data->nama = $request->nama;
+        $data->id_user = Auth::user()->id;
+        $data->ref_barang = $request->ref_barang;
+        $data->satuan = $request->satuan;
+        $data->harga = str_replace(".","",(str_replace("Rp. ", "", $request->harga)));
+        $data->title = $title;
+        $data->filename = $path;
 
         $data->save();
 
@@ -93,7 +113,10 @@ class barangPengadaanController extends Controller
         $tgl = Carbon::now();
 
         $data = barang::find($id);
-        $data->tgl = $tgl;
+        $data->nama = $request->nama;
+        $data->ref_barang = $request->ref_barang;
+        $data->satuan = $request->satuan;
+        $data->harga = $request->harga;
 
         $data->save();
         return redirect()->back()->with('message','Perubahan Barang Berhasil.');

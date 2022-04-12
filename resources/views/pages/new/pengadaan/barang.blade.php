@@ -9,35 +9,42 @@
               <h4>Tambah</h4>
             </div>
             <div class="card-body">
-              <form class="form-auth-small" action="{{ route('ibs.refsupervisi.store') }}" method="POST" enctype="multipart/form-data">
-                  @csrf
-                  <div class="form-group">
-                      <label>Supervisi :</label>
-                      <input type="text" name="supervisi" class="form-control" placeholder="e.g. Pengecekan Alat/Mesin" autofocus required>
-                  </div>
-                  <div class="form-group">
-                      <label>Ruang</label>
-                      <select name="ruang" class="form-control selectric" required>
-                        <option hidden>Pilih</option>
-                        <option value="Ruang Resusitasi Bayi">Ruang Resusitasi Bayi</option>
-                        <option value="Ruang OK 1">Ruang OK 1</option>
-                        <option value="Ruang OK 2">Ruang OK 2</option>
-                        <option value="Ruang Cuci Tangan Bedah">Ruang Cuci Tangan Bedah</option>
-                        <option value="Ruang Instrumen">Ruang Instrumen</option>
-                        <option value="Ruang Cuci Alat">Ruang Cuci Alat</option>
-                        <option value="Ruang BHP">Ruang BHP</option>
-                        <option value="Ruang Recovery">Ruang Recovery</option>
-                        <option value="Ruang Pre Operasi">Ruang Pre Operasi</option>
-                        <option value="Ruang Counter Perawat">Ruang Counter Perawat</option>
-                      </select>
-                  </div>
+              <form class="form-auth-small" action="{{ route('barang.store') }}" method="POST" enctype="multipart/form-data">
+                @csrf
+                <div class="form-group">
+                    <label>Nama Barang</label>
+                    <input type="text" name="nama" class="form-control" autofocus required>
                 </div>
+                <div class="form-group">
+                    <label>Satuan</label>
+                    <input type="text" name="satuan" class="form-control" placeholder="e.g. Pcs" required>
+                </div>
+                <div class="form-group">
+                    <label>Harga</label>
+                    <input type="text" name="harga" id="harga_add" class="form-control" required>
+                </div>
+                <div class="form-group">
+                    <label>Kategori</label>
+                    <select name="ref_barang" class="form-control selectric" required>
+                        <option hidden>Pilih</option>
+                        @foreach($list['ref'] as $key)
+                            <option value="{{ $key->id }}">{{ $key->nama }}</option>
+                        @endforeach
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Lampiran (Optional) : </label><br>
+                    <input type="file" name="file" id="imgInp"><br>
+                    <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Disarankan untuk menyertakan lampiran foto</sub><br>
+                    <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan upload Foto/Gambar bukan Video, berformat <b>jpg,png,jpeg,gif</b></sub>
+                </div>
+            </div>
             <div class="card-footer text-right">
               <div class="btn-group">
                 <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location='{{ route('pengadaan.index') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i> Kembali</button>
                 <button class="btn btn-primary text-white" type="submit"><i class="fa-fw fas fa-save nav-icon"></i> Tambah</button>
               </div>
-            </form>
+              </form>
             </div>
         </div>
     </div>
@@ -52,9 +59,11 @@
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Supervisi</th>
-                                <th>Ruang</th>
-                                <th>Tgl</th>
+                                <th>Nama</th>
+                                <th>Satuan</th>
+                                <th>Harga</th>
+                                <th>Jenis</th>
+                                <th>Ditambahkan</th>
                                 <th><center>#</center></th>
                             </tr>
                         </thead>
@@ -63,9 +72,11 @@
                                 @foreach($list['show'] as $item)
                                 <tr>
                                     <td>{{ $item->id }}</td>
-                                    <td>{{ $item->supervisi }}</td>
-                                    <td>{{ $item->ruang }}</td>
-                                    <td>{{ $item->tgl }}</td>
+                                    <td>{{ $item->nama }}</td>
+                                    <td>{{ $item->satuan }}</td>
+                                    <td>Rp. {{ number_format($item->harga,2,",",".") }}</td>
+                                    <td>{{ $item->ref }}</td>
+                                    <td>{{ \Carbon\Carbon::parse($item->updated_at)->diffForHumans() }}</td>
                                     <td>
                                         <center>
                                             <div class="btn-group" role="group">
@@ -88,7 +99,7 @@
     <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
 @endrole
 
-{{-- @foreach($list['show'] as $item)
+@foreach($list['show'] as $item)
 <div class="modal fade bd-example-modal-lg" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
@@ -100,15 +111,14 @@
         </div>
         <div class="modal-body">
             @if(count($list) > 0)
-                Supervisi : <b>{{ $item->supervisi }}</b><br>
-                Ruang : <b>{{ $item->ruang }},-</b><br>
+                Nama Barang : <b>{{ $item->nama }}</b><br>
                 Ditambahkan pada : <b>{{ $item->created_at }}</b><br>
-                Update pada : <b>{{ $item->tgl }}</b>
+                Update pada : <b>{{ $item->updated_at }}</b>
             @endif
         </div>
         <div class="modal-footer">
             @if(count($list) > 0)
-                <form action="{{ route('ibs.refsupervisi.destroy', $item->id) }}" method="POST">
+                <form action="{{ route('barang.destroy', $item->id) }}" method="POST">
                     @method('DELETE')
                     @csrf
                     <button class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
@@ -119,9 +129,9 @@
       </div>
     </div>
 </div>
-@endforeach --}}
+@endforeach
 
-{{-- @foreach($list['show'] as $item)
+@foreach($list['show'] as $item)
 <div class="modal fade bd-example-modal-lg" id="edit{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog">
       <div class="modal-content">
@@ -132,27 +142,28 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         @if(count($list) > 0)
-        {{ Form::model($item, array('route' => array('ibs.refsupervisi.update', $item->id), 'method' => 'PUT')) }}
+        {{ Form::model($item, array('route' => array('barang.update', $item->id), 'method' => 'PUT')) }}
         <div class="modal-body">
             @csrf
             <div class="form-group">
-                <label>Supervisi :</label>
-                <input type="text" name="supervisi" value="{{ $item->supervisi }}" class="form-control" placeholder="e.g. Pengecekan Alat/Mesin" autofocus required>
+                <label>Nama Barang</label>
+                <input type="text" name="nama" value="{{ $item->nama }}" class="form-control" autofocus required>
             </div>
             <div class="form-group">
-                <label>Ruang</label>
-                <select name="ruang" class="form-control selectric" required>
-                  <option hidden>Pilih</option>
-                  <option value="Ruang Resusitasi Bayi" @if ($item->ruang == 'Ruang Resusitasi Bayi') echo selected @endif>Ruang Resusitasi Bayi</option>
-                  <option value="Ruang OK 1" @if ($item->ruang == 'Ruang OK 1') echo selected @endif>Ruang OK 1</option>
-                  <option value="Ruang OK 2" @if ($item->ruang == 'Ruang OK 2') echo selected @endif>Ruang OK 2</option>
-                  <option value="Ruang Cuci Tangan Bedah" @if ($item->ruang == 'Ruang Cuci Tangan Bedah') echo selected @endif>Ruang Cuci Tangan Bedah</option>
-                  <option value="Ruang Instrumen" @if ($item->ruang == 'Ruang Instrumen') echo selected @endif>Ruang Instrumen</option>
-                  <option value="Ruang Cuci Alat" @if ($item->ruang == 'Ruang Cuci Alat') echo selected @endif>Ruang Cuci Alat</option>
-                  <option value="Ruang BHP" @if ($item->ruang == 'Ruang BHP') echo selected @endif>Ruang BHP</option>
-                  <option value="Ruang Recovery" @if ($item->ruang == 'Ruang Recovery') echo selected @endif>Ruang Recovery</option>
-                  <option value="Ruang Pre Operasi" @if ($item->ruang == 'Ruang Pre Operasi') echo selected @endif>Ruang Pre Operasi</option>
-                  <option value="Ruang Counter Perawat" @if ($item->ruang == 'Ruang Counter Perawat') echo selected @endif>Ruang Counter Perawat</option>
+                <label>Satuan</label>
+                <input type="text" name="satuan" value="{{ $item->satuan }}" class="form-control" placeholder="e.g. Pcs" required>
+            </div>
+            <div class="form-group">
+                <label>Harga</label>
+                <input type="number" name="harga" id="harga_add" value="{{ $item->harga }}" class="form-control" required>
+            </div>
+            <div class="form-group">
+                <label>Kategori</label>
+                <select name="ref_barang" class="form-control selectric" required>
+                    <option hidden>Pilih</option>
+                    @foreach($list['ref'] as $key)
+                        <option value="{{ $key->id }}" @if ($item->ref_barang == $key->id) echo selected @endif>{{ $key->nama }}</option>
+                    @endforeach
                 </select>
             </div>
         </div>
@@ -165,7 +176,7 @@
       </div>
     </div>
 </div>
-@endforeach --}}
+@endforeach
 
 <script>
 $(document).ready( function () {
@@ -193,10 +204,57 @@ $(document).ready( function () {
                 text: 'Cetak PDF',
                 download: 'open',
                 },
+                {
+                    extend: 'colvis',
+                    className: 'btn-dark',
+                    text: 'Sembunyikan Kolom',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                },
             ],
-            order: [[ 3, "desc" ]]
+            order: [[ 5, "desc" ]]
         }
     );
+
+
+    // RUPIAH TAMBAH
+    var rupiah_tambah_harga = document.getElementById('harga_add');
+    // RUPIAH EDIT
+    var rupiah_edit_harga = document.getElementById('harga_edit');
+
+    if (rupiah_tambah_harga) {
+        rupiah_tambah_harga.addEventListener('keyup', function(e){
+            // tambahkan 'Rp.' pada saat form di ketik
+            // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+            rupiah_tambah_harga.value = formatRupiah(this.value, 'Rp. ');
+        });
+    }
+    if (rupiah_edit_harga) {
+        rupiah_edit_harga.addEventListener('keyup', function(e){
+            // tambahkan 'Rp.' pada saat form di ketik
+            // gunakan fungsi formatRupiah() untuk mengubah angka yang di ketik menjadi format angka
+            rupiah_edit_harga.value = formatRupiah(this.value, 'Rp. ');
+        });
+    }
+
+    /* Fungsi formatRupiah */
+    function formatRupiah(angka, prefix){
+        var number_string = angka.replace(/[^,\d]/g, '').toString(),
+        split   		= number_string.split(','),
+        sisa     		= split[0].length % 3,
+        rupiah     		= split[0].substr(0, sisa),
+        ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+
+        // tambahkan titik jika yang di input sudah menjadi angka ribuan
+        if(ribuan){
+            separator = sisa ? '.' : '';
+            rupiah += separator + ribuan.join('.');
+        }
+
+        rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+        return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
+    }
 } );
 </script>
 @endsection

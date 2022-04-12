@@ -21,6 +21,8 @@ class CreateTableBarangPengadaan extends Migration
             $table->string('satuan')->nullable();
             $table->bigInteger('harga')->nullable();
             $table->bigInteger('count')->nullable();
+            $table->string('title')->nullable();
+            $table->string('filename')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

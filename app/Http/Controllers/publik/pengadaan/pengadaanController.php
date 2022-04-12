@@ -18,13 +18,32 @@ class pengadaanController extends Controller
     public function index()
     {
         $show = pengadaan::get();
+        $ref = ref_barang::get();
+
+        $data = [
+            'show' => $show,
+            'ref' => $ref,
+        ];
+
+        return view('pages.new.pengadaan.pengadaan')->with('list', $data);
+    }
+
+    public function create(Request $request)
+    {
+        $show = barang::where('ref_barang',$request->ref_barang)->get();
+        // $show = barang::join('ref_barang', 'ref_barang.id', '=', 'barang.ref_barang')->get(['barang.*','ref_barang.nama as ref']);
 
         $data = [
             'show' => $show,
         ];
-        // print_r($data);
+        // print_r($show);
         // die();
 
-        return view('pages.new.pengadaan.pengadaan')->with('list', $data);
+        return view('pages.new.pengadaan.tambah-pengadaan')->with('list', $data);
+    }
+
+    public function store(Request $request)
+    {
+        # code...
     }
 }

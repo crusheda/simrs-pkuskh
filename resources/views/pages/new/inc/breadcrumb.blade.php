@@ -64,8 +64,13 @@
     // ADMINISTRASI
       // PENGADAAN
       if ($route == 'pengadaan.index') {
-        $title = 'Pengadaan Barang';
+        $title = 'Pengusulan Pengadaan';
         $b1 = 'Pengadaan';
+      }
+      if ($route == 'pengadaan.create') {
+        $title = 'Tambah Pengadaan';
+        $b1 = 'Pengadaan';
+        $b2 = 'Tambah'; 
       }
       // BARANG PENGADAAN
       if ($route == 'barang.index') {
