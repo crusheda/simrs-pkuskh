@@ -30,12 +30,12 @@ class pengadaanController extends Controller
 
     public function create(Request $request)
     {
-        $show = barang::where('ref_barang',$request->ref_barang)->get();
+        // $show = barang::where('ref_barang',$request->ref_barang)->get();
         $ref = ref_barang::where('id',$request->ref_barang)->first();
         // $show = barang::join('ref_barang', 'ref_barang.id', '=', 'barang.ref_barang')->get(['barang.*','ref_barang.nama as ref']);
 
         $data = [
-            'show' => $show,
+            // 'show' => $show,
             'ref' => $ref,
         ];
         // print_r($show);
@@ -47,5 +47,17 @@ class pengadaanController extends Controller
     public function store(Request $request)
     {
         # code...
+    }
+
+    // API
+    public function getBarang($ref_barang)
+    {
+        $show = barang::where('ref_barang',$ref_barang)->get();
+
+        $data = [
+            'show' => $show,
+        ];
+
+        return response()->json($data, 200);
     }
 }

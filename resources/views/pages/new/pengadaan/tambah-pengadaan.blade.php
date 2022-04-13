@@ -36,7 +36,7 @@
           <tbody style="text-transform: capitalize" id="tbody">
             <tr id="data1">
               <td>
-                <select name="barang[]" class="form-control select2">
+                <select name="barang[]" id="barang1" class="form-control select2">
                   <option hidden>Pilih</option>
                 </select>
               </td>
@@ -54,8 +54,8 @@
               </td>
               <td>
                 <div class="btn-group">
-                  <a type="button" id="tambah1" class="btn btn-info" href="javascript:void(0)" onclick="tambahBaris(1)"><i class="fa-fw fas fa-plus-square nav-icon"></i></a>
-                  <a type="button" id="hapus1" class="btn btn-danger" href="javascript:void(0)" onclick="hapusBaris(1)" hidden><i class="fa-fw fas fa-trash nav-icon"></i></a>
+                  <a type="button" id="tambah1" class="btn btn-info" href="javascript:void(0)" onclick="tambahBaris(1)" data-toggle="tooltip" data-placement="left" title="TAMBAH BARIS"><i class="fa-fw fas fa-plus-square nav-icon"></i></a>
+                  {{-- <a type="button" id="hapus1" class="btn btn-danger" href="javascript:void(0)" onclick="hapusBaris(1)" hidden><i class="fa-fw fas fa-trash nav-icon"></i></a> --}}
                 </div>
               </td>
             </tr>
@@ -99,7 +99,6 @@
   </div>
   <div class="card-footer text-right">
     <div class="btn-group">
-
       <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('pengadaan.index') }}'" data-toggle="tooltip" data-placement="bottom" title="KEMBALI KE TABEL PENGADAAN"><i class="fa-fw fas fa-caret-left nav-icon"></i> Kembali</button>
       <button class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="bottom" title="AJUKAN SEKARANG"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
     </div>
@@ -108,36 +107,85 @@
 </div>
 <script>
   $(document).ready( function () {
-
+    $.ajax(
+      {
+        url: "./tambah/api/barang/{{ $list['ref']->id }}",
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(res) {
+          // $("#barang1").find('option').remove();
+          res.show.forEach(item => {
+            $("#barang1").append(`
+                <option value="${item.id}">${item.nama} (${item.satuan})</option>
+            `);
+          });
+        }
+      }
+    );
   });
 </script>
 <script>
   function tambahBaris(val) {
+    $('#tambah'+val).find("i").toggleClass("fa-plus-square fa-sync fa-spin");
+    $.ajax(
+      {
+        url: "./tambah/api/barang/{{ $list['ref']->id }}",
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(res) {
+          // <i class="fa fa-spinner fa-spin fa-fw"></i> 
+          // $('#tambah'+val).prop('disabled', true);
+          // $("#barang1").find('option').remove();
+          var addVal = val + 1;
+          content = "<tr id='data"+ addVal +"'>"
+                  + "<td><select name='barang[]' id='barang"+addVal+"' class='form-control select2'>"
+                  + "<option hidden>Pilih</option></select></td>" 
+                  + "<td><input type='text' name='jumlah[]' class='form-control' placeholder=''></td>" 
+                  + "<td><input type='text' name='satuan[]' class='form-control' placeholder=''></td>" 
+                  + "<td><input type='text' name='harga[]' class='form-control' placeholder=''></td>" 
+                  + "<td><input type='text' name='total[]' class='form-control' placeholder=''></td>" 
+                  + "<td><div class='btn-group'>"
+                    + "<a type='button' id='tambah"+addVal+"' class='btn btn-info' href='javascript:void(0)' onclick='tambahBaris("+addVal+")' data-toggle='tooltip' data-placement='left' title='TAMBAH BARIS'><i class='fa-fw fas fa-plus-square nav-icon'></i></a>"
+                    + "<a type='button' id='hapus"+addVal+"' class='btn btn-danger' href='javascript:void(0)' onclick='hapusBaris("+addVal+")' data-toggle='tooltip' data-placement='bottom' title='HAPUS BARIS'><i class='fa-fw fas fa-trash nav-icon'></i></a>"
+                  + "</div></td></tr>";
+          $('#tbody').append(content);
+                    
+          res.show.forEach(item => {
+            $("#barang"+addVal).append(
+              `<option value="${item.id}">${item.nama} (${item.satuan})</option>`
+            );
+          })
+          
+          $('#tambah'+val).prop('hidden', true); 
+          $('#hapus'+val).prop('hidden', true);
+          $('#tambah'+val).find("i").removeClass("fa-sync fa-spin").addClass("fa-plus-square");
+        }
+      }
+    );
     // $("#tampil-tbody").empty();
-    $('#tambah'+val).prop('hidden', true); 
-    $('#hapus'+val).prop('hidden', false); 
-    var addVal = val + 1;
-    content = "<tr id='data"+ addVal +"'>"
-            + "<td><select name='barang[]' class='form-control select2'><option hidden>Pilih</option></select></td>" 
-            + "<td><input type='text' name='jumlah[]' class='form-control' placeholder=''></td>" 
-            + "<td><input type='text' name='satuan[]' class='form-control' placeholder=''></td>" 
-            + "<td><input type='text' name='harga[]' class='form-control' placeholder=''></td>" 
-            + "<td><input type='text' name='total[]' class='form-control' placeholder=''></td>" 
-            + "<td><div class='btn-group'>"
-              + "<a type='button' id='tambah"+addVal+"' class='btn btn-info' href='javascript:void(0)' onclick='tambahBaris("+addVal+")'><i class='fa-fw fas fa-plus-square nav-icon'></i></a>"
-              + "<a type='button' id='hapus"+addVal+"' class='btn btn-danger' href='javascript:void(0)' onclick='hapusBaris("+addVal+")'><i class='fa-fw fas fa-trash nav-icon'></i></a>"
-            + "</div></td></tr>";
-              
-    $('#tbody').append(content);
   }
 
   function hapusBaris(val) {
-    if (val == 1) {
-      
+    var minVal = val - 1;
+    // if (minVal == 1) {
+    //   $('#data'+val).remove();
+    //   if (val > 2) {
+    //     $('#tambah'+minVal).prop('hidden', false);
+    //     $('#hapus'+minVal).prop('hidden', true);
+    //   } else {
+    //     $('#tambah'+minVal).prop('hidden', true);
+    //     $('#hapus'+minVal).prop('hidden', false);
+    //   }
+    // } else {
+    //   $('#data'+val).remove();
+    //   $('#tambah'+minVal).prop('hidden', false); 
+    // }
+    $('#data'+val).remove();
+    if (minVal == 1) {
+      $('#tambah'+minVal).prop('hidden', false);
     } else {
-      var minVal = val - 1;
-      $('#data'+val).remove();
-      $('#tambah'+minVal).prop('hidden', false); 
+      $('#tambah'+minVal).prop('hidden', false);
+      $('#hapus'+minVal).prop('hidden', false);
     }
   }
 </script>
