@@ -13,6 +13,7 @@
         <sub>{{ \Carbon\Carbon::now()->isoFormat('dddd, D MMMM Y') }}</sub>
       </div>
       <div class="col text-right">
+        <kbd>{{ $list['ref']->nama }}</kbd><br>
         <a>Tuliskan (CITO) pada kolom keterangan, bila Darurat <i class="fa-fw fas fa-caret-left nav-icon"></i></a><br>
         <a>Mohon untuk menyertakan gambarnya <i class="fa-fw fas fa-caret-left nav-icon"></i></a>
       </div>
@@ -32,29 +33,29 @@
               <th style="width:10%"></th>
             </tr>
           </thead>
-          <tbody style="text-transform: capitalize">
-            <tr>
+          <tbody style="text-transform: capitalize" id="tbody">
+            <tr id="data1">
               <td>
-                <select name="barang" class="form-control select2">
+                <select name="barang[]" class="form-control select2">
                   <option hidden>Pilih</option>
                 </select>
               </td>
               <td>
-                <input type="text" class="form-control" placeholder="">
+                <input type="text" name="jumlah[]" class="form-control" placeholder="">
               </td>
               <td>
-                <input type="text" class="form-control" placeholder="">
+                <input type="text" name="satuan[]" class="form-control" placeholder="">
               </td>
               <td>
-                <input type="text" class="form-control" placeholder="">
+                <input type="text" name="harga[]" class="form-control" placeholder="">
               </td>
               <td>
-                <input type="text" class="form-control" placeholder="">
+                <input type="text" name="total[]" class="form-control" placeholder="">
               </td>
               <td>
                 <div class="btn-group">
-                  <button class="btn btn-info" onclick="tambahBaris()"><i class="fa-fw fas fa-plus-square nav-icon"></i></button>
-                  <button class="btn btn-danger" onclick="hapusBaris()"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                  <a type="button" id="tambah1" class="btn btn-info" href="javascript:void(0)" onclick="tambahBaris(1)"><i class="fa-fw fas fa-plus-square nav-icon"></i></a>
+                  <a type="button" id="hapus1" class="btn btn-danger" href="javascript:void(0)" onclick="hapusBaris(1)" hidden><i class="fa-fw fas fa-trash nav-icon"></i></a>
                 </div>
               </td>
             </tr>
@@ -109,5 +110,35 @@
   $(document).ready( function () {
 
   });
+</script>
+<script>
+  function tambahBaris(val) {
+    // $("#tampil-tbody").empty();
+    $('#tambah'+val).prop('hidden', true); 
+    $('#hapus'+val).prop('hidden', false); 
+    var addVal = val + 1;
+    content = "<tr id='data"+ addVal +"'>"
+            + "<td><select name='barang[]' class='form-control select2'><option hidden>Pilih</option></select></td>" 
+            + "<td><input type='text' name='jumlah[]' class='form-control' placeholder=''></td>" 
+            + "<td><input type='text' name='satuan[]' class='form-control' placeholder=''></td>" 
+            + "<td><input type='text' name='harga[]' class='form-control' placeholder=''></td>" 
+            + "<td><input type='text' name='total[]' class='form-control' placeholder=''></td>" 
+            + "<td><div class='btn-group'>"
+              + "<a type='button' id='tambah"+addVal+"' class='btn btn-info' href='javascript:void(0)' onclick='tambahBaris("+addVal+")'><i class='fa-fw fas fa-plus-square nav-icon'></i></a>"
+              + "<a type='button' id='hapus"+addVal+"' class='btn btn-danger' href='javascript:void(0)' onclick='hapusBaris("+addVal+")'><i class='fa-fw fas fa-trash nav-icon'></i></a>"
+            + "</div></td></tr>";
+              
+    $('#tbody').append(content);
+  }
+
+  function hapusBaris(val) {
+    if (val == 1) {
+      
+    } else {
+      var minVal = val - 1;
+      $('#data'+val).remove();
+      $('#tambah'+minVal).prop('hidden', false); 
+    }
+  }
 </script>
 @endsection
