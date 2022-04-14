@@ -60,4 +60,11 @@ class pengadaanController extends Controller
 
         return response()->json($data, 200);
     }
+
+    public function getBarangDetail($id)
+    {
+        $show = barang::where('id',$id)->first();
+
+        return response()->json($show, 200);
+    }
 }

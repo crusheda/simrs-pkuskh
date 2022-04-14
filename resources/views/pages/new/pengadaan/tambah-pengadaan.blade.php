@@ -25,32 +25,28 @@
         <table id="table" class="table table-bordered display" style="table-layout: fixed;width: 100%;word-break: break-word;">
           <thead>
             <tr>
-              <th style="width:40%">Nama</th>
+              <th style="width:45%">Nama</th>
               <th style="width:15%">Jumlah</th>
-              <th style="width:15%">Satuan</th>
-              <th style="width:20%">Harga</th>
-              <th style="width:20%">Total</th>
+              <th style="width:25%">Harga</th>
+              <th style="width:25%">Total</th>
               <th style="width:10%"></th>
             </tr>
           </thead>
           <tbody style="text-transform: capitalize" id="tbody">
             <tr id="data1">
               <td>
-                <select name="barang[]" id="barang1" class="form-control select2">
+                <select name="barang[]" id="barang1" class="form-control select2" required>
                   <option hidden>Pilih</option>
                 </select>
               </td>
               <td>
-                <input type="text" name="jumlah[]" class="form-control" placeholder="">
+                <input type="text" name="jumlah[]" id="jumlah1" class="form-control" placeholder="" required>
               </td>
               <td>
-                <input type="text" name="satuan[]" class="form-control" placeholder="">
+                <input type="text" name="harga[]" id="harga1" class="form-control" placeholder="">
               </td>
               <td>
-                <input type="text" name="harga[]" class="form-control" placeholder="">
-              </td>
-              <td>
-                <input type="text" name="total[]" class="form-control" placeholder="">
+                <input type="text" name="total[]" id="total1" class="form-control" placeholder="">
               </td>
               <td>
                 <div class="btn-group">
@@ -122,6 +118,33 @@
         }
       }
     );
+
+    // const elements = document.querySelectorAll('.barang');
+    $('select').on('change', function() {
+    // $('#barang2').change(function() { 
+    // elements.change(function() { 
+    console.log(this.value);
+    
+      if (this.value == '') {
+        // $("#jumlah1").val("");
+        // $("#satuan1").val("");
+        // $("#harga1").val("");
+        // $('#jumlah1').attr('required', false);
+      } else {
+        $.ajax({
+          url: "./tambah/api/barang/detail/"+this.value,
+          type: 'GET',
+          dataType: 'json', // added data type
+          success: function(res) {
+            $("#harga1").val(res.harga);
+          }
+        });
+      }
+    });
+    $('input').keyup(function() {
+      var dInput = this.value;
+      console.log(dInput);
+    });
   });
 </script>
 <script>
@@ -138,10 +161,9 @@
           // $("#barang1").find('option').remove();
           var addVal = val + 1;
           content = "<tr id='data"+ addVal +"'>"
-                  + "<td><select name='barang[]' id='barang"+addVal+"' class='form-control select2'>"
+                  + "<td><select name='barang[]' id='barang"+addVal+"' class='form-control select2 barang' required>"
                   + "<option hidden>Pilih</option></select></td>" 
-                  + "<td><input type='text' name='jumlah[]' class='form-control' placeholder=''></td>" 
-                  + "<td><input type='text' name='satuan[]' class='form-control' placeholder=''></td>" 
+                  + "<td><input type='text' name='jumlah[]' class='form-control' placeholder='' required></td>" 
                   + "<td><input type='text' name='harga[]' class='form-control' placeholder=''></td>" 
                   + "<td><input type='text' name='total[]' class='form-control' placeholder=''></td>" 
                   + "<td><div class='btn-group'>"
@@ -149,6 +171,7 @@
                     + "<a type='button' id='hapus"+addVal+"' class='btn btn-danger' href='javascript:void(0)' onclick='hapusBaris("+addVal+")' data-toggle='tooltip' data-placement='bottom' title='HAPUS BARIS'><i class='fa-fw fas fa-trash nav-icon'></i></a>"
                   + "</div></td></tr>";
           $('#tbody').append(content);
+          $("#barang"+addVal).select2();
                     
           res.show.forEach(item => {
             $("#barang"+addVal).append(
