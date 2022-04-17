@@ -58,40 +58,6 @@
           </tbody>
         </table>
       </div>
-      {{-- <div class="row">
-        <div class="col-md-4">
-          <div class="form-group">
-            <label>Nama Barang</label>
-            <select name="barang" class="form-control select2 mx-sm-3" style="width: 100%">
-              <option hidden>Pilih</option>
-            </select>
-          </div>
-        </div>
-        <div class="col-md-1">
-          <div class="form-group">
-            <label>Jumlah</label>
-            <input type="text" class="form-control" placeholder="">
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label>Satuan</label>
-            <input type="text" class="form-control" placeholder="" readonly>
-          </div>
-        </div>
-        <div class="col-md-2">
-          <div class="form-group">
-            <label>Harga</label>
-            <input type="text" class="form-control" placeholder="" readonly>
-          </div>
-        </div>
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>Total</label>
-            <input type="text" class="form-control" placeholder="">
-          </div>
-        </div>
-      </div> --}}
   </div>
   <div class="card-footer text-right">
     <div class="btn-group">
@@ -141,10 +107,15 @@
         });
       }
     });
-    $('input').keyup(function() {
+    $('#jumlah1').keyup(function() {
       var dInput = this.value;
-      console.log(dInput);
+      var valHarga = $("#harga1").val();
+      var valTotal = $("#total1").val(valHarga * dInput);
     });
+    // $('input').keyup(function() {
+    //   var dInput = this.value;
+    //   console.log(dInput);
+    // });
   });
 </script>
 <script>
@@ -163,9 +134,9 @@
           content = "<tr id='data"+ addVal +"'>"
                   + "<td><select name='barang[]' id='barang"+addVal+"' class='form-control select2 barang' required>"
                   + "<option hidden>Pilih</option></select></td>" 
-                  + "<td><input type='text' name='jumlah[]' class='form-control' placeholder='' required></td>" 
-                  + "<td><input type='text' name='harga[]' class='form-control' placeholder=''></td>" 
-                  + "<td><input type='text' name='total[]' class='form-control' placeholder=''></td>" 
+                  + "<td><input type='text' id='jumlah"+addVal+"' name='jumlah[]' class='form-control' placeholder='' required></td>" 
+                  + "<td><input type='text' id='harga"+addVal+"' name='harga[]' class='form-control' placeholder=''></td>" 
+                  + "<td><input type='text' id='total"+addVal+"' name='total[]' class='form-control' placeholder=''></td>" 
                   + "<td><div class='btn-group'>"
                     + "<a type='button' id='tambah"+addVal+"' class='btn btn-info' href='javascript:void(0)' onclick='tambahBaris("+addVal+")' data-toggle='tooltip' data-placement='left' title='TAMBAH BARIS'><i class='fa-fw fas fa-plus-square nav-icon'></i></a>"
                     + "<a type='button' id='hapus"+addVal+"' class='btn btn-danger' href='javascript:void(0)' onclick='hapusBaris("+addVal+")' data-toggle='tooltip' data-placement='bottom' title='HAPUS BARIS'><i class='fa-fw fas fa-trash nav-icon'></i></a>"
@@ -178,10 +149,34 @@
               `<option value="${item.id}">${item.nama} (${item.satuan})</option>`
             );
           })
-          
+          console.log($("#barang"+addVal).val())
+          console.log('=========================')
           $('#tambah'+val).prop('hidden', true); 
           $('#hapus'+val).prop('hidden', true);
           $('#tambah'+val).find("i").removeClass("fa-sync fa-spin").addClass("fa-plus-square");
+          $('#jumlah'+addVal).keyup(function() {
+            var dInput = this.value;
+            // var valjumlah = $("#jumlah"+addVal).val();
+            var valHarga = $("#harga"+addVal).val();
+            var valTotal = $("#total"+addVal).val(valHarga * dInput);
+
+            console.log($("#jumlah"+addVal))
+            console.log($("#jumlah"+addVal).val())
+            console.log(dInput);
+          });
+          $('select').on('change', function() {
+            if (this.value == '') {
+            } else {
+              $.ajax({
+                url: "./tambah/api/barang/detail/"+this.value,
+                type: 'GET',
+                dataType: 'json', // added data type
+                success: function(res) {
+                  $("#harga"+addVal).val(res.harga);
+                }
+              });
+            }
+          });
         }
       }
     );
