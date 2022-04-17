@@ -35,18 +35,18 @@
           <tbody style="text-transform: capitalize" id="tbody">
             <tr id="data1">
               <td>
-                <select name="barang[]" id="barang1" class="form-control select2" required>
-                  <option hidden>Pilih</option>
+                <select name="barang[]" id="barang1" class="form-control select2" disabled required>
+                  <option hidden>Memproses Data Barang...</option>
                 </select>
               </td>
               <td>
-                <input type="text" name="jumlah[]" id="jumlah1" class="form-control" placeholder="" required>
+                <input type="text" name="jumlah[]" id="jumlah1" class="form-control" placeholder="" disabled required>
               </td>
               <td>
-                <input type="text" name="harga[]" id="harga1" class="form-control" placeholder="">
+                <input type="text" name="harga[]" id="harga1" class="form-control" placeholder="" readonly>
               </td>
               <td>
-                <input type="text" name="total[]" id="total1" class="form-control" placeholder="">
+                <input type="text" name="total[]" id="total1" class="form-control" placeholder="" readonly>
               </td>
               <td>
                 <div class="btn-group">
@@ -75,51 +75,55 @@
         type: 'GET',
         dataType: 'json', // added data type
         success: function(res) {
-          // $("#barang1").find('option').remove();
+          $("#barang1").find('option').remove();
+          $('#barang1').append(`
+              <option hidden>Pilih</option>
+          `);
           res.show.forEach(item => {
             $("#barang1").append(`
                 <option value="${item.id}">${item.nama} (${item.satuan})</option>
             `);
           });
+          $("#barang1").prop('disabled', false);
         }
       }
     );
 
-    // const elements = document.querySelectorAll('.barang');
-    $('select').on('change', function() {
-    // $('#barang2').change(function() { 
-    // elements.change(function() { 
-    console.log(this.value);
-    
-      if (this.value == '') {
-        // $("#jumlah1").val("");
-        // $("#satuan1").val("");
-        // $("#harga1").val("");
-        // $('#jumlah1').attr('required', false);
+    $("#barang1").on('change', function() {
+      $("#jumlah1").val("");
+      $("#total1").val("");
+      if (this.value == 'Pilih') {
+        $("#jumlah1").prop('disabled', true); 
+        $("#harga1").val("");
+        $("#total1").val("");
       } else {
         $.ajax({
           url: "./tambah/api/barang/detail/"+this.value,
           type: 'GET',
           dataType: 'json', // added data type
           success: function(res) {
-            $("#harga1").val(res.harga);
+            $("#jumlah1").prop('disabled', false); 
+            $("#harga1").val("Rp. "+res.harga.toLocaleString().replace(/[,]/g,'.'));
           }
         });
       }
     });
     $('#jumlah1').keyup(function() {
       var dInput = this.value;
-      var valHarga = $("#harga1").val();
-      var valTotal = $("#total1").val(valHarga * dInput);
+      var valHarga = $("#harga1").val().replace("Rp. ", "");
+      valHarga = valHarga.replace(".","");
+      var valTotal = $("#total1").val("Rp. "+(valHarga * dInput).toLocaleString().replace(/[,]/g,'.'));
+
     });
-    // $('input').keyup(function() {
-    //   var dInput = this.value;
-    //   console.log(dInput);
-    // });
+    
+    // // Add Rupiah
+    // var harga1 = document.getElementById('harga1');
+    // if (harga1) { harga1.addEventListener('keyup', function(e){ ongkos1.value = formatRupiah(this.value, 'Rp. '); }); }
   });
 </script>
 <script>
   function tambahBaris(val) {
+    $('#tambah'+val).prop('disabled', true).addClass("disabled"); 
     $('#tambah'+val).find("i").toggleClass("fa-plus-square fa-sync fa-spin");
     $.ajax(
       {
@@ -134,9 +138,9 @@
           content = "<tr id='data"+ addVal +"'>"
                   + "<td><select name='barang[]' id='barang"+addVal+"' class='form-control select2 barang' required>"
                   + "<option hidden>Pilih</option></select></td>" 
-                  + "<td><input type='text' id='jumlah"+addVal+"' name='jumlah[]' class='form-control' placeholder='' required></td>" 
-                  + "<td><input type='text' id='harga"+addVal+"' name='harga[]' class='form-control' placeholder=''></td>" 
-                  + "<td><input type='text' id='total"+addVal+"' name='total[]' class='form-control' placeholder=''></td>" 
+                  + "<td><input type='text' id='jumlah"+addVal+"' name='jumlah[]' class='form-control' placeholder='' disabled required></td>" 
+                  + "<td><input type='text' id='harga"+addVal+"' name='harga[]' class='form-control' placeholder='' readonly></td>" 
+                  + "<td><input type='text' id='total"+addVal+"' name='total[]' class='form-control' placeholder='' readonly></td>" 
                   + "<td><div class='btn-group'>"
                     + "<a type='button' id='tambah"+addVal+"' class='btn btn-info' href='javascript:void(0)' onclick='tambahBaris("+addVal+")' data-toggle='tooltip' data-placement='left' title='TAMBAH BARIS'><i class='fa-fw fas fa-plus-square nav-icon'></i></a>"
                     + "<a type='button' id='hapus"+addVal+"' class='btn btn-danger' href='javascript:void(0)' onclick='hapusBaris("+addVal+")' data-toggle='tooltip' data-placement='bottom' title='HAPUS BARIS'><i class='fa-fw fas fa-trash nav-icon'></i></a>"
@@ -149,33 +153,40 @@
               `<option value="${item.id}">${item.nama} (${item.satuan})</option>`
             );
           })
-          console.log($("#barang"+addVal).val())
-          console.log('=========================')
-          $('#tambah'+val).prop('hidden', true); 
-          $('#hapus'+val).prop('hidden', true);
-          $('#tambah'+val).find("i").removeClass("fa-sync fa-spin").addClass("fa-plus-square");
+          
           $('#jumlah'+addVal).keyup(function() {
             var dInput = this.value;
-            // var valjumlah = $("#jumlah"+addVal).val();
-            var valHarga = $("#harga"+addVal).val();
-            var valTotal = $("#total"+addVal).val(valHarga * dInput);
-
-            console.log($("#jumlah"+addVal))
-            console.log($("#jumlah"+addVal).val())
-            console.log(dInput);
+            var valHarga = $("#harga"+addVal).val().replace("Rp. ", "");
+            valHarga = valHarga.replace(".","");
+            var valTotal = $("#total"+addVal).val("Rp. "+(valHarga * dInput).toLocaleString().replace(/[,]/g,'.'));
           });
-          $('select').on('change', function() {
-            if (this.value == '') {
+          $("#barang"+addVal).on('change', function() {
+            $('#jumlah'+addVal).val("")
+            $('#total'+addVal).val("");
+            if (this.value == 'Pilih') {
+              $('#jumlah'+addVal).prop('disabled', true); 
+              $('#harga'+addVal).val("");
+              $('#total'+addVal).val("");
             } else {
               $.ajax({
                 url: "./tambah/api/barang/detail/"+this.value,
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {
-                  $("#harga"+addVal).val(res.harga);
+                  $('#jumlah'+addVal).prop('disabled', false); 
+                  $("#harga"+addVal).val("Rp. "+res.harga.toLocaleString().replace(/[,]/g,'.'));
                 }
               });
             }
+          });
+          $('#tambah'+val).prop('hidden', true); 
+          $('#hapus'+val).prop('hidden', true);
+          $('#tambah'+val).find("i").removeClass("fa-sync fa-spin").addClass("fa-plus-square");
+
+          iziToast.success({
+            title: 'Baris '+addVal,
+            message: 'berhasil ditambahkan',
+            position: 'topRight'
           });
         }
       }
@@ -185,19 +196,7 @@
 
   function hapusBaris(val) {
     var minVal = val - 1;
-    // if (minVal == 1) {
-    //   $('#data'+val).remove();
-    //   if (val > 2) {
-    //     $('#tambah'+minVal).prop('hidden', false);
-    //     $('#hapus'+minVal).prop('hidden', true);
-    //   } else {
-    //     $('#tambah'+minVal).prop('hidden', true);
-    //     $('#hapus'+minVal).prop('hidden', false);
-    //   }
-    // } else {
-    //   $('#data'+val).remove();
-    //   $('#tambah'+minVal).prop('hidden', false); 
-    // }
+    $('#tambah'+minVal).prop('disabled', false).removeClass("disabled"); 
     $('#data'+val).remove();
     if (minVal == 1) {
       $('#tambah'+minVal).prop('hidden', false);
@@ -205,6 +204,29 @@
       $('#tambah'+minVal).prop('hidden', false);
       $('#hapus'+minVal).prop('hidden', false);
     }
+    iziToast.error({
+      title: 'Baris '+val,
+      message: 'berhasil dihapus',
+      position: 'topRight'
+    });
+  }
+  
+  /* Fungsi formatRupiah */
+  function formatRupiah(angka, prefix){
+      var number_string = angka.replace(/[^,\d]/g, '').toString(),
+      split   		= number_string.split(','),
+      sisa     		= split[0].length % 3,
+      rupiah     		= split[0].substr(0, sisa),
+      ribuan     		= split[0].substr(sisa).match(/\d{3}/gi);
+
+      // tambahkan titik jika yang di input sudah menjadi angka ribuan
+      if(ribuan){
+          separator = sisa ? '.' : '';
+          rupiah += separator + ribuan.join('.');
+      }
+
+      rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
+      return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
   }
 </script>
 @endsection
