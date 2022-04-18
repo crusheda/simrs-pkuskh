@@ -15,13 +15,13 @@
   <link rel="stylesheet" href="{{ asset('assets/modules/fontawesome/css/all.min.css') }}">
 
   <!-- CSS Libraries -->
-    {{-- <link href="https://cdn.datatables.net/1.10.19/css/jquery.dataTables.min.css" rel="stylesheet" /> --}}
-    {{-- <link href="https://cdn.datatables.net/1.10.19/css/dataTables.bootstrap4.min.css" rel="stylesheet" /> --}}
-    <link href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css" rel="stylesheet" />
-    {{-- <link href="https://cdn.datatables.net/select/1.3.0/css/select.dataTables.min.css" rel="stylesheet" /> --}}
-  <link rel="stylesheet" href="{{ asset('assets/modules/datatables/datatables.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
-  <link rel="stylesheet" href="{{ asset('assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css') }}">
+    {{-- DATATABLES --}}
+    <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.5/b-2.2.2/b-colvis-2.2.2/b-html5-2.2.2/b-print-2.2.2/datatables.min.css"/>
+    {{-- <link href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css" rel="stylesheet" />
+    <link rel="stylesheet" href="{{ asset('assets/modules/datatables/datatables.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
+    <link rel="stylesheet" href="{{ asset('assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css') }}"> --}}
+
   <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap-social/bootstrap-social.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/summernote/summernote-bs4.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/select2/dist/css/select2.min.css') }}">
@@ -89,13 +89,18 @@
                 </div>
             @endif
             @if($errors->count() > 0)
-                <div class="alert alert-danger">
-                    <ul class="list-unstyled">
-                        @foreach($errors->all() as $error)
-                            <li>{{ $error }}</li>
-                        @endforeach
-                    </ul>
+              <div class="alert alert-danger alert-dismissible show fade">
+                <div class="alert-body">
+                  <button class="close" data-dismiss="alert">
+                    <span>&times;</span>
+                  </button>
+                  <ul>
+                      @foreach($errors->all() as $error)
+                          <li>{{ $error }}</li>
+                      @endforeach
+                  </ul>
                 </div>
+              </div>
             @endif
             @if( Session::has('status') )
               <p class="feedback-success">{{ Session::get('status') }}</p>
@@ -169,10 +174,15 @@
   <script src="{{ asset('assets/modules/owlcarousel2/dist/owl.carousel.min.js') }}"></script>
   <script src="{{ asset('assets/modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
   
-  <script src="{{ asset('assets/modules/datatables/datatables.min.js') }}"></script>
-  <script src="{{ asset('assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
-  <script src="{{ asset('assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script>
-  <script src="//cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script>
+  {{-- DATATABLES --}}
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/pdfmake.min.js"></script>
+  <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/pdfmake/0.1.36/vfs_fonts.js"></script>
+  <script type="text/javascript" src="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.5/b-2.2.2/b-colvis-2.2.2/b-html5-2.2.2/b-print-2.2.2/datatables.min.js"></script>
+
+  {{-- <script src="{{ asset('assets/modules/datatables/datatables.min.js') }}"></script>
+  <script src="//cdn.datatables.net/buttons/1.2.4/js/dataTables.buttons.min.js"></script> --}}
+  {{-- <script src="{{ asset('assets/modules/datatables/DataTables-1.10.16/js/dataTables.bootstrap4.min.js') }}"></script>
+  <script src="{{ asset('assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script> --}}
 
   <!-- Page Specific JS File -->
   {{-- <script src="{{ asset('assets/js/page/index.js') }}"></script> --}}

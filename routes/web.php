@@ -362,6 +362,7 @@ Route::resource('absen', 'absen\cameraController');
 
 // Pengadaan
 Route::get('pengadaan', 'publik\pengadaan\pengadaanController@index')->name('pengadaan.index');
+Route::get('pengadaan/api/data', 'publik\pengadaan\pengadaanController@getPengadaan')->name('pengadaan.api.data');
 Route::get('pengadaan/tambah/api/barang/detail/{id}', 'publik\pengadaan\pengadaanController@getBarangDetail')->name('pengadaan.api.barangDetail');
 Route::get('pengadaan/tambah/api/barang/{id}', 'publik\pengadaan\pengadaanController@getBarang')->name('pengadaan.api.barang');
 Route::post('pengadaan/tambah', 'publik\pengadaan\pengadaanController@create')->name('pengadaan.create');

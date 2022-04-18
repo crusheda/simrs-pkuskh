@@ -19,7 +19,7 @@
       </div>
     </div>
     <hr>
-    <form class="form-auth-small" id="formTambah" action="{{ route('pengadaan.store') }}" method="POST" enctype="multipart/form-data">
+    <form class="form-auth-small" id="formTambah" action="{{ route('pengadaan.store') }}" method="POST" enctype="multipart/form-data" onsubmit="return submitForm(this);">
       @csrf
       <div class="table-responsive">
         <table id="table" class="table table-bordered display" style="table-layout: fixed;width: 100%;word-break: break-word;">
@@ -67,7 +67,8 @@
   <div class="card-footer text-right">
     <div class="btn-group">
       <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('pengadaan.index') }}'" data-toggle="tooltip" data-placement="bottom" title="KEMBALI KE TABEL PENGADAAN"><i class="fa-fw fas fa-caret-left nav-icon"></i> Kembali</button>
-      <button class="btn btn-primary" id="btn-simpan" type="submit" data-toggle="tooltip" data-placement="bottom" title="AJUKAN SEKARANG"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
+      {{-- <button type="button" class="btn btn-primary" title="VALIDASI FORM" id="btn-submit" type="submit"><i class="fa-fw fas fa-save nav-icon"></i> Validasi</button> --}}
+      <input type="submit" class="btn btn-primary fas fa-save" data-toggle="tooltip" data-placement="bottom" title="VALIDASI FORM" value="&#xf0c7; Ajukan"/>
     </div>
     </form>
   </div>
@@ -135,9 +136,49 @@
         
         return true;
     });
+    // $('#btn-submit').on('click',function(e){
+    //   e.preventDefault();
+    //   // var form = $(this).parents('form');
+    //   swal({
+    //       title: "Are you sure?",
+    //       text: "You will not be able to recover this imaginary file!",
+    //       type: "warning",
+    //       showCancelButton: true,
+    //       confirmButtonColor: "#DD6B55",
+    //       confirmButtonText: "Yes, delete it!",
+    //       // closeOnConfirm: false
+    //   }, function(isConfirm){
+    //       if (isConfirm) $("#formTambah").submit();
+    //   });
+    // });
   });
 </script>
 <script>
+  function submitForm(form) {
+    swal({
+        title: "Apakah anda sudah yakin?",
+        text: "Periksa sekali lagi untuk memastikan data sudah terisi dengan benar",
+        // icon: "info",
+        // buttons: true,
+        // dangerMode: true,
+        allowOutsideClick: false,
+        allowEscapeKey: false,
+        timer: 5000,
+        // timerProgressBar: true,
+        focusCancel: true,
+        showCancelButton: true,
+        confirmButtonColor: '#6777EF',
+        confirmButtonText: `<i class="fa fa-save"></i> Ajukan`,
+        cancelButtonText: `<i class="fa fa-times"></i> Batal`,
+        // backdrop: `rgba(26,27,41,0.8)`,
+    })
+    .then(function (isOkay) {
+        if (isOkay) {
+            form.submit();
+        }
+    });
+    return false;
+  }
   function tambahBaris(val) {
     $('#tambah'+val).prop('disabled', true).addClass("disabled"); 
     $('#tambah'+val).find("i").toggleClass("fa-plus-square fa-sync fa-spin");

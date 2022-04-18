@@ -54,7 +54,7 @@ class pengadaanController extends Controller
         foreach ($request->barang as $key => $value) {
             if ($value == "Pilih") {
                 // return redirect()->back()->withErrors("Lengkai Data Barang Anda")->withInput();
-                return redirect()->route('pengadaan.store')->withErrors("Lengkapi semua data barang anda");
+                return redirect()->route('pengadaan.store')->withErrors(["Data tidak lengkap, ulangi sekali lagi","Pastikan data yang anda tambahkan terisi dengan benar"]);
             }
         }
 
@@ -68,8 +68,8 @@ class pengadaanController extends Controller
         $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
         
         $queue = pengadaan::orderBy('id_pengadaan','DESC')->first();
-        print_r($queue);
-        die();
+        // print_r($queue);
+        // die();
         if (empty($queue)) {
             $getQueue = 1;
         } else {
@@ -122,5 +122,23 @@ class pengadaanController extends Controller
         $show = barang::where('id',$id)->first();
 
         return response()->json($show, 200);
+    }
+
+    public function getPengadaan()
+    {
+        $show = pengadaan::join('users', 'users.id', '=', 'pengadaan.id_user')->select("pengadaan.*","users.nama")->get();
+        // $show = DB::table('pengadaan')
+        //         ->join('users', 'users.id', '=', 'pengadaan.id_user')
+        //         ->select('users.nama','pengadaan.*')
+        //         ->orderBy('tgl_pengadaan','DESC')
+        //         // ->limit('30')
+        //         ->get();
+        // print_r($show);
+        // die();
+        $data = [
+            'show' => $show,
+        ];
+
+        return response()->json($data, 200);
     }
 }

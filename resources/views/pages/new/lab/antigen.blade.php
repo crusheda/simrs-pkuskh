@@ -25,9 +25,10 @@
         <sub>Data yang ditampilkan hanya berjumlah 30 data terbaru saja, Klik <a href="#" onclick="window.location.href='{{ url('lab/antigen/all') }}'"><strong><u>Disini</u></strong></a> untuk melihat data seluruhnya.</sub>
         <hr>
         <div class="table-responsive">
-          <table class="table table-striped" id="tableku">
+          <table class="table table-striped" id="tableku" style="width: 100%">
             <thead>
               <tr>
+                <th>ID</th>
                 <th>DOKTER PENGIRIM</th>
                 <th>RM</th>
                 <th>PASIEN</th>
@@ -38,9 +39,10 @@
                 <th><center>AKSI</center></th>
               </tr>
             </thead>
-            <tbody id="tampil-tbody"><tr><td colspan="8"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+            <tbody id="tampil-tbody"><tr><td colspan="9"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
             <tfoot>
                 <tr>
+                    <th>ID</th>
                     <th>DOKTER PENGIRIM</th>
                     <th>RM</th>
                     <th>PASIEN</th>
@@ -278,11 +280,12 @@
                 $("#tampil-tbody").empty();
                 // var date = new Date().toISOString().split('T')[0];
                 if(res.show.length == 0){
-                    $("#tampil-tbody").append(`<tr><td colspan="8"><center><i class="fas fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
+                    $("#tampil-tbody").append(`<tr><td colspan="9"><center><i class="fas fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
                 } else {
                     res.show.forEach(item => {
                         // var updet = item.updated_at.substring(0, 10);
                         content = "<tr id='data"+ item.id +"'><td>" 
+                                    + item.id + "</td><td>" 
                                     + item.dr_nama + "</td><td>" 
                                     + item.rm + "</td><td>" 
                                     + item.nama + "</td><td>"
@@ -326,6 +329,14 @@
                                 className: 'btn-warning',
                                 text: 'Cetak PDF',
                                 download: 'open',
+                            },
+                            {
+                                extend: 'colvis',
+                                className: 'btn-dark',
+                                text: 'Sembunyikan Kolom',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
                             },
                         ],
                         order: [[ 5, "desc" ]],
@@ -419,7 +430,7 @@
   })
 
 function refresh() {
-  $("#tampil-tbody").empty().append(`<tr><td colspan="8"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
+  $("#tampil-tbody").empty().append(`<tr><td colspan="9"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
   $.ajax(
     {
       url: "./antigen/api/get",
@@ -427,13 +438,14 @@ function refresh() {
       dataType: 'json', // added data type
       success: function(res) {
         $("#tampil-tbody").empty();
-        $('#tableku').DataTable().clear().destroy();
+        // $('#tableku').DataTable().clear().destroy();
         if(res.show.length == 0){
-            $("#tampil-tbody").append(`<tr><td colspan="8"><center><i class="fa fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
+            $("#tampil-tbody").append(`<tr><td colspan="9"><center><i class="fa fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
         } else {
             res.show.forEach(item => {
                 // var updet = item.updated_at.substring(0, 10);
                 content = "<tr id='data"+ item.id +"'><td>" 
+                            + item.id + "</td><td>" 
                             + item.dr_nama + "</td><td>" 
                             + item.rm + "</td><td>" 
                             + item.nama + "</td><td>"
@@ -454,33 +466,41 @@ function refresh() {
                 $('#tampil-tbody').append(content);
             });
         }
-        $('#tableku').DataTable(
-            {
-              dom: 'Bfrtip',
-              buttons: [
-                {
-                  extend: 'copyHtml5',
-                  className: 'btn-info',
-                  text: 'Salin Baris',
-                  download: 'open',
-                },
-                {
-                  extend: 'excelHtml5',
-                  className: 'btn-success',
-                  text: 'Export Excell',
-                  download: 'open',
-                },
-                {
-                  extend: 'pdfHtml5',
-                  className: 'btn-warning',
-                  text: 'Cetak PDF',
-                  download: 'open',
-                },
-              ],
-              order: [[ 5, "desc" ]],
-              pageLength: 10
-            }
-        ).columns.adjust();
+        // $('#tableku').DataTable(
+        //     {
+        //       dom: 'Bfrtip',
+        //       buttons: [
+        //         {
+        //           extend: 'copyHtml5',
+        //           className: 'btn-info',
+        //           text: 'Salin Baris',
+        //           download: 'open',
+        //         },
+        //         {
+        //           extend: 'excelHtml5',
+        //           className: 'btn-success',
+        //           text: 'Export Excell',
+        //           download: 'open',
+        //         },
+        //         {
+        //           extend: 'pdfHtml5',
+        //           className: 'btn-warning',
+        //           text: 'Cetak PDF',
+        //           download: 'open',
+        //         },
+        //         {
+        //             extend: 'colvis',
+        //             className: 'btn-dark',
+        //             text: 'Sembunyikan Kolom',
+        //             exportOptions: {
+        //                 columns: ':visible'
+        //             }
+        //         },
+        //       ],
+        //       order: [[ 5, "desc" ]],
+        //       pageLength: 10
+        //     }
+        // ).columns.adjust();
       }
     }
   );
