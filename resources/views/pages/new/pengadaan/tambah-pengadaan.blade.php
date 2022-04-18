@@ -19,21 +19,23 @@
       </div>
     </div>
     <hr>
-    <form class="form-auth-small" action="{{ route('pengadaan.store') }}" method="POST" enctype="multipart/form-data">
+    <form class="form-auth-small" id="formTambah" action="{{ route('pengadaan.store') }}" method="POST" enctype="multipart/form-data">
       @csrf
       <div class="table-responsive">
         <table id="table" class="table table-bordered display" style="table-layout: fixed;width: 100%;word-break: break-word;">
           <thead>
             <tr>
-              <th style="width:45%">Nama</th>
-              <th style="width:15%">Jumlah</th>
-              <th style="width:25%">Harga</th>
-              <th style="width:25%">Total</th>
-              <th style="width:10%"></th>
+              <th style="width:27%">Nama</th>
+              <th style="width:10%">Jumlah</th>
+              <th style="width:15%">Harga</th>
+              <th style="width:15%">Total</th>
+              <th style="width:25%">Keterangan</th>
+              <th style="width:8%"></th>
             </tr>
           </thead>
           <tbody style="text-transform: capitalize" id="tbody">
             <tr id="data1">
+              <td hidden><input type="text" name="satuan[]" id="satuan1" class="form-control"></td>
               <td>
                 <select name="barang[]" id="barang1" class="form-control select2" disabled required>
                   <option hidden>Memproses Data Barang...</option>
@@ -49,6 +51,9 @@
                 <input type="text" name="total[]" id="total1" class="form-control" placeholder="" readonly>
               </td>
               <td>
+                <input type="text" name="ket[]" id="ket1" class="form-control" placeholder="" disabled>
+              </td>
+              <td>
                 <div class="btn-group">
                   <a type="button" id="tambah1" class="btn btn-info" href="javascript:void(0)" onclick="tambahBaris(1)" data-toggle="tooltip" data-placement="left" title="TAMBAH BARIS"><i class="fa-fw fas fa-plus-square nav-icon"></i></a>
                   {{-- <a type="button" id="hapus1" class="btn btn-danger" href="javascript:void(0)" onclick="hapusBaris(1)" hidden><i class="fa-fw fas fa-trash nav-icon"></i></a> --}}
@@ -62,7 +67,7 @@
   <div class="card-footer text-right">
     <div class="btn-group">
       <button type="button" class="btn btn-secondary" onclick="window.location='{{ route('pengadaan.index') }}'" data-toggle="tooltip" data-placement="bottom" title="KEMBALI KE TABEL PENGADAAN"><i class="fa-fw fas fa-caret-left nav-icon"></i> Kembali</button>
-      <button class="btn btn-primary" type="submit" data-toggle="tooltip" data-placement="bottom" title="AJUKAN SEKARANG"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
+      <button class="btn btn-primary" id="btn-simpan" type="submit" data-toggle="tooltip" data-placement="bottom" title="AJUKAN SEKARANG"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
     </div>
     </form>
   </div>
@@ -94,7 +99,9 @@
       $("#total1").val("");
       if (this.value == 'Pilih') {
         $("#jumlah1").prop('disabled', true); 
+        $("#ket1").prop('disabled', true); 
         $("#harga1").val("");
+        $("#satuan1").val("");
         $("#total1").val("");
       } else {
         $.ajax({
@@ -103,7 +110,9 @@
           dataType: 'json', // added data type
           success: function(res) {
             $("#jumlah1").prop('disabled', false); 
+            $("#ket1").prop('disabled', false); 
             $("#harga1").val("Rp. "+res.harga.toLocaleString().replace(/[,]/g,'.'));
+            $("#satuan1").val(res.satuan);
           }
         });
       }
@@ -119,6 +128,13 @@
     // // Add Rupiah
     // var harga1 = document.getElementById('harga1');
     // if (harga1) { harga1.addEventListener('keyup', function(e){ ongkos1.value = formatRupiah(this.value, 'Rp. '); }); }
+    $("#formTambah").one('submit', function() {
+        //stop submitting the form to see the disabled button effect
+        $("#btn-simpan").attr('disabled','disabled');
+        $("#btn-simpan").find("i").toggleClass("fa-save fa-sync fa-spin");
+        
+        return true;
+    });
   });
 </script>
 <script>
@@ -136,11 +152,13 @@
           // $("#barang1").find('option').remove();
           var addVal = val + 1;
           content = "<tr id='data"+ addVal +"'>"
+                  + "<td hidden><input type='text' name='satuan[]' id='satuan"+addVal+"' class='form-control'></td>"
                   + "<td><select name='barang[]' id='barang"+addVal+"' class='form-control select2 barang' required>"
                   + "<option hidden>Pilih</option></select></td>" 
                   + "<td><input type='text' id='jumlah"+addVal+"' name='jumlah[]' class='form-control' placeholder='' disabled required></td>" 
                   + "<td><input type='text' id='harga"+addVal+"' name='harga[]' class='form-control' placeholder='' readonly></td>" 
                   + "<td><input type='text' id='total"+addVal+"' name='total[]' class='form-control' placeholder='' readonly></td>" 
+                  + "<td><input type='text' id='ket"+addVal+"' name='ket[]' class='form-control' placeholder='' disabled></td>" 
                   + "<td><div class='btn-group'>"
                     + "<a type='button' id='tambah"+addVal+"' class='btn btn-info' href='javascript:void(0)' onclick='tambahBaris("+addVal+")' data-toggle='tooltip' data-placement='left' title='TAMBAH BARIS'><i class='fa-fw fas fa-plus-square nav-icon'></i></a>"
                     + "<a type='button' id='hapus"+addVal+"' class='btn btn-danger' href='javascript:void(0)' onclick='hapusBaris("+addVal+")' data-toggle='tooltip' data-placement='bottom' title='HAPUS BARIS'><i class='fa-fw fas fa-trash nav-icon'></i></a>"
@@ -165,7 +183,9 @@
             $('#total'+addVal).val("");
             if (this.value == 'Pilih') {
               $('#jumlah'+addVal).prop('disabled', true); 
+              $('#ket'+addVal).prop('disabled', true); 
               $('#harga'+addVal).val("");
+              $('#satuan'+addVal).val("");
               $('#total'+addVal).val("");
             } else {
               $.ajax({
@@ -174,7 +194,9 @@
                 dataType: 'json', // added data type
                 success: function(res) {
                   $('#jumlah'+addVal).prop('disabled', false); 
+                  $('#ket'+addVal).prop('disabled', false); 
                   $("#harga"+addVal).val("Rp. "+res.harga.toLocaleString().replace(/[,]/g,'.'));
+                  $('#satuan'+addVal).val(res.satuan);
                 }
               });
             }

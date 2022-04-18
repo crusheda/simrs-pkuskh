@@ -46,7 +46,63 @@ class pengadaanController extends Controller
 
     public function store(Request $request)
     {
-        # code...
+        // foreach ($request->total as $key => $value) {
+        // }
+        // $this->validate($request, [
+        //     'barang1' => 'required',
+        // ]);
+        foreach ($request->barang as $key => $value) {
+            if ($value == "Pilih") {
+                // return redirect()->back()->withErrors("Lengkai Data Barang Anda")->withInput();
+                return redirect()->route('pengadaan.store')->withErrors("Lengkapi semua data barang anda");
+            }
+        }
+
+        $user = Auth::user();
+        $id = $user->id;
+        $name = $user->name;
+        $role = $user->roles;
+        foreach ($role as $key => $value) {
+            $unit[] = $value->name;
+        }
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+        
+        $queue = pengadaan::orderBy('id_pengadaan','DESC')->first();
+        print_r($queue);
+        die();
+        if (empty($queue)) {
+            $getQueue = 1;
+        } else {
+            $getQueue = $queue->id_pengadaan + 1;
+        }
+        // print_r($getQueue);
+        // die();
+        // print_r($request->satuan);
+        // die();
+        for ($i=0; $i < count($request->barang); $i++) { 
+            $data = new detail_pengadaan;
+            $data->id_pengadaan = $getQueue;
+            $data->id_barang = $request->barang[$i];
+            $data->jumlah = $request->jumlah[$i];
+            $data->harga = str_replace(".","",(str_replace("Rp. ", "", $request->harga[$i])));
+            $data->satuan = $request->satuan[$i];
+            $data->total = str_replace(".","",(str_replace("Rp. ", "", $request->total[$i])));
+            $data->ket = $request->ket[$i];
+            $data->save();
+            
+            $totalArr[] = str_replace(".","",(str_replace("Rp. ", "", $request->total[$i])));
+        }
+        
+        $save = new pengadaan;
+        $save->id_pengadaan = $getQueue;
+        $save->id_user = $id;
+        $save->unit = json_encode($unit);
+        $save->total = array_sum($totalArr);
+        $save->tgl_pengadaan = Carbon::now();
+        $save->save();
+        
+        return redirect()->route('pengadaan.index')->with('message','Tambah Pengadaan Berhasil oleh '.$name.' Pada '.$tgl);
+        // return view('pages.new.pengadaan.pengadaan')->with('message','Tambah Pengadaan Berhasil oleh '.$name);
     }
 
     // API
