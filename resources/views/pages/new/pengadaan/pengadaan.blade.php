@@ -75,7 +75,7 @@
       <table id="table" class="table table-hover display" style="width: 100%;word-break: break-word;">
         <thead>
           <tr>
-            <th>NO</th>
+            <th>IDP</th>
             <th>NAMA</th>
             <th>UNIT</th>
             <th>TOTAL</th>
@@ -120,29 +120,49 @@
   </div>
 </div>
 
-<div class="modal fade bd-example-modal-lg" id="ubah" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="detail" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
   <div class="modal-dialog modal-lg">
   <div class="modal-content">
     <div class="modal-header">
     <h4 class="modal-title">
-      Ubah Pengadaan&nbsp;<span class="pull-right badge badge-info text-white">ID : <a id="show_id"></a></span>
+      Detail Pengadaan&nbsp;<span class="pull-right badge badge-info text-white">ID SYS : <a id="show_id"></a></span>
     </h4>
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
     <div class="modal-body">
-      <input type="text" id="id_edit" hidden>
       <div class="row">
-        <div class="col-md-3">
-          <div class="form-group">
-            <label>RM :</label>
-            <input type="number" id="rm_edit" class="form-control" disabled>
+        <div class="col-md-6">
+          <label>Pemohon :</label><br>
+          <h5 id="detail_nama" style="margin-bottom:-3px"></h5>
+          <sub id="detail_unit"></sub>
+        </div>
+        <div class="col-md-6 text-right">
+          <kbd id="detail_jenis"></kbd><br>
+          Ditambahkan pada :<br><a id="detail_tgl"></a>
+        </div>
+        <div class="col-md-12">
+          <hr>
+          <div class="table-responsive">
+            <table class="table table-bordered display" style="width: 100%;/* word-break: break-word; */">
+              <thead>
+                <tr>
+                  <th style="width:5%">ID</th>
+                  <th style="width:20%">BARANG</th>
+                  <th style="width:5%">JML</th>
+                  <th style="width:20%">HARGA</th>
+                  <th style="width:10%">SATUAN</th>
+                  <th style="width:15%">KET</th>
+                  <th style="width:20%">TOTAL</th>
+                </tr>
+              </thead>
+              <tbody id="tampil-tbody-detail"><tr><td colspan="7"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+              <tfoot id="tampil-tfoot-detail"></tfoot>
+            </table>
           </div>
         </div>
       </div>
-      <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Jika terdapat kesalahan pada penulisan <kbd>Nomor RM</kbd> , silakan Hapus data dan Input ulang kembali</a>
     </div>
     <div class="modal-footer">
-      <button class="btn btn-primary pull-right" id="submit_edit" onclick="ubah()"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
       <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
     </div>
   </div>
@@ -177,8 +197,8 @@
               content += "<td><center><div class='btn-group' role='group'>";
                 // content += `<button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('antigen/`+item.id+`/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>`;
                 // content += `<button type="button" class="btn btn-success btn-sm" onclick="window.open('antigen/`+item.id+`/cetak')" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></button>`;
-                content += `<button type="button" class="btn btn-warning btn-sm" onclick="showUbah(`+item.id+`)" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>`;
-                content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(`+item.id+`)" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
+                content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="HAPUS PENGADAAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
               content += "</div></center></td></tr>";
               $('#tampil-tbody').append(content);
             });
@@ -282,5 +302,40 @@
     });
 
   });
+
+  function detail(id) {
+    $('#detail').modal('show');
+    $.ajax(
+      {
+        url: "./pengadaan/api/data/"+id,
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(res) {
+          $("#show_id").text(res.detail.id);
+          $("#detail_nama").text(res.detail.nama);
+          $("#detail_unit").text(JSON.parse(res.detail.unit));
+          $("#detail_jenis").text(res.detail.nama);
+          $("#detail_tgl").text(res.detail.tgl_pengadaan);
+
+          $("#tampil-tbody-detail").empty();
+          $("#tampil-tfoot-detail").empty();
+          res.show.forEach(item => {
+            content = "<tr id='data"+ item.id +"'><td>" 
+                      + item.id + "</td><td>" 
+                      + item.nama + "</td><td>"  
+                      + item.jumlah + "</td><td>"  
+                      + "Rp. " + item.harga.toLocaleString().replace(/[,]/g,'.') + "</td><td>"  
+                      + item.satuan + "</td><td>"  
+                      + item.ket + "</td><td>" 
+                      + "Rp. " + item.total.toLocaleString().replace(/[,]/g,'.') + "</td></tr>";
+            $('#tampil-tbody-detail').append(content);
+          });
+          $("#tampil-tfoot-detail").append(
+            `<tr><th colspan="6">TOTAL KESELURUHAN</th><th>Rp. `+ res.detail.total.toLocaleString().replace(/[,]/g,'.') +`</th></tr>`
+          );
+        }
+      }
+    );
+  }
 </script>
 @endsection

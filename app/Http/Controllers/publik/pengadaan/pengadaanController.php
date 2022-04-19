@@ -141,4 +141,19 @@ class pengadaanController extends Controller
 
         return response()->json($data, 200);
     }
+
+    public function detailPengadaan($id)
+    {
+        $detail = pengadaan::join('users', 'users.id', '=', 'pengadaan.id_user')->select("pengadaan.*","users.nama")->first();
+        $show = detail_pengadaan::join('barang', 'barang.id', '=', 'detail_pengadaan.id_barang')->select('detail_pengadaan.*','barang.nama')->where('id_pengadaan',$id)->orderBy('id','ASC')->get();
+
+        // print_r($show);
+        // die();
+        $data = [
+            'detail' => $detail,
+            'show' => $show,
+        ];
+
+        return response()->json($data, 200);
+    }
 }
