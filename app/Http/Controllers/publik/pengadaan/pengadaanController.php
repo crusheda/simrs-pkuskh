@@ -126,7 +126,12 @@ class pengadaanController extends Controller
 
     public function getPengadaan()
     {
-        $show = pengadaan::join('users', 'users.id', '=', 'pengadaan.id_user')->select("pengadaan.*","users.nama")->get();
+        $now = Carbon::now();
+        $month = $now->isoFormat('MM');
+        $lastMonth = $now->subMonth()->isoFormat('MM');
+        // print_r($arr);
+        // die();
+        $show = pengadaan::join('users', 'users.id', '=', 'pengadaan.id_user')->select("pengadaan.*","users.nama")->whereMonth('tgl_pengadaan', '>=', $lastMonth)->whereMonth('tgl_pengadaan', '<=', $month)->get();
         // $show = DB::table('pengadaan')
         //         ->join('users', 'users.id', '=', 'pengadaan.id_user')
         //         ->select('users.nama','pengadaan.*')
@@ -144,8 +149,8 @@ class pengadaanController extends Controller
 
     public function detailPengadaan($id)
     {
-        $detail = pengadaan::join('users', 'users.id', '=', 'pengadaan.id_user')->select("pengadaan.*","users.nama")->first();
-        $show = detail_pengadaan::join('barang', 'barang.id', '=', 'detail_pengadaan.id_barang')->select('detail_pengadaan.*','barang.nama')->where('id_pengadaan',$id)->orderBy('id','ASC')->get();
+        $detail = pengadaan::join('users', 'users.id', '=', 'pengadaan.id_user')->select("pengadaan.*","users.nama")->where('id_pengadaan',$id)->first();
+        $show = detail_pengadaan::join('barang', 'barang.id', '=', 'detail_pengadaan.id_barang')->join('ref_barang', 'ref_barang.id', '=', 'barang.ref_barang')->select('detail_pengadaan.*','barang.nama','ref_barang.nama as jenis')->where('id_pengadaan',$id)->orderBy('id','ASC')->get();
 
         // print_r($show);
         // die();
@@ -155,5 +160,15 @@ class pengadaanController extends Controller
         ];
 
         return response()->json($data, 200);
+    }
+
+    public function hapusPengadaan($id)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        pengadaan::where('id_pengadaan', $id)->delete();
+        detail_pengadaan::where('id_pengadaan', $id)->delete();
+
+        return response()->json($tgl, 200);
     }
 }

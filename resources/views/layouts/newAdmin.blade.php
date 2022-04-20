@@ -42,7 +42,7 @@
   <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
   <link rel="stylesheet" href="{{ asset('sweetalert2/sweetalert2.min.css') }}">
   <script src="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.5/sweetalert2.min.js"></script>
-  <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.5/sweetalert2.min.css" rel="stylesheet"/>
+  {{-- <link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.5/sweetalert2.min.css" rel="stylesheet"/> --}}
 
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">

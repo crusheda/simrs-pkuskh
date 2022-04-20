@@ -1,6 +1,9 @@
 @extends('layouts.newAdmin')
 
 @section('content')
+{{-- SweetAlert2 for Button Ajukan --}}
+<link href="https://cdnjs.cloudflare.com/ajax/libs/limonte-sweetalert2/6.6.5/sweetalert2.min.css" rel="stylesheet"/>
+
 <div class="card">
   <div class="card-header">
     <button type="button" class="btn btn-dark" onclick="window.location='{{ route('pengadaan.index') }}'" data-toggle="tooltip" data-placement="bottom" title="KEMBALI KE TABEL PENGADAAN"><i class="fa-fw fas fa-caret-left nav-icon"></i> Kembali</button>
