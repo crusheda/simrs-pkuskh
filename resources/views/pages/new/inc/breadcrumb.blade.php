@@ -287,6 +287,11 @@
       $b1 = 'Supervisi IT'; 
       $b2 = 'Rekap Supervisi IT'; 
     }
+    if ($route == 'it.logit.old') {
+      $title = 'Riwayat Supervisi IT Lama';
+      $b1 = 'Supervisi IT'; 
+      $b2 = 'Riwayat'; 
+    }
 
     // IBS
     if ($route == 'ibs.supervisi.index') {

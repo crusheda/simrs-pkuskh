@@ -26,7 +26,8 @@
             <br><br>
             <sub>
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan hanya berjumlah 20 data terbaru saja<br>
-                <i class="fa-fw fas fa-caret-right nav-icon"></i> Klik tombol <a href="javascript:void(0)" onclick="window.location.href='{{ url('it/supervisi/all') }}'"><u><b>LIHAT</b></u></a> untuk melihat data seluruhnya
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Klik tombol <a href="javascript:void(0)" onclick="window.location.href='{{ url('it/supervisi/all') }}'"><u><b>LIHAT</b></u></a> untuk melihat data seluruhnya<br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Klik tombol <a href="javascript:void(0)" onclick="window.location.href='{{ url('it/supervisi/old') }}'"><u><b>RIWAYAT</b></u></a> untuk melihat data riwayat supervisi lama
             </sub>
             <hr>
             <div class="table-responsive">

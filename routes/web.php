@@ -73,6 +73,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
 Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], function () {
     // Route::get('home', 'it\itController@index')->name('it.home');
     // Route::get('user-activity', 'it\itController@getActivity')->name('user_activity');
+    Route::get('supervisi/old','it\log\logController@showOld')->name('logit.old');  
     Route::get('supervisi/all','it\log\logController@showAll')->name('logit.all');  
     // Route::get('supervisi/lampiran/{id}', 'it\log\logController@getLampiran');
     // Route::get('supervisi/lampiran/{id}/download', 'it\log\logController@unduhLampiran');

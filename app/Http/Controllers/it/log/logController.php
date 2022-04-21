@@ -38,6 +38,7 @@ class logController extends Controller
                 ->where('users.nama', '<>','')
                 ->where('users.name', '<>','it')
                 ->where('users.name', '<>','ztaqin')
+                ->where('users.name', '<>','masvee')
                 ->get();
 
         $data = [
@@ -250,6 +251,24 @@ class logController extends Controller
         ];
 
         return view('pages.new.it.supervisi.supervisiAll')->with('list', $data);
+    }
+
+    public function showOld()
+    {
+        $show = logit::orderBy('created_at','DESC')->get();
+        $user = DB::table('users')
+                ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')
+                ->select('users.*')
+                ->where('roles.name', 'it')
+                ->get();
+
+        $data = [
+            'user' => $user,
+            'show' => $show
+        ];
+
+        return view('pages.new.it.supervisi.supervisiOld')->with('list', $data);
     }
 
     public function getLampiran($id)
