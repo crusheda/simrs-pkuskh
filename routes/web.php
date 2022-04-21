@@ -165,10 +165,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'lab', 'as' => 'lab.'], func
 });
 
 // Kepegawaian
+Route::get('kepegawaian/karyawan/profil/{id}', 'kantor\kepegawaian\profilController@showProfil')->name('kepegawaian.karyawan.profil');
 Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepegawaian.'], function () {
     Route::get('karyawan/cetak/{id}', 'kantor\kepegawaianController@generatePDF')->name('karyawan.cetak');
     Route::get('karyawan/nonaktif/{id}', 'kantor\kepegawaianController@nonaktif')->name('karyawan.nonaktif');
-    Route::get('karyawan/profil/{id}', 'kantor\kepegawaian\profilController@showProfil');
     Route::resource('karyawan', 'kantor\kepegawaianController');
 
     // Penggajian Karyawan

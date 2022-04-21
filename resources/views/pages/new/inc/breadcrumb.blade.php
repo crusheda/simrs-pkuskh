@@ -259,6 +259,12 @@
       $b1 = 'Kepegawaian'; 
       $b2 = 'Data Karyawan';
     }
+    if ($route == 'kepegawaian.karyawan.profil') {
+      $title = 'Profil Karyawan';
+      $b1 = 'Kepegawaian'; 
+      $b2 = 'Data Karyawan';
+      $b3 = 'Detail Profil';
+    }
 
     // IT
     if ($route == 'it.pilar.index') {
