@@ -30,7 +30,7 @@ Route::post('edit_akun/{id}', 'Admin\UsersController@ubahData')->name('ubah.akun
 // })->middleware('guest')->name('password.request');
 
 // Other
-// Route::get('/home', 'HomeController@index')->name('home');
+Route::get('/home', 'HomeController@index')->name('home');
 
 // MANAGER FILE
 Route::get('/home/file-manager', 'HomeController@fileManager')->name('managerfile');
@@ -215,8 +215,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
         Route::get('/rapat/show3/{id}', 'kantor\rapatController@show3');
         Route::get('/rapat/show4/{id}', 'kantor\rapatController@show4');
         Route::get('/rapat/show5/{id}', 'kantor\rapatController@show5');
-        Route::put('regulasi/note/{post}','kantor\regulasiController@addNote')->name('regulasi.note');
-        Route::resource('regulasi', 'kantor\regulasiController');
+        // Route::put('regulasi/note/{post}','kantor\regulasiController@addNote')->name('regulasi.note');
+        // Route::resource('regulasi', 'kantor\regulasiController');
 
         // Laporan Bulanan OLD
         Route::get('/laporan/bulanan/filter', 'kantor\laporanBulananController@filter')->name('bulanan.filter');
@@ -370,3 +370,11 @@ Route::get('pengadaan/tambah/api/barang/{id}', 'publik\pengadaan\pengadaanContro
 Route::post('pengadaan/tambah', 'publik\pengadaan\pengadaanController@create')->name('pengadaan.create');
 Route::post('pengadaan', 'publik\pengadaan\pengadaanController@store')->name('pengadaan.store');
 Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController');
+
+// ADMINISTRASI
+    // REGULASI
+        Route::resource('regulasi/kebijakan', 'administrasi\regulasi\kebijakanController');
+        Route::resource('regulasi/panduan', 'administrasi\regulasi\panduanController');
+        Route::resource('regulasi/pedoman', 'administrasi\regulasi\pedomanController');
+        Route::resource('regulasi/program', 'administrasi\regulasi\programController');
+        Route::resource('regulasi/spo', 'administrasi\regulasi\spoController');

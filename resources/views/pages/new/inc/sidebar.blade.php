@@ -17,10 +17,9 @@
           <li class="{{ request()->routeIs('kunjungan') ? 'active' : '' }}"><a class="nav-link" href="{{ route("kunjungan") }}">Kunjungan Pasien</a></li>
         </ul>
       </li>
-      <li class="nav-item dropdown {{ request()->routeIs(['rapat.index','managerfile','regulasi.index','perencanaan.index']) ? 'active' : '' }}">
+      <li class="nav-item dropdown {{ request()->routeIs(['rapat.index','managerfile','perencanaan.index','kebijakan.index','panduan.index','pedoman.index','program.index','spo.index']) ? 'active' : '' }}">
         <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-book-open"></i><span>Administrasi</span></a>
         <ul class="dropdown-menu">
-          <li class="nav-item {{ request()->routeIs('rapat.index') ? 'active' : '' }}"><a href="{{ route("rapat.index") }}" class="nav-link">Berkas Rapat</a></li>
           <li class="nav-item {{ request()->routeIs('managerfile') ? 'active' : '' }}"><a href="{{ route("managerfile") }}" class="nav-link">File Manager</a></li>
           @if(auth()->user()->can('laporan') || auth()->user()->can('admin-laporan'))
             <li class="nav-item dropdown {{ request()->routeIs(['bulan.index']) ? 'active' : '' }}"><a href="#" class="nav-link has-dropdown">Laporan</a>
@@ -36,7 +35,17 @@
               </ul>
             </li>
           @endif
-          <li class="nav-item {{ request()->routeIs('regulasi.index') ? 'active' : '' }}"><a href="{{ route("regulasi.index") }}" class="nav-link">Regulasi</a></li>
+          <li class="nav-item {{ request()->routeIs('rapat.index') ? 'active' : '' }}"><a href="{{ route("rapat.index") }}" class="nav-link">Berkas Rapat</a></li>
+          {{-- <li class="nav-item {{ request()->routeIs('regulasi.index') ? 'active' : '' }}"><a href="{{ route("regulasi.index") }}" class="nav-link">Regulasi OLD</a></li> --}}
+          <li class="nav-item dropdown {{ request()->routeIs(['kebijakan.index','panduan.index','pedoman.index','program.index','spo.index']) ? 'active' : '' }}"><a href="#" class="nav-link has-dropdown">Regulasi</a>
+            <ul class="dropdown-menu">
+              <li class="nav-item {{ request()->routeIs('kebijakan.index') ? 'active' : '' }}"><a href="{{ route('kebijakan.index') }}" class="nav-link">Kebijakan</a></li>
+              <li class="nav-item {{ request()->routeIs('panduan.index') ? 'active' : '' }}"><a href="{{ route('panduan.index') }}" class="nav-link">Panduan</a></li>
+              <li class="nav-item {{ request()->routeIs('pedoman.index') ? 'active' : '' }}"><a href="{{ route('pedoman.index') }}" class="nav-link">Pedoman</a></li>
+              <li class="nav-item {{ request()->routeIs('program.index') ? 'active' : '' }}"><a href="{{ route('program.index') }}" class="nav-link">Program</a></li>
+              <li class="nav-item {{ request()->routeIs('spo.index') ? 'active' : '' }}"><a href="{{ route('spo.index') }}" class="nav-link">SPO</a></li>
+            </ul>
+          </li>
           <li class="nav-item {{ request()->routeIs('perencanaan.index') ? 'active' : '' }}"><a href="{{ route("perencanaan.index") }}" class="nav-link">RKA</a></li>
         </ul>
       </li>

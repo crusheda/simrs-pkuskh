@@ -684,14 +684,14 @@
                             Berkas Rapat
                         </a>
                     </li>
-                    <li class="nav-item">
-                        <a href="{{ route("regulasi.index") }}" class="nav-link">
+                    {{-- <li class="nav-item">
+                        <a href="#" class="nav-link">
                             <i class="fa-fw fas fa-legal nav-icon">
 
                             </i>
                             Regulasi
                         </a>
-                    </li>
+                    </li> --}}
                     <li class="nav-item">
                         <a href="{{ route("perencanaan.index") }}" class="nav-link">
                             <i class="fa-fw fas fa-puzzle-piece nav-icon">

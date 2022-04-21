@@ -11,7 +11,7 @@
   <link rel="icon" type="image/png" sizes="96x96" href="{{ asset('img/pku_ico.png') }}">
 
   <!-- General CSS Files -->
-  <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap/css/bootstrap.min.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap/css/bootstrap.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/fontawesome/css/all.min.css') }}">
 
   <!-- CSS Libraries -->

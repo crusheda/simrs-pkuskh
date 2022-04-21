@@ -7,7 +7,7 @@
     <div class="card">
         <div class="card-header">
             <button type="button" class="btn btn-sm btn-light pull-left" onclick="window.location.href='{{ url('it/supervisi/') }}'"><i class="fa-fw fas fa-angle-left nav-icon"></i> Kembali</button>&nbsp;
-            <h4>Rekapitulasi Data Supervisi IT</h4>
+            <h4>Tabel</h4>
         </div>
         <div class="card-body">
             <div class="panel panel-default">
@@ -32,7 +32,7 @@
                                             @foreach($list['show'] as $item)
                                             <tr>
                                                 <td>{{ $item->nama }}</td>
-                                                <td>{{ $item->kegiatan }}</td>
+                                                <td>{{ $item->nama_kegiatan }} (<b>{{ $item->nama_kategori }}</b>)</td>
                                                 <td>{{ $item->lokasi }}</td>
                                                 <td>{{ $item->keterangan }}</td>
                                                 <td>{{ $item->created_at }}</td>

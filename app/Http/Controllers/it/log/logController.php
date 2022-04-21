@@ -26,7 +26,8 @@ class logController extends Controller
      */
     public function index()
     {
-        $show = logit::orderBy('created_at','DESC')->limit('20')->get();
+        $show = logit::join('ref_logit','ref_logit.id','=','logit.kegiatan')->select('ref_logit.kegiatan as nama_kegiatan','ref_logit.kategori as nama_kategori','logit.*')->orderBy('created_at','DESC')->limit('20')->get();
+        $showAll = logit::join('ref_logit','ref_logit.id','=','logit.kegiatan')->select('ref_logit.kegiatan as nama_kegiatan','ref_logit.kategori as nama_kategori','logit.*')->orderBy('created_at','DESC')->get();
         $ref = ref_logit::orderBy('kategori','DESC')->get();
         $user = DB::table('users')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
@@ -42,7 +43,8 @@ class logController extends Controller
         $data = [
             'user' => $user,
             'ref' => $ref,
-            'show' => $show
+            'show' => $show,
+            'showAll' => $showAll,
         ];
 
         return view('pages.new.it.supervisi.supervisi')->with('list', $data);
@@ -67,7 +69,7 @@ class logController extends Controller
     public function store(Request $request)
     {
         $this->validate($request,[
-            // 'nama' => 'required',
+            'nama' => 'required',
             'kegiatan' => 'required',
             'keterangan' => 'nullable',
             'lokasi' => 'nullable',
@@ -124,6 +126,7 @@ class logController extends Controller
             }
         }else {
             $data->lokasi = $request->lokasi;
+            $data->tgl = Carbon::now();
             $data->keterangan = $request->keterangan;
         }
 
@@ -165,26 +168,16 @@ class logController extends Controller
     public function update(Request $request, $id)
     {
         $this->validate($request,[
-            'kegiatan' => 'required',
+            // 'kegiatan' => 'required',
             'lokasi' => 'nullable',
             'keterangan' => 'nullable',
             'tgl' => 'nullable',
             ]);
 
         // $getTgl = Carbon::createFromFormat('Y-m-d H:i:s', $request->tgl)->format('F j, Y @ g:i A');
-        
-        $find = user::where('id', $request->nama)->first();
-        if ($request->id_user == null) {
-            $id_user = null;
-        } else {
-            $id_user = $find->id;
-        }
 
         $data = logit::find($id);
-        $data->id_user = $id_user;
-        $data->nama = $find->nama;
-        $data->kegiatan = $request->kegiatan;
-        // $data->created_at = $getTgl;
+        $data->tgl = $request->tgl;
 
         if ($request->keterangan == '') {
             $data->keterangan = '';
@@ -206,7 +199,7 @@ class logController extends Controller
         }
 
         $data->save();
-        return redirect('/it/supervisi')->with('message','Perubahan Kegiatan Supervisi Berhasil');
+        return redirect()->back()->with('message','Perubahan Kegiatan Supervisi Berhasil');
     }
 
     /**
@@ -243,7 +236,7 @@ class logController extends Controller
 
     public function showAll()
     {
-        $show = logit::get();
+        $show = logit::join('ref_logit','ref_logit.id','=','logit.kegiatan')->select('ref_logit.kegiatan as nama_kegiatan','ref_logit.kategori as nama_kategori','logit.*')->orderBy('created_at','DESC')->get();
         $user = DB::table('users')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')

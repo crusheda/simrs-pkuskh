@@ -46,7 +46,7 @@
                         @foreach($list['show'] as $item)
                         <tr>
                             <td>{{ $item->nama }}</td>
-                            <td>{{ $item->kegiatan }}</td>
+                            <td>{{ $item->nama_kegiatan }} (<b>{{ $item->nama_kategori }}</b>)</td>
                             <td>{{ $item->lokasi }}</td>
                             <td>{{ $item->keterangan }}</td>
                             <td>{{ $item->created_at }}</td>
@@ -152,13 +152,13 @@
     </div>
 </div>
 
-@foreach($list['show'] as $item)
+@foreach($list['showAll'] as $item)
 <div class="modal fade bd-example-modal-lg" id="ubahLog{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">
-            Ubah kegiatan &nbsp;<span class="pull-right badge badge-info text-white" style="margin-top:5px">{{ $item->updated_at->diffForHumans() }}</span>
+            Ubah kegiatan
           </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
@@ -167,39 +167,35 @@
                 @csrf
                 <input type="text" class="form-control" name="id_user" value="{{ $item->id_user }}" hidden>
                 <div class="row">
-                    <div class="col-md-12">
-                        <div class="row">
-                            <div class="col">
-                                <label>Kegiatan : </label>
-                                <input type="text" name="kegiatan" id="kegiatan" value="{{ $item->kegiatan }}" class="form-control" placeholder="" autofocus required>
-                                <br>
-                            </div>
-                            <div class="col">
-                                <label for="">Nama :</label>
-                                <div class="input-group mb-3">
-                                    <select class="custom-select" name="nama" required>
-                                        <option value="" hidden>Pilih</option>
-                                            @foreach($list['user'] as $key)
-                                                <option value="{{ $key->id }}" @if ($item->id_user == $key->id) echo selected @endif><b>{{ $key->nama }}</b></option>
-                                            @endforeach
-                                        </optgroup>
-                                    </select>
-                                </div>
-                            </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Nama :</label>
+                            <input type="text" value="{{ $item->nama }}" class="form-control disabled" disabled>
                         </div>
-                        <div class="row">
-                            <div class="col">
-                                <label>Lokasi :</label>
-                                <input type="text" name="lokasi" id="lokasi" value="{{ $item->lokasi }}" class="form-control" placeholder="">
-                            </div>
-                            <div class="col">
-                                <label>Waktu :</label>
-                                <input type="datetime-local" name="tgl" id="tgl" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($item->created_at)); ?>" class="form-control" placeholder="" disabled>
-                            </div>
-                        </div><br>
-                        <label>Keterangan :</label>
-                        <textarea class="form-control" name="keterangan" id="keterangan" placeholder=""><?php echo htmlspecialchars($item->keterangan); ?></textarea>
-                        <br>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Lokasi :</label>
+                            <input type="text" name="lokasi" id="lokasi" value="{{ $item->lokasi }}" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Kategori (Kegiatan) :</label>
+                            <input type="text" value="{{ $item->nama_kategori }} ({{ $item->nama_kegiatan }})" class="form-control disabled" disabled>
+                        </div>
+                    </div>
+                    <div class="col-md-6">
+                        <div class="form-group">
+                            <label>Tgl :</label>
+                            <input type="date" name="tgl" value="<?php echo strftime('%Y-%m-%d', strtotime($item->tgl)); ?>" class="form-control" placeholder="">
+                        </div>
+                    </div>
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <label>Keterangan :</label>
+                            <textarea class="form-control" name="keterangan" id="keterangan" placeholder=""><?php echo htmlspecialchars($item->keterangan); ?></textarea>
+                        </div>
                     </div>
                     <hr>
                     <div class="col-md-12">
@@ -215,7 +211,7 @@
 
         </div>
         <div class="modal-footer">
-            
+                {{ $item->updated_at->diffForHumans() }}&nbsp;&nbsp;
                 <center><button class="btn btn-primary pull-right"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button></center><br>
             </form>
 
@@ -228,7 +224,7 @@
 
 @foreach($list['show'] as $item)
 <div class="modal fade bd-example-modal-lg" id="hapusLog{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-md">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">
