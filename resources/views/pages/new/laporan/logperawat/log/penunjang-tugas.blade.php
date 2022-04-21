@@ -147,7 +147,7 @@
                 </select>
                 <br><br>
                 <label>Tgl :</label>
-                <input type="date" name="tgl" id="tgl" class="form-control" placeholder="">
+                <input type="date" name="tgl" id="tgl" class="form-control" placeholder="" required>
                 <br>
                 <label>Keterangan :</label>
                 <textarea class="form-control" name="ket" id="ket" placeholder=""></textarea>

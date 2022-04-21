@@ -89,6 +89,15 @@ class tgsPerawatController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'tgl' => 'required',
+            'file' => 'nullable|max:50000',
+        ]);
+        
+        if ($request->pernyataan == 'Pilih') {
+            return redirect()->back()->withErrors('Pilih Pernyataan terlebih dahulu');
+        }
+        
         $user = Auth::user();
         $id    = $user->id;
         $name = $user->name; //jamhuri

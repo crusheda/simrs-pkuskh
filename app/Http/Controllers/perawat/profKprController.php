@@ -91,6 +91,15 @@ class profKprController extends Controller
      */
     public function store(Request $request)
     {
+        $this->validate($request,[
+            'tgl' => 'required',
+            'file' => 'nullable|max:50000',
+        ]);
+
+        if ($request->pernyataan == 'Pilih') {
+            return redirect()->back()->withErrors('Pilih Pernyataan terlebih dahulu');
+        }
+
         $uploadedFile = $request->file('file');     
         
         if ($uploadedFile == '') {
