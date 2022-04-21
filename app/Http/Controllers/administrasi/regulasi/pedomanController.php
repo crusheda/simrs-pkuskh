@@ -62,8 +62,9 @@ class pedomanController extends Controller
         $path = $uploadedFile->store('public/files/regulasi/pedoman');
 
         $data = new pedoman;
-        $data->id_user = $id_user;
+        $data->id_user = Auth::user()->id;
         $data->sah = $request->sah;
+        $data->judul = $request->judul;
         $data->unit = json_encode($unit);
 
             $data->title = $request->title ?? $uploadedFile->getClientOriginalName();
@@ -108,6 +109,7 @@ class pedomanController extends Controller
         $data = pedoman::find($id);
         $data->sah = $request->sah;
         $data->judul = $request->judul;
+        $data->unit = $request->unit;
 
         $data->save();
         return Redirect::back()->with('message','Perubahan Regulasi Pedoman Berhasil');

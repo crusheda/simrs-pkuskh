@@ -62,8 +62,9 @@ class panduanController extends Controller
         $path = $uploadedFile->store('public/files/regulasi/panduan');
 
         $data = new panduan;
-        $data->id_user = $id_user;
+        $data->id_user = Auth::user()->id;
         $data->sah = $request->sah;
+        $data->judul = $request->judul;
         $data->unit = $request->unit;
 
             $data->title = $request->title ?? $uploadedFile->getClientOriginalName();
@@ -108,6 +109,7 @@ class panduanController extends Controller
         $data = panduan::find($id);
         $data->sah = $request->sah;
         $data->judul = $request->judul;
+        $data->unit = $request->unit;
 
         $data->save();
         return Redirect::back()->with('message','Perubahan Regulasi Panduan Berhasil');

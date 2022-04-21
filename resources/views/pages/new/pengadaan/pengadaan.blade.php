@@ -59,10 +59,12 @@
   <div class="card-header">
     <h4>Tabel</h4>
     <div class="card-header-action">
+      @role('it|kabag-perencanaan|kasubag-perencanaan-it|direktur-keuangan-perencanaan')
       <div class="btn-group">
-        <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="TAMPILKAN SEMUA PENGADAAN"><i class="fa-fw fas fa-history nav-icon"></i> Riwayat Pengadaan</button>
+        <button type="button" class="btn btn-info disabled" data-toggle="tooltip" data-placement="bottom" title="TAMPILKAN SEMUA PENGADAAN"><i class="fa-fw fas fa-history nav-icon"></i> Riwayat Pengadaan</button>
         <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="TAMBAH DATA BARANG" onclick="window.location='{{ route('barang.index') }}'"><i class="fa-fw fas fa-shopping-bag nav-icon"></i> Data Barang</button>
       </div>
+      @endrole
     </div>
   </div>
   <div class="card-body">
@@ -70,9 +72,11 @@
 			<button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah" data-placement="bottom" title="BUAT PENGUSULAN PENGADAAN">
         <i class="fa-fw fas fa-plus-square nav-icon"></i>	Tambah Pengadaan
 			</button>
-			<button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i></button>
-      <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="REKAP HASIL PENGADAAN"><i class="fa-fw fas fa-business-time nav-icon"></i></button>
-      <button type="button" class="btn btn-danger" data-toggle="tooltip" data-placement="bottom" title="TAMPILKAN PENGADAAN TERHAPUS"><i class="fa-fw fas fa-eraser nav-icon"></i></button>
+			<button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i> Refresh</button>
+      @role('it|kabag-perencanaan|kasubag-perencanaan-it')
+        <button type="button" class="btn btn-success disabled" data-toggle="tooltip" data-placement="bottom" title="REKAP HASIL PENGADAAN"><i class="fa-fw fas fa-business-time nav-icon"></i></button>
+        <button type="button" class="btn btn-danger disabled" data-toggle="tooltip" data-placement="bottom" title="TAMPILKAN PENGADAAN TERHAPUS"><i class="fa-fw fas fa-eraser nav-icon"></i></button>
+      @endrole
 		</div>
     <br><sub>Data yang ditampilkan adalah pengadaan 2 bulan terakhir</sub>
     {{-- <br><sub>Data yang ditampilkan hanya berjumlah 30 data terbaru saja, Klik <a href="#" onclick="window.location.href='{{ url('pengadaan') }}'"><strong><u>Disini</u></strong></a> untuk melihat data seluruhnya.</sub> --}}
@@ -114,6 +118,7 @@
                   <option value="{{ $key->id }}"><b>{{ $key->nama }}</b></option>
                 @endforeach
             </select>
+            <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan Anda mempunyai <b>Hak</b> untuk melakukan pengusulan pengadaan</sub>
           </div>
       </div>
       <div class="modal-footer">

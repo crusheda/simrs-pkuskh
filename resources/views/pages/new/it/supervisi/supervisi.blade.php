@@ -10,13 +10,13 @@
         </div>
         <div class="card-body">
             <div class="btn-group">
-                <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahlog">
+                <a type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambahlog" data-placement="bottom" title="TAMBAH KEGIATAN">
                     <i class="fa-fw fas fa-plus-square nav-icon">
     
                     </i>
                     Tambah Kegiatan
                 </a>
-                <a type="button" class="btn btn-dark text-white" href="{{ route("it.refsupervisi.index") }}">
+                <a type="button" class="btn btn-dark text-white" href="{{ route("it.refsupervisi.index") }}" data-toggle="tooltip" data-placement="bottom" title="TAMBAH INDIKATOR">
                     <i class="fa-fw fas fa-rss nav-icon">
     
                     </i>
@@ -26,7 +26,7 @@
             <br><br>
             <sub>
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan hanya berjumlah 20 data terbaru saja<br>
-                <i class="fa-fw fas fa-caret-right nav-icon"></i> Klik tombol <a href="#" onclick="window.location.href='{{ url('it/supervisi/all') }}'"><u><b>LIHAT</b></u></a> untuk melihat data seluruhnya
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Klik tombol <a href="javascript:void(0)" onclick="window.location.href='{{ url('it/supervisi/all') }}'"><u><b>LIHAT</b></u></a> untuk melihat data seluruhnya
             </sub>
             <hr>
             <div class="table-responsive">
@@ -54,7 +54,7 @@
                                 <center>
                                     <div class="btn-group" role="group">
                                         @if ($item->filename != '')
-                                            <button type="button" class="btn btn-info btn-sm text-white" onclick="showLampiran({{ $item->id }})"><i class="fa-fw fas fa-image nav-icon"></i></button>
+                                            <button type="button" class="btn btn-info btn-sm text-white" onclick="showLampiran({{ $item->id }})" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD LAMPIRAN"><i class="fa-fw fas fa-image nav-icon"></i></button>
                                         @else
                                             <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-image nav-icon"></i></button>
                                         @endif

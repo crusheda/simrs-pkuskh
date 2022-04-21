@@ -22,7 +22,7 @@
             <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i> Refresh</button>
             {{-- <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#show" data-toggle="tooltip" data-placement="bottom" title="DATA PASIEN HARI INI"><i class="fa-fw fas fa-info nav-icon text-white"></i> Informasi</button><br> --}}
         </div><br>
-        <sub>Data yang ditampilkan hanya berjumlah 30 data terbaru saja, Klik <a href="#" onclick="window.location.href='{{ url('lab/antigen/all') }}'"><strong><u>Disini</u></strong></a> untuk melihat data seluruhnya.</sub>
+        <sub>Data yang ditampilkan hanya berjumlah 30 data terbaru saja, Klik <a href="javascript:void(0)" onclick="window.location.href='{{ url('lab/antigen/all') }}'"><strong><u>Disini</u></strong></a> untuk melihat data seluruhnya.</sub>
         <hr>
         <div class="table-responsive">
           <table class="table table-striped" id="tableku" style="width: 100%">

@@ -41,7 +41,7 @@
                             <td>
                                 <center>
                                     <div class="btn-group" role="group">
-                                        <button type="button" class="btn btn-success btn-sm" onclick="window.location.href='{{ url('regulasi/kebijakan/'. $item->id) }}'" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon text-white"></i></button>
+                                        <button type="button" class="btn btn-success btn-sm" onclick="window.location.href='{{ url('regulasi/spo/'. $item->id) }}'" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon text-white"></i></button>
                                         @role('sekretaris-direktur')
                                             <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
                                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>
@@ -71,7 +71,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            <form class="form-auth-small" action="{{ route('kebijakan.store') }}" method="POST" enctype="multipart/form-data">
+            <form class="form-auth-small" action="{{ route('spo.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="row">
                     <div class="col-md-4">
@@ -123,7 +123,7 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            {{ Form::model($item, array('route' => array('kebijakan.update', $item->id), 'method' => 'PUT')) }}
+            {{ Form::model($item, array('route' => array('spo.update', $item->id), 'method' => 'PUT')) }}
                 @csrf
                 <div class="row">
                     <div class="col-md-4">
@@ -150,7 +150,7 @@
                             @if ($item->filename == '')
                             -
                             @else
-                                <b><u><a href="kebijakan/{{ $item->id }}">{{ substr($item->title,0,50) }}...</a></u></b><br><sub>Ukuran File : {{ number_format(Storage::size($item->filename) / 1048576,2) }} MB</sub>
+                                <b><u><a href="spo/{{ $item->id }}">{{ substr($item->title,0,50) }}...</a></u></b><br><sub>Ukuran File : {{ number_format(Storage::size($item->filename) / 1048576,2) }} MB</sub>
                             @endif
                         </div>
                     </div>
@@ -179,10 +179,10 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            <p>Apakah anda yakin ingin menghapus Regulasi Kebijakan <b>{{ $item->judul }}</b>?</p>
+            <p>Apakah anda yakin ingin menghapus Regulasi spo <b>{{ $item->judul }}</b>?</p>
         </div>
         <div class="modal-footer">
-            <form action="{{ route('kebijakan.destroy', $item->id) }}" method="POST">
+            <form action="{{ route('spo.destroy', $item->id) }}" method="POST">
                 @method('DELETE')
                 @csrf
                 <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button>

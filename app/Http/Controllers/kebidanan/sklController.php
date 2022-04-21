@@ -158,6 +158,22 @@ class sklController extends Controller
         return redirect('/kebidanan/skl')->with('message','Hapus Identitas Bayi Berhasil');
     }
 
+    public function showAll()
+    {
+        return view('pages.new.kebidanan.skl-all');
+    }
+
+    public function apiAll()
+    {
+        $show = skl::orderBy('no_surat', 'DESC')->get();
+        
+        $data = [
+            'show' => $show,
+        ];
+
+        return response()->json($data, 200);
+    }
+
     public function cetak($id)
     {
         $data = skl::where('id',$id)->first();

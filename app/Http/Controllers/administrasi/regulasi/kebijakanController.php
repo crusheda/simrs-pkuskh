@@ -22,11 +22,9 @@ class kebijakanController extends Controller
     public function index()
     {
         $show = kebijakan::get();
-        $today = Carbon::now()->isoFormat('YYYY/MM/DD');
 
         $data = [
             'show' => $show,
-            'today' => $today,
         ];
         return view('pages.new.administrasi.regulasi.kebijakan')->with('list', $data);
     }
@@ -62,8 +60,9 @@ class kebijakanController extends Controller
         $path = $uploadedFile->store('public/files/regulasi/kebijakan');
 
         $data = new kebijakan;
-        $data->id_user = $id_user;
+        $data->id_user = Auth::user()->id;
         $data->sah = $request->sah;
+        $data->judul = $request->judul;
         $data->unit = $request->unit;
 
             $data->title = $request->title ?? $uploadedFile->getClientOriginalName();

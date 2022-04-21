@@ -5,7 +5,10 @@
   <div class="col-12">
     <div class="card">
         <div class="card-header">
-          Tabel Karyawan
+          <h4>Tabel Karyawan</h4>
+          <div class="card-header-action">
+            <button type="button" class="btn btn-info" data-toggle="modal" data-target="#riwayat-nonaktif" data-placement="bottom" title="RIWAYAT PENONAKTIFAN PEGAWAI"><i class="fa-fw fas fa-history nav-icon"></i> Riwayat Nonaktif</button>
+          </div>
         </div>
         <div class="card-body">
             @can('kepegawaian')
@@ -87,10 +90,10 @@
                                             @else
                                                 <button type="button" class="btn btn-secondary btn-sm" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
                                             @endif
-                                            {{-- <button type="button" class="btn btn-dark btn-sm" onclick="window.location.href='{{ url('kepegawaian/karyawan/'. $item->id) }}'"><i class="fa-fw fas fa-search nav-icon"></i></button> --}}
-                                            <button type="button" class="btn btn-secondary btn-sm disabled"><i class="fa-fw fas fa-search nav-icon"></i></button>
+                                            <button type="button" class="btn btn-info btn-sm" onclick="window.location.href='{{ url('kepegawaian/karyawan/profil/'. $item->id) }}'" data-toggle="tooltip" data-placement="bottom" title="LIHAT PROFIL"><i class="fa-fw fas fa-search nav-icon"></i></button>
+                                            {{-- <button type="button" class="btn btn-secondary btn-sm disabled"><i class="fa-fw fas fa-search nav-icon"></i></button> --}}
                                             {{-- <button type="button" class="btn btn-secondary btn-sm" onclick="window.location.href='{{ url('kepegawaian/'. $item->id) }}'" disabled><i class="fa-fw fas fa-download nav-icon text-white"></i></button> --}}
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#nonaktif{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon text-white"></i></button>
+                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#nonaktif{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="NONAKTIFKAN PEGAWAI"><i class="fa-fw fas fa-trash nav-icon text-white"></i></button>
                                         </div>
                                     </center>
                                 </td>
@@ -161,6 +164,54 @@
     </div>
   </div>
 </div>
+
+<div class="modal fade bd-example-modal-lg" id="riwayat-nonaktif" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xxl">
+      <div class="modal-content">
+        <div class="modal-header">
+        <h4 class="modal-title">
+          Riwayat Penonaktifan Pegawai
+        </h4>
+        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            <div class="table-responsive">
+                <table id="nonaktif" class="table table-bordered table-hover display">
+                    <thead>
+                        <tr>
+                            <th>USER ID</th>
+                            <th>NAMA</th>
+                            <th>ALAMAT</th>
+                            <th>UNIT</th>
+                            <th><center>#</center></th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        @if(count($list['nonaktif']) > 0)
+                            @foreach($list['nonaktif'] as $item)
+                            <tr>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->nama }}</td>
+                                <td>{{ $item->alamat }}</td>
+                                <td>@foreach ($list['user'] as $val) @if ($item->id == $val->id) <kbd>{{ $val->nama_role }}</kbd> @endif @endforeach</td>
+                                <td>
+                                    <center>
+                                        <button type="button" class="btn btn-warning btn-sm text-white"><i class="fa-fw fas fa-user-check nav-icon text-white"></i> AKTIFKAN</button>
+                                    </center>
+                                </td>
+                            </tr>
+                            @endforeach
+                        @endif
+                    </tbody>
+                </table>
+            </div>
+        </div>
+        <div class="modal-footer">  
+          <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+        </div>
+      </div>
+    </div>
+  </div>
 
 @foreach($list['show'] as $item)
 <div class="modal fade bd-example-modal-lg" id="ubah{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
@@ -245,14 +296,18 @@
             </div>
             <div class="modal-body">
                 <p>
-                    <a>Apakah anda yakin ingin menonaktifkan karyawan a/n <b>{{ $item->nama }}</b> ?</a>
+                    <a>Apakah anda yakin ingin menonaktifkan karyawan a/n <b>{{ $item->nama }}</b> ?</a><br><br>
+                    <a>
+                        <b>CATATAN : </b><br>
+                        Penonaktifan pegawai hanya bertujuan untuk mengubah status pegawai menjadi nonaktif, tidak untuk menghapus Akun Pengguna. Apabila ingin melakukan <strong>Penghapusan Akun & Hak Akses Pengguna</strong> silakan Hubungi IT. 
+                    </a>
                 </p>
             </div>
             <div class="modal-footer">
                 @if(count($list) > 0)
                 <form action="{{ route('kepegawaian.karyawan.nonaktif', $item->id) }}" method="GET">
                   @csrf
-                  <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Submit</button>
+                  <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button>
                 </form>
                 @endif
                 <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
@@ -288,14 +343,14 @@
                     text: 'Cetak PDF',
                     download: 'open',
                   },
-                {
+                  {
                     extend: 'colvis',
                     className: 'btn-dark',
                     text: 'Sembunyikan Kolom',
                     exportOptions: {
                         columns: ':visible'
                     }
-                },
+                  },
                 ],
                 'columnDefs': [
                     { targets: 0, visible: false },
@@ -345,8 +400,52 @@
                     text: 'Cetak PDF',
                     download: 'open',
                   },
+                  {
+                    extend: 'colvis',
+                    className: 'btn-dark',
+                    text: 'Sembunyikan Kolom',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                  },
                 ],
                 order: [[ 3, "desc" ]],
+            }
+        );
+        $('#nonaktif').DataTable(
+            {
+                paging: true,
+                searching: true,
+                dom: 'Bfrtip',
+                buttons: [
+                  {
+                    extend: 'copyHtml5',
+                    className: 'btn-info',
+                    text: 'Salin Baris',
+                    download: 'open',
+                  },
+                  {
+                    extend: 'excelHtml5',
+                    className: 'btn-success',
+                    text: 'Export Excell',
+                    download: 'open',
+                  },
+                  {
+                    extend: 'pdfHtml5',
+                    className: 'btn-warning',
+                    text: 'Cetak PDF',
+                    download: 'open',
+                  },
+                  {
+                    extend: 'colvis',
+                    className: 'btn-dark',
+                    text: 'Sembunyikan Kolom',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
+                  },
+                ],
+                order: [[ 1, "asc" ]],
             }
         );
         

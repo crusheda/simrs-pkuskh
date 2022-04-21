@@ -27,7 +27,7 @@
             </div>
             <div class="card-footer">
                 <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan hanya berjumlah 50 data terbaru saja<br>
-                <i class="fa-fw fas fa-caret-right nav-icon"></i> Klik tombol <u><a href="#" onclick="window.location.href='{{ url('it/imut/pilar/all') }}'"><b>LIHAT</b></a></u> untuk melihat Rekapitulasi Data keseluruhan</a>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Klik tombol <u><a href="javascript:void(0)" onclick="window.location.href='{{ url('it/imut/pilar/all') }}'"><b>LIHAT</b></a></u> untuk melihat Rekapitulasi Data keseluruhan</a>
             </div>
         </div>
     </div>

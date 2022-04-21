@@ -166,9 +166,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'lab', 'as' => 'lab.'], func
 
 // Kepegawaian
 Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepegawaian.'], function () {
-    Route::get('/karyawan/cetak/{id}', 'kantor\kepegawaianController@generatePDF')->name('karyawan.cetak');
-    Route::get('/karyawan/nonaktif/{id}', 'kantor\kepegawaianController@nonaktif')->name('karyawan.nonaktif');
-    Route::resource('/karyawan', 'kantor\kepegawaianController');
+    Route::get('karyawan/cetak/{id}', 'kantor\kepegawaianController@generatePDF')->name('karyawan.cetak');
+    Route::get('karyawan/nonaktif/{id}', 'kantor\kepegawaianController@nonaktif')->name('karyawan.nonaktif');
+    Route::get('karyawan/profil/{id}', 'kantor\kepegawaian\profilController@showProfil');
+    Route::resource('karyawan', 'kantor\kepegawaianController');
 
     // Penggajian Karyawan
     Route::resource('gaji/struktural', 'kantor\gaji\strukturalController');
@@ -271,9 +272,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
             Route::resource('tgsperawat', 'perawat\tgsPerawatController');
 
     // Kebidanan
-        Route::resource('kebidanan/skl', 'kebidanan\sklController');
+        Route::get('kebidanan/skl/all','kebidanan\sklController@showAll')->name('skl.all');
+        Route::get('kebidanan/skl/all/api','kebidanan\sklController@apiAll')->name('skl.apiall');  
         Route::get('kebidanan/skl/{id}/cetak','kebidanan\sklController@cetak')->name('skl.cetak');  
         Route::get('kebidanan/skl/{id}/print','kebidanan\sklController@print')->name('skl.print');  
+        Route::resource('kebidanan/skl', 'kebidanan\sklController');
         // Route::get('cetak/word', 'kebidanan\sklController@word');
 
     // K3

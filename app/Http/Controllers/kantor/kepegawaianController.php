@@ -30,6 +30,7 @@ class kepegawaianController extends Controller
 
         $showSingle = user::whereNotNull('nik')->where('status',null)->get();
         $showSingleBelum = user::where('nik',null)->where('status',null)->get();
+        $nonaktif = user::where('status',true)->get();
 
         $user = DB::table('users')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
@@ -51,6 +52,7 @@ class kepegawaianController extends Controller
         $data = [
             'user' => $user,
             'show' => $show,
+            'nonaktif' => $nonaktif,
             'showSingle' => $showSingle,
             'showSingleBelum' => $showSingleBelum
         ];

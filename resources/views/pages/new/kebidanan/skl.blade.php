@@ -15,15 +15,11 @@
             </i>
             Tambah Identitas Bayi
           </button>
-          <button type="button" class="btn btn-secondary disabled" data-toggle="tooltip" data-placement="bottom" title="Lihat Semua Data" disabled>
-              <i class="fa-fw fas fa-history nav-icon">
-  
-              </i>
-              Lihat Semua Data
-          </button>
         </div>
         <br>
-        <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Disarankan untuk menggunakan Browser <b>Google Chrome</b><br><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan pada tabel dibawah hanya berjumlah 30 data saja</sub><hr>
+        <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Disarankan untuk menggunakan Browser <b>Google Chrome</b>
+          <br><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan hanya berjumlah 30 data terbaru saja, Klik <a href="javascript:void(0)" onclick="window.location.href='{{ url('kebidanan/skl/all') }}'"><strong><u>Disini</u></strong></a> untuk melihat data seluruhnya.
+        </sub><hr>
         <div class="table-responsive">
           <table id="table" class="table table-striped">
             <thead>

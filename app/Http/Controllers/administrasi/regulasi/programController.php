@@ -62,8 +62,9 @@ class programController extends Controller
         $path = $uploadedFile->store('public/files/regulasi/program');
 
         $data = new program;
-        $data->id_user = $id_user;
+        $data->id_user = Auth::user()->id;
         $data->sah = $request->sah;
+        $data->judul = $request->judul;
         $data->unit = $request->unit;
 
             $data->title = $request->title ?? $uploadedFile->getClientOriginalName();
@@ -108,6 +109,7 @@ class programController extends Controller
         $data = program::find($id);
         $data->sah = $request->sah;
         $data->judul = $request->judul;
+        $data->unit = $request->unit;
 
         $data->save();
         return Redirect::back()->with('message','Perubahan Regulasi Program Berhasil');

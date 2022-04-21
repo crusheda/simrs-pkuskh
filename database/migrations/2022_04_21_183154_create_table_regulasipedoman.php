@@ -19,6 +19,8 @@ class CreateTableRegulasipedoman extends Migration
             $table->date('sah')->nullable();
             $table->string('judul');
             $table->longText('unit');
+            $table->string('title')->nullable();
+            $table->string('filename')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });

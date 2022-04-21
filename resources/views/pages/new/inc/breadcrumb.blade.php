@@ -38,11 +38,41 @@
         $b3 = 'Bulanan'; 
       }
       // REGULASI
-      if ($route == 'regulasi.index') {
-        $title = 'Regulasi';
-        $b1 = 'Administrasi'; 
-        $b2 = 'Regulasi'; 
-      }
+        // KEBIJAKAN
+        if ($route == 'kebijakan.index') {
+          $title = 'Regulasi - Kebijakan';
+          $b1 = 'Administrasi'; 
+          $b2 = 'Regulasi';
+          $b3 = 'Kebijakan';
+        }
+        // PANDUAN
+        if ($route == 'panduan.index') {
+          $title = 'Regulasi - Panduan';
+          $b1 = 'Administrasi'; 
+          $b2 = 'Regulasi'; 
+          $b3 = 'Panduan';
+        }
+        // PEDOMAN
+        if ($route == 'pedoman.index') {
+          $title = 'Regulasi - Pedoman';
+          $b1 = 'Administrasi'; 
+          $b2 = 'Regulasi';
+          $b3 = 'Pedoman';
+        }
+        // PROGRAM
+        if ($route == 'program.index') {
+          $title = 'Regulasi - Program';
+          $b1 = 'Administrasi'; 
+          $b2 = 'Regulasi';
+          $b3 = 'Program';
+        }
+        // SPO
+        if ($route == 'spo.index') {
+          $title = 'Regulasi - SPO';
+          $b1 = 'Administrasi'; 
+          $b2 = 'Regulasi';
+          $b3 = 'SPO';
+        }
       // BERKAS RAPAT
       if ($route == 'rapat.index') {
         $title = 'Berkas Rapat';
@@ -213,9 +243,14 @@
     // KEBIDANAN
     if ($route == 'skl.index') {
       $title = 'Surat Keterangan Lahir';
-      $b1 = 'Dashboard'; 
-      $b2 = 'Kebidanan'; 
-      $b3 = 'SKL'; 
+      $b1 = 'Kebidanan'; 
+      $b2 = 'SKL'; 
+    }
+    if ($route == 'skl.all') {
+      $title = 'Semua Data Surat Keterangan Lahir';
+      $b1 = 'Kebidanan'; 
+      $b2 = 'SKL'; 
+      $b3 = 'all'; 
     }
 
     // KEPEGAWAIAN
