@@ -6,7 +6,7 @@
   <div class="col-12">
     <div class="card">
         <div class="card-header">
-            <h4>Tabel Supervisi</h4>
+            <h4>Tabel</h4>
         </div>
         <div class="card-body">
             <div class="btn-group">
@@ -50,12 +50,12 @@
                             <td>{{ $item->nama_kegiatan }} (<b>{{ $item->nama_kategori }}</b>)</td>
                             <td>{{ $item->lokasi }}</td>
                             <td>{{ $item->keterangan }}</td>
-                            <td>{{ $item->created_at }}</td>
+                            <td>{{ $item->tgl }}</td>
                             <td>
                                 <center>
                                     <div class="btn-group" role="group">
                                         @if ($item->filename != '')
-                                            <button type="button" class="btn btn-info btn-sm text-white" onclick="showLampiran({{ $item->id }})" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD LAMPIRAN"><i class="fa-fw fas fa-image nav-icon"></i></button>
+                                            <button type="button" class="btn btn-info btn-sm text-white" onclick="showLampiran({{ $item->id }})" data-toggle="tooltip" data-placement="bottom" title="LIHAT LAMPIRAN"><i class="fa-fw fas fa-image nav-icon"></i></button>
                                         @else
                                             <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-image nav-icon"></i></button>
                                         @endif
@@ -204,7 +204,7 @@
                         @if ($item->filename == '')
                         -
                         @else
-                           <b>{{ $item->title }}</b> ({{Storage::size($item->filename)}} bytes)
+                            <b><u><a href="supervisi/{{ $item->id }}">{{ substr($item->title,0,50) }}...</a></u></b> ({{ number_format(Storage::size($item->filename) / 1048576,2) }} MB)
                         @endif
                     </div>
                     <br>
@@ -259,7 +259,7 @@
 </div>
 @endforeach
 
-@foreach($list['show'] as $item)
+{{-- @foreach($list['show'] as $item)
     <div class="modal fade bd-example-modal-lg" id="lihatLog{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
         <div class="modal-dialog modal-lg">
         <div class="modal-content">
@@ -280,7 +280,7 @@
         </div>
         </div>
     </div>
-@endforeach
+@endforeach --}}
 
 @foreach($list['show'] as $item)
 <div class="modal fade" tabindex="-1" id="lihatGambar{{ $item->id }}" role="dialog">
