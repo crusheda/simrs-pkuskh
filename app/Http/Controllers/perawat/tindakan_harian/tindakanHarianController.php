@@ -26,9 +26,10 @@ class tindakanHarianController extends Controller
         // ex : $user->created_at->isoFormat('dddd, D MMMM Y');      "Minggu, 28 Juni 2020"
         // ex : $post->updated_at->diffForHumans();                  "2 hari yang lalu"
 
-        $thn = Carbon::now()->isoFormat('YYYY');
-        $today = Carbon::now()->isoFormat('YYYY/MM/DD');
-        $nowaday = Carbon::now()->isoFormat('D MMM Y');
+        $bln = $now->isoFormat('MM');
+        $thn = $now->isoFormat('YYYY');
+        $today = $now->isoFormat('YYYY/MM/DD');
+        $nowaday = $now->isoFormat('D MMM Y');
 
         $user = Auth::user();
         $id_user = $user->id;
@@ -54,6 +55,8 @@ class tindakanHarianController extends Controller
             // GET ROLE
             foreach ($unit as $key => $value) {
                 foreach ($get_pernyataan as $py => $item) {
+                    // print_r('BERHASIL');
+                    // die();
                     if ($value->name == $item->unit) {
                         $array_pernyataan[] = $item->id;
                     }
@@ -78,6 +81,7 @@ class tindakanHarianController extends Controller
             } else {
                 $show = $showAll;
             }
+
 
             // JIKA USER BELUM PERNAH MEMASUKKAN TINDAKAN HARIAN
             if (!empty($getId)) {

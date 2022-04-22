@@ -59,7 +59,7 @@
   <div class="card-header">
     <h4>Tabel</h4>
     <div class="card-header-action">
-      @role('it|kabag-perencanaan|kasubag-perencanaan-it|direktur-keuangan-perencanaan')
+      @role('sekretaris-direktur|it')
       <div class="btn-group">
         <button type="button" class="btn btn-info disabled" data-toggle="tooltip" data-placement="bottom" title="TAMPILKAN SEMUA PENGADAAN"><i class="fa-fw fas fa-history nav-icon"></i> Riwayat Pengadaan</button>
         <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="TAMBAH DATA BARANG" onclick="window.location='{{ route('barang.index') }}'"><i class="fa-fw fas fa-shopping-bag nav-icon"></i> Data Barang</button>
@@ -73,7 +73,7 @@
         <i class="fa-fw fas fa-plus-square nav-icon"></i>	Tambah Pengadaan
 			</button>
 			<button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i> Refresh</button>
-      @role('it|kabag-perencanaan|kasubag-perencanaan-it')
+      @role('sekretaris-direktur|it')
         <button type="button" class="btn btn-success disabled" data-toggle="tooltip" data-placement="bottom" title="REKAP HASIL PENGADAAN"><i class="fa-fw fas fa-business-time nav-icon"></i></button>
         <button type="button" class="btn btn-danger disabled" data-toggle="tooltip" data-placement="bottom" title="TAMPILKAN PENGADAAN TERHAPUS"><i class="fa-fw fas fa-eraser nav-icon"></i></button>
       @endrole

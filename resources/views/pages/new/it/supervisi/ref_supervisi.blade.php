@@ -23,6 +23,7 @@
                               <option value="komputer">Komputer</option>
                               <option value="printer">Printer</option>
                               <option value="design">Design</option>
+                              <option value="editing">Editing</option>
                               <option value="pilar">Pilar</option>
                               <option value="rutin">Rutinitas</option>
                               <option value="lainnya">Lainnya</option>
@@ -134,8 +135,13 @@
             <div class="form-group">
                 <label>Kategori</label>
                 <select name="kategori" class="form-control selectric" required>
-                  <option hidden>Pilih</option>
-                  <option value="" @if ($item->kategori == '') echo selected @endif></option>
+                  <option value="komputer" @if ($item->kategori == 'komputer') echo selected @endif>Komputer</option>
+                  <option value="printer" @if ($item->kategori == 'printer') echo selected @endif>Printer</option>
+                  <option value="design" @if ($item->kategori == 'design') echo selected @endif>Design</option>
+                  <option value="editing" @if ($item->kategori == 'editing') echo selected @endif>Editing</option>
+                  <option value="pilar" @if ($item->kategori == 'pilar') echo selected @endif>Pilar</option>
+                  <option value="rutin" @if ($item->kategori == 'rutin') echo selected @endif>Rutinitas</option>
+                  <option value="lainnya" @if ($item->kategori == 'lainnya') echo selected @endif>Lainnya</option>
                 </select>
             </div>
         </div>
