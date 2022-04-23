@@ -43,13 +43,14 @@ class tindakanHarianController extends Controller
         //     }
         // )->get();
 
-        $showAll = tindakan_harian::all();
+        // $showAll = tindakan_harian::all();
 
-        if (Auth::user()->hasRole('kabag-keperawatan')) {
+        if (Auth::user()->hasRole('kabag-keperawatan','it')) {
             $show = tindakan_harian::select('queue','shift','nama','unit','tgl')->groupBy('queue','shift','nama','unit','tgl')->orderBy('tgl','desc')->get();
             $pernyataan = null;
         }
         else {
+            $show = tindakan_harian::where('id_user', $id_user)->select('queue','shift','nama','unit','tgl')->groupBy('queue','shift','nama','unit','tgl')->orderBy('tgl','desc')->get();
             $get_pernyataan = logperawat::orderBy('updated_at','DESC')->get();
             
             // GET ROLE
@@ -63,44 +64,16 @@ class tindakanHarianController extends Controller
                 }
                 $role[] = $value->name;
             }
+            if (!empty($array_pernyataan)) {
+                $pernyataan = logperawat::whereIn('id', $array_pernyataan)->get();
+            } else {
+                $pernyataan = null;
+            }
             
-            // GET DATA
-            $getId = [];
-            if (count($showAll) > 0) {
-                foreach ($showAll as $key => $value) {
-                    $arr = json_decode($value->unit);
-                    foreach ($arr as $ky => $val) {
-                        foreach ($role as $gt => $item) {
-                            // print_r($val);
-                            if ($val == $item) {
-                                $getId[] = $value->id;
-                            }
-                        }
-                    }
-                }
-            } else {
-                $show = $showAll;
-            }
-
-
-            // JIKA USER BELUM PERNAH MEMASUKKAN TINDAKAN HARIAN
-            if (!empty($getId)) {
-                $show = tindakan_harian::whereIn('id', $getId)->select('queue','shift','nama','unit','tgl')->groupBy('queue','shift','nama','unit','tgl')->orderBy('tgl','desc')->get();
-            } else {
-                $show = tindakan_harian::where('id_user', $id_user)->select('queue','shift','nama','unit','tgl')->groupBy('queue','shift','nama','unit','tgl')->orderBy('tgl','desc')->get();
-            }
-
-            $pernyataan = logperawat::whereIn('id', $array_pernyataan)->get();
         }   
-        
-        // print_r($showEdit);
-        // die();
 
         $data = [
-            // 'users' => $users,
             'show' => $show,
-            // 'show_all' => $showAll,
-            // 'show_edit' => $showEdit,
             'pernyataan' => $pernyataan,
             'user' => $user,
             'thn' => $thn,
@@ -252,8 +225,19 @@ class tindakanHarianController extends Controller
 
     public function getDataEdit($queue)
     {
-        $show = tindakan_harian::leftJoin('logperawat', 'tindakan_harian_perawat.pernyataan', '=', 'logperawat.id')->select('tindakan_harian_perawat.id','tindakan_harian_perawat.queue','tindakan_harian_perawat.shift','tindakan_harian_perawat.pernyataan as id_pernyataan','logperawat.pertanyaan as pernyataan','tindakan_harian_perawat.jawaban')->where('tindakan_harian_perawat.queue', $queue)->orderBy('tindakan_harian_perawat.id','asc')->get();
+        $show = tindakan_harian::leftJoin('logperawat', 'tindakan_harian_perawat.pernyataan', '=', 'logperawat.id')->select('tindakan_harian_perawat.id','tindakan_harian_perawat.queue','tindakan_harian_perawat.nama','tindakan_harian_perawat.shift','tindakan_harian_perawat.pernyataan as id_pernyataan','logperawat.pertanyaan as pernyataan','tindakan_harian_perawat.jawaban')->where('tindakan_harian_perawat.queue', $queue)->orderBy('tindakan_harian_perawat.id','asc')->get();
         
+        if (Carbon::parse($show[0]->tgl)->isoFormat('YYYY/MM/DD') ==  Carbon::now()->isoFormat('YYYY/MM/DD')) {
+            $submitBtn = true;
+        } else {
+            $submitBtn = false;
+        }
+
+        $data = [
+            'show' => $show,
+            'submitBtn' => $submitBtn,
+        ];
+
         return response()->json($show, 200);
     }
     

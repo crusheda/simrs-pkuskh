@@ -170,13 +170,12 @@
     </div>
 </div>
 
-@foreach($list['show'] as $item)
-<div class="modal fade bd-example-modal-lg" id="detail{{ $item->queue }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+<div class="modal fade bd-example-modal-lg" id="detail" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">
-            Detail Tindakan Harian <kbd style="background-color: rgb(0, 166, 255)">ID : {{ $item->queue }}</kbd>
+            Detail Tindakan Harian <kbd style="background-color: rgb(0, 166, 255)">ID : <a id="show_id"></a></kbd>
           </h4>
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
@@ -187,17 +186,17 @@
                     <div class="col-md-9">
                         <div class="form-group">
                             <label><kbd>User</kbd></label>
-                            <h5>{{ $item->nama }}</h5>
-                            @if($item->updated_at != null) <sub style="margin-top:-30px">Diupdate pada : {{ $item->updated_at }} </sub> @endif
+                            <h5 id="nama_edit"></h5>
+                            <sub style="margin-top:-30px">Diupdate pada : <a id="updated_edit"></a> </sub>
                         </div>
                     </div>
                     <div class="col-md-3">
                         <div class="form-group">
                             <label>Shift :</label>
-                            <select name="shift" id="shift" class="form-control" required>
-                              <option value="pagi"  @if($item->shift == 'pagi') echo selected @endif>PAGI</option>
+                            <select name="shift" id="shift_edit" class="form-control" required>
+                              {{-- <option value="pagi"  @if($item->shift == 'pagi') echo selected @endif>PAGI</option>
                               <option value="siang" @if($item->shift == 'siang') echo selected @endif>SIANG</option>
-                              <option value="malam" @if($item->shift == 'malam') echo selected @endif>MALAM</option>
+                              <option value="malam" @if($item->shift == 'malam') echo selected @endif>MALAM</option> --}}
                             </select>
                         </div>
                     </div>
@@ -210,12 +209,12 @@
                             <th style="width: 20%">PILIHAN</th>
                         </tr>
                     </thead>
-                    <tbody id="tampil-tr{{ $item->queue }}"><tr id="tr-proses"><td colspan="2"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+                    <tbody id="tampil-tr"><tr id="tr-proses"><td colspan="2"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
                 </table>
         </div>
         <div class="modal-footer">
             
-                <a>@if($item->updated_at != null) {{ \Carbon\Carbon::parse($item->updated_at)->isoFormat('dddd, D MMMM Y') }} @endif</a>
+                {{-- <a>@if($item->updated_at != null) {{ \Carbon\Carbon::parse($item->updated_at)->isoFormat('dddd, D MMMM Y') }} @endif</a> --}}
                 @if (\Carbon\Carbon::parse($item->tgl)->isoFormat('YYYY/MM/DD') ==  $list['today'])
                     <button class="btn btn-success" id="btn-simpan" onclick="saveData()"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
                 @else
@@ -227,7 +226,6 @@
       </div>
     </div>
 </div>
-@endforeach
 
 @foreach($list['show'] as $item)
 <div class="modal fade" id="hapus{{ $item->queue }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
@@ -498,16 +496,18 @@ $(document).ready( function () {
     }
 
     function editData(queue) {
-        $('#detail'+queue).modal('show');
+        $('#detail').modal('show');
         $.ajax(
             {
                 url: "./tindakan-harian/api/"+queue+"/edit",
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {
-                    $("#tampil-tr"+queue).empty();
-                    Object.entries(res).forEach(([key, item]) => {
-                        $("#tampil-tr"+queue).append(`
+                    $("#show_id").val(res.show[0].queue);
+                    $("#nama_edit").val(res.show[0].nama);
+                    $("#updated_edit").val(res.show[0].updated_at);
+                    Object.entries(res.show).forEach(([key, item]) => {
+                        $("#tampil-tr").append(`
                             <tr id="data${item.id}">
                                 <td hidden><input type="text" class="form-control" name="pernyataan[]" value="${item.id_pernyataan}"></td>
                                 <td>${item.pernyataan}</td>
@@ -526,7 +526,6 @@ $(document).ready( function () {
                         html += '</select>';      
                         
                         $("#select_ajax"+item.id).append(html); 
-                        console.log(key);
                     });
                     // $('#table').DataTable().columns.adjust();
                 }
