@@ -226,7 +226,8 @@ class tindakanHarianController extends Controller
     public function getDataEdit($queue)
     {
         $show = tindakan_harian::leftJoin('logperawat', 'tindakan_harian_perawat.pernyataan', '=', 'logperawat.id')->select('tindakan_harian_perawat.id','tindakan_harian_perawat.queue','tindakan_harian_perawat.nama','tindakan_harian_perawat.shift','tindakan_harian_perawat.pernyataan as id_pernyataan','logperawat.pertanyaan as pernyataan','tindakan_harian_perawat.jawaban')->where('tindakan_harian_perawat.queue', $queue)->orderBy('tindakan_harian_perawat.id','asc')->get();
-        
+        $detail = tindakan_harian::where('queue', $queue)->select('queue','nama','tgl','updated_at','shift')->first();
+
         if (Carbon::parse($show[0]->tgl)->isoFormat('YYYY/MM/DD') ==  Carbon::now()->isoFormat('YYYY/MM/DD')) {
             $submitBtn = true;
         } else {
@@ -235,10 +236,11 @@ class tindakanHarianController extends Controller
 
         $data = [
             'show' => $show,
+            'detail' => $detail,
             'submitBtn' => $submitBtn,
         ];
 
-        return response()->json($show, 200);
+        return response()->json($data, 200);
     }
     
     public function cari(Request $request)
@@ -419,5 +421,45 @@ class tindakanHarianController extends Controller
         ];
 
         return response()->json($data, 200);
+    }
+
+    public function apiUpdate(Request $request)
+    {
+        // print_r($request->queue);
+        // die();
+        // if (Auth::user()->hasRole('kabag-keperawatan')) {
+        // } else {
+        //     $validasi = tindakan_harian::where('queue',$id)->first();
+        //     if (Auth::user()->id != $validasi->id_user) {
+        //         return Redirect::back()->withErrors(['Maaf, anda tidak diperbolehkan mengganti tindakan harian perawat lain']);
+        //     }
+        // }
+
+        $queue = $request->queue;
+        $pernyataan = $request->get('pernyataan');
+        $jawaban = $request->jawaban;
+        print_r($pernyataan);
+        die();
+        for($count = 0; $count < count($pernyataan); $count++)
+        {
+            $ins = array(
+                'shift' => $request->shift,
+                'jawaban'  => $jawaban[$count],
+            );
+            
+            tindakan_harian::where('queue',$id)->where('pernyataan',$pernyataan[$count])->update($ins);    
+        }
+
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+        return response()->json($tgl, 200);
+    }
+    
+    public function apiHapus($queue)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        tindakan_harian::where('queue', $queue)->delete();
+
+        return response()->json($tgl, 200);
     }
 }

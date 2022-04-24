@@ -257,6 +257,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
                 // Route::post('/tindakan-harian/ubah/{id}', 'perawat\tindakan_harian\tindakanHarianController@ubah')->name('pu.ubah');
                 // Route::get('/tindakan-harian/getubah/{id}', 'perawat\tindakan_harian\tindakanHarianController@getubah')->name('pu.getubah');
                 // Route::post('/tindakan-harian/tambah', 'perawat\tindakan_harian\tindakanHarianController@tambah')->name('pu.tambah');
+                Route::get('tindakan-harian/api/{id}/hapus', 'perawat\tindakan_harian\tindakanHarianController@apiHapus')->name('th.hapus');
+                Route::post('tindakan-harian/table/update', 'perawat\tindakan_harian\tindakanHarianController@apiUpdate')->name('th.update');
                 Route::get('tindakan-harian/table', 'perawat\tindakan_harian\tindakanHarianController@table')->name('th.table');
             Route::get('tindakan-harian/cari', 'perawat\tindakan_harian\tindakanHarianController@cari')->name('tindakan-harian.cari');
             Route::get('tindakan-harian/api/{id}/edit', 'perawat\tindakan_harian\tindakanHarianController@getDataEdit')->name('tindakan-harian.api.edit'); 

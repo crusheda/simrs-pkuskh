@@ -180,8 +180,9 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            {{ Form::model($item, array('route' => array('tindakan-harian.update', $item->queue), 'method' => 'PUT')) }}
+            {{-- {{ Form::model($item, array('route' => array('tindakan-harian.update', $item->queue), 'method' => 'PUT')) }} --}}
                 @csrf
+                <input type="text" id="queue" hidden>
                 <div class="row">
                     <div class="col-md-9">
                         <div class="form-group">
@@ -194,9 +195,9 @@
                         <div class="form-group">
                             <label>Shift :</label>
                             <select name="shift" id="shift_edit" class="form-control" required>
-                              {{-- <option value="pagi"  @if($item->shift == 'pagi') echo selected @endif>PAGI</option>
-                              <option value="siang" @if($item->shift == 'siang') echo selected @endif>SIANG</option>
-                              <option value="malam" @if($item->shift == 'malam') echo selected @endif>MALAM</option> --}}
+                              <option value="pagi" id="shift_edit_pagi">PAGI</option>
+                              <option value="siang" id="shift_edit_siang">SIANG</option>
+                              <option value="malam" id="shift_edit_malam">MALAM</option>
                             </select>
                         </div>
                     </div>
@@ -215,44 +216,17 @@
         <div class="modal-footer">
             
                 {{-- <a>@if($item->updated_at != null) {{ \Carbon\Carbon::parse($item->updated_at)->isoFormat('dddd, D MMMM Y') }} @endif</a> --}}
-                @if (\Carbon\Carbon::parse($item->tgl)->isoFormat('YYYY/MM/DD') ==  $list['today'])
-                    <button class="btn btn-success" id="btn-simpan" onclick="saveData()"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
+                <button class="btn btn-success" id="btn-simpan" onclick="saveData()"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
+                {{-- @if (\Carbon\Carbon::parse($item->tgl)->isoFormat('YYYY/MM/DD') ==  $list['today'])
                 @else
                     <button class="btn btn-secondary text-white" disabled><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
-                @endif
+                @endif --}}
                 <button type="button" class="btn btn-secondary text-white" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
-            {!! Form::close() !!}
+            {{-- {!! Form::close() !!} --}}
         </div>
       </div>
     </div>
 </div>
-
-@foreach($list['show'] as $item)
-<div class="modal fade" id="hapus{{ $item->queue }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">
-            <a class="pull-left"><kbd>ID : {{ $item->queue }}</kbd>&nbsp;</a>
-          </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-            <p>Apakah anda yakin ingin menghapus Tindakan Harian {{ $item->nama }}</b>?</p>
-        </div>
-        <div class="modal-footer">
-            <form action="{{ route('tindakan-harian.destroy', $item->queue) }}" method="POST">
-                @method('DELETE')
-                @csrf
-                <a>Ditambahkan <b>{{ \Carbon\Carbon::parse($item->tgl)->diffForHumans() }}</b></a>
-                <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button>
-            </form>
-            <button type="button" class="btn btn-secondary text-white" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
-        </div>
-      </div>
-    </div>
-</div>
-@endforeach
 
 <script>
 $(document).ready( function () {
@@ -277,7 +251,7 @@ $(document).ready( function () {
                 + "<td><center><div class='btn-group' role='group'>"
                 + "<button type='button' class='btn btn-warning btn-sm' onclick='editData("+item.queue+")'><i class='fa-fw fas fa-search nav-icon text-white'></i></button>"
                 + "@role('it|kabag-keperawatan')"
-                + "<button type='button' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#hapus"+item.queue+"'><i class='fa-fw fas fa-trash nav-icon text-white'></i></button>"
+                + "<button type='button' class='btn btn-danger btn-sm' onclick='hapus("+item.queue+")'><i class='fa-fw fas fa-trash nav-icon text-white'></i></button>"
                 + "@endrole"
                 + "</div></center></td></tr>";
                 $('#tampil-tbody').append(content);
@@ -385,7 +359,6 @@ $(document).ready( function () {
 } );
 </script>
 <script>
-    
   function refreshTable() {
         $("#tampil-tbody").empty().append(`<tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
         $.ajax(
@@ -409,9 +382,7 @@ $(document).ready( function () {
                     + "<td><center><div class='btn-group' role='group'>"
                     + "<button type='button' class='btn btn-warning btn-sm' onclick='editData("+item.queue+")'><i class='fa-fw fas fa-search nav-icon text-white'></i></button>"
                     + "@role('it|kabag-keperawatan')"
-                    + "<button type='button' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#hapus"+item.queue+"'><i class='fa-fw fas fa-trash nav-icon text-white'></i></button>"
-                    + "@else"
-                    + "<button type='button' class='btn btn-danger btn-sm' data-toggle='modal' data-target='#hapus"+item.queue+"'><i class='fa-fw fas fa-trash nav-icon text-white'></i></button>"
+                    + "<button type='button' class='btn btn-danger btn-sm' onclick='hapus("+item.queue+")'><i class='fa-fw fas fa-trash nav-icon text-white'></i></button>"
                     + "@endrole"
                     + "</div></center></td></tr>";
                     $('#tampil-tbody').append(content);
@@ -466,33 +437,63 @@ $(document).ready( function () {
             $('#submit_filter').prop('disabled', false).removeClass('btn-secondary').addClass('btn-primary');
         }
     }
-    function saveData() {
-        $("#tambah").one('submit', function() {
-            //stop submitting the form to see the disabled button effect
-            let x = document.forms["formTambah"]["shift"].value;
-            if (x == "Pilih") {
 
+    function saveData() {
+        $("#btn-simpan").attr('disabled','disabled');
+        $("#btn-simpan").find("i").toggleClass("fa-save fa-sync fa-spin");
+        var pernyataan = $("input[name='pernyataan[]']")
+              .map(function(){return $(this).val();}).get();
+        var jawaban = $("select[name='box[]']")
+              .map(function(){return $(this).val();}).get();
+        var queue = $("#queue").val();
+        var shift = $("#shift_edit").val();
+        // var pernyataan = $(".pernyataan").val();
+        // var jawaban = $(".jawaban").val();
+        // console.log(queue);
+
+        $.ajax({
+            headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
+            method: 'post',
+            url: "./tindakan-harian/table/update",  
+            dataType: 'json', 
+            data: {
+                queue: queue,
+                pernyataan: pernyataan,
+                jawaban: jawaban,
+                shift: shift,
+            },
+            processData: false,
+            contentType: false,
+            success: function (res) {
                 Swal.fire({
-                    position: 'top',
-                    title: 'Perhatian',
-                    text: 'Anda belum memasukkan Shift Jaga',
-                    icon: 'warning',
+                    title: `Tindakan harian berhasil di Update!`,
+                    text: 'Pada '+res,
+                    icon: `success`,
                     showConfirmButton:false,
-                    showCancelButton:true,
-                    cancelButtonText: `<i class="fa fa-times"></i> Tutup`,
+                    showCancelButton:false,
+                    allowOutsideClick: true,
+                    allowEscapeKey: true,
                     timer: 3000,
                     timerProgressBar: true,
                     backdrop: `rgba(26,27,41,0.8)`,
                 });
-
-                return false;
-            } else {
-                $("#btn-simpan").attr('disabled','disabled');
-                $("#btn-simpan").find("i").toggleClass("fa-save fa-sync fa-spin");
-
-                return true;
+                refresh();
+            },
+            error: function(res) {
+                Swal.fire({
+                    title: `Tindakan harian GAGAL di Update!`,
+                    text: 'Coba lagi nanti...',
+                    icon: `error`,
+                    showConfirmButton:false,
+                    showCancelButton:false,
+                    allowOutsideClick: true,
+                    allowEscapeKey: true,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    backdrop: `rgba(26,27,41,0.8)`,
+                });
             }
-        });
+        })
     }
 
     function editData(queue) {
@@ -503,19 +504,27 @@ $(document).ready( function () {
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {
-                    $("#show_id").val(res.show[0].queue);
-                    $("#nama_edit").val(res.show[0].nama);
-                    $("#updated_edit").val(res.show[0].updated_at);
+                    $("#tampil-tr").empty();
+                    $("#show_id").html(res.detail.queue);
+                    $("#nama_edit").html(res.detail.nama);
+                    $("#updated_edit").html(res.detail.updated_at);
+                    $("#queue").val(res.detail.queue);
+                    $("#shift_edit").val(res.detail.shift).change();
+                    // if (res.detail.shift == 'pagi') {
+                    //     $("#shift_edit").;
+                    // } else {
+                        
+                    // }
                     Object.entries(res.show).forEach(([key, item]) => {
                         $("#tampil-tr").append(`
                             <tr id="data${item.id}">
-                                <td hidden><input type="text" class="form-control" name="pernyataan[]" value="${item.id_pernyataan}"></td>
+                                <td hidden><input type="text" class="form-control pernyataan" name="pernyataan[]" value="${item.id_pernyataan}"></td>
                                 <td>${item.pernyataan}</td>
                                 <td id="select_ajax${item.id}"></td>
                             </tr>
                         `);
                         var html="";
-                        html += '<select class="custom-select" name="box[]" required>';
+                        html += '<select class="custom-select jawaban" name="box[]" required>';
                         for(var count=0; count <= item.jawaban; count++){
                             html += '<option value="'+count+'"';
                             if(item.jawaban == count){
@@ -531,6 +540,60 @@ $(document).ready( function () {
                 }
             }
         );
+    }
+
+    function hapus(queue) {
+        Swal.fire({
+        title: 'Apakah anda yakin?',
+        text: 'Ingin menghapus Tindakan Harian ID : '+queue,
+        icon: 'warning',
+        reverseButtons: false,
+        showDenyButton: false,
+        showCloseButton: false,
+        showCancelButton: true,
+        focusCancel: true,
+        confirmButtonColor: '#FF4845',
+        confirmButtonText: `<i class="fa fa-trash"></i> Hapus`,
+        cancelButtonText: `<i class="fa fa-times"></i> Batal`,
+        backdrop: `rgba(26,27,41,0.8)`,
+        }).then((result) => {
+            if (result.isConfirmed) {
+                $.ajax({
+                url: "./tindakan-harian/api/"+queue+"/hapus",
+                type: 'GET',
+                dataType: 'json', // added data type
+                success: function(res) {
+                    Swal.fire({
+                    title: `Tindakan Harian berhasil dihapus!`,
+                    text: 'Pada '+res,
+                    icon: `success`,
+                    showConfirmButton:false,
+                    showCancelButton:false,
+                    allowOutsideClick: true,
+                    allowEscapeKey: false,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    backdrop: `rgba(26,27,41,0.8)`,
+                    });
+                    refreshTable();
+                },
+                error: function(res) {
+                    Swal.fire({
+                    title: `Tindakan Harian gagal di hapus!`,
+                    text: 'Coba lagi nanti...',
+                    icon: `error`,
+                    showConfirmButton:false,
+                    showCancelButton:false,
+                    allowOutsideClick: true,
+                    allowEscapeKey: true,
+                    timer: 3000,
+                    timerProgressBar: true,
+                    backdrop: `rgba(26,27,41,0.8)`,
+                    });
+                }
+                }); 
+            }
+        })
     }
 </script>
 @endsection

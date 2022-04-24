@@ -243,7 +243,7 @@ function hapus(id) {
         focusCancel: true,
         confirmButtonColor: '#FF4845',
         confirmButtonText: `<i class="fa fa-trash"></i> Hapus`,
-        cancelButtonText: `<i class="fa fa-close"></i> Close`,
+        cancelButtonText: `<i class="fa fa-times"></i> Batal`,
         backdrop: `rgba(26,27,41,0.8)`,
     }).then((result) => {
         if (result.isConfirmed) {
