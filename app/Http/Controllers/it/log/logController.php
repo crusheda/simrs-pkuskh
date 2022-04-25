@@ -28,7 +28,7 @@ class logController extends Controller
     {
         $show = logit::join('ref_logit','ref_logit.id','=','logit.kegiatan')->select('ref_logit.kegiatan as nama_kegiatan','ref_logit.kategori as nama_kategori','logit.*')->orderBy('created_at','DESC')->limit('20')->get();
         $showAll = logit::join('ref_logit','ref_logit.id','=','logit.kegiatan')->select('ref_logit.kegiatan as nama_kegiatan','ref_logit.kategori as nama_kategori','logit.*')->orderBy('created_at','DESC')->get();
-        $ref = ref_logit::orderBy('kategori','DESC')->get();
+        $ref = ref_logit::select('kategori')->orderBy('kategori','asc')->groupBy('kategori')->get();
         $user = DB::table('users')
                 ->join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->join('roles', 'model_has_roles.role_id', '=', 'roles.id')

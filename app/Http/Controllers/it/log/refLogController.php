@@ -120,7 +120,7 @@ class refLogController extends Controller
 
     public function getKegiatan($id)
     {
-        $data = ref_logit::where('id', $id)->get();
+        $data = ref_logit::where('kategori', $id)->get();
 
         return response()->json($data, 200);
     }

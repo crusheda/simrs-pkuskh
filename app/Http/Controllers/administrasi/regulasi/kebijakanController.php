@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\regulasi\kebijakan;
+use App\Models\unit;
 use Carbon\Carbon;
 use Redirect;
 use Storage;
@@ -22,9 +23,13 @@ class kebijakanController extends Controller
     public function index()
     {
         $show = kebijakan::get();
+        $today = Carbon::now()->isoFormat('YYYY/MM/DD');
+        $unit = unit::orderBy('nama','asc')->get();
 
         $data = [
             'show' => $show,
+            'unit' => $unit,
+            'today' => $today,
         ];
         return view('pages.new.administrasi.regulasi.kebijakan')->with('list', $data);
     }
@@ -49,7 +54,14 @@ class kebijakanController extends Controller
     {
         $this->validate($request,[
             'file' => ['max:100000','mimes:pdf,docx,doc,xls,xlsx,ppt,pptx,rtf'],
+            'judul' => 'required',
+            'unit' => 'required',
+            'pembuat' => 'required',
         ]);
+
+        if ($request->pembuat == 'Pilih') {
+            return redirect()->back()->withErrors('Penyimpanan Gagal, mohon pilih Unit Pembuat');
+        }
 
         // tampung berkas yang sudah diunggah ke variabel baru
         // 'file' merupakan nama input yang ada pada form
@@ -63,6 +75,7 @@ class kebijakanController extends Controller
         $data->id_user = Auth::user()->id;
         $data->sah = $request->sah;
         $data->judul = $request->judul;
+        $data->pembuat = $request->pembuat;
         $data->unit = $request->unit;
 
             $data->title = $request->title ?? $uploadedFile->getClientOriginalName();
@@ -104,9 +117,17 @@ class kebijakanController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'judul' => 'required',
+            'unit' => 'required',
+            'pembuat' => 'required',
+        ]);
+
         $data = kebijakan::find($id);
         $data->sah = $request->sah;
         $data->judul = $request->judul;
+        $data->pembuat = $request->pembuat;
+        $data->unit = $request->unit;
 
         $data->save();
         return Redirect::back()->with('message','Perubahan Regulasi Kebijakan Berhasil');

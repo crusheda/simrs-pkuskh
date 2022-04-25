@@ -115,7 +115,7 @@
                             <select class="form-control selectric" id="kategori_add" name="kategori" required>
                                 <option hidden>Pilih</option>
                                 @foreach($list['ref'] as $item)
-                                    <option value="{{ $item->id }}">{{ $item->kategori }}</option>
+                                    <option value="{{ $item->kategori }}">{{ $item->kategori }}</option>
                                 @endforeach
                             </select>
                         </div>

@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\regulasi\pedoman;
+use App\Models\unit;
 use Carbon\Carbon;
 use Redirect;
 use Storage;
@@ -23,9 +24,11 @@ class pedomanController extends Controller
     {
         $show = pedoman::get();
         $today = Carbon::now()->isoFormat('YYYY/MM/DD');
+        $unit = unit::orderBy('nama','asc')->get();
 
         $data = [
             'show' => $show,
+            'unit' => $unit,
             'today' => $today,
         ];
         return view('pages.new.administrasi.regulasi.pedoman')->with('list', $data);
@@ -51,7 +54,14 @@ class pedomanController extends Controller
     {
         $this->validate($request,[
             'file' => ['max:100000','mimes:pdf,docx,doc,xls,xlsx,ppt,pptx,rtf'],
+            'judul' => 'required',
+            'unit' => 'required',
+            'pembuat' => 'required',
         ]);
+        
+        if ($request->pembuat == 'Pilih') {
+            return redirect()->back()->withErrors('Penyimpanan Gagal, mohon pilih Unit Pembuat');
+        }
 
         // tampung berkas yang sudah diunggah ke variabel baru
         // 'file' merupakan nama input yang ada pada form
@@ -65,7 +75,8 @@ class pedomanController extends Controller
         $data->id_user = Auth::user()->id;
         $data->sah = $request->sah;
         $data->judul = $request->judul;
-        $data->unit = json_encode($unit);
+        $data->pembuat = $request->pembuat;
+        $data->unit = $request->unit;
 
             $data->title = $request->title ?? $uploadedFile->getClientOriginalName();
             $data->filename = $path;
@@ -106,9 +117,16 @@ class pedomanController extends Controller
      */
     public function update(Request $request, $id)
     {
+        $this->validate($request,[
+            'judul' => 'required',
+            'unit' => 'required',
+            'pembuat' => 'required',
+        ]);
+
         $data = pedoman::find($id);
         $data->sah = $request->sah;
         $data->judul = $request->judul;
+        $data->pembuat = $request->pembuat;
         $data->unit = $request->unit;
 
         $data->save();

@@ -86,13 +86,24 @@
                             <input type="text" name="judul" class="form-control" required>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Unit Pembuat</label>
+                            <select class="form-control selectric" name="pembuat" required>
+                                <option hidden>Pilih</option>
+                                @foreach($list['unit'] as $item)
+                                    <option value="{{ $item->id }}">{{ $item->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Unit Terkait</label>
                             <input type="text" name="unit" class="form-control" placeholder="IGD , ICU , ... , Semua Unit" required>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Dokumen</label><br>
                             <input type="file" name="file" required><br>
@@ -138,19 +149,29 @@
                             <input type="text" name="judul" value="{{ $item->judul }}" class="form-control" required>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Unit Pembuat</label>
+                            <select class="form-control selectric" name="pembuat" required>
+                                @foreach($list['unit'] as $key)
+                                    <option value="{{ $key->id }}" @if ($key->id == $item->pembuat) selected @endif>{{ $key->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Unit Terkait</label>
                             <input type="text" name="unit" value="{{ $item->unit }}" class="form-control" required>
                         </div>
                     </div>
-                    <div class="col-md-6">
+                    <div class="col-md-4">
                         <div class="form-group">
                             <label>Detail Dokumen</label><br>
                             @if ($item->filename == '')
                             -
                             @else
-                                <b><u><a href="pedoman/{{ $item->id }}">{{ substr($item->title,0,50) }}...</a></u></b><br><sub>Ukuran File : {{ number_format(Storage::size($item->filename) / 1048576,2) }} MB</sub>
+                                <b><u><a href="kebijakan/{{ $item->id }}">{{ substr($item->title,0,50) }}...</a></u></b><br><sub>Ukuran File : {{ number_format(Storage::size($item->filename) / 1048576,2) }} MB</sub>
                             @endif
                         </div>
                     </div>
@@ -230,7 +251,7 @@ $(document).ready( function () {
                     }
                 },
             ],
-            order: [[ 4, "desc" ]]
+            order: [[ 0, "desc" ]]
         }
     );
 } );
