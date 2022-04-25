@@ -15,8 +15,8 @@ class AddColumnTableKebijakan extends Migration
     {
         Schema::table('regulasi_kebijakan', function (Blueprint $table) {
             $table->string('pembuat')->after('judul');
-            $table->string('filename')->after('unit')->nullable();
-            $table->string('title')->after('unit')->nullable();
+            // $table->string('filename')->after('unit')->nullable();
+            // $table->string('title')->after('unit')->nullable();
         });
     }
 
