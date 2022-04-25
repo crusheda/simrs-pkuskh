@@ -1,7 +1,7 @@
 @extends('layouts.newAdmin')
 
 @section('content')
-@role('it')
+@role('sekretaris-direktur|it')
 <div class="row">
     <div class="col-md-4">
         <div class="card">
