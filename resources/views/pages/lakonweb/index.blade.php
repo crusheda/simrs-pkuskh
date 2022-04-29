@@ -65,13 +65,13 @@
         </div>
         <!--/.bg-holder-->
 
-        <div class="container">
+        <div class="container" style="margin-top: 50px">
           <div class="row align-items-center">
             <div class="col-md-5 col-lg-6 order-0 order-md-1 text-end"><img class="pt-7 pt-md-0 hero-img" src="{{ asset('img/lakon-web/hero.png') }}" alt="hero-header" /></div>
             <div class="col-md-7 col-lg-6 text-md-start text-center py-6">
               <h4 class="fw-bold text-danger mb-3">Pengen punya website custom? Yuk simak!</h4>
               <h1 class="hero-title">Lakon WEB<br class="d-none d-xl-block" /><h2>Solusi Tepat! Harga Bersahabat!</h2></h1>
-              <p class="mb-4 fw-medium">Jasa pembuatan website profesional yang membantu mengembangkan<br class="d-none d-xl-block" />bisnis Anda dalam menghadapi Era Digital yang serba teknologi</p>
+              <p class="mb-4 fw-medium">Jasa pembuatan website profesional yang membantu<br class="d-none d-xl-block" />mengembangkan bisnis Anda dalam menghadapi<br class="d-none d-xl-block" />Era Digital yang serba teknologi</p>
               {{-- <p class="mb-4 fw-medium"><strong>Jasa pembuatan Website</strong> yang membantu bisnis anda berkembang.<hr style="margin-top:-20px;margin-bottom:-20px"><br class="d-none d-xl-block" />Kami siap dengan berbagai fitur maupun jenis website yang anda inginkan,<br class="d-none d-xl-block" />seperti website perusahaan atau website company profile, website<br class="d-none d-xl-block" />katalog produk, website sistem informasi manajemen,<br class="d-none d-xl-block" />dan masih banyak lagi...</p> --}}
               <div class="text-center text-md-start"> <a class="btn btn-primary btn-lg me-md-4 mb-3 mb-md-0 border-0 primary-btn-shadow" href="#!" role="button">Pelajari Lebih Lanjut</a>
                 <div class="w-100 d-block d-md-none"></div>
@@ -97,14 +97,14 @@
         <div class="container">
           <div class="position-absolute z-index--1 end-0 d-none d-lg-block"><img src="{{ asset('assets-lakonweb/assets/img/category/shape.svg') }}" style="max-width: 200px" alt="service" /></div>
           <div class="mb-7 text-center">
-            <h5 class="text-secondary">CATEGORY </h5>
-            <h3 class="fs-xl-10 fs-lg-8 fs-7 fw-bold font-cursive text-capitalize">We Offer Best Services</h3>
+            <h5 class="text-secondary">Mengapa harus dengan kami?</h5>
+            <h3 class="fs-xl-10 fs-lg-8 fs-7 fw-bold font-cursive text-capitalize">Keuntungan yang anda dapatkan</h3>
           </div>
           <div class="row">
             <div class="col-lg-3 col-sm-6 mb-6">
               <div class="card service-card shadow-hover rounded-3 text-center align-items-center">
                 <div class="card-body p-xxl-5 p-4"> <img src="{{ asset('assets-lakonweb/assets/img/category/icon1.png') }}" width="75" alt="Service" />
-                  <h4 class="mb-3">Calculated Weather</h4>
+                  <h4 class="mb-3">Gratis Domain + Hosting</h4>
                   <p class="mb-0 fw-medium">Built Wicket longer admire do barton vanity itself do in it.</p>
                 </div>
               </div>
