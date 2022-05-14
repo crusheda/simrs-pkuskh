@@ -114,9 +114,10 @@
           <div class="form-group">
             <label>Pilih Jenis Pengadaan</label>
             <select name="ref_barang" class="form-control selectric">
-                @foreach($list['ref'] as $key)
+              <option value="2"><b>ATK Cetak</b></option>
+                {{-- @foreach($list['ref'] as $key)
                   <option value="{{ $key->id }}"><b>{{ $key->nama }}</b></option>
-                @endforeach
+                @endforeach --}}
             </select>
             <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan Anda mempunyai <b>Hak</b> untuk melakukan pengusulan pengadaan</sub>
           </div>
@@ -442,7 +443,8 @@
       showCancelButton: true,
       focusCancel: true,
       confirmButtonColor: '#FF4845',
-      confirmButtonText: `<i class="fa fa-trash"></i> Batal`,
+      confirmButtonText: `<i class="fa fa-trash"></i> Hapus`,
+      cancelButtonText: `<i class="fa fa-times"></i> Batal`,
       backdrop: `rgba(26,27,41,0.8)`,
     }).then((result) => {
       if (result.isConfirmed) {

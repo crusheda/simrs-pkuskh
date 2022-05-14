@@ -136,4 +136,21 @@ class barangPengadaanController extends Controller
         // redirect
         return redirect()->back()->with('message','Hapus Barang Berhasil.');
     }
+
+    public function apiGet()
+    {
+        $data = barang::join('ref_barang', 'ref_barang.id', '=', 'barang.ref_barang')->get(['barang.*','ref_barang.nama as ref']);
+        // $data = barang::get();
+
+        return response()->json($data, 200);
+    }
+
+    public function apiHapus($id)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        barang::where('id', $id)->delete();
+
+        return response()->json($tgl, 200);
+    }
 }

@@ -5,7 +5,7 @@
   <div class="col-12">
     <div class="card">
         <div class="card-header">
-            <h4>Berkas Rapat</h4>
+            <h4>Tabel</h4>
         </div>
         <div class="card-body">
             <button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah">
@@ -137,6 +137,10 @@
                             <div class="form-group">
                                 <label>Tanggal :</label>
                                 <input type="datetime-local" name="tanggal" id="tanggal" class="form-control" value="<?php echo strftime('%Y-%m-%dT%H:%M:%S', strtotime($list['tgl'])); ?>" required>
+                                {{-- <input class="form-control" id="flatpickr" name="tanggal" type="text" placeholder="Pilih Tgl" style="background-color:#FDFDFF">
+                                <a class="input-button" title="toggle" data-toggle>
+                                    <i class="icon-calendar"></i>
+                                </a> --}}
                             </div>
                         </div>
                         <div class="col">
@@ -360,6 +364,11 @@
 
 <script>
     $(document).ready( function () {
+        $("#flatpickr").flatpickr({
+            enableTime: true,
+            minDate: "today",
+            maxDate: new Date().fp_incr(14) // 14 days from now
+        });
         $('#table_rapat').DataTable(   
             {
                 paging: true,

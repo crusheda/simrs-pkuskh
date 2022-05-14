@@ -375,6 +375,8 @@ Route::get('pengadaan/tambah/api/barang/detail/{id}', 'publik\pengadaan\pengadaa
 Route::get('pengadaan/tambah/api/barang/{id}', 'publik\pengadaan\pengadaanController@getBarang')->name('pengadaan.api.barang');
 Route::post('pengadaan/tambah', 'publik\pengadaan\pengadaanController@create')->name('pengadaan.create');
 Route::post('pengadaan', 'publik\pengadaan\pengadaanController@store')->name('pengadaan.store');
+Route::get('pengadaan/api/barang', 'publik\pengadaan\barangPengadaanController@apiGet')->name('barang.api.get');
+Route::get('pengadaan/api/barang/hapus/{id}', 'publik\pengadaan\barangPengadaanController@apiHapus')->name('barang.api.hapus');
 Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController');
 
 // ADMINISTRASI

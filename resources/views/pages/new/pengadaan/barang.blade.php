@@ -54,8 +54,10 @@
                 <h4>Tabel</h4>
             </div>
             <div class="card-body">
+                <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i> Refresh</button>
+                <hr>
                 <div class="table-responsive">
-                    <table id="table" class="table table-striped display">
+                    <table id="table" class="table table-striped display" style="width: 100%">
                         <thead>
                             <tr>
                                 <th>ID</th>
@@ -67,7 +69,8 @@
                                 <th><center>#</center></th>
                             </tr>
                         </thead>
-                        <tbody>
+                        <tbody id="tampil-tbody"><tr><td colspan="7"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+                        {{-- <tbody>
                             @if(count($list['show']) > 0)
                                 @foreach($list['show'] as $item)
                                 <tr>
@@ -88,7 +91,7 @@
                                 </tr>
                                 @endforeach
                             @endif
-                        </tbody>
+                        </tbody> --}}
                     </table>
                 </div>
             </div>
@@ -178,45 +181,76 @@
 </div>
 @endforeach
 
+{{-- <script src="{{ asset('assets/modules/jquery.min.js') }}"></script> --}}
 <script>
 $(document).ready( function () {
-    $('#table').DataTable(
+    $.ajax(
         {
-            paging: true,
-            searching: true,
-            dom: 'Bfrtip',
-            buttons: [
-                {
-                extend: 'copyHtml5',
-                className: 'btn-info',
-                text: 'Salin Baris',
-                download: 'open',
-                },
-                {
-                extend: 'excelHtml5',
-                className: 'btn-success',
-                text: 'Export Excell',
-                download: 'open',
-                },
-                {
-                extend: 'pdfHtml5',
-                className: 'btn-warning',
-                text: 'Cetak PDF',
-                download: 'open',
-                },
-                {
-                    extend: 'colvis',
-                    className: 'btn-dark',
-                    text: 'Sembunyikan Kolom',
-                    exportOptions: {
-                        columns: ':visible'
+            url: "./api/barang",
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function(res) {
+                $("#tampil-tbody").empty();
+                // var date = new Date().toISOString().split('T')[0];
+                if(res.length == 0){
+                    $("#tampil-tbody").append(`<tr><td colspan="7"><center><i class="fas fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
+                } else {
+                    res.forEach(item => {
+                        // var updet = item.updated_at.substring(0, 10);
+                        content = "<tr id='data"+ item.id +"'><td>" 
+                                    + item.id + "</td><td>" 
+                                    + item.nama + "</td><td>" 
+                                    + item.satuan + "</td><td>" 
+                                    + "Rp. " + item.harga.toLocaleString().replace(/[,]/g,'.') + "</td><td>"
+                                    + item.ref + "</td><td>"
+                                    + item.updated_at + "</td>";
+
+                        content += "<td><center><div class='btn-group' role='group'>";
+                            // content += `<button type="button" class="btn btn-warning btn-sm" onclick="edit(${item.id})" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>`;
+                            content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(`+item.id+`)" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                        content += "</div></center></td></tr>";
+                        $('#tampil-tbody').append(content);
+                    });
+                }
+                $('#table').DataTable(
+                    {
+                        paging: true,
+                        searching: true,
+                        dom: 'Bfrtip',
+                        buttons: [
+                            {
+                            extend: 'copyHtml5',
+                            className: 'btn-info',
+                            text: 'Salin Baris',
+                            download: 'open',
+                            },
+                            {
+                            extend: 'excelHtml5',
+                            className: 'btn-success',
+                            text: 'Export Excell',
+                            download: 'open',
+                            },
+                            {
+                            extend: 'pdfHtml5',
+                            className: 'btn-warning',
+                            text: 'Cetak PDF',
+                            download: 'open',
+                            },
+                            {
+                                extend: 'colvis',
+                                className: 'btn-dark',
+                                text: 'Sembunyikan Kolom',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                            },
+                        ],
+                        order: [[ 5, "desc" ]]
                     }
-                },
-            ],
-            order: [[ 5, "desc" ]]
+                ).columns.adjust();
+            }
         }
     );
-
 
     // RUPIAH TAMBAH
     var rupiah_tambah_harga = document.getElementById('harga_add');
@@ -255,6 +289,136 @@ $(document).ready( function () {
         rupiah = split[1] != undefined ? rupiah + ',' + split[1] : rupiah;
         return prefix == undefined ? rupiah : (rupiah ? 'Rp. ' + rupiah : '');
     }
+    
 } );
+</script>
+<script>
+    
+    function refresh() {
+        $("#tampil-tbody").empty().append(`<tr><td colspan="7"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
+        $.ajax(
+        {
+            url: "./api/barang",
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function(res) {
+            $("#tampil-tbody").empty();
+              $('#table').DataTable().clear().destroy();
+            // var date = new Date().toISOString().split('T')[0];
+
+            if(res.length == 0){
+                $("#tampil-tbody").append(`<tr><td colspan="7"><center><i class="fas fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
+            } else {
+                res.forEach(item => {
+                    // var updet = item.updated_at.substring(0, 10);
+                    content = "<tr id='data"+ item.id +"'><td>" 
+                                + item.id + "</td><td>" 
+                                + item.nama + "</td><td>" 
+                                + item.satuan + "</td><td>" 
+                                + "Rp. " + item.harga.toLocaleString().replace(/[,]/g,'.') + "</td><td>"
+                                + item.ref + "</td><td>"
+                                + item.updated_at + "</td>";
+
+                    content += "<td><center><div class='btn-group' role='group'>";
+                        // content += `<button type="button" class="btn btn-warning btn-sm" onclick="edit(${item.id})" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>`;
+                        content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(`+item.id+`)" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                    content += "</div></center></td></tr>";
+                    $('#tampil-tbody').append(content);
+                });
+            }
+            $('#table').DataTable(
+                {
+                    paging: true,
+                    searching: true,
+                    dom: 'Bfrtip',
+                    buttons: [
+                        {
+                        extend: 'copyHtml5',
+                        className: 'btn-info',
+                        text: 'Salin Baris',
+                        download: 'open',
+                        },
+                        {
+                        extend: 'excelHtml5',
+                        className: 'btn-success',
+                        text: 'Export Excell',
+                        download: 'open',
+                        },
+                        {
+                        extend: 'pdfHtml5',
+                        className: 'btn-warning',
+                        text: 'Cetak PDF',
+                        download: 'open',
+                        },
+                        {
+                            extend: 'colvis',
+                            className: 'btn-dark',
+                            text: 'Sembunyikan Kolom',
+                            exportOptions: {
+                                columns: ':visible'
+                            }
+                        },
+                    ],
+                    order: [[ 5, "desc" ]]
+                }
+            ).columns.adjust();
+            }
+        }
+        );
+    }
+
+    function hapus(id) {
+        Swal.fire({
+        title: 'Apakah anda yakin?',
+        text: 'Ingin menghapus Barang ID : '+id,
+        icon: 'warning',
+        reverseButtons: false,
+        showDenyButton: false,
+        showCloseButton: false,
+        showCancelButton: true,
+        focusCancel: true,
+        confirmButtonColor: '#FF4845',
+        confirmButtonText: `<i class="fa fa-trash"></i> Hapus`,
+        cancelButtonText: `<i class="fa fa-times"></i> Batal`,
+        backdrop: `rgba(26,27,41,0.8)`,
+        }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+            url: "./api/barang/hapus/"+id,
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function(res) {
+                Swal.fire({
+                title: `Barang berhasil dihapus!`,
+                text: 'Pada '+res,
+                icon: `success`,
+                showConfirmButton:false,
+                showCancelButton:false,
+                allowOutsideClick: true,
+                allowEscapeKey: false,
+                timer: 3000,
+                timerProgressBar: true,
+                backdrop: `rgba(26,27,41,0.8)`,
+                });
+                refresh();
+            },
+            error: function(res) {
+                Swal.fire({
+                title: `Barang gagal di hapus!`,
+                text: 'Pada '+res,
+                icon: `error`,
+                showConfirmButton:false,
+                showCancelButton:false,
+                allowOutsideClick: true,
+                allowEscapeKey: true,
+                timer: 3000,
+                timerProgressBar: true,
+                backdrop: `rgba(26,27,41,0.8)`,
+                });
+            }
+            }); 
+        }
+        })
+    }
 </script>
 @endsection

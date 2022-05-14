@@ -28,6 +28,9 @@
                             <tr>
                                 <th>USER_ID</th>
                                 <th>NIP</th>
+                                <th>AKUN</th>
+                                <th>PANGGILAN</th>
+                                <th>EMAIL</th>
                                 <th>NIK</th>
                                 <th>NAMA</th>
                                 <th>ALAMAT (KTP)</th>
@@ -58,8 +61,11 @@
                             @if(count($list['showSingle']) > 0)
                             @foreach($list['showSingle'] as $item)
                             <tr>
-                                <td>{{ $item->id }}</td>
                                 <td>{{ $item->nip }}</td>
+                                <td>{{ $item->id }}</td>
+                                <td>{{ $item->name }}</td>
+                                <td>{{ $item->nick }}</td>
+                                <td>{{ $item->email }}</td>
                                 <td>{{ $item->nik }}</td>
                                 <td style="text-transform: capitalize">{{ $item->nama }}</td>
                                 <td>{{ $item->alamat_ktp }}</td>
@@ -354,12 +360,11 @@
                 ],
                 'columnDefs': [
                     { targets: 0, visible: false },
-                    { targets: 2, visible: false },
-                    { targets: 5, visible: false },
-                    { targets: 7, visible: false },
+                    { targets: 3, visible: false },
+                    { targets: 4, visible: false },
                     { targets: 8, visible: false },
-                    { targets: 9, visible: false },
                     { targets: 10, visible: false },
+                    { targets: 11, visible: false },
                     { targets: 12, visible: false },
                     { targets: 13, visible: false },
                     { targets: 14, visible: false },
@@ -371,8 +376,11 @@
                     { targets: 20, visible: false },
                     { targets: 21, visible: false },
                     { targets: 22, visible: false },
+                    { targets: 23, visible: false },
+                    { targets: 24, visible: false },
+                    { targets: 25, visible: false },
                 ],
-                order: [[ 24, "desc" ]],
+                order: [[ 26, "desc" ]],
                 pageLength: 20
             }
         );
