@@ -150,4 +150,55 @@ class spoController extends Controller
         // redirect
         return Redirect::back()->with('message','Hapus Regulasi SPO Berhasil');
     }
+    
+    public function apiGet()
+    {
+        $show = spo::get();
+        $unit = unit::orderBy('nama','asc')->get();
+
+        $data = [
+            'show' => $show,
+            'unit' => $unit,
+        ];
+
+        return response()->json($data, 200);
+    }
+    
+    public function getubah($id)
+    {
+        $show = spo::join('users','users.id','=','spo.id_user')->join('unit','unit.id','=','spo.pembuat')->select('users.nama','unit.nama as unit','spo.*')->where('id', $id)->first();
+
+        $data = [
+            'id' => $id,
+            'tgl' => $tgl,
+            'waktu' => $waktu,
+            'show' => $show,
+            'dokter' => $dokter,
+        ];
+
+        return response()->json($data, 200);
+    }
+    
+    public function ubah(Request $request)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        $data = spo::find($request->id);
+        $data->sah = $request->sah;
+        $data->judul = $request->judul;
+        $data->pembuat = $request->pembuat;
+        $data->unit = $request->unit;
+        $data->save();
+        
+        return response()->json($tgl, 200);
+    }
+    
+    public function hapus($id)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        spo::where('id', $id)->delete();
+
+        return response()->json($tgl, 200);
+    }
 }

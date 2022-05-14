@@ -93,7 +93,7 @@
             <th><center>#</center></th>
           </tr>
         </thead>
-        <tbody id="tampil-tbody"><tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+        <tbody id="tampil-tbody"><tr><td colspan="6"><center><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</center></td></tr></tbody>
       </table>
     </div>
   </div>
@@ -193,9 +193,8 @@
           $("#tampil-tbody").empty();
           // $('#table').DataTable().clear().destroy();
           // var date = new Date().toISOString().split('T')[0];
-
           if(res.show.length == 0){
-            $("#tampil-tbody").append(`<tr><td colspan="6"><center><i class="fas fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
+            $("#tampil-tbody").append(`<tr><td colspan="6"><center>No Data Available In Table</center></td></tr>`);
           } else {
             // console.log(res.show);
             res.show.forEach(item => {
@@ -207,116 +206,116 @@
                         + item.tgl_pengadaan + "</td>";
 
               content += "<td><center><div class='btn-group' role='group'>";
-                // content += `<button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('antigen/`+item.id+`/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>`;
-                // content += `<button type="button" class="btn btn-success btn-sm" onclick="window.open('antigen/`+item.id+`/cetak')" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></button>`;
                 content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
                 content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="HAPUS PENGADAAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
               content += "</div></center></td></tr>";
               $('#tampil-tbody').append(content);
             });
-          }
-          $('#table').DataTable(
-            {
-              paging: true,
-              searching: true,
-              dom: 'Bfrtip',
-              buttons: [
-                {
-                  extend: 'copyHtml5',
-                  className: 'btn-info',
-                  text: 'Salin Baris',
-                  download: 'open',
-                },
-                {
-                  extend: 'excelHtml5',
-                  className: 'btn-success',
-                  text: 'Export Excell',
-                  download: 'open',
-                },
-                {
-                  extend: 'pdfHtml5',
-                  className: 'btn-warning',
-                  text: 'Cetak PDF',
-                  download: 'open',
-                },
-                {
-                  extend: 'colvis',
-                  className: 'btn-dark',
-                  text: 'Sembunyikan Kolom',
-                  exportOptions: {
-                      columns: ':visible'
+            $('#table').DataTable(
+              {
+                paging: true,
+                searching: true,
+                dom: 'Bfrtip',
+                buttons: [
+                  {
+                    extend: 'copyHtml5',
+                    className: 'btn-info',
+                    text: 'Salin Baris',
+                    download: 'open',
+                  },
+                  {
+                    extend: 'excelHtml5',
+                    className: 'btn-success',
+                    text: 'Export Excell',
+                    download: 'open',
+                  },
+                  {
+                    extend: 'pdfHtml5',
+                    className: 'btn-warning',
+                    text: 'Cetak PDF',
+                    download: 'open',
+                  },
+                  {
+                    extend: 'colvis',
+                    className: 'btn-dark',
+                    text: 'Sembunyikan Kolom',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
                   }
-                }
-              ],
-              order: [[ 4, "desc" ]],
-              pageLength: 10
-            }
-          ).columns.adjust();
+                ],
+                order: [[ 4, "desc" ]],
+                pageLength: 10
+              }
+            ).columns.adjust();
+          }
         }
       }
     );
 
-    var balance_chart = document.getElementById("balance-chart").getContext('2d');
+    // var balance_chart = document.getElementById("balance-chart").getContext('2d');
     
-    var balance_chart_bg_color = balance_chart.createLinearGradient(0, 0, 0, 70);
-    balance_chart_bg_color.addColorStop(0, 'rgba(63,82,227,.2)');
-    balance_chart_bg_color.addColorStop(1, 'rgba(63,82,227,0)');
+    // var balance_chart_bg_color = balance_chart.createLinearGradient(0, 0, 0, 70);
+    // balance_chart_bg_color.addColorStop(0, 'rgba(63,82,227,.2)');
+    // balance_chart_bg_color.addColorStop(1, 'rgba(63,82,227,0)');
     
-    var myChart = new Chart(balance_chart, {
-      type: 'line',
-      data: {
-        labels: ['16-07-2018', '17-07-2018', '18-07-2018', '19-07-2018', '20-07-2018', '21-07-2018', '22-07-2018', '23-07-2018', '24-07-2018', '25-07-2018', '26-07-2018', '27-07-2018', '28-07-2018', '29-07-2018', '30-07-2018', '31-07-2018'],
-        datasets: [{
-          label: 'Balance',
-          data: [50, 61, 80, 50, 72, 52, 60, 41, 30, 45, 70, 40, 93, 63, 50, 62],
-          backgroundColor: balance_chart_bg_color,
-          borderWidth: 3,
-          borderColor: 'rgba(63,82,227,1)',
-          pointBorderWidth: 0,
-          pointBorderColor: 'transparent',
-          pointRadius: 3,
-          pointBackgroundColor: 'transparent',
-          pointHoverBackgroundColor: 'rgba(63,82,227,1)',
-        }]
-      },
-      options: {
-        layout: {
-          padding: {
-            bottom: -1,
-            left: -1
-          }
-        },
-        legend: {
-          display: false
-        },
-        scales: {
-          yAxes: [{
-            gridLines: {
-              display: false,
-              drawBorder: false,
-            },
-            ticks: {
-              beginAtZero: true,
-              display: false
-            }
-          }],
-          xAxes: [{
-            gridLines: {
-              drawBorder: false,
-              display: false,
-            },
-            ticks: {
-              display: false
-            }
-          }]
-        },
-      }
-    });
+    // var myChart = new Chart(balance_chart, {
+    //   type: 'line',
+    //   data: {
+    //     labels: ['16-07-2018', '17-07-2018', '18-07-2018', '19-07-2018', '20-07-2018', '21-07-2018', '22-07-2018', '23-07-2018', '24-07-2018', '25-07-2018', '26-07-2018', '27-07-2018', '28-07-2018', '29-07-2018', '30-07-2018', '31-07-2018'],
+    //     datasets: [{
+    //       label: 'Balance',
+    //       data: [50, 61, 80, 50, 72, 52, 60, 41, 30, 45, 70, 40, 93, 63, 50, 62],
+    //       backgroundColor: balance_chart_bg_color,
+    //       borderWidth: 3,
+    //       borderColor: 'rgba(63,82,227,1)',
+    //       pointBorderWidth: 0,
+    //       pointBorderColor: 'transparent',
+    //       pointRadius: 3,
+    //       pointBackgroundColor: 'transparent',
+    //       pointHoverBackgroundColor: 'rgba(63,82,227,1)',
+    //     }]
+    //   },
+    //   options: {
+    //     layout: {
+    //       padding: {
+    //         bottom: -1,
+    //         left: -1
+    //       }
+    //     },
+    //     legend: {
+    //       display: false
+    //     },
+    //     scales: {
+    //       yAxes: [{
+    //         gridLines: {
+    //           display: false,
+    //           drawBorder: false,
+    //         },
+    //         ticks: {
+    //           beginAtZero: true,
+    //           display: false
+    //         }
+    //       }],
+    //       xAxes: [{
+    //         gridLines: {
+    //           drawBorder: false,
+    //           display: false,
+    //         },
+    //         ticks: {
+    //           display: false
+    //         }
+    //       }]
+    //     },
+    //   }
+    // });
 
   });
+</script>
 
+<script>
   function refresh() {
-    $("#tampil-tbody").empty().append(`<tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
+    $("#tampil-tbody").empty().append(`<tr><td colspan="6"><center><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</center></td></tr>`);
     $.ajax(
       {
         url: "./pengadaan/api/data",
@@ -324,12 +323,11 @@
         dataType: 'json', // added data type
         success: function(res) {
           $("#tampil-tbody").empty();
-          $('#table').DataTable().clear().destroy();
           // var date = new Date().toISOString().split('T')[0];
-
           if(res.show.length == 0){
-            $("#tampil-tbody").append(`<tr><td colspan="6"><center><i class="fas fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
+            $("#tampil-tbody").append(`<tr><td colspan="6"><center>No Data Available In Table</center></td></tr>`);
           } else {
+            $('#table').DataTable().clear().destroy();
             // console.log(res.show);
             res.show.forEach(item => {
               content = "<tr id='data"+ item.id +"'><td>" 
@@ -347,44 +345,44 @@
               content += "</div></center></td></tr>";
               $('#tampil-tbody').append(content);
             });
-          }
-          $('#table').DataTable(
-            {
-              paging: true,
-              searching: true,
-              dom: 'Bfrtip',
-              buttons: [
-                {
-                  extend: 'copyHtml5',
-                  className: 'btn-info',
-                  text: 'Salin Baris',
-                  download: 'open',
-                },
-                {
-                  extend: 'excelHtml5',
-                  className: 'btn-success',
-                  text: 'Export Excell',
-                  download: 'open',
-                },
-                {
-                  extend: 'pdfHtml5',
-                  className: 'btn-warning',
-                  text: 'Cetak PDF',
-                  download: 'open',
-                },
-                {
-                  extend: 'colvis',
-                  className: 'btn-dark',
-                  text: 'Sembunyikan Kolom',
-                  exportOptions: {
-                      columns: ':visible'
+            $('#table').DataTable(
+              {
+                paging: true,
+                searching: true,
+                dom: 'Bfrtip',
+                buttons: [
+                  {
+                    extend: 'copyHtml5',
+                    className: 'btn-info',
+                    text: 'Salin Baris',
+                    download: 'open',
+                  },
+                  {
+                    extend: 'excelHtml5',
+                    className: 'btn-success',
+                    text: 'Export Excell',
+                    download: 'open',
+                  },
+                  {
+                    extend: 'pdfHtml5',
+                    className: 'btn-warning',
+                    text: 'Cetak PDF',
+                    download: 'open',
+                  },
+                  {
+                    extend: 'colvis',
+                    className: 'btn-dark',
+                    text: 'Sembunyikan Kolom',
+                    exportOptions: {
+                        columns: ':visible'
+                    }
                   }
-                }
-              ],
-              order: [[ 4, "desc" ]],
-              pageLength: 10
-            }
-          ).columns.adjust();
+                ],
+                order: [[ 4, "desc" ]],
+                pageLength: 10
+              }
+            ).columns.adjust();
+          }
         }
       }
     );

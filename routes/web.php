@@ -385,4 +385,9 @@ Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController'
         Route::resource('regulasi/panduan', 'administrasi\regulasi\panduanController');
         Route::resource('regulasi/pedoman', 'administrasi\regulasi\pedomanController');
         Route::resource('regulasi/program', 'administrasi\regulasi\programController');
-        Route::resource('regulasi/spo', 'administrasi\regulasi\spoController');
+        // SPO
+            Route::get('regulasi/spo/api/get','administrasi\regulasi\spoController@apiGet')->name('spo.apiGet');  
+            Route::post('regulasi/spo/api/ubah/{id}', 'administrasi\regulasi\spoController@ubah')->name('spo.apiUbah');
+            Route::get('regulasi/spo/api/getubah/{id}', 'administrasi\regulasi\spoController@getubah')->name('spo.apiGetUbah');
+            Route::get('regulasi/spo/api/hapus/{id}', 'administrasi\regulasi\spoController@hapus')->name('spo.apiHapus');
+            Route::resource('regulasi/spo', 'administrasi\regulasi\spoController');

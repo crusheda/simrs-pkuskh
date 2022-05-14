@@ -191,7 +191,6 @@
   <script src="{{ asset('assets/modules/datatables/Select-1.2.4/js/dataTables.select.min.js') }}"></script> --}}
 
   <!-- Page Specific JS File -->
-  {{-- <script src="{{ asset('assets/js/page/index.js') }}"></script> --}}
   {{-- <script src="{{ asset('assets/modules/summernote/summernote-bs4.js') }}"></script>
   <script src="{{ asset('assets/modules/codemirror/lib/codemirror.js') }}"></script>
   <script src="{{ asset('assets/js/page/modules-datatables.js') }}"></script>
