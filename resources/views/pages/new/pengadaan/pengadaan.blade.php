@@ -191,6 +191,9 @@
         dataType: 'json', // added data type
         success: function(res) {
           $("#tampil-tbody").empty();
+          var date = new Date().toISOString().split('T')[0];
+          var userID = "{{ Auth::user()->id }}";
+          var adminID = "{{ Auth::user()->hasRole('it') }}";
           // $('#table').DataTable().clear().destroy();
           // var date = new Date().toISOString().split('T')[0];
           if(res.show.length == 0){
@@ -204,10 +207,26 @@
                         + JSON.parse(item.unit) + "</td><td>" 
                         + item.total + "</td><td>" 
                         + item.tgl_pengadaan + "</td>";
-
               content += "<td><center><div class='btn-group' role='group'>";
+              if (adminID) {
                 content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
                 content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="HAPUS PENGADAAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+              } else {
+                if (item.id_user == userID) {
+                  if (updet == date) {
+                    content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
+                    content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="HAPUS PENGADAAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                  } else {
+                    content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
+                  }
+                } else {
+                  content += `<button type="button" class="btn btn-info btn-sm disabled" disabled><i class="fas fa-sort-amount-down"></i></button>`;
+                  content += `<button type="button" class="btn btn-danger btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                }
+              } 
+
+                
+              
               content += "</div></center></td></tr>";
               $('#tampil-tbody').append(content);
             });

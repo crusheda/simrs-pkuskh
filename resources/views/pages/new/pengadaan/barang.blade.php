@@ -166,7 +166,8 @@ $(document).ready( function () {
                                 }
                             },
                         ],
-                        order: [[ 5, "desc" ]]
+                        order: [[ 5, "desc" ]],
+                        pageLength: 10
                     }
                 ).columns.adjust();
             }
@@ -280,7 +281,8 @@ $(document).ready( function () {
                             }
                         },
                     ],
-                    order: [[ 5, "desc" ]]
+                    order: [[ 5, "desc" ]],
+                    pageLength: 10
                 }
             ).columns.adjust();
             }
