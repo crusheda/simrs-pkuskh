@@ -102,85 +102,6 @@
     <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
 @endrole
 
-@foreach($list['show'] as $item)
-<div class="modal fade bd-example-modal-lg" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">
-            Yakin ingin Menghapus?
-          </h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-            @if(count($list) > 0)
-                Nama Barang : <b>{{ $item->nama }}</b><br>
-                Ditambahkan pada : <b>{{ $item->created_at }}</b><br>
-                Update pada : <b>{{ $item->updated_at }}</b>
-            @endif
-        </div>
-        <div class="modal-footer">
-            @if(count($list) > 0)
-                <form action="{{ route('barang.destroy', $item->id) }}" method="POST">
-                    @method('DELETE')
-                    @csrf
-                    <button class="btn btn-danger"><i class="fas fa-trash"></i> Hapus</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Batal</button>
-                </form>
-            @endif
-        </div>
-      </div>
-    </div>
-</div>
-@endforeach
-
-@foreach($list['show'] as $item)
-<div class="modal fade bd-example-modal-lg" id="edit{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-    <div class="modal-dialog">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h4 class="modal-title">
-            Ubah data
-          </h4>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-        @if(count($list) > 0)
-        {{ Form::model($item, array('route' => array('barang.update', $item->id), 'method' => 'PUT')) }}
-        <div class="modal-body">
-            @csrf
-            <div class="form-group">
-                <label>Nama Barang</label>
-                <input type="text" name="nama" value="{{ $item->nama }}" class="form-control" autofocus required>
-            </div>
-            <div class="form-group">
-                <label>Satuan</label>
-                <input type="text" name="satuan" value="{{ $item->satuan }}" class="form-control" placeholder="e.g. Pcs" required>
-            </div>
-            <div class="form-group">
-                <label>Harga</label>
-                <input type="number" name="harga" id="harga_add" value="{{ $item->harga }}" class="form-control" required>
-            </div>
-            <div class="form-group">
-                <label>Kategori</label>
-                <select name="ref_barang" class="form-control selectric" required>
-                    <option hidden>Pilih</option>
-                    @foreach($list['ref'] as $key)
-                        <option value="{{ $key->id }}" @if ($item->ref_barang == $key->id) echo selected @endif>{{ $key->nama }}</option>
-                    @endforeach
-                </select>
-            </div>
-        </div>
-        <div class="modal-footer">
-            <button class="btn btn-primary text-white" id="submit"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
-        </div>
-        {{ Form::close() }}
-        @endif
-      </div>
-    </div>
-</div>
-@endforeach
-
 {{-- <script src="{{ asset('assets/modules/jquery.min.js') }}"></script> --}}
 <script>
 $(document).ready( function () {
@@ -193,7 +114,7 @@ $(document).ready( function () {
                 $("#tampil-tbody").empty();
                 // var date = new Date().toISOString().split('T')[0];
                 if(res.length == 0){
-                    $("#tampil-tbody").append(`<tr><td colspan="7"><center><i class="fas fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
+                    // $("#tampil-tbody").append(`<tr><td colspan="7"><center><i class="fas fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
                 } else {
                     res.forEach(item => {
                         // var updet = item.updated_at.substring(0, 10);
@@ -307,7 +228,7 @@ $(document).ready( function () {
             // var date = new Date().toISOString().split('T')[0];
 
             if(res.length == 0){
-                $("#tampil-tbody").append(`<tr><td colspan="7"><center><i class="fas fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
+                // $("#tampil-tbody").append(`<tr><td colspan="7"><center><i class="fas fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
             } else {
                 res.forEach(item => {
                     // var updet = item.updated_at.substring(0, 10);
