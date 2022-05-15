@@ -153,6 +153,7 @@
             </div>
         </div>
         <div class="modal-footer">
+            Ditambahkan oleh&nbsp;<a id="user_edit"></a>
             <button class="btn btn-primary pull-right" id="submit_edit" onclick="ubah()"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
             <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
@@ -180,7 +181,7 @@ $(document).ready( function () {
                                     + item.id + "</td><td>" 
                                     + item.sah + "</td><td>" 
                                     + item.judul + "</td><td>" 
-                                    + item.pembuat + "</td><td>"
+                                    + item.nama_unit + "</td><td>"
                                     + item.unit + "</td><td>"
                                     + item.created_at + "</td>";
 
@@ -253,7 +254,7 @@ function refresh() {
                             + item.id + "</td><td>" 
                             + item.sah + "</td><td>" 
                             + item.judul + "</td><td>" 
-                            + item.pembuat + "</td><td>"
+                            + item.nama_unit + "</td><td>"
                             + item.unit + "</td><td>"
                             + item.created_at + "</td>";
 
@@ -316,6 +317,7 @@ function showUbah(id) {
             success: function(res) {
                 // var tgl = res.tgl + 'T' + res.waktu;
                 document.getElementById('show_edit').innerHTML = "ID : "+res.show.id;
+                document.getElementById('user_edit').innerHTML = res.show.nama;
                 $("#id_edit").val(res.show.id);
                 $("#sah_edit").val(res.show.sah);
                 $("#judul_edit").val(res.show.judul);

@@ -153,7 +153,7 @@ class spoController extends Controller
     
     public function apiGet()
     {
-        $show = spo::get();
+        $show = spo::join('unit','unit.id','=','regulasi_spo.pembuat')->select('unit.nama as nama_unit','regulasi_spo.*')->get();
         $unit = unit::orderBy('nama','asc')->get();
 
         $data = [
@@ -166,7 +166,7 @@ class spoController extends Controller
     
     public function getubah($id)
     {
-        $show = spo::join('users','users.id','=','regulasi_spo.id_user')->join('unit','unit.id','=','regulasi_spo.pembuat')->select('users.nama','unit.nama as unit','regulasi_spo.*')->where('regulasi_spo.id', $id)->first();
+        $show = spo::join('users','users.id','=','regulasi_spo.id_user')->join('unit','unit.id','=','regulasi_spo.pembuat')->select('users.nama','unit.nama as nama_unit','regulasi_spo.*')->where('regulasi_spo.id', $id)->first();
         // print_r($show);
         // die();
         $unit = unit::orderBy('nama','asc')->get();
