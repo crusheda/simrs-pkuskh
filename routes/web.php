@@ -45,6 +45,7 @@ Route::post('/user/foto', 'Admin\profilController@storeImg');
 // NEW SIMRSMU.COM
 Route::get('/welcome', 'HomeController@newIndex')->name('welcome');
 Route::get('/kunjungan', 'kunjunganController@kunjungan')->name('kunjungan');
+Route::get('/kalender', 'calendarController@index')->name('kalender');
     
     //Profil
     Route::resource('profil', 'Admin\profilController');
@@ -63,11 +64,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'admin', 'as' => 'admin.'], 
     Route::resource('unit', 'Admin\UnitController');
     Route::resource('karyawan', 'Admin\karyawanController');
 });
-
-// Other
-// Route::get('/sisrute/diagnosis', function () {
-//     return view('pages.sisrute.diagnosis');
-// })->name('sisrute.diagnosis');
 
 // IT
 Route::group(['middleware' => ['auth'], 'prefix' => 'it', 'as' => 'it.'], function () {

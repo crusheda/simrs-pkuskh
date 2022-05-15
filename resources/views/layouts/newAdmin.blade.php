@@ -17,10 +17,6 @@
   <!-- CSS Libraries -->
     {{-- DATATABLES --}}
     <link rel="stylesheet" type="text/css" href="https://cdn.datatables.net/v/bs5/jszip-2.5.0/dt-1.11.5/b-2.2.2/b-colvis-2.2.2/b-html5-2.2.2/b-print-2.2.2/datatables.min.css"/>
-    {{-- <link href="https://cdn.datatables.net/buttons/1.2.4/css/buttons.dataTables.min.css" rel="stylesheet" />
-    <link rel="stylesheet" href="{{ asset('assets/modules/datatables/datatables.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/modules/datatables/DataTables-1.10.16/css/dataTables.bootstrap4.min.css') }}">
-    <link rel="stylesheet" href="{{ asset('assets/modules/datatables/Select-1.2.4/css/select.bootstrap4.min.css') }}"> --}}
 
   <link rel="stylesheet" href="{{ asset('assets/modules/bootstrap-social/bootstrap-social.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/summernote/summernote-bs4.css') }}">
@@ -37,6 +33,7 @@
   <link rel="stylesheet" href="{{ asset('assets/modules/jqvmap/dist/jqvmap.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/owlcarousel2/dist/assets/owl.carousel.min.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/modules/owlcarousel2/dist/assets/owl.theme.default.min.css') }}">
+  {{-- <link rel="stylesheet" href="{{ asset('assets/modules/fullcalendar/fullcalendar.min.css') }}"> --}}
   
   {{-- SweetAlert2 --}}
   <script src="{{ asset('sweetalert2/sweetalert2.min.js') }}"></script>
@@ -47,6 +44,10 @@
   <!-- FLATPICKR css -->
   <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/flatpickr/dist/flatpickr.min.css">
 
+  {{-- FullCalendar --}}
+  <link href='{{ asset('assets/modules/fullcalendar/lib/main.css') }}' rel='stylesheet' />
+  <script src='{{ asset('assets/modules/fullcalendar/lib/main.js') }}'></script>
+  
   <!-- Template CSS -->
   <link rel="stylesheet" href="{{ asset('assets/css/style.css') }}">
   <link rel="stylesheet" href="{{ asset('assets/css/components.css') }}">
@@ -176,6 +177,7 @@
   <script src="{{ asset('assets/modules/chart.min.js') }}"></script>
   <script src="{{ asset('assets/modules/owlcarousel2/dist/owl.carousel.min.js') }}"></script>
   <script src="{{ asset('assets/modules/chocolat/dist/js/jquery.chocolat.min.js') }}"></script>
+  {{-- <script src="{{ asset('assets/modules/fullcalendar/fullcalendar.min.js') }}"></script> --}}
   
   <!-- FLATPICKR JS -->
   <script src="https://cdn.jsdelivr.net/npm/flatpickr"></script>

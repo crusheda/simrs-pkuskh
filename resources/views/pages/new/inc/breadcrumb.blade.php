@@ -108,6 +108,11 @@
         $b1 = 'Pengadaan';
         $b2 = 'Barang'; 
       }
+    // KALENDER
+      if ($route == 'kalender') {
+        $title = 'Kalender Manajemen';
+        $b1 = 'Kalender';
+      }
     // PERNYATAAN LOG PERAWAT
     if ($route == 'logperawat.index') {
       $title = 'Indikator Tindakan Harian';
