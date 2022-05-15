@@ -166,14 +166,18 @@ class spoController extends Controller
     
     public function getubah($id)
     {
-        $show = spo::join('users','users.id','=','spo.id_user')->join('unit','unit.id','=','spo.pembuat')->select('users.nama','unit.nama as unit','spo.*')->where('id', $id)->first();
+        $show = spo::join('users','users.id','=','regulasi_spo.id_user')->join('unit','unit.id','=','regulasi_spo.pembuat')->select('users.nama','unit.nama as unit','regulasi_spo.*')->where('regulasi_spo.id', $id)->first();
+        // print_r($show);
+        // die();
+        $unit = unit::orderBy('nama','asc')->get();
+
+        $sizeFile = number_format(Storage::size($show->filename) / 1048576,2);
 
         $data = [
             'id' => $id,
-            'tgl' => $tgl,
-            'waktu' => $waktu,
             'show' => $show,
-            'dokter' => $dokter,
+            'unit' => $unit,
+            'sizeFile' => $sizeFile,
         ];
 
         return response()->json($data, 200);
