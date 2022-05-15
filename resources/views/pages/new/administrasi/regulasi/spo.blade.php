@@ -326,6 +326,7 @@ function showUbah(id) {
                         <option value="${item.id}" ${item.id == res.show.pembuat? "selected":""}>${item.nama}</option>
                     `);
                 });
+                $("#file_edit").empty();
                 $("#file_edit").append(`
                     <b><u><a href="./spo/${res.show.id}">${res.show.title}</a></u></b>
                 `);
