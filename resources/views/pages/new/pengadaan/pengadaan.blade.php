@@ -78,7 +78,11 @@
         <button type="button" class="btn btn-danger disabled" data-toggle="tooltip" data-placement="bottom" title="TAMPILKAN PENGADAAN TERHAPUS"><i class="fa-fw fas fa-eraser nav-icon"></i></button>
       @endrole
 		</div>
-    <br><sub>Data yang ditampilkan adalah pengadaan 2 bulan terakhir</sub>
+    @role('sekretaris-direktur|it')
+      {{-- <br><sub>Data yang ditampilkan adalah Semua data pengadaan</sub> --}}
+    @else
+      <br><sub>Data yang ditampilkan adalah pengadaan 2 bulan terakhir</sub>
+    @endrole
     {{-- <br><sub>Data yang ditampilkan hanya berjumlah 30 data terbaru saja, Klik <a href="#" onclick="window.location.href='{{ url('pengadaan') }}'"><strong><u>Disini</u></strong></a> untuk melihat data seluruhnya.</sub> --}}
 		<hr>
     <div class="table-responsive">

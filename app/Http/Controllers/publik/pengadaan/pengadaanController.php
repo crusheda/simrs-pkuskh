@@ -127,8 +127,8 @@ class pengadaanController extends Controller
     public function getPengadaan()
     {
         $user = Auth::user();
-        $lastMonth = Carbon::now()->subMonth()->isoFormat('MM');
-        // print_r($monthGet);
+        $lastMonth = Carbon::now()->subMonth(2)->isoFormat('MM');
+        // print_r($lastMonth);
         // die();
         if ($user->hasRole('it')) {
             $show = pengadaan::join('users', 'users.id', '=', 'pengadaan.id_user')->select("pengadaan.*","users.nama")->get();
