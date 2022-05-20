@@ -26,7 +26,7 @@ class rapatController extends Controller
     public function index()
     {
         $show = rapat::all();
-        $user = user::whereNotNull('nik')->where('status',null)->get();
+        $user = user::whereNotNull('nik')->where('status',null)->orderBy('nama','ASC')->get();
         $tgl = Carbon::now();
         $today = Carbon::now()->isoFormat('YYYY/MM/DD');
         // $total = karyawan::count();

@@ -194,13 +194,15 @@
           var date = new Date().toISOString().split('T')[0];
           var userID = "{{ Auth::user()->id }}";
           var adminID = "{{ Auth::user()->hasRole('it') }}";
+          var date = new Date().toISOString().split('T')[0];
           // $('#table').DataTable().clear().destroy();
-          // var date = new Date().toISOString().split('T')[0];
+          // console.log(res.show);
           if(res.show.length == 0){
             $("#tampil-tbody").append(`<tr><td colspan="6"><center>No Data Available In Table</center></td></tr>`);
           } else {
             // console.log(res.show);
             res.show.forEach(item => {
+              var updet = item.updated_at.substring(0, 10);
               content = "<tr id='data"+ item.id +"'><td>" 
                         + item.id_pengadaan + "</td><td>" 
                         + item.nama + "</td><td>" 
@@ -218,10 +220,11 @@
                     content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="HAPUS PENGADAAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
                   } else {
                     content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
+                    content += `<button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
                   }
                 } else {
-                  content += `<button type="button" class="btn btn-info btn-sm disabled" disabled><i class="fas fa-sort-amount-down"></i></button>`;
-                  content += `<button type="button" class="btn btn-danger btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                  content += `<button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fas fa-sort-amount-down"></i></button>`;
+                  content += `<button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
                 }
               } 
               content += "</div></center></td></tr>";
@@ -342,13 +345,13 @@
           var date = new Date().toISOString().split('T')[0];
           var userID = "{{ Auth::user()->id }}";
           var adminID = "{{ Auth::user()->hasRole('it') }}";
-          // var date = new Date().toISOString().split('T')[0];
+          var date = new Date().toISOString().split('T')[0];
           if(res.show.length == 0){
             $("#tampil-tbody").append(`<tr><td colspan="6"><center>No Data Available In Table</center></td></tr>`);
           } else {
             $('#table').DataTable().clear().destroy();
-            // console.log(res.show);
             res.show.forEach(item => {
+              var updet = item.updated_at.substring(0, 10);
               content = "<tr id='data"+ item.id +"'><td>" 
                         + item.id_pengadaan + "</td><td>" 
                         + item.nama + "</td><td>" 
@@ -367,12 +370,13 @@
                     content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="HAPUS PENGADAAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
                   } else {
                     content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
+                    content += `<button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
                   }
                 } else {
-                  content += `<button type="button" class="btn btn-info btn-sm disabled" disabled><i class="fas fa-sort-amount-down"></i></button>`;
-                  content += `<button type="button" class="btn btn-danger btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                  content += `<button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fas fa-sort-amount-down"></i></button>`;
+                  content += `<button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
                 }
-              } 
+              }
               content += "</div></center></td></tr>";
               $('#tampil-tbody').append(content);
             });

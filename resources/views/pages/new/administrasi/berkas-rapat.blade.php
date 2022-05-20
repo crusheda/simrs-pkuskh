@@ -151,7 +151,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label>Keterangan :</label>
+                        <label>Keterangan : (Optional)</label>
                         <textarea class="form-control" name="keterangan" id="keterangan" placeholder="" maxlength="190" rows="8"></textarea>
                     </div>
                     <hr>

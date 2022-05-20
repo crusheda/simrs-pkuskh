@@ -126,12 +126,18 @@ class pengadaanController extends Controller
 
     public function getPengadaan()
     {
-        $now = Carbon::now();
-        $month = $now->isoFormat('MM');
-        $lastMonth = $now->subMonth()->isoFormat('MM');
-        // print_r($arr);
+        $user = Auth::user();
+        $lastMonth = Carbon::now()->subMonth()->isoFormat('MM');
+        // print_r($monthGet);
         // die();
-        $show = pengadaan::join('users', 'users.id', '=', 'pengadaan.id_user')->select("pengadaan.*","users.nama")->whereMonth('tgl_pengadaan', '>=', $lastMonth)->whereMonth('tgl_pengadaan', '<=', $month)->get();
+        if ($user->hasRole('it')) {
+            $show = pengadaan::join('users', 'users.id', '=', 'pengadaan.id_user')->select("pengadaan.*","users.nama")->get();
+        } else {
+            $show = pengadaan::join('users', 'users.id', '=', 'pengadaan.id_user')->where('pengadaan.id_user',$user->id)->select("pengadaan.*","users.nama")->whereMonth('pengadaan.tgl_pengadaan','>=',$lastMonth)->get();
+            // print_r($show);
+            // die();
+        }
+        
         // $show = DB::table('pengadaan')
         //         ->join('users', 'users.id', '=', 'pengadaan.id_user')
         //         ->select('users.nama','pengadaan.*')
