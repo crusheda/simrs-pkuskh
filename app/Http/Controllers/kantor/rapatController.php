@@ -328,4 +328,43 @@ class rapatController extends Controller
 
         return response()->json($show, 200);
     }
+    
+    public function getRapat()
+    {
+        $user = Auth::user();
+        $lastMonth = Carbon::now()->subMonth(2)->isoFormat('MM');
+        // print_r($lastMonth);
+        // die();
+        if ($user->hasRole('it')) {
+            $show = rapat::get();
+        } else {
+            $show = rapat::where('id_user',$user->id)->get();
+        }
+        
+        $data = [
+            'show' => $show,
+        ];
+
+        return response()->json($data, 200);
+    }
+
+    public function detailRapat($id)
+    {
+        $show = rapat::where('id',$id)->first();
+
+        $data = [
+            'show' => $show,
+        ];
+
+        return response()->json($data, 200);
+    }
+
+    public function hapusRapat($id)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        rapat::where('id', $id)->delete();
+
+        return response()->json($tgl, 200);
+    }
 }

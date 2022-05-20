@@ -205,6 +205,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
         Route::post('absensi/{id}/edit', 'kantor\absensiController@ubahKehadiran')->name('absensi.edit');
         Route::post('absensi/{id}/hapus', 'kantor\absensiController@hapusKehadiran')->name('absensi.hapus');
         Route::resource('absensi', 'kantor\absensiController');
+
+        // BERKAS RAPAT
+        Route::get('rapat/api/data', 'kantor\rapatController@getRapat')->name('rapat.api.data');
+        Route::get('rapat/api/data/{id}', 'kantor\rapatController@detailRapat')->name('rapat.api.detailData');
+        Route::get('rapat/api/data/hapus/{id}', 'kantor\rapatController@hapusRapat')->name('rapat.api.hapus');
         Route::resource('rapat', 'kantor\rapatController');
         Route::get('/rapat/zip/{id}', 'kantor\rapatController@showAll');
         Route::get('/rapat/show/{id}', 'kantor\rapatController@show');
