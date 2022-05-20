@@ -137,7 +137,7 @@
 </div>
 
 <div class="modal fade bd-example-modal-lg" id="detail" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-  <div class="modal-dialog modal-lg">
+  <div class="modal-dialog modal-xxl">
   <div class="modal-content">
     <div class="modal-header">
     <h4 class="modal-title">
@@ -456,9 +456,11 @@
                       + item.nama + "</td><td>"  
                       + item.jumlah + "</td><td>"  
                       + "Rp. " + item.harga.toLocaleString().replace(/[,]/g,'.') + "</td><td>"  
-                      + item.satuan + "</td><td>"  
-                      + item.ket + "</td><td>" 
-                      + "Rp. " + item.total.toLocaleString().replace(/[,]/g,'.') + "</td></tr>";
+                      + item.satuan + "</td><td>";
+                      if (item.ket != null) {
+                        content += item.ket;
+                      } 
+            content += "</td><td>Rp. " + item.total.toLocaleString().replace(/[,]/g,'.') + "</td></tr>";
             $('#tampil-tbody-detail').append(content);
           });
           $("#tampil-tfoot-detail").append(
