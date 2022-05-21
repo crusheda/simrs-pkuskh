@@ -25,21 +25,16 @@ class rapatController extends Controller
      */
     public function index()
     {
-        $show = rapat::all();
         $user = user::whereNotNull('nik')->where('status',null)->orderBy('nama','ASC')->get();
         $tgl = Carbon::now();
         $today = Carbon::now()->isoFormat('YYYY/MM/DD');
-        // $total = karyawan::count();
-        // $show = rapat::orderBy('created_at', 'DESC')->paginate(30);
 
         $data = [
-            // 'count' => $total,
-            'show' => $show,
             'user' => $user,
             'tgl' => $tgl,
             'today' => $today,
         ];
-        // return view('pages.kantor.rapat')->with('list', $data);
+
         return view('pages.new.administrasi.berkas-rapat')->with('list', $data);
     }
 
@@ -331,18 +326,17 @@ class rapatController extends Controller
     
     public function getRapat()
     {
-        $user = Auth::user();
-        $lastMonth = Carbon::now()->subMonth(2)->isoFormat('MM');
-        // print_r($lastMonth);
+        // $user = Auth::user();
+        $show = rapat::join('users','rapat.kepala','=','users.id')->select('users.nama as nama_kepala','rapat.*')->where('users.status',null)->get();
+        $tgl = Carbon::now();
+        $today = Carbon::now()->isoFormat('YYYY/MM/DD');
+        // print_r($show);
         // die();
-        if ($user->hasRole('it')) {
-            $show = rapat::get();
-        } else {
-            $show = rapat::where('id_user',$user->id)->get();
-        }
-        
+
         $data = [
             'show' => $show,
+            'tgl' => $tgl,
+            'today' => $today,
         ];
 
         return response()->json($data, 200);
@@ -350,13 +344,30 @@ class rapatController extends Controller
 
     public function detailRapat($id)
     {
-        $show = rapat::where('id',$id)->first();
+        $show = rapat::join('users','rapat.user_id','=','users.id')->select('users.nama as user_nama','rapat.*')->where('users.status',null)->where('rapat.id',$id)->first();
+        $kepala = user::whereNotNull('nik')->where('status',null)->orderBy('nama','ASC')->get();
 
         $data = [
             'show' => $show,
+            'kepala' => $kepala,
         ];
 
         return response()->json($data, 200);
+    }
+
+    public function ubah(Request $request)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        $data = rapat::find($request->id);
+        $data->nama = $request->nama;
+        $data->kepala = $request->kepala;
+        $data->tanggal = $request->tanggal;
+        $data->lokasi = $request->lokasi;
+        $data->keterangan = $request->keterangan;
+        $data->save();
+        
+        return response()->json($tgl, 200);
     }
 
     public function hapusRapat($id)
@@ -366,5 +377,45 @@ class rapatController extends Controller
         rapat::where('id', $id)->delete();
 
         return response()->json($tgl, 200);
+    }
+
+    public function getFile($id)
+    {
+        $show = rapat::find($id);
+
+        if ($show->title2 != null) {
+            foreach (json_decode($show->title2) as $key => $value) {
+                $arrNama [] = $value;
+            }
+        } else {
+            $arrNama [] = "";
+        }
+
+        if ($show->filename2 != null) {
+            foreach (json_decode($show->filename2) as $key => $value) {
+                // for ($i=0; $i < $key ; $i++) { 
+                //     $namaFile = $arrNama[$i];
+                // }
+                $sizeFile = number_format(Storage::size($value) / 1048576,2);
+                $file [] = array(
+                    'nama' => $arrNama[$key],
+                    'size' => $sizeFile
+                );
+            }
+        }
+        // print_r($file);
+        // die();
+
+        $tgl_upload = Carbon::parse($show->tanggal)->diffForHumans();
+        
+        $data = [
+            'id' => $show->id,
+            // 'namaFile' => $namaFile,
+            // 'sizeFile' => $sizeFile,
+            'file' => $file,
+            'tgl_upload' => $tgl_upload,
+        ];
+
+        return response()->json($data, 200);
     }
 }

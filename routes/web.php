@@ -209,7 +209,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
         // BERKAS RAPAT
         Route::get('rapat/api/data', 'kantor\rapatController@getRapat')->name('rapat.api.data');
         Route::get('rapat/api/data/{id}', 'kantor\rapatController@detailRapat')->name('rapat.api.detailData');
-        Route::get('rapat/api/data/hapus/{id}', 'kantor\rapatController@hapusRapat')->name('rapat.api.hapus');
+        Route::get('rapat/api/data/file/{id}', 'kantor\rapatController@getFile')->name('rapat.api.detailFile');
+        Route::post('rapat/api/data/ubah/{id}', 'kantor\rapatController@ubah')->name('rapat.api.ubahData');
+        Route::get('rapat/api/data/hapus/{id}', 'kantor\rapatController@hapusRapat')->name('rapat.api.hapusData');
         Route::resource('rapat', 'kantor\rapatController');
         Route::get('/rapat/zip/{id}', 'kantor\rapatController@showAll');
         Route::get('/rapat/show/{id}', 'kantor\rapatController@show');
