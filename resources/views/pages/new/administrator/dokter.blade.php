@@ -1,20 +1,13 @@
-@extends('layouts.admin')
+@extends('layouts.newAdmin')
 
 @section('content')
-<link rel="stylesheet" href="{{ asset('css/jquery.dataTables.min.css') }}">
-{{-- <link rel="stylesheet" href="{{ asset('css/dataTables.min.css') }}"> --}}
-
-<script src="{{ asset('js/jquery-3.3.1.js') }}"></script>
-<script src="{{ asset('js/jquery.dataTablesku.min.js') }}"></script>
-
+@role('it')
 <div class="row">
     <div class="col-md-4">
         <div class="card" style="width: 100%">
-            <div class="card-header bg-dark text-white">
+            <div class="card-header">
 
-                <i class="fa-fw fas fa-plus nav-icon text-success">
-
-                </i> Tambah Dokter
+                <h4>Tambah</h4>
                 
             </div>
             <div class="card-body">
@@ -57,22 +50,16 @@
                         </select>
                     </div>
                     <hr>
-                    <center><button class="btn btn-success text-white" id="submit">TAMBAH</button></center>
+                    <button class="btn btn-primary text-white float-right" id="submit"><i class="fa-fw fas fa-save nav-icon"></i> TAMBAH</button>
                 </form>
             </div>
         </div>
     </div>
     <div class="col-md-8">
         <div class="card" style="width: 100%">
-            <div class="card-header bg-dark text-white">
+            <div class="card-header">
 
-                <i class="fa-fw fas fa-user-md nav-icon text-info">
-
-                </i> Tabel Dokter
-
-                <span class="pull-right badge badge-warning" style="margin-top:4px">
-                    Akses Admin
-                </span>
+                <h4>Tabel</h4>
                 
             </div>
             <div class="card-body">
@@ -211,6 +198,7 @@
     </div>
 </div>
 @endforeach
+@endrole
 
 <script>
 $(document).ready( function () {
@@ -220,7 +208,24 @@ $(document).ready( function () {
             searching: true,
             dom: 'Bfrtip',
             buttons: [
-                'copy', 'csv', 'excel', 'pdf', 'print'
+              {
+                extend: 'copyHtml5',
+                className: 'btn-info',
+                text: 'Salin Baris',
+                download: 'open',
+              },
+              {
+                extend: 'excelHtml5',
+                className: 'btn-success',
+                text: 'Export Excell',
+                download: 'open',
+              },
+              {
+                extend: 'pdfHtml5',
+                className: 'btn-warning',
+                text: 'Cetak PDF',
+                download: 'open',
+              },
             ],
             order: [[ 3, "desc" ]]
         }

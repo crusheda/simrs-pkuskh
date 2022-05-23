@@ -162,7 +162,7 @@
                                 <td>${item.id} ${item.tgl_verif != null ? '<i class="fa-fw fas fa-check nav-icon"></i>' : '' }</td>
                                 <td>${item.updated_at}</td>
                                 <td>${item.judul}</td>
-                                <td>${item.nama}</td>
+                                <td>${item.nama ? item.nama : ""}</td>
                                 <td>${un}</td>
                                 <td>${item.bln} / ${item.thn}</td>
                                 <td>${item.ket}</td>
@@ -230,10 +230,10 @@
                     icon: `warning`,
                     focusCancel: true,
                     showConfirmButton:true,
-                    confirmButtonText: `<i class="fa fa-trash"></i> Hapus`,
+                    confirmButtonText: `<i class="fa fa-trash"></i> Hapus Verifikasi`,
                     confirmButtonColor: '#FF4845',
                     showCancelButton: true,
-                    cancelButtonText: `<i class="fa fa-close"></i> Tutup`,
+                    cancelButtonText: `<i class="fa fa-close"></i> Batal`,
                     showCloseButton: true,
                     backdrop: `rgba(26,27,41,0.8)`,
                 }).then((result) => {

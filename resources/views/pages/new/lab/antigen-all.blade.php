@@ -9,13 +9,13 @@
       </div>
       <div class="card-body">
         <div class="btn-group">
-          <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location.href='{{ route('lab.antigen.index') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i></button>
-          <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i> Refresh</button>
+          <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location.href='{{ route('lab.antigen.index') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i></button>
+          <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i> Refresh</button>
           <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#show" data-toggle="tooltip" data-placement="bottom" title="DATA PASIEN HARI INI"><i class="fa-fw fas fa-info nav-icon text-white"></i> Informasi</button>
         </div>
         <hr>
         <div class="table-responsive">
-          <table id="tableku" class="table table-striped">
+          <table id="tableku" class="table table-striped" style="height: 100%">
               <thead>
                   <tr>
                       <th>DOKTER PENGIRIM</th>
@@ -29,7 +29,7 @@
                       <th><center>AKSI</center></th>
                   </tr>
               </thead>
-              <tbody id="tampil-tbody"><tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+              <tbody id="tampil-tbody"><tr><td colspan="9"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
           </table>
         </div>
       </div>
@@ -85,7 +85,7 @@
         success: function(res) {
           $("#tampil-tbody").empty();
           if(res.show.length == 0){
-            $("#tampil-tbody").append(`<tr><td colspan="6"><center><i class="fa fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
+            $("#tampil-tbody").append(`<tr><td colspan="9"><center><i class="fa fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
           } else {
             res.show.forEach(item => {
               $("#tampil-tbody").append(`
@@ -144,7 +144,7 @@
   })
   
 function refresh() {
-  $("#tampil-tbody").empty().append(`<tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
+  $("#tampil-tbody").empty().append(`<tr><td colspan="9"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
   $.ajax(
     {
       url: "./all/api",
@@ -152,9 +152,9 @@ function refresh() {
       dataType: 'json', // added data type
       success: function(res) {
         $("#tampil-tbody").empty();
-        $('#tableku').DataTable().clear().destroy();
+        // $('#tableku').DataTable().clear().destroy();
         if(res.show.length == 0){
-          $("#tampil-tbody").append(`<tr><td colspan="6"><center><i class="fa fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
+          $("#tampil-tbody").append(`<tr><td colspan="9"><center><i class="fa fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`);
         } else {
           res.show.forEach(item => {
             $("#tampil-tbody").append(`
@@ -177,36 +177,36 @@ function refresh() {
             `);
           });
         }
-        $('#tableku').DataTable(
-            {
-              dom: 'Bfrtip',
-              buttons: [
-                {
-                  extend: 'copyHtml5',
-                  className: 'btn-info',
-                  text: 'Salin Baris',
-                  download: 'open',
-                },
-                {
-                  extend: 'excelHtml5',
-                  className: 'btn-success',
-                  text: 'Export Excell',
-                  download: 'open',
-                },
-                {
-                  extend: 'pdfHtml5',
-                  className: 'btn-warning',
-                  text: 'Cetak PDF',
-                  download: 'open',
-                },
-              ],
-              order: [[ 6, "desc" ]],
-              pageLength: 50
-              // "columnDefs": [
-              //   { "sortable": false, "targets": [0,2,3] }
-              // ],
-            }
-        ).columns.adjust();
+        // $('#tableku').DataTable(
+        //     {
+        //       dom: 'Bfrtip',
+        //       buttons: [
+        //         {
+        //           extend: 'copyHtml5',
+        //           className: 'btn-info',
+        //           text: 'Salin Baris',
+        //           download: 'open',
+        //         },
+        //         {
+        //           extend: 'excelHtml5',
+        //           className: 'btn-success',
+        //           text: 'Export Excell',
+        //           download: 'open',
+        //         },
+        //         {
+        //           extend: 'pdfHtml5',
+        //           className: 'btn-warning',
+        //           text: 'Cetak PDF',
+        //           download: 'open',
+        //         },
+        //       ],
+        //       order: [[ 6, "desc" ]],
+        //       pageLength: 50
+        //       // "columnDefs": [
+        //       //   { "sortable": false, "targets": [0,2,3] }
+        //       // ],
+        //     }
+        // ).columns.adjust();
       }
     }
   );

@@ -167,7 +167,7 @@
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-vial"></i> <span>Laboratorium</span></a>
         <ul class="dropdown-menu">
           <li class="{{ request()->routeIs('lab.antigen.index') ? 'active' : '' }}"><a class="nav-link" href="{{ route("lab.antigen.index") }}">Antigen</a></li>
-          <li><a class="nav-link" href="#"><del>PCR</del></a></li>
+          {{-- <li><a class="nav-link" href="#"><del>PCR</del></a></li> --}}
         </ul>
       </li>
       @endhasrole

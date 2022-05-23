@@ -329,6 +329,13 @@
       $b1 = 'Administrator'; 
       $b2 = 'Notifikasi';
     }
+      // Other
+      if ($route == 'it.dokter.index') {
+        $title = 'Dokter';
+        $b1 = 'Administrator'; 
+        $b2 = 'Other';
+        $b3 = 'Dokter';
+      }
       // Users
       if ($route == 'admin.users.index') {
         $title = 'Daftar Pengguna Simrsmu';

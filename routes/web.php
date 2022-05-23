@@ -233,6 +233,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
         
         // Laporan Bulanan NEW
         Route::post('laporan/bulan/api','kantor\laporanBulananNewController@verifikasi'); // API
+        Route::get('laporan/bulan/api/getubah/{id}','kantor\laporanBulananNewController@getUbah'); // API
+        Route::post('laporan/bulan/api/ubah/{id}','kantor\laporanBulananNewController@ubah'); // API
+        Route::post('laporan/bulan/api','kantor\laporanBulananNewController@verifikasi'); // API
+        Route::get('laporan/bulan/api/hapus/{id}','kantor\laporanBulananNewController@hapusLaporan'); // API
         Route::get('laporan/bulan/api/ket/{id}/hapus','kantor\laporanBulananNewController@ketHapus'); // API
         Route::get('laporan/bulan/api/ket/{id}','kantor\laporanBulananNewController@ketGet'); // API
         Route::post('laporan/bulan/api/ket','kantor\laporanBulananNewController@ket'); // API

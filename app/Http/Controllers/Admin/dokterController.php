@@ -28,7 +28,8 @@ class dokterController extends Controller
             'show' => $show,
             'poli' => $poli
         ];
-        return view('admin.dokter')->with('list', $data);
+        return view('pages.new.administrator.dokter')->with('list', $data);
+        // return view('admin.dokter')->with('list', $data);
     }
 
     /**

@@ -4,7 +4,7 @@
 @can('laporan')
     <div class="card">
         <div class="card-header">
-            Laporan Bulanan
+            Table
         </div>
         <div class="card-body">
             <div class="btn-group" role="group">
@@ -14,11 +14,11 @@
                     </i>
                     Tambah
                 </a>
-                <button class="btn btn-info text-white" onclick="refresh()">
+                <button class="btn btn-warning text-white" onclick="refresh()" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL">
                     <i class="fa-fw fas fa-sync nav-icon"></i>
                 </button>
-                <a type="button" class="btn btn-warning text-white" data-toggle="modal" data-target="#roles" data-toggle="tooltip" data-placement="bottom" title="ATURAN VERIFIKATOR"><i class="fa-fw fas fa-rss nav-icon"></i></a>
-                <button class="btn btn-dark text-white" onclick="verif()">
+                <a type="button" class="btn btn-info text-white" data-toggle="modal" data-target="#roles" data-toggle="tooltip" data-placement="bottom" title="ATURAN VERIFIKATOR"><i class="fa-fw fas fa-rss nav-icon"></i></a>
+                <button class="btn btn-dark text-white" onclick="verif()" data-toggle="tooltip" data-placement="bottom" title="VERIFIKASI LAPORAN">
                     <i class="fa-fw fas fa-check-square nav-icon"></i> Verifikasi&nbsp;
                     <span class="badge badge-light" id="jumlah-verif"></span>
                 </button>
@@ -55,12 +55,15 @@
                 <div class="col-md-12">
                     <div class="pull-left">
                         <div class="btn-group" role="group">
-                            <button class="btn btn-info text-white" onclick="refreshAdmin()">
+                            <button class="btn btn-warning text-white" onclick="refreshAdmin()" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL">
                                 <i class="fa-fw fas fa-sync nav-icon"></i>
                             </button>
-                            <button class="btn btn-danger text-white" onclick="window.location.href='{{ route('restore.laporan.bulanan') }}'">
-                                <i class="fa-fw fas fa-history nav-icon"></i> Deleted Data
+                            <button class="btn btn-secondary text-white disabled" disabled>
+                                <i class="fa-fw fas fa-history nav-icon"></i> Riwayat Penghapusan
                             </button>
+                            {{-- <button class="btn btn-danger text-white" onclick="window.location.href='{{ route('restore.laporan.bulanan') }}'" data-toggle="tooltip" data-placement="bottom" title="RIWAYAT PENGHAPUSAN DATA">
+                                <i class="fa-fw fas fa-history nav-icon"></i> Riwayat Penghapusan
+                            </button> --}}
                         </div>
                     </div>
                 </div>
@@ -161,7 +164,7 @@
 </div>
 
 <div class="modal fade bd-example-modal-lg" id="modal-verif" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
+    <div class="modal-dialog modal-xxl">
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">
@@ -171,12 +174,15 @@
         </div>
         <div class="modal-body">
             <div class="btn-group" role="group">
-                <button class="btn btn-info text-white" onclick="refreshVerif()">
+                <button class="btn btn-warning text-white" onclick="refreshVerif()" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL">
                     <i class="fa-fw fas fa-sync nav-icon"></i>
                 </button>
-                <button class="btn btn-success text-white" onclick="window.location.href='{{ route('riwayat.laporan.bulanan') }}'">
+                <button class="btn btn-secondary text-white disabled" disabled>
                     <i class="fa-fw fas fa-history nav-icon"></i> Riwayat Verifikasi
                 </button>
+                {{-- <button class="btn btn-info text-white" onclick="window.location.href='{{ route('riwayat.laporan.bulanan') }}'">
+                    <i class="fa-fw fas fa-history nav-icon"></i> Riwayat Verifikasi
+                </button> --}}
             </div>
             <br>
             <sub>Data yang ditampilkan khusus Laporan yang belum terverifikasi</sub>
@@ -206,126 +212,68 @@
     </div>
 </div>
 
-@foreach($list['showall'] as $item)
-    <div class="modal fade bd-example-modal-lg" id="ubah{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-        <div class="modal-dialog modal-lg">
+<div class="modal fade bd-example-modal-lg" id="ubah" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-xl">
         <div class="modal-content">
             <div class="modal-header">
             <h4 class="modal-title">
-                Ubah Laporan Bulanan&nbsp;<span class="badge badge-info text-white">ID : {{ $item->id }}</span>
+                Ubah Laporan Bulanan&nbsp;<kbd><a id="show_edit"></a></kbd>
             </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                {{ Form::model($item, array('route' => array('bulanan.update', $item->id), 'method' => 'PUT')) }}
-                    @csrf
+                    <input type="text" id="id_edit" class="form-control" hidden>
+                
                     <div class="row">
                         <div class="col-md-3">
-                            <label>Bulan</label>
-                            <select class="form-control selectric" name="bln" required>
-                                <?php
-                                    $bulan=array("","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
-                                    $jml_bln=count($bulan);
-                                    for($c=1 ; $c < $jml_bln ; $c+=1){
-                                        if ($item->bln == $c) {
-                                            echo"<option value=$c selected> $bulan[$c] </option>";
-                                        } else {
-                                            echo"<option value=$c> $bulan[$c] </option>";
-                                        }
-                                    }
-                                ?>
-                            </select>
+                            <div class="form-group">
+                                <label>Bulan</label>
+                                <select class="form-control" id="bln_edit" required></select>
+                            </div>
                         </div>
                         <div class="col-md-3">
-                            <label>Tahun</label>
-                            <select class="form-control selectric" name="thn" required>
-                                @php
-                                    for ($i=2018; $i <= $list['thn']; $i++) { 
-                                        if ($item->thn == $i) {
-                                            echo"<option value=$i selected> $i </option>";
-                                        } else {
-                                            echo"<option value=$i> $i </option>";
-                                        }
-                                    }
-                                    
-                                @endphp
-                            </select>
+                            <div class="form-group">
+                                <label>Tahun</label>
+                                <select class="form-control" id="thn_edit" required></select>
+                            </div>
                         </div>
                         <div class="col-md-6">
-                            <label>Judul</label>
-                            <input type="text" name="judul" value="{{ $item->judul }}" class="form-control" required>
+                            <div class="form-group">
+                                <label>Judul</label>
+                                <input type="text" id="judul_edit" class="form-control" required>
+                            </div>
                         </div>
-                    </div><br>
-                    <div class="row">
-                        <div class="col">
-                            <label>Keterangan :</label>
-                            <textarea class="form-control" style="min-height: 100px" name="ket" id="ket2" placeholder="" maxlength="190" rows="5"><?php echo htmlspecialchars($item->ket); ?></textarea>
-                            <span class="help-block">
-                                <p id="maxubah" class="help-block "></p>
-                            </span>  
+                        <div class="col-md-12">
+                            <div class="form-group">
+                                <label>Keterangan :</label>
+                                <textarea class="form-control" style="min-height: 100px" id="ket_edit" maxlength="190" rows="5"></textarea>
+                                <span class="help-block">
+                                    <p id="maxubah" class="help-block "></p>
+                                </span>
+                            </div>
                         </div>
-                    </div>
-                    <hr>
-                    <div class="row">
-                        <div class="col">
-                            <i class="fa-fw fas fa-caret-right nav-icon"></i> Detail Dokumen :
-                            @if ($item->filename == '')
-                            -
-                            @else
-                                <b><a href="bulan/{{ $item->id }}">{{ $item->title }}</a></b> ({{ number_format(Storage::size($item->filename) / 1048576,2) }} MB)
-                            @endif
+                        <hr>
+                        <div class="col-md-12">
+                            <i class="fa-fw fas fa-caret-right nav-icon"></i> Dokumen Upload :
+                            <div id="file_edit"></div>
                         </div>
                     </div>
             </div>
             <div class="modal-footer">
-                <div class="pull-left">
-                    <a>Ditambahkan {{ \Carbon\Carbon::parse($item->created_at)->diffforhumans() }}</a>
-                </div>
-                <div class="pull-right">
-                    <button class="btn btn-primary"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
-                    <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
-                </div>
-
-                </form>
-                
+                <a>Ditambahkan pada<a id="tgl_edit"></a></a>
+                <button class="btn btn-primary" id="submit_edit" onclick="ubah()"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
+                <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
             </div>
         </div>
-        </div>
-    </div>
-@endforeach
-
-@foreach($list['showall'] as $item)
-<div class="modal fade" id="hapus{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
-    <div class="modal-dialog modal-lg">
-      <div class="modal-content">
-        <div class="modal-header">
-          <h5 class="modal-title">
-            Ditambahkan <b>{{ $item->updated_at->diffForHumans() }}</b>
-          </h5>
-          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-        </div>
-        <div class="modal-body">
-            <p>Apakah anda yakin ingin menghapus Laporan Bulanan <b>{{ $item->judul }}</b>?</p>
-        </div>
-        <div class="modal-footer">
-            <form action="{{ route('bulanan.destroy', $item->id) }}" method="POST">
-                @method('DELETE')
-                @csrf
-                <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button>
-            </form>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
-        </div>
-      </div>
     </div>
 </div>
-@endforeach
 
 <div class="modal fade bd-example-modal-lg" id="roles" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
     <div class="modal-dialog modal-lg">
         <div class="modal-content">
             <div class="modal-header">
             <h4 class="modal-title">
-                Alur Pelaporan
+                Alur Pelaporan :
             </h4>
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
@@ -547,14 +495,14 @@
                                 <td>
                                     <center>
                                         <div class="btn-group" role="group">
-                                            <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulan/${item.id}') }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
+                                            <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulan/${item.id}') }}'" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD LAPORAN"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
                                             ${item.ket_verif != null ?
-                                                '<button class="btn btn-info text-white btn-sm" onclick="ketLihat('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
+                                                '<button class="btn btn-info text-white btn-sm" onclick="ketLihat('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="KETERANGAN VERIFIKATOR"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
                                                 :
                                                 '<button class="btn btn-secondary text-white btn-sm" disabled><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
                                             }
                                             ${updet == date ?
-                                                '<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah'+item.id+'"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button> <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus'+item.id+'"><i class="fa-fw fas fa-trash nav-icon"></i></button>' : '<button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-edit nav-icon text-white"></i></button> <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>'
+                                                '<button type="button" class="btn btn-warning btn-sm" onclick="showUbah('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="UBAH LAPORAN"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button> <button type="button" class="btn btn-danger btn-sm" onclick="hapus('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="HAPUS LAPORAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>' : '<button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-edit nav-icon text-white"></i></button> <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>'
                                             }
                                         </div>
                                     </center>
@@ -597,6 +545,7 @@
       })
 </script>
 @endcan
+
 @can('admin-laporan')
 <script>
   $(document).ready( function () {
@@ -622,30 +571,30 @@
                                     <center>
                                         <div class="btn-group" role="group">
                                             ${item.tgl_verif == null ?
-                                                '<button class="btn btn-dark text-white btn-sm" onclick="verifikasiAdmin('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
+                                                '<button class="btn btn-dark text-white btn-sm" onclick="verifikasiAdmin('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="VERIFIKASI LAPORAN"><i class="fa-fw fas fa-check nav-icon"></i></button>'
                                             :
-                                                '<button class="btn btn-info text-white btn-sm" onclick="verified('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
+                                                '<button class="btn btn-info text-white btn-sm" onclick="verified('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="STATUS VERIFIKASI"><i class="fa-fw fas fa-check nav-icon"></i></button>'
                                             }
                                             ${item.ket_verif == null ?
-                                                '<button class="btn btn-dark text-white btn-sm" onclick="ketAdmin('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
+                                                '<button class="btn btn-dark text-white btn-sm" onclick="ketAdmin('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="TAMBAH KETERANGAN"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
                                             :
-                                                '<button class="btn btn-info text-white btn-sm" onclick="ketHapusAdmin('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
+                                                '<button class="btn btn-info text-white btn-sm" onclick="ketHapusAdmin('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="LIHAT KETERANGAN"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
                                             }
                                         </div>
                                     </center>
                                 </td>
                                 <td>${item.updated_at}</td>
                                 <td>${item.judul}</td>
-                                <td>${item.nama}</td>
+                                <td>${item.nama ? item.nama : ""}</td>
                                 <td>${un}</td>
                                 <td>${item.bln} / ${item.thn}</td>
                                 <td>${item.ket != null ? item.ket : ''}</td>
                                 <td>
                                     <center>
                                         <div class="btn-group" role="group">
-                                            <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulan/${item.id}') }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
-                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah${item.id}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus${item.id}"><i class="fa-fw fas fa-trash nav-icon"></i></button>                                        
+                                            <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulan/${item.id}') }}'" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD LAPORAN"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
+                                            <button type="button" class="btn btn-warning btn-sm" onclick="showUbah(${item.id})" data-toggle="tooltip" data-placement="bottom" title="UBAH LAPORAN"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="hapus(${item.id})" data-toggle="tooltip" data-placement="bottom" title="HAPUS LAPORAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>                                        
                                         </div>
                                     </center>
                                 </td>
@@ -687,6 +636,7 @@
       })
 </script>
 @endcan
+
 <script>        
     $(document).ready( function () {
         $.ajax({
@@ -750,10 +700,10 @@
                                 <td>
                                     <center>
                                         <div class="btn-group" role="group">
-                                            <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulan/${item.id}') }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
-                                            <button class="btn btn-info text-white btn-sm" onclick="ketLihat(${item.id})"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>
+                                            <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulan/${item.id}') }}'" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD LAPORAN"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
+                                            <button class="btn btn-info text-white btn-sm" onclick="ketLihat(${item.id})" data-toggle="tooltip" data-placement="bottom" title="KETERANGAN VERIFIKATOR"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>
                                             ${updet == date ?
-                                                '<button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah'+item.id+'"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button> <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus'+item.id+'"><i class="fa-fw fas fa-trash nav-icon"></i></button>' : '<button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-edit nav-icon text-white"></i></button> <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>'
+                                                '<button type="button" class="btn btn-warning btn-sm" onclick="showUbah('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="UBAH LAPORAN"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button> <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus'+item.id+'" data-toggle="tooltip" data-placement="bottom" title="HAPUS LAPORAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>' : '<button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-edit nav-icon text-white"></i></button> <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>'
                                             }
                                         </div>
                                     </center>
@@ -825,16 +775,16 @@
                                     <center>
                                         <div class="btn-group" role="group">
                                             ${item.tgl_verif == null ?
-                                                '<button class="btn btn-dark text-white btn-sm" onclick="verifikasi('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
+                                                '<button class="btn btn-dark text-white btn-sm" onclick="verifikasi('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="VERIFIKASI LAPORAN"><i class="fa-fw fas fa-check nav-icon"></i></button>'
                                             :
-                                                '<button class="btn btn-info text-white btn-sm" onclick="verified('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
+                                                '<button class="btn btn-info text-white btn-sm" onclick="verified('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="STATUS LAPORAN"><i class="fa-fw fas fa-check nav-icon"></i></button>'
                                             }
                                             ${item.ket_verif == null ?
-                                                '<button class="btn btn-dark text-white btn-sm" onclick="ket('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
+                                                '<button class="btn btn-dark text-white btn-sm" onclick="ket('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="TAMBAH KETERANGAN"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
                                             :
-                                                '<button class="btn btn-warning text-white btn-sm" onclick="ketHapus('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
+                                                '<button class="btn btn-warning text-white btn-sm" onclick="ketHapus('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="LIHAT KETERANGAN"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
                                             }
-                                            <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulan/${item.id}') }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
+                                            <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulan/${item.id}') }}'" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD LAPORAN"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
                                         </div>
                                     </center>
                                 </td>
@@ -877,16 +827,16 @@
                                     <center>
                                         <div class="btn-group" role="group">
                                             ${item.tgl_verif == null ?
-                                                '<button class="btn btn-dark text-white btn-sm" onclick="verifikasi('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
+                                                '<button class="btn btn-dark text-white btn-sm" onclick="verifikasi('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="VERIFIKASI LAPORAN"><i class="fa-fw fas fa-check nav-icon"></i></button>'
                                             :
-                                                '<button class="btn btn-info text-white btn-sm" onclick="verified('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
+                                                '<button class="btn btn-info text-white btn-sm" onclick="verified('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="STATUS VERIFIKASI"><i class="fa-fw fas fa-check nav-icon"></i></button>'
                                             }
                                             ${item.ket_verif == null ?
-                                                '<button class="btn btn-dark text-white btn-sm" onclick="ket('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
+                                                '<button class="btn btn-dark text-white btn-sm" onclick="ket('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="TAMBAH KETERANGAN"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
                                             :
-                                                '<button class="btn btn-warning text-white btn-sm" onclick="ketHapus('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
+                                                '<button class="btn btn-warning text-white btn-sm" onclick="ketHapus('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="LIHAT KETERANGAN"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
                                             }
-                                            <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulan/${item.id}') }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
+                                            <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulan/${item.id}') }}'" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD LAPORAN"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
                                         </div>
                                     </center>
                                 </td>
@@ -923,21 +873,21 @@
                                     <center>
                                         <div class="btn-group" role="group">
                                             ${item.tgl_verif == null ?
-                                                '<button class="btn btn-dark text-white btn-sm" onclick="verifikasiAdmin('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
+                                                '<button class="btn btn-dark text-white btn-sm" onclick="verifikasiAdmin('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="VERIFIKASI LAPORAN"><i class="fa-fw fas fa-check nav-icon"></i></button>'
                                             :
-                                                '<button class="btn btn-info text-white btn-sm" onclick="verified('+item.id+')"><i class="fa-fw fas fa-check nav-icon"></i></button>'
+                                                '<button class="btn btn-info text-white btn-sm" onclick="verified('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="STATUS VERIFIKASI"><i class="fa-fw fas fa-check nav-icon"></i></button>'
                                             }
                                             ${item.ket_verif == null ?
-                                                '<button class="btn btn-dark text-white btn-sm" onclick="ketAdmin('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
+                                                '<button class="btn btn-dark text-white btn-sm" onclick="ketAdmin('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="TAMBAH KETERANGAN"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
                                             :
-                                                '<button class="btn btn-info text-white btn-sm" onclick="ketHapusAdmin('+item.id+')"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
+                                                '<button class="btn btn-info text-white btn-sm" onclick="ketHapusAdmin('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="LIHAT KETERANGAN"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
                                             }
                                         </div>
                                     </center>
                                 </td>
                                 <td>${item.updated_at}</td>
                                 <td>${item.judul}</td>
-                                <td>${item.nama}</td>
+                                <td>${item.nama ? item.nama : ""}</td>
                                 <td>${un}</td>
                                 <td>${item.bln} / ${item.thn}</td>
                                 <td>${item.ket != null ? item.ket : ''}</td>
@@ -945,8 +895,8 @@
                                     <center>
                                         <div class="btn-group" role="group">
                                             <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulan/${item.id}') }}'"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
-                                            <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubah${item.id}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                            <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus${item.id}"><i class="fa-fw fas fa-trash nav-icon"></i></button>                                        
+                                            <button type="button" class="btn btn-warning btn-sm" onclick="showUbah(${item.id})"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
+                                            <button type="button" class="btn btn-danger btn-sm" onclick="hapus(${item.id})"><i class="fa-fw fas fa-trash nav-icon"></i></button>                                        
                                         </div>
                                     </center>
                                 </td>
@@ -1015,6 +965,93 @@
                 return true;
             }
         });
+    }
+    
+    function showUbah(id) {
+        $('#ubah').modal('show');
+        $.ajax(
+            {
+                url: "./bulan/api/getubah/"+id,
+                type: 'GET',
+                dataType: 'json', // added data type
+                success: function(res) {
+                    // var tgl = res.tgl + 'T' + res.waktu;
+                    document.getElementById('show_edit').innerHTML = "ID : "+res.show.id;
+                    document.getElementById('tgl_edit').innerHTML = res.tgl;
+                    $("#id_edit").val(res.show.id);
+                    $("#judul_edit").val(res.show.judul);
+                    $("#ket_edit").val(res.show.ket);
+                    $("#bln_edit").find('option').remove();
+                    $("#thn_edit").find('option').remove();
+                    for(c=1 ; c < res.jml_bulan ; c++){
+                        $("#bln_edit").append(`
+                            <option value="${c}" ${c == res.show.bln? "selected":""}>`+res.bulan[c]+`</option>
+                        `);
+                    }
+                    for (i=2018; i <= res.tahun; i++) { 
+                        $("#thn_edit").append(`
+                            <option value="${i}" ${i == res.show.thn? "selected":""}>${i}</option>
+                        `);
+                    }
+                    $("#file_edit").empty();
+                    $("#file_edit").append(`
+                        <b><u><a href="./bulan/${res.show.id}">${res.show.title}</a></u>&nbsp(${res.sizeFile} Mb)</b>
+                    `);
+                    // document.getElementById('tgl_edit').innerHTML = res.sizeFile;
+                }
+            }
+        );
+    }
+
+    function ubah() {
+        var id          = $("#id_edit").val();
+        var judul       = $("#judul_edit").val();
+        var ket         = $("#ket_edit").val();
+        var bln         = $("#bln_edit").val();
+        var thn         = $("#thn_edit").val();
+
+        if (judul == "" || bln == "" || thn == "") {
+            Swal.fire({
+            title: 'Pesan Galat!',
+            text: 'Mohon lengkapi semua data terlebih dahulu dan pastikan tidak ada yang kosong',
+            icon: 'error',
+            showConfirmButton:false,
+            showCancelButton:false,
+            allowOutsideClick: true,
+            allowEscapeKey: true,
+            timer: 3000,
+            timerProgressBar: true,
+            backdrop: `rgba(26,27,41,0.8)`,
+            });
+        } else {
+            $.ajax({
+            headers: {
+                'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+            },
+            method: 'POST',
+            url: './bulan/api/ubah/'+id, 
+            dataType: 'json', 
+            data: { 
+                id: id,
+                judul: judul,
+                ket: ket,
+                bln: bln,
+                thn: thn,
+            }, 
+            success: function(res) {
+                iziToast.success({
+                    title: 'Sukses!',
+                    message: 'Ubah Laporan Bulanan berhasil pada '+res,
+                    position: 'topRight'
+                });
+                if (res) {
+                    $('#ubah').modal('hide');
+                    refresh();
+                    refreshAdmin();
+                }
+            }
+            });
+        }
     }
 
     function verifikasi(id) {
@@ -1361,6 +1398,54 @@
                 });
             }   
         }); 
+    }
+
+    function hapus(id) {
+        Swal.fire({
+        title: 'Apakah anda yakin?',
+        text: 'Hapus Laporan Bulanan ID : '+id,
+        icon: 'warning',
+        reverseButtons: false,
+        showDenyButton: false,
+        showCloseButton: false,
+        showCancelButton: true,
+        focusCancel: true,
+        confirmButtonColor: '#FF4845',
+        confirmButtonText: `<i class="fa fa-trash"></i> Hapus`,
+        cancelButtonText: `<i class="fa fa-times"></i> Batal`,
+        backdrop: `rgba(26,27,41,0.8)`,
+        }).then((result) => {
+        if (result.isConfirmed) {
+            $.ajax({
+            url: "./bulan/api/hapus/"+id,
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function(res) {
+                iziToast.success({
+                    title: 'Sukses!',
+                    message: 'Hapus Laporan Bulanan berhasil pada '+res,
+                    position: 'topRight'
+                });
+                refresh();
+                refreshAdmin();
+            },
+            error: function(res) {
+                Swal.fire({
+                title: `Gagal di hapus!`,
+                text: 'Pada '+res,
+                icon: `error`,
+                showConfirmButton:false,
+                showCancelButton:false,
+                allowOutsideClick: true,
+                allowEscapeKey: true,
+                timer: 3000,
+                timerProgressBar: true,
+                backdrop: `rgba(26,27,41,0.8)`,
+                });
+            }
+            }); 
+        }
+        })
     }
 </script>
 @endsection
