@@ -108,6 +108,12 @@
         $b1 = 'Pengadaan';
         $b2 = 'Barang'; 
       }
+      // REKAP PENGADAAN
+      if ($route == 'rekap.index') {
+        $title = 'Rekap Pengadaan';
+        $b1 = 'Pengadaan';
+        $b2 = 'Rekap'; 
+      }
     // KALENDER
       if ($route == 'kalender') {
         $title = 'Kalender Manajemen';

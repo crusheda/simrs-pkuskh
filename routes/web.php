@@ -385,6 +385,9 @@ Route::post('pengadaan', 'publik\pengadaan\pengadaanController@store')->name('pe
 Route::get('pengadaan/api/barang', 'publik\pengadaan\barangPengadaanController@apiGet')->name('barang.api.get');
 Route::get('pengadaan/api/barang/hapus/{id}', 'publik\pengadaan\barangPengadaanController@apiHapus')->name('barang.api.hapus');
 Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController');
+    // Rekap Pengadaan
+    Route::get('pengadaan/rekap', 'publik\pengadaan\pengadaanController@indexRekap')->name('rekap.index');
+    Route::get('pengadaan/rekap/cari', 'publik\pengadaan\pengadaanController@rekapCari')->name('rekap.cari');
 
 // ADMINISTRASI
     // REGULASI

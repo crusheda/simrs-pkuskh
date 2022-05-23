@@ -1,60 +1,6 @@
 @extends('layouts.newAdmin')
 
 @section('content')
-{{-- <div class="row">
-  <div class="col-md-6">
-    <div class="card card-statistic-2">
-      <div class="card-stats">
-        <div class="card-stats-title">Statistik
-        </div>
-        <div class="card-stats-items">
-          <div class="card-stats-item">
-            <div class="card-stats-item-count">*</div>
-            <div class="card-stats-item-label">Pending</div>
-          </div>
-          <div class="card-stats-item">
-            <div class="card-stats-item-count">*</div>
-            <div class="card-stats-item-label">Shipping</div>
-          </div>
-          <div class="card-stats-item">
-            <div class="card-stats-item-count">*</div>
-            <div class="card-stats-item-label">Completed</div>
-          </div>
-        </div>
-      </div>
-      <div class="card-icon shadow-primary bg-primary">
-        <i class="fas fa-archive"></i>
-      </div>
-      <div class="card-wrap">
-        <div class="card-header">
-          <h4>Total Pengadaan</h4>
-        </div>
-        <div class="card-body">
-          *
-        </div>
-      </div>
-    </div>
-  </div>
-  <div class="col-md-6">
-    <div class="card card-statistic-2">
-      <div class="card-chart">
-        <canvas id="balance-chart" height="80"></canvas>
-      </div>
-      <div class="card-icon shadow-primary bg-primary">
-        <i class="fas fa-dollar-sign"></i>
-      </div>
-      <div class="card-wrap">
-        <div class="card-header">
-          <h4>Total Pengeluaran</h4>
-        </div>
-        <div class="card-body">
-          Rp. -
-        </div>
-      </div>
-    </div>
-  </div>
-</div> --}}
-
 <div class="card">
   <div class="card-header">
     <h4>Tabel</h4>
@@ -72,9 +18,9 @@
 			<button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah" data-placement="bottom" title="BUAT PENGUSULAN PENGADAAN">
         <i class="fa-fw fas fa-plus-square nav-icon"></i>	Tambah Pengadaan
 			</button>
-			<button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i> Refresh</button>
+			<button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i></button>
       @role('sekretaris-direktur|it')
-        <button type="button" class="btn btn-success disabled" data-toggle="tooltip" data-placement="bottom" title="REKAP HASIL PENGADAAN"><i class="fa-fw fas fa-business-time nav-icon"></i></button>
+        <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="REKAP HASIL PENGADAAN" onclick="window.location='{{ route('rekap.index') }}'"><i class="fa-fw fas fa-business-time nav-icon"></i></button>
         <button type="button" class="btn btn-danger disabled" data-toggle="tooltip" data-placement="bottom" title="TAMPILKAN PENGADAAN TERHAPUS"><i class="fa-fw fas fa-eraser nav-icon"></i></button>
       @endrole
 		</div>
@@ -210,8 +156,8 @@
               content = "<tr id='data"+ item.id +"'><td>" 
                         + item.id_pengadaan + "</td><td>" 
                         + item.nama + "</td><td>" 
-                        + JSON.parse(item.unit) + "</td><td>" 
-                        + item.total + "</td><td>" 
+                        + JSON.parse(item.unit) + "</td><td>"
+                        + "Rp. " + item.total.toLocaleString().replace(/[,]/g,'.') + "</td><td>"
                         + item.tgl_pengadaan + "</td>";
               content += "<td><center><div class='btn-group' role='group'>";
               if (adminID) {
@@ -360,7 +306,7 @@
                         + item.id_pengadaan + "</td><td>" 
                         + item.nama + "</td><td>" 
                         + JSON.parse(item.unit) + "</td><td>" 
-                        + item.total + "</td><td>" 
+                        + "Rp. " + item.total.toLocaleString().replace(/[,]/g,'.') + "</td><td>"
                         + item.tgl_pengadaan + "</td>";
 
               content += "<td><center><div class='btn-group' role='group'>";

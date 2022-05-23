@@ -177,4 +177,31 @@ class pengadaanController extends Controller
 
         return response()->json($tgl, 200);
     }
+
+    public function indexRekap()
+    {
+        $show = pengadaan::get();
+        $ref = ref_barang::get();
+        
+        // array_push( $showdata, [
+        //     'id' => $value->id,
+        //     'nama' => $value->nama,
+        //     'hasildsp' => $hasildsp,
+        //     'hasiltjb' => $hasiltjb,
+        //     'hasilpns' => $hasilpns,
+        //     'predikat' => $predikat
+        // ]);
+
+        $data = [
+            'show' => $show,
+            'ref' => $ref,
+        ];
+
+        return view('pages.new.pengadaan.rekap')->with('list', $data);
+    }
+
+    public function rekapCari($id)
+    {
+        # code...
+    }
 }
