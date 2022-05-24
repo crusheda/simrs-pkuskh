@@ -194,10 +194,10 @@ $(document).ready( function () {
       var tahun = $("#tahun").val();
       $("#tampil-rekap").empty();
       $("#tampil-rekap").append(
-        `<table class="table table-bordered display" style="font-size: 13px;width: 100%;word-break: break-word;">
+        `<table id="table" class="table table-bordered display" style="font-size: 13px;width: 100%;overflow-x : auto;">
           <thead id="tampil-thead">
             <tr>
-              <th>ID</th>
+              <th>IDB</th>
               <th>BARANG</th>
               <th>HARGA</th>
               <th>SATUAN</th>
@@ -213,21 +213,87 @@ $(document).ready( function () {
           type: 'GET',
           dataType: 'json', // added data type
           success: function(res) {
-            // $("#tampil-thead").empty();
+            $("#tampil-thead").empty();
             $("#tampil-tbody").empty();
-            
             if(res.show.length == 0){
               $("#tampil-tbody").append(`<tr><td colspan="5"><center>No Data Available In Table</center></td></tr>`);
             } else {
-              res.show.forEach(item => {
-                content = "<tr id='data"+ item.id +"'><td>" 
-                        + item.id_barang + "</td><td>" 
-                        + item.nama_barang + "</td><td>" 
-                        + item.harga_barang + "</td><td>"
-                        + item.satuan_barang + "</td>";
-                content += "</tr>";
-                $('#tampil-tbody').append(content);
+              // TABLE HEAD
+              contenthead = '<tr>'
+                      + '<th rowspan="2">IDB</th>'
+                      + '<th rowspan="2">BARANG</th>'
+                      + '<th rowspan="2">HARGA</th>'
+                      + '<th rowspan="2">SATUAN</th>';
+                      res.unit.forEach(key => {
+                        contenthead += '<th colspan="2">' + JSON.parse(key.unit) + '</th>';
+                      });
+              contenthead += "</tr><tr>";
+              res.unit.forEach(key => {
+                contenthead += "<th>JML</th><th>NOM</th>";
               });
+              contenthead += "</tr>";
+              $('#tampil-thead').append(contenthead);
+              // TABLE BODY
+              contentbody = "";
+              res.barang.forEach(item => {
+                contentbody += "<tr><td>"
+                      + item.id_barang + "</td><td>" 
+                      + item.nama_barang + "</td><td>" 
+                      + item.harga_barang + "</td><td>"
+                      + item.satuan_barang + "</td>";
+                      res.show.forEach(val => {
+                        res.unit.forEach(key => {
+                          if (item.id_barang == val.id_barang) {
+                            if (key.unit == val.unit) {
+                              contentbody += "<td>" + val.jumlah + "</td><td>" + val.total + "</td>";
+                            }
+                            else {
+                              contentbody += '<td colspan="2"></td>';
+                            }
+                          }
+                        });
+                      });
+                contentbody += "</tr>";
+              });
+              $('#tampil-tbody').append(contentbody);
+              // $('#table').DataTable(
+              //   {
+              //     paging: true,
+              //     searching: true,
+              //     scrollX: true,
+              //     dom: 'Bfrtip',
+              //     buttons: [
+              //       {
+              //         extend: 'copyHtml5',
+              //         className: 'btn-info',
+              //         text: 'Salin Baris',
+              //         download: 'open',
+              //       },
+              //       {
+              //         extend: 'excelHtml5',
+              //         className: 'btn-success',
+              //         text: 'Export Excell',
+              //         download: 'open',
+              //       },
+              //       {
+              //         extend: 'pdfHtml5',
+              //         className: 'btn-warning',
+              //         text: 'Cetak PDF',
+              //         download: 'open',
+              //       },
+              //       {
+              //         extend: 'colvis',
+              //         className: 'btn-dark',
+              //         text: 'Sembunyikan Kolom',
+              //         exportOptions: {
+              //             columns: ':visible'
+              //         }
+              //       }
+              //     ],
+              //     order: [[ 1, "asc" ]],
+              //     pageLength: 20
+              //   }
+              // ).columns.adjust();
             }
           }
         }
