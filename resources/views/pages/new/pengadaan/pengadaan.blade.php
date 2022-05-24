@@ -15,7 +15,7 @@
   </div>
   <div class="card-body">
 		<div class="btn-group">
-			<button type="button" class="btn btn-primary text-white" data-toggle="modal" data-target="#tambah" data-placement="bottom" title="BUAT PENGUSULAN PENGADAAN">
+			<button type="button" class="btn btn-primary text-white" data-toggle="tooltip" data-placement="bottom" title="BUAT PENGUSULAN PENGADAAN" onclick="tambah()">
         <i class="fa-fw fas fa-plus-square nav-icon"></i>	Tambah Pengadaan
 			</button>
 			<button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i></button>
@@ -68,8 +68,9 @@
                 {{-- @foreach($list['ref'] as $key)
                   <option value="{{ $key->id }}"><b>{{ $key->nama }}</b></option>
                 @endforeach --}}
-            </select>
-            <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan Anda mempunyai <b>Hak</b> untuk melakukan pengusulan pengadaan</sub>
+            </select> <br>
+            <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan Anda mempunyai <b>Hak</b> untuk melakukan pengusulan pengadaan</sub> <br>
+            <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pengusulan Pengadaan hanya dapat dilakukan 1x (Satu Kali) pada masing-masing Jenis Pengadaan</sub>
           </div>
       </div>
       <div class="modal-footer">
@@ -99,8 +100,8 @@
           <sub id="detail_unit"></sub>
         </div>
         <div class="col-md-6 text-right">
-          <kbd>ID SYS : <a id="show_id"></a></kbd>&nbsp;<kbd id="detail_jenis"></kbd><br>
-          Ditambahkan pada :<br><a id="detail_tgl"></a>
+          <kbd>ID SYS : <a id="show_id"></a></kbd>&nbsp;<kbd id="detail_jenis"></kbd><p class="mb-1"> </p>
+          <a>Ditambahkan pada :</a><br><a id="detail_tgl"></a>
         </div>
         <div class="col-md-12">
           <hr>
@@ -141,10 +142,13 @@
         dataType: 'json', // added data type
         success: function(res) {
           $("#tampil-tbody").empty();
-          var date = new Date().toISOString().split('T')[0];
+          var date = new Date().toISOString().split('T')[0]; // 2022-05-23
           var userID = "{{ Auth::user()->id }}";
           var adminID = "{{ Auth::user()->hasRole('it') }}";
-          var date = new Date().toISOString().split('T')[0];
+          var tgl = date.substring(8,10);
+          var bln = date.substring(5,7);
+          var thn = date.substring(0,4);
+          // console.log(tgl);
           // $('#table').DataTable().clear().destroy();
           // console.log(res.show);
           if(res.show.length == 0){
@@ -153,6 +157,9 @@
             // console.log(res.show);
             res.show.forEach(item => {
               var updet = item.updated_at.substring(0, 10);
+              var tglUpload = item.updated_at.substring(8, 10);
+              var blnUpload = item.updated_at.substring(5, 7);
+              var thnUpload = item.updated_at.substring(0, 4);
               content = "<tr id='data"+ item.id +"'><td>" 
                         + item.id_pengadaan + "</td><td>" 
                         + item.nama + "</td><td>" 
@@ -165,9 +172,19 @@
                 content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="HAPUS PENGADAAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
               } else {
                 if (item.id_user == userID) {
-                  if (updet == date) {
-                    content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
-                    content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="HAPUS PENGADAAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                  if (thnUpload == thn) { // TAHUN SAMA
+                    if (blnUpload == bln) { // BULAN SAMA
+                      if (tgl >= 1 && tgl <= 25) { // TANGGAL TIDAK BOLEH LEBIH DARI TGL 25 (Tgl 1-25)
+                        content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
+                        content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="HAPUS PENGADAAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                      } else {
+                        content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
+                        content += `<button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                      }
+                    } else {
+                      content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
+                      content += `<button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                    }
                   } else {
                     content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
                     content += `<button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
@@ -283,6 +300,22 @@
 </script>
 
 <script>
+  function tambah() {
+    const d = new Date();
+    var day = d.getDate();
+    console.log('ini tanggal : '+day);
+    if (day > 25) {
+      iziToast.warning({
+          title: 'Pesan Galat!',
+          message: 'Pengusulan Pengadaan hanya dapat dilakukan pada tanggal 1-25 Setiap Bulannya.',
+          position: 'topRight'
+      });
+    } else {
+      $('#tambah').modal('show');
+    }
+    
+  }
+
   function refresh() {
     $("#tampil-tbody").empty().append(`<tr><td colspan="6"><center><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</center></td></tr>`);
     $.ajax(

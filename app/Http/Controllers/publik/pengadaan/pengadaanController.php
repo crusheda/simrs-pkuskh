@@ -30,18 +30,35 @@ class pengadaanController extends Controller
 
     public function create(Request $request)
     {
-        // $show = barang::where('ref_barang',$request->ref_barang)->get();
-        $ref = ref_barang::where('id',$request->ref_barang)->first();
-        // $show = barang::join('ref_barang', 'ref_barang.id', '=', 'barang.ref_barang')->get(['barang.*','ref_barang.nama as ref']);
-
-        $data = [
-            // 'show' => $show,
-            'ref' => $ref,
-        ];
-        // print_r($show);
+        $user = Auth::user();
+        $id = $user->id;
+        $getTgl = pengadaan::select('tgl_pengadaan')->where('id_user',$id)->orderBy('tgl_pengadaan','desc')->first();
+        $blnNow = Carbon::now()->isoFormat('MM');
+        // print_r(substr($getTgl->tgl_pengadaan,5,2));
         // die();
 
-        return view('pages.new.pengadaan.tambah-pengadaan')->with('list', $data);
+        if (!empty($getTgl)) {
+            if (substr($getTgl->tgl_pengadaan,5,2) != $blnNow) {
+                $ref = ref_barang::where('id',$request->ref_barang)->first();
+        
+                $data = [
+                    'ref' => $ref,
+                ];
+        
+                return view('pages.new.pengadaan.tambah-pengadaan')->with('list', $data);
+            } else {
+                return redirect()->back()->withErrors(["Pada bulan ini anda sudah melakukan Pengadaan","Untuk melakukan pengusulan pengadaan ulang, mohon hapus pengadaan bulan ini terlebih dahulu"]);
+            }
+        } else {
+            $ref = ref_barang::where('id',$request->ref_barang)->first();
+    
+            $data = [
+                'ref' => $ref,
+            ];
+    
+            return view('pages.new.pengadaan.tambah-pengadaan')->with('list', $data);
+        }
+        
     }
 
     public function store(Request $request)
@@ -200,8 +217,36 @@ class pengadaanController extends Controller
         return view('pages.new.pengadaan.rekap')->with('list', $data);
     }
 
-    public function rekapCari($id)
+    public function getRekap($bulan,$tahun) // 5-2022
     {
-        # code...
+        // print_r($bulan."-".$tahun);
+        // die();
+        // $bulann = 05;
+        $unit = pengadaan::join('users','pengadaan.id_user','=','users.id')->select('users.id','users.nama','pengadaan.unit')->whereYear('pengadaan.tgl_pengadaan', $tahun)->whereMonth('pengadaan.tgl_pengadaan', $bulan)->groupBy('users.id','users.nama','pengadaan.unit')->get();
+        $show = pengadaan::join('detail_pengadaan','pengadaan.id_pengadaan','=','detail_pengadaan.id_pengadaan')
+                        ->join('barang','detail_pengadaan.id_barang','=','barang.id')
+                        ->join('users','pengadaan.id_user','=','users.id')
+                        ->select('users.nama as nama_user',
+                                'pengadaan.id',
+                                'pengadaan.id_pengadaan',
+                                'detail_pengadaan.jumlah as jumlah_barang',
+                                'detail_pengadaan.harga as harga_barang',
+                                'detail_pengadaan.satuan as satuan_barang',
+                                'detail_pengadaan.total as total_barang',
+                                'detail_pengadaan.ket as ket_barang',
+                                'barang.id as id_barang',
+                                'barang.nama as nama_barang')
+                        ->whereYear('pengadaan.tgl_pengadaan', $tahun)
+                        ->whereMonth('pengadaan.tgl_pengadaan', $bulan)
+                        ->get();
+        // print_r($show);
+        // die();
+
+        $data = [
+            'show' => $show,
+            // 'detail' => $detail,
+        ];
+
+        return response()->json($data, 200);
     }
 }

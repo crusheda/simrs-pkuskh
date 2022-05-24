@@ -66,38 +66,44 @@
               </div>
             </div>
             <div class="card-body">
-                <div class="btn-group">
-                    <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location='{{ route('pengadaan.index') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i></button>
-                    <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="INFORMASI"><i class="fa-fw fas fa-question nav-icon text-white"></i> Informasi</button>
-                </div>
-                <hr>
-                <div class="btn-group">
-                    <form class="form-inline" action="{{ route('rekap.cari') }}" method="GET">
-                        <span style="width: auto;margin-right:10px">Filter</span>
-                        <select onchange="submitBtn()" class="form-control mb-2 mr-sm-2" name="bulan" id="bulan">
-                            <option hidden>Bulan</option>
-                            <?php
-                                $bulan=array("","Januari","Februari","Maret","April","Mei","Juni","Juli","Agustus","September","Oktober","November","Desember");
-                                $jml_bln=count($bulan);
-                                for($c=1 ; $c < $jml_bln ; $c+=1){
-                                    echo"<option value=$c> $bulan[$c] </option>";
-                                }
-                            ?>
-                        </select>
-                        <select onchange="submitBtn()" class="form-control mb-2 mr-sm-2" name="tahun" id="tahun">
-                            <option hidden>Tahun</option>
-                            @php
-                                for ($i=2022; $i <= \Carbon\Carbon::now()->isoFormat('Y'); $i++) { 
-                                    echo"<option value=$i> $i </option>";
-                                }
-                                
-                            @endphp
-                        </select>
-                        <button class="form-control btn btn-secondary text-white mb-2" id="submit_filter" disabled><i class="fa-fw fas fa-filter nav-icon text-white"></i></button>
-                    </form>
-                    <br>
-                </div>
-            </div>
+              <div class="btn-group">
+                  <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location='{{ route('pengadaan.index') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i></button>
+                  <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="INFORMASI"><i class="fa-fw fas fa-question nav-icon text-white"></i> Informasi</button>
+              </div>
+              <hr>
+                {{-- <form class="form-inline" action="{{ route('rekap.cari') }}" method="GET"> --}}
+                  <div class="form-inline">
+                    <span style="width: auto;margin-right:10px">Filter</span>
+                    <select onchange="submitBtn()" class="form-control mb-2 mr-sm-2" name="bulan" id="bulan">
+                        <option hidden>Pilih Bulan</option>
+                        <option value="01"> Januari</option>
+                        <option value="02"> Februari</option>
+                        <option value="03"> Maret</option>
+                        <option value="04"> April</option>
+                        <option value="05"> Mei</option>
+                        <option value="06"> Juni</option>
+                        <option value="07"> Juli</option>
+                        <option value="08"> Agustus</option>
+                        <option value="09"> September</option>
+                        <option value="10"> Oktober</option>
+                        <option value="11"> November</option>
+                        <option value="12"> Desember</option>
+                    </select>
+                    <select onchange="submitBtn()" class="form-control mb-2 mr-sm-2" name="tahun" id="tahun">
+                        <option hidden>Pilih Tahun</option>
+                        @php
+                            for ($i=2022; $i <= \Carbon\Carbon::now()->isoFormat('Y'); $i++) { 
+                                echo"<option value=$i> $i </option>";
+                            }
+                            
+                        @endphp
+                    </select>
+                    <button class="form-control btn btn-secondary text-white mb-2" id="submit_filter" onclick="cari()" disabled><i class="fa-fw fas fa-filter nav-icon text-white"></i> Submit</button>
+                  </div>
+                {{-- </form> --}}
+                <br>
+                <div id="tampil-rekap"></div>
+              </div>
             <div class="card-footer text-right">
             </div>
         </div>
@@ -110,7 +116,7 @@
 <script src="{{ asset('assets/modules/chart.min.js') }}"></script>
 <script>
 $(document).ready( function () {
-    
+    // CHART
     var balance_chart = document.getElementById("balance-chart").getContext('2d');
     
     var balance_chart_bg_color = balance_chart.createLinearGradient(0, 0, 0, 70);
@@ -168,6 +174,8 @@ $(document).ready( function () {
         }
     });
 
+    //  AJX
+
 } );
 
 // FUNCTION-FUNCTION
@@ -176,9 +184,70 @@ $(document).ready( function () {
         var bulan = $("#bulan").val();
         var tahun = $("#tahun").val();
 
-        if ( bulan != 'Bulan' || tahun != 'Tahun' ) {
+        if ( bulan != 'Pilih Bulan' && tahun != 'Pilih Tahun' ) {
             $('#submit_filter').prop('disabled', false).removeClass('btn-secondary').addClass('btn-primary');
         }
     }
+
+    function cari() {
+      var bulan = $("#bulan").val();
+      var tahun = $("#tahun").val();
+      $("#tampil-rekap").empty();
+      $("#tampil-rekap").append(
+        `<table class="table table-bordered display" style="font-size: 13px;width: 100%;word-break: break-word;">
+          <thead id="tampil-thead">
+            <tr>
+              <th>ID</th>
+              <th>BARANG</th>
+              <th>HARGA</th>
+              <th>SATUAN</th>
+              <th>MEMPROSES UNIT <i class="fa fa-spinner fa-pulse fa-fw"></i></th>
+            </tr>
+          </thead>
+          <tbody id="tampil-tbody"><tr><td colspan="5"><center><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</center></td></tr></tbody>
+        </table>`
+      );
+      $.ajax(
+        {
+          url: "./rekap/api/data/bulan/"+bulan+"/tahun/"+tahun,
+          type: 'GET',
+          dataType: 'json', // added data type
+          success: function(res) {
+            // $("#tampil-thead").empty();
+            $("#tampil-tbody").empty();
+            
+            if(res.show.length == 0){
+              $("#tampil-tbody").append(`<tr><td colspan="5"><center>No Data Available In Table</center></td></tr>`);
+            } else {
+              res.show.forEach(item => {
+                content = "<tr id='data"+ item.id +"'><td>" 
+                        + item.id_barang + "</td><td>" 
+                        + item.nama_barang + "</td><td>" 
+                        + item.harga_barang + "</td><td>"
+                        + item.satuan_barang + "</td>";
+                content += "</tr>";
+                $('#tampil-tbody').append(content);
+              });
+            }
+          }
+        }
+      );
+    }
 </script>
 @endsection
+
+{{-- <table class="table table-bordered display" style="font-size: 13px;width: 100%;/* word-break: break-word; */">
+  <thead>
+    <tr>
+      <th style="width:5%">ID</th>
+      <th style="width:20%">BARANG</th>
+      <th style="width:5%">JML</th>
+      <th style="width:15%">HARGA</th>
+      <th style="width:10%">SATUAN</th>
+      <th style="width:20%">KET</th>
+      <th style="width:20%">TOTAL</th>
+    </tr>
+  </thead>
+  <tbody id="tampil-tbody-detail"><tr><td colspan="7"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+  <tfoot id="tampil-tfoot-detail"></tfoot>
+</table> --}}
