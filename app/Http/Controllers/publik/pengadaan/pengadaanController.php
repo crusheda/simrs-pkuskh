@@ -249,11 +249,18 @@ class pengadaanController extends Controller
                         ->groupBy('detail_pengadaan.id_barang','barang.nama','detail_pengadaan.satuan','detail_pengadaan.harga')
                         ->get();
 
+        $total = pengadaan::select('total')
+                        ->whereYear('tgl_pengadaan', $tahun)
+                        ->whereMonth('tgl_pengadaan', $bulan)
+                        ->groupBy('total')
+                        ->orderBy('unit','ASC')
+                        ->get();
+
         $data = [
             'bln' => $bln,
             'bulan' => $bulan,
             'tahun' => $tahun,
-            // 'show' => $show,
+            'total' => $total,
             'unit' => $unit,
             'barang' => $barang,
         ];
