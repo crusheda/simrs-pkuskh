@@ -75,6 +75,22 @@
                 {{-- <form class="form-inline" action="{{ route('rekap.cari') }}" method="GET"> --}}
                   <div class="form-inline">
                     <span style="width: auto;margin-right:10px">Filter</span>
+                    <select class="form-control mb-2 mr-sm-2">
+                      <option hidden>Pilih Unit</option>
+                      <option>Lorem Ipsum</option>
+                      <option>Lorem Ipsum</option>
+                      <option>Lorem Ipsum</option>
+                      <option>Lorem Ipsum</option>
+                      <option>Lorem Ipsum</option>
+                    </select>
+                    <select class="form-control mb-2 mr-sm-2">
+                      <option hidden>Pilih Jenis</option>
+                      <option>ATK Cetak</option>
+                      <option>Alkes</option>
+                      <option>Sarpras Non Alkes</option>
+                      <option>Obat dan BHP Medis</option>
+                      <option>BHP Non Medis dan Rumah Tangga</option>
+                    </select>
                     <select onchange="submitBtn()" class="form-control mb-2 mr-sm-2" name="bulan" id="bulan">
                         <option hidden>Pilih Bulan</option>
                         <option value="01"> Januari</option>
@@ -99,7 +115,8 @@
                             
                         @endphp
                     </select>
-                    <button class="form-control btn btn-secondary text-white mb-2" id="submit_filter" onclick="cari()" disabled><i class="fa-fw fas fa-filter nav-icon text-white"></i> Submit</button>
+                    {{-- <button class="form-control btn btn-secondary text-white mb-2" id="submit_filter" onclick="cari()" disabled><i class="fa-fw fas fa-filter nav-icon text-white"></i> Submit</button> --}}
+                    <button class="form-control btn btn-primary text-white mb-2" onclick="rekapPending()"><i class="fa-fw fas fa-filter nav-icon text-white"></i> Submit</button>
                   </div>
                 {{-- </form> --}}
                 <br>
@@ -124,32 +141,39 @@
     <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
     </div>
     <div class="modal-body">
-      <form class="form-inline" action="{{ route('rekapAll.index') }}" method="GET">
-        <div class="form-inline">
-          <span style="width: auto;margin-right:10px">Filter</span>
-          <select onchange="submitBtnAll()" class="form-control mb-2 mr-sm-2" name="bulan" id="bulan_all">
-              <option hidden>Pilih Bulan</option>
-              <option value="01"> Januari</option>
-              <option value="02"> Februari</option>
-              <option value="03"> Maret</option>
-              <option value="04"> April</option>
-              <option value="05"> Mei</option>
-              <option value="06"> Juni</option>
-              <option value="07"> Juli</option>
-              <option value="08"> Agustus</option>
-              <option value="09"> September</option>
-              <option value="10"> Oktober</option>
-              <option value="11"> November</option>
-              <option value="12"> Desember</option>
-          </select>
-          <select onchange="submitBtnAll()" class="form-control mb-2 mr-sm-2" name="tahun" id="tahun_all">
-              <option hidden>Pilih Tahun</option>
-              @php
-                  for ($i=2022; $i <= \Carbon\Carbon::now()->isoFormat('Y'); $i++) { 
-                      echo"<option value=$i> $i </option>";
-                  }
-              @endphp
-          </select>
+      <form action="{{ route('rekapAll.index') }}" method="GET">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group" style="width: 100%">
+              <select onchange="submitBtnAll()" class="form-control mb-2 mr-sm-2" name="bulan" id="bulan_all">
+                  <option hidden>Pilih Bulan</option>
+                  <option value="01"> Januari</option>
+                  <option value="02"> Februari</option>
+                  <option value="03"> Maret</option>
+                  <option value="04"> April</option>
+                  <option value="05"> Mei</option>
+                  <option value="06"> Juni</option>
+                  <option value="07"> Juli</option>
+                  <option value="08"> Agustus</option>
+                  <option value="09"> September</option>
+                  <option value="10"> Oktober</option>
+                  <option value="11"> November</option>
+                  <option value="12"> Desember</option>
+              </select>
+            </div>
+          </div>
+          <div class="col-md-12">
+            <div class="form-group" style="width: 100%">
+              <select onchange="submitBtnAll()" class="form-control" name="tahun" id="tahun_all">
+                  <option hidden>Pilih Tahun</option>
+                  @php
+                      for ($i=2022; $i <= \Carbon\Carbon::now()->isoFormat('Y'); $i++) { 
+                          echo"<option value=$i> $i </option>";
+                      }
+                  @endphp
+              </select>
+            </div>
+          </div>
         </div>
 
     </div>
@@ -408,6 +432,14 @@ $(document).ready( function () {
         }
       );
       console.log(id_barang);
+    }
+
+    function rekapPending() {
+      iziToast.warning({
+          title: 'Pesan Galat!',
+          message: 'Kami masih dalam perbaikan fitur. Anda dapat memilih Rekap Keseluruhan.',
+          position: 'topRight'
+      });
     }
 </script>
 @endsection

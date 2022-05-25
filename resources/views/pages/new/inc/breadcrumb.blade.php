@@ -114,6 +114,13 @@
         $b1 = 'Pengadaan';
         $b2 = 'Rekap'; 
       }
+      // REKAP PENGADAAN KESELURUHAN
+      if ($route == 'rekapAll.index') {
+        $title = 'Rekap Pengadaan Keseluruhan';
+        $b1 = 'Pengadaan';
+        $b2 = 'Rekap'; 
+        $b3 = 'Rekap Keseluruhan'; 
+      }
     // KALENDER
       if ($route == 'kalender') {
         $title = 'Kalender Manajemen';

@@ -148,7 +148,7 @@ class pengadaanController extends Controller
         $lastMonth = Carbon::now()->subMonth(2)->isoFormat('MM');
         // print_r($lastMonth);
         // die();
-        if ($user->hasRole('it')) {
+        if ($user->hasRole('sekretaris-direktur|it')) {
             $show = pengadaan::join('users', 'users.id', '=', 'pengadaan.id_user')->select("pengadaan.*","users.nama")->get();
         } else {
             $show = pengadaan::join('users', 'users.id', '=', 'pengadaan.id_user')->where('pengadaan.id_user',$user->id)->select("pengadaan.*","users.nama")->whereMonth('pengadaan.tgl_pengadaan','>=',$lastMonth)->get();
@@ -223,8 +223,7 @@ class pengadaanController extends Controller
         $bulan = $request->query('bulan');
         $tahun = $request->query('tahun');
 
-        // print_r($bulan);
-        // die();
+        $bln = Carbon::create()->month($bulan)->isoFormat('MMMM');
         
         $unit = pengadaan::join('users','pengadaan.id_user','=','users.id')
                         ->select('users.id as id_user','users.nama','pengadaan.id_pengadaan','pengadaan.unit','pengadaan.created_at')
@@ -233,14 +232,14 @@ class pengadaanController extends Controller
                         ->groupBy('users.id','users.nama','pengadaan.id_pengadaan','pengadaan.unit','pengadaan.created_at')
                         ->orderBy('pengadaan.unit','ASC')
                         ->get();
-        $show = detail_pengadaan::join('barang','detail_pengadaan.id_barang','=','barang.id')
-                        ->join('pengadaan','detail_pengadaan.id_pengadaan','=','pengadaan.id_pengadaan')
-                        ->select('pengadaan.id_pengadaan','pengadaan.unit','detail_pengadaan.id_barang','detail_pengadaan.jumlah','detail_pengadaan.total')
-                        ->whereYear('pengadaan.tgl_pengadaan', $tahun)
-                        ->whereMonth('pengadaan.tgl_pengadaan', $bulan)
-                        // ->groupBy('pengadaan.unit','detail_pengadaan.id_barang','detail_pengadaan.jumlah','detail_pengadaan.total')
-                        ->orderBy('pengadaan.unit','ASC')
-                        ->get();
+        // $show = detail_pengadaan::join('barang','detail_pengadaan.id_barang','=','barang.id')
+        //                 ->join('pengadaan','detail_pengadaan.id_pengadaan','=','pengadaan.id_pengadaan')
+        //                 ->select('pengadaan.id_pengadaan','pengadaan.unit','detail_pengadaan.id_barang','detail_pengadaan.jumlah','detail_pengadaan.total')
+        //                 ->whereYear('pengadaan.tgl_pengadaan', $tahun)
+        //                 ->whereMonth('pengadaan.tgl_pengadaan', $bulan)
+        //                 // ->groupBy('pengadaan.unit','detail_pengadaan.id_barang','detail_pengadaan.jumlah','detail_pengadaan.total')
+        //                 ->orderBy('pengadaan.unit','ASC')
+        //                 ->get();
         $barang = detail_pengadaan::join('barang','detail_pengadaan.id_barang','=','barang.id')
                         ->join('pengadaan','detail_pengadaan.id_pengadaan','=','pengadaan.id_pengadaan')
                         ->select('detail_pengadaan.id_barang','barang.nama as nama_barang','detail_pengadaan.satuan as satuan_barang','detail_pengadaan.harga as harga_barang')
@@ -251,7 +250,10 @@ class pengadaanController extends Controller
                         ->get();
 
         $data = [
-            'show' => $show,
+            'bln' => $bln,
+            'bulan' => $bulan,
+            'tahun' => $tahun,
+            // 'show' => $show,
             'unit' => $unit,
             'barang' => $barang,
         ];

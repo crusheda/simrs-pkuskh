@@ -25,7 +25,7 @@
       @endrole
 		</div>
     @role('sekretaris-direktur|it')
-      {{-- <br><sub>Data yang ditampilkan adalah Semua data pengadaan</sub> --}}
+      <br><sub>Data yang ditampilkan adalah Semua data pengadaan</sub>
     @else
       <br><sub>Data yang ditampilkan adalah pengadaan 2 bulan terakhir</sub>
     @endrole
@@ -70,7 +70,8 @@
                 @endforeach --}}
             </select> <br>
             <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan Anda mempunyai <b>Hak</b> untuk melakukan pengusulan pengadaan</sub> <br>
-            <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pengusulan Pengadaan hanya dapat dilakukan 1x (Satu Kali) pada masing-masing Jenis Pengadaan</sub>
+            <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pengusulan Pengadaan hanya dapat dilakukan 1x (Satu Kali) pada masing-masing Jenis Pengadaan</sub> <br>
+            <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Anda dapat melakukan Pengusulan Pengadaan kembali pada tanggal 1 - 25 setiap bulannya</sub>
           </div>
       </div>
       <div class="modal-footer">
@@ -325,10 +326,12 @@
         dataType: 'json', // added data type
         success: function(res) {
           $("#tampil-tbody").empty();
-          var date = new Date().toISOString().split('T')[0];
+          var date = new Date().toISOString().split('T')[0]; // 2022-05-23
           var userID = "{{ Auth::user()->id }}";
           var adminID = "{{ Auth::user()->hasRole('it') }}";
-          var date = new Date().toISOString().split('T')[0];
+          var tgl = date.substring(8,10);
+          var bln = date.substring(5,7);
+          var thn = date.substring(0,4);
           if(res.show.length == 0){
             $("#tampil-tbody").append(`<tr><td colspan="6"><center>No Data Available In Table</center></td></tr>`);
           } else {
@@ -348,9 +351,19 @@
                 content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="HAPUS PENGADAAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
               } else {
                 if (item.id_user == userID) {
-                  if (updet == date) {
-                    content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
-                    content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="HAPUS PENGADAAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                  if (thnUpload == thn) { // TAHUN SAMA
+                    if (blnUpload == bln) { // BULAN SAMA
+                      if (tgl >= 1 && tgl <= 25) { // TANGGAL TIDAK BOLEH LEBIH DARI TGL 25 (Tgl 1-25)
+                        content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
+                        content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="HAPUS PENGADAAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                      } else {
+                        content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
+                        content += `<button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                      }
+                    } else {
+                      content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
+                      content += `<button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                    }
                   } else {
                     content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
                     content += `<button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
@@ -359,7 +372,7 @@
                   content += `<button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fas fa-sort-amount-down"></i></button>`;
                   content += `<button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
                 }
-              }
+              } 
               content += "</div></center></td></tr>";
               $('#tampil-tbody').append(content);
             });
