@@ -26,7 +26,7 @@
                       <th rowspan="2">HARGA</th>
                       <th rowspan="2">SATUAN</th>
                       @foreach($list['unit'] as $item)
-                        <th colspan="2" style="text-transform:uppercase">{{ str_replace('","',", ",(str_replace("-"," ",(str_replace(['["','"]'],"",$item->unit))))) }}</th>
+                        <th colspan="2" style="text-transform:uppercase">{{ str_replace('","'," , ",(str_replace("-"," ",(str_replace(['["','"]'],"",$item->unit))))) }}</th>
                       @endforeach
                     </tr>
                     <tr>
@@ -64,15 +64,15 @@
                         @endforeach
                     </tr>
                     @endforeach
-                    <tr style="background-color: #E8E8E8">
-                      <th colspan="4"><kbd>TOTAL</kbd></th>
-                      @foreach ($list['total'] as $item)
-                        <th colspan="2">
-                          @if(!empty($item))Rp. {{ number_format((int)(str_replace(['{"total":','}'],"",$item)),2,",",".") }} @endif    
-                        </th>
-                      @endforeach
-                    </tr>
                   </tbody>
+                  <tfoot>
+                    <th colspan="4"><kbd>TOTAL</kbd></th>
+                    @foreach ($list['total'] as $item)
+                      <th colspan="2">
+                        @if(!empty($item))Rp. {{ number_format((int)(str_replace(['{"total":','}'],"",$item)),2,",",".") }} @endif    
+                      </th>
+                    @endforeach
+                  </tfoot>
                 </table>
               </div>
             {{-- <div class="card-footer text-right">
