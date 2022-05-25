@@ -68,6 +68,7 @@
             <div class="card-body">
               <div class="btn-group">
                   <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location='{{ route('pengadaan.index') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i></button>
+                  <button type="button" class="btn btn-warning" data-toggle="modal" data-target="#rekapAll" title="REKAP KESELURUHAN"><i class="fa-fw fas fa-database nav-icon text-white"></i> Rekap Keseluruhan</button>
                   <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="INFORMASI"><i class="fa-fw fas fa-question nav-icon text-white"></i> Informasi</button>
               </div>
               <hr>
@@ -112,6 +113,55 @@
 @else
     <p class="text-center">Maaf, anda tidak punya HAK untuk mengakses halaman ini.</p>
 @endrole
+
+<div class="modal fade bd-example-modal-lg" id="rekapAll" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered">
+  <div class="modal-content">
+    <div class="modal-header">
+    <h4 class="modal-title">
+      Rekap Keseluruhan
+    </h4>
+    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+    </div>
+    <div class="modal-body">
+      <form class="form-inline" action="{{ route('rekapAll.index') }}" method="GET">
+        <div class="form-inline">
+          <span style="width: auto;margin-right:10px">Filter</span>
+          <select onchange="submitBtnAll()" class="form-control mb-2 mr-sm-2" name="bulan" id="bulan_all">
+              <option hidden>Pilih Bulan</option>
+              <option value="01"> Januari</option>
+              <option value="02"> Februari</option>
+              <option value="03"> Maret</option>
+              <option value="04"> April</option>
+              <option value="05"> Mei</option>
+              <option value="06"> Juni</option>
+              <option value="07"> Juli</option>
+              <option value="08"> Agustus</option>
+              <option value="09"> September</option>
+              <option value="10"> Oktober</option>
+              <option value="11"> November</option>
+              <option value="12"> Desember</option>
+          </select>
+          <select onchange="submitBtnAll()" class="form-control mb-2 mr-sm-2" name="tahun" id="tahun_all">
+              <option hidden>Pilih Tahun</option>
+              @php
+                  for ($i=2022; $i <= \Carbon\Carbon::now()->isoFormat('Y'); $i++) { 
+                      echo"<option value=$i> $i </option>";
+                  }
+              @endphp
+          </select>
+        </div>
+
+    </div>
+    <div class="modal-footer">
+
+        <button class="btn btn-secondary text-white" id="submit_filterAll" disabled><i class="fa-fw fas fa-filter nav-icon text-white"></i> Submit</button>
+      </form>
+      <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+    </div>
+  </div>
+  </div>
+</div>
 
 <script src="{{ asset('assets/modules/chart.min.js') }}"></script>
 <script>
@@ -189,6 +239,16 @@ $(document).ready( function () {
         }
     }
 
+    function submitBtnAll() {
+        // var unit = $("#unit_cari").val();
+        var bulan = $("#bulan_all").val();
+        var tahun = $("#tahun_all").val();
+
+        if ( bulan != 'Pilih Bulan' && tahun != 'Pilih Tahun' ) {
+            $('#submit_filterAll').prop('disabled', false).removeClass('btn-secondary').addClass('btn-primary');
+        }
+    }
+
     function cari() {
       var bulan = $("#bulan").val();
       var tahun = $("#tahun").val();
@@ -241,15 +301,35 @@ $(document).ready( function () {
                       + item.nama_barang + "</td><td>" 
                       + item.harga_barang + "</td><td>"
                       + item.satuan_barang + "</td>";
-                      res.show.forEach(val => {
-                        res.unit.forEach(key => {
-                          if (item.id_barang == val.id_barang) {
-                            if (key.unit == val.unit) {
+                // contentbody += addField(item.id_barang);
+                // $.ajax(
+                //   {
+                //     url: "./rekap/api/data/barang/addfield/"+item.id_barang,
+                //     type: 'GET',
+                //     dataType: 'json', // added data type
+                //     success: function(lan) {
+                //       if(lan.length == 0){
+                //         // $("#tampil-tbody").append(`<tr><td colspan="5"><center>No Data Available In Table</center></td></tr>`);
+                //       } else {
+                //         lan.forEach(lol => {
+                //           contentbody += "<td>" + lol.jumlah + "</td><td>" + lol.total + "</td>";
+                //           console.log(lol.jumlah);
+                //         });
+                //       }
+                //     }
+                //   }
+                // );
+                      res.unit.forEach(key => {
+                        res.show.forEach(val => {
+                          if (val.unit == key.unit) {
+                          // if (item.id_barang == val.id_barang) {
+                            // if (key.unit == val.unit) {
+                            if (item.id_barang == val.id_barang) {
                               contentbody += "<td>" + val.jumlah + "</td><td>" + val.total + "</td>";
                             }
-                            else {
-                              contentbody += '<td colspan="2"></td>';
-                            }
+                            // else {
+                            //   contentbody += '<td></td>';
+                            // }
                           }
                         });
                       });
@@ -298,6 +378,36 @@ $(document).ready( function () {
           }
         }
       );
+    }
+
+    function addField(id_barang) {
+      $.ajax(
+        {
+          url: "./rekap/api/data/barang/addfield/"+id_barang,
+          type: 'GET',
+          dataType: 'json', // added data type
+          success: function(res) {
+            if(res.length == 0){
+              // $("#tampil-tbody").append(`<tr><td colspan="5"><center>No Data Available In Table</center></td></tr>`);
+            } else {
+              res.forEach(val => {
+                contentbody += "<td>" + val.jumlah + "</td><td>" + val.total + "</td>";
+                // if (val.unit == val.unit) {
+                //   contentbody += "<td>" + val.jumlah + "</td><td>" + val.total + "</td>";
+                // }
+                // else {
+                //   contentbody += '<td colspan="2"></td>';
+                // }
+                // res.unit.forEach(key => {
+                //   if (item.id_barang == val.id_barang) {
+                //   }
+                // });
+              });
+            }
+          }
+        }
+      );
+      console.log(id_barang);
     }
 </script>
 @endsection

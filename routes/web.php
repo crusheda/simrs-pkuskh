@@ -387,7 +387,9 @@ Route::get('pengadaan/api/barang/hapus/{id}', 'publik\pengadaan\barangPengadaanC
 Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController');
     // Rekap Pengadaan
     Route::get('pengadaan/rekap', 'publik\pengadaan\pengadaanController@indexRekap')->name('rekap.index');
+    Route::get('pengadaan/rekap/all', 'publik\pengadaan\pengadaanController@RekapAll')->name('rekapAll.index');
     Route::get('pengadaan/rekap/api/data/bulan/{bulan}/tahun/{tahun}', 'publik\pengadaan\pengadaanController@getRekap')->name('rekap.api.data');
+    Route::get('pengadaan/rekap/api/data/barang/addfield/{barang}', 'publik\pengadaan\pengadaanController@addField')->name('rekap.api.dataBarangAddField');
 
 // ADMINISTRASI
     // REGULASI
