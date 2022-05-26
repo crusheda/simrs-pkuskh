@@ -63,7 +63,7 @@
           @csrf
           <div class="form-group">
             <label>Pilih Jenis Pengadaan</label>
-            <select name="ref_barang" class="form-control selectric">
+            <select name="ref_barang" class="form-control selectric" required>
               <option value="1"><b>ATK Cetak</b></option>
                 {{-- @foreach($list['ref'] as $key)
                   <option value="{{ $key->id }}"><b>{{ $key->nama }}</b></option>

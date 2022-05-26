@@ -121,6 +121,30 @@
         $b2 = 'Rekap'; 
         $b3 = 'Rekap Keseluruhan'; 
       }
+      // JADWAL DINAS
+      if ($route == 'jadwal.dinas.index') {
+        $title = 'Jadwal Dinas';
+        $b1 = 'Administrasi';
+        $b2 = 'Jadwal Dinas';
+      }
+      if ($route == 'jadwal.dinas.create') {
+        $title = 'Tambah Jadwal Dinas';
+        $b1 = 'Administrasi';
+        $b2 = 'Jadwal Dinas';
+        $b3 = 'Tambah';
+      }
+      if ($route == 'staf.jadwal.dinas.index') {
+        $title = 'Atur Staf Jadwal Dinas';
+        $b1 = 'Administrasi';
+        $b2 = 'Jadwal Dinas';
+        $b3 = 'Atur Staf';
+      }
+      if ($route == 'ref.jadwal.dinas.index') {
+        $title = 'Referensi Jadwal Dinas';
+        $b1 = 'Administrasi';
+        $b2 = 'Jadwal Dinas';
+        $b3 = 'Referensi';
+      }
     // KALENDER
       if ($route == 'kalender') {
         $title = 'Kalender Manajemen';

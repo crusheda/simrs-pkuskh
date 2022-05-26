@@ -403,3 +403,13 @@ Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController'
             Route::post('regulasi/spo/api/ubah/{id}', 'administrasi\regulasi\spoController@ubah')->name('spo.apiUbah');
             Route::get('regulasi/spo/api/hapus/{id}', 'administrasi\regulasi\spoController@hapus')->name('spo.apiHapus');
             Route::resource('regulasi/spo', 'administrasi\regulasi\spoController');
+    
+    // JADWAL DINAS
+        Route::get('administrasi/jadwaldinas', 'administrasi\jadwalDinasController@index')->name('jadwal.dinas.index');
+        Route::post('administrasi/jadwaldinas/create', 'administrasi\jadwalDinasController@create')->name('jadwal.dinas.create');
+        Route::get('administrasi/jadwaldinas/create/api/data', 'administrasi\jadwalDinasController@getDataCreate');
+        Route::post('administrasi/jadwaldinas', 'administrasi\jadwalDinasController@store')->name('jadwal.dinas.store');
+        Route::get('administrasi/jadwaldinas/staf', 'administrasi\jadwalDinasController@indexStaf')->name('staf.jadwal.dinas.index');
+        Route::post('administrasi/jadwaldinas/staf', 'administrasi\jadwalDinasController@storeStaf')->name('staf.jadwal.dinas.store');
+        Route::get('administrasi/jadwaldinas/ref', 'administrasi\jadwalDinasController@indexRef')->name('ref.jadwal.dinas.index');
+        Route::post('administrasi/jadwaldinas/ref', 'administrasi\jadwalDinasController@storeRef')->name('ref.jadwal.dinas.store');

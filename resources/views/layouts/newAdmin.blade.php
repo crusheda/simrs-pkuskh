@@ -242,6 +242,7 @@
     });
     
     $('.modal').appendTo("body"); 
+    $(".flatpickr").flatpickr();
   </script>
   <script>
     $(function() {

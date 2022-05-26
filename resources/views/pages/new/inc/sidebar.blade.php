@@ -17,7 +17,7 @@
           <li class="{{ request()->routeIs('kunjungan') ? 'active' : '' }}"><a class="nav-link" href="{{ route("kunjungan") }}">Kunjungan Pasien</a></li>
         </ul>
       </li>
-      <li class="nav-item dropdown {{ request()->routeIs(['rapat.index','managerfile','perencanaan.index','kebijakan.index','panduan.index','pedoman.index','program.index','spo.index']) ? 'active' : '' }}">
+      <li class="nav-item dropdown {{ request()->routeIs(['rapat.index','managerfile','perencanaan.index','kebijakan.index','panduan.index','pedoman.index','program.index','spo.index','jadwal.dinas.index']) ? 'active' : '' }}">
         <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-book-open"></i><span>Administrasi</span></a>
         <ul class="dropdown-menu">
           <li class="nav-item {{ request()->routeIs('managerfile') ? 'active' : '' }}"><a href="{{ route("managerfile") }}" class="nav-link">File Manager</a></li>
@@ -36,6 +36,7 @@
             </li>
           @endif
           <li class="nav-item {{ request()->routeIs('rapat.index') ? 'active' : '' }}"><a href="{{ route("rapat.index") }}" class="nav-link">Berkas Rapat</a></li>
+          <li class="nav-item {{ request()->routeIs('jadwal.dinas.index') ? 'active' : '' }}"><a href="{{ route("jadwal.dinas.index") }}" class="nav-link">Jadwal Dinas</a></li>
           {{-- <li class="nav-item {{ request()->routeIs('regulasi.index') ? 'active' : '' }}"><a href="{{ route("regulasi.index") }}" class="nav-link">Regulasi OLD</a></li> --}}
           <li class="nav-item dropdown {{ request()->routeIs(['kebijakan.index','panduan.index','pedoman.index','program.index','spo.index']) ? 'active' : '' }}"><a href="#" class="nav-link has-dropdown">Regulasi</a>
             <ul class="dropdown-menu">
