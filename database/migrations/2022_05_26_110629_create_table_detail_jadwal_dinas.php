@@ -17,7 +17,7 @@ class CreateTableDetailJadwalDinas extends Migration
             $table->bigIncrements('id');
             $table->integer('id_jadwal');
             $table->integer('id_staf');
-            $table->date('tgl');
+            $table->integer('tgl');
             $table->integer('id_ref');
             $table->string('waktu');
             $table->time('berangkat');

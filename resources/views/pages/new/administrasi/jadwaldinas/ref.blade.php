@@ -10,9 +10,19 @@
             <div class="card-body">
               <form class="form-auth-small" action="{{ route('ref.jadwal.dinas.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
-                <div class="form-group">
-                    <label>Waktu</label>
-                    <input type="text" name="waktu" placeholder="e.g. Pagi / Siang / Malam ..." class="form-control" required>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                        <label>Waktu</label>
+                        <input type="text" name="waktu" placeholder="e.g. Pagi / Siang / Malam ..." class="form-control up" required>
+                    </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                        <label>Singkatan</label>
+                        <input type="text" name="singkat" placeholder="e.g. P / P6 / M / S1 /  ..." class="form-control up" required>
+                    </div>
+                  </div>
                 </div>
                 <div class="row">
                   <div class="col">
@@ -51,6 +61,7 @@
                             <tr>
                                 <th>ID</th>
                                 <th>Waktu</th>
+                                <th>Singkatan</th>
                                 <th>Jam</th>
                                 <th>Ditambahkan</th>
                                 <th><center>#</center></th>
@@ -62,6 +73,7 @@
                                 <tr>
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->waktu }}</td>
+                                    <td>{{ $item->singkat }}</td>
                                     <td>{{ $item->berangkat }} - {{ $item->pulang }}</td>
                                     <td>{{ \Carbon\Carbon::parse($item->updated_at)->diffForHumans() }}</td>
                                     <td>
@@ -85,6 +97,9 @@
 
 <script>
 $(document).ready( function () {
+  $('.up').keyup(function() {
+    this.value = this.value.toLocaleUpperCase();
+  });
   $(".fp").flatpickr({
     enableTime: true,
     noCalendar: true,
@@ -125,7 +140,7 @@ $(document).ready( function () {
           }
         }
       ],
-      order: [[ 3, "desc" ]],
+      order: [[ 4, "desc" ]],
       pageLength: 10
     }
   ).columns.adjust();

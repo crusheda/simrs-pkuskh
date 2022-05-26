@@ -20,14 +20,15 @@ class jadwalDinasController extends Controller
 {
     public function index()
     {
-        // $show = jadwal_dinas::get();
+        $show = jadwal_dinas::get();
+        $unit = unit::get();
 
-        // $data = [
-        //     'show' => $show,
-        // ];
+        $data = [
+            'show' => $show,
+            'unit' => $unit,
+        ];
 
-        return view('pages.new.administrasi.jadwaldinas.index');
-        // return view('pages.new.administrasi.jadwaldinas.index')->with('list', $data);
+        return view('pages.new.administrasi.jadwaldinas.index')->with('list', $data);
     }
 
     public function create(Request $request)
@@ -39,27 +40,12 @@ class jadwalDinasController extends Controller
         
         $waktu = Carbon::parse($request->waktu)->isoFormat('MMMM Y');
         $getRef = ref_jadwal_dinas::where('id_user',$id)->get();
-        $getUser = staf_jadwal_dinas::where('id_user',$id)->get();
+        $getUser = staf_jadwal_dinas::where('id_user',$id)->orderBy('nama','asc')->get();
         $totalDays = Carbon::now()->daysInMonth;
-        // $getTgl = pengadaan::select('tgl_pengadaan')->where('id_user',$id)->orderBy('tgl_pengadaan','desc')->first();
-        // $blnNow = Carbon::now()->isoFormat('MM');
-
-        // if (!empty($getTgl)) {
-        //     if (substr($getTgl->tgl_pengadaan,5,2) != $blnNow) {
-        //         $ref = ref_barang::where('id',$request->ref_barang)->first();
-        
-        //         $data = [
-        //             'ref' => $ref,
-        //         ];
-        
-        //         return view('pages.new.pengadaan.tambah-pengadaan')->with('list', $data);
-        //     } else {
-        //         return redirect()->back()->withErrors(["Pada bulan ini anda sudah melakukan Pengadaan","Untuk melakukan pengusulan pengadaan ulang, mohon hapus pengadaan bulan ini terlebih dahulu"]);
-        //     }
-        // } else {
-        //     $ref = ref_barang::where('id',$request->ref_barang)->first();
     
         $data = [
+            'waktuOri' => $request->waktu,
+            'unit' => $request->unit,
             'waktu' => $waktu,
             'ref' => $getRef,
             'user' => $getUser,
@@ -71,7 +57,68 @@ class jadwalDinasController extends Controller
 
     public function store(Request $request)
     {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        // COUNT DAYS IN THIS MONTH
+        $totalDays = Carbon::now()->daysInMonth;
+
+        // AUTH
+        $user = Auth::user();
+        $id_user = $user->id;
+        $name = $user->name;
+        $nama_user = $user->nama;
+        $role = $user->roles;
+        foreach ($role as $key => $value) {
+            $unit[] = $value->name;
+        }
         
+        // for $request->bulan
+        $bulan = Carbon::parse($request->bulan);
+
+        // DB
+        $queue = jadwal_dinas::orderBy('id_jadwal','DESC')->first();
+        $getUser = staf_jadwal_dinas::where('id_user',$id_user)->orderBy('nama','asc')->get();
+        $getRef = ref_jadwal_dinas::where('id_user',$id_user)->get();
+        // print_r($queue);
+        // die();
+        if (empty($queue)) {
+            $getQueue = 1;
+        } else {
+            $getQueue = $queue->id_jadwal + 1;
+        }
+        // print_r('berhasil');
+        // die();
+        // for $request->waktu
+        foreach ($getUser as $key => $value) {
+            for ($i=0; $i < $totalDays ; $i++) { 
+                // SAVE in DETAIL JADWAL DINAS
+                $save1 = new detail_jadwal_dinas;
+                $save1->id_jadwal = $getQueue;
+                $save1->id_staf = $value->id_staf;
+                $save1->tgl = $i+1;
+                foreach ($getRef as $kc => $item) {
+                    if ($item->id == $request->waktu[$i]) {
+                        $save1->id_ref = $item->id;
+                        $save1->waktu = $item->waktu;
+                        $save1->berangkat = $item->berangkat;
+                        $save1->pulang = $item->pulang;
+                    }
+                }
+                $save1->save();
+            }
+        }
+
+        // SAVE in JADWAL DINAS
+        $save2 = new jadwal_dinas;
+        $save2->id_jadwal = $getQueue;
+        $save2->id_user = $id_user;
+        $save2->id_unit = $request->unit;
+        $save2->nama_user = $nama_user;
+        $save2->unit = json_encode($unit);
+        $save2->waktu = $bulan;
+        $save2->save();
+
+        return redirect()->route('jadwal.dinas.index')->with('message','Tambah Jadwal Dinas Berhasil oleh '.$name.' Pada '.$tgl);
     }
     
     // STAF JADWAL DINAS
@@ -138,6 +185,7 @@ class jadwalDinasController extends Controller
         $save->id_user = $id;
         $save->unit = json_encode($unit);
         $save->waktu = $request->waktu;
+        $save->singkat = $request->singkat;
         $save->berangkat = $request->berangkat;
         $save->pulang = $request->pulang;
         $save->save();

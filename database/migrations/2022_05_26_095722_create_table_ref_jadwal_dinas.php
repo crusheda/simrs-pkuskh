@@ -18,6 +18,7 @@ class CreateTableRefJadwalDinas extends Migration
             $table->integer('id_user');
             $table->longText('unit');
             $table->string('waktu');
+            $table->string('singkat');
             $table->time('berangkat');
             $table->time('pulang');
             $table->longText('ket')->nullable();
