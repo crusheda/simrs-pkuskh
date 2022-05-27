@@ -85,7 +85,8 @@
           @csrf
           <div class="form-group">
             <label>Bulan dan Tahun</label>
-            <input type="month" name="waktu" class="form-control" value="{{ \Carbon\Carbon::now()->isoFormat('YYYY-MM') }}" required>
+            <input type="month" class="form-control disabled" value="{{ \Carbon\Carbon::now()->isoFormat('YYYY-MM') }}" disabled>
+            <input type="month" name="waktu" class="form-control" value="{{ \Carbon\Carbon::now()->isoFormat('YYYY-MM') }}" hidden>
           </div>
           <div class="form-group">
             <label>Unit</label>

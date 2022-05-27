@@ -246,6 +246,27 @@ class jadwalDinasController extends Controller
         return redirect()->back()->with('message','Tambah Referensi Jadwal Berhasil');
     }
 
+    public function ubah(Request $request, $id)
+    {
+        $data = program::find($id);
+        $save->waktu = $request->waktu;
+        $save->singkat = $request->singkat;
+        $save->berangkat = $request->berangkat;
+        $save->pulang = $request->pulang;
+
+        $data->save();
+        return Redirect::back()->with('message','Perubahan Referensi Jadwal Dinas Berhasil');
+    }
+
+    public function hapusRef($id)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        ref_jadwal_dinas::where('id', $id)->delete();
+
+        return response()->json($tgl, 200);
+    }
+
     // API-API
     public function getDataCreate()
     {

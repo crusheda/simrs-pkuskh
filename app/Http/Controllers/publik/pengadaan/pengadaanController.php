@@ -156,14 +156,6 @@ class pengadaanController extends Controller
             // die();
         }
         
-        // $show = DB::table('pengadaan')
-        //         ->join('users', 'users.id', '=', 'pengadaan.id_user')
-        //         ->select('users.nama','pengadaan.*')
-        //         ->orderBy('tgl_pengadaan','DESC')
-        //         // ->limit('30')
-        //         ->get();
-        // print_r($show);
-        // die();
         $data = [
             'show' => $show,
         ];
@@ -200,15 +192,6 @@ class pengadaanController extends Controller
     {
         $show = pengadaan::get();
         $ref = ref_barang::get();
-        
-        // array_push( $showdata, [
-        //     'id' => $value->id,
-        //     'nama' => $value->nama,
-        //     'hasildsp' => $hasildsp,
-        //     'hasiltjb' => $hasiltjb,
-        //     'hasilpns' => $hasilpns,
-        //     'predikat' => $predikat
-        // ]);
 
         $data = [
             'show' => $show,
@@ -232,14 +215,7 @@ class pengadaanController extends Controller
                         ->groupBy('users.id','users.nama','pengadaan.id_pengadaan','pengadaan.unit','pengadaan.created_at')
                         ->orderBy('pengadaan.unit','ASC')
                         ->get();
-        // $show = detail_pengadaan::join('barang','detail_pengadaan.id_barang','=','barang.id')
-        //                 ->join('pengadaan','detail_pengadaan.id_pengadaan','=','pengadaan.id_pengadaan')
-        //                 ->select('pengadaan.id_pengadaan','pengadaan.unit','detail_pengadaan.id_barang','detail_pengadaan.jumlah','detail_pengadaan.total')
-        //                 ->whereYear('pengadaan.tgl_pengadaan', $tahun)
-        //                 ->whereMonth('pengadaan.tgl_pengadaan', $bulan)
-        //                 // ->groupBy('pengadaan.unit','detail_pengadaan.id_barang','detail_pengadaan.jumlah','detail_pengadaan.total')
-        //                 ->orderBy('pengadaan.unit','ASC')
-        //                 ->get();
+
         $barang = detail_pengadaan::join('barang','detail_pengadaan.id_barang','=','barang.id')
                         ->join('pengadaan','detail_pengadaan.id_pengadaan','=','pengadaan.id_pengadaan')
                         ->select('detail_pengadaan.id_barang','barang.nama as nama_barang','detail_pengadaan.satuan as satuan_barang','detail_pengadaan.harga as harga_barang')
@@ -270,9 +246,6 @@ class pengadaanController extends Controller
 
     public function getRekap($bulan,$tahun) // 5-2022
     {
-        // print_r($bulan."-".$tahun);
-        // die();
-        // $bulann = 05;
         $unit = pengadaan::join('users','pengadaan.id_user','=','users.id')
                         ->select('users.id as id_user','users.nama','pengadaan.id_pengadaan','pengadaan.unit','pengadaan.created_at')
                         ->whereYear('pengadaan.tgl_pengadaan', $tahun)
@@ -280,31 +253,7 @@ class pengadaanController extends Controller
                         ->groupBy('users.id','users.nama','pengadaan.id_pengadaan','pengadaan.unit','pengadaan.created_at')
                         ->orderBy('pengadaan.unit','ASC')
                         ->get();
-        // print_r($unit);
-        // die();
-        
-        // $show = pengadaan::join('detail_pengadaan','pengadaan.id_pengadaan','=','detail_pengadaan.id_pengadaan')
-        //                 ->join('barang','detail_pengadaan.id_barang','=','barang.id')
-        //                 ->join('users','pengadaan.id_user','=','users.id')
-        //                 ->select('users.nama as nama_user',
-        //                         'pengadaan.id_pengadaan',
-        //                         'pengadaan.unit',
-        //                         'detail_pengadaan.jumlah as jumlah_barang',
-        //                         // 'detail_pengadaan.harga as harga_barang',
-        //                         // 'detail_pengadaan.satuan as satuan_barang',
-        //                         'detail_pengadaan.total as total_barang',
-        //                         'detail_pengadaan.ket as ket_barang',
-        //                         'barang.id as id_barang')
-        //                 ->whereYear('pengadaan.tgl_pengadaan', $tahun)
-        //                 ->whereMonth('pengadaan.tgl_pengadaan', $bulan)
-        //                 ->orderBy('pengadaan.unit','ASC')
-        //                 ->get();
-        // $show = pengadaan::join('detail_pengadaan','pengadaan.id_pengadaan','=','detail_pengadaan.id_pengadaan')
-        //                 ->select('pengadaan.id_user','pengadaan.unit','detail_pengadaan.id_barang','detail_pengadaan.jumlah','detail_pengadaan.total')
-        //                 ->whereYear('pengadaan.tgl_pengadaan', $tahun)
-        //                 ->whereMonth('pengadaan.tgl_pengadaan', $bulan)
-        //                 ->groupBy('pengadaan.id_user','pengadaan.unit','detail_pengadaan.id_barang','detail_pengadaan.jumlah','detail_pengadaan.total')
-        //                 ->get();
+                        
         $show = detail_pengadaan::join('barang','detail_pengadaan.id_barang','=','barang.id')
                         ->join('pengadaan','detail_pengadaan.id_pengadaan','=','pengadaan.id_pengadaan')
                         ->select('pengadaan.id_pengadaan','pengadaan.unit','detail_pengadaan.id_barang','detail_pengadaan.jumlah','detail_pengadaan.total')
@@ -313,6 +262,7 @@ class pengadaanController extends Controller
                         // ->groupBy('pengadaan.unit','detail_pengadaan.id_barang','detail_pengadaan.jumlah','detail_pengadaan.total')
                         ->orderBy('pengadaan.unit','ASC')
                         ->get();
+
         $barang = detail_pengadaan::join('barang','detail_pengadaan.id_barang','=','barang.id')
                         ->join('pengadaan','detail_pengadaan.id_pengadaan','=','pengadaan.id_pengadaan')
                         ->select('detail_pengadaan.id_barang','barang.nama as nama_barang','detail_pengadaan.satuan as satuan_barang','detail_pengadaan.harga as harga_barang')
@@ -321,84 +271,6 @@ class pengadaanController extends Controller
                         ->orderBy('barang.nama','ASC')
                         ->groupBy('detail_pengadaan.id_barang','barang.nama','detail_pengadaan.satuan','detail_pengadaan.harga')
                         ->get();
-        // print_r($show);
-        // die();
-
-        // $coba = [];
-        // $cc = [];
-        // $arrBarang = [];
-        // $arrUnit = [];
-        // $arrJumtot = [];
-        // foreach ($barang as $key1 => $value1) {
-        //     $arrBarang = [
-        //        $value1->id_barang,
-        //        $value1->nama_barang,
-        //        $value1->harga_barang
-        //     ];
-        //     foreach ($unit as $key2 => $value2) {
-        //         // array_push($arrUnit, [
-        //         //    'unit' => $value2->unit
-        //         // ]);
-        //         array_push($arrUnit, [
-        //             'unit' => $value2->unit,
-        //         ]);
-        //         foreach ($show as $key3 => $value3) {
-        //             if ($value3->id_pengadaan == $value2->id_pengadaan) {
-        //                 if ($value3->id_barang == $value1->id_barang) {
-        //                     array_push($arrJumtot, [
-        //                         'jml' => $value3->jumlah,
-        //                         'tot' => $value3->total
-        //                     ]);
-        //                 }
-        //             }
-        //         }
-        //         // array_push($arrUnit, [
-        //         //     'unit' => $value2->unit,
-        //         //     'jumtot' => $arrJumtot,
-        //         // ]);
-
-        //         // $cc = Arr::collapse([
-        //         //     $arrUnit,$arrJumtot
-        //         // ]);
-        //     }
-        //     array_push($coba, [
-        //         'barang' => $arrBarang,
-        //         'detail' => $arrUnit,
-        //         'JT' => $arrJumtot,
-        //     ]);
-        // }
-
-        ////////// COBA COBA COBA
-        // $coba = [];
-        // $cc = [];
-        // $detail = [];
-        // $arrBarang = [];
-        // $arrUnit = [];
-        // $arrJumtot = [];
-        // foreach ($barang as $key1 => $value1) {
-        //     $arrBarang = [
-        //        $value1->id_barang,
-        //        $value1->nama_barang,
-        //        $value1->harga_barang
-        //     ];
-        //     foreach ($unit as $key2 => $value2) {
-        //         $getDB = detail_pengadaan::join('pengadaan','detail_pengadaan.id_pengadaan','=','pengadaan.id_pengadaan')
-        //                     ->select('pengadaan.unit','detail_pengadaan.jumlah','detail_pengadaan.total')
-        //                     ->where('detail_pengadaan.id_pengadaan', $value2->id_pengadaan)
-        //                     ->where('detail_pengadaan.id_barang', $value1->id_barang)
-        //                     // ->orderBy('detail_pengadaan.id','desc')
-        //                     ->get();
-        //         array_push($arrJumtot, [
-        //             $getDB
-        //         ]);
-        //     }
-        //     array_push($coba, [
-        //         'barang' => $arrBarang,
-        //         'detail' => $arrJumtot,
-        //     ]);
-        // }
-        // print_r($coba);
-        // die();
 
         $data = [
             'show' => $show,

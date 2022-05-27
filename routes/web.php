@@ -414,3 +414,5 @@ Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController'
         Route::post('administrasi/jadwaldinas/staf', 'administrasi\jadwalDinasController@storeStaf')->name('staf.jadwal.dinas.store');
         Route::get('administrasi/jadwaldinas/ref', 'administrasi\jadwalDinasController@indexRef')->name('ref.jadwal.dinas.index');
         Route::post('administrasi/jadwaldinas/ref', 'administrasi\jadwalDinasController@storeRef')->name('ref.jadwal.dinas.store');
+        Route::post('administrasi/jadwaldinas/ref/api/ubah/{id}', 'administrasi\jadwalDinasController@ubahRef')->name('ref.jadwal.dinas.ubah');
+        Route::post('administrasi/jadwaldinas/ref/api/hapus/{id}', 'administrasi\jadwalDinasController@hapusRef')->name('ref.jadwal.dinas.hapus');

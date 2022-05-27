@@ -125,6 +125,72 @@
     </div>
 </div>
 
+@foreach($list['show'] as $item)
+<div class="modal fade bd-example-modal-lg" id="ubah{{ $item->id }}" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+    <div class="modal-dialog modal-lg">
+      <div class="modal-content">
+        <div class="modal-header">
+          <h4 class="modal-title">
+            Ubah <kbd>ID : {{ $item->id }}</kbd>
+          </h4>
+          <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+        </div>
+        <div class="modal-body">
+            {{ Form::model($item, array('route' => array('program.update', $item->id), 'method' => 'PUT')) }}
+                @csrf
+                <div class="row">
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Tanggal Pengesahan</label>
+                            <input type="date" name="sah" value="<?php echo strftime('%Y-%m-%d', strtotime($item->sah)); ?>" class="form-control">
+                        </div>
+                    </div>
+                    <div class="col-md-8">
+                        <div class="form-group">
+                            <label>Judul</label>
+                            <input type="text" name="judul" value="{{ $item->judul }}" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Unit Pembuat</label>
+                            <select class="form-control selectric" name="pembuat" required>
+                                @foreach($list['unit'] as $key)
+                                    <option value="{{ $key->id }}" @if ($key->id == $item->pembuat) selected @endif>{{ $key->nama }}</option>
+                                @endforeach
+                            </select>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Unit Terkait</label>
+                            <input type="text" name="unit" value="{{ $item->unit }}" class="form-control" required>
+                        </div>
+                    </div>
+                    <div class="col-md-4">
+                        <div class="form-group">
+                            <label>Detail Dokumen</label><br>
+                            @if ($item->filename == '')
+                            -
+                            @else
+                                <b><u><a href="kebijakan/{{ $item->id }}">{{ substr($item->title,0,50) }}...</a></u></b><br><sub>Ukuran File : {{ number_format(Storage::size($item->filename) / 1048576,2) }} MB</sub>
+                            @endif
+                        </div>
+                    </div>
+                </div>
+        </div>
+        <div class="modal-footer">
+                <a>{{ \Carbon\Carbon::parse($item->updated_at)->diffForHumans() }}</a>
+                <button class="btn btn-primary pull-right"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
+            </form>
+
+            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+        </div>
+      </div>
+    </div>
+</div>
+@endforeach
+
 <script>
 $(document).ready( function () {
   $('.up').keyup(function() {
@@ -175,5 +241,53 @@ $(document).ready( function () {
     }
   ).columns.adjust();
 });
+
+// FUNCTION
+function hapus(id) {
+    Swal.fire({
+      title: 'Apakah anda yakin?',
+      text: 'REF ID : '+id,
+      icon: 'warning',
+      reverseButtons: false,
+      showDenyButton: false,
+      showCloseButton: false,
+      showCancelButton: true,
+      focusCancel: true,
+      confirmButtonColor: '#FF4845',
+      confirmButtonText: `<i class="fa fa-trash"></i> Hapus`,
+      cancelButtonText: `<i class="fa fa-times"></i> Batal`,
+      backdrop: `rgba(26,27,41,0.8)`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "./ref/api/hapus/"+id,
+          type: 'GET',
+          dataType: 'json', // added data type
+          success: function(res) {
+            iziToast.success({
+                title: 'Sukses!',
+                message: 'Hapus Regulasi SPO berhasil pada '+res,
+                position: 'topRight'
+            });
+            refresh();
+          },
+          error: function(res) {
+            Swal.fire({
+              title: `Gagal di hapus!`,
+              text: 'Pada '+res,
+              icon: `error`,
+              showConfirmButton:false,
+              showCancelButton:false,
+              allowOutsideClick: true,
+              allowEscapeKey: true,
+              timer: 3000,
+              timerProgressBar: true,
+              backdrop: `rgba(26,27,41,0.8)`,
+            });
+          }
+        }); 
+      }
+    })
+}
 </script>
 @endsection
