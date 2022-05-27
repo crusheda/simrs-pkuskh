@@ -48,7 +48,7 @@
                                       <option hidden></option>
                                       @if (count($list['ref']) > 0)
                                         @foreach ($list['ref'] as $val)
-                                            <option value="{{ $val->id }}" @if($val->id == '2') selected @endif>{{ $val->singkat }}</option>
+                                            <option value="{{ $val->id }}">{{ $val->singkat }}</option>
                                         @endforeach
                                       @endif
                                     </select></center>

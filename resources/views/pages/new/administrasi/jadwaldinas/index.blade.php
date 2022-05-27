@@ -81,7 +81,7 @@
       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
-        {{-- <form id="formTambah" class="form-auth-small" action="{{ route('jadwal.dinas.create') }}" method="POST" enctype="multipart/form-data"> --}}
+        <form id="formTambah" class="form-auth-small" action="{{ route('jadwal.dinas.create') }}" method="POST" enctype="multipart/form-data">
           @csrf
           <div class="form-group">
             <label>Bulan dan Tahun</label>
@@ -103,7 +103,7 @@
       </div>
       <div class="modal-footer">
           <button class="btn btn-primary" id="btn-lanjutkan" onclick="saveData()"><i class="fa-fw fas fa-save nav-icon"></i> Lanjutkan</button>
-        {{-- </form> --}}
+        </form>
 
         <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Batal</button>
       </div>
@@ -170,29 +170,29 @@ $(document).ready( function () {
   }
 
   function saveData() {
-    iziToast.warning({
-        title: 'Stay Tune!!',
-        message: 'Sebentar lagi sistem ini akan segera diluncurkan',
-        position: 'topRight'
-    });
-    // $("#formTambah").one('submit', function() {
-    //   //stop submitting the form to see the disabled button effect
-    //   let x = document.forms["formTambah"]["unit"].value;
-    //   if (x == "Pilih Unit") {
-    //     iziToast.warning({
-    //         title: 'Pesan Galat!',
-    //         message: 'Unit belum terisi. Periksa sekali lagi',
-    //         position: 'topRight'
-    //     });
-
-    //     return false;
-    //   } else {
-    //     $("#btn-lanjutkan").prop('disabled', true);
-    //     $("#btn-lanjutkan").find("i").toggleClass("fa-save fa-sync fa-spin");
-
-    //     return true;
-    //   }
+    // iziToast.warning({
+    //     title: 'Stay Tune!!',
+    //     message: 'Sebentar lagi sistem ini akan segera diluncurkan',
+    //     position: 'topRight'
     // });
+    $("#formTambah").one('submit', function() {
+      //stop submitting the form to see the disabled button effect
+      let x = document.forms["formTambah"]["unit"].value;
+      if (x == "Pilih Unit") {
+        iziToast.warning({
+            title: 'Pesan Galat!',
+            message: 'Unit belum terisi. Periksa sekali lagi',
+            position: 'topRight'
+        });
+
+        return false;
+      } else {
+        $("#btn-lanjutkan").prop('disabled', true);
+        $("#btn-lanjutkan").find("i").toggleClass("fa-save fa-sync fa-spin");
+
+        return true;
+      }
+    });
   }
 </script>
 @endsection
