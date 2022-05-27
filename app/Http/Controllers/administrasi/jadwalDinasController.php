@@ -20,7 +20,7 @@ class jadwalDinasController extends Controller
 {
     public function index()
     {
-        $show = jadwal_dinas::get();
+        $show = jadwal_dinas::join('unit','unit.id','=','jadwal_dinas.id_unit')->select('jadwal_dinas.*','unit.nama as nama_unit')->get();
         $unit = unit::get();
 
         $data = [
@@ -86,8 +86,12 @@ class jadwalDinasController extends Controller
         } else {
             $getQueue = $queue->id_jadwal + 1;
         }
-        // print_r('berhasil');
+        
+        // WAKTU UNTUK LIBUR & CUTI
+        $timeLC = Carbon::parse('00:00:00')->toTimeString();
+        // print_r($timeLC);
         // die();
+
         // for $request->waktu
         foreach ($getUser as $key => $value) {
             for ($i=0; $i < $totalDays ; $i++) { 
@@ -99,9 +103,22 @@ class jadwalDinasController extends Controller
                 foreach ($getRef as $kc => $item) {
                     if ($item->id == $request->waktu[$i]) {
                         $save1->id_ref = $item->id;
+                        $save1->singkatan = $item->singkat;
                         $save1->waktu = $item->waktu;
                         $save1->berangkat = $item->berangkat;
                         $save1->pulang = $item->pulang;
+                    } elseif ($request->waktu[$i] == 100001) {
+                        $save1->id_ref = 100001;
+                        $save1->singkatan = 'L';
+                        $save1->waktu = 'LIBUR';
+                        $save1->berangkat = $timeLC;
+                        $save1->pulang = $timeLC;
+                    } elseif ($request->waktu[$i] == 100002) {
+                        $save1->id_ref = 100002;
+                        $save1->singkatan = 'C';
+                        $save1->waktu = 'CUTI';
+                        $save1->berangkat = $timeLC;
+                        $save1->pulang = $timeLC;
                     }
                 }
                 $save1->save();
@@ -119,6 +136,42 @@ class jadwalDinasController extends Controller
         $save2->save();
 
         return redirect()->route('jadwal.dinas.index')->with('message','Tambah Jadwal Dinas Berhasil oleh '.$name.' Pada '.$tgl);
+    }
+
+    public function showDetail($id)
+    {
+        $show = detail_jadwal_dinas::select('detail_jadwal_dinas.id_jadwal','detail_jadwal_dinas.id_staf as id_user','detail_jadwal_dinas.tgl','detail_jadwal_dinas.singkatan','detail_jadwal_dinas.waktu','detail_jadwal_dinas.berangkat','detail_jadwal_dinas.pulang','detail_jadwal_dinas.updated_at')
+                                    ->join('users','detail_jadwal_dinas.id_staf','=','users.id')
+                                    ->where('detail_jadwal_dinas.id_jadwal',$id)
+                                    ->orderBy('detail_jadwal_dinas.id','asc')
+                                    ->get();
+        
+        $uploader = jadwal_dinas::select('jadwal_dinas.id_jadwal','users.id as id_user','users.nama as nama_user','unit.nama as nama_unit','jadwal_dinas.unit as encode_unit','jadwal_dinas.waktu','jadwal_dinas.updated_at')
+                                ->join('users','jadwal_dinas.id_user','=','users.id')
+                                ->join('unit','jadwal_dinas.id_unit','=','unit.id')
+                                ->where('jadwal_dinas.id_jadwal',$id)
+                                ->first();
+
+        $staf = detail_jadwal_dinas::select('detail_jadwal_dinas.id_jadwal','detail_jadwal_dinas.id_staf as id_user','users.nama as nama_user')
+                                ->join('users','detail_jadwal_dinas.id_staf','=','users.id')
+                                ->where('detail_jadwal_dinas.id_jadwal',$id)
+                                ->orderBy('detail_jadwal_dinas.id','asc')
+                                ->groupBy('detail_jadwal_dinas.id_jadwal','detail_jadwal_dinas.id_staf','users.nama')
+                                ->get();
+        
+        $ref = ref_jadwal_dinas::where('id_user',$uploader->id_user)->get();
+        
+        $bulan = Carbon::parse($uploader->waktu)->isoFormat('MMMM Y');
+        
+        $data = [
+            'bulan' => $bulan,
+            'show' => $show,
+            'staf' => $staf,
+            'ref' => $ref,
+            'uploader' => $uploader,
+        ];
+
+        return response()->json($data, 200);
     }
     
     // STAF JADWAL DINAS

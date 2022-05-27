@@ -68,6 +68,36 @@
                             </tr>
                         </thead>
                         <tbody>
+                          <tr>
+                            <td>**</td>
+                            <td>Libur</td>
+                            <td>L</td>
+                            <td>00:00:00 - 00:00:00</td>
+                            <td>-</td>
+                            <td>
+                                <center>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-secondary btn-sm text-white disabled" disabled><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
+                                        <button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                    </div>
+                                </center>
+                            </td>
+                          </tr>
+                          <tr>
+                            <td>**</td>
+                            <td>Cuti</td>
+                            <td>C</td>
+                            <td>00:00:00 - 00:00:00</td>
+                            <td>-</td>
+                            <td>
+                                <center>
+                                    <div class="btn-group" role="group">
+                                        <button type="button" class="btn btn-secondary btn-sm text-white disabled" disabled><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
+                                        <button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                    </div>
+                                </center>
+                            </td>
+                          </tr>
                             @if(count($list['show']) > 0)
                                 @foreach($list['show'] as $item)
                                 <tr>

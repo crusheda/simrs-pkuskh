@@ -145,8 +145,9 @@
 $(document).ready( function () {
   $('#table').DataTable(
     {
-      paging: true,
+      paging: false,
       searching: true,
+      scrollY: 1500,
       scrollX: true,
       dom: 'Bfrtip',
       buttons: [
@@ -186,9 +187,9 @@ $(document).ready( function () {
       //     // right: 1
       // },
       order: [[ 1, "asc" ]],
-      pageLength: 20
     }
   ).columns.adjust();
+  $("body").addClass('sidebar-mini');
 });
 
 function submitBtnAll() {

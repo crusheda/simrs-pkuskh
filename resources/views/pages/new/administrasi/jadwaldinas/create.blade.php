@@ -21,6 +21,7 @@
                   <sub>Penambahan Pada {{ \Carbon\Carbon::now()->isoFormat('dddd, D MMMM Y') }}</sub>
                 </div>
                 <div class="col text-right">
+                  <sub>Untuk mempercepat pengisian Jadwal Dinas, <br>gunakan tombol keyboard : <h6 style="margin-top: 5px"><span class="badge badge-dark">TAB <i class="fa fa-arrows-alt-h fa-fw"></i></span> / <span class="badge badge-dark"> <i class="fa fa-arrow-up fa-fw"></i></span> / <span class="badge badge-dark"> <i class="fa fa-arrow-down fa-fw"></i></span></h6></sub>
                   {{-- <kbd></kbd><br> --}}
                   {{-- <a>Periksa <i class="fa-fw fas fa-caret-left nav-icon"></i></a><br> --}}
                   {{-- <a>Pengusulan Pengadaan dapat dilakukan pada tanggal 1 - 25 setiap bulannya <i class="fa-fw fas fa-caret-left nav-icon"></i></a> --}}
@@ -51,6 +52,8 @@
                                             <option value="{{ $val->id }}">{{ $val->singkat }}</option>
                                         @endforeach
                                       @endif
+                                      <option value="100001">L</option>
+                                      <option value="100002">C</option>
                                     </select></center>
                                   </div>
                                 </td>
@@ -65,6 +68,7 @@
             </div>
             <div class="card-footer text-right">
               <div class="btn-group">
+                <sub style="margin-top:10px">Pastikan semua pilihan terisi <i class="fa-fw fas fa-caret-left nav-icon"></i>&nbsp;&nbsp;</sub>
                 <button type="button" class="btn btn-secondary" onclick="batalJadwal()" data-toggle="tooltip" data-placement="bottom" title="KEMBALI"><i class="fa-fw fas fa-caret-left nav-icon"></i> Kembali</button>
                 <input type="submit" class="btn btn-primary fas fa-save" data-toggle="tooltip" data-placement="bottom" title="VALIDASI FORM" value="&#xf0c7; Submit"/>
               </div>

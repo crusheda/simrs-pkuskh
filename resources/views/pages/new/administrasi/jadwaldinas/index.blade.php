@@ -11,20 +11,23 @@
               </div> --}}
             </div>
             <div class="card-body">
-              <div class="btn-group">
-                <button type="button" class="btn btn-primary text-white" data-toggle="tooltip" data-placement="bottom" title="BUAT PENGUSULAN PENGADAAN" onclick="tambah()">
-                  <i class="fa-fw fas fa-plus-square nav-icon"></i>	Buat Jadwal
-                </button>
-                @role('kepegawaian|it')
-                  <button type="button" class="btn btn-success text-white" data-toggle="tooltip" data-placement="bottom" title="BUAT PENGUSULAN PENGADAAN" onclick="tambah()">
-                    <i class="fa-fw fas fa-business-time nav-icon"></i>	Rekap
-                  </button>
-                @endrole
-              </div>
-              <hr>
-              <div class="btn-group">
-                <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="TAMBAH REFERENSI JADWAL" onclick="window.location='{{ route('ref.jadwal.dinas.index') }}'"><i class="fa-fw fas fa-clock nav-icon"></i> Ref Jadwal</button>
-                <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="TAMBAH STAF UNIT" onclick="window.location='{{ route('staf.jadwal.dinas.index') }}'"><i class="fa-fw fas fa-users-cog nav-icon"></i> Atur Staf</button>
+              <div class="row">
+                <div class="col">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-primary text-white" data-toggle="tooltip" data-placement="bottom" title="TAMBAH JADWAL DINAS" onclick="tambah()">
+                      <i class="fa-fw fas fa-plus-square nav-icon"></i>	Buat Jadwal
+                    </button>
+                    <button type="button" class="btn btn-dark text-white" data-toggle="tooltip" data-placement="bottom" title="INFORMASI JADWAL DINAS" onclick="">
+                      <i class="fa-fw fas fa-business-time nav-icon"></i>
+                    </button>
+                  </div>
+                </div>
+                <div class="col text-right">
+                  <div class="btn-group">
+                    <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="TAMBAH REFERENSI JADWAL" onclick="window.location='{{ route('ref.jadwal.dinas.index') }}'"><i class="fa-fw fas fa-clock nav-icon"></i> Ref Jadwal</button>
+                    <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="TAMBAH STAF UNIT" onclick="window.location='{{ route('staf.jadwal.dinas.index') }}'"><i class="fa-fw fas fa-users-cog nav-icon"></i> Atur Staf</button>
+                  </div>
+                </div>
               </div>
               <hr>
               <div class="table-responsive">
@@ -45,16 +48,13 @@
                               <tr>
                                   <td>{{ $item->id_jadwal }}</td>
                                   <td>{{ $item->nama_user }}</td>
-                                  <td>
-                                    @foreach (json_decode($item->unit) as $key => $value)
-                                        <kbd>{{ $value }}</kbd>
-                                    @endforeach
-                                  </td>
+                                  <td>{{ $item->nama_unit }}</td>
                                   <td>{{ \Carbon\Carbon::parse($item->waktu)->isoFormat("MMMM Y") }}</td>
                                   <td>{{ \Carbon\Carbon::parse($item->updated_at)->diffForHumans() }}</td>
                                   <td>
                                       <center>
                                           <div class="btn-group" role="group">
+                                              <button type="button" class="btn btn-info btn-sm" id="btn-detail{{ $item->id_jadwal }}" onclick="detail({{ $item->id_jadwal }})" data-toggle="tooltip" data-placement="bottom" title="LIHAT JADWAL DINAS"><i class="fas fa-sort-amount-down"></i></button>
                                               <button type="button" class="btn btn-secondary btn-sm text-white disabled" disabled><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
                                               <button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                           </div>
@@ -111,6 +111,47 @@
   </div>
 </div>
 
+<div class="modal fade bd-example-modal-lg" id="detail" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xxl">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h4 class="modal-title">
+        Detail Jadwal Dinas
+      </h4>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col">
+            <label>Pemohon :</label><br>
+            <u><h5 style="margin-bottom:-3px" id="d_user"></h5></u>
+            <sub id="d_update"></sub>
+          </div>
+          <div class="col text-right">
+            <kbd>IDJ : <a id="d_id"></a></kbd> <kbd><a id="d_unit"></a></kbd><br>
+            <label style="margin-bottom:-3px;margin-top:5px">Jadwal Pada Bulan :</label><br>
+            <h5 id="d_waktu"></h5>
+            {{-- <a>Tuliskan (CITO) pada kolom keterangan, bila Darurat <i class="fa-fw fas fa-caret-left nav-icon"></i></a><br>
+            <a>Pengusulan Pengadaan dapat dilakukan pada tanggal 1 - 25 setiap bulannya <i class="fa-fw fas fa-caret-left nav-icon"></i></a> --}}
+          </div>
+        </div>
+        <div class="table-responsive">
+          <table id="table" class="table-striped table-bordered" style="width: 100%">
+              <thead id="tampil-thead"><tr><center><td><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></center></tr></thead>
+              <tbody id="tampil-tbody"><tr><center><td><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></center></tr></tbody>
+          </table>
+        </div>
+        <br>
+        <label>Keterangan :</label>
+        <div id="tampil-ket"></div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 $(document).ready( function () {
 
@@ -147,13 +188,22 @@ $(document).ready( function () {
           }
         }
       ],
-      order: [[ 4, "desc" ]],
+      order: [[ 0, "desc" ]],
       pageLength: 10
     }
   ).columns.adjust();
 });
+  
+  // 👇️ DEFINE COUNT DAYS IN THIS MONTH
+  const date = new Date();
+  const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+  ];
+  const currentYear = date.getFullYear();
+  const currentMonth = date.getMonth() + 1; // 👈️ months are 0-based
+  const countBulan = getDaysInMonth(currentYear, currentMonth);
 
-// FUNCTION-FUNCTION
+  // FUNCTION-FUNCTION
   function tambah() {
     // const d = new Date();
     // var day = d.getDate();
@@ -167,6 +217,65 @@ $(document).ready( function () {
     // } else {
     // }
     $('#tambah').modal('show');
+  }
+
+  function detail(id) {
+    $("#btn-detail"+id).prop('disabled', true);
+    $("#btn-detail"+id).find("i").toggleClass("fa-sort-amount-down fa-sync fa-spin");
+    $.ajax(
+      {
+        url: "./jadwaldinas/api/detail/"+id,
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(res) {
+          $("#btn-detail"+id).prop('disabled', false);
+          $("#btn-detail"+id).find("i").removeClass("fa-sync fa-spin").addClass('fa-sort-amount-down');
+
+          $("#d_id").text(res.uploader.id_jadwal);
+          $("#d_user").text(res.uploader.nama_user);
+          $("#d_update").text(res.uploader.updated_at);
+          $("#d_unit").text(res.uploader.nama_unit);
+          $("#d_waktu").text(res.bulan);
+
+          // TABLE HEAD
+          $('#tampil-thead').empty();
+          $('#tampil-tbody').empty();
+          $('#tampil-ket').empty();
+          // $('#tampil-tfoot').empty();
+          content_thead = `<tr>`;
+          content_thead += `<th rowspan="2"><center>IDS</center></th><th rowspan="2"><center>NAMA</center></th><th style="text-transform:uppercase" colspan="`+countBulan+`"><center>BULAN `+monthNames[date.getMonth()]+`</center></th>`;
+          content_thead += `</tr><tr>`;
+          for (let i = 1; i <= countBulan; i++) {
+            content_thead += `<th><center>`+i+`</center></th>`;
+          }
+          content_thead += `</tr>`;
+          $('#tampil-thead').append(content_thead);
+          
+          // TABLE BODY
+          content_tbody = ``;
+          res.staf.forEach(item => {
+            content_tbody += `<tr>`;
+            content_tbody += `<td><center>`+item.id_user+`</center></td>`;
+            content_tbody += `<td style="white-space: nowrap;">`+item.nama_user+`</td>`;
+            res.show.forEach(val => {
+              if (item.id_user == val.id_user) {
+                content_tbody += `<td><center>`+val.singkatan+`</center></td>`;
+              }
+            });
+            content_tbody += `</tr>`;
+          });
+          $('#tampil-tbody').append(content_tbody);
+          
+          // KET
+          content_ket = ``;
+          res.ref.forEach(item => {
+            content_ket += `<p style="margin-bottom: -3px"><i class="fa-fw fas fa-caret-right nav-icon"></i> `+item.waktu+` (<b>`+item.singkat+`</b>) : `+item.berangkat+` - `+item.pulang+`</p>`;
+          });
+          $('#tampil-ket').append(content_ket);
+          $('#detail').modal('show');
+        }
+      }
+    );
   }
 
   function saveData() {
@@ -193,6 +302,10 @@ $(document).ready( function () {
         return true;
       }
     });
+  }
+
+  function getDaysInMonth(year, month) {
+    return new Date(year, month, 0).getDate();
   }
 </script>
 @endsection

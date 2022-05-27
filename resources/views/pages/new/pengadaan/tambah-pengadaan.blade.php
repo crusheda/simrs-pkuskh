@@ -155,6 +155,7 @@
     //       if (isConfirm) $("#formTambah").submit();
     //   });
     // });
+    $("body").addClass('sidebar-mini');
   });
 </script>
 <script>

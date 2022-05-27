@@ -517,23 +517,31 @@
                             dom: 'Bfrtip',
                             buttons: [
                                 {
-                                    extend: 'copyHtml5',
-                                    className: 'btn-info',
-                                    text: 'Salin Baris',
-                                    download: 'open',
+                                extend: 'copyHtml5',
+                                className: 'btn-info',
+                                text: 'Salin Baris',
+                                download: 'open',
                                 },
                                 {
-                                    extend: 'excelHtml5',
-                                    className: 'btn-success',
-                                    text: 'Export Excell',
-                                    download: 'open',
+                                extend: 'excelHtml5',
+                                className: 'btn-success',
+                                text: 'Export Excell',
+                                download: 'open',
                                 },
                                 {
-                                    extend: 'pdfHtml5',
-                                    className: 'btn-warning',
-                                    text: 'Cetak PDF',
-                                    download: 'open',
+                                extend: 'pdfHtml5',
+                                className: 'btn-warning',
+                                text: 'Cetak PDF',
+                                download: 'open',
                                 },
+                                {
+                                extend: 'colvis',
+                                className: 'btn-dark',
+                                text: 'Sembunyikan Kolom',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                                }
                             ],
                             order: [[ 1, "desc" ]],
                             pageLength: 10
@@ -608,23 +616,31 @@
                             dom: 'Bfrtip',
                             buttons: [
                                 {
-                                    extend: 'copyHtml5',
-                                    className: 'btn-info',
-                                    text: 'Salin Baris',
-                                    download: 'open',
+                                extend: 'copyHtml5',
+                                className: 'btn-info',
+                                text: 'Salin Baris',
+                                download: 'open',
                                 },
                                 {
-                                    extend: 'excelHtml5',
-                                    className: 'btn-success',
-                                    text: 'Export Excell',
-                                    download: 'open',
+                                extend: 'excelHtml5',
+                                className: 'btn-success',
+                                text: 'Export Excell',
+                                download: 'open',
                                 },
                                 {
-                                    extend: 'pdfHtml5',
-                                    className: 'btn-warning',
-                                    text: 'Cetak PDF',
-                                    download: 'open',
+                                extend: 'pdfHtml5',
+                                className: 'btn-warning',
+                                text: 'Cetak PDF',
+                                download: 'open',
                                 },
+                                {
+                                extend: 'colvis',
+                                className: 'btn-dark',
+                                text: 'Sembunyikan Kolom',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                                }
                             ],
                             order: [[ 2, "desc" ]],
                             pageLength: 10
@@ -718,23 +734,31 @@
                             dom: 'Bfrtip',
                             buttons: [
                                 {
-                                    extend: 'copyHtml5',
-                                    className: 'btn-info',
-                                    text: 'Salin Baris',
-                                    download: 'open',
+                                extend: 'copyHtml5',
+                                className: 'btn-info',
+                                text: 'Salin Baris',
+                                download: 'open',
                                 },
                                 {
-                                    extend: 'excelHtml5',
-                                    className: 'btn-success',
-                                    text: 'Export Excell',
-                                    download: 'open',
+                                extend: 'excelHtml5',
+                                className: 'btn-success',
+                                text: 'Export Excell',
+                                download: 'open',
                                 },
                                 {
-                                    extend: 'pdfHtml5',
-                                    className: 'btn-warning',
-                                    text: 'Cetak PDF',
-                                    download: 'open',
+                                extend: 'pdfHtml5',
+                                className: 'btn-warning',
+                                text: 'Cetak PDF',
+                                download: 'open',
                                 },
+                                {
+                                extend: 'colvis',
+                                className: 'btn-dark',
+                                text: 'Sembunyikan Kolom',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                                }
                             ],
                             order: [[ 1, "desc" ]],
                             pageLength: 10
@@ -910,23 +934,31 @@
                             dom: 'Bfrtip',
                             buttons: [
                                 {
-                                    extend: 'copyHtml5',
-                                    className: 'btn-info',
-                                    text: 'Salin Baris',
-                                    download: 'open',
+                                extend: 'copyHtml5',
+                                className: 'btn-info',
+                                text: 'Salin Baris',
+                                download: 'open',
                                 },
                                 {
-                                    extend: 'excelHtml5',
-                                    className: 'btn-success',
-                                    text: 'Export Excell',
-                                    download: 'open',
+                                extend: 'excelHtml5',
+                                className: 'btn-success',
+                                text: 'Export Excell',
+                                download: 'open',
                                 },
                                 {
-                                    extend: 'pdfHtml5',
-                                    className: 'btn-warning',
-                                    text: 'Cetak PDF',
-                                    download: 'open',
+                                extend: 'pdfHtml5',
+                                className: 'btn-warning',
+                                text: 'Cetak PDF',
+                                download: 'open',
                                 },
+                                {
+                                extend: 'colvis',
+                                className: 'btn-dark',
+                                text: 'Sembunyikan Kolom',
+                                exportOptions: {
+                                    columns: ':visible'
+                                }
+                                }
                             ],
                             order: [[ 2, "desc" ]],
                             pageLength: 10

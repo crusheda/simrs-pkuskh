@@ -229,7 +229,7 @@ $(document).ready( function () {
                             },
                         ],
                         order: [[ 5, "desc" ]],
-                        pageLength: 10
+                        pageLength: 20
                     }
                 ).columns.adjust();
             }
@@ -300,7 +300,7 @@ function refresh() {
                 },
               ],
               order: [[ 5, "desc" ]],
-              pageLength: 10
+              pageLength: 20
             }
         ).columns.adjust();
       }
