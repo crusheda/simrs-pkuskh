@@ -10,7 +10,7 @@
             <div class="card-header">
               <h4>Formulir {{ $list['waktu'] }}</h4>
               <div class="card-header-action">
-                <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="INFORMASI JADWAL DINAS"><i class="fa-fw fas fa-info-circle nav-icon"></i> Informasi</button>
+                <button type="button" class="btn btn-info" data-toggle="tooltip" data-placement="bottom" title="INFORMASI JADWAL DINAS" onclick="info()"><i class="fa-fw fas fa-info-circle nav-icon"></i> Informasi</button>
               </div>
             </div>
             <div class="card-body">
@@ -68,7 +68,7 @@
             </div>
             <div class="card-footer text-right">
               <div class="btn-group">
-                <sub style="margin-top:10px">Pastikan semua pilihan terisi <i class="fa-fw fas fa-caret-left nav-icon"></i>&nbsp;&nbsp;</sub>
+                <sub style="margin-top:10px">Semua pilihan Wajib diisi <i class="fa-fw fas fa-caret-left nav-icon"></i>&nbsp;&nbsp;</sub>
                 <button type="button" class="btn btn-secondary" onclick="batalJadwal()" data-toggle="tooltip" data-placement="bottom" title="KEMBALI"><i class="fa-fw fas fa-caret-left nav-icon"></i> Kembali</button>
                 <input type="submit" class="btn btn-primary fas fa-save" data-toggle="tooltip" data-placement="bottom" title="VALIDASI FORM" value="&#xf0c7; Submit"/>
               </div>
@@ -76,6 +76,69 @@
             </div>
         </div>
     </div>
+</div>
+
+<div class="modal fade bd-example-modal-lg" id="info" role="dialog" aria-labelledby="confirmFormLabel" aria-hidden="true">
+  <div class="modal-dialog modal-xl">
+    <div class="modal-content">
+      <div class="modal-header">
+      <h4 class="modal-title">
+        Informasi Jadwal Dinas
+      </h4>
+      <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+      </div>
+      <div class="modal-body">
+        <p><b><i class="fa-fw fas fa-caret-right nav-icon"></i> Ref Jadwal Dinas</b></p>
+        <div class="table-responsive">
+          <table id="" class="table table-bordered display" style="width: 100%">
+              <thead>
+                  <tr>
+                      <th>ID</th>
+                      <th>WAKTU</th>
+                      <th>BERANGKAT - PULANG</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  @if(count($list['ref']) > 0)
+                      @foreach($list['ref'] as $item)
+                      <tr>
+                          <td>{{ $item->id }}</td>
+                          <td>{{ $item->waktu }} ({{ $item->singkat }})</td>
+                          <td>{{ \Carbon\Carbon::parse($item->berangkat)->isoFormat('HH:mm') }} - {{ \Carbon\Carbon::parse($item->pulang)->isoFormat('HH:mm') }} WIB</td>
+                      @endforeach
+                  @endif
+              </tbody>
+          </table>
+        </div>
+        <hr>
+        <p><b><i class="fa-fw fas fa-caret-right nav-icon"></i> Staf</b></p>
+        <div class="table-responsive">
+          <table id="" class="table table-bordered display" style="width: 100%">
+              <thead>
+                  <tr>
+                      <th>ID</th>
+                      <th>IDS</th>
+                      <th>NAMA</th>
+                  </tr>
+              </thead>
+              <tbody>
+                  @if(count($list['user']) > 0)
+                      @foreach($list['user'] as $item)
+                      <tr>
+                          <td>{{ $item->id }}</td>
+                          <td>{{ $item->id_staf }}</td>
+                          <td>{{ $item->nama }}</td>
+                      @endforeach
+                  @endif
+              </tbody>
+          </table>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+      </div>
+    </div>
+  </div>
 </div>
 
 <script>
@@ -132,19 +195,8 @@ $(document).ready( function () {
 });
 
 // FUNCTION-FUNCTION
-  function tambah() {
-    // const d = new Date();
-    // var day = d.getDate();
-    // console.log('ini tanggal : '+day);
-    // if (day > 25) {
-    //   iziToast.warning({
-    //       title: 'Pesan Galat!',
-    //       message: 'Pengusulan Pengadaan hanya dapat dilakukan pada tanggal 1-25 Setiap Bulannya.',
-    //       position: 'topRight'
-    //   });
-    // } else {
-    // }
-    $('#tambah').modal('show');
+  function info() {
+    $('#info').modal('show');
     
   }
   

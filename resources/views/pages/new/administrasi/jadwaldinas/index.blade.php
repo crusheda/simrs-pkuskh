@@ -17,7 +17,7 @@
                     <button type="button" class="btn btn-primary text-white" data-toggle="tooltip" data-placement="bottom" title="TAMBAH JADWAL DINAS" onclick="tambah()">
                       <i class="fa-fw fas fa-plus-square nav-icon"></i>	Buat Jadwal
                     </button>
-                    <button type="button" class="btn btn-dark text-white" data-toggle="tooltip" data-placement="bottom" title="INFORMASI JADWAL DINAS" onclick="">
+                    <button type="button" class="btn btn-dark text-white disabled" data-toggle="tooltip" data-placement="bottom" title="INFORMASI JADWAL DINAS" onclick="" disabled>
                       <i class="fa-fw fas fa-business-time nav-icon"></i>
                     </button>
                   </div>
@@ -55,8 +55,22 @@
                                       <center>
                                           <div class="btn-group" role="group">
                                               <button type="button" class="btn btn-info btn-sm" id="btn-detail{{ $item->id_jadwal }}" onclick="detail({{ $item->id_jadwal }})" data-toggle="tooltip" data-placement="bottom" title="LIHAT JADWAL DINAS"><i class="fas fa-sort-amount-down"></i></button>
-                                              <button type="button" class="btn btn-secondary btn-sm text-white disabled" disabled><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                              <button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                              @role('it')
+                                                <button type="button" class="btn btn-danger btn-sm" onclick="hapus({{ $item->id_jadwal }})" data-toggle="tooltip" data-placement="bottom" title="HAPUS JADWAL DINAS"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                              @else
+                                                @if (Auth::user()->id == $item->id_user)
+                                                  @if (\Carbon\Carbon::parse($item->waktu)->isoFormat("YYYY-MM") == \Carbon\Carbon::now()->isoFormat("YYYY-MM"))
+                                                    {{-- <button type="button" class="btn btn-warning btn-sm" onclick="window.location.href='./jadwaldinas/ubah/{{ $item->id_jadwal }}'" data-toggle="tooltip" data-placement="bottom" title="UBAH JADWAL DINAS"><i class="fa-fw fas fa-edit nav-icon"></i></button> --}}
+                                                    <button type="button" class="btn btn-danger btn-sm" onclick="hapus({{ $item->id_jadwal }})" data-toggle="tooltip" data-placement="bottom" title="HAPUS JADWAL DINAS"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                  @else
+                                                    {{-- <button type="button" class="btn btn-secondary btn-sm text-white disabled" disabled><i class="fa-fw fas fa-edit nav-icon text-white"></i></button> --}}
+                                                    <button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                  @endif
+                                                @else
+                                                  {{-- <button type="button" class="btn btn-secondary btn-sm text-white disabled" disabled><i class="fa-fw fas fa-edit nav-icon text-white"></i></button> --}}
+                                                  <button type="button" class="btn btn-secondary btn-sm disabled" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                @endif
+                                              @endrole
                                           </div>
                                       </center>
                                   </td>
@@ -100,7 +114,8 @@
           <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan Anda mempunyai <b>HAK</b> dalam pembuatan Jadwal Dinas</sub> <br>
           <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan Anda sudah melengkapi <b>Ref Jadwal</b> dan <b>Data Staf</b></sub> <br>
           <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pembuatan Jadwal Dinas hanya dapat dilakukan 1x (Satu Kali) pada setiap bulannya</sub> <br>
-          <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pengumpulan Jadwal Dinas dilakukan pada tanggal x - x</sub>
+          <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Penghapusan Jadwal Dinas hanya bisa dilakukan pada bulan yg sama dengan jadwal</sub>
+          {{-- <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pengumpulan Jadwal Dinas dilakukan pada tanggal x - x</sub> --}}
       </div>
       <div class="modal-footer">
           <button class="btn btn-primary" id="btn-lanjutkan" onclick="saveData()"><i class="fa-fw fas fa-save nav-icon"></i> Lanjutkan</button>
@@ -247,7 +262,7 @@ $(document).ready( function () {
           content_thead += `<th rowspan="2"><center>IDS</center></th><th rowspan="2"><center>NAMA</center></th><th style="text-transform:uppercase" colspan="`+countBulan+`"><center>BULAN `+monthNames[date.getMonth()]+`</center></th>`;
           content_thead += `</tr><tr>`;
           for (let i = 1; i <= countBulan; i++) {
-            content_thead += `<th><center>`+i+`</center></th>`;
+            content_thead += `<th style="width:35px"><center>`+i+`</center></th>`;
           }
           content_thead += `</tr>`;
           $('#tampil-thead').append(content_thead);
@@ -303,6 +318,54 @@ $(document).ready( function () {
         return true;
       }
     });
+  }
+  
+  // FUNCTION
+  function hapus(id) {
+    Swal.fire({
+      title: 'Apakah anda yakin?',
+      text: 'Penghapusan Jadwal Dinas ID : '+id,
+      icon: 'warning',
+      reverseButtons: false,
+      showDenyButton: false,
+      showCloseButton: false,
+      showCancelButton: true,
+      focusCancel: true,
+      confirmButtonColor: '#FF4845',
+      confirmButtonText: `<i class="fa fa-trash"></i> Hapus`,
+      cancelButtonText: `<i class="fa fa-times"></i> Batal`,
+      backdrop: `rgba(26,27,41,0.8)`,
+    }).then((result) => {
+      if (result.isConfirmed) {
+        $.ajax({
+          url: "./jadwaldinas/api/hapus/"+id,
+          type: 'GET',
+          dataType: 'json', // added data type
+          success: function(res) {
+            iziToast.success({
+                title: 'Sukses!',
+                message: 'Hapus Jadwal Dinas berhasil pada '+res,
+                position: 'topRight'
+            });
+            window.location.reload();
+          },
+          error: function(res) {
+            Swal.fire({
+              title: `Gagal di hapus!`,
+              text: 'Pada '+res,
+              icon: `error`,
+              showConfirmButton:false,
+              showCancelButton:false,
+              allowOutsideClick: true,
+              allowEscapeKey: true,
+              timer: 3000,
+              timerProgressBar: true,
+              backdrop: `rgba(26,27,41,0.8)`,
+            });
+          }
+        }); 
+      }
+    })
   }
 
   function getDaysInMonth(year, month) {

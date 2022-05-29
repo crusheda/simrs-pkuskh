@@ -406,13 +406,18 @@ Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController'
     
     // JADWAL DINAS
         Route::get('administrasi/jadwaldinas', 'administrasi\jadwalDinasController@index')->name('jadwal.dinas.index');
+        Route::get('administrasi/jadwaldinas/ubah/{id}', 'administrasi\jadwalDinasController@showUbah')->name('jadwal.dinas.showUbah');
+        Route::put('administrasi/jadwaldinas/api/ubah/{id}', 'administrasi\jadwalDinasController@ubah')->name('jadwal.dinas.ubah');
         Route::get('administrasi/jadwaldinas/api/detail/{id}', 'administrasi\jadwalDinasController@showDetail')->name('jadwal.dinas.show');
+        Route::get('administrasi/jadwaldinas/api/hapus/{id}', 'administrasi\jadwalDinasController@hapus')->name('jadwal.dinas.hapus');
         Route::post('administrasi/jadwaldinas/create', 'administrasi\jadwalDinasController@create')->name('jadwal.dinas.create');
         Route::get('administrasi/jadwaldinas/create/api/data', 'administrasi\jadwalDinasController@getDataCreate');
         Route::post('administrasi/jadwaldinas', 'administrasi\jadwalDinasController@store')->name('jadwal.dinas.store');
         Route::get('administrasi/jadwaldinas/staf', 'administrasi\jadwalDinasController@indexStaf')->name('staf.jadwal.dinas.index');
         Route::post('administrasi/jadwaldinas/staf', 'administrasi\jadwalDinasController@storeStaf')->name('staf.jadwal.dinas.store');
+        Route::put('administrasi/jadwaldinas/staf/api/ubah/{id}', 'administrasi\jadwalDinasController@ubahStaf')->name('staf.jadwal.dinas.ubah');
+        Route::get('administrasi/jadwaldinas/staf/api/hapus/{id}', 'administrasi\jadwalDinasController@hapusStaf')->name('staf.jadwal.dinas.hapus');
         Route::get('administrasi/jadwaldinas/ref', 'administrasi\jadwalDinasController@indexRef')->name('ref.jadwal.dinas.index');
         Route::post('administrasi/jadwaldinas/ref', 'administrasi\jadwalDinasController@storeRef')->name('ref.jadwal.dinas.store');
-        Route::post('administrasi/jadwaldinas/ref/api/ubah/{id}', 'administrasi\jadwalDinasController@ubahRef')->name('ref.jadwal.dinas.ubah');
-        Route::post('administrasi/jadwaldinas/ref/api/hapus/{id}', 'administrasi\jadwalDinasController@hapusRef')->name('ref.jadwal.dinas.hapus');
+        Route::put('administrasi/jadwaldinas/ref/api/ubah/{id}', 'administrasi\jadwalDinasController@ubahRef')->name('ref.jadwal.dinas.ubah');
+        Route::get('administrasi/jadwaldinas/ref/api/hapus/{id}', 'administrasi\jadwalDinasController@hapusRef')->name('ref.jadwal.dinas.hapus');

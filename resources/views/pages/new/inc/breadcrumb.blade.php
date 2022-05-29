@@ -133,6 +133,12 @@
         $b2 = 'Jadwal Dinas';
         $b3 = 'Tambah';
       }
+      if ($route == 'jadwal.dinas.showUbah') {
+        $title = 'Ubah Jadwal Dinas';
+        $b1 = 'Administrasi';
+        $b2 = 'Jadwal Dinas';
+        $b3 = 'Ubah';
+      }
       if ($route == 'staf.jadwal.dinas.index') {
         $title = 'Atur Staf Jadwal Dinas';
         $b1 = 'Administrasi';

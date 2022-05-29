@@ -109,8 +109,8 @@
                                     <td>
                                         <center>
                                             <div class="btn-group" role="group">
-                                                <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#edit{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm" onclick="hapus({{ $item->id }})"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                             </div>
                                         </center>
                                     </td>
@@ -136,47 +136,36 @@
           <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
         </div>
         <div class="modal-body">
-            {{ Form::model($item, array('route' => array('program.update', $item->id), 'method' => 'PUT')) }}
+            {{ Form::model($item, array('route' => array('ref.jadwal.dinas.ubah', $item->id), 'method' => 'PUT')) }}
                 @csrf
+                <input type="text" class="form-control" value="{{ $item->id }}" hidden>
                 <div class="row">
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Tanggal Pengesahan</label>
-                            <input type="date" name="sah" value="<?php echo strftime('%Y-%m-%d', strtotime($item->sah)); ?>" class="form-control">
-                        </div>
+                  <div class="col">
+                    <div class="form-group">
+                        <label>Waktu</label>
+                        <input type="text" name="waktu" placeholder="e.g. Pagi / Siang / Malam ..." class="form-control up" value="{{ $item->waktu }}" required>
                     </div>
-                    <div class="col-md-8">
-                        <div class="form-group">
-                            <label>Judul</label>
-                            <input type="text" name="judul" value="{{ $item->judul }}" class="form-control" required>
-                        </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                        <label>Singkatan</label>
+                        <input type="text" name="singkat" placeholder="e.g. P / P6 / M / S1 /  ..." class="form-control up" value="{{ $item->singkat }}" required>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Unit Pembuat</label>
-                            <select class="form-control selectric" name="pembuat" required>
-                                @foreach($list['unit'] as $key)
-                                    <option value="{{ $key->id }}" @if ($key->id == $item->pembuat) selected @endif>{{ $key->nama }}</option>
-                                @endforeach
-                            </select>
-                        </div>
+                  </div>
+                </div>
+                <div class="row">
+                  <div class="col">
+                    <div class="form-group">
+                        <label>Jam Masuk</label>
+                        <input type="string" name="berangkat" class="form-control fp" value="<?php echo strftime('%HH-%mm', strtotime($item->berangkat)); ?>" placeholder="Pilih" style="background-color: #FDFDFF" required>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Unit Terkait</label>
-                            <input type="text" name="unit" value="{{ $item->unit }}" class="form-control" required>
-                        </div>
+                  </div>
+                  <div class="col">
+                    <div class="form-group">
+                        <label>Jam Keluar</label>
+                        <input type="string" name="pulang" class="form-control fp" value="<?php echo strftime('%HH-%mm', strtotime($item->pulang)); ?>" placeholder="Pilih" style="background-color: #FDFDFF" required>
                     </div>
-                    <div class="col-md-4">
-                        <div class="form-group">
-                            <label>Detail Dokumen</label><br>
-                            @if ($item->filename == '')
-                            -
-                            @else
-                                <b><u><a href="kebijakan/{{ $item->id }}">{{ substr($item->title,0,50) }}...</a></u></b><br><sub>Ukuran File : {{ number_format(Storage::size($item->filename) / 1048576,2) }} MB</sub>
-                            @endif
-                        </div>
-                    </div>
+                  </div>
                 </div>
         </div>
         <div class="modal-footer">
@@ -236,7 +225,7 @@ $(document).ready( function () {
           }
         }
       ],
-      order: [[ 4, "desc" ]],
+      order: [[ 0, "desc" ]],
       pageLength: 10
     }
   ).columns.adjust();
@@ -266,10 +255,10 @@ function hapus(id) {
           success: function(res) {
             iziToast.success({
                 title: 'Sukses!',
-                message: 'Hapus Regulasi SPO berhasil pada '+res,
+                message: 'Hapus Ref berhasil pada '+res,
                 position: 'topRight'
             });
-            refresh();
+            window.location.reload();
           },
           error: function(res) {
             Swal.fire({

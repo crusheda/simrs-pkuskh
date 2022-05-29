@@ -15,6 +15,7 @@ use App\Models\administrasi\jadwal_dinas;
 use App\Models\administrasi\detail_jadwal_dinas;
 use Carbon\Carbon;
 use Auth;
+use Redirect;
 
 class jadwalDinasController extends Controller
 {
@@ -138,6 +139,104 @@ class jadwalDinasController extends Controller
         return redirect()->route('jadwal.dinas.index')->with('message','Tambah Jadwal Dinas Berhasil oleh '.$name.' Pada '.$tgl);
     }
 
+    public function showUbah($id)
+    {
+        $user = Auth::user();
+        $user_id = $user->id;
+        
+        $getJadwal = jadwal_dinas::where('id_jadwal',$id)->first();
+        $getDetailJadwal = detail_jadwal_dinas::where('id_jadwal',$id)->orderBy('id','asc')->get();
+
+        $waktu = Carbon::parse($getJadwal->waktu)->isoFormat('MMMM Y');
+        $getRef = ref_jadwal_dinas::where('id_user',$getJadwal->id_user)->get();
+        $getUser = staf_jadwal_dinas::where('id_user',$getJadwal->id_user)->orderBy('nama','asc')->get();
+        $totalDays = Carbon::parse($getJadwal->waktu)->daysInMonth;
+        // print_r($getRef);
+        // die();
+    
+        $data = [
+            'show' => $getJadwal,
+            'detail' => $getDetailJadwal,
+            'waktuOri' => $getJadwal->waktu,
+            'unit' => $getJadwal->unit,
+            'waktu' => $waktu,
+            'ref' => $getRef,
+            'user' => $getUser,
+            'days' => $totalDays,
+        ];
+
+        return view('pages.new.administrasi.jadwaldinas.edit')->with('list', $data);
+    }
+
+    public function ubah(Request $request, $id)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        // print_r($id);
+        // die();
+
+        // AUTH
+        $user = Auth::user();
+        $id_user = $user->id;
+        $name = $user->name;
+        $nama_user = $user->nama;
+        $role = $user->roles;
+        
+        // for $request->bulan
+        $bulan = Carbon::parse($request->bulan);
+
+        // DB
+        $getJadwal = jadwal_dinas::where('id_jadwal',$id)->first();
+        $getUser = staf_jadwal_dinas::where('id_user',$id_user)->orderBy('nama','asc')->get();
+        $getRef = ref_jadwal_dinas::where('id_user',$id_user)->get();
+
+        // COUNT DAYS IN THIS MONTH
+        $totalDays = Carbon::parse($getJadwal->waktu)->daysInMonth;
+        
+        $timeLC = Carbon::parse('00:00:00')->toTimeString();
+    
+        // for $request->waktu
+        // $data = detail_jadwal_dinas::where('id_jadwal',$id)->orderBy('id','asc')->get();
+        // foreach ($data as $key => $value) {
+        //     foreach ($getRef as $kc => $item) {
+        //         if ($item->id == $request->waktu[$key]) {
+        //             $data->id_ref = 100001;
+        //             $data->singkatan = $item->singkat;
+        //             $data->waktu = $item->waktu;
+        //             $data->berangkat = $item->berangkat;
+        //             $data->pulang = $item->pulang;
+        //         } elseif ($request->waktu[$key] == 100001) {
+        //             $data->id_ref = 100001;
+        //             $data->singkatan = 'L';
+        //             $data->waktu = 'LIBUR';
+        //             $data->berangkat = $timeLC;
+        //             $data->pulang = $timeLC;
+        //         } elseif ($request->waktu[$key] == 100002) {
+        //             $data->id_ref = 100002;
+        //             $data->singkatan = 'C';
+        //             $data->waktu = 'CUTI';
+        //             $data->berangkat = $timeLC;
+        //             $data->pulang = $timeLC;
+        //         }
+        //     }
+        //     $data[$key]->save();
+        // }
+        // print_r($data);
+        // die();
+
+        return redirect()->route('jadwal.dinas.index')->with('message','Ubah Jadwal Dinas Berhasil oleh '.$name.' Pada '.$tgl);
+    }
+
+    public function hapus($id)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        jadwal_dinas::where('id_jadwal', $id)->delete();
+        detail_jadwal_dinas::where('id_jadwal', $id)->delete();
+
+        return response()->json($tgl, 200);
+    }
+
     public function showDetail($id)
     {
         $show = detail_jadwal_dinas::select('detail_jadwal_dinas.id_jadwal','detail_jadwal_dinas.id_staf as id_user','detail_jadwal_dinas.tgl','detail_jadwal_dinas.singkatan','detail_jadwal_dinas.waktu','detail_jadwal_dinas.berangkat','detail_jadwal_dinas.pulang','detail_jadwal_dinas.updated_at')
@@ -181,7 +280,12 @@ class jadwalDinasController extends Controller
         $id = $user->id;
 
         $getUser = user::select('id','nama')->where('nama','!=',null)->get();
-        $show = staf_jadwal_dinas::where('id_user',$id)->get();
+
+        if ($user->hasRole('it')) {
+            $show = staf_jadwal_dinas::get();
+        } else {
+            $show = staf_jadwal_dinas::where('id_user',$id)->get();
+        }
 
         $data = [
             'user' => $getUser,
@@ -204,6 +308,27 @@ class jadwalDinasController extends Controller
         $save->save();
 
         return redirect()->back()->with('message','Tambah Referensi Jadwal Berhasil');
+    }
+
+    public function ubahStaf(Request $request, $id)
+    {
+        $getUser = user::select('nama')->where('id',$request->id_staf)->first();
+
+        $data = staf_jadwal_dinas::find($id);
+        $data->id_staf = $request->id_staf;
+        $data->nama = $getUser->nama;
+
+        $data->save();
+        return Redirect::back()->with('message','Perubahan Staf Jadwal Dinas Berhasil');
+    }
+
+    public function hapusStaf($id)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        staf_jadwal_dinas::where('id', $id)->delete();
+
+        return response()->json($tgl, 200);
     }
 
     // REF JADWAL DINAS
@@ -246,13 +371,15 @@ class jadwalDinasController extends Controller
         return redirect()->back()->with('message','Tambah Referensi Jadwal Berhasil');
     }
 
-    public function ubah(Request $request, $id)
+    public function ubahRef(Request $request, $id)
     {
-        $data = program::find($id);
-        $save->waktu = $request->waktu;
-        $save->singkat = $request->singkat;
-        $save->berangkat = $request->berangkat;
-        $save->pulang = $request->pulang;
+        // print_r($request->singkat);
+        // die();
+        $data = ref_jadwal_dinas::find($id);
+        $data->waktu = $request->waktu;
+        $data->singkat = $request->singkat;
+        $data->berangkat = $request->berangkat;
+        $data->pulang = $request->pulang;
 
         $data->save();
         return Redirect::back()->with('message','Perubahan Referensi Jadwal Dinas Berhasil');
