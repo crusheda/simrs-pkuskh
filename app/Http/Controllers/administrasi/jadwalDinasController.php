@@ -92,6 +92,8 @@ class jadwalDinasController extends Controller
         $timeLC = Carbon::parse('00:00:00')->toTimeString();
         // print_r($timeLC);
         // die();
+        print_r($request->waktu);
+        die();
 
         // for $request->waktu
         foreach ($getUser as $key => $value) {
@@ -122,9 +124,11 @@ class jadwalDinasController extends Controller
                         $save1->pulang = $timeLC;
                     }
                 }
-                $save1->save();
+                // $save1->save();
+                print_r($save1);
             }
         }
+        die();
 
         // SAVE in JADWAL DINAS
         $save2 = new jadwal_dinas;
@@ -244,7 +248,7 @@ class jadwalDinasController extends Controller
                                     ->where('detail_jadwal_dinas.id_jadwal',$id)
                                     ->orderBy('detail_jadwal_dinas.id','asc')
                                     ->get();
-        
+
         $uploader = jadwal_dinas::select('jadwal_dinas.id_jadwal','users.id as id_user','users.nama as nama_user','unit.nama as nama_unit','jadwal_dinas.unit as encode_unit','jadwal_dinas.waktu','jadwal_dinas.updated_at')
                                 ->join('users','jadwal_dinas.id_user','=','users.id')
                                 ->join('unit','jadwal_dinas.id_unit','=','unit.id')
@@ -258,6 +262,9 @@ class jadwalDinasController extends Controller
                                 ->groupBy('detail_jadwal_dinas.id_jadwal','detail_jadwal_dinas.id_staf','users.nama')
                                 ->get();
         
+        // print_r($show);
+        // die();
+        // dd($show);
         $ref = ref_jadwal_dinas::where('id_user',$uploader->id_user)->get();
         
         $bulan = Carbon::parse($uploader->waktu)->isoFormat('MMMM Y');

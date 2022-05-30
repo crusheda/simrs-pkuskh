@@ -17,7 +17,7 @@
                 </button>
                 <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i> Refresh</button>
                 @role('it|sekretaris-direktur')
-                    <button type="button" class="btn btn-danger disabled" data-toggle="tooltip" data-placement="bottom" title="RESTORE BERKAS RAPAT" disabled><i class="fa-fw fas fa-history nav-icon text-white"></i> Riwayat Penghapusan</button>
+                    <button type="button" class="btn btn-secondary disabled" data-toggle="tooltip" data-placement="bottom" title="RESTORE BERKAS RAPAT" disabled><i class="fa-fw fas fa-history nav-icon text-white"></i> Riwayat Penghapusan</button>
                 @endrole
             </div>
             <hr>
@@ -42,47 +42,6 @@
                                             </tr>
                                         </thead>
                                         <tbody id="tampil-tbody"><tr><td colspan="9"><center><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</center></td></tr></tbody>
-                                        {{-- <tbody>
-                                            @if(count($list) > 0)
-                                            @foreach($list['show'] as $item)
-                                            <tr>
-                                                <td>{{ $item->id }}</td>
-                                                <td>{{ $item->nama }}</td>
-                                                <td>
-                                                    @foreach($list['user'] as $key => $val)
-                                                        @if ($val->id == $item->kepala) {{ $val->nama }} @endif
-                                                    @endforeach
-                                                </td>
-                                                <td>{{ \Carbon\Carbon::parse($item->tanggal)->isoFormat('D MMM Y, HH:mm a') }}</td>
-                                                <td>{{ $item->lokasi }}</td>
-                                                <td>{{ $item->keterangan }}</td>
-                                                <td>{{ $item->created_at }}</td>
-                                                <td>{{ $item->nama_user }}</td>
-                                                <td>
-                                                    <center>
-                                                        <div class="btn-group" role="group">
-                                                            @if ($item->title1 != null)
-                                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#lihatFile{{ $item->id }}"><i class="fa-fw fas fa-download nav-icon text-white"></i></button>   
-                                                            @else
-                                                                <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#download{{ $item->id }}"><i class="fa-fw fas fa-download nav-icon text-white"></i></button>   
-                                                            @endif
-                                                            @hasanyrole('it|kantor|pelayanan')
-                                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusFile{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                                            @else
-                                                                @if (\Carbon\Carbon::parse($item->created_at)->isoFormat('YYYY/MM/DD') ==  $list['today'])
-                                                                    @if(Auth::user()->id == $item->id_user)
-                                                                        <button type="button" class="btn btn-warning btn-sm" data-toggle="modal" data-target="#ubahFile{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                                                        <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusFile{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
-                                                                    @endif
-                                                                @endif
-                                                            @endhasanyrole
-                                                        </div>
-                                                    </center>
-                                                </td>
-                                            </tr>
-                                            @endforeach
-                                            @endif
-                                        </tbody> --}}
                                         <tfoot class="bg-whitesmoke">
                                             <tr>
                                                 <th>ID</th>
