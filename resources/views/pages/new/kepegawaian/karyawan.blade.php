@@ -6,9 +6,11 @@
     <div class="card">
         <div class="card-header">
           <h4>Tabel Karyawan</h4>
+          @can('kepegawaian')
           <div class="card-header-action">
             <button type="button" class="btn btn-info" data-toggle="modal" data-target="#riwayat-nonaktif" data-placement="bottom" title="RIWAYAT PENONAKTIFAN PEGAWAI"><i class="fa-fw fas fa-history nav-icon"></i> Riwayat Nonaktif</button>
           </div>
+          @endcan
         </div>
         <div class="card-body">
             @can('kepegawaian')
@@ -186,6 +188,7 @@
                     <thead>
                         <tr>
                             <th>USER ID</th>
+                            <th>AKUN</th>
                             <th>NAMA</th>
                             <th>ALAMAT</th>
                             <th>UNIT</th>
@@ -197,6 +200,7 @@
                             @foreach($list['nonaktif'] as $item)
                             <tr>
                                 <td>{{ $item->id }}</td>
+                                <td>{{ $item->name }}</td>
                                 <td>{{ $item->nama }}</td>
                                 <td>{{ $item->alamat }}</td>
                                 <td>@foreach ($list['user'] as $val) @if ($item->id == $val->id) <kbd>{{ $val->nama_role }}</kbd> @endif @endforeach</td>
@@ -453,7 +457,7 @@
                     }
                   },
                 ],
-                order: [[ 1, "asc" ]],
+                order: [[ 2, "asc" ]],
             }
         );
         

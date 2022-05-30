@@ -27,7 +27,8 @@ class profilController extends Controller
             ->first();    
         
         $showlog = logs::where('user_id', $id)->where('log_type', '=', 'login')->select('log_date')->orderBy('log_date', 'DESC')->get();
-        
+        // print_r($foto);
+        // die();
         $data = [
             'id_user' => $id,
             'showlog' => $showlog,

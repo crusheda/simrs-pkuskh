@@ -7,10 +7,10 @@
   <div class="col-12 col-md-12 col-lg-12">
     <div class="card profile-widget">
       <div class="profile-widget-header">
-        @if (!empty($list['foto']->filename))
-          <img alt="image" src="{{ url('storage/'.substr($list['show']->filename,7,1000)) }}" class="rounded-circle profile-widget-picture">
-        @else
+        @if (empty($list['foto']->filename))
           <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}" class="rounded-circle profile-widget-picture">
+        @else
+          <img alt="image" src="{{ url('storage/'.substr($list['foto']->filename,7,1000)) }}" class="rounded-circle profile-widget-picture">
         @endif
         <div class="profile-widget-items">
           <div class="profile-widget-item">
@@ -35,7 +35,7 @@
                 @if (empty($list['foto']->filename))
                   <button class="btn btn-secondary disabled"><i class="fas fa-download"></i></button>
                 @else
-                  <button class="btn btn-info" onclick="window.location.href='{{ url('./profil/'.$list['foto']->id) }}'"><i class="fas fa-download"></i></button>
+                  <button class="btn btn-info" onclick="window.location.href='{{ url('./profil/'.$list['foto']->user_id) }}'"><i class="fas fa-download"></i></button>
                 @endif
                 <button class="btn btn-secondary disabled" disabled><i class="fas fa-trash"></i></button>
               </div>
@@ -119,10 +119,7 @@
             <div class="form-group col-md-3 col-12">
               <div class="form-group">
                 <label>Jenis Kelamin</label>
-                <select class="form-control selectric" id="jns_kelamin" name="jns_kelamin" readonly>
-                  <option value="LAKI-LAKI" @if ($list['show']->jns_kelamin == 'LAKI-LAKI') echo selected @endif>Laki-laki</option>
-                  <option value="PEREMPUAN" @if ($list['show']->jns_kelamin == 'PEREMPUAN') echo selected @endif>Perempuan</option>
-                </select>
+                <input type="text" class="form-control" value="{{ $list['show']->jns_kelamin }}" readonly>
               </div>
               <div class="invalid-feedback">
                 Please fill in the email
@@ -131,13 +128,7 @@
             <div class="form-group col-md-3 col-12">
               <div class="form-group">
                 <label>Status Kawin</label>
-                <select class="form-control selectric" id="status_kawin" name="status_kawin" readonly>
-                  <option value="">Pilih</option>
-                  <option value="BELUM" @if ($list['show']->status_kawin == 'BELUM') echo selected @endif>Belum</option>
-                  <option value="SUDAH" @if ($list['show']->status_kawin == 'SUDAH') echo selected @endif>Sudah</option>
-                  <option value="CERAI" @if ($list['show']->status_kawin == 'CERAI') echo selected @endif>Cerai</option>
-                  <option value="RAHASIA" @if ($list['show']->status_kawin == 'RAHASIA') echo selected @endif>Tidak ingin memberi tahu</option>
-                </select>
+                <input type="text" class="form-control" value="{{ $list['show']->status_kawin }}" readonly>
               </div>
               <div class="invalid-feedback">
                 Please fill in the email
@@ -390,6 +381,8 @@
           <a>
             <b>Terakhir Update Profil : </b>{{ \Carbon\Carbon::parse($list['show']->updated_at)->diffForHumans() }}
           </a>
+          <br><br>
+          <button class="btn btn-secondary" onclick="window.location='{{ route('kepegawaian.karyawan.index') }}'"><i class="fas fa-caret-left"></i> Kembali</button>
         </div>
     </div>
   </div>
