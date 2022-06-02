@@ -99,8 +99,8 @@
           @csrf
           <div class="form-group">
             <label>Bulan dan Tahun</label>
-            <input type="month" class="form-control disabled" value="{{ \Carbon\Carbon::now()->isoFormat('YYYY-MM') }}" disabled>
-            <input type="month" name="waktu" class="form-control" value="{{ \Carbon\Carbon::now()->isoFormat('YYYY-MM') }}" hidden>
+            {{-- <input type="month" class="form-control disabled" value="{{ \Carbon\Carbon::now()->isoFormat('YYYY-MM') }}" disabled> --}}
+            <input type="month" name="waktu" class="form-control" value="{{ \Carbon\Carbon::now()->isoFormat('YYYY-MM') }}">
           </div>
           <div class="form-group">
             <label>Unit</label>
@@ -209,15 +209,6 @@ $(document).ready( function () {
     }
   ).columns.adjust();
 });
-  
-  // 👇️ DEFINE COUNT DAYS IN THIS MONTH
-  const date = new Date();
-  const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
-    "Juli", "Agustus", "September", "Oktober", "November", "Desember"
-  ];
-  const currentYear = date.getFullYear();
-  const currentMonth = date.getMonth() + 1; // 👈️ months are 0-based
-  const countBulan = getDaysInMonth(currentYear, currentMonth);
 
   // FUNCTION-FUNCTION
   function tambah() {
@@ -244,13 +235,23 @@ $(document).ready( function () {
         type: 'GET',
         dataType: 'json', // added data type
         success: function(res) {
+          // 👇️ DEFINE COUNT DAYS IN THIS MONTH
+          const date = new Date();
+          const monthNames = ["","Januari", "Februari", "Maret", "April", "Mei", "Juni",
+            "Juli", "Agustus", "September", "Oktober", "November", "Desember"
+          ];
+          const currentYear = date.getFullYear();
+          // const currentMonth = date.getMonth() + 1; // 👈️ months are 0-based
+          const currentMonth = res.getBulan; // 👈️ months are 0-based
+          const countBulan = getDaysInMonth(currentYear, currentMonth);
+
           $("#btn-detail"+id).prop('disabled', false);
           $("#btn-detail"+id).find("i").removeClass("fa-sync fa-spin").addClass('fa-sort-amount-down');
 
-          $("#d_id").text(res.uploader.id_jadwal);
-          $("#d_user").text(res.uploader.nama_user);
-          $("#d_update").text(res.uploader.updated_at);
-          $("#d_unit").text(res.uploader.nama_unit);
+          $("#d_id").text(res.jadwalDinas.id_jadwal);
+          $("#d_user").text(res.jadwalDinas.nama_user);
+          $("#d_update").text(res.jadwalDinas.updated_at);
+          $("#d_unit").text(res.jadwalDinas.nama_unit);
           $("#d_waktu").text(res.bulan);
 
           // TABLE HEAD
@@ -259,7 +260,7 @@ $(document).ready( function () {
           $('#tampil-ket').empty();
           // $('#tampil-tfoot').empty();
           content_thead = `<tr>`;
-          content_thead += `<th rowspan="2"><center>IDS</center></th><th rowspan="2"><center>NAMA</center></th><th style="text-transform:uppercase" colspan="`+countBulan+`"><center>BULAN `+monthNames[date.getMonth()]+`</center></th>`;
+          content_thead += `<th rowspan="2"><center>IDS</center></th><th rowspan="2"><center>NAMA</center></th><th style="text-transform:uppercase" colspan="`+countBulan+`"><center>BULAN `+monthNames[currentMonth]+`</center></th>`;
           content_thead += `</tr><tr>`;
           for (let i = 1; i <= countBulan; i++) {
             content_thead += `<th style="width:35px"><center>`+i+`</center></th>`;
@@ -269,15 +270,63 @@ $(document).ready( function () {
           
           // TABLE BODY
           content_tbody = ``;
-          res.staf.forEach(item => {
+          console.log(res.totalDays);
+          res.detailJadwalDinas.forEach(item => {
+            console.log(item);
             content_tbody += `<tr>`;
-            content_tbody += `<td><center>`+item.id_user+`</center></td>`;
-            content_tbody += `<td style="white-space: nowrap;">`+item.nama_user+`</td>`;
-            res.show.forEach(val => {
-              if (item.id_user == val.id_user) {
-                content_tbody += `<td><center>`+val.singkatan+`</center></td>`;
+            content_tbody += `<td><center>`+item.id_staf+`</center></td>`;
+            content_tbody += `<td style="white-space: nowrap;">`+item.nama_staf+`</td>`;
+            // LOOP TGL JADWAL
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl1) {
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
               }
-            });
+            })
+            if (item.tgl1 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            }
+            if (item.tgl1 == 100002) { 
+              content_tbody += `<td><center>C</center></td>`; 
+            }
+            // res.ref.forEach(val => { if (val.id == item.tgl1) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl1 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl1 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl2) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl2 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl2 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl3) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl3 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl3 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl4) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl4 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl4 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl5) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl5 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl5 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl6) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl6 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl6 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl7) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl7 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl7 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl8) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl8 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl8 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl9) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl9 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl9 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl10) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl10 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl10 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl11) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl11 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl11 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl12) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl12 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl12 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl13) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl13 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl13 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl14) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl14 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl14 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl15) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl15 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl15 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl16) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl16 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl16 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl17) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl17 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl17 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl18) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl18 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl18 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl19) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl19 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl19 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl20) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl20 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl20 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl21) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl21 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl21 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl22) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl22 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl22 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl23) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl23 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl23 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl24) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl24 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl24 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl25) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl25 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl25 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl26) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl26 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl26 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // res.ref.forEach(val => { if (val.id == item.tgl27) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl27 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl27 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // if (res.totalDays >= 28) {  
+            //   res.ref.forEach(val => { if (val.id == item.tgl28) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl28 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl28 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })            
+            // }
+            // if (res.totalDays >= 29) {    
+            //   res.ref.forEach(val => { if (val.id == item.tgl29) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl29 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl29 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })          
+            // }
+            // if (res.totalDays >= 30) {    
+            //   res.ref.forEach(val => { if (val.id == item.tgl30) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl30 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl30 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })          
+            // }
+            // if (res.totalDays == 31) {              
+            //   res.ref.forEach(val => { if (val.id == item.tgl31) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl31 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl31 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
+            // }
             content_tbody += `</tr>`;
           });
           $('#tampil-tbody').append(content_tbody);

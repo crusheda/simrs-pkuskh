@@ -41,7 +41,9 @@
                           @foreach($list['user'] as $item)
                             <tr>
                               <td class="text-center" style="vertical-align: top;">{{ $item->id }}</td>
+                              <input type="text" name="id_user[]" class="form-control" value="{{ $item->id }}" hidden>
                               <td style="white-space: nowrap;vertical-align: top;">{{ $item->nama }}</td>
+                              <input type="text" name="nama_user[]" class="form-control" value="{{ $item->nama }}" hidden>
                               @for ($i = 1; $i <= $list['days']; $i++)
                                 <td style="white-space: nowrap;">
                                   <div class="form-group"><center>
@@ -88,7 +90,7 @@
       <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
       </div>
       <div class="modal-body">
-        <p><b><i class="fa-fw fas fa-caret-right nav-icon"></i> Ref Jadwal Dinas</b></p>
+        <p><b><i class="fa-fw fas fa-caret-right nav-icon"></i> Ref</b></p>
         <div class="table-responsive">
           <table id="" class="table table-bordered display" style="width: 100%">
               <thead>
@@ -105,7 +107,18 @@
                           <td>{{ $item->id }}</td>
                           <td>{{ $item->waktu }} ({{ $item->singkat }})</td>
                           <td>{{ \Carbon\Carbon::parse($item->berangkat)->isoFormat('HH:mm') }} - {{ \Carbon\Carbon::parse($item->pulang)->isoFormat('HH:mm') }} WIB</td>
+                      </tr>
                       @endforeach
+                      <tr>
+                        <td>**</td>
+                        <td>LIBUR (L)</td>
+                        <td>00:00 - 00:00 WIB</td>
+                      </tr>
+                      <tr>
+                        <td>**</td>
+                        <td>CUTI (C)</td>
+                        <td>00:00 - 00:00 WIB</td>
+                      </tr>
                   @endif
               </tbody>
           </table>
@@ -146,12 +159,14 @@ $(document).ready( function () {
 
   // 👇️ DEFINE COUNT DAYS IN THIS MONTH
   const date = new Date();
-  const monthNames = ["Januari", "Februari", "Maret", "April", "Mei", "Juni",
+  const monthNames = ["","Januari", "Februari", "Maret", "April", "Mei", "Juni",
     "Juli", "Agustus", "September", "Oktober", "November", "Desember"
   ];
   const currentYear = date.getFullYear();
-  const currentMonth = date.getMonth() + 1; // 👈️ months are 0-based
+  // const currentMonth = date.getMonth() + 1; // 👈️ months are 0-based
+  const currentMonth = "{{ $list['waktuForJS'] }}"; // 👈️ months are 0-based
   const countBulan = getDaysInMonth(currentYear, currentMonth);
+  // console.log(countBulan);
 
   // iSIAN TABLE
   $.ajax(
@@ -164,7 +179,7 @@ $(document).ready( function () {
         $('#tampil-thead').empty();
         $('#tampil-tfoot').empty();
         content_thead = `<tr>`;
-        content_thead += `<th rowspan="2">IDS</th><th rowspan="2">NAMA</th><th style="text-transform:uppercase" colspan="`+countBulan+`">BULAN `+monthNames[date.getMonth()]+`</th>`;
+        content_thead += `<th rowspan="2">IDS</th><th rowspan="2">NAMA</th><th style="text-transform:uppercase" colspan="`+countBulan+`">BULAN `+monthNames[currentMonth]+`</th>`;
         content_thead += `</tr><tr>`;
         for (let i = 1; i <= countBulan; i++) {
           content_thead += `<th>`+i+`</th>`;
@@ -179,14 +194,6 @@ $(document).ready( function () {
         }
         content_tfoot += `</tr>`;
         $('#tampil-tfoot').append(content_tfoot);
-
-        // TABLE BODY
-        // res.show.forEach(item => {
-        //   $("#tampil-tbody").append(`
-              
-        //   `);
-        // });
-        // $("#barang1").prop('disabled', false);
       }
     }
   );
@@ -196,8 +203,7 @@ $(document).ready( function () {
 
 // FUNCTION-FUNCTION
   function info() {
-    $('#info').modal('show');
-    
+    $('#info').modal('show');    
   }
   
   function waktuJadwal(params) {
@@ -249,22 +255,6 @@ $(document).ready( function () {
           },true]
       ],
     });
-    // Swal.fire({
-    //   title: 'Apakah anda yakin?',
-    //   text: 'Ingin membatalkan pembuatan Jadwal Dinas',
-    //   reverseButtons: false,
-    //   showDenyButton: false,
-    //   showCloseButton: false,
-    //   showCancelButton: true,
-    //   focusCancel: true,
-    //   confirmButtonColor: '#FF4845',
-    //   confirmButtonText: `<i class="fa fa-thumbs-up"></i> Ya`,
-    //   cancelButtonText: `<i class="fa fa-thumbs-down"></i> Tidak`,
-    //   backdrop: `rgba(26,27,41,0.8)`,
-    // }).then((result) => {
-    //   if (result.isConfirmed) {
-    //   }
-    // })
   }
 
   function getDaysInMonth(year, month) {

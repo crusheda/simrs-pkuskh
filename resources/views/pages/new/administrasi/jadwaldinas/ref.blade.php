@@ -70,7 +70,7 @@
                         <tbody>
                           <tr>
                             <td>**</td>
-                            <td>Libur</td>
+                            <td>LIBUR</td>
                             <td>L</td>
                             <td>00:00:00 - 00:00:00</td>
                             <td>-</td>
@@ -85,7 +85,7 @@
                           </tr>
                           <tr>
                             <td>**</td>
-                            <td>Cuti</td>
+                            <td>CUTI</td>
                             <td>C</td>
                             <td>00:00:00 - 00:00:00</td>
                             <td>-</td>
