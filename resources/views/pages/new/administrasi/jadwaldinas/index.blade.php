@@ -37,7 +37,7 @@
                               <th>IDJ</th>
                               <th>USER</th>
                               <th>UNIT</th>
-                              <th>WAKTU</th>
+                              <th>BULAN</th>
                               <th>UPDATE</th>
                               <th><center>#</center></th>
                           </tr>
@@ -140,7 +140,7 @@
         <div class="row">
           <div class="col">
             <label>Pemohon :</label><br>
-            <u><h5 style="margin-bottom:-3px" id="d_user"></h5></u>
+            <u><h5 style="margin-bottom:-3px;margin-top: -4px" id="d_user"></h5></u>
             <sub id="d_update"></sub>
           </div>
           <div class="col text-right">
@@ -212,18 +212,31 @@ $(document).ready( function () {
 
   // FUNCTION-FUNCTION
   function tambah() {
-    // const d = new Date();
-    // var day = d.getDate();
-    // console.log('ini tanggal : '+day);
-    // if (day > 25) {
-    //   iziToast.warning({
-    //       title: 'Pesan Galat!',
-    //       message: 'Pengusulan Pengadaan hanya dapat dilakukan pada tanggal 1-25 Setiap Bulannya.',
-    //       position: 'topRight'
-    //   });
-    // } else {
-    // }
-    $('#tambah').modal('show');
+    $.ajax(
+      {
+        url: "./jadwaldinas/api/cek",
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(res) {
+          console.log(res.status);
+          if (res.status == true) {
+            // iziToast.info({
+            //     title: 'Kerja baik!',
+            //     message: res.pesan,
+            //     position: 'topCenter'
+            // });
+            $('#tambah').modal('show');
+          } else {
+            iziToast.warning({
+                title: 'Maaf!',
+                message: res.pesan,
+                position: 'topRight'
+            });
+          }
+
+        }
+      }
+    )
   }
 
   function detail(id) {
@@ -240,9 +253,10 @@ $(document).ready( function () {
           const monthNames = ["","Januari", "Februari", "Maret", "April", "Mei", "Juni",
             "Juli", "Agustus", "September", "Oktober", "November", "Desember"
           ];
-          const currentYear = date.getFullYear();
+          // const currentYear = date.getFullYear();
           // const currentMonth = date.getMonth() + 1; // 👈️ months are 0-based
           const currentMonth = res.getBulan; // 👈️ months are 0-based
+          const currentYear = res.getTahun;
           const countBulan = getDaysInMonth(currentYear, currentMonth);
 
           $("#btn-detail"+id).prop('disabled', false);
@@ -270,63 +284,360 @@ $(document).ready( function () {
           
           // TABLE BODY
           content_tbody = ``;
-          console.log(res.totalDays);
           res.detailJadwalDinas.forEach(item => {
-            console.log(item);
-            content_tbody += `<tr>`;
+            content_tbody += `<tr style="background-color:`+item.color+`;color: black">`;
             content_tbody += `<td><center>`+item.id_staf+`</center></td>`;
             content_tbody += `<td style="white-space: nowrap;">`+item.nama_staf+`</td>`;
             // LOOP TGL JADWAL
             res.ref.forEach(val => { 
-              if (val.id == item.tgl1) {
+              if (val.id == item.tgl1) { 
                 content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
               }
-            })
+            }) 
             if (item.tgl1 == 100001) {
               content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl1 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
             }
-            if (item.tgl1 == 100002) { 
-              content_tbody += `<td><center>C</center></td>`; 
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl2) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl2 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl2 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
             }
-            // res.ref.forEach(val => { if (val.id == item.tgl1) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl1 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl1 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl2) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl2 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl2 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl3) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl3 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl3 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl4) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl4 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl4 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl5) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl5 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl5 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl6) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl6 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl6 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl7) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl7 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl7 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl8) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl8 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl8 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl9) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl9 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl9 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl10) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl10 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl10 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl11) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl11 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl11 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl12) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl12 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl12 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl13) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl13 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl13 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl14) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl14 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl14 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl15) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl15 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl15 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl16) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl16 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl16 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl17) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl17 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl17 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl18) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl18 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl18 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl19) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl19 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl19 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl20) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl20 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl20 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl21) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl21 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl21 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl22) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl22 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl22 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl23) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl23 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl23 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl24) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl24 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl24 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl25) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl25 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl25 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl26) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl26 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl26 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // res.ref.forEach(val => { if (val.id == item.tgl27) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl27 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl27 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // if (res.totalDays >= 28) {  
-            //   res.ref.forEach(val => { if (val.id == item.tgl28) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl28 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl28 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })            
-            // }
-            // if (res.totalDays >= 29) {    
-            //   res.ref.forEach(val => { if (val.id == item.tgl29) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl29 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl29 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })          
-            // }
-            // if (res.totalDays >= 30) {    
-            //   res.ref.forEach(val => { if (val.id == item.tgl30) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl30 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl30 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })          
-            // }
-            // if (res.totalDays == 31) {              
-            //   res.ref.forEach(val => { if (val.id == item.tgl31) { content_tbody += `<td><center>`+val.singkat+`</center></td>`; } else { if (item.tgl31 == '100002') { content_tbody += `<td><center>C</center></td>`; } else { if (item.tgl31 == '100001') {content_tbody += `<td><center>L</center></td>`;} } } })
-            // }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl3) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl3 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl3 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl4) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl4 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl4 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl5) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl5 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl5 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl6) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl6 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl6 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl7) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl7 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl7 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl8) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl8 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl8 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl9) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl9 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl9 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl10) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl10 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl10 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl11) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl11 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl11 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl12) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl12 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl12 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl13) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl13 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl13 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl14) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl14 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl14 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl15) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl15 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl15 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl16) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl16 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl16 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl17) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl17 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl17 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl18) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl18 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl18 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl19) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl19 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl19 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl20) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl20 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl20 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl21) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl21 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl21 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl22) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl22 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl22 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl23) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl23 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl23 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl24) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl24 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl24 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl25) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl25 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl25 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl26) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl26 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl26 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            res.ref.forEach(val => { 
+              if (val.id == item.tgl27) { 
+                content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+              }
+            }) 
+            if (item.tgl27 == 100001) {
+              content_tbody += `<td><center>L</center></td>`;
+            } 
+            if (item.tgl27 == 100002) {
+              content_tbody += `<td><center>C</center></td>`;
+            }
+            if (res.totalDays >= 28) {  
+              res.ref.forEach(val => { 
+                if (val.id == item.tgl28) { 
+                  content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+                }
+              }) 
+              if (item.tgl28 == 100001) {
+                content_tbody += `<td><center>L</center></td>`;
+              } 
+              if (item.tgl28 == 100002) {
+                content_tbody += `<td><center>C</center></td>`;
+              }
+            }
+            if (res.totalDays >= 29) {    
+              res.ref.forEach(val => { 
+                if (val.id == item.tgl29) { 
+                  content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+                }
+              }) 
+              if (item.tgl29 == 100001) {
+                content_tbody += `<td><center>L</center></td>`;
+              } 
+              if (item.tgl29 == 100002) {
+                content_tbody += `<td><center>C</center></td>`;
+              }
+            }
+            if (res.totalDays >= 30) {   
+              res.ref.forEach(val => { 
+                if (val.id == item.tgl30) { 
+                  content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+                }
+              }) 
+              if (item.tgl30== 100001) {
+                content_tbody += `<td><center>L</center></td>`;
+              } 
+              if (item.tgl30 == 100002) {
+                content_tbody += `<td><center>C</center></td>`;
+              } 
+            }
+            if (res.totalDays == 31) {   
+              res.ref.forEach(val => { 
+                if (val.id == item.tgl31) { 
+                  content_tbody += `<td><center>`+val.singkat+`</center></td>`; 
+                }
+              }) 
+              if (item.tgl31 == 100001) {
+                content_tbody += `<td><center>L</center></td>`;
+              } 
+              if (item.tgl31 == 100002) {
+                content_tbody += `<td><center>C</center></td>`;
+              }           
+            }
             content_tbody += `</tr>`;
           });
           $('#tampil-tbody').append(content_tbody);

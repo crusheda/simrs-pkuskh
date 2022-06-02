@@ -20,7 +20,7 @@
                   <div class="col">
                     <div class="form-group">
                         <label>Singkatan</label>
-                        <input type="text" name="singkat" placeholder="e.g. P / P6 / M / S1 /  ..." class="form-control up" required>
+                        <input type="text" name="singkat" placeholder="e.g. P / P6 / M / S1 /  ..." class="form-control up" maxlength="3" required>
                     </div>
                   </div>
                 </div>
@@ -38,7 +38,11 @@
                     </div>
                   </div>
                 </div>
-                <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Jam menyesuaikan masing-masing unit.<br><i class="fa-fw fas fa-caret-right nav-icon"></i> Format Jam adalah 24hr (00:00 - 23:59 WIB)</sub>
+                <sub>
+                  <i class="fa-fw fas fa-caret-right nav-icon"></i> Jam Masuk dan Keluar menyesuaikan masing-masing unit<br>
+                  <i class="fa-fw fas fa-caret-right nav-icon"></i> Format Jam adalah 24hr (00:00 - 23:59 WIB)<br>
+                  <i class="fa-fw fas fa-caret-right nav-icon"></i> Perubahan / Penghapusan Ref Jadwal mungkin akan berpengaruh terhadap Jadwal Dinas anda sebelumnya
+                </sub>
             </div>
             <div class="card-footer text-right">
               <div class="btn-group">

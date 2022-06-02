@@ -407,6 +407,7 @@ Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController'
     // JADWAL DINAS
         Route::get('administrasi/jadwaldinas', 'administrasi\jadwalDinasController@index')->name('jadwal.dinas.index');
         Route::get('administrasi/jadwaldinas/ubah/{id}', 'administrasi\jadwalDinasController@showUbah')->name('jadwal.dinas.showUbah');
+        Route::get('administrasi/jadwaldinas/api/cek', 'administrasi\jadwalDinasController@cek')->name('jadwal.dinas.cek');
         Route::put('administrasi/jadwaldinas/api/ubah/{id}', 'administrasi\jadwalDinasController@ubah')->name('jadwal.dinas.ubah');
         Route::get('administrasi/jadwaldinas/api/detail/{id}', 'administrasi\jadwalDinasController@showDetail')->name('jadwal.dinas.show');
         Route::get('administrasi/jadwaldinas/api/hapus/{id}', 'administrasi\jadwalDinasController@hapus')->name('jadwal.dinas.hapus');

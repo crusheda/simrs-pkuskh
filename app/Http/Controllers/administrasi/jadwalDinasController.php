@@ -32,6 +32,39 @@ class jadwalDinasController extends Controller
         return view('pages.new.administrasi.jadwaldinas.index')->with('list', $data);
     }
 
+    public function cek()
+    {
+        $user = Auth::user();
+        $id = $user->id;
+        
+        $getRef = ref_jadwal_dinas::where('id_user',$id)->first();
+        $getUser = staf_jadwal_dinas::where('id_user',$id)->first();
+
+        if (empty($getRef) && empty($getUser)) {
+            $pesan = 'Anda belum melengkapi Ref Jadwal dan Staf';
+            $status = false;
+        }
+        elseif (empty($getRef) && !empty($getUser)) {
+            $pesan = 'Anda belum melengkapi Ref Jadwal';
+            $status = false;
+        }
+        elseif (!empty($getRef) && empty($getUser)) {
+            $pesan = 'Anda belum melengkapi Staf';
+            $status = false;
+        }
+        elseif (!empty($getRef) && !empty($getUser)) {
+            $pesan = 'Silakan Pilih Bulan dan Unit anda';
+            $status = true;
+        }
+
+        $data = [
+            'status' => $status,
+            'pesan' => $pesan,
+        ];
+
+        return response()->json($data, 200);
+    }
+
     public function create(Request $request)
     {
         // print_r($request->waktu);
@@ -42,6 +75,7 @@ class jadwalDinasController extends Controller
         $getWaktu = Carbon::parse($request->waktu);
         $waktu = $getWaktu->isoFormat('MMMM Y');
         $waktuForJS = $getWaktu->isoFormat('M');
+        $tahunForJS = $getWaktu->isoFormat('YYYY');
         $totalDays = $getWaktu->daysInMonth;
         
         $getRef = ref_jadwal_dinas::where('id_user',$id)->get();
@@ -52,6 +86,7 @@ class jadwalDinasController extends Controller
             'unit' => $request->unit,
             'waktu' => $waktu,
             'waktuForJS' => $waktuForJS,
+            'tahunForJS' => $tahunForJS,
             'ref' => $getRef,
             'user' => $getUser,
             'days' => $totalDays,
@@ -111,6 +146,7 @@ class jadwalDinasController extends Controller
             $save1->id_jadwal = $getQueue;
             $save1->id_staf = $value->id_staf;
             $save1->nama_staf = $value->nama;
+            $save1->color = $value->color;
             // for ($i=0; $i < $totalDays ; $i++) {
                 $save1->tgl1 = $request->waktu[$count];
                 $count++;
@@ -294,38 +330,17 @@ class jadwalDinasController extends Controller
     {
         $jadwalDinas = jadwal_dinas::select('unit.nama as nama_unit','jadwal_dinas.*')->where('id_jadwal', $id)->join('unit','jadwal_dinas.id_unit','=','unit.id')->first();
         $detailJadwalDinas = detail_jadwal_dinas::where('id_jadwal', $id)->orderBy('id','asc')->get();
-        // $show = detail_jadwal_dinas::select('detail_jadwal_dinas.id_jadwal','detail_jadwal_dinas.id_staf as id_user','detail_jadwal_dinas.tgl','detail_jadwal_dinas.singkatan','detail_jadwal_dinas.waktu','detail_jadwal_dinas.berangkat','detail_jadwal_dinas.pulang','detail_jadwal_dinas.updated_at')
-        //                             ->join('users','detail_jadwal_dinas.id_staf','=','users.id')
-        //                             ->where('detail_jadwal_dinas.id_jadwal',$id)
-        //                             ->orderBy('detail_jadwal_dinas.id','asc')
-        //                             ->get();
-
-        // $uploader = jadwal_dinas::select('jadwal_dinas.id_jadwal','users.id as id_user','users.nama as nama_user','unit.nama as nama_unit','jadwal_dinas.unit as encode_unit','jadwal_dinas.waktu','jadwal_dinas.updated_at')
-        //                         ->join('users','jadwal_dinas.id_user','=','users.id')
-        //                         ->join('unit','jadwal_dinas.id_unit','=','unit.id')
-        //                         ->where('jadwal_dinas.id_jadwal',$id)
-        //                         ->first();
-
-        // $staf = detail_jadwal_dinas::select('detail_jadwal_dinas.id_jadwal','detail_jadwal_dinas.id_staf as id_user','users.nama as nama_user')
-        //                         ->join('users','detail_jadwal_dinas.id_staf','=','users.id')
-        //                         ->where('detail_jadwal_dinas.id_jadwal',$id)
-        //                         ->orderBy('detail_jadwal_dinas.id','asc')
-        //                         ->groupBy('detail_jadwal_dinas.id_jadwal','detail_jadwal_dinas.id_staf','users.nama')
-        //                         ->get();
-        
-        // print_r($detailJadwalDinas);
-        // die();
-        // dd($show);
         $ref = ref_jadwal_dinas::where('id_user',$jadwalDinas->id_user)->get();
-        // $staf = staf_jadwal_dinas::where('id_user',$jadwalDinas->id_user)->get();
         
         $getBulan = Carbon::parse($jadwalDinas->waktu)->isoFormat('M');
+        $getTahun = Carbon::parse($jadwalDinas->waktu)->isoFormat('YYYY');
         $totalDays = Carbon::parse($jadwalDinas->waktu)->daysInMonth;
         $bulan = Carbon::parse($jadwalDinas->waktu)->isoFormat('MMMM Y');
         
         $data = [
             'bulan' => $bulan,
             'getBulan' => $getBulan,
+            'getTahun' => $getTahun,
             'totalDays' => $totalDays,
             'ref' => $ref,
             // 'staf' => $staf,
@@ -368,6 +383,7 @@ class jadwalDinasController extends Controller
         $save->id_user = $id;
         $save->id_staf = $request->id_staf;
         $save->nama = $getUser->nama;
+        $save->color = $request->color;
         $save->save();
 
         return redirect()->back()->with('message','Tambah Referensi Jadwal Berhasil');
@@ -377,9 +393,12 @@ class jadwalDinasController extends Controller
     {
         $getUser = user::select('nama')->where('id',$request->id_staf)->first();
 
+        // print_r($request->color);
+        // die();
         $data = staf_jadwal_dinas::find($id);
         $data->id_staf = $request->id_staf;
         $data->nama = $getUser->nama;
+        $data->color = $request->color;
 
         $data->save();
         return Redirect::back()->with('message','Perubahan Staf Jadwal Dinas Berhasil');

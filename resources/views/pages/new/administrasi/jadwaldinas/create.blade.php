@@ -21,7 +21,7 @@
                   <sub>Penambahan Pada {{ \Carbon\Carbon::now()->isoFormat('dddd, D MMMM Y') }}</sub>
                 </div>
                 <div class="col text-right">
-                  <sub>Untuk mempercepat pengisian Jadwal Dinas, <br>gunakan tombol keyboard : <h6 style="margin-top: 5px"><span class="badge badge-dark">TAB <i class="fa fa-arrows-alt-h fa-fw"></i></span> / <span class="badge badge-dark"> <i class="fa fa-arrow-up fa-fw"></i></span> / <span class="badge badge-dark"> <i class="fa fa-arrow-down fa-fw"></i></span></h6></sub>
+                  <sub>Untuk mempercepat pengisian Jadwal Dinas, <br>gunakan tombol keyboard : <h6 style="margin-top: 5px"><span class="badge badge-dark">TAB <i class="fa fa-arrows-alt-h fa-fw"></i></span> <i class="fa fa-random fa-fw"></i> <span class="badge badge-dark"> <i class="fa fa-arrow-up fa-fw"></i></span> / <span class="badge badge-dark"> <i class="fa fa-arrow-down fa-fw"></i></span></h6></sub>
                   {{-- <kbd></kbd><br> --}}
                   {{-- <a>Periksa <i class="fa-fw fas fa-caret-left nav-icon"></i></a><br> --}}
                   {{-- <a>Pengusulan Pengadaan dapat dilakukan pada tanggal 1 - 25 setiap bulannya <i class="fa-fw fas fa-caret-left nav-icon"></i></a> --}}
@@ -162,9 +162,10 @@ $(document).ready( function () {
   const monthNames = ["","Januari", "Februari", "Maret", "April", "Mei", "Juni",
     "Juli", "Agustus", "September", "Oktober", "November", "Desember"
   ];
-  const currentYear = date.getFullYear();
+  // const currentYear = date.getFullYear();
   // const currentMonth = date.getMonth() + 1; // 👈️ months are 0-based
   const currentMonth = "{{ $list['waktuForJS'] }}"; // 👈️ months are 0-based
+  const currentYear = "{{ $list['tahunForJS'] }}";
   const countBulan = getDaysInMonth(currentYear, currentMonth);
   // console.log(countBulan);
 

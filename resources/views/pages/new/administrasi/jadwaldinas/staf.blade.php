@@ -8,23 +8,32 @@
               <h4>Tambah</h4>
             </div>
             <div class="card-body">
-              <form class="form-auth-small" action="{{ route('staf.jadwal.dinas.store') }}" method="POST" enctype="multipart/form-data">
+              <form id="formTambah" class="form-auth-small" action="{{ route('staf.jadwal.dinas.store') }}" method="POST" enctype="multipart/form-data">
                 @csrf
                 <div class="form-group">
                     <label>Staf</label>
-                    <select class="form-control select2" name="id_staf" required>
+                    <select class="form-control select2" id="staf" name="id_staf" required>
                         <option hidden>Pilih</option>
                         @foreach($list['user'] as $key)
                             <option value="{{ $key->id }}">{{ $key->nama }}</option>
                         @endforeach
                     </select>
                 </div>
-                <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Masukkan semua pegawai di Unit anda<br><i class="fa-fw fas fa-caret-right nav-icon"></i> Jika terdapat perubahan struktur pegawai pada Unit anda, mohon untuk segera mengupdate data staf</sub>
+                <div class="form-group">
+                  <label>Warna Baris</label>
+                  <input type="color" name="color" class="form-control" value="#FAFAFA" required>
+                </div>
+                <sub>
+                  <i class="fa-fw fas fa-caret-right nav-icon"></i> Masukkan semua pegawai di Unit anda secara berurutan bila diperlukan<br>
+                  <i class="fa-fw fas fa-caret-right nav-icon"></i> Usahakan memilih warna baris yang Terang / Tidak Gelap<br>
+                  <i class="fa-fw fas fa-caret-right nav-icon"></i> Jika terdapat perubahan struktur pegawai pada Unit anda, mohon untuk segera mengupdate data staf<br>
+                  <i class="fa-fw fas fa-caret-right nav-icon"></i> Perubahan / Penghapusan Data Staf mungkin akan berpengaruh terhadap Jadwal Dinas anda sebelumnya
+                </sub>
             </div>
             <div class="card-footer text-right">
               <div class="btn-group">
                 <button type="button" class="btn btn-secondary" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location='{{ route('jadwal.dinas.index') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i> Kembali</button>
-                <button class="btn btn-primary text-white" type="submit"><i class="fa-fw fas fa-save nav-icon"></i> Tambah</button>
+                <button class="btn btn-primary text-white" id="btn-submit" onclick="saveData()"><i class="fa-fw fas fa-save nav-icon"></i> Tambah</button>
               </div>
               </form>
             </div>
@@ -43,6 +52,7 @@
                                 <th>ID</th>
                                 <th>IDS</th>
                                 <th>NAMA</th>
+                                <th>BARIS</th>
                                 <th>UPDATE</th>
                                 <th><center>#</center></th>
                             </tr>
@@ -54,12 +64,13 @@
                                     <td>{{ $item->id }}</td>
                                     <td>{{ $item->id_staf }}</td>
                                     <td>{{ $item->nama }}</td>
+                                    <td><span class="badge" style="background-color: {{ $item->color }};display: inline-block;border: 1px solid black;color: black">{{ $item->color }}</span></td>
                                     <td>{{ \Carbon\Carbon::parse($item->updated_at)->diffForHumans() }}</td>
                                     <td>
                                         <center>
                                             <div class="btn-group" role="group">
                                                 <button type="button" class="btn btn-warning btn-sm text-white" data-toggle="modal" data-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>
-                                                <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
+                                                <button type="button" class="btn btn-danger btn-sm" onclick="hapus({{ $item->id }})"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                             </div>
                                         </center>
                                     </td>
@@ -95,6 +106,10 @@
                             <option value="{{ $key->id }}" @if ($item->id_staf == $key->id) selected @endif>{{ $key->nama }}</option>
                         @endforeach
                     </select>
+                </div>
+                <div class="form-group">
+                  <label>Warna Baris</label>
+                  <input type="color" name="color" class="form-control" value="{{ $item->color }}" required>
                 </div>
         </div>
         <div class="modal-footer">
@@ -145,7 +160,7 @@ $(document).ready( function () {
           }
         }
       ],
-      order: [[ 0, "desc" ]],
+      order: [[ 0, "asc" ]],
       pageLength: 10
     }
   ).columns.adjust();
@@ -168,7 +183,7 @@ function hapus(id) {
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "./ref/api/hapus/"+id,
+          url: "./staf/api/hapus/"+id,
           type: 'GET',
           dataType: 'json', // added data type
           success: function(res) {
@@ -206,11 +221,11 @@ function saveData() {
     // });
     $("#formTambah").one('submit', function() {
       //stop submitting the form to see the disabled button effect
-      let x = document.forms["formTambah"]["unit"].value;
-      if (x == "Pilih Unit") {
+      let x = $('#staf').val();
+      if (x == "Pilih") {
         iziToast.warning({
             title: 'Pesan Galat!',
-            message: 'Unit belum terisi. Periksa sekali lagi',
+            message: 'Staf belum terisi. Periksa sekali lagi',
             position: 'topRight'
         });
 
