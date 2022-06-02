@@ -113,7 +113,7 @@
           </div>
           <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan Anda mempunyai <b>HAK</b> dalam pembuatan Jadwal Dinas</sub> <br>
           <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan Anda sudah melengkapi <b>Ref Jadwal</b> dan <b>Data Staf</b></sub> <br>
-          <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pembuatan Jadwal Dinas hanya dapat dilakukan 1x (Satu Kali) pada setiap bulannya</sub> <br>
+          {{-- <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pembuatan Jadwal Dinas hanya dapat dilakukan 1x (Satu Kali) pada setiap bulannya</sub> <br> --}}
           <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Penghapusan Jadwal Dinas hanya bisa dilakukan pada bulan yg sama dengan jadwal</sub>
           {{-- <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pengumpulan Jadwal Dinas dilakukan pada tanggal x - x</sub> --}}
       </div>
