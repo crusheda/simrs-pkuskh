@@ -235,6 +235,6 @@ class sklController extends Controller
 
         // print_r($data);
         // die();
-        return view('pages.kebidanan.skl.cetak-skl')->with('list', $data);
+        return view('pages.new.kebidanan.cetak-skl')->with('list', $data);
     }
 }

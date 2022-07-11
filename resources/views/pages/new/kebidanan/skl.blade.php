@@ -128,7 +128,7 @@
                           <label>Nama Dokter : </label>
                           <select class="form-control selectric" name="dr" style="width: 100%" required>
                               <option selected="selected" value="" hidden>Pilih</option>
-                              <option value="1">dr. Gede Sri Dhyana, Sp.OG</option>
+                              <option value="1">dr. Gede Sri Dhyana M. A., Sp.OG</option>
                               <option value="2">dr. H. Ahmad Sutamat, Sp.OG</option>
                               <option value="3">dr. Febrian Andhika Adiyana, Sp.OG</option>
                           </select>
@@ -212,7 +212,7 @@
                   <div class="form-group">
                       <label>Nama Dokter : </label>
                       <select class="form-control select2" name="dr" style="width: 100%" required>
-                          <option value="1" @if ($item->dr == '1') echo selected @endif>dr. Gede Sri Dhyana, Sp.OG</option>
+                          <option value="1" @if ($item->dr == '1') echo selected @endif>dr. Gede Sri Dhyana M. A., Sp.OG</option>
                           <option value="2" @if ($item->dr == '2') echo selected @endif>dr. H. Ahmad Sutamat, Sp.OG</option>
                           <option value="3" @if ($item->dr == '3') echo selected @endif>dr. Febrian Andhika Adiyana, Sp.OG</option>
                       </select>
