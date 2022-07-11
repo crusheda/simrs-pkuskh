@@ -8,9 +8,9 @@ Route::get('/kunjungan', 'kunjunganController@index')->name('landing.kunjungan')
 Route::get('/lakonweb', 'lakonwebController@index')->name('lakonweb.index');
 
 // Route::resource('/antrian', 'queuePoliController');
-Route::get('/reservasi', function () {
-    return view('pages.reservasi');
-});
+// Route::get('/reservasi', function () {
+//     return view('pages.reservasi');
+// });
 // Route::get('/vaksin', function () {
 //     return view('pages.vaksin.index');
 // });

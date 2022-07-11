@@ -30,13 +30,13 @@
         overflow-x: hidden;
     }
 </style>
-  <iframe src="http://192.168.1.3/m"
-    frameborder="0" 
-    marginheight="0" 
-    marginwidth="0" 
-    width="100%" 
-    height="100%" 
-    scrolling="auto">
-  </iframe>
+<iframe src="http://192.168.1.3/m"
+  frameborder="0" 
+  marginheight="0" 
+  marginwidth="0" 
+  width="100%" 
+  height="100%" 
+  scrolling="auto">
+</iframe>
 </body>
 </html>
