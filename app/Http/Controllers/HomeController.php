@@ -40,36 +40,36 @@ class HomeController extends Controller
         $user = user::where('id',$id)->first();
 
         // LOG PERAWAT
-        if (Auth::user()->hasRole('kabag-keperawatan')) {
-            $recentLogPerawat = '1';
-        }
-        else {
-            if (auth()->user()->can('log_perawat')) {
+        // if (Auth::user()->hasRole('kabag-keperawatan')) {
+        //     $recentLogPerawat = '1';
+        // }
+        // else {
+        //     if (auth()->user()->can('log_perawat')) {
             
-                $query = tdkperawat::where('unit', $role)->where('name', $name)->where('deleted_at','=', null)->orderBy('id', 'DESC')->first();
-                if ($query == null) {
-                    $recentLogPerawat = 1;
-                } else {
-                    $convert_query = Carbon::parse($query->tgl)->isoFormat('D MMMM Y');
-                    $convert_now = Carbon::now()->isoFormat('D MMMM Y'); // sesuai tgl kalender di PC
-                    if ($convert_now == $convert_query) {
-                        $recentLogPerawat = 0;
-                    } else {
-                        $recentLogPerawat = 1;
-                    }
-                }
+        //         $query = tdkperawat::where('unit', $role)->where('name', $name)->where('deleted_at','=', null)->orderBy('id', 'DESC')->first();
+        //         if ($query == null) {
+        //             $recentLogPerawat = 1;
+        //         } else {
+        //             $convert_query = Carbon::parse($query->tgl)->isoFormat('D MMMM Y');
+        //             $convert_now = Carbon::now()->isoFormat('D MMMM Y'); // sesuai tgl kalender di PC
+        //             if ($convert_now == $convert_query) {
+        //                 $recentLogPerawat = 0;
+        //             } else {
+        //                 $recentLogPerawat = 1;
+        //             }
+        //         }
                 
-            } else {
-                $recentLogPerawat = 2;
-            }
-        }
+        //     } else {
+        //         $recentLogPerawat = 2;
+        //     }
+        // }
 
         $data = [
             'user' => $user,
-            'recentLogPerawat' => $recentLogPerawat,
+            // 'recentLogPerawat' => $recentLogPerawat,
         ];
 
-        return view('home')->with('list', $data);
+        return view('pages.index')->with('list', $data);
     }
 
     public function newIndex()

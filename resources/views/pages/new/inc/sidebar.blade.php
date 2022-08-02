@@ -15,6 +15,7 @@
         <ul class="dropdown-menu">
           <li class="{{ request()->routeIs('welcome') ? 'active' : '' }}"><a class="nav-link" href="{{ route("welcome") }}">Halaman Utama</a></li>
           <li class="{{ request()->routeIs('kunjungan') ? 'active' : '' }}"><a class="nav-link" href="{{ route("kunjungan") }}">Kunjungan Pasien</a></li>
+          <li class=""><a class="nav-link" href="{{ route("simrsmuv2.index") }}">Simrsmu v2<i class="fas fa-leaf text-info"></i></a></li>
         </ul>
       </li>
       <li class="nav-item dropdown {{ request()->routeIs(['rapat.index','managerfile','perencanaan.index','kebijakan.index','panduan.index','pedoman.index','program.index','spo.index','jadwal.dinas.index']) ? 'active' : '' }}">

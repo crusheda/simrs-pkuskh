@@ -13,7 +13,7 @@ return [
     |
     */
 
-    'failed' => 'Kombinasi yang anda masukkan tidak cocok. Ulangi Kembali!',
+    'failed' => 'Username / Password Salah!',
     'throttle' => 'Too many login attempts. Please try again in :seconds seconds.',
 
 ];

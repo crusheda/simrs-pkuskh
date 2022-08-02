@@ -55,8 +55,9 @@ class laporanBulananNewController extends Controller
             'role' => $role
         ];
         
+        return view('pages.administrasi.laporan-bulanan')->with('list', $data);
+        // return view('pages.new.administrasi.laporan.bulanan')->with('list', $data);
         // return view('pages.kantor.laporan.bulanan.bulananKabag')->with('list', $data);
-        return view('pages.new.administrasi.laporan.bulanan')->with('list', $data);
         // return view('pages.new.administrasi.laporan.bulanan-sementara')->with('list', $data);
     }
 
