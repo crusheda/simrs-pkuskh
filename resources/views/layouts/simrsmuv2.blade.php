@@ -34,7 +34,17 @@
   <!-- Vendors CSS -->
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/typeahead-js/typeahead.css') }}" />
-  
+  <link rel="stylesheet" href="{{ asset('vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
+  <link rel="stylesheet" href="{{ asset('vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
+  <link rel="stylesheet" href="{{ asset('vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}">
+  <link rel="stylesheet" href="{{ asset('vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}">
+  <link rel="stylesheet" href="{{ asset('vendor/libs/flatpickr/flatpickr.css') }}" />
+
+  <!-- Row Group CSS -->
+  <link rel="stylesheet" href="{{ asset('vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}">
+
+  <!-- Form Validation -->
+  <link rel="stylesheet" href="{{ asset('vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />  
 
   <!-- Page CSS -->
   
@@ -46,6 +56,7 @@
   <script src="{{ asset('assets-new/vendor/js/template-customizer.js') }}"></script>
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="{{ asset('assets-new/js/config.js') }}"></script>
+  <script src="{{ asset('assets-new/vendor/libs/jquery/jquery.js') }}"></script>
   
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async="async" src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
@@ -64,7 +75,7 @@
 
 <body>
   <!-- Layout wrapper -->
-    <div class="layout-wrapper layout-content-navbar  ">
+    <div class="layout-wrapper layout-content-navbar">
       <div class="layout-container">
       
         @include('inc.simrsmuv2.sidebar')
@@ -151,12 +162,35 @@
     <!-- endbuild -->
   
     <!-- Vendors JS -->
+    <script src="{{ asset('assets-new/vendor/libs/datatables/jquery.dataTables.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/datatables-responsive/datatables.responsive.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/datatables-buttons/datatables-buttons.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/jszip/jszip.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/pdfmake/pdfmake.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/datatables-buttons/buttons.html5.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/datatables-buttons/buttons.print.js') }}"></script>
+    <!-- Flat Picker -->
+    <script src="{{ asset('assets-new/vendor/libs/moment/moment.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/flatpickr/flatpickr.js') }}"></script>
+    <!-- Row Group JS -->
+    <script src="{{ asset('assets-new/vendor/libs/datatables-rowgroup/datatables.rowgroup.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.js') }}"></script>
+    <!-- Form Validation -->
+    <script src="{{ asset('assets-new/vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js') }}"></script>
   
     <!-- Main JS -->
     <script src="{{ asset('assets-new/js/main.js') }}"></script>
   
     <!-- Page JS -->
+
+    {{-- SCRIPT-SCRIPT JAVASCRIPT / JQUERY --}}
     
   </body>
-  </html>
+</html>
   

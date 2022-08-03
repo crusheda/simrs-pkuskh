@@ -40,7 +40,7 @@
         </svg> --}}
 
         </span>
-      <span class="app-brand-text demo menu-text fw-bolder ms-2">&nbsp;&nbsp;simrsmu</span>
+      <span class="app-brand-text demo menu-text fw-bolder ms-2" style="color: #333333">&nbsp;&nbsp;simrs<b style="color: #696CFF">mu</b></span>
     </a>
 
     <a href="javascript:void(0);" class="layout-menu-toggle menu-link text-large ms-auto">
