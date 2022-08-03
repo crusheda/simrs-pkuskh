@@ -6,8 +6,8 @@
 
   <title>Simrsmu v2 - Login</title>
   
-  <meta name="description" content="Most Powerful &amp; Comprehensive Bootstrap 5 HTML Admin Dashboard Template built for developers!" />
-  <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
+  <meta name="description" content="Sistem Manajemen Rumah Sakit PKU Muhammadiyah Sukoharjo" />
+  <meta name="keywords" content="simrs, simrsmu, sim rspkuskh, pkuskh, rspkuskh, sistem pku">
 
   <!-- App favicon -->
   <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/pku_ico.png') }}">

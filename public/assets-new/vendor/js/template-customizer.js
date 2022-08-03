@@ -674,8 +674,8 @@
       }],
       v.LANGUAGES = {
           en: {
-              panel_header: "Kustom Simrsmu",
-              panel_sub_header: "Sesuaikan pengaturan dengan kebutuhan Anda",
+              panel_header: "Kustomisasi",
+              panel_sub_header: "Sesuaikan dengan kebutuhan Anda",
               theming_header: "Tema",
               theme_header: "THEME",
               theme_label: "Themes",

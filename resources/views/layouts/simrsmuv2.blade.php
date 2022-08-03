@@ -6,8 +6,9 @@
 
   <title>Simrsmu v2 - {{ Auth::user()->name }}</title>
   
-  <meta name="description" content="Most Powerful &amp; Comprehensive Bootstrap 5 HTML Admin Dashboard Template built for developers!" />
-  <meta name="keywords" content="dashboard, bootstrap 5 dashboard, bootstrap 5 design, bootstrap 5">
+  <meta name="description" content="Sistem Manajemen Rumah Sakit PKU Muhammadiyah Sukoharjo" />
+  <meta name="keywords" content="simrs, simrsmu, sim rspkuskh, pkuskh, rspkuskh, sistem pku, sistem informasi majemen rumah sakit">
+  <meta content="Yussuf Faisal" name="author" />
 
   <!-- App favicon -->
   <link rel="apple-touch-icon" sizes="76x76" href="{{ asset('img/pku_ico.png') }}">
@@ -34,17 +35,19 @@
   <!-- Vendors CSS -->
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/typeahead-js/typeahead.css') }}" />
-  <link rel="stylesheet" href="{{ asset('vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
-  <link rel="stylesheet" href="{{ asset('vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
-  <link rel="stylesheet" href="{{ asset('vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}">
-  <link rel="stylesheet" href="{{ asset('vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}">
-  <link rel="stylesheet" href="{{ asset('vendor/libs/flatpickr/flatpickr.css') }}" />
+  {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"> --}}
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/datatables-checkboxes-jquery/datatables.checkboxes.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/flatpickr/flatpickr.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/spinkit/spinkit.css') }}" />
 
   <!-- Row Group CSS -->
-  <link rel="stylesheet" href="{{ asset('vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}">
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}">
 
   <!-- Form Validation -->
-  <link rel="stylesheet" href="{{ asset('vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />  
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />  
 
   <!-- Page CSS -->
   
@@ -162,6 +165,7 @@
     <!-- endbuild -->
   
     <!-- Vendors JS -->
+    {{-- <script src="https://cdn.datatables.net/1.12.1/js/jquery.dataTables.min.js"></script> --}}
     <script src="{{ asset('assets-new/vendor/libs/datatables/jquery.dataTables.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/datatables-bs5/datatables-bootstrap5.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/datatables-responsive/datatables.responsive.js') }}"></script>
@@ -183,11 +187,15 @@
     <script src="{{ asset('assets-new/vendor/libs/formvalidation/dist/js/FormValidation.min.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/formvalidation/dist/js/plugins/Bootstrap5.min.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/block-ui/block-ui.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/sortablejs/sortable.js') }}"></script>
   
     <!-- Main JS -->
     <script src="{{ asset('assets-new/js/main.js') }}"></script>
   
     <!-- Page JS -->
+    <script src="{{ asset('assets-new/js/cards-actions.js') }}"></script>
+    {{-- <script src="{{ asset('assets-new/js/tables-datatables-basic.js') }}"></script> --}}
 
     {{-- SCRIPT-SCRIPT JAVASCRIPT / JQUERY --}}
     
