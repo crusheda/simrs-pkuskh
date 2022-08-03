@@ -27,7 +27,7 @@ class WelcomeController extends Controller
 
         if (Auth::check()) {
             // return Redirect::to('welcome');
-            return Redirect::to('home');
+            return Redirect::to('welcome');
         } else {
             // return view('login')->with('list', $data);
             return view('pages.simrsmuv2login')->with('list', $data);

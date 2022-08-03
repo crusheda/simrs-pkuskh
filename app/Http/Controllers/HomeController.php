@@ -69,7 +69,7 @@ class HomeController extends Controller
             // 'recentLogPerawat' => $recentLogPerawat,
         ];
 
-        return view('pages.index')->with('list', $data);
+        // return view('pages.index')->with('list', $data);
     }
 
     public function newIndex()
