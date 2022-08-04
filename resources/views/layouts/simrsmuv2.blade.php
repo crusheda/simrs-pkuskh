@@ -42,6 +42,7 @@
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/datatables-buttons-bs5/buttons.bootstrap5.css') }}">
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/flatpickr/flatpickr.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/spinkit/spinkit.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/select2/select2.css') }}" />
 
   <!-- Row Group CSS -->
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}">
@@ -177,6 +178,10 @@
     <script src="{{ asset('assets-new/vendor/libs/pdfmake/pdfmake.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/datatables-buttons/buttons.html5.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/datatables-buttons/buttons.print.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/cleavejs/cleave.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/cleavejs/cleave-phone.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/select2/select2.js') }}"></script>
+
     <!-- Flat Picker -->
     <script src="{{ asset('assets-new/vendor/libs/moment/moment.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/flatpickr/flatpickr.js') }}"></script>
@@ -189,6 +194,7 @@
     <script src="{{ asset('assets-new/vendor/libs/formvalidation/dist/js/plugins/AutoFocus.min.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/block-ui/block-ui.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/sortablejs/sortable.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/autosize/autosize.js') }}"></script>
   
     <!-- Main JS -->
     <script src="{{ asset('assets-new/js/main.js') }}"></script>
@@ -198,6 +204,8 @@
     {{-- <script src="{{ asset('assets-new/js/tables-datatables-basic.js') }}"></script> --}}
 
     {{-- SCRIPT-SCRIPT JAVASCRIPT / JQUERY --}}
+    <script>
+    </script>
     
   </body>
 </html>

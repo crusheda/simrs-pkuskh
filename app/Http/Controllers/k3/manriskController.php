@@ -2,8 +2,17 @@
 
 namespace App\Http\Controllers\k3;
 
-use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
+use App\Http\Controllers\Controller;
+use Illuminate\Support\Facades\DB;
+use Illuminate\Http\RedirectResponse;
+use App\Models\k3\manrisk;
+use App\Models\unit;
+use Carbon\Carbon;
+use Auth;
+use Storage;
+use Exception;
+use Redirect;
 
 class manriskController extends Controller
 {
@@ -25,7 +34,7 @@ class manriskController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.k3.manrisk.tambah');
     }
 
     /**

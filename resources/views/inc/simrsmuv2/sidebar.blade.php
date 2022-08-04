@@ -69,12 +69,12 @@
     </li>
     <!-- Apps & Pages -->
     <li class="menu-header small text-uppercase">
-      <span class="menu-header-text">Pelaporan</span>
+      <span class="menu-header-text">K3 MFK</span>
     </li>
     <li class="menu-item {{ request()->routeIs('manrisk.index') ? 'active' : '' }}">
       <a href="{{ route('manrisk.index') }}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-walk"></i>
-        <div data-i18n="Manajemen Resiko">Manajemen Resiko</div>
+        <div data-i18n="Manajemen Resiko">Manajemen Risiko</div>
       </a>
     </li>
 
