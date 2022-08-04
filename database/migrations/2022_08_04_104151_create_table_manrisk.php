@@ -36,7 +36,6 @@ class CreateTableManrisk extends Migration
             $table->integer('apd');
             $table->longText('deskripsi');
             $table->string('waktu_penerapan');
-            $table->integer('inherent');
             $table->integer('residual');
             $table->timestamps();
         });
