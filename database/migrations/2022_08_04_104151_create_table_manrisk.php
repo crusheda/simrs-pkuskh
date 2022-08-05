@@ -38,6 +38,7 @@ class CreateTableManrisk extends Migration
             $table->string('waktu_penerapan');
             $table->integer('residual');
             $table->timestamps();
+            $table->softDeletes();
         });
     }
 

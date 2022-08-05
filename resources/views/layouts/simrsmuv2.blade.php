@@ -60,7 +60,8 @@
   <script src="{{ asset('assets-new/vendor/js/template-customizer.js') }}"></script>
   <!--? Config:  Mandatory theme config file contain global vars & default theme options, Set your preferred theme option in this file.  -->
   <script src="{{ asset('assets-new/js/config.js') }}"></script>
-  <script src="{{ asset('assets-new/vendor/libs/jquery/jquery.js') }}"></script>
+  {{-- <script src="{{ asset('assets-new/vendor/libs/jquery/jquery.js') }}"></script> --}}
+  <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
   
   <!-- Global site tag (gtag.js) - Google Analytics -->
   <script async="async" src="https://www.googletagmanager.com/gtag/js?id=GA_MEASUREMENT_ID"></script>
@@ -153,7 +154,8 @@
   
     <!-- Core JS -->
     <!-- build:js assets/vendor/js/core.js -->
-    <script src="{{ asset('assets-new/vendor/libs/jquery/jquery.js') }}"></script>
+    <script src="{{ asset('assets/modules/jquery.min.js') }}"></script>
+    {{-- <script src="{{ asset('assets-new/vendor/libs/jquery/jquery.js') }}"></script> --}}
     <script src="{{ asset('assets-new/vendor/libs/popper/popper.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/js/bootstrap.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/perfect-scrollbar/perfect-scrollbar.js') }}"></script>

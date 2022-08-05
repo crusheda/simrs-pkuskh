@@ -450,5 +450,5 @@ Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController'
 
 // K3
     // MANAJEMEN RESIKO
-        // Route::get('k3/manrisk', 'k3\manriskController@index')->name('manrisk.index');
+        Route::get('k3/manrisk/api/data', 'k3\manriskController@apiData');
         Route::resource('k3/manrisk', 'k3\manriskController');
