@@ -5,9 +5,31 @@
   <span class="text-muted fw-light">Pelaporan /</span> Manajemen Risiko
 </h4>
 
+@if(session('message'))
+<div class="alert alert-primary alert-dismissible" role="alert">
+  <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">Proses Berhasil!</h6>
+  <p class="mb-0">{{ session('message') }}</p>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+  </button>
+</div>
+@endif
+@if($errors->count() > 0)
+<div class="alert alert-danger alert-dismissible" role="alert">
+  <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">Proses Gagal!</h6>
+  <p class="mb-0">
+    <ul>
+      @foreach($errors->all() as $error)
+          <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </p>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+  </button>
+</div>
+@endif
 <!-- DataTable with Buttons -->
 <div class="card card-action mb-5">
-  <div class="card-alert"></div>
+  {{-- <div class="card-alert"></div> --}}
   <div class="card-header">
     <div class="card-action-title">
       <a class="btn btn-label-primary" href="{{ route('manrisk.create') }}">
@@ -39,8 +61,9 @@
   {{-- <div class="card-header flex-column flex-md-row">
     <div class="head-label"><h5 class="card-title mb-0">DataTable with Buttons</h5></div>
   </div> --}}
+  <hr style="margin-top: -5px">
   <div class="collapse show">
-    <div class="card-datatable table-responsive">
+    <div class="card-datatable table-responsive" style="margin-top: -10px">
       <table id="table" class="table border-top">
         <thead>
           <tr>
@@ -79,7 +102,7 @@
             $("#tampil-tbody").append(`
               <tr id="data${item.id}">
                 <td><kbd>${item.id}</kbd></td>
-                <td>${item.unit}</td>
+                <td>${JSON.parse(item.unit)}</td>
                 <td>${item.jenis_risiko}</td>
                 <td>${item.proses_utama}</td>
                 <td>${item.item_kegiatan}</td>
@@ -88,9 +111,17 @@
                 <td>${item.sumber_bahaya}</td>
                 <td>${item.updated_at}</td>
                 <td>
-                  <center><div class="btn-group" role="group">
-                    <button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('./${item.id}/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>
-                    <a type="button" class="btn btn-success btn-sm" href="./${item.id}/cetak" data-toggle="tooltip" data-placement="left" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></a>
+                  <center><div class="btn-group">
+                    <button type="button" class="btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false"><i class="bx bx-dots-vertical-rounded"></i></button>
+                    <ul class="dropdown-menu dropdown-menu-end">
+                      <li><a class="dropdown-item text-warning" href="javascript:void(0);"><i class="bx bx-edit scaleX-n1-rtl"></i> Ubah</a></li>
+                      <li><a class="dropdown-item text-info" href="javascript:void(0);"><i class="bx bx-printer scaleX-n1-rtl"></i> Cetak</a></li>
+                      <li><a class="dropdown-item text-danger" href="javascript:void(0);"><i class="bx bx-trash scaleX-n1-rtl"></i> Hapus</a></li>
+                      <li>
+                        <hr class="dropdown-divider">
+                      </li>
+                      <li><a class="dropdown-item text-dark" href="javascript:void(0);"><i class="bx bx-refresh scaleX-n1-rtl"></i> Residual</a></li>
+                    </ul>
                   </center></div>
                 </td>
               </tr>
@@ -147,11 +178,11 @@
               ]
             },
           );
+          $("div.head-label").html('<h5 class="card-title mb-0">Tabel</h5>');
         }
       }
     }
   );
-  $(".head-label").html('<h5 class="card-title mb-0">Tabel</h5>');
 } );
 </script>
 @endsection
