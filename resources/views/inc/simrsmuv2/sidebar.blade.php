@@ -74,7 +74,7 @@
     <li class="menu-item {{ request()->routeIs('manrisk.index') ? 'active' : '' }}">
       <a href="{{ route('manrisk.index') }}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-walk"></i>
-        <div data-i18n="Manajemen Resiko">Manajemen Risiko</div>
+        <div data-i18n="Manajemen Resiko">Daftar Risiko</div>
       </a>
     </li>
 

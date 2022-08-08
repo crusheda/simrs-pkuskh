@@ -2,7 +2,7 @@
 
 @section('content')
 <h4 class="fw-bold py-3 mb-4">
-  <span class="text-muted fw-light">Pelaporan / Manajemen Risiko /</span> Tambah
+  <span class="text-muted fw-light">K3 MFK / Daftar Risiko /</span> Tambah
 </h4>
     
 <div class="row">
@@ -13,7 +13,7 @@
       <h5 class="card-header d-flex align-items-center justify-content-between">
         <button class="btn btn-label-dark" onclick="window.location='{{ route('manrisk.index') }}'"><i class="bx bx-chevron-left bx-sm ms-sm-n2"></i> Kembali</button>
         <div class="card-title mb-0" style="text-align: right;">
-          <h5 class="mb-2 me-2">Form Tambah Inherent</h5>
+          <h5 class="mb-2 me-2">Form Tambah Risiko Awal</h5>
           <small class="text-muted">Manajemen Fasilitas Keselamatan (MFK)</small>
         </div>
       </h5>
@@ -24,7 +24,7 @@
         <div class="row">
           <div class="col-md-6 mb-4">
             <div class="form-group">
-              <label for="defaultFormControlInput" class="form-label">Jenis Risiko</label>
+              <label for="defaultFormControlInput" class="form-label">Ruang Lingkup</label>
               <select name="jenis_risiko" class="select2 form-select" data-allow-clear="true" data-bs-auto-close="outside" required>
                 <option value="">Pilih</option>
                 <option value="1">Staf</option>
@@ -40,13 +40,14 @@
               <label for="defaultFormControlInput" class="form-label">Proses Utama</label>
               <select name="proses_utama" class="select2 form-select" data-allow-clear="true" required>
                 <option value="">Pilih</option>
-                <option value="1">Keselamatan dan Keamanan</option>
-                <option value="2">Pelayanan Kesehatan Kerja</option>
-                <option value="3">Pengelolaan B3</option>
-                <option value="4">Pengendalian Kebakaran</option>
-                <option value="5">Utilitas</option>
-                <option value="6">Prasarana Medis</option>
-                <option value="7">Kebencanaan</option>
+                <option value="1">Keselamatan</option>
+                <option value="2">Keamanan</option>
+                <option value="3">Pelayanan Kesehatan Kerja</option>
+                <option value="4">Pengelolaan B3</option>
+                <option value="5">Pengendalian Kebakaran</option>
+                <option value="6">Utilitas</option>
+                <option value="7">Prasarana Medis</option>
+                <option value="8">Kebencanaan</option>
               </select>
             </div>
           </div>
@@ -168,6 +169,7 @@
                   <option value="2">Sering</option>
                   <option value="2">Sangat Sering</option>
                 </select>
+                <div id="defaultFormControlHelp" class="form-text">Tombol Lihat untuk melihat Keterangan</div>
             </div>
             <div class="collapse" id="lihatfrekuensi">
               <div class="d-grid d-sm-flex p-3 border">
@@ -210,27 +212,6 @@
                   </table>
                 </div>
               </div>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div class="card mb-4">
-      <div class="card-body">
-        <div class="row">
-          <div class="col-md-6">
-            <div class="form-group mb-4">
-              <label for="defaultFormControlInput" class="form-label">Nilai</label>
-              <div class="input-group">
-                <span class="input-group-text">Dampak * Frekuensi</span>
-                <input class="form-control" type="text" id="nilai" placeholder="" disabled />
-              </div>
-            </div>
-          </div>
-          <div class="col-md-6">
-            <div class="form-group mb-4">
-              <label for="defaultFormControlInput" class="form-label">Tingkat Risiko</label>
-              <input class="form-control" type="text" id="tingkat_risiko" placeholder="" disabled />
             </div>
           </div>
         </div>
