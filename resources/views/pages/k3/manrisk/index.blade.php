@@ -63,7 +63,7 @@
   </div> --}}
   <hr style="margin-top: -5px">
   <div class="collapse show">
-    <div class="card-datatable table-responsive" style="margin-top: -10px">
+    <div class="card-datatable table-responsive" style="margin-top: -10px;white-space: nowrap;word-break: break-word;">
       <table id="table" class="table border-top">
         <thead>
           <tr>
@@ -75,11 +75,25 @@
             <th>Jenis Aktivitas</th>
             <th>Kode Bahaya</th>
             <th>Sumber Bahaya</th>
+            <th>Risiko</th>
+            <th>Pengendalian yang telah Diterapkan</th>
+            <th>Dampak</th>
+            <th>Kemungkinan / Frekuensi</th>
+            <th>Nilai</th>
+            <th>Tingkat Risiko</th>
+            <th>Evaluasi Pengendalian</th>
+            {{-- <th>ELM</th>
+            <th>SBT</th>
+            <th>ENG</th>
+            <th>ADM</th>
+            <th>APD</th> --}}
+            <th>Deskripsi Pengendalian Tambahan</th>
+            <th>Waktu Penerapan</th>
             <th>Update</th>
             <th>#</th>
           </tr>
         </thead>
-        <tbody id="tampil-tbody"><tr><td colspan="10"><center><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</center></td></tr></tbody>
+        <tbody id="tampil-tbody"><tr><td colspan="23"><center><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</center></td></tr></tbody>
       </table>
     </div>
   </div>
@@ -96,40 +110,70 @@
       success: function(res) {
         $("#tampil-tbody").empty();
         if(res.show.length == 0){
-          $("#tampil-tbody").append(`<tr><td colspan="10"><center>Tidak Ada Data</center></td></tr>`);
+          $("#tampil-tbody").append(`<tr><td colspan="23"><center>Tidak Ada Data</center></td></tr>`);
         } else {
           res.show.forEach(item => {
-            $("#tampil-tbody").append(`
-              <tr id="data${item.id}">
-                <td><kbd>${item.id}</kbd></td>
-                <td>${JSON.parse(item.unit)}</td>
-                <td>${item.jenis_risiko}</td>
-                <td>${item.proses_utama}</td>
-                <td>${item.item_kegiatan}</td>
-                <td>${item.jenis_aktivitas}</td>
-                <td>${item.kode_bahaya}</td>
-                <td>${item.sumber_bahaya}</td>
-                <td>${item.updated_at}</td>
-                <td>
-                  <center><div class="btn-group">
-                    <button type="button" class="btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow" data-bs-toggle="dropdown" aria-expanded="false"><i class="bx bx-dots-vertical-rounded"></i></button>
-                    <ul class="dropdown-menu dropdown-menu-end">
-                      <li><a class="dropdown-item text-warning" href="javascript:void(0);"><i class="bx bx-edit scaleX-n1-rtl"></i> Ubah</a></li>
-                      <li><a class="dropdown-item text-info" href="javascript:void(0);"><i class="bx bx-printer scaleX-n1-rtl"></i> Cetak</a></li>
-                      <li><a class="dropdown-item text-danger" href="javascript:void(0);"><i class="bx bx-trash scaleX-n1-rtl"></i> Hapus</a></li>
-                      <li>
-                        <hr class="dropdown-divider">
-                      </li>
-                      <li><a class="dropdown-item text-dark" href="javascript:void(0);"><i class="bx bx-refresh scaleX-n1-rtl"></i> Risiko Berulang</a></li>
-                    </ul>
-                  </center></div>
-                </td>
-              </tr>
-            `);
+            // var updet = item.updated_at.substring(0, 10);
+            content = "<tr id='data"+ item.id +"'><td><kbd>" 
+                        + item.id + "</kbd></td><td>" 
+                        + JSON.parse(item.unit) + "</td><td>" 
+                        + item.jenis_risiko + "</td><td>" 
+                        + item.proses_utama + "</td><td>"
+                        + item.item_kegiatan + "</td><td>"
+                        + item.jenis_aktivitas + "</td><td>"
+                        + item.kode_bahaya + "</td><td>"
+                        + item.sumber_bahaya + "</td><td>"
+                        + item.risiko + "</td><td>"
+                        + item.pengendalian + "</td><td>"
+                        + item.dampak + "</td><td>"
+                        + item.frekuensi + "</td><td>"
+                        + item.nilai + "</td><td>"
+                        + item.tingkat_risiko + "</td><td>"
+                        +  "<div class='form-check form-check-inline'><input class='form-check-input' type='checkbox' ";
+                        if(item.elm == 1){
+                          content += "checked"};
+                          content += " disabled/> ELM</div>"
+                        +  "<div class='form-check form-check-inline'><input class='form-check-input' type='checkbox' ";
+                        if(item.sbt == 1){
+                          content += "checked"};
+                          content += " disabled/> SBT</div>"
+                        +  "<div class='form-check form-check-inline'><input class='form-check-input' type='checkbox' ";
+                        if(item.eng == 1){
+                          content += "checked"};
+                          content += " disabled/> ENG</div>"
+                        +  "<div class='form-check form-check-inline'><input class='form-check-input' type='checkbox' ";
+                        if(item.adm == 1){
+                          content += "checked"};
+                          content += " disabled/> ADM</div>"
+                        +  "<div class='form-check form-check-inline'><input class='form-check-input' type='checkbox' ";
+                        if(item.apd == 1){
+                          content += "checked"};
+                          content += " disabled/> APD</div>"
+                        +  "</td><td>"
+                        // + item.elm + "</td><td>"
+                        // + item.sbt + "</td><td>"
+                        // + item.eng + "</td><td>"
+                        // + item.adm + "</td><td>"
+                        // + item.apd + "</td><td>"
+                        + item.deskripsi + "</td><td>"
+                        + item.waktu_penerapan + "</td><td>"
+                        + item.updated_at + "</td><td>";
+
+            content += "<center><div class='btn-group'>"
+              + "<button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button>"
+              + "<ul class='dropdown-menu dropdown-menu-end'>"
+                + "<li><a class='dropdown-item text-warning' href='javascript:void(0);'><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>"
+                + "<li><a class='dropdown-item text-info' href='javascript:void(0);'><i class='bx bx-printer scaleX-n1-rtl'></i> Cetak</a></li>"
+                + "<li><a class='dropdown-item text-danger' href='javascript:void(0);'><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>"
+                + "<li><hr class='dropdown-divider'></li>"
+                + "<li><a class='dropdown-item text-dark' href='javascript:void(0);''><i class='bx bx-refresh scaleX-n1-rtl'></i> Risiko Berulang</a></li>"
+              + "</ul>"
+            + "</div></center></td></tr>";
+            $('#tampil-tbody').append(content);
           });
           $('#table').DataTable(
             {
-              order: [[2, "desc"]],
+              order: [[17, "desc"]],
               dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
               displayLength: 7,
               lengthMenu: [7, 10, 25, 50, 75, 100],
