@@ -461,7 +461,7 @@ function refresh() {
                     content += `<button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('antigen/`+item.id+`/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>`;
                     content += `<button type="button" class="btn btn-success btn-sm" onclick="window.open('antigen/`+item.id+`/cetak')" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></button>`;
                     content += `<button type="button" class="btn btn-warning btn-sm" onclick="showUbah(${item.id})" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>`;
-                    content += `<button type="button" class="btn btn-danger btn-sm onclick="hapus(${item.id})" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
+                    content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(${item.id})" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
                 content += "</div></center></td></tr>";
                 $('#tampil-tbody').append(content);
             });

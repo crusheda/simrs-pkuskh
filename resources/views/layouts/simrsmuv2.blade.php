@@ -44,6 +44,7 @@
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/spinkit/spinkit.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/select2/select2.css') }}" />
   <link rel="stylesheet" href="{{ asset('css/iziToast.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/apex-charts/apex-charts.css') }}" />
 
   <!-- Row Group CSS -->
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}">
@@ -188,7 +189,9 @@
     <script src="{{ asset('assets-new/vendor/libs/cleavejs/cleave-phone.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/select2/select2.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/tagify/tagify.js') }}"></script>
-    <script src="{{ asset('js/iziToast.js') }}"></script>
+    <script src="{{ asset('js/iziToast.js') }}"></script>\
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
+    <script src="{{ asset('assets-new/vendor/libs/apex-charts/apexcharts.js') }}"></script>
 
     <!-- Flat Picker -->
     <script src="{{ asset('assets-new/vendor/libs/moment/moment.js') }}"></script>
