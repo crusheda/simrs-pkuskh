@@ -312,10 +312,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
         // Route::get('cetak/word', 'kebidanan\sklController@word');
 
     // K3
-    Route::resource('k3/accidentreport', 'k3\accidentReportController');
-    Route::post('/k3/accidentreport/{id}/check', 'k3\accidentReportController@verifikasi')->name('accidentreport.check');
-    Route::get('k3/accidentreport/{id}/show', 'k3\accidentReportController@show')->name('accidentreport.show'); 
-    Route::get('k3/accidentreport/{id}/cetak','k3\accidentReportController@cetak')->name('accidentreport.cetak');  
+    // Route::resource('k3/accidentreport', 'k3\accidentReportController');
+    // Route::post('/k3/accidentreport/{id}/check', 'k3\accidentReportController@verifikasi')->name('accidentreport.check');
+    // Route::get('k3/accidentreport/{id}/show', 'k3\accidentReportController@show')->name('accidentreport.show'); 
+    // Route::get('k3/accidentreport/{id}/cetak','k3\accidentReportController@cetak')->name('accidentreport.cetak');  
     
     Route::group(['prefix' => 'token/jasnidh2qu8hnf3298r0fewniongisdng0f32hr0fiwdondnsajdn1283hr420hrwnoi', 'middleware' => ['web', 'auth']], function () {
         \UniSharp\LaravelFilemanager\Lfm::routes();
@@ -453,3 +453,8 @@ Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController'
         Route::get('v2/k3/manrisk/api/data', 'k3\manriskController@apiData');
         Route::get('v2/k3/manrisk/api/hapus/{id}', 'k3\manriskController@apiHapus');
         Route::resource('v2/k3/manrisk', 'k3\manriskController');
+    // ACCIDENT REPORT
+        Route::post('v2/k3/accidentreport/{id}/check', 'k3\accidentReportController@verifikasi')->name('accidentreport.check');
+        Route::get('v2/k3/accidentreport/{id}/show', 'k3\accidentReportController@show')->name('accidentreport.show'); 
+        Route::get('v2/k3/accidentreport/{id}/cetak','k3\accidentReportController@cetak')->name('accidentreport.cetak');  
+        Route::resource('v2/k3/accidentreport', 'k3\accidentReportController');

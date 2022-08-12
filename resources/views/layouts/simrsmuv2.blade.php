@@ -45,6 +45,12 @@
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/select2/select2.css') }}" />
   <link rel="stylesheet" href="{{ asset('css/iziToast.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/apex-charts/apex-charts.css') }}" />
+  <!-- PICKER -->
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/flatpickr/flatpickr.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/jquery-timepicker/jquery-timepicker.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/pickr/pickr-themes.css') }}" />
 
   <!-- Row Group CSS -->
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}">
@@ -206,12 +212,20 @@
     <script src="{{ asset('assets-new/vendor/libs/block-ui/block-ui.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/sortablejs/sortable.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/autosize/autosize.js') }}"></script>
+    <!-- PICKER -->
+    <script src="{{ asset('assets-new/vendor/libs/moment/moment.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/flatpickr/flatpickr.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/jquery-timepicker/jquery-timepicker.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/pickr/pickr.js') }}"></script>
   
     <!-- Main JS -->
     <script src="{{ asset('assets-new/js/main.js') }}"></script>
   
     <!-- Page JS -->
     <script src="{{ asset('assets-new/js/cards-actions.js') }}"></script>
+    <script src="{{ asset('assets-new/js/forms-pickers.js') }}"></script>
     {{-- <script src="{{ asset('assets-new/js/tables-datatables-basic.js') }}"></script> --}}
 
     {{-- SCRIPT-SCRIPT JAVASCRIPT / JQUERY --}}
