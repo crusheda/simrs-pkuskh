@@ -47,7 +47,7 @@ class profilController extends Controller
         $foto = DB::table('foto_profil')
                 ->where('user_id', '=', $id)
                 // ->get()
-                ->first();      
+                ->first();    
         
         $showlog = logs::where('user_id', $id)->where('log_type', '=', 'login')->select('log_date')->orderBy('log_date', 'DESC')->get();
         
@@ -81,7 +81,8 @@ class profilController extends Controller
         // print_r($data['nama_kabkota']);
         // die();
 
-        return view('pages.new.profil')->with('list', $data);
+        // return view('pages.new.profil')->with('list', $data);
+        return view('pages.profil.index')->with('list', $data);
     }
 
     /**

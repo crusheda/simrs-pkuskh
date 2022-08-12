@@ -57,10 +57,6 @@ Route::get('/home', 'HomeController@index')->name('home');
 // MANAGER FILE
 Route::get('/home/file-manager', 'HomeController@fileManager')->name('managerfile');
 
-// PROFIL KARYAWAN
-Route::resource('user', 'Admin\profilController');
-Route::post('/user/foto', 'Admin\profilController@storeImg');
-
 // Route::post('/antrian/poli/antrian', 'queueController@tambahAntrianSaatIni')->name('antriansaatini');
 // Route::get('/', 'HomeController@index'); //file manager
 
@@ -69,9 +65,6 @@ Route::get('/welcome', 'HomeController@newIndex')->name('welcome');
 Route::get('/kunjungan', 'kunjunganController@kunjungan')->name('kunjungan');
 Route::get('/kalender', 'calendarController@index')->name('kalender');
     
-    //Profil
-    Route::resource('profil', 'Admin\profilController');
-    Route::post('/profil/foto', 'Admin\profilController@storeImg');
 
 // Admin
 Route::get('api/notif', 'notifController@apiNotif')->name('api.notif');
@@ -447,6 +440,10 @@ Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController'
 
 // SIMRSMU V.2
     Route::get('v2/beranda', 'simrsmuv2Controller@index')->name('simrsmuv2.index');
+
+// PROFIL KARYAWAN
+    Route::post('v2/profil/foto', 'Admin\profilController@storeImg');
+    Route::resource('v2/profil', 'Admin\profilController');
 
 // K3
     // MANAJEMEN RESIKO

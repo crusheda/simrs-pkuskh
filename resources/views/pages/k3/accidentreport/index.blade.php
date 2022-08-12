@@ -5,6 +5,29 @@
   <span class="text-muted fw-light">K3 /</span> Accident Report
 </h4>
 
+@if(session('message'))
+<div class="alert alert-primary alert-dismissible" role="alert">
+  <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">Proses Berhasil!</h6>
+  <p class="mb-0">{{ session('message') }}</p>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+  </button>
+</div>
+@endif
+@if($errors->count() > 0)
+<div class="alert alert-danger alert-dismissible" role="alert">
+  <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">Proses Gagal!</h6>
+  <p class="mb-0">
+    <ul>
+      @foreach($errors->all() as $error)
+          <li>{{ $error }}</li>
+      @endforeach
+    </ul>
+  </p>
+  <button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close">
+  </button>
+</div>
+@endif
+
 <div class="card card-action mb-5">
   {{-- <div class="card-alert"></div> --}}
   <div class="card-header">
@@ -82,15 +105,15 @@
                       <center>
                           @role('k3')
                             <div class="btn-group">
-                              <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                              <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#show{{ $item->id }}"><i class="fa-fw fas fa-folder-open nav-icon text-white"></i></button>
+                              <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                              <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#show{{ $item->id }}"><i class="fa-fw fas fa-folder-open nav-icon text-white"></i></button>
                               <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                             </div>
                           @else
                               @if ($item->verifikasi == null)
                                 <div class="btn-group">
-                                  <button type="button" class="btn btn-success btn-sm" data-bs-toggle="modal" data-bs-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
-                                  <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#show{{ $item->id }}"><i class="fa-fw fas fa-folder-open nav-icon text-white"></i></button>
+                                  <button type="button" class="btn btn-warning btn-sm" data-bs-toggle="modal" data-bs-target="#ubah{{ $item->id }}"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                  <button type="button" class="btn btn-info btn-sm" data-bs-toggle="modal" data-bs-target="#show{{ $item->id }}"><i class="fa-fw fas fa-folder-open nav-icon text-white"></i></button>
                                   <button type="button" class="btn btn-danger btn-sm" data-bs-toggle="modal" data-bs-target="#hapus{{ $item->id }}"><i class="fa-fw fas fa-trash nav-icon"></i></button>
                                 </div>
                               @else
@@ -131,7 +154,7 @@
                             <div class="col">
                               <div class="form-group mb-3">
                                 <label>Waktu :</label>
-                                <input type="text" class="form-control" name="tgl" placeholder="YYYY-MM-DD HH:MM" id="flatpickr-datetime" required>
+                                <input type="text" class="form-control flatpickrtime" name="tgl" placeholder="YYYY-MM-DD HH:MM" required>
                               </div>
                             </div>
                             <div class="col">
@@ -238,7 +261,7 @@
                             <div class="col">
                               <div class="form-group mb-3">
                                 <label>Tanggal Lahir :</label>
-                                <input type="text" name="lahir" id="flatpickr-date" class="form-control" placeholder="">
+                                <input type="text" name="lahir" class="form-control flatpickr" placeholder="YYYY-MM-DD">
                               </div>
                             </div>
                         </div>
@@ -397,7 +420,7 @@
                               </div>
                             </div>
                         </div>
-                        <hr><h4>D. Rencana Tindakan Perbaikan</h4><hr>
+                        <h4>D. Rencana Tindakan Perbaikan</h4><hr>
                         <div class="row">
                             <div class="col-md-6">
                               <div class="form-group mb-3">
@@ -419,8 +442,10 @@
                             </div>
                         </div>
                         <hr>
-                        <label>Lampiran : </label>
-                        <input type="file" name="file">
+                        <div class="form-group">
+                          <label>Lampiran : </label>
+                          <input type="file" name="file" class="form-control">
+                        </div>
                     </div>
                 </div>
 
@@ -430,7 +455,7 @@
                 <center><button class="btn btn-primary"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button></center><br>
             </form>
 
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
@@ -442,7 +467,7 @@
       <div class="modal-content">
         <div class="modal-header">
           <h4 class="modal-title">
-            Ubah Laporan Kecelakaan Kerja
+            Form Ubah
           </h4>
           <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         </div>
@@ -454,225 +479,287 @@
                         <h4>A. Identifikasi Kecelakaan</h4><hr>
                         <div class="row">
                             <div class="col">
+                              <div class="form-group mb-3">
                                 <label>Waktu :</label>
-                                <input type="datetime-local" name="tgl" id="tgl" value="" class="form-control" placeholder="">
+                                <input type="text" name="tgl" value="{{ $item->tgl }}" class="form-control flatpickrtime" placeholder="YYYY-MM-DD HH:MM">
+                              </div>
                             </div>
                             <div class="col">
+                              <div class="form-group mb-3">
                                 <label>Lokasi : </label>
                                 <input type="text" name="lokasi" id="lokasi" value="{{ $item->lokasi }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                         </div>
-                        <hr>
-                        <div class="row">
-                            <div class="col">
-                                <label>Jenis Kecelakaan : </label>
-                                <select onchange="jenisBtn2()" class="custom-select" name="jenis" id="jenis2" required>
-                                    <option hidden>Pilih</option>
-                                    <option value="1" @if ($item->jenis == '1') echo selected @endif>Menabrak</option>
-                                    <option value="2" @if ($item->jenis == '2') echo selected @endif>Tertabrak</option>
-                                    <option value="3" @if ($item->jenis == '3') echo selected @endif>Terperangkap</option>
-                                    <option value="4" @if ($item->jenis == '4') echo selected @endif>Terbentur / Terpukul</option>
-                                    <option value="5" @if ($item->jenis == '5') echo selected @endif>Tergelincir</option>
-                                    <option value="6" @if ($item->jenis == '6') echo selected @endif>Terjepit</option>
-                                    <option value="7" @if ($item->jenis == '7') echo selected @endif>Tersangkut</option>
-                                    <option value="8" @if ($item->jenis == '8') echo selected @endif>Tertimbun</option>
-                                    <option value="9" @if ($item->jenis == '9') echo selected @endif>Terhirup</option>
-                                    <option value="10" @if ($item->jenis == '10') echo selected @endif>Tenggelam</option>
-                                    <option value="11" @if ($item->jenis == '11') echo selected @endif>Jatuh dari ketinggian yang sama</option>
-                                    <option value="12" @if ($item->jenis == '12') echo selected @endif>Jatuh dari ketinggian yang berbeda</option>
-                                    <option value="13" @if ($item->jenis == '13') echo selected @endif>Kontak dengan (Arus Listrik, Suhu Panas, Suhu Dingin, Terpapar Radiasi, Bahan Kimia Berbahaya)</option>
-                                    <option value="14" @if ($item->jenis == '14') echo selected @endif>Lain-lain</option>
-                                </select>
-                            </div>
+                        <div class="form-group mb-3">
+                          <label>Jenis Kecelakaan : </label>
+                          <select onchange="jenisBtn2()" class="form-select" name="jenis" id="jenis2" required>
+                              <option value="">Pilih</option>
+                              <option value="1" @if ($item->jenis == '1') echo selected @endif>Menabrak</option>
+                              <option value="2" @if ($item->jenis == '2') echo selected @endif>Tertabrak</option>
+                              <option value="3" @if ($item->jenis == '3') echo selected @endif>Terperangkap</option>
+                              <option value="4" @if ($item->jenis == '4') echo selected @endif>Terbentur / Terpukul</option>
+                              <option value="5" @if ($item->jenis == '5') echo selected @endif>Tergelincir</option>
+                              <option value="6" @if ($item->jenis == '6') echo selected @endif>Terjepit</option>
+                              <option value="7" @if ($item->jenis == '7') echo selected @endif>Tersangkut</option>
+                              <option value="8" @if ($item->jenis == '8') echo selected @endif>Tertimbun</option>
+                              <option value="9" @if ($item->jenis == '9') echo selected @endif>Terhirup</option>
+                              <option value="10" @if ($item->jenis == '10') echo selected @endif>Tenggelam</option>
+                              <option value="11" @if ($item->jenis == '11') echo selected @endif>Jatuh dari ketinggian yang sama</option>
+                              <option value="12" @if ($item->jenis == '12') echo selected @endif>Jatuh dari ketinggian yang berbeda</option>
+                              <option value="13" @if ($item->jenis == '13') echo selected @endif>Kontak dengan (Arus Listrik, Suhu Panas, Suhu Dingin, Terpapar Radiasi, Bahan Kimia Berbahaya)</option>
+                              <option value="14" @if ($item->jenis == '14') echo selected @endif>Lain-lain</option>
+                          </select>
                         </div>
-                        <br>
                         <div id="lainlain2" class="row" hidden>
                             <div class="col">
+                              <div class="form-group mb-3">
                                 <label>Lain-lain :</label>
                                 <textarea class="form-control" name="lain1" id="lain1" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->lain1); ?></textarea>
+                              </div>
                             </div>
                         </div>
                         <div class="row">
                             <div class="col">
+                              <div class="form-group mb-3">
                                 <label>Kronologi Kecelakaan :</label>
                                 <textarea class="form-control" name="kronologi" id="kronologi2" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->kronologi); ?></textarea>
                                 <span class="help-block">
                                     <p id="maxkronologi2" class="help-block "></p>
                                 </span>
+                              </div>
                             </div>
                         </div>
-                        <hr><h4>B. Kerugian</h4><hr>
-                        <div class="row">
-                            <div class="col">
-                                <label>Kerugian Pada Manusia : </label>
-                                <div class="input-group mb-3">
-                                    <div class="input-group-prepend">
-                                        <button class="btn btn-secondary" type="button" data-toggle="collapse" data-target="#collapseExample2" aria-expanded="false" aria-controls="collapseExample2">
-                                            <i class="fa-fw fas fa-question nav-icon text-light"></i>
-                                        </button>
-                                    </div>
-                                    <select onchange="infoBtn()" class="custom-select" name="kerugian" id="kerugian" required>
-                                        <option hidden>Pilih</option>
-                                        <option value="1" @if ($item->kerugian == '1') echo selected @endif>Tak Cedera</option>
-                                        <option value="2" @if ($item->kerugian == '2') echo selected @endif>Cedera Ringan</option>
-                                        <option value="3" @if ($item->kerugian == '3') echo selected @endif>Cedera Sedang</option>
-                                        <option value="4" @if ($item->kerugian == '4') echo selected @endif>Cedera Berat</option>
-                                        <option value="5" @if ($item->kerugian == '5') echo selected @endif>Meninggal/Fatal</option>
-                                    </select>
-                                </div>
-                                <div class="collapse" id="collapseExample2">
-                                    <div class="card card-body">
-                                        <p>
-                                            - <b>Tak Cedera</b> (Tidak ada cedera dan tidak ada hilang hari kerja) <br>
-                                            - <b>Cedera Ringan</b> (Mengalami cedera ringan/mendapat P3K tapi tidak ada hilang hari kerja) <br>
-                                            - <b>Cedera Sedang</b> (Mengalami cedera yang memerlukan pertolongan medis tapi adanya hilang hari kerja) <br>
-                                            - <b>Cedera Berat</b> (Mengalami cedera yang memerlukan pertolongan medis dan atau rujukan medis, cacat sementara dan adanya hilang hari kerja) <br>
-                                            - <b>Meninggal/Fatal</b> (Mengalami cacat permanen atau kematian)
-                                        </p>
-                                    </div>
-                                </div>
+                        <h4>B. Kerugian</h4><hr>
+                        <div class="form-group mb-3">
+                          <label>Kerugian Pada Manusia : </label>
+                          <button class="btn btn-xs btn-outline-dark" type="button" data-bs-toggle="collapse" href="#lihatEdit" role="button" aria-expanded="false" aria-controls="lihatEdit">Lihat</button>
+                          <select onchange="infoBtn()" class="form-select" name="kerugian" id="kerugian2" required>
+                              <option value="">Pilih</option>
+                              <option value="1" @if ($item->kerugian == '1') echo selected @endif>Tak Cedera</option>
+                              <option value="2" @if ($item->kerugian == '2') echo selected @endif>Cedera Ringan</option>
+                              <option value="3" @if ($item->kerugian == '3') echo selected @endif>Cedera Sedang</option>
+                              <option value="4" @if ($item->kerugian == '4') echo selected @endif>Cedera Berat</option>
+                              <option value="5" @if ($item->kerugian == '5') echo selected @endif>Meninggal/Fatal</option>
+                          </select>
+                          <div id="defaultFormControlHelp" class="form-text">Tombol Lihat untuk melihat Keterangan</div>
+                        </div>
+                        <div class="collapse" id="lihatEdit">
+                          <div class="d-grid d-sm-flex p-3 border">
+                            <div class="table-responsive text-nowrap mb-3">
+                              <table class="table table-borderless">
+                                <tbody>
+                                  <tr>
+                                    <td>Tak Cedera</td>
+                                    <td style="word-wrap: break-word;min-width: 160px;white-space:normal;">Tidak ada cedera dan tidak ada hilang hari kerja</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Cedera Ringan</td>
+                                    <td style="word-wrap: break-word;min-width: 160px;white-space:normal;">Mengalami cedera ringan/mendapat P3K tapi tidak ada hilang hari kerja</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Cedera Sedang</td>
+                                    <td style="word-wrap: break-word;min-width: 160px;white-space:normal;">Mengalami cedera yang memerlukan pertolongan medis tapi adanya hilang hari kerja</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Cedera Berat</td>
+                                    <td style="word-wrap: break-word;min-width: 160px;white-space:normal;">Mengalami cedera yang memerlukan pertolongan medis dan atau rujukan medis, cacat sementara dan adanya hilang hari kerja</td>
+                                  </tr>
+                                  <tr>
+                                    <td>Meninggal/Fatal</td>
+                                    <td style="word-wrap: break-word;min-width: 160px;white-space:normal;">Mengalami cacat permanen atau kematian</td>
+                                  </tr>
+                                </tbody>
+                              </table>
                             </div>
+                          </div>
                         </div>
                         <div class="row">
                             <div class="col">
+                              <div class="form-group mb-3">
                                 <label>Nama Korban : </label>
                                 <input type="text" name="korban" id="korban" value="{{ $item->korban }}" class="form-control" placeholder="" required>
+                              </div>
                             </div>
                             <div class="col">
+                              <div class="form-group mb-3">
                                 <label>Tanggal Lahir :</label>
-                                <input type="date" name="lahir" id="lahir" value="<?php echo strftime('%Y-%m-%d', strtotime($item->lahir)); ?>" class="form-control" placeholder="">
+                                <input type="date" name="lahir" value="{{ $item->lahir }}" class="form-control flatpickr" placeholder="YYYY-MM-DD">
+                              </div>
                             </div>
-                        </div><br>
+                        </div>
                         <div class="row">
                             <div class="col">
                                 <div class="form-group">
                                     <label>Jenis Kelamin</label>
-                                    <select id="jk" name="jk" class="form-control" required>
-                                      <option hidden>Pilih</option>
+                                    <select id="jk" name="jk" class="form-select" required>
+                                      <option value="">Pilih</option>
                                       <option value="laki-laki" @if ($item->jk == 'laki-laki') echo selected @endif>Laki-laki</option>
                                       <option value="perempuan" @if ($item->jk == 'perempuan') echo selected @endif>Perempuan</option>
                                     </select>
                                 </div>
                             </div>
                             <div class="col">
+                              <div class="form-group mb-3">
                                 <label>Unit :</label>
                                 @role('k3')
-                                    <select class="custom-select" name="unit" id="unit" required>
-                                        <option hidden>Pilih</option>
+                                    <select class="form-select" name="unit" id="unit" required>
+                                        <option value="">Pilih</option>
                                         @foreach($list['unit'] as $name => $key)
                                             <option value="{{ $name }}" @if ($item->unit == $name) echo selected @endif>{{ $name }}</option>
                                         @endforeach
                                     </select>
                                 @else
-                                    <input type="text" name="unit" class="form-control" value="{{ $item->unit }}" disabled>
+                                    <input type="text" name="unit" class="form-control disabled" value="{{ $item->unit }}" disabled>
                                     <input type="text" name="unit" class="form-control" value="{{ $item->unit }}" hidden>
                                 @endrole
+                              </div>
                             </div>
                         </div>
-                        <label>Bila cedera / cacat, anggota tubuh mana yang terkena? </label>
-                        <input type="text" name="cedera" id="cedera" value="{{ $item->cedera }}" class="form-control" placeholder="">
-                        <br>
-                        <label>Penanganan </label>
-                        <textarea class="form-control" name="penanganan" id="penanganan2" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->penanganan); ?></textarea>
-                        <span class="help-block">
-                            <p id="maxpenanganan2" class="help-block "></p>
-                        </span>
-                        <br>
+                        <div class="form-group mb-3">
+                          <label>Bila cedera / cacat, anggota tubuh mana yang terkena? </label>
+                          <input type="text" name="cedera" id="cedera" value="{{ $item->cedera }}" class="form-control" placeholder="">
+                        </div>
+                        <div class="form-group mb-3">
+                          <label>Penanganan </label>
+                          <textarea class="form-control" name="penanganan" id="penanganan2" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->penanganan); ?></textarea>
+                          <span class="help-block">
+                              <p id="maxpenanganan2" class="help-block "></p>
+                          </span>
+                        </div>
                         <div class="row">
                             <div class="col">
+                              <div class="form-group mb-3">
                                 <label>Kerugian Aset/Material/Proses : </label>
                                 <input type="text" name="k_aset" id="k_aset" value="{{ $item->k_aset }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                             <div class="col">
+                              <div class="form-group mb-3">
                                 <label>Kerugian Lingkungan : </label>
                                 <input type="text" name="k_lingkungan" id="k_lingkungan" value="{{ $item->k_lingkungan }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                         </div>
-                        <hr><h4>C. Investigasi Kecelakaan</h4><hr>
+                        <h4>C. Investigasi Kecelakaan</h4><hr>
                         <h5>1. Penyebab Langsung</h5>
                         <div class="row">
                             <div class="col">
+                              <div class="form-group mb-3">
                                 <label>Tindakan Tidak Aman <i>(Unsafe Action)</i> : </label>
                                 <input type="text" name="tta" id="tta" value="{{ $item->tta }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                             <div class="col">
+                              <div class="form-group mb-3">
                                 <label>Kondisi Tidak Aman <i>(Unsafe Condition)</i> : </label>
                                 <input type="text" name="kta" id="kta" value="{{ $item->kta }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                         </div>
-                        <br>
                         <h5>2. Penyebab Dasar</h5>
                         <div class="row">
                             <div class="col">
+                              <div class="form-group mb-3">
                                 <label>Faktor Personal : </label>
                                 <input type="text" name="f_personal" id="f_personal" value="{{ $item->f_personal }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                             <div class="col">
+                              <div class="form-group mb-3">
                                 <label>Faktor Pekerjaan : </label>
                                 <input type="text" name="f_pekerjaan" id="f_pekerjaan" value="{{ $item->f_pekerjaan }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                         </div>
-                        <br>
                         <h5>3. Alat / Sumber Yang Terlibat Pada Kecelakaan</h5>
                         <div class="row">
                             <div class="col-md-6">
+                              <div class="form-group mb-3">
                                 <label>Peralatan Kerja : </label>
                                 <input type="text" name="p_kerja" id="p_kerja" value="{{ $item->p_kerja }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                             <div class="col-md-6">
+                              <div class="form-group mb-3">
                                 <label>Benda Bergerak : </label>
                                 <input type="text" name="benda_bergerak" id="benda_bergerak" value="{{ $item->benda_bergerak }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                             <div class="col-md-6">
+                              <div class="form-group mb-3">
                                 <label>Mesin : </label>
                                 <input type="text" name="mesin" id="mesin" value="{{ $item->mesin }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                             <div class="col-md-6">
+                              <div class="form-group mb-3">
                                 <label>Bejana Tekan : </label>
                                 <input type="text" name="bejana_tekan" id="bejana_tekan" value="{{ $item->bejana_tekan }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                             <div class="col-md-6">
+                              <div class="form-group mb-3">
                                 <label>Material : </label>
                                 <input type="text" name="material" id="material" value="{{ $item->material }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                             <div class="col-md-6">
+                              <div class="form-group mb-3">
                                 <label>Alat Listrik : </label>
                                 <input type="text" name="alat_listrik" id="alat_listrik" value="{{ $item->alat_listrik }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                             <div class="col-md-6">
+                              <div class="form-group mb-3">
                                 <label>Alat Berat : </label>
                                 <input type="text" name="alat_berat" id="alat_berat" value="{{ $item->alat_berat }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                             <div class="col-md-6">
+                              <div class="form-group mb-3">
                                 <label>Radiasi : </label>
                                 <input type="text" name="radiasi" id="radiasi" value="{{ $item->radiasi }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                             <div class="col-md-6">
+                              <div class="form-group mb-3">
                                 <label>Kendaraan : </label>
                                 <input type="text" name="kendaraan" id="kendaraan" value="{{ $item->kendaraan }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                             <div class="col-md-6">
+                              <div class="form-group mb-3">
                                 <label>Binatang : </label>
                                 <input type="text" name="binatang" id="binatang" value="{{ $item->binatang }}" class="form-control" placeholder="">
+                              </div>
                             </div>
                             <div class="col-md-12">
+                              <div class="form-group mb-3">
                                 <label>Lain-lain : </label>
                                 <textarea class="form-control" name="lain2" id="lain2" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->lain2); ?></textarea>
+                              </div>
                             </div>
                         </div>
-                        <hr><h4>D. Rencana Tindakan Perbaikan</h4><hr>
+                        <h4>D. Rencana Tindakan Perbaikan</h4><hr>
                         <div class="row">
                             <div class="col-md-6">
+                              <div class="form-group mb-3">
                                 <label>Rencana Tindakan : </label>
                                 <textarea class="form-control" name="r_tindakan" id="r_tindakan" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->r_tindakan); ?></textarea>
+                              </div>
                             </div>
                             <div class="col-md-3">
+                              <div class="form-group mb-3">
                                 <label>Target Waktu : </label>
                                 <textarea class="form-control" name="t_waktu" id="t_waktu" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->t_waktu); ?></textarea>
+                              </div>
                             </div>
                             <div class="col-md-3">
+                              <div class="form-group mb-3">
                                 <label>Wewenang : </label>
                                 <textarea class="form-control" name="wewenang" id="wewenang" placeholder="" maxlength="190" rows="8"><?php echo htmlspecialchars($item->wewenang); ?></textarea>
+                              </div>
                             </div>
                         </div>
                         <hr>
@@ -690,10 +777,10 @@
         </div>
         <div class="modal-footer">
 
-                <center><button class="btn btn-success"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button></center><br>
+                <center><button class="btn btn-primary"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button></center><br>
             </form>
 
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
@@ -756,7 +843,7 @@
                     <button type="submit" class="btn btn-success"><i class="fa-fw fas fa-check-square nav-icon"></i> Verifikasi</button>
                 </form>
             @endif
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
@@ -782,7 +869,7 @@
                 @csrf
                 <button class="btn btn-danger"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button>
             </form>
-            <button type="button" class="btn btn-secondary" data-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+            <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
         </div>
       </div>
     </div>
@@ -791,18 +878,9 @@
 
 <script>
 $(document).ready( function () {
-  // SELECT2
-  var t = $(".select2");
-  t.length && t.each(function() {
-    var e = $(this);
-    e.wrap('<div class="position-relative"></div>').select2({
-      placeholder: "Pilih",
-      dropdownParent: e.parent()
-    })
-  });
   $('#table').DataTable(
     {
-      order: [[1, "desc"]],
+      order: [[4, "desc"]],
       dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
       displayLength: 7,
       lengthMenu: [7, 10, 25, 50, 75, 100],
@@ -860,6 +938,25 @@ $(document).ready( function () {
     },
   );
   $("div.head-label").html('<h5 class="card-title mb-0">Tabel</h5>');
+  // SELECT2
+  var t = $(".select2");
+  t.length && t.each(function() {
+    var e = $(this);
+    e.wrap('<div class="position-relative"></div>').select2({
+      placeholder: "Pilih",
+      dropdownParent: e.parent()
+    })
+  });
+  // DATEPICKER
+    // DATE
+    $('.flatpickr').flatpickr({
+      monthSelectorType: "static"
+    });
+    // DATETIME
+    $('.flatpickrtime').flatpickr({
+      enableTime: !0,
+      dateFormat: "Y-m-d H:i"
+    });
 } );
 </script>
 

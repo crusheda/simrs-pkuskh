@@ -1,8 +1,8 @@
 "use strict";
 !function() {
-    const e = document.querySelector("#flatpickr-date")
+    const e = document.querySelector(".flatpickr-date")
       , t = document.querySelector("#flatpickr-time")
-      , i = document.querySelector("#flatpickr-datetime")
+      , i = document.querySelector(".flatpickr-datetime")
       , a = document.querySelector("#flatpickr-multi")
       , r = document.querySelector("#flatpickr-range")
       , n = document.querySelector("#flatpickr-inline")

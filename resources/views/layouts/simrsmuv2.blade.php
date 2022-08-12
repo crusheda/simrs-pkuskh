@@ -43,6 +43,7 @@
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/flatpickr/flatpickr.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/spinkit/spinkit.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/select2/select2.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
   <link rel="stylesheet" href="{{ asset('css/iziToast.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/apex-charts/apex-charts.css') }}" />
   <!-- PICKER -->
@@ -194,6 +195,8 @@
     <script src="{{ asset('assets-new/vendor/libs/cleavejs/cleave.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/cleavejs/cleave-phone.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/select2/select2.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/bloodhound/bloodhound.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/tagify/tagify.js') }}"></script>
     <script src="{{ asset('js/iziToast.js') }}"></script>\
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
@@ -225,7 +228,7 @@
   
     <!-- Page JS -->
     <script src="{{ asset('assets-new/js/cards-actions.js') }}"></script>
-    <script src="{{ asset('assets-new/js/forms-pickers.js') }}"></script>
+    {{-- <script src="{{ asset('assets-new/js/forms-pickers.js') }}"></script> --}}
     {{-- <script src="{{ asset('assets-new/js/tables-datatables-basic.js') }}"></script> --}}
 
     {{-- SCRIPT-SCRIPT JAVASCRIPT / JQUERY --}}
