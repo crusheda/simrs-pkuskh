@@ -68,8 +68,8 @@
       </a>
     </li>
     <!-- Apps & Pages -->
-    <li class="menu-header small text-uppercase">
-      <span class="menu-header-text">K3 MFK</span>
+    <li class="menu-header small text-uppercase" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="right" data-bs-html="true" title="<i class='bx bx-chevron-right bx-xs' ></i> <span>Manajemen Fasilitas dan Keselamatan</span>">
+      <span class="menu-header-text">Tim MFK</span>
     </li>
     <li class="menu-item {{ request()->routeIs('accidentreport.index') ? 'active' : '' }}">
       <a href="{{ route('accidentreport.index') }}" class="menu-link">

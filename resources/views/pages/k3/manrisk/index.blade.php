@@ -55,33 +55,29 @@
   </button>
 </div>
 @endif
-<!-- DataTable with Buttons -->
+<!-- Find Resiko Berulang -->
 <div class="card card-action mb-5">
   {{-- <div class="card-alert"></div> --}}
   <div class="card-header">
     <div class="card-action-title">
-      <a class="btn btn-primary" href="{{ route('manrisk.create') }}" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="right" data-bs-html="true" title="<i class='bx bx-plus bx-xs' ></i> <span>Tambah Daftar Risiko</span>">
-        <i class="bx bx-plus scaleX-n1-rtl"></i>
-        <span class="align-middle">Tambah</span>
-      </a>
-      {{-- <button class="btn btn-primary">
-        <i class="fas fa-plus-square"></i>&nbsp;&nbsp;Tambah
-      </button> --}}
+      <div class="btn-group">
+        <a class="btn btn-primary" href="{{ route('manrisk.create') }}" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="<i class='bx bx-plus bx-xs' ></i> <span>Tambah Daftar Risiko</span>">
+          <i class="bx bx-plus scaleX-n1-rtl"></i>
+          <span class="align-middle">Risiko Awal</span>
+        </a>
+        <a class="btn btn-dark text-white" onclick="berulang()" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="<i class='bx bx-refresh bx-xs' ></i> <span>Tambah Risiko Berulang</span>">
+          <i class="bx bx-refresh scaleX-n1-rtl"></i>
+          <span class="align-middle">Risiko Berulang</span>
+        </a>
+      </div>
     </div>
     <div class="card-action-element">
       <ul class="list-inline mb-0">
         <li class="list-inline-item">
-          <a href="javascript:void(0);" class="card-collapsible"><i class="tf-icons bx bx-chevron-up"></i></a>
-        </li>
-        <li class="list-inline-item">
-          <a href="javascript:void(0);" class="card-reload"><i class="tf-icons bx bx-rotate-left scaleX-n1-rtl"></i></a>
-        </li>
-        <li class="list-inline-item">
           <a href="javascript:void(0);" class="card-expand"><i class="tf-icons bx bx-fullscreen"></i></a>
         </li>
         <li class="list-inline-item">
-          <a href="javascript:void(0);" class="card-close"><i class="tf-icons bx bx-x"></i></a>
-
+          <a href="javascript:void(0);" class="card-collapsible"><i class="tf-icons bx bx-chevron-up"></i></a>
         </li>
       </ul>
     </div>
@@ -127,8 +123,95 @@
   </div>
 </div>
 
+<div class="modal fade" id="berulang" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="berulang">Tambah Risiko Berulang</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <form id="formResidual" class="form-auth-small" action="{{ route('manrisk.residual') }}" method="POST" enctype="multipart/form-data">
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12">
+            <div class="form-group mb-3">
+              <label for="defaultFormControlInput" class="form-label">Sumber Bahaya</label>
+                <select name="sumber_bahaya" id="berulang_sumber_bahaya" class="select2 form-select" onChange="validasiBerulang(this);" data-allow-clear="true" required>
+                  <option value="">Pilih</option>
+                </select>
+                <div id="defaultFormControlHelp" class="form-text">Sebagai Acuan Risiko Berulang</div>
+            </div>
+          </div>
+        </div>
+        <div class="divider text-end" style="margin-top:-10px">
+          <div class="divider-text">Periksa Data Anda</div>
+        </div>
+        <div class="row g-2">
+          <div class="col-md-12">
+            <div class="form-group">
+              <label for="defaultFormControlInput" class="form-label">Risiko</label>
+              <input type="text" id="risiko" class="form-control" readonly/>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="defaultFormControlInput" class="form-label">Item / Jenis Kegiatan</label>
+              <textarea rows="3" class="form-control" id="item_jenis" readonly></textarea>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="defaultFormControlInput" class="form-label">Pengendalian</label>
+              <textarea rows="3" class="form-control" id="pengendalian" readonly></textarea>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="defaultFormControlInput" class="form-label">Deskripsi Pengendalian Tambahan</label>
+              <textarea rows="3" class="form-control" id="deskripsi" readonly></textarea>
+            </div>
+          </div>
+          <div class="col-md-6">
+            <div class="form-group">
+              <label for="defaultFormControlInput" class="form-label">Waktu Penerapan</label>
+              <textarea rows="3" class="form-control" id="waktu_penerapan" readonly></textarea>
+            </div>
+          </div>
+        </div>
+        <div class="divider text-end">
+          <div class="divider-text">Status Risiko</div>
+        </div>
+        <div class="row g-2">
+          <div class="col-md-6">
+            <h6>Tingkat Risiko : <a id="tingkat_risiko">-</a></h6>
+            <h6 class="mb-1">Update pada <b><a id="update">-</a></b></h6>
+          </div>
+          <div class="col-md-6">
+            <h6>Jumlah Residual : <kbd id="residual">-</kbd></h6>
+            <small>(Jumlah Kasus yang Berulang)</small>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="submit" class="btn btn-primary" id="btn-simpan"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
+      </form>
+        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
 <script>
 $(document).ready( function () {
+  // SELECT RISIKO BERULANG
+  var t = $("#berulang_sumber_bahaya");
+  t.length && t.each(function() {
+    var e = $(this);
+    e.wrap('<div class="position-relative"></div>').select2({
+      placeholder: "Pilih",
+      dropdownParent: e.parent()
+    })
+  })
   // let e, o, s, r;
   // r = isDarkStyle ? (e = config.colors_dark.cardColor,
   // o = config.colors_dark.headingColor,
@@ -329,6 +412,15 @@ $(document).ready( function () {
                           if (item.kode_bahaya == 2) {
                             content += "Gangguan Kesehatan";
                           }
+                          if (item.kode_bahaya == 3) {
+                            content += "Aset";
+                          }
+                          if (item.kode_bahaya == 4) {
+                            content += "Pencemaran";
+                          }
+                          if (item.kode_bahaya == 5) {
+                            content += "Citra Rumah Sakit";
+                          }
                         content += "</td><td>"
                         + item.sumber_bahaya + "</td><td>"
                         + item.risiko + "</td><td>"
@@ -496,6 +588,88 @@ $(document).ready( function () {
 } );
 
 // Function-function
+// VALIDATION ONLY ONE SUBMIT
+$("#formResidual").one('submit', function() {
+    //stop submitting the form to see the disabled button effect
+    $("#btn-simpan").attr('disabled','disabled');
+    $("#btn-simpan").find("i").toggleClass("fa-save fa-spinner fa-spin");
+
+    return true;
+});
+
+function berulang() {
+  $.ajax(
+    {
+      url: "./manrisk/api/berulang",
+      type: 'GET',
+      dataType: 'json', // added data type
+      success: function(res) {
+        $('#berulang').modal('show');
+        // var dt = new Date(res.show.tanggal).toJSON().slice(0,19);
+        // console.log(dt);
+        // document.getElementById('show_edit').innerHTML = "ID : "+res.show.id;
+        $("#berulang_sumber_bahaya").find('option').remove();
+        $("#berulang_sumber_bahaya").append(`<option value="">Pilih</option>`);
+        res.show.forEach(item => {
+          $("#berulang_sumber_bahaya").append(`<option value="${item.id}">${item.sumber_bahaya}</option>`);
+        });
+        // $("#risiko").val();
+        // $("#item_jenis").val();
+        // $("#pengendalian").val();
+        // $("#deskripsi").val();
+        // $("#waktu_penerapan").val();
+      }
+    }
+  );
+}
+
+function validasiBerulang(sel) {
+  $.ajax(
+    {
+      url: "./manrisk/api/berulang/validasi/"+sel.value,
+      type: 'GET',
+      dataType: 'json', // added data type
+      success: function(res) {
+        // var dt = new Date(res.show.tanggal).toJSON().slice(0,19);
+        if (res.tingkat_risiko == 'Low') {
+          tingkat_risiko = '<span class="badge" style="background-color:#00B0F0">'+res.tingkat_risiko+'</span>';
+        }
+        if (res.tingkat_risiko == 'Medium') {
+          tingkat_risiko = '<span class="badge" style="background-color:#00B050">'+res.tingkat_risiko+'</span>';
+        }
+        if (res.tingkat_risiko == 'High') {
+          tingkat_risiko = '<span class="badge" style="background-color:#FFFF00">'+res.tingkat_risiko+'</span>';
+        }
+        if (res.tingkat_risiko == 'Extreme') {
+          tingkat_risiko = '<span class="badge" style="background-color:#C65911">'+res.tingkat_risiko+'</span>';
+        }
+        if (res.tingkat_risiko == 'Very Extreme') {
+          tingkat_risiko = '<span class="badge" style="background-color:#FF0000">'+res.tingkat_risiko+'</span>';
+        }
+
+        if (res.jenis_risiko == 1) {
+          jenis_risiko = 'Rutin';
+        } else {
+          jenis_risiko = 'Non Rutin';
+        }
+
+        if (res.residual != null) {
+          residual = res.residual + ' Kasus';
+        } else {
+          residual = '-';
+        }
+        $("#risiko").val(res.risiko);
+        $("#item_jenis").val(res.item_kegiatan + ' (' + jenis_risiko + ')');
+        $("#pengendalian").val(res.pengendalian);
+        $("#deskripsi").val(res.deskripsi);
+        $("#waktu_penerapan").val(res.waktu_penerapan);
+        document.getElementById('tingkat_risiko').innerHTML = tingkat_risiko;
+        document.getElementById('update').innerHTML = res.updated_at;
+        document.getElementById('residual').innerHTML = residual;
+      }
+    }
+  );
+};
 
 function hapus(id) {
   Swal.fire({

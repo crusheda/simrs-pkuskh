@@ -447,6 +447,9 @@ Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController'
 
 // K3
     // MANAJEMEN RESIKO
+        Route::get('v2/k3/manrisk/api/berulang/validasi/{id}', 'k3\manriskController@apiValidasiBerulang');
+        Route::get('v2/k3/manrisk/api/berulang', 'k3\manriskController@apiBerulang');
+        Route::post('v2/k3/manrisk/save/berulang', 'k3\manriskController@saveBerulang')->name('manrisk.residual');
         Route::get('v2/k3/manrisk/api/data', 'k3\manriskController@apiData');
         Route::get('v2/k3/manrisk/api/hapus/{id}', 'k3\manriskController@apiHapus');
         Route::resource('v2/k3/manrisk', 'k3\manriskController');

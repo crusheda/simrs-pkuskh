@@ -336,22 +336,22 @@
         <a class="nav-link dropdown-toggle hide-arrow" href="javascript:void(0);" data-bs-toggle="dropdown">
           <div class="avatar avatar-online">
             @if (!empty($foto_profil->filename))
-              <img alt="image" src="{{ url('storage/'.substr($foto_profil->filename,7,1000)) }}" class="w-px-40 h-auto rounded-circle">
+              <img alt="image" src="{{ url('storage/'.substr($foto_profil->filename,7,1000)) }}" class="w-px-40 rounded-circle">
             @else
-              <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}" class="w-px-40 h-auto rounded-circle">
+              <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}" class="w-px-40 rounded-circle">
             @endif
           </div>
         </a>
         <ul class="dropdown-menu dropdown-menu-end">
           <li>
-            <a class="dropdown-item" href="pages-account-settings-account.html">
+            <a class="dropdown-item" href="javascript:void(0);">
               <div class="d-flex">
                 <div class="flex-shrink-0 me-3">
-                  <div class="avatar avatar-online">
+                  <div class="avatar mt-1"> {{-- avatar-online --}}
                     @if (!empty($foto_profil->filename))
-                      <img alt="image" src="{{ url('storage/'.substr($foto_profil->filename,7,1000)) }}" class="w-px-40 h-auto rounded-circle">
+                      <img alt="image" src="{{ url('storage/'.substr($foto_profil->filename,7,1000)) }}" class="w-px-40">
                     @else
-                      <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}" class="w-px-40 h-auto rounded-circle">
+                      <img alt="image" src="{{ asset('assets/img/avatar/avatar-1.png') }}" class="w-px-40 rounded-circle">
                     @endif
                   </div>
                 </div>

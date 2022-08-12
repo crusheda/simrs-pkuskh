@@ -33,6 +33,33 @@ class profilController extends Controller
     {
         $user  = Auth::user();
         $id    = $user->id;
+        
+        $show  = user::where('id','=', $id)->first();
+        
+        $foto = DB::table('foto_profil')->where('user_id', '=', $id)->first();    
+        
+        $showlog = logs::where('user_id', $id)->where('log_type', '=', 'login')->select('log_date')->orderBy('log_date', 'DESC')->get();
+
+        $data = [
+            'id_user' => $id,
+            'showlog' => $showlog,
+            'user' => $user,
+            'show' => $show,
+            'foto' => $foto,
+        ];
+
+        return view('pages.profil.index')->with('list', $data);
+    }
+
+    /**
+     * Show the form for creating a new resource.
+     *
+     * @return \Illuminate\Http\Response
+     */
+    public function create()
+    {
+        $user  = Auth::user();
+        $id    = $user->id;
         $name  = $user->name;
         $email = $user->email;
         $role  = $user->roles->first()->name; //kabag-keperawatan
@@ -83,16 +110,6 @@ class profilController extends Controller
 
         // return view('pages.new.profil')->with('list', $data);
         return view('pages.profil.index')->with('list', $data);
-    }
-
-    /**
-     * Show the form for creating a new resource.
-     *
-     * @return \Illuminate\Http\Response
-     */
-    public function create()
-    {
-        //
     }
 
     /**

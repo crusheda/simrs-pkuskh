@@ -72,6 +72,9 @@
               <select name="kode_bahaya" class="select2 form-select" data-allow-clear="true" required>
                 <option value="1" @if ($item->kode_bahaya == 1 ) selected @endif>Cedera</option>
                 <option value="2" @if ($item->kode_bahaya == 2 ) selected @endif>Gangguan Kesehatan</option>
+                <option value="3" @if ($item->kode_bahaya == 3 ) selected @endif>Aset</option>
+                <option value="4" @if ($item->kode_bahaya == 4 ) selected @endif>Pencemaran</option>
+                <option value="5" @if ($item->kode_bahaya == 5 ) selected @endif>Citra Rumah Sakit</option>
               </select>
             </div>
           </div>

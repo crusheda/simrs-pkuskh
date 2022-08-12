@@ -218,6 +218,48 @@ class manriskController extends Controller
         return response()->json($data, 200);
     }
 
+    public function apiBerulang()
+    {
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        // if ($user->hasRole('it')) {
+        //     $show = ref_jadwal_dinas::get();
+        // } else {
+        //     $show = ref_jadwal_dinas::where('id_user',$id)->get();
+        // }
+        $show = manrisk::where('id_user',$user_id)->get();
+
+        $data = [
+            'show' => $show,
+        ];
+
+        // print_r($data);
+        // die();
+        return response()->json($data, 200);
+    }
+
+
+    public function apiValidasiBerulang($id)
+    {
+        $data = manrisk::where('id',$id)->first();
+
+        return response()->json($data, 200);
+    }
+
+    public function saveBerulang(Request $request)
+    {
+        $user = Auth::user();
+        $name = $user->name;
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+        
+        $data = manrisk::find($request->sumber_bahaya);
+        $data->residual = $data->residual+1;
+        $data->save();
+
+        return redirect()->route('manrisk.index')->with('message','Tambah Residual Daftar Resiko Berhasil oleh '.$name.' Pada '.$tgl);
+    }
+
     public function apiHapus($id)
     {
         $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');

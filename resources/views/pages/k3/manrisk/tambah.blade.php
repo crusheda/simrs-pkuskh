@@ -75,6 +75,9 @@
                 <option value="">Pilih</option>
                 <option value="1">Cedera</option>
                 <option value="2">Gangguan Kesehatan</option>
+                <option value="3">Aset</option>
+                <option value="4">Pencemaran</option>
+                <option value="5">Citra Rumah Sakit</option>
               </select>
             </div>
           </div>

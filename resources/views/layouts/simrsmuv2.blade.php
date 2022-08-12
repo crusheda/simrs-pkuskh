@@ -118,8 +118,7 @@
                   © <script>
                   document.write(new Date().getFullYear())
                   </script>
-                  , made with ❤️
-                   {{-- by <a href="https://themeselection.com/" target="_blank" class="footer-link fw-bolder">ThemeSelection</a> --}}
+                  , made with <a href="https://www.instagram.com/hiyussuf/" target="_blank" class="footer-link fw-bolder">❤️</a>
                 </div>
                 {{-- <div>
                   
