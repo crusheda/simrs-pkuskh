@@ -88,7 +88,7 @@ header('Access-Control-Allow-Origin: *');
             &nbsp;&nbsp;&nbsp;<i class="fa fa-ellipsis-v fa-lg fa-fw"></i>&nbsp;&nbsp;&nbsp;
           </button>
           <div class="dropdown-menu dropdown-menu-right" style="width: 10rem;">
-              <a type="button" class="dropdown-item" href="{{ route('user.index') }}">
+              <a type="button" class="dropdown-item" href="{{ route('profil.index') }}">
                 <i class="fa-fw fas fa-user-circle nav-icon text-primary"></i>
                 Profil
               </a>

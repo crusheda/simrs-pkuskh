@@ -37,7 +37,11 @@
       </div> --}}
       <div class="user-profile-header d-flex flex-column flex-sm-row text-sm-start text-center mb-4">
         <div class="flex-shrink-0 mt-n2 mx-sm-0 mx-auto">
-          <img src="{{ url('storage/'.substr($list['foto']->filename,7,1000)) }}" height="100" width="100" alt="user image" style="margin-top: 2rem" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+          @if (!empty($list['foto']->filename))
+            <img src="{{ url('storage/'.substr($list['foto']->filename,7,1000)) }}" height="100" width="100" alt="user image" style="margin-top: 2rem" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
+          @else
+            <img alt="image" src="assets/img/avatar/avatar-1.png" class="d-block rounded" height="100">
+          @endif
         </div>
         <div class="flex-grow-1 mt-3">
           <div class="d-flex align-items-md-end align-items-sm-start align-items-center justify-content-md-between justify-content-start mx-4 flex-md-row flex-column gap-4" style="margin-top: 1rem">
