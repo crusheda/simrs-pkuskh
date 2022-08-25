@@ -444,6 +444,10 @@ Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController'
 // PROFIL KARYAWAN
     Route::post('v2/profil/foto', 'Admin\profilController@storeImg');
     Route::resource('v2/profil', 'Admin\profilController');
+    // API PROFIL
+    Route::get('api/provinsi/{id}', 'Admin\profilController@apiProvinsi')->name('api.provinsi');
+    Route::get('api/kota/{id}', 'Admin\profilController@apiKota')->name('api.kota');
+    Route::get('api/kecamatan/{id}', 'Admin\profilController@apiKecamatan')->name('api.kecamatan');
 
 // K3
     // MANAJEMEN RESIKO

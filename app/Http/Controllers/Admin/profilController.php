@@ -120,17 +120,17 @@ class profilController extends Controller
      */
     public function store(Request $request)
     {
-        $id = $request->id;
+        $user  = Auth::user();
+        $id    = $user->id;
+        $name  = $user->name;
+        $role  = $user->roles->first()->name; //kabag-keperawatan
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+        $now = Carbon::now();
         
-        // $query_string = "SELECT * FROM data_users WHERE user_id = $id";
-        // $find = DB::select($query_string);
-
-        // print_r($find);
-        // die();
-
+        $query = foto_profil::where('user_id', $id)->first();
+        
         // Ubah data Kepegawaian Table data_users
         $data = user::find($id);
-        $data->name = $request->name;
         $data->nik = $request->nik;
         $data->nama = $request->nama;
         $data->nick = $request->nick;
@@ -304,17 +304,17 @@ class profilController extends Controller
                 }
             }
 
-        if (Auth::user()->hasRole('kepegawaian')) {
-            $data->nip = $request->nip;
-            $data->jabatan = $request->jabatan;
-            $data->masuk_kerja = $request->masuk_kerja;
-            $data->no_str = $request->no_str;
-            $data->masa_str = $request->masa_str;
-            $data->masa_sip = $request->masa_sip;
-            $data->pengalaman_kerja = $request->pengalaman_kerja;   
-        } else {
-            $data->pengalaman_kerja = $request->pengalaman_kerja;   
-        }
+        // if (Auth::user()->hasRole('kepegawaian')) {
+        //     $data->nip = $request->nip;
+        //     $data->jabatan = $request->jabatan;
+        //     $data->masuk_kerja = $request->masuk_kerja;
+        //     $data->no_str = $request->no_str;
+        //     $data->masa_str = $request->masa_str;
+        //     $data->masa_sip = $request->masa_sip;
+        //     $data->pengalaman_kerja = $request->pengalaman_kerja;   
+        // } else {
+        // }
+        $data->pengalaman_kerja = $request->pengalaman_kerja;   
         
         $data->riwayat_penyakit = $request->riwayat_penyakit;
         $data->riwayat_penyakit_keluarga = $request->riwayat_penyakit_keluarga;
@@ -323,7 +323,48 @@ class profilController extends Controller
 
         $data->save();
 
-        return Redirect::back()->with('message','Data Akun Berhasil Di Ubah');
+        $this->validate($request,[
+            'file' => ['image','mimes:jpg,png,jpeg,gif','max:50000'],
+        ]);
+
+        $uploadedFile = $request->file('file');
+
+        if ($uploadedFile == '') {
+
+        }else {
+            $path = $uploadedFile->store('public/files/foto_profil');
+            $title = $request->title ?? $uploadedFile->getClientOriginalName();
+            // Storage::disk('fotoprofil')->put($title, $uploadedFile);
+            // print_r($uploadedFile);
+            // die();
+
+            // Save to Foto Profil
+            if ($query == null) {
+                $foto = new foto_profil;
+                $foto->user_id = $id;
+                $foto->name = $name;
+                $foto->unit = $role;
+                
+                    $foto->title = $title;
+                    $foto->filename = $path;
+
+                $foto->created_at = $now;
+                $foto->save();
+            } else {
+                $foto = foto_profil::find($query->id);
+                $foto->user_id = $id;
+                $foto->name = $name;
+                $foto->unit = $role;
+                
+                    $foto->title = $title;
+                    $foto->filename = $path;
+
+                $foto->updated_at = $now;
+                $foto->save();
+            }
+        }
+
+        return redirect()->route('profil.index')->with('message','Ubah Data Profil Anda Berhasil Pada '.$tgl);
     }
 
     /**

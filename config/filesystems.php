@@ -70,6 +70,13 @@ return [
             'url' => env('APP_URL').'/images',
         ],
 
+        'fotoprofil' => [
+            'driver'     => 'local',
+            'root'       => storage_path('app/public/files/foto_profil'),
+            'url'        => env('APP_URL') . '/storage',
+            'visibility' => 'public',
+        ],
+
         'image' => [
             'driver' => 'local',
             'root' => public_path('upload'),
