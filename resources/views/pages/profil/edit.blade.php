@@ -80,15 +80,17 @@
                 <small>Atur Data Pribadi Anda</small>
               </div>
               <div class="row g-3">
-                <div class="row g-3">
-                  <div class="col-sm-6">
-                    <label class="form-label" for="username">NIP</label>
-                    <input type="text" name="nip" class="form-control" value="{{ $list['show']->nip }}" placeholder="Terisi Otomatis Oleh Kepegawaian" disabled />
-                  </div>
-                  <div class="col-sm-6">
-                    <label class="form-label" for="email">NIK</label>
-                    <input type="text" name="nik" class="form-control" value="{{ $list['show']->nik }}" placeholder="Isi dengan kombinasi Angka" required/>
-                  </div>
+                <div class="col-sm-4">
+                  <label class="form-label">Akun</label>
+                  <input type="text" class="form-control" value="{{ $list['show']->name }}" disabled />
+                </div>
+                <div class="col-sm-4">
+                  <label class="form-label" for="username">NIP</label>
+                  <input type="text" name="nip" class="form-control" value="{{ $list['show']->nip }}" placeholder="Terisi Otomatis Oleh Kepegawaian" disabled />
+                </div>
+                <div class="col-sm-4">
+                  <label class="form-label" for="email">NIK</label>
+                  <input type="text" name="nik" class="form-control" value="{{ $list['show']->nik }}" placeholder="Isi dengan kombinasi Angka" required/>
                 </div>
                 <div class="col-sm-6">
                   <label class="form-label" for="first-name">Nama Lengkap, Gelar</label>
@@ -134,10 +136,10 @@
                     <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
                     <span class="align-middle d-sm-inline-block d-none">Sebelumnya</span>
                   </button>
-                  <button class="btn btn-primary btn-next">
+                  <a class="btn btn-primary btn-next" href="javascript:void(0);">
                     <span class="align-middle d-sm-inline-block d-none me-sm-1">Selanjutnya</span>
                     <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -238,14 +240,14 @@
               </div>
               <div class="row">
                 <div class="col-12 d-flex justify-content-between">
-                  <button class="btn btn-primary btn-prev">
+                  <a class="btn btn-primary btn-prev" href="javascript:void(0);">
                     <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
                     <span class="align-middle d-sm-inline-block d-none">Sebelumnya</span>
-                  </button>
-                  <button class="btn btn-primary btn-next">
+                  </a>
+                  <a class="btn btn-primary btn-next" href="javascript:void(0);">
                     <span class="align-middle d-sm-inline-block d-none me-sm-1">Selanjutnya</span>
                     <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -274,14 +276,14 @@
                 </div>
                 <div class="row g-3">
                   <div class="col-12 d-flex justify-content-between">
-                    <button class="btn btn-primary btn-prev">
+                    <a class="btn btn-primary btn-prev" href="javascript:void(0);">
                       <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
                       <span class="align-middle d-sm-inline-block d-none">Sebelumnya</span>
-                    </button>
-                    <button class="btn btn-primary btn-next">
+                    </a>
+                    <a class="btn btn-primary btn-next" href="javascript:void(0);">
                       <span class="align-middle d-sm-inline-block d-none me-sm-1">Selanjutnya</span>
                       <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
-                    </button>
+                    </a>
                   </div>
                 </div>
               </div>
@@ -384,14 +386,14 @@
                   <textarea rows="3" class="form-control" name="riwayat_penggunaan_obat"><?php echo htmlspecialchars($list['show']->riwayat_penggunaan_obat); ?></textarea>
                 </div>
                 <div class="col-12 d-flex justify-content-between">
-                  <button class="btn btn-primary btn-prev">
+                  <a class="btn btn-primary btn-prev" href="javascript:void(0);">
                     <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
                     <span class="align-middle d-sm-inline-block d-none">Sebelumnya</span>
-                  </button>
-                  <button class="btn btn-primary btn-next">
+                  </a>
+                  <a class="btn btn-primary btn-next" href="javascript:void(0);">
                     <span class="align-middle d-sm-inline-block d-none me-sm-1">Selanjutnya</span>
                     <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
-                  </button>
+                  </a>
                 </div>
               </div>
             </div>
@@ -406,7 +408,7 @@
                   @if (!empty($list['foto']->filename))
                     <img src="{{ url('storage/'.substr($list['foto']->filename,7,1000)) }}" alt="user-avatar" class="d-block rounded" height="100" id="blah" />
                   @else
-                    <img alt="image" src="assets/img/avatar/avatar-1.png" class="d-block rounded" height="100" id="blah">
+                    <img alt="image" src="/assets/img/avatar/avatar-1.png" class="d-block rounded" height="100" id="blah">
                   @endif
                   <div class="button-wrapper">
                     <label for="upload" class="btn btn-primary me-2 mb-4" tabindex="0">
@@ -423,12 +425,13 @@
                   </div>
                 </div>
                 <div class="col-12 d-flex justify-content-between">
-                  <button class="btn btn-primary btn-prev">
+                  <a class="btn btn-primary btn-prev" href="javascript:void(0);">
                     <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
                     <span class="align-middle d-sm-inline-block d-none">Sebelumnya</span>
+                  </a>
+                  <button class="btn btn-warning btn-submit" onclick="saveData()" type="submit" id="btn-simpan" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="<i class='bx bx-chevron-right bx-xs' ></i> <span>Periksa Data Anda Sekali Lagi!</span>">
+                    <i class="fas fa-save"></i> Simpan
                   </button>
-                  <button class="btn btn-warning btn-submit" type="submit" id="btn-simpan">
-                    <i class="bx bx-save bx-sm ms-sm-n2"></i> Simpan</button>
                 </div>
               </div>
             </div>
@@ -493,7 +496,6 @@
     const e = document.querySelector(".wizard-numbered")
       , t = [].slice.call(e.querySelectorAll(".btn-next"))
       , l = [].slice.call(e.querySelectorAll(".btn-prev"))
-      , d = e.querySelector(".btn-submit")
       , phone = document.querySelectorAll(".phone");
     if (e,
     null !== e) {
@@ -726,13 +728,6 @@
       }
     });
 
-    $("#formUpdate").one('submit', function() {
-        //stop submitting the form to see the disabled button effect
-        $("#btn-simpan").attr('disabled','disabled');
-        $("#btn-simpan").find("i").toggleClass("fa-save fa-spinner fa-spin");
-
-        return true;
-    });
   });
 </script>
 <script>
@@ -751,5 +746,25 @@
   $("#upload").change(function(){
       readURL(this);
   });
+
+  function saveData() {
+    let x = document.forms["formUpdate"]["nik"].value;
+    if (x == "") {
+      iziToast.error({
+        title: 'Error!',
+        message: 'NIK kosong',
+        position: 'topRight'
+      });
+      return false;
+    } else {
+      $("#formUpdate").one('submit', function() {
+        //stop submitting the form to see the disabled button effect
+        $("#btn-simpan").attr('disabled','disabled');
+        $("#btn-simpan").find("i").toggleClass("fa-save fa-sync fa-spin");
+
+        return true;
+      });
+    }
+  }
 </script>
 @endsection

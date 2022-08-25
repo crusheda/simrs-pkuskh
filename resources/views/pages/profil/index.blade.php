@@ -40,7 +40,7 @@
           @if (!empty($list['foto']->filename))
             <img src="{{ url('storage/'.substr($list['foto']->filename,7,1000)) }}" height="100" width="100" alt="user image" style="margin-top: 2rem" class="d-block h-auto ms-0 ms-sm-4 rounded user-profile-img">
           @else
-            <img alt="image" src="assets/img/avatar/avatar-1.png" class="d-block rounded" height="100">
+            <img alt="image" src="/assets/img/avatar/avatar-1.png" class="d-block rounded" height="100">
           @endif
         </div>
         <div class="flex-grow-1 mt-3">
