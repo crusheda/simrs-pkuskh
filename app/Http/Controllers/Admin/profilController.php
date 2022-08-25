@@ -346,7 +346,21 @@ class profilController extends Controller
      */
     public function edit($id)
     {
-        //
+        $show  = user::where('id','=', $id)->first();
+        
+        $foto = DB::table('foto_profil')->where('user_id', '=', $id)->first();
+
+        $provinsi = ref_desa::select('provinsi')->groupBy('provinsi')->get();
+        $kota = ref_desa::select('nama_kabkota')->groupBy('nama_kabkota')->get();
+
+        $data = [
+            'show' => $show,
+            'foto' => $foto,
+            'provinsi' => $provinsi,
+            'kota' => $kota,
+        ];
+
+        return view('pages.profil.edit')->with('list', $data);
     }
 
     /**

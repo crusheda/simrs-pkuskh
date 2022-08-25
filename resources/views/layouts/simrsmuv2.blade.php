@@ -46,6 +46,7 @@
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/bootstrap-select/bootstrap-select.css') }}" />
   <link rel="stylesheet" href="{{ asset('css/iziToast.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/apex-charts/apex-charts.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/bs-stepper/bs-stepper.css') }}" />
   <!-- PICKER -->
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/flatpickr/flatpickr.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}" />
@@ -214,6 +215,7 @@
     <script src="{{ asset('assets-new/vendor/libs/block-ui/block-ui.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/sortablejs/sortable.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/autosize/autosize.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/bs-stepper/bs-stepper.js') }}"></script>
     <!-- PICKER -->
     <script src="{{ asset('assets-new/vendor/libs/moment/moment.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/flatpickr/flatpickr.js') }}"></script>
