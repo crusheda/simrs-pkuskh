@@ -67,6 +67,22 @@
         <div data-i18n="Simrsmu v1">Simrsmu v1</div>
       </a>
     </li>
+    <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Laporan</span>
+    </li>
+    <li class="menu-item {{ request()->routeIs('ipsrs.index') ? 'open active' : '' }}">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-paint-roll"></i>
+        <div data-i18n="Users">Pengaduan</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item {{ request()->routeIs('ipsrs.index') ? 'active' : '' }}">
+          <a href="{{ route('ipsrs.index') }}" class="menu-link">
+            <div data-i18n="List">IPSRS</div>
+          </a>
+        </li>
+      </ul>
+    </li>
     <!-- Apps & Pages -->
     <li class="menu-header small text-uppercase" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="right" data-bs-html="true" title="<i class='bx bx-chevron-right bx-xs' ></i> <span>Manajemen Fasilitas dan Keselamatan</span>">
       <span class="menu-header-text">Tim MFK</span>

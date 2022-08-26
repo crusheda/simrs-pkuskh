@@ -54,7 +54,8 @@ class pengaduanController extends Controller
         // print_r($data);
         // die();
 
-        return view('pages.new.laporan.ipsrs.pengaduan')->with('list', $data);
+        return view('pages.laporan.pengaduan.ipsrs.indexUser')->with('list', $data);
+        // return view('pages.new.laporan.ipsrs.pengaduan')->with('list', $data);
     }
 
     /**
