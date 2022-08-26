@@ -378,7 +378,7 @@
             </a>
           </li>
           <li>
-            <a class="dropdown-item" href="{{ route('auth.change_password') }}">
+            <a class="dropdown-item" href="{{ route('ubahpassword') }}">
               <i class="bx bx-cog me-2"></i>
               <span class="align-middle">Ubah Password</span>
             </a>

@@ -22,9 +22,9 @@ Route::get('/lakonweb', 'lakonwebController@index')->name('lakonweb.index');
 Auth::routes(['register' => false]);
 
 // Change Password Routes...
-Route::get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('auth.change_password');
-Route::patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('auth.change_password');
-Route::post('edit_akun/{id}', 'Admin\UsersController@ubahData')->name('ubah.akun');
+// Route::get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('auth.change_password');
+// Route::patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('auth.change_password');
+// Route::post('edit_akun/{id}', 'Admin\UsersController@ubahData')->name('ubah.akun');
 // Route::get('/forgot_password', function () {
 //     return view('auth.passwords.reset');
 // })->middleware('guest')->name('password.request');
@@ -444,6 +444,8 @@ Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController'
 // PROFIL KARYAWAN
     Route::post('v2/profil/foto', 'Admin\profilController@storeImg');
     Route::resource('v2/profil', 'Admin\profilController');
+    Route::get('v2/profil/ubahpassword', 'Auth\ChangePasswordController@showChangePasswordForm')->name('ubahpassword');
+    Route::patch('v2/profil/ubahpassword', 'Auth\ChangePasswordController@changePassword');
     // API PROFIL
     Route::get('api/provinsi/{id}', 'Admin\profilController@apiProvinsi')->name('api.provinsi');
     Route::get('api/kota/{id}', 'Admin\profilController@apiKota')->name('api.kota');
