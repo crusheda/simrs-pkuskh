@@ -5,34 +5,6 @@
   <span class="text-muted fw-light">K3 MFK /</span> Daftar Risiko
 </h4>
 
-{{-- <div class="col-12 mb-4">
-  <div class="card">
-    <div class="card-header d-flex justify-content-between">
-      <div>
-        <h5 class="card-title mb-0">Last updates</h5>
-        <small class="text-muted">Commercial networks</small>
-      </div>
-      <div class="dropdown">
-        <button type="button" class="btn dropdown-toggle px-0" data-bs-toggle="dropdown" aria-expanded="false"><i class="bx bx-calendar"></i></button>
-        <ul class="dropdown-menu dropdown-menu-end">
-          <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Today</a></li>
-          <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Yesterday</a></li>
-          <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last 7 Days</a></li>
-          <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last 30 Days</a></li>
-          <li>
-            <hr class="dropdown-divider">
-          </li>
-          <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Current Month</a></li>
-          <li><a href="javascript:void(0);" class="dropdown-item d-flex align-items-center">Last Month</a></li>
-        </ul>
-      </div>
-    </div>
-    <div class="card-body">
-      <div id="lineAreaChart"></div>
-    </div>
-  </div>
-</div> --}}
-
 @if(session('message'))
 <div class="alert alert-primary alert-dismissible" role="alert">
   <h6 class="alert-heading d-flex align-items-center fw-bold mb-1">Proses Berhasil!</h6>
@@ -64,6 +36,9 @@
         <a class="btn btn-primary" href="{{ route('manrisk.create') }}" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="<i class='bx bx-plus bx-xs' ></i> <span>Tambah Daftar Risiko</span>">
           <i class="bx bx-plus scaleX-n1-rtl"></i>
           <span class="align-middle">Risiko Awal</span>
+        </a>
+        <a class="btn btn-info text-white" onclick="info()" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="<i class='bx bx-info-circle bx-xs' ></i> <span>Informasi Tambahan</span>">
+          <i class="bx bx-info-circle scaleX-n1-rtl"></i>
         </a>
         <a class="btn btn-dark text-white" onclick="berulang()" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="<i class='bx bx-refresh bx-xs' ></i> <span>Tambah Risiko Berulang</span>">
           <i class="bx bx-refresh scaleX-n1-rtl"></i>
@@ -106,14 +81,10 @@
             <th>Nilai</th>
             <th>Tingkat Risiko</th>
             <th>Evaluasi Pengendalian</th>
-            {{-- <th>ELM</th>
-            <th>SBT</th>
-            <th>ENG</th>
-            <th>ADM</th>
-            <th>APD</th> --}}
             <th>Realisasi Pengendalian</th>
             <th>Waktu Penerapan</th>
-            <th>Update</th>
+            <th>Residual (Update)</th>
+            <th>Dibuat</th>
             <th>#</th>
           </tr>
         </thead>
@@ -124,7 +95,7 @@
 </div>
 
 <div class="modal fade" id="berulang" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
         <h5 class="modal-title" id="berulang">Tambah Risiko Berulang</h5>
@@ -184,17 +155,115 @@
         <div class="row g-2">
           <div class="col-md-6">
             <h6>Tingkat Risiko : <a id="tingkat_risiko">-</a></h6>
-            <h6 class="mb-1">Update pada <b><a id="update">-</a></b></h6>
+            <small>Update terakhir pada <b><a id="update">-</a></b></small>
           </div>
           <div class="col-md-6">
             <h6>Jumlah Residual : <kbd id="residual">-</kbd></h6>
             <small>(Jumlah Kasus yang Berulang)</small>
           </div>
         </div>
+        <div class="divider text-end">
+          <div class="divider-text">Status Residual</div>
+        </div>
+        <div class="table-responsive">
+          <table class="table border-top">
+            <thead>
+              <tr>
+                <th>Residual</th>
+                <td>1</td>
+                <td>2</td>
+                <td>3</td>
+                <td>4</td>
+                <td>5</td>
+                <td>6</td>
+                <td>7</td>
+                <td>8</td>
+                <td>9</td>
+                <td>10</td>
+              </tr>
+            </thead>
+            <tbody>
+              <tr>
+                <th>Update</th>
+                <td id="residualdate1"></td>
+                <td id="residualdate2"></td>
+                <td id="residualdate3"></td>
+                <td id="residualdate4"></td>
+                <td id="residualdate5"></td>
+                <td id="residualdate6"></td>
+                <td id="residualdate7"></td>
+                <td id="residualdate8"></td>
+                <td id="residualdate9"></td>
+                <td id="residualdate10"></td>
+              </tr>
+            </tbody>
+          </table>
+        </div>
       </div>
       <div class="modal-footer">
         <button type="submit" class="btn btn-primary" id="btn-simpan"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
       </form>
+        <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="berulang"><i class="fas fa-info-circle"></i> Informasi</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          <div class="col-md-12 table-responsive">
+            <table class="table border-top">
+              <tbody>
+                <tr>
+                  <th>Pengertian</th>
+                  <td style="text-align: justify;">Mengidentifikasi semua potensi yang dapat menimbulkan bahaya bagi karyawan, pasien, 
+                    pengunjung keluarga pasien dan lingkungan Rumah sakit serta mengetahui seberapa besar 
+                    potensi dan kemungkinannya sehingga dapat melakukan tindakan pencegahan dan penanggulangannya</td>
+                </tr>
+                <tr>
+                  <th>Tujuan</th>
+                  <td>
+                    <ul>
+                      <li>Mengetahui potensi bahaya ditempat kerja</li>
+                      <li>Mengetahui lokasi dan potensi bahaya</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Kebijakan</th>
+                  <td>Kebijakan Direktur Nomor 172/KEP/DIR/III.6.AU/PKUSKH/2021 tentang Pedoman Pelayanan Keselamatan dan Kesehatan Kerja di Rumah Sakit PKU Muhammadiyah Sukoharjo.</td>
+                </tr>
+                <tr>
+                  <th>Prosedur</th>
+                  <td style="text-align: justify;">
+                    <ul>
+                      <li>Penanggung jawab MFK memberikan penjelasan dengan aplikasi daftar risiko MFK simrsmu untuk mengidentifikasi potensi bahaya ditempat kerja kepada penanggung jawab unit kerja yang sudah ditugaskan masing-masing Bagian/ Unit</li>
+                      <li>Penanggung jawab Unit kerja mengidentifikasi potensi bahaya ditempat kerja masing-masing</li>
+                      <li>Identifikasi bahaya meliputi potensi bahaya Keselamatan, Keamanan, Proteksi kebakaran, Utilitas/fasilitas Rumah sakit, Peralatan medis, Pengendalian bencana dan Bahan beracun dan berbahaya di masing-masing unit</li>
+                      <li>Data diidentifikasi dan dilaporkan di aplikasi daftar risiko MFK simrsmu</li>
+                      <li>Laporan data daftar risiko dilaporkan ke kepala unit untuk dibahas bersama. dengan tujuan memenuhi rekomendasi yang tercantum dalam daftar risiko untuk dilakukan pengendalian</li>
+                      <li>Usulan pengendalian yang belum bisa diselesaikan ditingkat unit ditindaklanjuti oleh penanggunggung jawab MFK untuk direalisasikan pengendalian</li>
+                      <li>Semua dokumen data identifikasi potensi bahaya disimpan dalam daftar Risiko unit</li>
+                    </ul>
+                  </td>
+                </tr>
+                <tr>
+                  <th>Unit Terkait</th>
+                  <td>Seluruh Unit rumah sakit</td>
+                </tr>
+              </tbody>
+            </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
         <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
       </div>
     </div>
@@ -485,7 +554,50 @@ $(document).ready( function () {
                         content += "</td><td>"
                         + item.deskripsi + "</td><td>"
                         + item.waktu_penerapan + "</td><td>"
-                        + item.updated_at + "</td><td>";
+                        + item.residual + " Kasus (";
+                        if (item.residualdate10 != null) {
+                          content += item.residualdate10;
+                        } else {
+                          if (item.residualdate9 != null) {
+                            content += item.residualdate9;
+                          } else {
+                            if (item.residualdate8 != null) {
+                              content += item.residualdate8;
+                            } else {
+                              if (item.residualdate7 != null) {
+                                content += item.residualdate7;
+                              } else {
+                                if (item.residualdate6 != null) {
+                                  content += item.residualdate6;
+                                } else {
+                                  if (item.residualdate5 != null) {
+                                    content += item.residualdate5;
+                                  } else {
+                                    if (item.residualdate4 != null) {
+                                      content += item.residualdate4;
+                                    } else {
+                                      if (item.residualdate3 != null) {
+                                        content += item.residualdate3;
+                                      } else {
+                                        if (item.residualdate2 != null) {
+                                          content += item.residualdate2;
+                                        } else {
+                                          if (item.residualdate1 != null) {
+                                            content += item.residualdate1;
+                                          } else {
+                                            content += "-";
+                                          }
+                                        }
+                                      }
+                                    }
+                                  }
+                                }
+                              }
+                            }
+                          }
+                        }
+                        content += ")</td><td>"
+                        + item.created_at + "</td><td>";
 
             content += "<center><div class='btn-group'>"
               + "<button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button>";
@@ -494,8 +606,6 @@ $(document).ready( function () {
                           + "<li><a class='dropdown-item text-warning' href='./manrisk/"+item.id+"/edit'><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>"
                           // + "<li><a class='dropdown-item text-info' href='javascript:void(0);'><i class='bx bx-printer scaleX-n1-rtl'></i> Cetak</a></li>"
                           + "<li><a class='dropdown-item text-danger' onclick='hapus("+item.id+")'><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>"
-                          + "<li><hr class='dropdown-divider'></li>"
-                          + "<li><a class='dropdown-item text-dark' onclick='resikoBerulang("+item.id+")'><i class='bx bx-refresh scaleX-n1-rtl'></i> Risiko Berulang</a></li>"
                         + "</ul>";
               } else {
                 if (item.id_user == userID) {
@@ -503,23 +613,17 @@ $(document).ready( function () {
                     content += "<ul class='dropdown-menu dropdown-menu-end'>"
                               + "<li><a class='dropdown-item text-warning' href='./manrisk/"+item.id+"/edit'><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>"
                               + "<li><a class='dropdown-item text-danger' onclick='hapus("+item.id+")'><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>"
-                              + "<li><hr class='dropdown-divider'></li>"
-                              + "<li><a class='dropdown-item text-dark' onclick='resikoBerulang("+item.id+")'><i class='bx bx-refresh scaleX-n1-rtl'></i> Risiko Berulang</a></li>"
                             + "</ul>";
                   } else {
                     content += "<ul class='dropdown-menu dropdown-menu-end'>"
                               + "<li><a class='dropdown-item text-secondary disabled' href='javascript:void(0);' disabled><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>"
                               + "<li><a class='dropdown-item text-secondary disabled' onclick='javascript:void(0);' disabled><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>"
-                              + "<li><hr class='dropdown-divider'></li>"
-                              + "<li><a class='dropdown-item text-dark' onclick='resikoBerulang("+item.id+")'><i class='bx bx-refresh scaleX-n1-rtl'></i> Risiko Berulang</a></li>"
                             + "</ul>";
                   }
                 } else {
                   content += "<ul class='dropdown-menu dropdown-menu-end'>"
                             + "<li><a class='dropdown-item text-secondary disabled' href='javascript:void(0);' disabled><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>"
                             + "<li><a class='dropdown-item text-secondary disabled' onclick='javascript:void(0);' disabled><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>"
-                            + "<li><hr class='dropdown-divider'></li>"
-                            + "<li><a class='dropdown-item text-dark' onclick='resikoBerulang("+item.id+")'><i class='bx bx-refresh scaleX-n1-rtl'></i> Risiko Berulang</a></li>"
                           + "</ul>";
                 }
               } 
@@ -528,7 +632,7 @@ $(document).ready( function () {
           });
           $('#table').DataTable(
             {
-              order: [[17, "desc"]],
+              order: [[18, "desc"]],
               dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
               displayLength: 7,
               lengthMenu: [7, 10, 25, 50, 75, 100],
@@ -603,6 +707,10 @@ $("#formResidual").one('submit', function() {
     return true;
 });
 
+function info() {
+  $('#info').modal('show');
+}
+
 function berulang() {
   $.ajax(
     {
@@ -644,7 +752,7 @@ function validasiBerulang(sel) {
           tingkat_risiko = '<span class="badge" style="background-color:#00B050">'+res.tingkat_risiko+'</span>';
         }
         if (res.tingkat_risiko == 'High') {
-          tingkat_risiko = '<span class="badge" style="background-color:#FFFF00">'+res.tingkat_risiko+'</span>';
+          tingkat_risiko = '<span class="badge" style="background-color:#FFFF00;color:black">'+res.tingkat_risiko+'</span>';
         }
         if (res.tingkat_risiko == 'Extreme') {
           tingkat_risiko = '<span class="badge" style="background-color:#C65911">'+res.tingkat_risiko+'</span>';
@@ -654,16 +762,27 @@ function validasiBerulang(sel) {
         }
 
         if (res.jenis_risiko == 1) {
-          jenis_risiko = 'Rutin';
-        } else {
-          jenis_risiko = 'Non Rutin';
-        }
+          jenis_risiko = 'Staf';
+        } 
+        if (res.jenis_risiko == 2) {
+          jenis_risiko = 'Pasien';
+        } 
+        if (res.jenis_risiko == 3) {
+          jenis_risiko = 'Fasilitas Rumah Sakit';
+        } 
+        if (res.jenis_risiko == 4) {
+          jenis_risiko = 'Lingkungan Rumah Sakit';
+        } 
+        if (res.jenis_risiko == 5) {
+          jenis_risiko = 'Bisnis Rumah Sakit';
+        } 
 
         if (res.residual != null) {
           residual = res.residual + ' Kasus';
         } else {
           residual = '-';
         }
+
         $("#risiko").val(res.risiko);
         $("#item_jenis").val(res.item_kegiatan + ' (' + jenis_risiko + ')');
         $("#pengendalian").val(res.pengendalian);
@@ -672,6 +791,16 @@ function validasiBerulang(sel) {
         document.getElementById('tingkat_risiko').innerHTML = tingkat_risiko;
         document.getElementById('update').innerHTML = res.updated_at;
         document.getElementById('residual').innerHTML = residual;
+        document.getElementById('residualdate1').innerHTML = res.residualdate1;
+        document.getElementById('residualdate2').innerHTML = res.residualdate2;
+        document.getElementById('residualdate3').innerHTML = res.residualdate3;
+        document.getElementById('residualdate4').innerHTML = res.residualdate4;
+        document.getElementById('residualdate5').innerHTML = res.residualdate5;
+        document.getElementById('residualdate6').innerHTML = res.residualdate6;
+        document.getElementById('residualdate7').innerHTML = res.residualdate7;
+        document.getElementById('residualdate8').innerHTML = res.residualdate8;
+        document.getElementById('residualdate9').innerHTML = res.residualdate9;
+        document.getElementById('residualdate10').innerHTML = res.residualdate10;
       }
     }
   );

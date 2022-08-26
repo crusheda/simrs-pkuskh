@@ -223,12 +223,11 @@ class manriskController extends Controller
         $user = Auth::user();
         $user_id = $user->id;
 
-        // if ($user->hasRole('it')) {
-        //     $show = ref_jadwal_dinas::get();
-        // } else {
-        //     $show = ref_jadwal_dinas::where('id_user',$id)->get();
-        // }
-        $show = manrisk::where('id_user',$user_id)->get();
+        if ($user->hasRole(['k3','it'])) {
+            $show = manrisk::get();
+        } else {
+            $show = manrisk::where('id_user',$user_id)->get();
+        }
 
         $data = [
             'show' => $show,
@@ -251,10 +250,54 @@ class manriskController extends Controller
     {
         $user = Auth::user();
         $name = $user->name;
-        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+        $now = Carbon::now();
+        $tgl = $now->isoFormat('dddd, D MMMM Y, HH:mm a');
         
         $data = manrisk::find($request->sumber_bahaya);
         $data->residual = $data->residual+1;
+        if ($data->residualdate1 == null) {
+            $data->residualdate1 = $now;
+        } else {
+            if ($data->residualdate2 == null) {
+                $data->residualdate2 = $now;
+            } else {
+                if ($data->residualdate3 == null) {
+                    $data->residualdate3 = $now;
+                } else {
+                    if ($data->residualdate4 == null) {
+                        $data->residualdate4 = $now;
+                    } else {
+                        if ($data->residualdate5 == null) {
+                            $data->residualdate5 = $now;
+                        } else {
+                            if ($data->residualdate6 == null) {
+                                $data->residualdate6 = $now;
+                            } else {
+                                if ($data->residualdate7 == null) {
+                                    $data->residualdate7 = $now;
+                                } else {
+                                    if ($data->residualdate8 == null) {
+                                        $data->residualdate8 = $now;
+                                    } else {
+                                        if ($data->residualdate9 == null) {
+                                            $data->residualdate9 = $now;
+                                        } else {
+                                            $data->residualdate10 = $now;
+                                        }
+                                        
+                                    }
+                                    
+                                }
+                                
+                            }
+                            
+                        }
+                    }
+                    
+                }
+                
+            }
+        }
         $data->save();
 
         return redirect()->route('manrisk.index')->with('message','Tambah Residual Daftar Resiko Berhasil oleh '.$name.' Pada '.$tgl);

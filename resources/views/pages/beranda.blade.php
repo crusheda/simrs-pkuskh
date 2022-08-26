@@ -33,7 +33,7 @@
           <h3 class="mb-5">Pengajuan Sistem</h3>
         </div>
         <h6>Ahh.. Maaf, Belum saatnya..<br>Kami sedang dalam perbaikan sistem..</h6><hr>
-        <p>Konsultasikan terlebih dahulu dengan Tim IT untuk perancangan Sistem yang akan dibuat.</p>
+        <p>Konsultasikan terlebih dahulu dengan Programmer Kami untuk perancangan Sistem yang akan dibuat.</p>
       </div>
     </div>
   </div>
