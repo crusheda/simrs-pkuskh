@@ -59,10 +59,12 @@
           </div>
           <div class="col-md-6 mb-4">
             <div class="form-group">
-              <label for="defaultFormControlInput" class="form-label">Jenis Aktivitas</label>
+              <label for="defaultFormControlInput" class="form-label">Sumber Data</label>
               <select name="jenis_aktivitas" class="select2 form-select" data-allow-clear="true" required>
-                <option value="1" @if ($item->jenis_aktivitas == 1 ) selected @endif>Rutin</option>
-                <option value="2" @if ($item->jenis_aktivitas == 2 ) selected @endif>Non Rutin</option>
+                <option value="1" @if ($item->jenis_aktivitas == 1 ) selected @endif>Laporan Kejadian</option>
+                <option value="2" @if ($item->jenis_aktivitas == 2 ) selected @endif>Survey</option>
+                <option value="3" @if ($item->jenis_aktivitas == 3 ) selected @endif>Komplain</option>
+                <option value="4" @if ($item->jenis_aktivitas == 4 ) selected @endif>Rapat Unit</option>
               </select>
             </div>
           </div>
@@ -91,7 +93,7 @@
             </div>
           </div>
           <div class="col-md-12 mb-4">
-            <label for="defaultFormControlInput" class="form-label">Pengendalian yang telah diterapkan</label>
+            <label for="defaultFormControlInput" class="form-label">Usulan Pengendalian</label>
             <div class="form-group">
               <textarea rows="3" class="autosize2 form-control" name="pengendalian" placeholder="" required><?php echo htmlspecialchars($item->pengendalian); ?></textarea>
             </div>
@@ -259,7 +261,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-6 mb-4">
-                <label for="defaultFormControlInput" class="form-label">Deskripsi Pengendalian Tambahan</label>
+                <label for="defaultFormControlInput" class="form-label">Realisasi Pengendalian</label>
                 <div class="form-group">
                   <textarea rows="3" class="autosize3 form-control" name="deskripsi" placeholder="" required><?php echo htmlspecialchars($item->deskripsi); ?></textarea>
                 </div>

@@ -96,11 +96,11 @@
             <th>Ruang Lingkup</th>
             <th>Proses Utama</th>
             <th>Item Kegiatan</th>
-            <th>Jenis Aktivitas</th>
+            <th>Sumber Data</th>
             <th>Kode Bahaya</th>
             <th>Sumber Bahaya</th>
             <th>Risiko</th>
-            <th>Pengendalian yang telah Diterapkan</th>
+            <th>Usulan Pengendalian</th>
             <th>Dampak</th>
             <th>Kemungkinan / Frekuensi</th>
             <th>Nilai</th>
@@ -111,7 +111,7 @@
             <th>ENG</th>
             <th>ADM</th>
             <th>APD</th> --}}
-            <th>Deskripsi Pengendalian Tambahan</th>
+            <th>Realisasi Pengendalian</th>
             <th>Waktu Penerapan</th>
             <th>Update</th>
             <th>#</th>
@@ -161,13 +161,13 @@
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="defaultFormControlInput" class="form-label">Pengendalian</label>
+              <label for="defaultFormControlInput" class="form-label">Usulan Pengendalian</label>
               <textarea rows="3" class="form-control" id="pengendalian" readonly></textarea>
             </div>
           </div>
           <div class="col-md-6">
             <div class="form-group">
-              <label for="defaultFormControlInput" class="form-label">Deskripsi Pengendalian Tambahan</label>
+              <label for="defaultFormControlInput" class="form-label">Realisasi Pengendalian</label>
               <textarea rows="3" class="form-control" id="deskripsi" readonly></textarea>
             </div>
           </div>
@@ -397,12 +397,18 @@ $(document).ready( function () {
                           }
                         content += "</td><td>"
                         + item.item_kegiatan + "</td><td>";
-                        // Jenis Aktivitas
+                        // Jenis Aktivitas Diganti Sumber Data
                           if (item.jenis_aktivitas == 1) {
-                            content += "Rutin";
+                            content += "Laporan Kejadian";
                           }
                           if (item.jenis_aktivitas == 2) {
-                            content += "Non Rutin";
+                            content += "Survey";
+                          }
+                          if (item.jenis_aktivitas == 3) {
+                            content += "Komplain";
+                          }
+                          if (item.jenis_aktivitas == 4) {
+                            content += "Rapat Unit";
                           }
                         content += "</td><td>";
                         // Kode Bahaya

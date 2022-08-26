@@ -81,7 +81,7 @@
               </div>
               <div class="row g-3">
                 <div class="col-sm-4">
-                  <label class="form-label">Akun</label>
+                  <label class="form-label">Username Akun</label>
                   <input type="text" class="form-control" value="{{ $list['show']->name }}" disabled />
                 </div>
                 <div class="col-sm-4">
@@ -90,7 +90,7 @@
                 </div>
                 <div class="col-sm-4">
                   <label class="form-label" for="email">NIK</label>
-                  <input type="text" name="nik" class="form-control" value="{{ $list['show']->nik }}" placeholder="Isi dengan kombinasi Angka" required/>
+                  <input type="text" name="nik" class="form-control phone" value="{{ $list['show']->nik }}" minlength="16" maxlength="16" placeholder="Isi dengan kombinasi Angka" required/>
                 </div>
                 <div class="col-sm-6">
                   <label class="form-label" for="first-name">Nama Lengkap, Gelar</label>
@@ -197,7 +197,7 @@
                   </div>
                 </div>
               </div>
-              <div class="collapse" id="hidedom">
+              <div class="collapse <?php if(!empty($list['show']->alamat_dom)) { echo 'show'; } ?>" id="hidedom">
                 <div class="row g-3 mb-3">
                   <div class="col-md-6">
                     <label class="form-label">Provinsi</label>
@@ -272,7 +272,7 @@
                 </div>
                 <div class="col-sm-6">
                   <label class="form-label">Email</label>
-                  <input type="email" name="email" class="form-control" value="{{ $list['show']->email }}" placeholder="" />
+                  <input type="email" name="email" class="form-control" value="{{ $list['show']->email }}" placeholder="" required/>
                 </div>
                 <div class="row g-3">
                   <div class="col-12 d-flex justify-content-between">
@@ -404,7 +404,7 @@
                 <small>Atur Foto Profil Akun Anda</small>
               </div>
               <div class="row g-3">
-                <div class="d-flex align-items-start align-items-sm-center gap-4">
+                <div class="d-flex align-items-start gap-4">
                   @if (!empty($list['foto']->filename))
                     <img src="{{ url('storage/'.substr($list['foto']->filename,7,1000)) }}" alt="user-avatar" class="d-block rounded" height="100" id="blah" />
                   @else
@@ -421,7 +421,13 @@
                       <span class="d-none d-sm-block">Reset</span>
                     </button> --}}
         
-                    <p class="text-muted mb-0">File berformat JPG, GIF, atau PNG</p>
+                    <p class="text-muted mb-0">
+                      <ul>
+                        <li>File berformat JPG/JPEG/PNG</li>
+                        <li>Disarankan untuk Upload Foto Formal</li>
+                        <li>Dimensi Ukuran Foto 3x4</li>
+                      </ul>
+                    </p>
                   </div>
                 </div>
                 <div class="col-12 d-flex justify-content-between">
@@ -748,13 +754,29 @@
   });
 
   function saveData() {
-    let x = document.forms["formUpdate"]["nik"].value;
-    if (x == "") {
-      iziToast.error({
-        title: 'Error!',
-        message: 'NIK kosong',
-        position: 'topRight'
-      });
+    let nik           = document.forms["formUpdate"]["nik"].value;
+    let nama          = document.forms["formUpdate"]["nama"].value;
+    let nick          = document.forms["formUpdate"]["nick"].value;
+    let temp_lahir    = document.forms["formUpdate"]["temp_lahir"].value;
+    let tgl_lahir     = document.forms["formUpdate"]["tgl_lahir"].value;
+    let jns_kelamin   = document.forms["formUpdate"]["jns_kelamin"].value;
+    let status_kawin  = document.forms["formUpdate"]["status_kawin"].value;
+    let ktp_provinsi  = document.forms["formUpdate"]["ktp_provinsi"].value;
+    let alamat_ktp    = document.forms["formUpdate"]["alamat_ktp"].value;
+    let no_hp         = document.forms["formUpdate"]["no_hp"].value;
+    let email         = document.forms["formUpdate"]["email"].value;
+    if (nik == "" || nama == "" || nick == "" || temp_lahir == "" || tgl_lahir == "" || jns_kelamin == "" || status_kawin == "" || ktp_provinsi == "" || alamat_ktp == "" || no_hp == "" || email == "") {
+      if (nik == "")          {iziToast.error({title: 'Pesan Gagal!',message: 'NIK wajib diisi',position: 'topRight'});}
+      if (nama == "")         {iziToast.error({title: 'Pesan Gagal!',message: 'Nama Lengkap dan Gelar wajib diisi',position: 'topRight'});}
+      if (nick == "")         {iziToast.error({title: 'Pesan Gagal!',message: 'Nama Panggilan wajib diisi',position: 'topRight'});}
+      if (temp_lahir == "")   {iziToast.error({title: 'Pesan Gagal!',message: 'Tempat Lahir wajib diisi',position: 'topRight'});}
+      if (tgl_lahir == "")    {iziToast.error({title: 'Pesan Gagal!',message: 'Tanggal Lahir wajib diisi',position: 'topRight'});}
+      if (jns_kelamin == "")  {iziToast.error({title: 'Pesan Gagal!',message: 'Jenis Kelamin wajib diisi',position: 'topRight'});}
+      if (status_kawin == "") {iziToast.error({title: 'Pesan Gagal!',message: 'Status Kawin wajib diisi',position: 'topRight'});}
+      if (ktp_provinsi == "") {iziToast.error({title: 'Pesan Gagal!',message: 'Lengkapi Data Alamat',position: 'topRight'});}
+      if (alamat_ktp == "")   {iziToast.error({title: 'Pesan Gagal!',message: 'Alamat Lengkap wajib diisi',position: 'topRight'});}
+      if (no_hp == "")        {iziToast.error({title: 'Pesan Gagal!',message: 'No HP wajib diisi',position: 'topRight'});}
+      if (email == "")        {iziToast.error({title: 'Pesan Gagal!',message: 'Email wajib diisi',position: 'topRight'});}
       return false;
     } else {
       $("#formUpdate").one('submit', function() {

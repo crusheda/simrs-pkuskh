@@ -60,11 +60,13 @@
           </div>
           <div class="col-md-6 mb-4">
             <div class="form-group">
-              <label for="defaultFormControlInput" class="form-label">Jenis Aktivitas</label>
+              <label for="defaultFormControlInput" class="form-label">Sumber Data</label>
               <select name="jenis_aktivitas" class="select2 form-select" data-allow-clear="true" required>
                 <option value="">Pilih</option>
-                <option value="1">Rutin</option>
-                <option value="2">Non Rutin</option>
+                <option value="1">Laporan Kejadian</option>
+                <option value="2">Survey</option>
+                <option value="3">Komplain</option>
+                <option value="4">Rapat Unit</option>
               </select>
             </div>
           </div>
@@ -94,7 +96,7 @@
             </div>
           </div>
           <div class="col-md-12 mb-4">
-            <label for="defaultFormControlInput" class="form-label">Pengendalian yang telah diterapkan</label>
+            <label for="defaultFormControlInput" class="form-label">Usulan Pengendalian</label>
             <div class="form-group">
               <textarea rows="3" class="autosize2 form-control" name="pengendalian" placeholder="" required></textarea>
             </div>
@@ -264,7 +266,7 @@
           <div class="card-body">
             <div class="row">
               <div class="col-md-6 mb-4">
-                <label for="defaultFormControlInput" class="form-label">Deskripsi Pengendalian Tambahan</label>
+                <label for="defaultFormControlInput" class="form-label">Realisasi Pengendalian</label>
                 <div class="form-group">
                   <textarea rows="3" class="autosize3 form-control" name="deskripsi" placeholder="" required></textarea>
                 </div>
