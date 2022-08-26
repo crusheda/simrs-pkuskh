@@ -22,8 +22,8 @@ Route::get('/lakonweb', 'lakonwebController@index')->name('lakonweb.index');
 Auth::routes(['register' => false]);
 
 // Change Password Routes...
-// Route::get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('auth.change_password');
-// Route::patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('auth.change_password');
+Route::get('change_password', 'Auth\ChangePasswordController@showChangePasswordForm')->name('auth.change_password');
+Route::patch('change_password', 'Auth\ChangePasswordController@changePassword')->name('auth.change_password');
 // Route::post('edit_akun/{id}', 'Admin\UsersController@ubahData')->name('ubah.akun');
 // Route::get('/forgot_password', function () {
 //     return view('auth.passwords.reset');
