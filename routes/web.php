@@ -163,18 +163,18 @@ Route::get('pbf/api/{jenis}', 'keuangan\pengajuan_pengeluaran\pbfController@apiP
 Route::resource('pbf', 'keuangan\pengajuan_pengeluaran\pbfController');
 
 // Lab
-Route::group(['middleware' => ['auth'], 'prefix' => 'lab', 'as' => 'lab.'], function () {
-    // Route::get('/karyawan/cetak/{id}', 'kantor\kepegawaianController@generatePDF')->name('karyawan.cetak');
-    Route::get('antigen/all/api','lab\antigenController@apiShowAll')->name('antigen.apiall');  
-    Route::get('antigen/all','lab\antigenController@showAll')->name('antigen.all');  
-    Route::get('antigen/api/get','lab\antigenController@apiGet')->name('antigen.apiget');  
-    Route::post('antigen/api/ubah/{id}', 'lab\antigenController@ubah')->name('antigen.ubah');
-    Route::get('antigen/api/getubah/{id}', 'lab\antigenController@getubah')->name('antigen.getubah');
-    Route::get('antigen/api/hapus/{id}', 'lab\antigenController@hapus')->name('antigen.hapus');
-    Route::resource('/antigen', 'lab\antigenController');
-    Route::get('antigen/{id}/cetak','lab\antigenController@cetak')->name('antigen.cetak');  
-    Route::get('antigen/{id}/print','lab\antigenController@print')->name('antigen.print');  
-});
+// Route::group(['middleware' => ['auth'], 'prefix' => 'lab', 'as' => 'lab.'], function () {
+//     // Route::get('/karyawan/cetak/{id}', 'kantor\kepegawaianController@generatePDF')->name('karyawan.cetak');
+//     Route::get('antigen/all/api','lab\antigenController@apiShowAll')->name('antigen.apiall');  
+//     Route::get('antigen/all','lab\antigenController@showAll')->name('antigen.all');  
+//     Route::get('antigen/api/get','lab\antigenController@apiGet')->name('antigen.apiget');  
+//     Route::post('antigen/api/ubah/{id}', 'lab\antigenController@ubah')->name('antigen.ubah');
+//     Route::get('antigen/api/getubah/{id}', 'lab\antigenController@getubah')->name('antigen.getubah');
+//     Route::get('antigen/api/hapus/{id}', 'lab\antigenController@hapus')->name('antigen.hapus');
+//     Route::resource('/antigen', 'lab\antigenController');
+//     Route::get('antigen/{id}/cetak','lab\antigenController@cetak')->name('antigen.cetak');  
+//     Route::get('antigen/{id}/print','lab\antigenController@print')->name('antigen.print');  
+// });
 
 // Kepegawaian
 Route::get('kepegawaian/karyawan/profil/{id}', 'kantor\kepegawaian\profilController@showProfil')->name('kepegawaian.karyawan.profil');
@@ -297,11 +297,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
             Route::resource('tgsperawat', 'perawat\tgsPerawatController');
 
     // Kebidanan
-        Route::get('kebidanan/skl/all','kebidanan\sklController@showAll')->name('skl.all');
-        Route::get('kebidanan/skl/all/api','kebidanan\sklController@apiAll')->name('skl.apiall');  
-        Route::get('kebidanan/skl/{id}/cetak','kebidanan\sklController@cetak')->name('skl.cetak');  
-        Route::get('kebidanan/skl/{id}/print','kebidanan\sklController@print')->name('skl.print');  
-        Route::resource('kebidanan/skl', 'kebidanan\sklController');
+        // Route::get('kebidanan/skl/all','kebidanan\sklController@showAll')->name('skl.all');
+        // Route::get('kebidanan/skl/all/api','kebidanan\sklController@apiAll')->name('skl.apiall');  
+        // Route::get('kebidanan/skl/{id}/cetak','kebidanan\sklController@cetak')->name('skl.cetak');  
+        // Route::get('kebidanan/skl/{id}/print','kebidanan\sklController@print')->name('skl.print');  
+        // Route::resource('kebidanan/skl', 'kebidanan\sklController');
         // Route::get('cetak/word', 'kebidanan\sklController@word');
 
     // K3
@@ -435,47 +435,60 @@ Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController'
         Route::put('administrasi/jadwaldinas/ref/api/ubah/{id}', 'administrasi\jadwalDinasController@ubahRef')->name('ref.jadwal.dinas.ubah');
         Route::get('administrasi/jadwaldinas/ref/api/hapus/{id}', 'administrasi\jadwalDinasController@hapusRef')->name('ref.jadwal.dinas.hapus');
 
+Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function () {
+
 // SIMRSMU V.2
-    Route::get('v2/beranda', 'simrsmuv2Controller@index')->name('simrsmuv2.index');
+
+// BERANDA
+    Route::get('beranda', 'simrsmuv2Controller@index')->name('beranda.index');
 
 // PROFIL KARYAWAN
-    Route::post('v2/profil/foto', 'Admin\profilController@storeImg');
-    Route::resource('v2/profil', 'Admin\profilController');
-    Route::get('v2/profil/ubahpassword', 'Auth\ChangePasswordController@showChangePasswordForm')->name('ubahpassword');
-    Route::patch('v2/profil/ubahpassword', 'Auth\ChangePasswordController@changePassword');
-    // API PROFIL
-    Route::get('api/provinsi/{id}', 'Admin\profilController@apiProvinsi')->name('api.provinsi');
-    Route::get('api/kota/{id}', 'Admin\profilController@apiKota')->name('api.kota');
-    Route::get('api/kecamatan/{id}', 'Admin\profilController@apiKecamatan')->name('api.kecamatan');
+    Route::post('profil/foto', 'Admin\profilController@storeImg');
+    Route::resource('profil', 'Admin\profilController');
+    Route::get('profil/ubahpassword', 'Auth\ChangePasswordController@showChangePasswordForm')->name('ubahpassword');
+    Route::patch('profil/ubahpassword', 'Auth\ChangePasswordController@changePassword');
 
 // K3
     // MANAJEMEN RESIKO
-        Route::get('v2/k3/manrisk/api/berulang/validasi/{id}', 'k3\manriskController@apiValidasiBerulang');
-        Route::get('v2/k3/manrisk/api/berulang', 'k3\manriskController@apiBerulang');
-        Route::post('v2/k3/manrisk/save/berulang', 'k3\manriskController@saveBerulang')->name('manrisk.residual');
-        Route::get('v2/k3/manrisk/api/data', 'k3\manriskController@apiData');
-        Route::get('v2/k3/manrisk/api/hapus/{id}', 'k3\manriskController@apiHapus');
-        Route::resource('v2/k3/manrisk', 'k3\manriskController');
+        Route::post('k3/manrisk/save/berulang', 'k3\manriskController@saveBerulang')->name('manrisk.residual');
+        // Route::get('api/k3/manrisk/data', 'k3\manriskController@apiData');
+        Route::resource('k3/manrisk', 'k3\manriskController');
     // ACCIDENT REPORT
-        Route::post('v2/k3/accidentreport/{id}/check', 'k3\accidentReportController@verifikasi')->name('accidentreport.check');
-        Route::get('v2/k3/accidentreport/{id}/show', 'k3\accidentReportController@show')->name('accidentreport.show'); 
-        Route::get('v2/k3/accidentreport/{id}/cetak','k3\accidentReportController@cetak')->name('accidentreport.cetak');  
-        Route::resource('v2/k3/accidentreport', 'k3\accidentReportController');
+        Route::post('k3/accidentreport/{id}/check', 'k3\accidentReportController@verifikasi')->name('accidentreport.check');
+        Route::get('k3/accidentreport/{id}/show', 'k3\accidentReportController@show')->name('accidentreport.show'); 
+        Route::get('k3/accidentreport/{id}/cetak','k3\accidentReportController@cetak')->name('accidentreport.cetak');  
+        Route::resource('k3/accidentreport', 'k3\accidentReportController');
 
         
 // IPSRS
-    Route::post('v2/laporan/pengaduan/ipsrs/selesai', 'ipsrs\pengaduan\pengaduanController@selesai')->name('pengaduan.ipsrs.selesai');
-    Route::post('v2/laporan/pengaduan/ipsrs/tambahketerangan', 'ipsrs\pengaduan\pengaduanController@tambahketerangan')->name('pengaduan.ipsrs.tambahketerangan');
-    Route::post('v2/laporan/pengaduan/ipsrs/ubahketerangan', 'ipsrs\pengaduan\pengaduanController@ubahketerangan')->name('pengaduan.ipsrs.ubahketerangan');
-    Route::post('v2/laporan/pengaduan/ipsrs/kerjakan', 'ipsrs\pengaduan\pengaduanController@kerjakan')->name('pengaduan.ipsrs.kerjakan');
-    Route::post('v2/laporan/pengaduan/ipsrs/kerjakan/ubah', 'ipsrs\pengaduan\pengaduanController@ubahKerjakan')->name('pengaduan.ipsrs.ubah.kerjakan');
-    Route::post('v2/laporan/pengaduan/ipsrs/terima', 'ipsrs\pengaduan\pengaduanController@terima')->name('pengaduan.ipsrs.terima');
-    Route::post('v2/laporan/pengaduan/ipsrs/terima/ubah', 'ipsrs\pengaduan\pengaduanController@ubahTerima')->name('pengaduan.ipsrs.ubah.terima');
-    Route::post('v2/laporan/pengaduan/ipsrs/tolak', 'ipsrs\pengaduan\pengaduanController@tolak')->name('pengaduan.ipsrs.tolak');
-    Route::get('v2/laporan/pengaduan/ipsrs/detail/{id}', 'ipsrs\pengaduan\pengaduanController@detail')->name('pengaduan.ipsrs.detail');
-    Route::get('v2/laporan/pengaduan/ipsrs/lampiran/catatan/{id}', 'ipsrs\pengaduan\pengaduanController@showCatatan')->name('pengaduan.ipsrs.lampiran.catatan');
-    Route::get('v2/laporan/pengaduan/ipsrs/history', 'ipsrs\pengaduan\pengaduanController@history')->name('pengaduan.ipsrs.history');
+    Route::post('laporan/pengaduan/ipsrs/selesai', 'ipsrs\pengaduan\pengaduanController@selesai')->name('pengaduan.ipsrs.selesai');
+    Route::post('laporan/pengaduan/ipsrs/tambahketerangan', 'ipsrs\pengaduan\pengaduanController@tambahketerangan')->name('pengaduan.ipsrs.tambahketerangan');
+    Route::post('laporan/pengaduan/ipsrs/ubahketerangan', 'ipsrs\pengaduan\pengaduanController@ubahketerangan')->name('pengaduan.ipsrs.ubahketerangan');
+    Route::post('laporan/pengaduan/ipsrs/kerjakan', 'ipsrs\pengaduan\pengaduanController@kerjakan')->name('pengaduan.ipsrs.kerjakan');
+    Route::post('laporan/pengaduan/ipsrs/kerjakan/ubah', 'ipsrs\pengaduan\pengaduanController@ubahKerjakan')->name('pengaduan.ipsrs.ubah.kerjakan');
+    Route::post('laporan/pengaduan/ipsrs/terima', 'ipsrs\pengaduan\pengaduanController@terima')->name('pengaduan.ipsrs.terima');
+    Route::post('laporan/pengaduan/ipsrs/terima/ubah', 'ipsrs\pengaduan\pengaduanController@ubahTerima')->name('pengaduan.ipsrs.ubah.terima');
+    Route::post('laporan/pengaduan/ipsrs/tolak', 'ipsrs\pengaduan\pengaduanController@tolak')->name('pengaduan.ipsrs.tolak');
+    Route::get('laporan/pengaduan/ipsrs/detail/{id}', 'ipsrs\pengaduan\pengaduanController@detail')->name('pengaduan.ipsrs.detail');
+    Route::get('laporan/pengaduan/ipsrs/lampiran/catatan/{id}', 'ipsrs\pengaduan\pengaduanController@showCatatan')->name('pengaduan.ipsrs.lampiran.catatan');
+    Route::get('laporan/pengaduan/ipsrs/history', 'ipsrs\pengaduan\pengaduanController@history')->name('pengaduan.ipsrs.history');
     // START API
         // Route::get('pengaduan/ipsrs/lampiran/{id}', 'ipsrs\pengaduan\pengaduanController@getLampiran')->name('pengaduan.ipsrs.lampiran');
     // END API
-    Route::resource('v2/laporan/pengaduan/ipsrs', 'ipsrs\pengaduan\pengaduanController');
+    Route::resource('laporan/pengaduan/ipsrs', 'ipsrs\pengaduan\pengaduanController');
+
+// Kebidanan
+    Route::get('kebidanan/skl/all','kebidanan\sklController@showAll')->name('skl.all');
+    Route::get('kebidanan/skl/{id}/cetak','kebidanan\sklController@cetak')->name('skl.cetak');  
+    Route::get('kebidanan/skl/{id}/print','kebidanan\sklController@print')->name('skl.print');  
+    Route::resource('kebidanan/skl', 'kebidanan\sklController');
+
+// Lab
+    Route::get('antigen/all','lab\antigenController@showAll')->name('antigen.all');  
+    Route::get('antigen/{id}/cetak','lab\antigenController@cetak')->name('antigen.cetak');  
+    Route::get('antigen/{id}/print','lab\antigenController@print')->name('antigen.print');  
+    Route::resource('/antigen', 'lab\antigenController');
+
+
+
+});

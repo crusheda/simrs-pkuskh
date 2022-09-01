@@ -55,8 +55,8 @@
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Publik</span>
     </li>
-    <li class="menu-item {{ request()->routeIs('simrsmuv2.index') ? 'active' : '' }}">
-      <a href="{{ route('simrsmuv2.index') }}" class="menu-link">
+    <li class="menu-item {{ request()->routeIs('beranda.index') ? 'active' : '' }}">
+      <a href="{{ route('beranda.index') }}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>
         <div data-i18n="Beranda">Beranda</div>
       </a>
@@ -99,7 +99,24 @@
         <div data-i18n="Manajemen Resiko">Daftar Risiko</div>
       </a>
     </li>
-
+    <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Laboratorium</span>
+    </li>
+    <li class="menu-item {{ request()->routeIs('antigen.index') ? 'active' : '' }}">
+      <a href="{{ route('antigen.index') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-accessibility"></i>
+        <div data-i18n="Accident Report">Antigen</div>
+      </a>
+    </li>
+    <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Kebidanan</span>
+    </li>
+    <li class="menu-item {{ request()->routeIs('skl.index') ? 'active' : '' }}">
+      <a href="{{ route('skl.index') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-accessibility"></i>
+        <div data-i18n="Accident Report">SKL</div>
+      </a>
+    </li>
     {{-- <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>

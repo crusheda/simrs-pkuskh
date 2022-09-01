@@ -199,15 +199,14 @@ class manriskController extends Controller
 
     public function apiData()
     {
-        $user = Auth::user();
-        $id = $user->id;
-
         // if ($user->hasRole('it')) {
         //     $show = ref_jadwal_dinas::get();
         // } else {
         //     $show = ref_jadwal_dinas::where('id_user',$id)->get();
         // }
         $show = manrisk::get();
+        // print_r($show);
+        // die();
 
         $data = [
             'show' => $show,

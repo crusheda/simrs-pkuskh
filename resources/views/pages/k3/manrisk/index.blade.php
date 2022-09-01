@@ -404,7 +404,7 @@ $(document).ready( function () {
 
   $.ajax(
     {
-      url: "./manrisk/api/data",
+      url: "/api/k3/manrisk/data",
       type: 'GET',
       async: true,
       dataType: 'json', // added data type
@@ -714,7 +714,7 @@ function info() {
 function berulang() {
   $.ajax(
     {
-      url: "./manrisk/api/berulang",
+      url: "api/k3/manrisk/berulang",
       type: 'GET',
       dataType: 'json', // added data type
       success: function(res) {
@@ -740,7 +740,7 @@ function berulang() {
 function validasiBerulang(sel) {
   $.ajax(
     {
-      url: "./manrisk/api/berulang/validasi/"+sel.value,
+      url: "api/k3/manrisk/berulang/validasi/"+sel.value,
       type: 'GET',
       dataType: 'json', // added data type
       success: function(res) {
@@ -823,7 +823,7 @@ function hapus(id) {
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajax({
-        url: "./manrisk/api/hapus/"+id,
+        url: "api/k3/manrisk/hapus/"+id,
         type: 'GET',
         dataType: 'json', // added data type
         success: function(res) {
