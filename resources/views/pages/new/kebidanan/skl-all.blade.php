@@ -39,7 +39,7 @@
   $(document).ready( function () {
     $.ajax(
       {
-        url: "./all/api",
+        url: "/api/kebidanan/skl/all",
         type: 'GET',
         dataType: 'json', // added data type
         success: function(res) {
@@ -106,7 +106,7 @@ function refresh() {
   $("#tampil-tbody").empty().append(`<tr><td colspan="8"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
   $.ajax(
     {
-      url: "./all/api",
+      url: "/api/kebidanan/skl/all",
       type: 'GET',
       dataType: 'json', // added data type
       success: function(res) {

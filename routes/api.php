@@ -5,28 +5,25 @@
 Route::group(['prefix' => '', 'as' => ''], function () {
 
 
-// API PROFIL
-  Route::get('api/provinsi/{id}', 'Admin\profilController@apiProvinsi');
-  Route::get('api/kota/{id}', 'Admin\profilController@apiKota');
-  Route::get('api/kecamatan/{id}', 'Admin\profilController@apiKecamatan');
+// // API PROFIL
+//   Route::get('provinsi/{id}', 'Admin\profilController@apiProvinsi');
+//   Route::get('kota/{id}', 'Admin\profilController@apiKota');
+//   Route::get('kecamatan/{id}', 'Admin\profilController@apiKecamatan');
 
-// MANRISK
-  Route::get('api/k3/manrisk/berulang/validasi/{id}', 'k3\manriskController@apiValidasiBerulang');
-  Route::get('api/k3/manrisk/berulang', 'k3\manriskController@apiBerulang');
-  Route::get('k3/manrisk/data', 'k3\manriskController@apiData');
-  // Route::get('k3/manrisk/data', 'k3\manriskController@apiData');
-  Route::get('api/k3/manrisk/hapus/{id}', 'k3\manriskController@apiHapus');
-  
-  // Route::get('k3/manrisk/data', [manriskController::class, 'apiData']);
+// // MANRISK
+//   Route::get('k3/manrisk/berulang/validasi/{id}', 'k3\manriskController@apiValidasiBerulang');
+//   Route::get('k3/manrisk/berulang/{id}', 'k3\manriskController@apiBerulang');
+//   Route::get('k3/manrisk/data', 'k3\manriskController@apiData');
+//   Route::get('k3/manrisk/hapus/{id}', 'k3\manriskController@apiHapus');
 
-// SKL
-  Route::get('kebidanan/skl/all/api','kebidanan\sklController@apiAll');
+// // SKL
+//   Route::get('kebidanan/skl/all','kebidanan\sklController@apiAll');
 
-// ANTIGEN
-  Route::get('antigen/all/api','lab\antigenController@apiShowAll')->name('antigen.apiall');  
-  Route::get('antigen/api/get','lab\antigenController@apiGet')->name('antigen.apiget');  
-  Route::post('antigen/api/ubah/{id}', 'lab\antigenController@ubah')->name('antigen.ubah');
-  Route::get('antigen/api/getubah/{id}', 'lab\antigenController@getubah')->name('antigen.getubah');
-  Route::get('antigen/api/hapus/{id}', 'lab\antigenController@hapus')->name('antigen.hapus');
+// // ANTIGEN
+//   Route::get('antigen/all','lab\antigenController@apiShowAll')->name('antigen.apiall');  
+//   Route::get('antigen/get','lab\antigenController@apiGet')->name('antigen.apiget');  
+//   Route::post('antigen/ubah/{id}', 'lab\antigenController@ubah')->name('antigen.ubah');
+//   Route::get('antigen/getubah/{id}', 'lab\antigenController@getubah')->name('antigen.getubah');
+//   Route::get('antigen/hapus/{id}', 'lab\antigenController@hapus')->name('antigen.hapus');
 
 });

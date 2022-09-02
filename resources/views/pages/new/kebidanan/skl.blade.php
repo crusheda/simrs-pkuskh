@@ -18,7 +18,7 @@
         </div>
         <br>
         <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Disarankan untuk menggunakan Browser <b>Google Chrome</b>
-          <br><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan hanya berjumlah 30 data terbaru saja, Klik <a href="javascript:void(0)" onclick="window.location.href='{{ url('kebidanan/skl/all') }}'"><strong><u>Disini</u></strong></a> untuk melihat data seluruhnya.
+          <br><i class="fa-fw fas fa-caret-right nav-icon"></i> Data yang ditampilkan hanya berjumlah 30 data terbaru saja, Klik <a href="javascript:void(0)" onclick="window.location.href='{{ url('v2/kebidanan/skl/all') }}'"><strong><u>Disini</u></strong></a> untuk melihat data seluruhnya.
         </sub><hr>
         <div class="table-responsive">
           <table id="table" class="table table-striped">
@@ -46,7 +46,7 @@
                     <td>
                         <center>
                         <div class="btn-group" role="group">
-                            <button type="button" class="btn btn-warning btn-sm" target="popup" onclick="window.open('skl/{{ $item->id }}/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon text-white"></i></button>
+                            <button type="button" class="btn btn-warning btn-sm" target="popup" onclick="window.open('/v2/kebidanan/skl/{{ $item->id }}/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon text-white"></i></button>
                             <a type="button" href="{{ route('skl.cetak', $item->id) }}" class="btn btn-info btn-sm" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
                             <button type="button" class="btn btn-success btn-sm" data-toggle="modal" data-target="#ubahskl{{ $item->id }}" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon"></i></button>
                             <button type="button" class="btn btn-danger btn-sm" data-toggle="modal" data-target="#hapusskl{{ $item->id }}" data-toggle="tooltip" data-placement="right" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>

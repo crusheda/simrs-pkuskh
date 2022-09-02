@@ -410,18 +410,27 @@ $(document).ready( function () {
       dataType: 'json', // added data type
       success: function(res) {
         $("#tampil-tbody").empty();
-        var date = new Date().toISOString().split('T')[0];
+        // var date = new Date().toISOString().split('T')[0];
         var userID = "{{ Auth::user()->id }}";
         var adminID = "{{ Auth::user()->hasRole('it|k3') }}";
         var date = new Date().toISOString().split('T')[0];
+        console.log(date);
         if(res.show.length == 0){
           $("#tampil-tbody").append(`<tr><td colspan="23"><center>Tidak Ada Data</center></td></tr>`);
         } else {
           res.show.forEach(item => {
+            if(item.unit) {
+              try {
+                var un = JSON.parse(item.unit);
+              } catch(e) {
+                var un = item.unit;
+              }
+            }
             var updet = item.updated_at.substring(0, 10);
+            console.log(item.id+' - '+updet);
             content = "<tr id='data"+ item.id +"'><td><kbd>" 
                         + item.id + "</kbd></td><td>" 
-                        + JSON.parse(item.unit) + "</td><td>"; 
+                        + un + "</td><td>"; 
                         // Ruang Linkup
                           if (item.jenis_risiko == 1) {
                             content += "Staf";
@@ -553,8 +562,13 @@ $(document).ready( function () {
                         };
                         content += "</td><td>"
                         + item.deskripsi + "</td><td>"
-                        + item.waktu_penerapan + "</td><td>"
-                        + item.residual + " Kasus (";
+                        + item.waktu_penerapan + "</td><td>";
+                        if (item.residual != null) { 
+                          content += item.residual;
+                        } else {
+                          content += "0";
+                        }
+                        content += " Kasus (";
                         if (item.residualdate10 != null) {
                           content += item.residualdate10;
                         } else {
@@ -714,7 +728,7 @@ function info() {
 function berulang() {
   $.ajax(
     {
-      url: "api/k3/manrisk/berulang",
+      url: "/api/k3/manrisk/berulang/{{ Auth::user()->id }}",
       type: 'GET',
       dataType: 'json', // added data type
       success: function(res) {
@@ -740,7 +754,7 @@ function berulang() {
 function validasiBerulang(sel) {
   $.ajax(
     {
-      url: "api/k3/manrisk/berulang/validasi/"+sel.value,
+      url: "/api/k3/manrisk/berulang/validasi/"+sel.value,
       type: 'GET',
       dataType: 'json', // added data type
       success: function(res) {
@@ -823,7 +837,7 @@ function hapus(id) {
   }).then((result) => {
     if (result.isConfirmed) {
       $.ajax({
-        url: "api/k3/manrisk/hapus/"+id,
+        url: "/api/k3/manrisk/hapus/"+id,
         type: 'GET',
         dataType: 'json', // added data type
         success: function(res) {

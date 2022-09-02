@@ -22,7 +22,7 @@
             <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i> Refresh</button>
             {{-- <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#show" data-toggle="tooltip" data-placement="bottom" title="DATA PASIEN HARI INI"><i class="fa-fw fas fa-info nav-icon text-white"></i> Informasi</button><br> --}}
         </div><br>
-        <sub>Data yang ditampilkan hanya berjumlah 30 data terbaru saja, Klik <a href="javascript:void(0)" onclick="window.location.href='{{ url('lab/antigen/all') }}'"><strong><u>Disini</u></strong></a> untuk melihat data seluruhnya.</sub>
+        <sub>Data yang ditampilkan hanya berjumlah 30 data terbaru saja, Klik <a href="javascript:void(0)" onclick="window.location.href='{{ url('v2/lab/antigen/all') }}'"><strong><u>Disini</u></strong></a> untuk melihat data seluruhnya.</sub>
         <hr>
         <div class="table-responsive">
           <table class="table table-striped" id="tableku" style="width: 100%">
@@ -71,7 +71,7 @@
             <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
             </div>
             <div class="modal-body">
-                <form class="form-auth-small" action="{{ route('lab.antigen.store') }}" method="POST" enctype="multipart/form-data">
+                <form class="form-auth-small" action="{{ route('antigen.store') }}" method="POST" enctype="multipart/form-data">
                     @csrf
                     <div class="row">
                         <div class="col-md-3">
@@ -273,7 +273,7 @@
     // $("body").addClass('sidebar-mini');
     $.ajax(
         {
-            url: "./antigen/api/get",
+            url: "/api/antigen/get",
             type: 'GET',
             dataType: 'json', // added data type
             success: function(res) {
@@ -298,8 +298,8 @@
                                         content += "<kbd style='background-color: royalblue'>"+item.hasil+"</kbd>";
 
                         content += "<td><center><div class='btn-group' role='group'>";
-                            content += `<button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('antigen/`+item.id+`/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>`;
-                            content += `<button type="button" class="btn btn-success btn-sm" onclick="window.open('antigen/`+item.id+`/cetak')" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></button>`;
+                            content += `<button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('/v2/lab/antigen/`+item.id+`/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>`;
+                            content += `<button type="button" class="btn btn-success btn-sm" onclick="window.open('/v2/lab/antigen/`+item.id+`/cetak')" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></button>`;
                             content += `<button type="button" class="btn btn-warning btn-sm" onclick="showUbah(${item.id})" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>`;
                             content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(${item.id})" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
                         content += "</div></center></td></tr>";
@@ -433,7 +433,7 @@ function refresh() {
   $("#tampil-tbody").empty().append(`<tr><td colspan="9"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
   $.ajax(
     {
-      url: "./antigen/api/get",
+      url: "/api/antigen/get",
       type: 'GET',
       dataType: 'json', // added data type
       success: function(res) {
@@ -458,8 +458,8 @@ function refresh() {
                                 content += "<kbd style='background-color: royalblue'>"+item.hasil+"</kbd>";
 
                 content += "<td><center><div class='btn-group' role='group'>";
-                    content += `<button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('antigen/`+item.id+`/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>`;
-                    content += `<button type="button" class="btn btn-success btn-sm" onclick="window.open('antigen/`+item.id+`/cetak')" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></button>`;
+                    content += `<button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('/v2/lab/antigen/`+item.id+`/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>`;
+                    content += `<button type="button" class="btn btn-success btn-sm" onclick="window.open('/v2/lab/antigen/`+item.id+`/cetak')" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD"><i class="fa-fw fas fa-download nav-icon"></i></button>`;
                     content += `<button type="button" class="btn btn-warning btn-sm" onclick="showUbah(${item.id})" data-toggle="tooltip" data-placement="bottom" title="UBAH"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button>`;
                     content += `<button type="button" class="btn btn-danger btn-sm" onclick="hapus(${item.id})" data-toggle="tooltip" data-placement="bottom" title="HAPUS"><i class="fa-fw fas fa-trash nav-icon"></i></button>`;
                 content += "</div></center></td></tr>";
@@ -509,7 +509,7 @@ function showUbah(id) {
     $('#ubah').modal('show');
     $.ajax(
         {
-            url: "./antigen/api/getubah/"+id,
+            url: "/api/antigen/getubah/"+id,
             type: 'GET',
             dataType: 'json', // added data type
             success: function(res) {
@@ -566,7 +566,7 @@ function ubah() {
             'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
         },
         method: 'POST',
-        url: './antigen/api/ubah/'+id, 
+        url: '/api/antigen/ubah/'+id, 
         dataType: 'json', 
         data: { 
             id: id,
@@ -607,7 +607,7 @@ function hapus(id) {
     }).then((result) => {
       if (result.isConfirmed) {
         $.ajax({
-          url: "./antigen/api/hapus/"+id,
+          url: "/api/antigen/hapus/"+id,
           type: 'GET',
           dataType: 'json', // added data type
           success: function(res) {

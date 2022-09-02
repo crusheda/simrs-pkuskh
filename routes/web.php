@@ -434,10 +434,11 @@ Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController'
         Route::post('administrasi/jadwaldinas/ref', 'administrasi\jadwalDinasController@storeRef')->name('ref.jadwal.dinas.store');
         Route::put('administrasi/jadwaldinas/ref/api/ubah/{id}', 'administrasi\jadwalDinasController@ubahRef')->name('ref.jadwal.dinas.ubah');
         Route::get('administrasi/jadwaldinas/ref/api/hapus/{id}', 'administrasi\jadwalDinasController@hapusRef')->name('ref.jadwal.dinas.hapus');
+        
+////////////////////////////////////////////////////////////////////////////////////////////////   SIMRSMU V.2  \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+////////////////////////////////////////////////////////////////////////////////////////////////    RESOURCE    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function () {
-
-// SIMRSMU V.2
 
 // BERANDA
     Route::get('beranda', 'simrsmuv2Controller@index')->name('beranda.index');
@@ -458,7 +459,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
         Route::get('k3/accidentreport/{id}/show', 'k3\accidentReportController@show')->name('accidentreport.show'); 
         Route::get('k3/accidentreport/{id}/cetak','k3\accidentReportController@cetak')->name('accidentreport.cetak');  
         Route::resource('k3/accidentreport', 'k3\accidentReportController');
-
         
 // IPSRS
     Route::post('laporan/pengaduan/ipsrs/selesai', 'ipsrs\pengaduan\pengaduanController@selesai')->name('pengaduan.ipsrs.selesai');
@@ -484,11 +484,38 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
     Route::resource('kebidanan/skl', 'kebidanan\sklController');
 
 // Lab
-    Route::get('antigen/all','lab\antigenController@showAll')->name('antigen.all');  
-    Route::get('antigen/{id}/cetak','lab\antigenController@cetak')->name('antigen.cetak');  
-    Route::get('antigen/{id}/print','lab\antigenController@print')->name('antigen.print');  
-    Route::resource('/antigen', 'lab\antigenController');
-
-
+    Route::get('lab/antigen/all','lab\antigenController@showAll')->name('antigen.all');  
+    Route::get('lab/antigen/{id}/cetak','lab\antigenController@cetak')->name('antigen.cetak');  
+    Route::get('lab/antigen/{id}/print','lab\antigenController@print')->name('antigen.print');  
+    Route::resource('/lab/antigen', 'lab\antigenController');
 
 });
+
+////////////////////////////////////////////////////////////////////////////////////////////////    API    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
+
+Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function () {
+
+    // API PROFIL
+      Route::get('provinsi/{id}', 'Admin\profilController@apiProvinsi');
+      Route::get('kota/{id}', 'Admin\profilController@apiKota');
+      Route::get('kecamatan/{id}', 'Admin\profilController@apiKecamatan');
+    
+    // MANRISK
+      Route::get('k3/manrisk/berulang/validasi/{id}', 'k3\manriskController@apiValidasiBerulang');
+      Route::get('k3/manrisk/berulang/{id}', 'k3\manriskController@apiBerulang');
+      Route::get('k3/manrisk/data', 'k3\manriskController@apiData');
+      Route::get('k3/manrisk/hapus/{id}', 'k3\manriskController@apiHapus');
+    
+    // SKL
+      Route::get('kebidanan/skl/all','kebidanan\sklController@apiAll');
+    
+    // ANTIGEN
+      Route::get('antigen/all','lab\antigenController@apiShowAll')->name('antigen.apiall');  
+      Route::get('antigen/get','lab\antigenController@apiGet')->name('antigen.apiget');  
+      Route::post('antigen/ubah/{id}', 'lab\antigenController@ubah')->name('antigen.ubah');
+      Route::get('antigen/getubah/{id}', 'lab\antigenController@getubah')->name('antigen.getubah');
+      Route::get('antigen/hapus/{id}', 'lab\antigenController@hapus')->name('antigen.hapus');
+    
+});
+
+////////////////////////////////////////////////////////////////////////////////////////////////    <>    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

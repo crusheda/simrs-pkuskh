@@ -99,6 +99,7 @@
         <div data-i18n="Manajemen Resiko">Daftar Risiko</div>
       </a>
     </li>
+    @hasrole('it|lab')
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Laboratorium</span>
     </li>
@@ -108,6 +109,8 @@
         <div data-i18n="Accident Report">Antigen</div>
       </a>
     </li>
+    @endhasrole
+    @hasrole('it|kebidanan')
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Kebidanan</span>
     </li>
@@ -117,6 +120,7 @@
         <div data-i18n="Accident Report">SKL</div>
       </a>
     </li>
+    @endhasrole
     {{-- <li class="menu-item">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-home-circle"></i>

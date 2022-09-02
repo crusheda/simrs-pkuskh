@@ -272,6 +272,14 @@
                   <textarea rows="3" class="autosize4 form-control" name="waktu_penerapan" placeholder="" required><?php echo htmlspecialchars($item->waktu_penerapan); ?></textarea>
                 </div>
               </div>
+              @hasrole('it|k3')
+              <div class="col-md-12 mb-4">
+                <div class="form-group">
+                  <label for="defaultFormControlInput" class="form-label">Unit</label>
+                  <input type="text" class="form-control" value="{{ $item->unit }}" disabled/>
+                </div>
+              </div>
+              @endhasrole
             </div>
           </div>
         </div>

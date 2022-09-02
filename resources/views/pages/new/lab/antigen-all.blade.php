@@ -9,7 +9,7 @@
       </div>
       <div class="card-body">
         <div class="btn-group">
-          <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location.href='{{ route('lab.antigen.index') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i></button>
+          <button type="button" class="btn btn-primary" data-toggle="tooltip" data-placement="bottom" title="KEMBALI" onclick="window.location.href='{{ route('antigen.index') }}'"><i class="fa-fw fas fa-angle-left nav-icon text-white"></i></button>
           <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i> Refresh</button>
           <button type="button" class="btn btn-dark" data-toggle="modal" data-target="#show" data-toggle="tooltip" data-placement="bottom" title="DATA PASIEN HARI INI"><i class="fa-fw fas fa-info nav-icon text-white"></i> Informasi</button>
         </div>
@@ -79,7 +79,7 @@
   $(document).ready( function () {
     $.ajax(
       {
-        url: "./all/api",
+        url: "/api/antigen/all",
         type: 'GET',
         dataType: 'json', // added data type
         success: function(res) {
@@ -100,8 +100,8 @@
                   <td>${item.hasil == "POSITIF" ? "<kbd style='background-color: red'>"+item.hasil+"</kbd>" : "<kbd style='background-color: royalblue'>"+item.hasil+"</kbd>"}</td>
                   <td>
                     <center><div class="btn-group" role="group">
-                      <button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('././${item.id}/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>
-                      <a type="button" class="btn btn-success btn-sm" href="./${item.id}/cetak"><i class="fa-fw fas fa-download nav-icon"></i></a>
+                      <button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('/v2/lab/antigen/${item.id}/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>
+                      <a type="button" class="btn btn-success btn-sm" href="/v2/lab/antigen/${item.id}/cetak"><i class="fa-fw fas fa-download nav-icon"></i></a>
                     </center></div>
                   </td>
                 </tr>
@@ -147,7 +147,7 @@ function refresh() {
   $("#tampil-tbody").empty().append(`<tr><td colspan="9"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
   $.ajax(
     {
-      url: "./all/api",
+      url: "/api/antigen/all",
       type: 'GET',
       dataType: 'json', // added data type
       success: function(res) {
@@ -169,8 +169,8 @@ function refresh() {
                 <td>${item.hasil == "POSITIF" ? "<kbd style='background-color: red'>"+item.hasil+"</kbd>" : "<kbd style='background-color: royalblue'>"+item.hasil+"</kbd>"}</td>
                 <td>
                   <center><div class="btn-group" role="group">
-                    <button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('././${item.id}/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>
-                    <a type="button" class="btn btn-success btn-sm" href="./${item.id}/cetak"><i class="fa-fw fas fa-download nav-icon"></i></a>
+                    <button type="button" class="btn btn-info btn-sm" target="popup" onclick="window.open('/v2/lab/antigen/${item.id}/print','id','width=900,height=600')" data-toggle="tooltip" data-placement="left" title="PRINT"><i class="fa-fw fas fa-print nav-icon"></i></button>
+                    <a type="button" class="btn btn-success btn-sm" href="/v2/lab/antigen/${item.id}/cetak"><i class="fa-fw fas fa-download nav-icon"></i></a>
                   </center></div>
                 </td>
               </tr>

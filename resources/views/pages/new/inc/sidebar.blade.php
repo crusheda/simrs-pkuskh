@@ -165,10 +165,10 @@
       @endhasrole
       @hasrole('it|lab')
       <li class="menu-header">Unit LAB</li>
-      {{-- <li class="dropdown {{ request()->routeIs(['lab.antigen.index']) ? 'active' : '' }}"> --}}
+      <li class="dropdown {{ request()->routeIs(['antigen.index']) ? 'active' : '' }}">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-vial"></i> <span>Laboratorium</span></a>
         <ul class="dropdown-menu">
-          {{-- <li class="{{ request()->routeIs('lab.antigen.index') ? 'active' : '' }}"><a class="nav-link" href="{{ route("lab.antigen.index") }}">Antigen</a></li> --}}
+          <li class="{{ request()->routeIs('antigen.index') ? 'active' : '' }}"><a class="nav-link" href="{{ route("antigen.index") }}">Antigen</a></li>
           {{-- <li><a class="nav-link" href="#"><del>PCR</del></a></li> --}}
         </ul>
       </li>

@@ -29,6 +29,20 @@
 @endif
 
 <div class="card card-action mb-5">
-
+  <div class="card-header">
+    <div class="card-action-title">
+      Mohon maaf, Kami sedang melakukan perbaikan Sistem Pengaduan IPSRS. 
+    </div>
+    <div class="card-action-element">
+      <ul class="list-inline mb-0">
+        <li class="list-inline-item">
+          <a href="javascript:void(0);" class="card-expand"><i class="tf-icons bx bx-fullscreen"></i></a>
+        </li>
+        <li class="list-inline-item">
+          <a href="javascript:void(0);" class="card-collapsible"><i class="tf-icons bx bx-chevron-up"></i></a>
+        </li>
+      </ul>
+    </div>
+  </div>
 </div>
 @endsection

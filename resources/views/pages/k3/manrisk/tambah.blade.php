@@ -277,6 +277,22 @@
                   <textarea rows="3" class="autosize4 form-control" name="waktu_penerapan" placeholder="" required></textarea>
                 </div>
               </div>
+              @hasrole('it|k3')
+              <div class="col-md-12 mb-4">
+                <div class="form-group">
+                  <label for="defaultFormControlInput" class="form-label">Unit</label>
+                  <select name="user_unit" class="form-select" data-allow-clear="true" data-bs-auto-close="outside" required>
+                    <option value="">Pilih</option>
+                    @if(count($list['unit']) > 0)
+                      @foreach($list['unit'] as $item)
+                        <option value="{{ $item->nama }}">{{ $item->nama }}</option>
+                      @endforeach
+                    @endif
+                  </select>
+                  <div id="defaultFormControlHelp" class="form-text">Pastikan pemilihan Unit sudah benar</div>
+                </div>
+              </div>
+              @endhasrole
             </div>
           </div>
         </div>

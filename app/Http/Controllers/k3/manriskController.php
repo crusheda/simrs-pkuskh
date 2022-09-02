@@ -8,6 +8,7 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use App\Models\k3\manrisk;
 use App\Models\unit;
+use App\Models\user;
 use Carbon\Carbon;
 use Auth;
 use Storage;
@@ -34,7 +35,13 @@ class manriskController extends Controller
      */
     public function create()
     {
-        return view('pages.k3.manrisk.tambah');
+        $unit = unit::orderBy('nama','ASC')->get();
+
+        $data = [
+            'unit' => $unit,
+        ];
+
+        return view('pages.k3.manrisk.tambah')->with('list', $data);
     }
 
     /**
@@ -50,7 +57,7 @@ class manriskController extends Controller
         $name = $user->name;
         $role = $user->roles;
         foreach ($role as $key => $value) {
-            $unit[] = $value->name;
+            $unitArr[] = $value->name;
         }
         $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
 
@@ -68,9 +75,17 @@ class manriskController extends Controller
             $tingkat_risiko = 'Very Extreme';
         }
 
+        if (!empty($request->user_unit)) {
+            $unit = $request->user_unit;
+        } else {
+            $unit = json_encode($unitArr);
+        }
+
+        // print_r($request->user_unit);
+        // die();
         $data = new manrisk;
         $data->id_user          = $id;
-        $data->unit             = json_encode($unit);
+        $data->unit             = $unit;
         $data->jenis_risiko     = $request->jenis_risiko;
         $data->proses_utama     = $request->proses_utama;
         $data->item_kegiatan    = $request->item_kegiatan;
@@ -142,6 +157,10 @@ class manriskController extends Controller
     {
         $user = Auth::user();
         $name = $user->name;
+        // $role = $user->roles;
+        // foreach ($role as $key => $value) {
+        //     $unitArr[] = $value->name;
+        // }
         $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
 
         // RISIKO NON KLINIS
@@ -158,7 +177,15 @@ class manriskController extends Controller
             $tingkat_risiko = 'Very Extreme';
         }
 
+
         $data = manrisk::find($id);
+        // if (!empty($request->user_unit)) {
+        //     $unit = $request->user_unit;
+        //     $data->unit = $unit;
+        // } else {
+        //     $unit = json_encode($unitArr);
+        //     $data->unit = $unit;
+        // }
         $data->jenis_risiko     = $request->jenis_risiko;
         $data->proses_utama     = $request->proses_utama;
         $data->item_kegiatan    = $request->item_kegiatan;
