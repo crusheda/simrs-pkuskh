@@ -429,7 +429,7 @@ $(document).ready( function () {
             var updet = item.updated_at.substring(0, 10);
             console.log(item.id+' - '+updet);
             content = "<tr id='data"+ item.id +"'><td><kbd>" 
-                        + item.id + "</kbd></td><td>" 
+                        + item.id + "</kbd></td><td style='word-wrap: break-word;text-transform: capitalize'>" 
                         + un + "</td><td>"; 
                         // Ruang Linkup
                           if (item.jenis_risiko == 1) {

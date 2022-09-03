@@ -503,6 +503,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
     // MANRISK
       Route::get('k3/manrisk/berulang/validasi/{id}', 'k3\manriskController@apiValidasiBerulang');
       Route::get('k3/manrisk/berulang/{id}', 'k3\manriskController@apiBerulang');
+      Route::post('k3/manrisk/simpan', 'k3\manriskController@apiSimpan');
+      Route::get('k3/manrisk/role', 'k3\manriskController@apiRole');
       Route::get('k3/manrisk/data', 'k3\manriskController@apiData');
       Route::get('k3/manrisk/hapus/{id}', 'k3\manriskController@apiHapus');
     

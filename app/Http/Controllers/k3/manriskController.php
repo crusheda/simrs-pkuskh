@@ -7,7 +7,7 @@ use App\Http\Controllers\Controller;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 use App\Models\k3\manrisk;
-use App\Models\unit;
+use App\Models\role;
 use App\Models\user;
 use Carbon\Carbon;
 use Auth;
@@ -35,7 +35,7 @@ class manriskController extends Controller
      */
     public function create()
     {
-        $unit = unit::orderBy('nama','ASC')->get();
+        $unit = role::orderBy('name','ASC')->get();
 
         $data = [
             'unit' => $unit,
@@ -52,6 +52,8 @@ class manriskController extends Controller
      */
     public function store(Request $request)
     {
+        print_r($request->all());
+        die();
         $user = Auth::user();
         $id = $user->id;
         $name = $user->name;
@@ -81,8 +83,6 @@ class manriskController extends Controller
             $unit = json_encode($unitArr);
         }
 
-        // print_r($request->user_unit);
-        // die();
         $data = new manrisk;
         $data->id_user          = $id;
         $data->unit             = $unit;
@@ -224,6 +224,13 @@ class manriskController extends Controller
         //
     }
 
+    public function apiRole()
+    {
+        $data = role::orderBy('name','ASC')->get();
+
+        return response()->json($data, 200);
+    }
+    
     public function apiData()
     {
         // if ($user->hasRole('it')) {
@@ -242,6 +249,73 @@ class manriskController extends Controller
         // print_r($data);
         // die();
         return response()->json($data, 200);
+    }
+
+    public function apiSimpan(Request $request)
+    {
+        // print_r(!$request->unit);
+        // print_r($request->all());
+        // die();
+        $user = Auth::user();
+        $id = $user->id;
+        $name = $user->name;
+        $role = $user->roles;
+        foreach ($role as $key => $value) {
+            $unitArr[] = $value->name;
+        }
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        // RISIKO NON KLINIS
+        $nilai = $request->dampak * $request->frekuensi;
+        if ($nilai >= 1 && $nilai <= 2) {
+            $tingkat_risiko = 'Low';
+        } elseif ($nilai >= 3 && $nilai <= 4) {
+            $tingkat_risiko = 'Medium';
+        } elseif ($nilai >= 5 && $nilai <= 9) {
+            $tingkat_risiko = 'High';
+        } elseif ($nilai >= 10 && $nilai <= 12) {
+            $tingkat_risiko = 'Extreme';
+        } elseif ($nilai >= 13 && $nilai <= 25) {
+            $tingkat_risiko = 'Very Extreme';
+        }
+
+        if (strlen($request->unit) != 0) {
+            $unit = json_encode($request->unit);
+        } else {
+            $unit = json_encode($unitArr);
+        } // MASIH ERROR DISINI
+
+        print_r($unit);
+        die();
+        
+        $data = new manrisk;
+        $data->id_user          = $id;
+        $data->unit             = $unit;
+        $data->jenis_risiko     = $request->jenis_risiko;
+        $data->proses_utama     = $request->proses_utama;
+        $data->item_kegiatan    = $request->item_kegiatan;
+        $data->jenis_aktivitas  = $request->jenis_aktivitas;
+        $data->kode_bahaya      = $request->kode_bahaya;
+        $data->sumber_bahaya    = $request->sumber_bahaya;
+        $data->risiko           = $request->risiko;
+        $data->pengendalian     = $request->pengendalian;
+        $data->dampak           = $request->dampak;
+        $data->frekuensi        = $request->frekuensi;
+        $data->nilai            = $nilai;
+        $data->tingkat_risiko   = $tingkat_risiko;
+        $data->elm              = $request->has('elm');
+        $data->sbt              = $request->has('sbt');
+        $data->eng              = $request->has('eng');
+        $data->adm              = $request->has('adm');
+        $data->apd              = $request->has('apd');
+        $data->deskripsi        = $request->deskripsi;
+        $data->waktu_penerapan  = $request->waktu_penerapan;
+        
+        $data->save();
+        
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        return response()->json($tgl, 200);
     }
 
     public function apiBerulang()

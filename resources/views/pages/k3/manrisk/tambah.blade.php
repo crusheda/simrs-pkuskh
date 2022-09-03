@@ -18,15 +18,15 @@
         </div>
       </h5>
 
-      <form id="formTambah" action="{{ route('manrisk.store') }}" method="POST">
-      @csrf
+      {{-- <form id="formTambah" action="{{ route('manrisk.store') }}" method="POST"> --}}
+      {{-- @csrf --}}
 
       <div class="card-body">
         <div class="row">
           <div class="col-md-6 mb-4">
             <div class="form-group">
               <label for="defaultFormControlInput" class="form-label">Ruang Lingkup</label>
-              <select name="jenis_risiko" class="select2 form-select" data-allow-clear="true" data-bs-auto-close="outside" required>
+              <select id="jenis_risiko" class="select2 form-select" data-allow-clear="true" data-bs-auto-close="outside" required>
                 <option value="">Pilih</option>
                 <option value="1">Staf</option>
                 <option value="2">Pasien</option>
@@ -39,7 +39,7 @@
           <div class="col-md-6 mb-4">
             <div class="form-group">
               <label for="defaultFormControlInput" class="form-label">Proses Utama</label>
-              <select name="proses_utama" class="select2 form-select" data-allow-clear="true" required>
+              <select id="proses_utama" class="select2 form-select" data-allow-clear="true" required>
                 <option value="">Pilih</option>
                 <option value="1">Keselamatan</option>
                 <option value="2">Keamanan</option>
@@ -55,13 +55,13 @@
           <div class="col-md-12 mb-4">
             <label for="defaultFormControlInput" class="form-label">Item Kegiatan</label>
             <div class="form-group">
-              <textarea rows="3" class="autosize1 form-control" name="item_kegiatan" placeholder="" required></textarea>
+              <textarea rows="3" class="autosize1 form-control" id="item_kegiatan" placeholder="" required></textarea>
             </div>
           </div>
           <div class="col-md-6 mb-4">
             <div class="form-group">
               <label for="defaultFormControlInput" class="form-label">Sumber Data</label>
-              <select name="jenis_aktivitas" class="select2 form-select" data-allow-clear="true" required>
+              <select id="jenis_aktivitas" class="select2 form-select" data-allow-clear="true" required>
                 <option value="">Pilih</option>
                 <option value="1">Laporan Kejadian</option>
                 <option value="2">Survey</option>
@@ -73,7 +73,7 @@
           <div class="col-md-6 mb-4">
             <div class="form-group">
               <label for="defaultFormControlInput" class="form-label">Kode Bahaya</label>
-              <select name="kode_bahaya" class="select2 form-select" data-allow-clear="true" required>
+              <select id="kode_bahaya" class="select2 form-select" data-allow-clear="true" required>
                 <option value="">Pilih</option>
                 <option value="1">Cedera</option>
                 <option value="2">Gangguan Kesehatan</option>
@@ -86,26 +86,26 @@
           <div class="col-md-6 mb-4">
             <div class="form-group">
               <label for="defaultFormControlInput" class="form-label">Sumber Bahaya</label>
-              <input type="text" name="sumber_bahaya" class="form-control" placeholder="" required/>
+              <input type="text" id="sumber_bahaya" class="form-control" placeholder="" required/>
             </div>
           </div>
           <div class="col-md-6 mb-4">
             <div class="form-group">
               <label for="defaultFormControlInput" class="form-label">Risiko</label>
-              <input type="text" name="risiko" class="form-control" placeholder="" required/>
+              <input type="text" id="risiko" class="form-control" placeholder="" required/>
             </div>
           </div>
           <div class="col-md-12 mb-4">
             <label for="defaultFormControlInput" class="form-label">Usulan Pengendalian</label>
             <div class="form-group">
-              <textarea rows="3" class="autosize2 form-control" name="pengendalian" placeholder="" required></textarea>
+              <textarea rows="3" class="autosize2 form-control" id="pengendalian" placeholder="" required></textarea>
             </div>
           </div>
           <div class="col-md-6 mb-4">
             <div class="form-group mb-3">
               <label for="defaultFormControlInput" class="form-label">Dampak&nbsp;&nbsp;</label>
               <button class="btn btn-xs btn-outline-dark" type="button" data-bs-toggle="collapse" href="#lihatdampak" role="button" aria-expanded="false" aria-controls="lihatdampak">Lihat</button>
-              <select name="dampak" class="select2 form-select" data-allow-clear="true" required>
+              <select id="dampak" class="select2 form-select" data-allow-clear="true" required>
                 <option value="">Pilih</option>
                 <option value="1">Sangat Rendah</option>
                 <option value="2">Rendah</option>
@@ -167,7 +167,7 @@
             <div class="form-group mb-3">
               <label for="defaultFormControlInput" class="form-label">Kemungkinan / Frekuensi&nbsp;&nbsp;</label>
                 <button class="btn btn-xs btn-outline-dark" type="button" data-bs-toggle="collapse" href="#lihatfrekuensi" role="button" aria-expanded="false" aria-controls="lihatfrekuensi">Lihat</button>
-                <select name="frekuensi" class="select2 form-select" data-allow-clear="true" required>
+                <select id="frekuensi" class="select2 form-select" data-allow-clear="true" required>
                   <option value="">Pilih</option>
                   <option value="1">Sangat Jarang</option>
                   <option value="2">Jarang</option>
@@ -229,31 +229,31 @@
           <div class="card-header">Evaluasi Pengendalian</div>
           <div class="card-body">
             <div class="form-check mb-2">
-              <input class="form-check-input checkbox" type="checkbox" value="0" name="elm"/>
+              <input class="form-check-input checkbox" type="checkbox" value="0" id="elm"/>
               <label class="form-check-label">
                 <strong>Eliminasi</strong> (Eliminasi Sumber Bahaya)
               </label>
             </div>
             <div class="form-check mb-2">
-              <input class="form-check-input checkbox" type="checkbox" value="0" name="sbt"/>
+              <input class="form-check-input checkbox" type="checkbox" value="0" id="sbt"/>
               <label class="form-check-label">
                 <strong>Substitusi</strong> (Substitusi Alat/Mesin/Bahan)
               </label>
             </div>
             <div class="form-check mb-2">
-              <input class="form-check-input checkbox" type="checkbox" value="0" name="eng"/>
+              <input class="form-check-input checkbox" type="checkbox" value="0" id="eng"/>
               <label class="form-check-label">
                 <strong>Enginering</strong> (Modifikasi/Perancangan Alat/Mesin/Tempat Kerja yang Lebih Aman)
               </label>
             </div>
             <div class="form-check mb-2">
-              <input class="form-check-input checkbox" type="checkbox" value="0" name="adm"/>
+              <input class="form-check-input checkbox" type="checkbox" value="0" id="adm"/>
               <label class="form-check-label">
                 <strong>Administration</strong> (Prosedur, Aturan, Pelatihan, Durasi Kerja, Tanda Bahaya, Rambu, Poster, Label)
               </label>
             </div>
             <div class="form-check mb-2">
-              <input class="form-check-input checkbox" type="checkbox" value="0" name="apd"/>
+              <input class="form-check-input checkbox" type="checkbox" value="0" id="apd"/>
               <label class="form-check-label">
                 <strong>APD</strong> (Alat Perlindungan Diri Tenaga Kerja)
               </label>
@@ -268,27 +268,28 @@
               <div class="col-md-6 mb-4">
                 <label for="defaultFormControlInput" class="form-label">Realisasi Pengendalian</label>
                 <div class="form-group">
-                  <textarea rows="3" class="autosize3 form-control" name="deskripsi" placeholder="" required></textarea>
+                  <textarea rows="3" class="autosize3 form-control" id="deskripsi" placeholder="" required></textarea>
                 </div>
               </div>
               <div class="col-md-6 mb-4">
                 <label for="defaultFormControlInput" class="form-label">Waktu Penerapan</label>
                 <div class="form-group">
-                  <textarea rows="3" class="autosize4 form-control" name="waktu_penerapan" placeholder="" required></textarea>
+                  <textarea rows="3" class="autosize4 form-control" id="waktu_penerapan" placeholder="" required></textarea>
                 </div>
               </div>
               @hasrole('it|k3')
               <div class="col-md-12 mb-4">
                 <div class="form-group">
-                  <label for="defaultFormControlInput" class="form-label">Unit</label>
-                  <select name="user_unit" class="form-select" data-allow-clear="true" data-bs-auto-close="outside" required>
-                    <option value="">Pilih</option>
-                    @if(count($list['unit']) > 0)
-                      @foreach($list['unit'] as $item)
-                        <option value="{{ $item->nama }}">{{ $item->nama }}</option>
-                      @endforeach
-                    @endif
-                  </select>
+                  <label for="select2Dark" class="form-label">Unit</label>
+                  <div class="select2-dark">
+                    <select id="user_unit" class="select2 form-select" data-allow-clear="true" data-bs-auto-close="outside" required multiple>
+                      {{-- @if(count($list['unit']) > 0)
+                        @foreach($list['unit'] as $item)
+                          <option value="{{ $item->name }}">{{ str_replace('-',' ',$item->name) }}</option>
+                        @endforeach
+                      @endif --}}
+                    </select>
+                  </div>
                   <div id="defaultFormControlHelp" class="form-text">Pastikan pemilihan Unit sudah benar</div>
                 </div>
               </div>
@@ -302,13 +303,13 @@
       </div>
       <div class="col-12 d-flex justify-content-between">
         <small style="margin-top:10px"></small>
-        <button class="btn btn-primary" id="btn-simpan" type="submit" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="right" data-bs-html="true" title="<i class='fas fa-save nav-icon' ></i> <span>Simpan Data</span>">
+        <button class="btn btn-primary" id="btn-simpan" onclick="simpan()" type="submit" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="right" data-bs-html="true" title="<i class='fas fa-save nav-icon' ></i> <span>Simpan Data</span>">
           <i class="fa-fw fas fa-save nav-icon"></i> 
           <span class="align-middle d-sm-inline-block d-none me-sm-1">Simpan</span>
         </button>
       </div>
     
-      </form>
+      {{-- </form> --}}
     
     </div>
   </div>
@@ -343,13 +344,130 @@
     monthSelectorType: "static"
   });
   // VALIDATION ONLY ONE SUBMIT
-  $("#formTambah").one('submit', function() {
-      //stop submitting the form to see the disabled button effect
-      $("#btn-simpan").attr('disabled','disabled');
-      $("#btn-simpan").find("i").toggleClass("fa-save fa-spinner fa-spin");
+  // $("#formTambah").one('submit', function() {
+  //     //stop submitting the form to see the disabled button effect
+  //     $("#btn-simpan").attr('disabled','disabled');
+  //     $("#btn-simpan").find("i").toggleClass("fa-save fa-spinner fa-spin");
 
-      return true;
-  });
+  //     return true;
+  // });
+  // $('#user_unit').on('change', function() {
+  //   console.log($('#user_unit').find(':selected').data());
+  // });
+  // var data = [];
+
+
+  // $('#user_unit').on('select2:select', function (e) {
+  //   data.push(e.params.data.text);
+  //   console.log(data);
+  // });
+  $.ajax(
+    {
+      url: "/api/k3/manrisk/role",
+      type: 'GET',
+      async: true,
+      dataType: 'json', // added data type
+      success: function(res) { 
+        // $('.user_unit').val(100).trigger('change');
+        var len = res.length;   
+        var sel = document.getElementById('user_unit');
+        var data = [];
+        for(var i = 0; i < len; i++) {
+          data.push(
+            {
+              id: res[i]['name'],
+              text: res[i]['name']
+            },
+          );
+        }
+        // console.log(data);
+        $('#user_unit').select2({
+            data:data,
+        });
+        // for(var i = 0; i < len; i++) {
+        //     var opt = document.createElement('option');
+        //     opt.innerHTML = res[i]['name'].replace('-',' ').replace(/\b\w/g, l => l.toUpperCase());
+        //     opt.value = res[i]['name'];
+        //     sel.appendChild(opt);
+        // }
+      }
+    }
+  );
 } );
+
+function simpan() {
+  var unit              = $("#user_unit").select2("val");
+  var jenis_risiko      = $("#jenis_risiko").val();
+  var proses_utama      = $("#proses_utama").val();
+  var item_kegiatan     = $("#item_kegiatan").val();
+  var jenis_aktivitas   = $("#jenis_aktivitas").val();
+  var kode_bahaya       = $("#kode_bahaya").val();
+  var sumber_bahaya     = $("#sumber_bahaya").val();
+  var risiko            = $("#risiko").val();
+  var pengendalian      = $("#pengendalian").val();
+  var dampak            = $("#dampak").val();
+  var frekuensi         = $("#frekuensi").val();
+  var nilai             = $("#nilai").val();
+  var elm               = $("#elm:checked").val();
+  var sbt               = $("#sbt:checked").val();
+  var eng               = $("#eng:checked").val();
+  var adm               = $("#adm:checked").val();
+  var apd               = $("#apd:checked").val();
+  var deskripsi         = $("#deskripsi").val();
+  var waktu_penerapan   = $("#waktu_penerapan").val();
+
+  if (jenis_risiko == "" || proses_utama == "" || item_kegiatan == "" || jenis_aktivitas == "" || kode_bahaya == "" || sumber_bahaya == "" || risiko == "" || pengendalian == "" || dampak == "" || frekuensi == "" || nilai == "" || deskripsi == "" || waktu_penerapan == "") {
+      Swal.fire({
+      title: 'Pesan Galat!',
+      text: 'Mohon lengkapi semua data terlebih dahulu',
+      icon: 'error',
+      showConfirmButton:false,
+      showCancelButton:false,
+      allowOutsideClick: true,
+      allowEscapeKey: true,
+      timer: 3000,
+      timerProgressBar: true,
+      backdrop: `rgba(26,27,41,0.8)`,
+      });
+  } else {
+    $("#btn-simpan").attr('disabled','disabled');
+    $("#btn-simpan").find("i").toggleClass("fa-save fa-spinner fa-spin");
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      method: 'POST',
+      url: '/api/k3/manrisk/simpan', 
+      dataType: 'json', 
+      data: {
+        unit: unit,
+        jenis_risiko: jenis_risiko,
+        proses_utama: proses_utama,
+        item_kegiatan: item_kegiatan,
+        jenis_aktivitas: jenis_aktivitas,
+        kode_bahaya: kode_bahaya,
+        sumber_bahaya: sumber_bahaya,
+        risiko: risiko,
+        pengendalian: pengendalian,
+        dampak: dampak,
+        frekuensi: frekuensi,
+        nilai: nilai,
+        elm: elm,
+        sbt: sbt,
+        eng: eng,
+        adm: adm,
+        apd: apd,
+        deskripsi: deskripsi,
+        waktu_penerapan: waktu_penerapan,
+      }, 
+      success: function(res) {
+        if (res) {
+          // refresh();
+          window.location.href = "{{ route('manrisk.index')}}";
+        }
+      }
+    });
+  }
+}
 </script>
 @endsection
