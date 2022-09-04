@@ -224,7 +224,7 @@ class manriskController extends Controller
 
     public function apiRole()
     {
-        $data = role::orderBy('name','ASC')->get();
+        $data = role::orderBy('name','ASC')->where('name', '<>','administrator')->get();
 
         return response()->json($data, 200);
     }
