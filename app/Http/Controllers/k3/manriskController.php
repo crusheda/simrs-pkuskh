@@ -52,63 +52,61 @@ class manriskController extends Controller
      */
     public function store(Request $request)
     {
-        print_r($request->all());
-        die();
-        $user = Auth::user();
-        $id = $user->id;
-        $name = $user->name;
-        $role = $user->roles;
-        foreach ($role as $key => $value) {
-            $unitArr[] = $value->name;
-        }
-        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+        // $user = Auth::user();
+        // $id = $user->id;
+        // $name = $user->name;
+        // $role = $user->roles;
+        // foreach ($role as $key => $value) {
+        //     $unitArr[] = $value->name;
+        // }
+        // $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
 
-        // RISIKO NON KLINIS
-        $nilai = $request->dampak * $request->frekuensi;
-        if ($nilai >= 1 && $nilai <= 2) {
-            $tingkat_risiko = 'Low';
-        } elseif ($nilai >= 3 && $nilai <= 4) {
-            $tingkat_risiko = 'Medium';
-        } elseif ($nilai >= 5 && $nilai <= 9) {
-            $tingkat_risiko = 'High';
-        } elseif ($nilai >= 10 && $nilai <= 12) {
-            $tingkat_risiko = 'Extreme';
-        } elseif ($nilai >= 13 && $nilai <= 25) {
-            $tingkat_risiko = 'Very Extreme';
-        }
+        // // RISIKO NON KLINIS
+        // $nilai = $request->dampak * $request->frekuensi;
+        // if ($nilai >= 1 && $nilai <= 2) {
+        //     $tingkat_risiko = 'Low';
+        // } elseif ($nilai >= 3 && $nilai <= 4) {
+        //     $tingkat_risiko = 'Medium';
+        // } elseif ($nilai >= 5 && $nilai <= 9) {
+        //     $tingkat_risiko = 'High';
+        // } elseif ($nilai >= 10 && $nilai <= 12) {
+        //     $tingkat_risiko = 'Extreme';
+        // } elseif ($nilai >= 13 && $nilai <= 25) {
+        //     $tingkat_risiko = 'Very Extreme';
+        // }
 
-        if (!empty($request->user_unit)) {
-            $unit = $request->user_unit;
-        } else {
-            $unit = json_encode($unitArr);
-        }
+        // if (!empty($request->user_unit)) {
+        //     $unit = $request->user_unit;
+        // } else {
+        //     $unit = json_encode($unitArr);
+        // }
 
-        $data = new manrisk;
-        $data->id_user          = $id;
-        $data->unit             = $unit;
-        $data->jenis_risiko     = $request->jenis_risiko;
-        $data->proses_utama     = $request->proses_utama;
-        $data->item_kegiatan    = $request->item_kegiatan;
-        $data->jenis_aktivitas  = $request->jenis_aktivitas;
-        $data->kode_bahaya      = $request->kode_bahaya;
-        $data->sumber_bahaya    = $request->sumber_bahaya;
-        $data->risiko           = $request->risiko;
-        $data->pengendalian     = $request->pengendalian;
-        $data->dampak           = $request->dampak;
-        $data->frekuensi        = $request->frekuensi;
-        $data->nilai            = $nilai;
-        $data->tingkat_risiko   = $tingkat_risiko;
-        $data->elm              = $request->has('elm');
-        $data->sbt              = $request->has('sbt');
-        $data->eng              = $request->has('eng');
-        $data->adm              = $request->has('adm');
-        $data->apd              = $request->has('apd');
-        $data->deskripsi        = $request->deskripsi;
-        $data->waktu_penerapan  = $request->waktu_penerapan;
+        // $data = new manrisk;
+        // $data->id_user          = $id;
+        // $data->unit             = $unit;
+        // $data->jenis_risiko     = $request->jenis_risiko;
+        // $data->proses_utama     = $request->proses_utama;
+        // $data->item_kegiatan    = $request->item_kegiatan;
+        // $data->jenis_aktivitas  = $request->jenis_aktivitas;
+        // $data->kode_bahaya      = $request->kode_bahaya;
+        // $data->sumber_bahaya    = $request->sumber_bahaya;
+        // $data->risiko           = $request->risiko;
+        // $data->pengendalian     = $request->pengendalian;
+        // $data->dampak           = $request->dampak;
+        // $data->frekuensi        = $request->frekuensi;
+        // $data->nilai            = $nilai;
+        // $data->tingkat_risiko   = $tingkat_risiko;
+        // $data->elm              = $request->has('elm');
+        // $data->sbt              = $request->has('sbt');
+        // $data->eng              = $request->has('eng');
+        // $data->adm              = $request->has('adm');
+        // $data->apd              = $request->has('apd');
+        // $data->deskripsi        = $request->deskripsi;
+        // $data->waktu_penerapan  = $request->waktu_penerapan;
         
-        $data->save();
+        // $data->save();
         
-        return redirect()->route('manrisk.index')->with('message','Tambah Formulir Manajemen Resiko Berhasil oleh '.$name.' Pada '.$tgl);
+        // return redirect()->route('manrisk.index')->with('message','Tambah Formulir Manajemen Resiko Berhasil oleh '.$name.' Pada '.$tgl);
     }
 
     /**
@@ -233,12 +231,14 @@ class manriskController extends Controller
     
     public function apiData()
     {
-        // if ($user->hasRole('it')) {
-        //     $show = ref_jadwal_dinas::get();
-        // } else {
-        //     $show = ref_jadwal_dinas::where('id_user',$id)->get();
-        // }
-        $show = manrisk::get();
+        $user = Auth::user();
+        $id = $user->id;
+
+        if ($user->hasRole(['k3','it'])) {
+            $show = manrisk::get();
+        } else {
+            $show = manrisk::where('id_user',$id)->get();
+        }
         // print_r($show);
         // die();
 
@@ -278,15 +278,16 @@ class manriskController extends Controller
         } elseif ($nilai >= 13 && $nilai <= 25) {
             $tingkat_risiko = 'Very Extreme';
         }
-
-        if (strlen($request->unit) != 0) {
-            $unit = json_encode($request->unit);
-        } else {
+        // Object.keys(myarray[0]).length === 0;
+        if ($request->unit === 'undefined') {
             $unit = json_encode($unitArr);
+        } else {
+            $unit = json_encode($request->unit);
         } // MASIH ERROR DISINI
 
-        print_r($unit);
-        die();
+        // print_r($unit);
+        // print_r($request->all());
+        // die();
         
         $data = new manrisk;
         $data->id_user          = $id;

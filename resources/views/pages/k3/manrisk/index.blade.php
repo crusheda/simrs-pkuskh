@@ -414,7 +414,7 @@ $(document).ready( function () {
         var userID = "{{ Auth::user()->id }}";
         var adminID = "{{ Auth::user()->hasRole('it|k3') }}";
         var date = new Date().toISOString().split('T')[0];
-        console.log(date);
+        // console.log(date);
         if(res.show.length == 0){
           $("#tampil-tbody").append(`<tr><td colspan="23"><center>Tidak Ada Data</center></td></tr>`);
         } else {
@@ -426,10 +426,12 @@ $(document).ready( function () {
                 var un = item.unit;
               }
             }
+            // console.log(un);
+            un = un.toString().replaceAll(',',', ').replaceAll('-',' ');
             var updet = item.updated_at.substring(0, 10);
-            console.log(item.id+' - '+updet);
+            // console.log(item.id+' - '+updet);
             content = "<tr id='data"+ item.id +"'><td><kbd>" 
-                        + item.id + "</kbd></td><td style='word-wrap: break-word;text-transform: capitalize'>" 
+                        + item.id + "</kbd></td><td style='white-space: normal !important;min-width: 400px;word-wrap: break-word;text-transform: capitalize'>" 
                         + un + "</td><td>"; 
                         // Ruang Linkup
                           if (item.jenis_risiko == 1) {

@@ -37,6 +37,16 @@ class CreateTableManrisk extends Migration
             $table->longText('deskripsi')->nullable();
             $table->string('waktu_penerapan')->nullable();
             $table->integer('residual')->nullable();
+            $table->dateTime('residualdate1')->nullable();
+            $table->dateTime('residualdate2')->nullable();
+            $table->dateTime('residualdate3')->nullable();
+            $table->dateTime('residualdate4')->nullable();
+            $table->dateTime('residualdate5')->nullable();
+            $table->dateTime('residualdate6')->nullable();
+            $table->dateTime('residualdate7')->nullable();
+            $table->dateTime('residualdate8')->nullable();
+            $table->dateTime('residualdate9')->nullable();
+            $table->dateTime('residualdate10')->nullable();
             $table->timestamps();
             $table->softDeletes();
         });
