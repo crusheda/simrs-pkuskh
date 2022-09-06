@@ -419,6 +419,7 @@ $(document).ready( function () {
           $("#tampil-tbody").append(`<tr><td colspan="23"><center>Tidak Ada Data</center></td></tr>`);
         } else {
           res.show.forEach(item => {
+            // console.log(item.unit);
             if(item.unit) {
               try {
                 var un = JSON.parse(item.unit);

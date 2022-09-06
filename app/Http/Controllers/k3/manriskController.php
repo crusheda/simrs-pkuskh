@@ -279,11 +279,18 @@ class manriskController extends Controller
             $tingkat_risiko = 'Very Extreme';
         }
         // Object.keys(myarray[0]).length === 0;
-        if ($request->unit === 'undefined') {
-            $unit = json_encode($unitArr);
-        } else {
+        if ($user->hasRole(['k3','it'])) {
             $unit = json_encode($request->unit);
-        } // MASIH ERROR DISINI
+        } else {
+            $unit = json_encode($unitArr);
+        }
+        // if ($request->unit === 'undefined') {
+        //     $unit = json_encode($unitArr);
+        // } else {
+        //     $unit = json_encode($request->unit);
+        // } // MASIH ERROR DISINI
+
+
 
         // print_r($unit);
         // print_r($request->all());
