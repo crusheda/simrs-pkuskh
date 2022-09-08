@@ -90,7 +90,7 @@ class sklController extends Controller
         $data->user = $name;
         
         $data->save();
-        return redirect('/kebidanan/skl')->with('message','Tambah SKL Berhasil');
+        return redirect('/v2/kebidanan/skl')->with('message','Tambah SKL Berhasil');
     }
 
     /**
@@ -141,7 +141,7 @@ class sklController extends Controller
 
         $data->save();
 
-        return redirect('/kebidanan/skl')->with('message','Perubahan Identitas Bayi Berhasil');
+        return redirect('/v2/kebidanan/skl')->with('message','Perubahan Identitas Bayi Berhasil');
     }
 
     /**
@@ -156,7 +156,7 @@ class sklController extends Controller
         $data->delete();
 
         // redirect
-        return redirect('/kebidanan/skl')->with('message','Hapus Identitas Bayi Berhasil');
+        return redirect('/v2/kebidanan/skl')->with('message','Hapus Identitas Bayi Berhasil');
     }
 
     public function showAll()
@@ -193,7 +193,7 @@ class sklController extends Controller
         }elseif ($data->dr == 3) {
             $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor(public_path().'/doc/kebidanan/skl-febrian.docx');
         }elseif ($data->dr == null) {
-            return redirect('/kebidanan/skl')->with('message','Maaf, Input Dokter Belum Terisi');
+            return redirect('/v2/kebidanan/skl')->with('message','Maaf, Input Dokter Belum Terisi');
         }
         
         $filename = "SKL ";
