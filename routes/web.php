@@ -471,7 +471,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
     Route::post('laporan/pengaduan/ipsrs/tolak', 'ipsrs\pengaduan\pengaduanController@tolak')->name('pengaduan.ipsrs.tolak');
     Route::get('laporan/pengaduan/ipsrs/detail/{id}', 'ipsrs\pengaduan\pengaduanController@detail')->name('pengaduan.ipsrs.detail');
     Route::get('laporan/pengaduan/ipsrs/lampiran/catatan/{id}', 'ipsrs\pengaduan\pengaduanController@showCatatan')->name('pengaduan.ipsrs.lampiran.catatan');
-    Route::get('laporan/pengaduan/ipsrs/history', 'ipsrs\pengaduan\pengaduanController@history')->name('pengaduan.ipsrs.history');
+    Route::get('laporan/pengaduan/ipsrs/history', 'ipsrs\pengaduan\pengaduanController@history')->name('ipsrs.history');
     // START API
         // Route::get('pengaduan/ipsrs/lampiran/{id}', 'ipsrs\pengaduan\pengaduanController@getLampiran')->name('pengaduan.ipsrs.lampiran');
     // END API

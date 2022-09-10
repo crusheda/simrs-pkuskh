@@ -87,12 +87,12 @@
             @csrf
             <div class="form-group mb-3">
               <label for="defaultFormControlInput" class="form-label">Lokasi</label>
-              <input type="text" name="lokasi" class="form-control typeahead-bloodhound" placeholder="Masukkan Lokasi" autocomplete="off" required/>
+              <input type="text" name="lokasi" id="clr_lokasi" class="form-control typeahead-bloodhound" placeholder="Masukkan Lokasi" autocomplete="off" required/>
             </div>
             <div class="form-group mb-3">
               <label for="defaultFormControlInput" class="form-label">Pengaduan</label>
               <div class="form-group">
-                <textarea rows="3" class="autosize1 form-control" name="pengaduan" placeholder="Deskripsi Pengaduan Anda" required></textarea>
+                <textarea rows="3" class="autosize1 form-control" name="pengaduan" id="clr_pengaduan" placeholder="Deskripsi Pengaduan Anda" required></textarea>
               </div>
             </div>
             <div class="form-group mb-3">
@@ -110,9 +110,9 @@
             </div>
           <div class="d-flex justify-content-center pt-3">
             <div class="btn-group">
-              <button class="btn btn-primary" onclick="simpan()" id="btn-simpan" type="submit"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
-            </form>
-              <button class="btn btn-label-warning" onclick="clear()" type="button"><i class="fa-fw fas fa-eraser nav-icon"></i></button>
+                <button class="btn btn-primary" onclick="simpan()" id="btn-simpan" type="submit"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
+              </form>
+              <button class="btn btn-label-warning" onclick="clearInp()" type="button"><i class="fa-fw fas fa-eraser nav-icon"></i></button>
             </div>
           </div>
         </div>
@@ -153,7 +153,7 @@
       <div class="card-header">
         <div class="card-action-title">
           <h5>
-            Pengaduan Belum Terselesaikan
+            Pengaduan Belum Terselesaikan <span class="badge bg-primary">{{ count($list['recent']) }}</span>
           </h5>
         </div>
         <div class="card-action-element">
@@ -670,8 +670,16 @@ function simpan() {
   });
 }
 
-function clear() {
-  
+function clearInp() {
+  $("#clr_lokasi").val('');  
+  $("#clr_pengaduan").val('');  
+  $("#imgInp").val('');
+  document.getElementById("blah").src = '';
+  iziToast.success({
+    title: 'Yeayy!',
+    message: 'Form Tambah berhasil dibersihkan',
+    position: 'topRight'
+  });  
 }
 
 $("#imgInp").change(function(){

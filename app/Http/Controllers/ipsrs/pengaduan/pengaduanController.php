@@ -25,48 +25,49 @@ class pengaduanController extends Controller
      */
     public function index()
     {
-        // $unit = unit::pluck('id','name','nama');
         $user = Auth::user();
         $user_id = $user->id; 
         $name = $user->name;
-        $role = $user->roles->first()->name; //kabag-keperawatan
         
-        // if (Auth::user()->hasRole('ipsrs')) {
-        //     $show = pengaduan_ipsrs::where('tgl_selesai', null)->get();
-        //     $showrecent = pengaduan_ipsrs::whereNotNull('tgl_selesai')->get();
-        //     $shownotyet = '';
-        //     $showdone = '';
-        // }else {
-        // }
-        $show = pengaduan_ipsrs::where('user_id', $user_id)->get();
-        // $shownotyet = pengaduan_ipsrs::where('unit', $role)->where('tgl_selesai',null)->get();
-        // $showdone = pengaduan_ipsrs::where('unit', $role)->where('tgl_selesai','!=',null)->get();
-        // $showrecent = '';
+        if (Auth::user()->hasRole(['ipsrs','it'])) {
+            $show = pengaduan_ipsrs::where('tgl_selesai', null)->orderBy('tgl_pengaduan','DESC')->get();
+            $total = pengaduan_ipsrs::count();
+            $totalMasukPengaduan = pengaduan_ipsrs::whereNotNull('tgl_pengaduan')->where('tgl_diterima', null)->where('tgl_dikerjakan', null)->where('tgl_selesai', null)->where('ket_penolakan', null)->count();
+            $totalDiverifikasi = pengaduan_ipsrs::whereNotNull('tgl_diterima')->where('tgl_dikerjakan', null)->where('tgl_selesai', null)->where('ket_penolakan', null)->count();
+            $totalDikerjakan = pengaduan_ipsrs::whereNotNull('tgl_dikerjakan')->where('tgl_selesai', null)->where('ket_penolakan', null)->count();
+            $totalSelesai = pengaduan_ipsrs::whereNotNull('tgl_selesai')->where('ket_penolakan', null)->count();
+            $totalDitolak = pengaduan_ipsrs::whereNotNull('ket_penolakan')->count();
 
-        $recent = pengaduan_ipsrs::where('user_id', $user_id)->where('tgl_selesai', null)->orderBy('tgl_pengaduan','DESC')->get();
-        $total = pengaduan_ipsrs::where('user_id', $user_id)->count();
-        $totalSelesai = pengaduan_ipsrs::where('user_id', $user_id)->where('tgl_selesai', '!=', null)->where('ket_penolakan', null)->count();
-        $totalDitolak = pengaduan_ipsrs::where('user_id', $user_id)->where('ket_penolakan', '!=', null)->count();
-        $tambahketerangan = pengaduan_ipsrs_catatan::get();
-
-        // print_r($total);
-        // die();
-        $data = [
-            'show' => $show,
-            // 'shownotyet' => $shownotyet,
-            // 'showdone' => $showdone,
-            // 'showrecent' => $showrecent,
-            'tambahketerangan' => $tambahketerangan,
-            'recent' => $recent,
-            'total' => $total,
-            'totalselesai' => $totalSelesai,
-            'totalditolak' => $totalDitolak,
-        ];
-        // print_r($data);
-        // die();
-
-        return view('pages.laporan.pengaduan.ipsrs.indexUser')->with('list', $data);
-        // return view('pages.new.laporan.ipsrs.pengaduan')->with('list', $data);
+            $data = [
+                'show' => $show,
+                'total' => $total,
+                'totalmasukpengaduan' => $totalMasukPengaduan,
+                'totaldiverifikasi' => $totalDiverifikasi,
+                'totaldikerjakan' => $totalDikerjakan,
+                'totalselesai' => $totalSelesai,
+                'totalditolak' => $totalDitolak,
+            ];
+            
+            return view('pages.laporan.pengaduan.ipsrs.indexAdmin')->with('list', $data);
+        }else {
+            $show = pengaduan_ipsrs::where('user_id', $user_id)->get();
+            $recent = pengaduan_ipsrs::where('user_id', $user_id)->where('tgl_selesai', null)->orderBy('tgl_pengaduan','DESC')->get();
+            $total = pengaduan_ipsrs::where('user_id', $user_id)->count();
+            $totalSelesai = pengaduan_ipsrs::where('user_id', $user_id)->where('tgl_selesai', '!=', null)->where('ket_penolakan', null)->count();
+            $totalDitolak = pengaduan_ipsrs::where('user_id', $user_id)->where('ket_penolakan', '!=', null)->count();
+            $tambahketerangan = pengaduan_ipsrs_catatan::get();
+    
+            $data = [
+                'show' => $show,
+                'tambahketerangan' => $tambahketerangan,
+                'recent' => $recent,
+                'total' => $total,
+                'totalselesai' => $totalSelesai,
+                'totalditolak' => $totalDitolak,
+            ];
+            
+            return view('pages.laporan.pengaduan.ipsrs.indexUser')->with('list', $data);
+        }
     }
 
     /**
@@ -234,7 +235,7 @@ class pengaduanController extends Controller
 
     public function detail($id)
     {
-        $show = pengaduan_ipsrs::where('id',$id)->get();
+        $show = pengaduan_ipsrs::where('id',$id)->first();
 
         // $dikerjakan = DB::table('pengaduan_ipsrs_catatan')
         //         ->where('pengaduan_id',$id)
@@ -249,7 +250,8 @@ class pengaduanController extends Controller
         // print_r($cari);
         // die();
 
-        return view('pages.new.laporan.ipsrs.detail-pengaduan')->with('list', $data);
+        return view('pages.laporan.pengaduan.ipsrs.detailAdmin')->with('list', $data);
+        // return view('pages.new.laporan.ipsrs.detail-pengaduan')->with('list', $data);
     }
 
     public function terima(Request $request)
@@ -403,13 +405,6 @@ class pengaduanController extends Controller
         ];
 
         return view('pages.new.laporan.ipsrs.history-pengaduan')->with('list', $data);
-    }
-
-    public function getLampiran($id)
-    {
-        $data = pengaduan_ipsrs::where('id', $id)->get();
-
-        return response()->json($data, 200);
     }
 
     public function autocompleteLokasi(Request $request)
