@@ -171,7 +171,8 @@
     
     <script src="{{ asset('assets-new/vendor/libs/hammer/hammer.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/i18n/i18n.js') }}"></script>
-    <script src="{{ asset('assets-new/vendor/libs/typeahead-js/typeahead.js') }}"></script>
+    {{-- <script src="{{ asset('assets-new/vendor/libs/typeahead-js/typeahead.js') }}"></script> --}}
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/bootstrap-3-typeahead/4.0.1/bootstrap3-typeahead.min.js"></script>
     
     <script src="{{ asset('assets-new/vendor/js/menu.js') }}"></script>
     <!-- endbuild -->

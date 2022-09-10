@@ -25,31 +25,42 @@ class pengaduanController extends Controller
      */
     public function index()
     {
-        $unit = unit::pluck('id','name','nama');
+        // $unit = unit::pluck('id','name','nama');
         $user = Auth::user();
+        $user_id = $user->id; 
         $name = $user->name;
         $role = $user->roles->first()->name; //kabag-keperawatan
         
-        if (Auth::user()->hasRole('ipsrs')) {
-            $show = pengaduan_ipsrs::where('tgl_selesai', null)->get();
-            $showrecent = pengaduan_ipsrs::whereNotNull('tgl_selesai')->get();
-            $shownotyet = '';
-            $showdone = '';
-        }else {
-            $show = pengaduan_ipsrs::where('unit', $role)->get();
-            $shownotyet = pengaduan_ipsrs::where('unit', $role)->where('tgl_selesai',null)->get();
-            $showdone = pengaduan_ipsrs::where('unit', $role)->where('tgl_selesai','!=',null)->get();
-            $showrecent = '';
-        }
+        // if (Auth::user()->hasRole('ipsrs')) {
+        //     $show = pengaduan_ipsrs::where('tgl_selesai', null)->get();
+        //     $showrecent = pengaduan_ipsrs::whereNotNull('tgl_selesai')->get();
+        //     $shownotyet = '';
+        //     $showdone = '';
+        // }else {
+        // }
+        $show = pengaduan_ipsrs::where('user_id', $user_id)->get();
+        // $shownotyet = pengaduan_ipsrs::where('unit', $role)->where('tgl_selesai',null)->get();
+        // $showdone = pengaduan_ipsrs::where('unit', $role)->where('tgl_selesai','!=',null)->get();
+        // $showrecent = '';
+
+        $recent = pengaduan_ipsrs::where('user_id', $user_id)->where('tgl_selesai', null)->orderBy('tgl_pengaduan','DESC')->get();
+        $total = pengaduan_ipsrs::where('user_id', $user_id)->count();
+        $totalSelesai = pengaduan_ipsrs::where('user_id', $user_id)->where('tgl_selesai', '!=', null)->where('ket_penolakan', null)->count();
+        $totalDitolak = pengaduan_ipsrs::where('user_id', $user_id)->where('ket_penolakan', '!=', null)->count();
         $tambahketerangan = pengaduan_ipsrs_catatan::get();
 
+        // print_r($total);
+        // die();
         $data = [
             'show' => $show,
-            'shownotyet' => $shownotyet,
-            'showdone' => $showdone,
-            'showrecent' => $showrecent,
+            // 'shownotyet' => $shownotyet,
+            // 'showdone' => $showdone,
+            // 'showrecent' => $showrecent,
             'tambahketerangan' => $tambahketerangan,
-            'unit' => $unit
+            'recent' => $recent,
+            'total' => $total,
+            'totalselesai' => $totalSelesai,
+            'totalditolak' => $totalDitolak,
         ];
         // print_r($data);
         // die();
@@ -99,12 +110,15 @@ class pengaduanController extends Controller
         $user = Auth::user();
         $user_id = $user->id; 
         $name = $user->name; //jamhuri$user = Auth::user();
-        $role = $user->roles->first()->name; //kabag-keperawatan
+        $role = $user->roles; //kabag-keperawatan
+        foreach ($role as $key => $value) {
+            $unitArr[] = $value->name;
+        }
         $now = Carbon::now();
 
         $data = new pengaduan_ipsrs;
         $data->nama = $name;
-        $data->unit = $role;
+        $data->unit = json_encode($unitArr);
         $data->lokasi = $request->lokasi;
         $data->tgl_pengaduan = $now;
         $data->ket_pengaduan = $request->pengaduan;
@@ -116,7 +130,7 @@ class pengaduanController extends Controller
 
         $data->save();
 
-        return Redirect::back()->with('message','Tambah Laporan Pengaduan Berhasil');
+        return redirect()->route('ipsrs.index')->with('message','Tambah Laporan Pengaduan Berhasil oleh '.$name);
     }
 
     /**
@@ -396,5 +410,20 @@ class pengaduanController extends Controller
         $data = pengaduan_ipsrs::where('id', $id)->get();
 
         return response()->json($data, 200);
+    }
+
+    public function autocompleteLokasi(Request $request)
+    {
+        $getData = pengaduan_ipsrs::select("lokasi")
+                ->where("lokasi","LIKE","%{$request->lokasi}%")
+                ->groupBy ('lokasi')
+                ->get();
+   
+        foreach ($getData as $item)
+        {
+            $data[] = $item->lokasi;
+        }
+
+        return response()->json($data);
     }
 }
