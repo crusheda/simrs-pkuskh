@@ -509,7 +509,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
         Route::get('k3/manrisk/hapus/{id}', 'k3\manriskController@apiHapus');
 
     // PENGADUAN IPSRS
-        Route::get('autocomplete/pengaduan/ipsrs/lokasi', 'ipsrs\pengaduan\pengaduanController@autocompleteLokasi')->name('ac.ipsrs.lokasi');
+        Route::get('laporan/pengaduan/ipsrs/lokasi', 'ipsrs\pengaduan\pengaduanController@autocompleteLokasi')->name('ac.ipsrs.lokasi');
+        Route::post('laporan/pengaduan/ipsrs/verif/{id}', 'ipsrs\pengaduan\pengaduanController@verif')->name('ipsrs.verif');
     
     // SKL
         Route::get('kebidanan/skl/all','kebidanan\sklController@apiAll');

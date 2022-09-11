@@ -254,6 +254,22 @@ class pengaduanController extends Controller
         // return view('pages.new.laporan.ipsrs.detail-pengaduan')->with('list', $data);
     }
 
+    public function verif(Request $request)
+    {
+        $now = Carbon::now();
+        $user = Auth::user();
+        $name = $user->name;
+        $user_id = $user->id;
+        
+        $data = pengaduan_ipsrs::find($request->id);
+        $data->verifikator_id = $user_id;
+        $data->tgl_diterima = $now;
+        $data->ket_diterima = $request->ket;
+        $data->save();
+
+        return response()->json($name);
+    }
+
     public function terima(Request $request)
     {
         $now = Carbon::now();

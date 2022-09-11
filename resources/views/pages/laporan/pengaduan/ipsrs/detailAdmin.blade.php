@@ -91,7 +91,7 @@
   <div class="col-md-12">
     <div class="bs-stepper wizard-vertical vertical wizard-vertical-icons-example mt-2">
       <div class="bs-stepper-header">
-        <div class="step" data-target="#account-details-vertical">
+        <div class="step @if($list['show']->tgl_diterima == null && $list['show']->tgl_dikerjakan == null && $list['show']->tgl_selesai == null) active @endif" id="step1" data-target="#verif">
           <button type="button" class="step-trigger" disabled>
             <span class="bs-stepper-circle">
               <i class="bx bx-paper-plane"></i>
@@ -103,7 +103,7 @@
           </button>
         </div>
         <div class="line"></div>
-        <div class="step" data-target="#personal-info-vertical">
+        <div class="step @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan == null && $list['show']->tgl_selesai == null) active @endif" id="step2" data-target="#process">
           <button type="button" class="step-trigger" disabled>
             <span class="bs-stepper-circle">
               <i class="bx bx-wrench"></i>
@@ -115,7 +115,7 @@
           </button>
         </div>
         <div class="line"></div>
-        <div class="step" data-target="#social-links-vertical">
+        <div class="step @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan != null && $list['show']->tgl_selesai == null) active @endif" id="step3" data-target="#finish">
           <button type="button" class="step-trigger" disabled>
             <span class="bs-stepper-circle">
               <i class="bx bx-check-double"></i>
@@ -129,7 +129,7 @@
       </div>
       <div class="bs-stepper-content">
         <!-- Account Details -->
-        <div id="account-details-vertical" class="content">
+        <div id="verif" class="content @if($list['show']->tgl_diterima == null && $list['show']->tgl_dikerjakan == null && $list['show']->tgl_selesai == null) active dstepper-block @endif">
           <div class="content-header mb-3">
             <h6 class="mb-0">Verifying</h6>
             <small>Proses Verifikasi Laporan menjadi Status <kbd style="background-color: salmon">DITERIMA</kbd></small>
@@ -138,18 +138,18 @@
             <div class="form-group">
               <label for="defaultFormControlInput" class="form-label">Keterangan Tolak / Terima Laporan</label>
               <div class="form-group">
-                <textarea rows="3" class="autosize1 form-control" name="ket" placeholder="Tuliskan Keterangan" required></textarea>
+                <textarea rows="3" class="autosize1 form-control" name="ket" id="ket" placeholder="Tuliskan Keterangan" required></textarea>
               </div>
             </div>
             <div class="divider" style="margin-bottom:-5px">
               <div class="divider-text">Tolak / Terima Laporan</div>
             </div>
             <div class="col-12 d-flex justify-content-between">
-              <a class="btn btn-danger" href="javascript:void(0);">
+              <a class="btn btn-danger" href="javascript:void(0);" onclick="tolak({{ $list['show']->id }})">
                 <i class="fas fa-thumbs-down"></i>
                 <span class="align-middle d-sm-inline-block d-none">&nbsp;Tolak</span>
               </a>
-              <a class="btn btn-primary" href="javascript:void(0);">
+              <a class="btn btn-primary" href="javascript:void(0);" onclick="terima({{ $list['show']->id }})">
                 <span class="align-middle d-sm-inline-block d-none me-sm-1">Terima&nbsp;</span>
                 <i class="fas fa-thumbs-up"></i>
               </a>
@@ -157,39 +157,27 @@
           </div>
         </div>
         <!-- Personal Info -->
-        <div id="personal-info-vertical" class="content">
+        <div id="process" class="content @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan == null && $list['show']->tgl_selesai == null) active dstepper-block @endif">
           <div class="content-header mb-3">
-            <h6 class="mb-0">Personal Info</h6>
-            <small>Enter Your Personal Info.</small>
+            <h6 class="mb-0">Processing</h6>
+            <small>Proses Pengerjaan Laporan menjadi status <kbd style="background-color: orange">DIKERJAKAN</kbd></small>
           </div>
           <div class="row g-3">
-            <div class="col-sm-6">
-              <label class="form-label" for="first-name1">First Name</label>
-              <input type="text" id="first-name1" class="form-control" placeholder="John" />
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="defaultFormControlInput" class="form-label">Keterangan Awal Pengerjaan</label>
+                <div class="form-group">
+                  <textarea rows="3" class="autosize1 form-control" name="ket" id="ket" placeholder="Tambahkan Keterangan Awal Pengerjaan" required></textarea>
+                </div>
+              </div>
             </div>
-            <div class="col-sm-6">
-              <label class="form-label" for="last-name1">Last Name</label>
-              <input type="text" id="last-name1" class="form-control" placeholder="Doe" />
-            </div>
-            <div class="col-sm-6">
-              <label class="form-label" for="country1">Country</label>
-              <select class="select2" id="country1">
-                <option label=" "></option>
-                <option>UK</option>
-                <option>USA</option>
-                <option>Spain</option>
-                <option>France</option>
-                <option>Italy</option>
-                <option>Australia</option>
-              </select>
-            </div>
-            <div class="col-sm-6">
-              <label class="form-label" for="language1">Language</label>
-              <select class="selectpicker w-auto" id="language1" data-style="btn-default" data-icon-base="bx" data-tick-icon="bx-check text-white" multiple>
-                <option>English</option>
-                <option>French</option>
-                <option>Spanish</option>
-              </select>
+            <div class="col-md-6">
+              <div class="form-group">
+                <label for="defaultFormControlInput" class="form-label">Keterangan Tolak / Terima Laporan</label>
+                <div class="form-group">
+                  <textarea rows="3" class="autosize1 form-control" name="ket" id="ket" placeholder="Tuliskan Keterangan" required></textarea>
+                </div>
+              </div>
             </div>
             <div class="col-12 d-flex justify-content-between">
               <button class="btn btn-primary btn-prev">
@@ -204,7 +192,7 @@
           </div>
         </div>
         <!-- Social Links -->
-        <div id="social-links-vertical" class="content">
+        <div id="finish" class="content @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan != null && $list['show']->tgl_selesai == null) active dstepper-block @endif">
           <div class="content-header mb-3">
             <h6 class="mb-0">Social Links</h6>
             <small>Enter Your Social Links.</small>
@@ -244,37 +232,96 @@
 {{-- MODAL END --}}
 <script>
 $(document).ready( function () {
-    const t = document.querySelector(".wizard-vertical-icons-example");
-    if (t,
-    null !== t) {
-        const o = [].slice.call(t.querySelectorAll(".btn-next"))
-          , s = [].slice.call(t.querySelectorAll(".btn-prev"))
-          , d = t.querySelector(".btn-submit")
-          , u = new Stepper(t,{
-            linear: !1
-        });
-        o && o.forEach(e=>{
-            e.addEventListener("click", e=>{
-                u.next()
-            }
-            )
-        }
-        ),
-        s && s.forEach(e=>{
-            e.addEventListener("click", e=>{
-                u.previous()
-            }
-            )
-        }
-        ),
-        d && d.addEventListener("click", e=>{
-            alert("Submitted..!!")
-        }
-        )
-    }
-    const l = document.querySelector(".wizard-modern-icons-example");
+  // if ("{{ $list['show']->tgl_diterima }}" !== null) {
+  //   $("#step1").removeClass('active');
+  //   $("#verif").removeClass('active dstepper-block');
+  //   $("#step2").addClass('active');
+  //   $("#process").addClass('active dstepper-block');
+  //     console.log('VERIF');
+  // } else {
+  //     console.log('PROCESS');
+  //   if ("{{ $list['show']->tgl_dikerjakan }}" !== null) {
+  //     $("#step1").removeClass('active');
+  //     $("#verif").removeClass('active dstepper-block');
+  //     $("#step3").addClass('active');
+  //     $("#finish").addClass('active dstepper-block');
+  //   } else {
+  //     console.log('FINISH!');
+  //   }
+  // }
+
+  // const t = document.querySelector(".wizard-vertical-icons-example");
+  // if (t,
+  // null !== t) {
+  //   const o = [].slice.call(t.querySelectorAll(".btn-next"))
+  //     , s = [].slice.call(t.querySelectorAll(".btn-prev"))
+  //     , d = t.querySelector(".btn-submit")
+  //     , u = new Stepper(t,{
+  //       linear: !1
+  //   });
+  //   o && o.forEach(e=>{
+  //       e.addEventListener("click", e=>{
+  //           u.next()
+  //       }
+  //       )
+  //   }
+  //   ),
+  //   s && s.forEach(e=>{
+  //       e.addEventListener("click", e=>{
+  //           u.previous()
+  //       }
+  //       )
+  //   }
+  //   ),
+  //   d && d.addEventListener("click", e=>{
+  //       alert("Submitted..!!")
+  //   }
+  //   )
+  // }
+  // const l = document.querySelector(".wizard-modern-icons-example");
     
   $("html").addClass('layout-menu-collapsed');
 });
+
+// FUNCTION-FUNCTION 
+function terima(id) {
+  var ket = $("#ket").val();
+  if (ket == "") {
+      iziToast.error({
+        title: 'Pesan Galat!',
+        message: 'Keterangan Wajib Diisi',
+        position: 'topRight'
+      });
+  } else {
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      method: 'POST',
+      url: '/api/laporan/pengaduan/ipsrs/verif/'+id, 
+      dataType: 'json', 
+      data: { 
+        id: id,
+        ket: ket,
+      }, 
+      success: function(res) {
+        iziToast.success({
+          title: 'Sukses!',
+          message: 'Verifikasi Laporan Berhasil Diterima Oleh '+res,
+          position: 'topRight'
+        });
+        $("#step1").removeClass('active');
+        $("#verif").removeClass('active dstepper-block');
+        $("#step2").addClass('active');
+        $("#process").addClass('active dstepper-block');
+      }
+    });
+  }
+}
+
+function tolak(id) {
+  var ket = $("#ket").val();
+  alert(ket);
+}
 </script>
 @endsection
