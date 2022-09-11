@@ -343,18 +343,18 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'queue', 'as' => 'queue.'], 
     Route::get('api/kecamatan/{id}', 'Admin\profilController@apiKecamatan')->name('api.kecamatan');
 
 // IPSRS
-    Route::post('pengaduan/ipsrs/selesai', 'ipsrs\pengaduan\pengaduanController@selesai')->name('pengaduan.ipsrs.selesai');
-    Route::post('pengaduan/ipsrs/tambahketerangan', 'ipsrs\pengaduan\pengaduanController@tambahketerangan')->name('pengaduan.ipsrs.tambahketerangan');
-    Route::post('pengaduan/ipsrs/ubahketerangan', 'ipsrs\pengaduan\pengaduanController@ubahketerangan')->name('pengaduan.ipsrs.ubahketerangan');
-    Route::post('pengaduan/ipsrs/kerjakan', 'ipsrs\pengaduan\pengaduanController@kerjakan')->name('pengaduan.ipsrs.kerjakan');
-    Route::post('pengaduan/ipsrs/kerjakan/ubah', 'ipsrs\pengaduan\pengaduanController@ubahKerjakan')->name('pengaduan.ipsrs.ubah.kerjakan');
-    Route::post('pengaduan/ipsrs/terima', 'ipsrs\pengaduan\pengaduanController@terima')->name('pengaduan.ipsrs.terima');
-    Route::post('pengaduan/ipsrs/terima/ubah', 'ipsrs\pengaduan\pengaduanController@ubahTerima')->name('pengaduan.ipsrs.ubah.terima');
-    Route::post('pengaduan/ipsrs/tolak', 'ipsrs\pengaduan\pengaduanController@tolak')->name('pengaduan.ipsrs.tolak');
-    Route::get('pengaduan/ipsrs/detail/{id}', 'ipsrs\pengaduan\pengaduanController@detail')->name('pengaduan.ipsrs.detail');
-    Route::get('pengaduan/ipsrs/lampiran/catatan/{id}', 'ipsrs\pengaduan\pengaduanController@showCatatan')->name('pengaduan.ipsrs.lampiran.catatan');
-    Route::get('pengaduan/ipsrs/history', 'ipsrs\pengaduan\pengaduanController@history')->name('pengaduan.ipsrs.history');
-    Route::resource('pengaduan/ipsrs', 'ipsrs\pengaduan\pengaduanController');
+    // Route::post('pengaduan/ipsrs/selesai', 'ipsrs\pengaduan\pengaduanController@selesai')->name('pengaduan.ipsrs.selesai');
+    // Route::post('pengaduan/ipsrs/tambahketerangan', 'ipsrs\pengaduan\pengaduanController@tambahketerangan')->name('pengaduan.ipsrs.tambahketerangan');
+    // Route::post('pengaduan/ipsrs/ubahketerangan', 'ipsrs\pengaduan\pengaduanController@ubahketerangan')->name('pengaduan.ipsrs.ubahketerangan');
+    // Route::post('pengaduan/ipsrs/kerjakan', 'ipsrs\pengaduan\pengaduanController@kerjakan')->name('pengaduan.ipsrs.kerjakan');
+    // Route::post('pengaduan/ipsrs/kerjakan/ubah', 'ipsrs\pengaduan\pengaduanController@ubahKerjakan')->name('pengaduan.ipsrs.ubah.kerjakan');
+    // Route::post('pengaduan/ipsrs/terima', 'ipsrs\pengaduan\pengaduanController@terima')->name('pengaduan.ipsrs.terima');
+    // Route::post('pengaduan/ipsrs/terima/ubah', 'ipsrs\pengaduan\pengaduanController@ubahTerima')->name('pengaduan.ipsrs.ubah.terima');
+    // Route::post('pengaduan/ipsrs/tolak', 'ipsrs\pengaduan\pengaduanController@tolak')->name('pengaduan.ipsrs.tolak');
+    // Route::get('pengaduan/ipsrs/detail/{id}', 'ipsrs\pengaduan\pengaduanController@detail')->name('pengaduan.ipsrs.detail');
+    // Route::get('pengaduan/ipsrs/lampiran/catatan/{id}', 'ipsrs\pengaduan\pengaduanController@showCatatan')->name('pengaduan.ipsrs.lampiran.catatan');
+    // Route::get('pengaduan/ipsrs/history', 'ipsrs\pengaduan\pengaduanController@history')->name('pengaduan.ipsrs.history');
+    // Route::resource('pengaduan/ipsrs', 'ipsrs\pengaduan\pengaduanController');
 
 // MAIL
     Route::get('/kirimemail','Mail\InsentifDokterController@index');
@@ -463,18 +463,18 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
 // IPSRS
     Route::post('laporan/pengaduan/ipsrs/selesai', 'ipsrs\pengaduan\pengaduanController@selesai')->name('pengaduan.ipsrs.selesai');
     Route::post('laporan/pengaduan/ipsrs/tambahketerangan', 'ipsrs\pengaduan\pengaduanController@tambahketerangan')->name('pengaduan.ipsrs.tambahketerangan');
-    Route::post('laporan/pengaduan/ipsrs/ubahketerangan', 'ipsrs\pengaduan\pengaduanController@ubahketerangan')->name('pengaduan.ipsrs.ubahketerangan');
+
+    Route::post('laporan/pengaduan/ipsrs/catatan', 'ipsrs\pengaduan\pengaduanController@catatan')->name('pengaduan.ipsrs.catatan');
+    Route::post('laporan/pengaduan/ipsrs/catatan/ubah', 'ipsrs\pengaduan\pengaduanController@ubahCatatan')->name('pengaduan.ipsrs.ubahCatatan');
+
     Route::post('laporan/pengaduan/ipsrs/kerjakan', 'ipsrs\pengaduan\pengaduanController@kerjakan')->name('pengaduan.ipsrs.kerjakan');
     Route::post('laporan/pengaduan/ipsrs/kerjakan/ubah', 'ipsrs\pengaduan\pengaduanController@ubahKerjakan')->name('pengaduan.ipsrs.ubah.kerjakan');
     Route::post('laporan/pengaduan/ipsrs/terima', 'ipsrs\pengaduan\pengaduanController@terima')->name('pengaduan.ipsrs.terima');
     Route::post('laporan/pengaduan/ipsrs/terima/ubah', 'ipsrs\pengaduan\pengaduanController@ubahTerima')->name('pengaduan.ipsrs.ubah.terima');
     Route::post('laporan/pengaduan/ipsrs/tolak', 'ipsrs\pengaduan\pengaduanController@tolak')->name('pengaduan.ipsrs.tolak');
     Route::get('laporan/pengaduan/ipsrs/detail/{id}', 'ipsrs\pengaduan\pengaduanController@detail')->name('pengaduan.ipsrs.detail');
-    Route::get('laporan/pengaduan/ipsrs/lampiran/catatan/{id}', 'ipsrs\pengaduan\pengaduanController@showCatatan')->name('pengaduan.ipsrs.lampiran.catatan');
+    Route::get('laporan/pengaduan/ipsrs/catatan/{id}', 'ipsrs\pengaduan\pengaduanController@downloadCatatan');
     Route::get('laporan/pengaduan/ipsrs/history', 'ipsrs\pengaduan\pengaduanController@history')->name('ipsrs.history');
-    // START API
-        // Route::get('pengaduan/ipsrs/lampiran/{id}', 'ipsrs\pengaduan\pengaduanController@getLampiran')->name('pengaduan.ipsrs.lampiran');
-    // END API
     Route::resource('laporan/pengaduan/ipsrs', 'ipsrs\pengaduan\pengaduanController');
 
 // Kebidanan
@@ -511,6 +511,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
     // PENGADUAN IPSRS
         Route::get('laporan/pengaduan/ipsrs/lokasi', 'ipsrs\pengaduan\pengaduanController@autocompleteLokasi')->name('ac.ipsrs.lokasi');
         Route::post('laporan/pengaduan/ipsrs/verif/{id}', 'ipsrs\pengaduan\pengaduanController@verif')->name('ipsrs.verif');
+        Route::post('laporan/pengaduan/ipsrs/unverif/{id}', 'ipsrs\pengaduan\pengaduanController@unverif')->name('ipsrs.unverif');
+        Route::post('laporan/pengaduan/ipsrs/process/{id}', 'ipsrs\pengaduan\pengaduanController@process')->name('ipsrs.process');
+        Route::post('laporan/pengaduan/ipsrs/finish/{id}', 'ipsrs\pengaduan\pengaduanController@finish')->name('ipsrs.finish');
     
     // SKL
         Route::get('kebidanan/skl/all','kebidanan\sklController@apiAll');

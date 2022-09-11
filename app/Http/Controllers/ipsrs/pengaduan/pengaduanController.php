@@ -145,14 +145,6 @@ class pengaduanController extends Controller
         $data = pengaduan_ipsrs::find($id);
         return Storage::download($data->filename_pengaduan, $data->title_pengaduan);
     }
-    
-    public function showCatatan($id)
-    {
-        $data = pengaduan_ipsrs_catatan::where('id',$id)->first();
-        // print_r($data);
-        // die();
-        return Storage::download($data->filename, $data->title);
-    }
 
     /**
      * Show the form for editing the specified resource.
@@ -241,11 +233,11 @@ class pengaduanController extends Controller
         //         ->where('pengaduan_id',$id)
         //         ->get();
 
-        $dikerjakan = pengaduan_ipsrs_catatan::where('pengaduan_id',$id)->get();
+        $catatan = pengaduan_ipsrs_catatan::where('pengaduan_id',$id)->orderBy('created_at','ASC')->get();
         
         $data = [
             'show' => $show,
-            'dikerjakan' => $dikerjakan
+            'catatan' => $catatan
         ];
         // print_r($cari);
         // die();
@@ -268,6 +260,114 @@ class pengaduanController extends Controller
         $data->save();
 
         return response()->json($name);
+    }
+
+    public function unverif(Request $request)
+    {
+        $now = Carbon::now();
+        $user = Auth::user();
+        $name = $user->name;
+        $user_id = $user->id;
+        
+        $data = pengaduan_ipsrs::find($request->id);
+        $data->verifikator_id = $user_id;
+        $data->tgl_selesai = $now;
+        $data->ket_penolakan = $request->ket;
+        $data->save();
+
+        return response()->json($name);
+    }
+
+    public function process(Request $request)
+    {
+        $now = Carbon::now();
+        $user = Auth::user();
+        $name = $user->name;
+        $user_id = $user->id;
+        
+        $data = pengaduan_ipsrs::find($request->id);
+        $data->tgl_dikerjakan = $now;
+        $data->ket_dikerjakan = $request->ket_pengerjaan;
+        if ($request->estimasi != null) {
+            $data->estimasi = $request->estimasi;
+        }
+        $data->save();
+
+        return response()->json($name);
+    }
+
+    public function finish(Request $request)
+    {
+        $now = Carbon::now();
+        $user = Auth::user();
+        $name = $user->name;
+        $user_id = $user->id;
+        
+        $data = pengaduan_ipsrs::find($request->id);
+        $data->tgl_selesai = $now;
+        $data->ket_selesai = $request->ket_selesai;
+        $data->save();
+
+        return response()->json($name);
+    }
+
+    public function downloadCatatan($id)
+    {
+        $data = pengaduan_ipsrs_catatan::where('id',$id)->first();
+        return Storage::download($data->filename, $data->title);
+    }
+
+    public function catatan(Request $request)
+    {
+        // tampung berkas yang sudah diunggah ke variabel baru
+        // 'file' merupakan nama input yang ada pada form
+        $request->validate([
+            'catatan' => ['image','mimes:jpg,png,jpeg,gif'],
+        ]);
+
+        $uploadedFile = $request->file('file');     
+
+        // simpan berkas yang diunggah ke sub-direktori 'public/files'
+        // direktori 'files' otomatis akan dibuat jika belum ada
+        if ($uploadedFile == '') {
+            $path = '';
+            $title = '';
+        }else {
+            $path = $uploadedFile->store('public/files/ipsrs/pengaduan/catatan');
+            $title = $request->title ?? $uploadedFile->getClientOriginalName();
+        }
+        
+        $data = new pengaduan_ipsrs_catatan;
+        $data->pengaduan_id = $request->id_pengaduan;
+        $data->keterangan = $request->ket_catatan;
+        $data->title = $title;
+        $data->filename = $path;
+        $data->save();
+    
+        return Redirect::back()->with('message','Tambah Catatan Pengerjaan Laporan Berhasil');
+    }
+
+    public function ubahCatatan(Request $request)
+    {
+        // tampung berkas yang sudah diunggah ke variabel baru
+        // 'file' merupakan nama input yang ada pada form
+        $uploadedFile = $request->file('file');     
+
+        // simpan berkas yang diunggah ke sub-direktori 'public/files'
+        // direktori 'files' otomatis akan dibuat jika belum ada
+        $data = pengaduan_ipsrs_catatan::find($request->id_catatan);
+
+        if ($uploadedFile != '') {
+            $path = $uploadedFile->store('public/files/ipsrs/pengaduan/catatan');
+            $title = $request->title ?? $uploadedFile->getClientOriginalName();
+            $data->title = $title;
+            $data->filename = $path;
+        }
+        
+        $data->keterangan = $request->ket_catatan;
+        $data->save();
+    
+        return Redirect::back()->with('message','Ubah Catatan Pengerjaan Laporan Berhasil');
     }
 
     public function terima(Request $request)

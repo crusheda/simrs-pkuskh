@@ -30,7 +30,7 @@
 
 <div class="row">
   <div class="col-md-12">
-    <a class="btn btn-dark mb-3" href="{{ route('ipsrs.index') }}"><i class="bx bx-chevron-left me-1"></i> Kembali</a>
+    <a class="btn btn-label-dark mb-3" href="{{ route('ipsrs.index') }}"><i class="bx bx-chevron-left me-1"></i> Kembali</a>
   </div>
   <div class="col-md-3">
     <div class="card card-action mb-4">
@@ -51,7 +51,7 @@
             <button class="btn btn-primary" disabled>Download</button>
         @else
             <img class="card-img-top img-thumbnail border mb-4" src="{{ url('storage/'.substr($list['show']->filename_pengaduan,7,1000)) }}" style="height: 210px;width: auto" alt="Foto Pengaduan">
-            <button class="btn btn-primary" onclick="window.location.href='{{ url('v2/laporan/pengaduan/ipsrs/'. $list['show']->id) }}'">Download</button>
+            <button class="btn btn-primary" onclick="window.location.href='{{ url('v2/laporan/pengaduan/ipsrs/'. $list['show']->id) }}'"><i class="bx bx-download"></i> Download</button>
         @endif
         </center>
       </div>
@@ -72,6 +72,12 @@
       <div class="row card-body">
         <div class="col-md-8 order-md-0 order-0">
           <div class="mb-4">
+            <h6 class="fw-semibold mb-2">Pelapor :</h6>
+            <p>
+              {{ $list['show']->nama }} ({{ str_replace(str_split('[]"'),'',$list['show']->unit) }})
+            </p>
+          </div>
+          <div class="mb-4">
             <h6 class="fw-semibold mb-2">Lokasi :</h6>
             <p>{{ $list['show']->lokasi }}</p>
           </div>
@@ -91,7 +97,7 @@
   <div class="col-md-12">
     <div class="bs-stepper wizard-vertical vertical wizard-vertical-icons-example mt-2">
       <div class="bs-stepper-header">
-        <div class="step @if($list['show']->tgl_diterima == null && $list['show']->tgl_dikerjakan == null && $list['show']->tgl_selesai == null) active @endif" id="step1" data-target="#verif">
+        <div class="step @if($list['show']->tgl_diterima == null && $list['show']->tgl_dikerjakan == null && $list['show']->tgl_selesai == null && $list['show']->ket_penolakan == null) active @endif" id="step1" data-target="#verif">
           <button type="button" class="step-trigger" disabled>
             <span class="bs-stepper-circle">
               <i class="bx bx-paper-plane"></i>
@@ -103,7 +109,7 @@
           </button>
         </div>
         <div class="line"></div>
-        <div class="step @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan == null && $list['show']->tgl_selesai == null) active @endif" id="step2" data-target="#process">
+        <div class="step @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan == null && $list['show']->tgl_selesai == null && $list['show']->ket_penolakan == null) active @endif" id="step2" data-target="#process">
           <button type="button" class="step-trigger" disabled>
             <span class="bs-stepper-circle">
               <i class="bx bx-wrench"></i>
@@ -115,7 +121,7 @@
           </button>
         </div>
         <div class="line"></div>
-        <div class="step @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan != null && $list['show']->tgl_selesai == null) active @endif" id="step3" data-target="#finish">
+        <div class="step @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan != null && $list['show']->tgl_selesai == null && $list['show']->ket_penolakan == null) active @endif" id="step3" data-target="#finish">
           <button type="button" class="step-trigger" disabled>
             <span class="bs-stepper-circle">
               <i class="bx bx-check-double"></i>
@@ -126,10 +132,22 @@
             </span>
           </button>
         </div>
+        <div class="line"></div>
+        <div class="step @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan != null && $list['show']->tgl_selesai != null) active @endif" id="step4" data-target="#result">
+          <button type="button" class="step-trigger" disabled>
+            <span class="bs-stepper-circle">
+              <i class="bx bx-check-double"></i>
+            </span>
+            <span class="bs-stepper-label mt-1">
+              <span class="bs-stepper-title">Result</span>
+              <span class="bs-stepper-subtitle">Hasil Laporan</span>
+            </span>
+          </button>
+        </div>
       </div>
       <div class="bs-stepper-content">
-        <!-- Account Details -->
-        <div id="verif" class="content @if($list['show']->tgl_diterima == null && $list['show']->tgl_dikerjakan == null && $list['show']->tgl_selesai == null) active dstepper-block @endif">
+        <!-- VERIFYING -->
+        <div id="verif" class="content @if($list['show']->tgl_diterima == null && $list['show']->tgl_dikerjakan == null && $list['show']->tgl_selesai == null && $list['show']->ket_penolakan == null) active dstepper-block @endif">
           <div class="content-header mb-3">
             <h6 class="mb-0">Verifying</h6>
             <small>Proses Verifikasi Laporan menjadi Status <kbd style="background-color: salmon">DITERIMA</kbd></small>
@@ -156,71 +174,76 @@
             </div>
           </div>
         </div>
-        <!-- Personal Info -->
-        <div id="process" class="content @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan == null && $list['show']->tgl_selesai == null) active dstepper-block @endif">
+        <!-- PROCESSING -->
+        <div id="process" class="content @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan == null && $list['show']->tgl_selesai == null && $list['show']->ket_penolakan == null) active dstepper-block @endif">
           <div class="content-header mb-3">
             <h6 class="mb-0">Processing</h6>
             <small>Proses Pengerjaan Laporan menjadi status <kbd style="background-color: orange">DIKERJAKAN</kbd></small>
           </div>
           <div class="row g-3">
-            <div class="col-md-6">
+            <div class="col-md-8">
               <div class="form-group">
                 <label for="defaultFormControlInput" class="form-label">Keterangan Awal Pengerjaan</label>
                 <div class="form-group">
-                  <textarea rows="3" class="autosize1 form-control" name="ket" id="ket" placeholder="Tambahkan Keterangan Awal Pengerjaan" required></textarea>
+                  <textarea rows="3" class="autosize1 form-control" id="ket_pengerjaan" placeholder="Masukkan Keterangan Awal Pengerjaan" required></textarea>
                 </div>
               </div>
             </div>
-            <div class="col-md-6">
+            <div class="col-md-4">
               <div class="form-group">
-                <label for="defaultFormControlInput" class="form-label">Keterangan Tolak / Terima Laporan</label>
+                <label for="defaultFormControlInput" class="form-label">Estimasi Penyelesaian</label>
                 <div class="form-group">
-                  <textarea rows="3" class="autosize1 form-control" name="ket" id="ket" placeholder="Tuliskan Keterangan" required></textarea>
+                  <input type="text" class="form-control" placeholder="Tambahkan Estimasi Waktu (Optional)" id="estimasi" />
+                  <sub><strong>Nb. </strong>Untuk menambahkan Catatan Pengerjaan pada Sub Halaman Selanjutnya, Silakan klik Kerjakan di bawah ini.</sub>
                 </div>
               </div>
             </div>
             <div class="col-12 d-flex justify-content-between">
-              <button class="btn btn-primary btn-prev">
-                <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
-                <span class="align-middle d-sm-inline-block d-none">Previous</span>
-              </button>
-              <button class="btn btn-primary btn-next">
-                <span class="align-middle d-sm-inline-block d-none me-sm-1">Next</span>
+              <h6></h6>
+              <button class="btn btn-label-warning" onclick="kerjakan({{ $list['show']->id }})">
+                <span class="align-middle d-sm-inline-block d-none me-sm-1">Kerjakan</span>
                 <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
               </button>
             </div>
           </div>
         </div>
-        <!-- Social Links -->
-        <div id="finish" class="content @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan != null && $list['show']->tgl_selesai == null) active dstepper-block @endif">
+        <!-- FINISHING -->
+        <div id="finish" class="content @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan != null && $list['show']->tgl_selesai == null && $list['show']->ket_penolakan == null) active dstepper-block @endif">
           <div class="content-header mb-3">
-            <h6 class="mb-0">Social Links</h6>
-            <small>Enter Your Social Links.</small>
+            <h6 class="mb-0">Finishing</h6>
+            <small>Proses Penyelesaian Laporan Pengaduan IPSRS menjadi status  <kbd style="background-color: turquoise">SELESAI</kbd></small>
           </div>
           <div class="row g-3">
-            <div class="col-sm-6">
-              <label class="form-label" for="twitter1">Twitter</label>
-              <input type="text" id="twitter1" class="form-control" placeholder="https://twitter.com/abc" />
-            </div>
-            <div class="col-sm-6">
-              <label class="form-label" for="facebook1">Facebook</label>
-              <input type="text" id="facebook1" class="form-control" placeholder="https://facebook.com/abc" />
-            </div>
-            <div class="col-sm-6">
-              <label class="form-label" for="google1">Google+</label>
-              <input type="text" id="google1" class="form-control" placeholder="https://plus.google.com/abc" />
-            </div>
-            <div class="col-sm-6">
-              <label class="form-label" for="linkedin1">Linkedin</label>
-              <input type="text" id="linkedin1" class="form-control" placeholder="https://linkedin.com/abc" />
+            <div class="form-group">
+              <label for="defaultFormControlInput" class="form-label">Keterangan Laporan Selesai</label>
+              <div class="form-group">
+                <textarea rows="3" class="autosize1 form-control" id="ket_selesai" placeholder="Tuliskan Keterangan untuk Laporan Selesai" required></textarea>
+              </div>
             </div>
             <div class="col-12 d-flex justify-content-between">
-              <button class="btn btn-primary btn-prev">
-                <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
-                <span class="align-middle d-sm-inline-block d-none">Previous</span>
+              <button class="btn btn-label-warning" data-bs-toggle="modal" data-bs-target="#catatan">
+                <i class="bx bx-note bx-sm ms-sm-n2"></i>
+                <span class="align-middle d-sm-inline-block d-none">Catatan Pengerjaan</span>
               </button>
-              <button class="btn btn-success btn-submit">Submit</button>
+              <button class="btn text-white btn-submit" style="background-color: turquoise" onclick="selesai({{ $list['show']->id }})"><i class="bx bx-check-double"></i> Laporan Selesai</button>
             </div>
+          </div>
+        </div>
+        <!-- RESULT -->
+        <div id="result" class="content @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan != null && $list['show']->tgl_selesai != null) active dstepper-block @endif">
+          <div class="content-header mb-3">
+            <h6 class="mb-0">Result</h6>
+            <small>Hasil Laporan Pengerjaan IPSRS</small>
+          </div>
+          <div class="row g-3">
+            <h6>Sistem Under Construction, Stay Tune!</h6>
+            {{-- <div class="col-12 d-flex justify-content-between">
+              <h6></h6>
+              <button class="btn btn-label-warning" disabled>
+                <span class="align-middle d-sm-inline-block d-none me-sm-1"></span>
+                <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
+              </button>
+            </div> --}}
           </div>
         </div>
       </div>
@@ -229,6 +252,110 @@
 </div>
 
 {{-- MODAL START --}}
+<div class="modal fade" id="catatan" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title">Catatan Pengerjaan Laporan <small><kbd>ID : {{ $list['show']->id }}</kbd></small></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <div class="row">
+          {{ Form::model($list['show'], array('route' => array('pengaduan.ipsrs.catatan', $list['show']->id), 'method' => 'POST', 'enctype' => 'multipart/form-data','id' => 'formCatatan')) }}
+            @csrf
+            <input type="text" name="id_pengaduan" value="{{ $list['show']->id }}" hidden>
+            <div class="form-group mb-3">
+              <label for="defaultFormControlInput" class="form-label">Tambah Catatan</label>
+              <textarea rows="3" class="autosize1 form-control" name="ket_catatan" id="ket_catatan" placeholder="Masukkan Catatan" required></textarea>
+            </div>
+            <div class="form-group mb-3">
+              <label for="defaultFormControlInput" class="form-label">Lampiran (Optional) : </label>
+              <input type="file" name="file" id="imgInp" class="form-control">
+            </div>
+            <div class="col-12 d-flex justify-content-between">
+              <h6><sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Disarankan untuk menyertakan lampiran foto</sub></h6>
+              <button type="submit" class="btn btn-label-warning" id="btn-simpan-catatan"><i class="fa fa-save"></i>&nbsp;&nbsp;Tambah</button>
+            </div>
+          {{ Form::close() }}
+          <div class="divider">
+            <div class="divider-text">Daftar Catatan</div>
+          </div>
+          <div class="table-responsive">
+              <table id="dikerjakan" class="table table-striped display">
+                  <thead>
+                      <tr>
+                          <th>Keterangan</th>
+                          <th>File</th>
+                          <th>Tgl</th>
+                          <th><center>AKSI</center></th>
+                      </tr>
+                  </thead>
+                  <tbody style="text-transform: capitalize">
+                      @if(count($list['catatan']) > 0)
+                      @foreach($list['catatan'] as $val)
+                      <tr>
+                          <td>{{ $val->keterangan }}</td>
+                          <td>{{ $val->title }}</td>
+                          <td>{{ $val->created_at }}</td>
+                          <td>
+                            <center>
+                              <div class="btn-group">
+                                {{-- Tombol Ubah --}}
+                                <button type="button" class="btn btn-warning btn-sm" data-bs-target="#ubahCatatan{{ $val->id }}" data-bs-toggle="modal" data-bs-dismiss="modal"><i class="fa-fw fas fa-edit nav-icon"></i></button>
+                                {{-- Tombol Download --}}
+                                @if (!empty($val->title))
+                                  <button class="btn btn-success btn-sm" onclick="window.location.href='{{ url('v2/laporan/pengaduan/ipsrs/catatan/'. $val->id) }}'"><i class="fa-fw fas fa-download nav-icon"></i></button>
+                                @else
+                                  <button class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-download nav-icon"></i></button>
+                                @endif
+                              </div>
+                            </center>
+                          </td>
+                      </tr>
+                      @endforeach
+                      @endif
+                  </tbody>
+              </table>
+          </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+@foreach($list['catatan'] as $item)
+<div class="modal fade" id="ubahCatatan{{ $item->id }}" data-bs-backdrop="static" aria-hidden="true" aria-labelledby="modalToggleLabel2" tabindex="-1">
+  <div class="modal-dialog modal-dialog-centered modal-lg">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalToggleLabel2">Ubah Catatan <small><kbd>ID : {{ $item->id }}</kbd></small></h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+      </div>
+      {{ Form::model($list['show'], array('route' => array('pengaduan.ipsrs.ubahCatatan', $list['show']->id), 'method' => 'POST', 'enctype' => 'multipart/form-data')) }}
+      <div class="modal-body">
+        @csrf
+        <input type="text" name="id_catatan" value="{{ $item->id }}" hidden>
+        <div class="form-group mb-3">
+          <label for="defaultFormControlInput" class="form-label">Catatan</label>
+          <textarea rows="3" class="autosize1 form-control" name="ket_catatan" placeholder="Masukkan Catatan" required><?php echo htmlspecialchars($item->keterangan); ?></textarea>
+        </div>
+        <div class="form-group mb-3">
+          <label for="defaultFormControlInput" class="form-label">Lampiran (Optional) : </label>
+          <input type="file" name="file" id="imgInp" class="form-control">
+        </div>
+        <h6><sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Disarankan untuk menyertakan lampiran foto</sub></h6>
+      </div>
+      <div class="modal-footer">
+        <a class="btn btn-label-secondary" href="javascript:void(0);" data-bs-target="#catatan" data-bs-toggle="modal" data-bs-dismiss="modal"><i class="fas fa-chevron-left"></i>&nbsp;&nbsp;Kembali</a>
+        <button class="btn btn-primary" type="submit"><i class="fa fa-save"></i>&nbsp;&nbsp;Simpan</button>
+      </div>
+      {{ Form::close() }}
+    </div>
+  </div>
+</div>
+@endforeach
 {{-- MODAL END --}}
 <script>
 $(document).ready( function () {
@@ -279,7 +406,24 @@ $(document).ready( function () {
   //   )
   // }
   // const l = document.querySelector(".wizard-modern-icons-example");
-    
+  const l = document.querySelector("#estimasi");
+  const c = new Date(Date.now() - 1728e5)
+      , m = new Date(Date.now());
+  l.flatpickr({
+      dateFormat: "Y-m-d",
+      disable: [{
+        from: "2000-01-01",
+        to: m.toISOString().split("T")[0]
+      }]
+  })
+
+  $("#formCatatan").one('submit', function() {
+      //stop submitting the form to see the disabled button effect
+      $("#btn-simpan-catatan").attr('disabled','disabled');
+      $("#btn-simpan-catatan").find("i").toggleClass("fa-save fa-spinner fa-spin");
+
+      return true;
+  });
   $("html").addClass('layout-menu-collapsed');
 });
 
@@ -321,7 +465,111 @@ function terima(id) {
 
 function tolak(id) {
   var ket = $("#ket").val();
-  alert(ket);
+  if (ket == "") {
+      iziToast.error({
+        title: 'Pesan Galat!',
+        message: 'Keterangan Wajib Diisi',
+        position: 'topRight'
+      });
+  } else {
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      method: 'POST',
+      url: '/api/laporan/pengaduan/ipsrs/unverif/'+id, 
+      dataType: 'json', 
+      data: { 
+        id: id,
+        ket: ket,
+      }, 
+      success: function(res) {
+        iziToast.success({
+          title: 'Sukses!',
+          message: 'Verifikasi Laporan Berhasil Ditolak Oleh '+res,
+          position: 'topRight'
+        });
+        $("#step1").removeClass('active');
+        $("#verif").removeClass('active dstepper-block');
+        $("#step2").addClass('active');
+        $("#process").addClass('active dstepper-block');
+      }
+    });
+  }
+}
+
+function kerjakan(id) {
+  var ket_pengerjaan = $("#ket_pengerjaan").val();
+  var estimasi = $("#estimasi").val();
+  
+  if (ket_pengerjaan == "") {
+      iziToast.error({
+        title: 'Pesan Galat!',
+        message: 'Keterangan Pengerjaan Wajib Diisi',
+        position: 'topRight'
+      });
+  } else {
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      method: 'POST',
+      url: '/api/laporan/pengaduan/ipsrs/process/'+id, 
+      dataType: 'json', 
+      data: { 
+        id: id,
+        ket_pengerjaan: ket_pengerjaan,
+        estimasi: estimasi,
+      }, 
+      success: function(res) {
+        iziToast.success({
+          title: 'Sukses!',
+          message: 'Laporan Mulai Dikerjakan Oleh '+res,
+          position: 'topRight'
+        });
+        $("#step2").removeClass('active');
+        $("#process").removeClass('active dstepper-block');
+        $("#step3").addClass('active');
+        $("#finish").addClass('active dstepper-block');
+      }
+    });
+  }
+}
+
+function selesai(id) {
+  var ket_selesai = $("#ket_selesai").val();
+  
+  if (ket_selesai == "") {
+      iziToast.error({
+        title: 'Pesan Galat!',
+        message: 'Keterangan Selesai Laporan Wajib Diisi',
+        position: 'topRight'
+      });
+  } else {
+    $.ajax({
+      headers: {
+        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+      },
+      method: 'POST',
+      url: '/api/laporan/pengaduan/ipsrs/finish/'+id, 
+      dataType: 'json', 
+      data: { 
+        id: id,
+        ket_selesai: ket_selesai,
+      }, 
+      success: function(res) {
+        iziToast.success({
+          title: 'Selamat!',
+          message: 'Laporan Berhasil Diselesaikan Oleh '+res,
+          position: 'topRight'
+        });
+        $("#step3").removeClass('active');
+        $("#finish").removeClass('active dstepper-block');
+        $("#step4").addClass('active');
+        $("#result").addClass('active dstepper-block');
+      }
+    });
+  }
 }
 </script>
 @endsection

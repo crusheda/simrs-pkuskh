@@ -153,7 +153,7 @@
       <div class="card-header">
         <div class="card-action-title">
           <h5>
-            Pengaduan Belum Terselesaikan <span class="badge bg-primary">{{ count($list['recent']) }}</span>
+            Pengaduan Belum Terselesaikan : <span class="badge bg-primary">{{ count($list['recent']) }}</span>
           </h5>
         </div>
         <div class="card-action-element">
@@ -220,9 +220,12 @@
                       @if(!empty($list['recent'][$i]->ket_diterima))<span class="text-muted">{{ $list['recent'][$i]->ket_diterima }}</span>@endif
                     </div>
                   </div>
-                  <button class="btn btn-dark btn-sm my-sm-0 my-3" onclick="window.location.href='{{ url('/v2/laporan/pengaduan/ipsrs/detail/'.$list['recent'][$i]->id) }}'">
+                  <button class="btn btn-dark btn-sm my-sm-0 my-3" data-bs-target="#track{{ $list['recent'][$i]->id }}" data-bs-toggle="modal">
                     Lihat&nbsp;&nbsp;<span class="badge bg-white text-dark">ID : {{ $list['recent'][$i]->id }}</span>
                   </button>
+                  {{-- <button class="btn btn-dark btn-sm my-sm-0 my-3" onclick="window.location.href='{{ url('/v2/laporan/pengaduan/ipsrs/detail/'.$list['recent'][$i]->id) }}'">
+                    Lihat&nbsp;&nbsp;<span class="badge bg-white text-dark">ID : {{ $list['recent'][$i]->id }}</span>
+                  </button> --}}
                 </li>
               </ul>
             </div>
@@ -453,17 +456,17 @@
             <tbody style="text-transform: capitalize">
                 <tr>
                     <th><button class="btn btn-label-dark btn-sm disabled" type="button">DITERIMA</button></th>
-                    <td>{{ $item->tgl_diterima }}</td>
+                    <td>{{ \Carbon\Carbon::parse($item->tgl_diterima)->isoFormat('DD MMM Y, HH:mm a') }}</td>
                     <td>{{ $item->ket_diterima }}</td>
                 </tr>
                 <tr>
                     <th><button class="btn btn-primary btn-sm" type="button" data-bs-toggle="collapse" data-bs-target="#collapseExample{{ $item->id }}">DIKERJAKAN</button></th>
-                    <td>{{ $item->tgl_dikerjakan }}</td>
+                    <td>{{ \Carbon\Carbon::parse($item->tgl_dikerjakan)->isoFormat('DD MMM Y, HH:mm a') }}</td>
                     <td>{{ $item->ket_dikerjakan }}</td>
                 </tr>
                 <tr>
                     <th><button class="btn btn-label-dark btn-sm disabled" type="button">SELESAI</button></th>
-                    <td>{{ $item->tgl_selesai }}</td>
+                    <td>{{ \Carbon\Carbon::parse($item->tgl_selesai)->isoFormat('DD MMM Y, HH:mm a') }}</td>
                     <td>{{ $item->ket_selesai }}</td>
                 </tr>
             </tbody>
@@ -664,7 +667,7 @@ function simpan() {
   $("#formTambah").one('submit', function() {
     //stop submitting the form to see the disabled button effect
     $("#btn-simpan").attr('disabled','disabled');
-    $("#btn-simpan").find("i").toggleClass("fa-save fa-refresh fa-spin");
+    $("#btn-simpan").find("i").toggleClass("fa-save fa-spinner fa-spin");
 
     return true;
   });

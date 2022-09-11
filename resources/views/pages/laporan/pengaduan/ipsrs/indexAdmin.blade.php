@@ -81,16 +81,13 @@
   <div class="card-header">
     <div class="card-action-title">
       <div class="btn-group">
-        <a class="btn btn-primary" href="{{ route('ipsrs.history') }}" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="<i class='bx bx-history bx-xs' ></i> <span>Menampilkan Semua Data Pengaduan IPSRS</span>">
+        <a class="btn btn-primary" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="<i class='bx bx-history bx-xs' ></i> <span>Menampilkan Semua Data Pengaduan IPSRS</span>" disabled>
           <i class="bx bx-history scaleX-n1-rtl"></i>
           <span class="align-middle">Riwayat</span>
         </a>
-        {{-- <a class="btn btn-info text-white" onclick="info()" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="<i class='bx bx-info-circle bx-xs' ></i> <span>Informasi Tambahan</span>">
-          <i class="bx bx-info-circle scaleX-n1-rtl"></i>
-        </a>
-        <a class="btn btn-dark text-white" onclick="berulang()" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="<i class='bx bx-refresh bx-xs' ></i> <span>Tambah Risiko Berulang</span>">
-          <i class="bx bx-refresh scaleX-n1-rtl"></i>
-          <span class="align-middle">Risiko Berulang</span>
+        {{-- <a class="btn btn-primary" href="{{ route('ipsrs.history') }}" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="<i class='bx bx-history bx-xs' ></i> <span>Menampilkan Semua Data Pengaduan IPSRS</span>">
+          <i class="bx bx-history scaleX-n1-rtl"></i>
+          <span class="align-middle">Riwayat</span>
         </a> --}}
       </div>
     </div>
@@ -136,7 +133,7 @@
                 </center>
               </td>
               <td>{{ $item->nama }}</td>
-              <td>{{ $item->unit }}</td>
+              <td>{{ str_replace(str_split('[]"'),'',$item->unit) }}</td>
               <td>{{ $item->lokasi }}</td>
               
               @if (!empty($item->tgl_selesai) && empty($item->ket_penolakan))

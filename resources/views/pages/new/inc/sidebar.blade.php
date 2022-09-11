@@ -65,19 +65,7 @@
             </li>
           @endcan
           <li class="nav-item {{ request()->routeIs('ipsrs.index') ? 'active' : '' }}">
-            <a href="{{ route("ipsrs.index") }}" class="nav-link">Pengaduan IPSRS&nbsp;
-              <h6><span class="badge badge-light" style="margin-top: 5px">
-                  @role('ipsrs')
-                      @php
-                          echo count(\DB::table('pengaduan_ipsrs')->where('tgl_selesai',null)->get()); 
-                      @endphp
-                  @else
-                      @php
-                          $getid = Auth::user()->id;
-                          echo count(\DB::table('pengaduan_ipsrs')->where('tgl_selesai',null)->where('user_id',$getid)->get()); 
-                      @endphp
-                  @endrole
-              </span></h6>
+            <a href="{{ route("ipsrs.index") }}" class="nav-link">Pengaduan IPSRS
             </a>
           </li>
           @can('surveilans-ppi')
