@@ -484,7 +484,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
     Route::resource('kebidanan/skl', 'kebidanan\sklController');
 
 // Lab
-    Route::get('lab/antigen/all','lab\antigenController@showAll')->name('antigen.all');  
+    // Route::get('lab/antigen/all','lab\antigenController@showAll')->name('antigen.all');  
+    Route::get('lab/antigen/filter','lab\antigenController@filter')->name('antigen.filter');  
     Route::get('lab/antigen/{id}/cetak','lab\antigenController@cetak')->name('antigen.cetak');  
     Route::get('lab/antigen/{id}/print','lab\antigenController@print')->name('antigen.print');  
     Route::resource('/lab/antigen', 'lab\antigenController');
@@ -521,6 +522,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
     // ANTIGEN
         Route::get('antigen/all','lab\antigenController@apiShowAll')->name('antigen.apiall');  
         Route::get('antigen/get','lab\antigenController@apiGet')->name('antigen.apiget');  
+        Route::post('antigen/filter', 'lab\antigenController@apiFilter')->name('antigen.apifilter');
         Route::post('antigen/ubah/{id}', 'lab\antigenController@ubah')->name('antigen.ubah');
         Route::get('antigen/getubah/{id}', 'lab\antigenController@getubah')->name('antigen.getubah');
         Route::get('antigen/hapus/{id}', 'lab\antigenController@hapus')->name('antigen.hapus');

@@ -52,7 +52,8 @@ class antigenController extends Controller
             // 'getmont' => $getmont
         ];
 
-        return view('pages.new.lab.antigen')->with('list', $data);
+        // return view('pages.new.lab.antigen')->with('list', $data);
+        return view('pages.lab.antigen.index')->with('list', $data);
     }
 
     /**
@@ -187,7 +188,7 @@ class antigenController extends Controller
         }elseif ($data->hasil == 'NEGATIF') {
             $templateProcessor = new \PhpOffice\PhpWord\TemplateProcessor(public_path().'/doc/lab/antigen/antigen-negatif.docx');
         }else {
-            return redirect('lab/antigen')->withErrors('Gagal Unduh Laporan');
+            return redirect()->route('antigen.index')->withErrors('Gagal Unduh Laporan');
         }
         $tgl_name = Carbon::parse($data->tgl)->isoFormat('DD MMM YYYY');
         $file_name = 'Antigen '.$nama.' '.$tgl_name;
@@ -233,7 +234,7 @@ class antigenController extends Controller
 
         // print_r($data);
         // die();
-        return view('pages.lab.cetak-antigen')->with('list', $data);
+        return view('pages.lab.antigen.cetak')->with('list', $data);
     }
 
     public function showAll()
@@ -271,7 +272,7 @@ class antigenController extends Controller
             'getyear' => $getyear,
         ];
 
-        return view('pages.new.lab.antigen-all')->with('list', $data);
+        return view('pages.lab.antigen.all')->with('list', $data);
     }
 
     public function apiShowAll()
@@ -383,5 +384,16 @@ class antigenController extends Controller
         antigen::where('id', $id)->delete();
 
         return response()->json($tgl, 200);
+    }
+
+    public function filter()
+    {
+        return view('pages.lab.antigen.filter');
+    }
+
+    public function apiFilter()
+    {
+        print_r('API BERHASIL');
+        die();
     }
 }
