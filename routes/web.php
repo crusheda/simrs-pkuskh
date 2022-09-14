@@ -443,6 +443,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
 // BERANDA
     Route::get('beranda', 'simrsmuv2Controller@index')->name('beranda.index');
 
+// ANTROL
+    Route::resource('antrol', 'antrol\allController');
+
 // PROFIL KARYAWAN
     Route::post('profil/foto', 'Admin\profilController@storeImg');
     Route::resource('profil', 'Admin\profilController');
