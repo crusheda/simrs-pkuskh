@@ -11,13 +11,16 @@
 <div class="card card-action mb-4">
   <div class="card-header">
     <div class="card-action-title">
-      <div class="input-group" style="width: 30%">
+      <div class="input-group mb-2" style="width: 30%">
         <input type="text" id="filter" name="filter" class="form-control"/>
         <button type="button" class="btn btn-label-primary" onclick="filterAntigen()">
           <i class="bx bx-filter scaleX-n1-rtl"></i>
           <span class="align-middle">Filter</span>
         </button>
       </div>
+      <small><i class="fas fa-chevron-right"></i> Penentuan Tanggal terhitung mulai dari <kbd>Pukul 00:00 - 00:00</kbd><br>
+             <i class="fas fa-chevron-right"></i> Contoh Penarikan data Tgl <strong>1 September 2022</strong>, tuliskan <kbd>09/01/2022 - 09/02/2022</kbd><br>
+             &nbsp;&nbsp;&nbsp;Maka dari itu Sistem akan membaca Data dari tgl 01-09-2022 00:00 sampai tgl 02-09-2022 00:00 WIB</small>
     </div>
     <div class="card-action-element">
       <ul class="list-inline mb-0">
@@ -82,8 +85,8 @@
   $("html").addClass('layout-menu-collapsed');
   $("#filter").daterangepicker({
     ranges: {
-      Today: [moment(), moment()],
-      Yesterday: [moment().subtract(1, "days"), moment().subtract(1, "days")],
+      Today: [moment(), moment().add(1, 'days')],
+      Yesterday: [moment().subtract(1, "days"), moment()],
       "Last 7 Days": [moment().subtract(6, "days"), moment()],
       "Last 30 Days": [moment().subtract(29, "days"), moment()],
       "This Month": [moment().startOf("month"), moment().endOf("month")],
