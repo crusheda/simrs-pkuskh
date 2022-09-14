@@ -103,12 +103,19 @@ function filterRiwayat() {
         $("#tampil-tbody").empty();
         $('#table').DataTable().clear().destroy();
         res.forEach(item => {
+            if(item.unit) {
+              try {
+                var un = JSON.parse(item.unit);
+              } catch(e) {
+                var un = item.unit;
+              }
+            }
             content = `<tr id='data"+ item.id +"'><td><center><div class='btn-group'><button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button><ul class='dropdown-menu dropdown-menu-end'>`
                   + `<li><a class='dropdown-item text-warning' href='/v2/laporan/pengaduan/ipsrs/detail/`+item.id+`'><i class='bx bx-edit scaleX-n1-rtl'></i> Lihat</a></li>`
                   + `<li><a href='javascript:void(0);' class='dropdown-item text-info' onclick="showLampiran(`+item.id+`)"><i class='bx bx-image scaleX-n1-rtl'></i> Lampiran</a></li>`
                   + `</ul></div</center></td><td>`;
             content += item.nama + "</td><td>"
-                    + JSON.parse(item.unit) + "</td><td>"
+                    + un + "</td><td>"
                     + item.lokasi + "</td><td>"
                     + item.tgl_pengaduan + "</td><td>"
                     + item.ket_pengaduan + "</td><td>"
