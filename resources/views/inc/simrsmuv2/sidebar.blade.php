@@ -61,6 +61,21 @@
         <div data-i18n="Beranda">Beranda</div>
       </a>
     </li>
+    @hasrole('it')
+    <li class="menu-item {{ request()->routeIs('antrol.index') ? 'open active' : '' }}">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-group"></i>
+        <div data-i18n="Users">Antrol</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item {{ request()->routeIs('antrol.index') ? 'active' : '' }}">
+          <a href="{{ route('ipsrs.index') }}" class="menu-link">
+            <div data-i18n="List">Daftar Pasien</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+    @endhasrole
     <li class="menu-item">
       <a href="{{ route('welcome') }}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-rocket"></i>
@@ -105,7 +120,7 @@
     </li>
     <li class="menu-item {{ request()->routeIs('antigen.index') ? 'active' : '' }}">
       <a href="{{ route('antigen.index') }}" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-accessibility"></i>
+        <i class="menu-icon tf-icons fas fa-hand-lizard" style="font-size: 1rem"></i>
         <div data-i18n="Accident Report">Antigen</div>
       </a>
     </li>
@@ -116,7 +131,7 @@
     </li>
     <li class="menu-item {{ request()->routeIs('skl.index') ? 'active' : '' }}">
       <a href="{{ route('skl.index') }}" class="menu-link">
-        <i class="menu-icon tf-icons bx bx-accessibility"></i>
+        <i class="menu-icon tf-icons fas fa-baby" style="font-size: 1rem"></i>
         <div data-i18n="Accident Report">SKL</div>
       </a>
     </li>

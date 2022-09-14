@@ -113,6 +113,7 @@
                 <button class="btn btn-primary" onclick="simpan()" id="btn-simpan" type="submit"><i class="fa-fw fas fa-save nav-icon"></i> Submit</button>
               </form>
               <button class="btn btn-label-warning" onclick="clearInp()" type="button"><i class="fa-fw fas fa-eraser nav-icon"></i></button>
+              {{-- <button class="btn btn-label-info" onclick="riwayat()" id="btn-simpan" type="submit"><i class="fa-fw fas fa-history nav-icon"></i> Riwayat</button> --}}
             </div>
           </div>
         </div>
@@ -688,5 +689,9 @@ function clearInp() {
 $("#imgInp").change(function(){
     readURL(this);
 });
+
+// function riwayat() {
+//     window.location.href = "/v2/laporan/pengaduan/ipsrs/riwayat";
+// }
 </script>
 @endsection

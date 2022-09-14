@@ -81,7 +81,7 @@
   <div class="card-header">
     <div class="card-action-title">
       <div class="btn-group">
-        <a class="btn btn-primary" href="javascript:void(0);" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="<i class='bx bx-history bx-xs' ></i> <span>Menampilkan Semua Data Pengaduan IPSRS</span>" disabled>
+        <a class="btn btn-primary" href="{{ route('ipsrs.riwayat') }}" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="<i class='bx bx-history bx-xs' ></i> <span>Menampilkan Semua Data Pengaduan IPSRS</span>" disabled>
           <i class="bx bx-history scaleX-n1-rtl"></i>
           <span class="align-middle">Riwayat</span>
         </a>

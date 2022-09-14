@@ -274,8 +274,13 @@ class pengaduanController extends Controller
         $data->tgl_selesai = $now;
         $data->ket_penolakan = $request->ket;
         $data->save();
+        
+        $arr = [
+            'name' => $name,
+            'tolak' => $request->ket,
+        ];
 
-        return response()->json($name);
+        return response()->json($arr);
     }
 
     public function process(Request $request)
@@ -308,7 +313,29 @@ class pengaduanController extends Controller
         $data->ket_selesai = $request->ket_selesai;
         $data->save();
 
-        return response()->json($name);
+        $catatan = pengaduan_ipsrs_catatan::where('pengaduan_id',$request->id)->get();
+        $dataNew = pengaduan_ipsrs::where('id',$request->id)->get();
+        
+        $arr = [
+            'name' => $name,
+            'show' => $dataNew,
+            'catatan' => $catatan
+        ];
+
+        return response()->json($arr);
+    }
+
+    public function result($id)
+    {
+        $show = pengaduan_ipsrs::where('id',$id)->get();
+        $catatan = pengaduan_ipsrs_catatan::where('pengaduan_id',$id)->get();
+        
+        $data = [
+            'show' => $show,
+            'catatan' => $catatan
+        ];
+
+        return response()->json($data);
     }
 
     public function downloadCatatan($id)
@@ -370,158 +397,158 @@ class pengaduanController extends Controller
         return Redirect::back()->with('message','Ubah Catatan Pengerjaan Laporan Berhasil');
     }
 
-    public function terima(Request $request)
-    {
-        $now = Carbon::now();
-        $user = Auth::user();
-        $user_id = $user->id;
+    // public function terima(Request $request)
+    // {
+    //     $now = Carbon::now();
+    //     $user = Auth::user();
+    //     $user_id = $user->id;
         
-        $data = pengaduan_ipsrs::find($request->id);
-        $data->verifikator_id = $user_id;
-        $data->tgl_diterima = $now;
-        $data->ket_diterima = $request->ket;
-        $data->save();
+    //     $data = pengaduan_ipsrs::find($request->id);
+    //     $data->verifikator_id = $user_id;
+    //     $data->tgl_diterima = $now;
+    //     $data->ket_diterima = $request->ket;
+    //     $data->save();
 
-        return Redirect::back()->with('message','Laporan Pengaduan Berhasil Diverifikasi');
-    }
+    //     return Redirect::back()->with('message','Laporan Pengaduan Berhasil Diverifikasi');
+    // }
 
-    public function ubahTerima(Request $request)
-    {
-        $now = Carbon::now();
+    // public function ubahTerima(Request $request)
+    // {
+    //     $now = Carbon::now();
         
-        $data = pengaduan_ipsrs::find($request->id);
-        $data->ket_diterima = $request->ket;
-        $data->save();
+    //     $data = pengaduan_ipsrs::find($request->id);
+    //     $data->ket_diterima = $request->ket;
+    //     $data->save();
 
-        return Redirect::back()->with('message','Laporan Verifikasi Pengaduan Berhasil Diubah');
-    }
+    //     return Redirect::back()->with('message','Laporan Verifikasi Pengaduan Berhasil Diubah');
+    // }
     
-    public function tolak(Request $request)
-    {
-        // print_r($request->id);
-        // die();
-        $now = Carbon::now();
+    // public function tolak(Request $request)
+    // {
+    //     // print_r($request->id);
+    //     // die();
+    //     $now = Carbon::now();
 
-        $data = pengaduan_ipsrs::find($request->id);
-        $data->tgl_selesai = $now;
-        $data->ket_penolakan = $request->ket;
-        $data->save();
+    //     $data = pengaduan_ipsrs::find($request->id);
+    //     $data->tgl_selesai = $now;
+    //     $data->ket_penolakan = $request->ket;
+    //     $data->save();
         
-        return Redirect::back()->with('message','Laporan Pengaduan Berhasil Ditolak');
-    }
+    //     return Redirect::back()->with('message','Laporan Pengaduan Berhasil Ditolak');
+    // }
 
-    public function kerjakan(Request $request)
-    {
-        $now = Carbon::now();
+    // public function kerjakan(Request $request)
+    // {
+    //     $now = Carbon::now();
         
-        $data = pengaduan_ipsrs::find($request->id);
-        $data->tgl_dikerjakan = $now;
-        $data->ket_dikerjakan = $request->ket;
-        $data->save();
+    //     $data = pengaduan_ipsrs::find($request->id);
+    //     $data->tgl_dikerjakan = $now;
+    //     $data->ket_dikerjakan = $request->ket;
+    //     $data->save();
     
-        return Redirect::back()->with('message','Ubah Status Laporan Pengaduan Menjadi Dikerjakan Berhasil');
-    }
+    //     return Redirect::back()->with('message','Ubah Status Laporan Pengaduan Menjadi Dikerjakan Berhasil');
+    // }
 
-    public function ubahKerjakan(Request $request)
-    {
-        $now = Carbon::now();
+    // public function ubahKerjakan(Request $request)
+    // {
+    //     $now = Carbon::now();
         
-        $data = pengaduan_ipsrs::find($request->id);
-        $data->ket_dikerjakan = $request->ket;
-        $data->save();
+    //     $data = pengaduan_ipsrs::find($request->id);
+    //     $data->ket_dikerjakan = $request->ket;
+    //     $data->save();
 
-        return Redirect::back()->with('message','Keterangan Pengerjaan Laporan Pengaduan Berhasil Diubah');
-    }
+    //     return Redirect::back()->with('message','Keterangan Pengerjaan Laporan Pengaduan Berhasil Diubah');
+    // }
 
-    public function tambahketerangan(Request $request)
-    {
-        // tampung berkas yang sudah diunggah ke variabel baru
-        // 'file' merupakan nama input yang ada pada form
-        $request->validate([
-            'catatan' => ['image','mimes:jpg,png,jpeg,gif'],
-        ]);
+    // public function tambahketerangan(Request $request)
+    // {
+    //     // tampung berkas yang sudah diunggah ke variabel baru
+    //     // 'file' merupakan nama input yang ada pada form
+    //     $request->validate([
+    //         'catatan' => ['image','mimes:jpg,png,jpeg,gif'],
+    //     ]);
 
-        $uploadedFile = $request->file('catatan');     
+    //     $uploadedFile = $request->file('catatan');     
 
-        // simpan berkas yang diunggah ke sub-direktori 'public/files'
-        // direktori 'files' otomatis akan dibuat jika belum ada
-        if ($uploadedFile == '') {
-            $path = '';
-            $title = '';
-        }else {
-            $path = $uploadedFile->store('public/files/ipsrs/pengaduan/catatan');
-            $title = $request->title ?? $uploadedFile->getClientOriginalName();
-        }
+    //     // simpan berkas yang diunggah ke sub-direktori 'public/files'
+    //     // direktori 'files' otomatis akan dibuat jika belum ada
+    //     if ($uploadedFile == '') {
+    //         $path = '';
+    //         $title = '';
+    //     }else {
+    //         $path = $uploadedFile->store('public/files/ipsrs/pengaduan/catatan');
+    //         $title = $request->title ?? $uploadedFile->getClientOriginalName();
+    //     }
         
-        $data = new pengaduan_ipsrs_catatan;
-        $data->pengaduan_id = $request->id;
-        $data->keterangan = $request->ket;
-        $data->title = $title;
-        $data->filename = $path;
-        // print_r($uploadedFile);
-        // die();
-        $data->save();
+    //     $data = new pengaduan_ipsrs_catatan;
+    //     $data->pengaduan_id = $request->id;
+    //     $data->keterangan = $request->ket;
+    //     $data->title = $title;
+    //     $data->filename = $path;
+    //     // print_r($uploadedFile);
+    //     // die();
+    //     $data->save();
     
-        return Redirect::back()->with('message','Tambah Keterangan Pengerjaan Laporan Berhasil');
-    }
+    //     return Redirect::back()->with('message','Tambah Keterangan Pengerjaan Laporan Berhasil');
+    // }
 
-    public function ubahketerangan(Request $request)
-    {
-        // tampung berkas yang sudah diunggah ke variabel baru
-        // 'file' merupakan nama input yang ada pada form
-        $uploadedFile = $request->file('catatan');     
+    // public function ubahketerangan(Request $request)
+    // {
+    //     // tampung berkas yang sudah diunggah ke variabel baru
+    //     // 'file' merupakan nama input yang ada pada form
+    //     $uploadedFile = $request->file('catatan');     
 
-        // simpan berkas yang diunggah ke sub-direktori 'public/files'
-        // direktori 'files' otomatis akan dibuat jika belum ada
-        $data = pengaduan_ipsrs_catatan::find($request->id);
+    //     // simpan berkas yang diunggah ke sub-direktori 'public/files'
+    //     // direktori 'files' otomatis akan dibuat jika belum ada
+    //     $data = pengaduan_ipsrs_catatan::find($request->id);
 
-        if ($uploadedFile != '') {
-            $path = $uploadedFile->store('public/files/ipsrs/pengaduan/catatan');
-            $title = $request->title ?? $uploadedFile->getClientOriginalName();
-            $data->title = $title;
-            $data->filename = $path;
-        }
+    //     if ($uploadedFile != '') {
+    //         $path = $uploadedFile->store('public/files/ipsrs/pengaduan/catatan');
+    //         $title = $request->title ?? $uploadedFile->getClientOriginalName();
+    //         $data->title = $title;
+    //         $data->filename = $path;
+    //     }
         
-        $data->keterangan = $request->ket;
-        // print_r($data);
-        // die();
-        $data->save();
+    //     $data->keterangan = $request->ket;
+    //     // print_r($data);
+    //     // die();
+    //     $data->save();
     
-        return Redirect::back()->with('message','Ubah Keterangan Pengerjaan Laporan Berhasil');
-    }
+    //     return Redirect::back()->with('message','Ubah Keterangan Pengerjaan Laporan Berhasil');
+    // }
 
-    public function selesai(Request $request)
-    {
-        $now = Carbon::now();
+    // public function selesai(Request $request)
+    // {
+    //     $now = Carbon::now();
 
-        // print_r($request->id);
-        // die();
-        $data = pengaduan_ipsrs::find($request->id);
-        $data->tgl_selesai = $now;
-        $data->ket_selesai = 'Laporan Pengaduan Selesai';
-        $data->save();
+    //     // print_r($request->id);
+    //     // die();
+    //     $data = pengaduan_ipsrs::find($request->id);
+    //     $data->tgl_selesai = $now;
+    //     $data->ket_selesai = 'Laporan Pengaduan Selesai';
+    //     $data->save();
     
-        return Redirect::back()->with('message','Laporan Berhasil Diselesaikan');
-    }
+    //     return Redirect::back()->with('message','Laporan Berhasil Diselesaikan');
+    // }
 
-    public function history()
-    {
-        $user = Auth::user();
-        $name = $user->name;
-        $role = $user->roles->first()->name; //kabag-keperawatan
+    // public function history()
+    // {
+    //     $user = Auth::user();
+    //     $name = $user->name;
+    //     $role = $user->roles->first()->name; //kabag-keperawatan
 
-        if (Auth::user()->hasRole('ipsrs')) {
-            $showrecent = pengaduan_ipsrs::whereNotNull('tgl_selesai')->get();
-        }else {
-            $showrecent = '';
-        }
+    //     if (Auth::user()->hasRole('ipsrs')) {
+    //         $showrecent = pengaduan_ipsrs::whereNotNull('tgl_selesai')->get();
+    //     }else {
+    //         $showrecent = '';
+    //     }
         
-        $data = [
-            'showrecent' => $showrecent
-        ];
+    //     $data = [
+    //         'showrecent' => $showrecent
+    //     ];
 
-        return view('pages.new.laporan.ipsrs.history-pengaduan')->with('list', $data);
-    }
+    //     return view('pages.new.laporan.ipsrs.history-pengaduan')->with('list', $data);
+    // }
 
     public function autocompleteLokasi(Request $request)
     {
@@ -536,5 +563,45 @@ class pengaduanController extends Controller
         }
 
         return response()->json($data);
+    }
+
+    public function riwayat()
+    {
+        return view('pages.laporan.pengaduan.ipsrs.riwayat');
+    }
+
+    public function filter(Request $request)
+    {
+        $from = date(Carbon::parse(substr($request->filter,0,10))->isoFormat('YYYY-MM-DD'));
+        $to = date(Carbon::parse(substr($request->filter,13,10))->isoFormat('YYYY-MM-DD'));
+
+        $user = Auth::user();
+        $user_id = $user->id; 
+        $name = $user->name;
+        
+        if (Auth::user()->hasRole(['ipsrs','it'])) {
+            $data = DB::table('pengaduan_ipsrs')
+                        // ->join('dokter', 'dokter.id', '=', 'antigen.dr_pengirim')
+                        // ->select('antigen.*','dokter.nama as dr_nama')
+                        ->orderBy('tgl_pengaduan','ASC')
+                        ->where('deleted_at', null)
+                        ->whereBetween('tgl_pengaduan', [$from, $to])
+                        // ->whereMonth('antigen.tgl', $bulan)
+                        // ->whereYear('antigen.tgl', $tahun)
+                        ->get();
+        } else {
+            $data = DB::table('pengaduan_ipsrs')
+                        // ->join('dokter', 'dokter.id', '=', 'antigen.dr_pengirim')
+                        // ->select('antigen.*','dokter.nama as dr_nama')
+                        ->orderBy('tgl_pengaduan','ASC')
+                        ->where('user_id', $user_id)
+                        ->where('deleted_at', null)
+                        ->whereBetween('tgl_pengaduan', [$from, $to])
+                        // ->whereMonth('antigen.tgl', $bulan)
+                        // ->whereYear('antigen.tgl', $tahun)
+                        ->get();
+        }
+        
+        return response()->json($data, 200);
     }
 }

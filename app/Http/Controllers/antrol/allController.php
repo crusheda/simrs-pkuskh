@@ -23,6 +23,11 @@ class allController extends Controller
         return view('pages.antrol.all');
     }
 
+    public function display()
+    {
+        return view('pages.antrol.display');
+    }
+
     /**
      * Show the form for creating a new resource.
      *

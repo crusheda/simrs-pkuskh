@@ -133,7 +133,7 @@
           </button>
         </div>
         <div class="line"></div>
-        <div class="step @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan != null && $list['show']->tgl_selesai != null) active @endif" id="step4" data-target="#result">
+        <div class="step @if($list['show']->tgl_selesai != null) active @endif" id="step4" data-target="#result">
           <button type="button" class="step-trigger" disabled>
             <span class="bs-stepper-circle">
               <i class="bx bx-check-double"></i>
@@ -230,21 +230,15 @@
           </div>
         </div>
         <!-- RESULT -->
-        <div id="result" class="content @if($list['show']->tgl_diterima != null && $list['show']->tgl_dikerjakan != null && $list['show']->tgl_selesai != null) active dstepper-block @endif">
+        <div id="result" class="content @if($list['show']->tgl_selesai != null) active dstepper-block @endif">
           <div class="content-header mb-3">
             <h6 class="mb-0">Result</h6>
             <small>Hasil Laporan Pengerjaan IPSRS</small>
           </div>
-          <div class="row g-3">
-            <h6>Sistem Under Construction, Stay Tune!</h6>
-            {{-- <div class="col-12 d-flex justify-content-between">
-              <h6></h6>
-              <button class="btn btn-label-warning" disabled>
-                <span class="align-middle d-sm-inline-block d-none me-sm-1"></span>
-                <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
-              </button>
-            </div> --}}
+          <div class="divider" style="margin-top:-10px">
+            <div class="divider-text">Hasil Akhir Laporan</div>
           </div>
+          <div class="row g-3" id="tampil-result"></div>
         </div>
       </div>
     </div>
@@ -359,53 +353,54 @@
 {{-- MODAL END --}}
 <script>
 $(document).ready( function () {
-  // if ("{{ $list['show']->tgl_diterima }}" !== null) {
-  //   $("#step1").removeClass('active');
-  //   $("#verif").removeClass('active dstepper-block');
-  //   $("#step2").addClass('active');
-  //   $("#process").addClass('active dstepper-block');
-  //     console.log('VERIF');
-  // } else {
-  //     console.log('PROCESS');
-  //   if ("{{ $list['show']->tgl_dikerjakan }}" !== null) {
-  //     $("#step1").removeClass('active');
-  //     $("#verif").removeClass('active dstepper-block');
-  //     $("#step3").addClass('active');
-  //     $("#finish").addClass('active dstepper-block');
-  //   } else {
-  //     console.log('FINISH!');
-  //   }
-  // }
-
-  // const t = document.querySelector(".wizard-vertical-icons-example");
-  // if (t,
-  // null !== t) {
-  //   const o = [].slice.call(t.querySelectorAll(".btn-next"))
-  //     , s = [].slice.call(t.querySelectorAll(".btn-prev"))
-  //     , d = t.querySelector(".btn-submit")
-  //     , u = new Stepper(t,{
-  //       linear: !1
-  //   });
-  //   o && o.forEach(e=>{
-  //       e.addEventListener("click", e=>{
-  //           u.next()
-  //       }
-  //       )
-  //   }
-  //   ),
-  //   s && s.forEach(e=>{
-  //       e.addEventListener("click", e=>{
-  //           u.previous()
-  //       }
-  //       )
-  //   }
-  //   ),
-  //   d && d.addEventListener("click", e=>{
-  //       alert("Submitted..!!")
-  //   }
-  //   )
-  // }
-  // const l = document.querySelector(".wizard-modern-icons-example");
+  $.ajax(
+    {
+      url: "/api/laporan/pengaduan/ipsrs/result/{{ $list['show']->id }}",
+      type: 'GET',
+      dataType: 'json', // added data type
+      success: function(res) {
+        // Tampil Result setelah Selesai Laporan
+        $("#tampil-result").empty();
+        if (res.show[0].ket_penolakan == null) {
+        res.show.forEach(item => {
+          content = `<div class="col-md-8">
+                      <small class="text-muted text-uppercase"><i class="fas fa-chevron-right"></i> Verifikasi</small>
+                      <ul class="list-unstyled mb-1 mt-3">
+                        <li class="d-flex align-items-center mb-2"><strong>`+item.ket_diterima+`</strong></li>
+                        <li class="d-flex align-items-center mb-4"><sub>`+item.tgl_diterima+`</sub></li>
+                      </ul>
+                      <small class="text-muted text-uppercase"><i class="fas fa-chevron-right"></i> Pengerjaan</small>
+                      <ul class="list-unstyled mb-1 mt-3">
+                        <li class="d-flex align-items-center mb-2"><strong>`+item.ket_dikerjakan+`</strong></li>
+                        <li class="d-flex align-items-center mb-4"><sub>`+item.tgl_dikerjakan+`</sub></li>
+                      </ul>
+                      <small class="text-muted text-uppercase"><i class="fas fa-chevron-right"></i> Selesai</small>
+                      <ul class="list-unstyled mb-1 mt-3">
+                        <li class="d-flex align-items-center mb-2"><strong>`+item.ket_selesai+`</strong></li>
+                        <li class="d-flex align-items-center mb-4"><sub>`+item.tgl_selesai+`</sub></li>
+                      </ul>
+                    </div>`;
+          })
+          content += `<div class="col-md-4"><small class="text-muted text-uppercase"><i class="fas fa-chevron-right"></i> Catatan Pengerjaan</small>`;
+          res.catatan.forEach(item => {
+            content += `<ul class="list-unstyled mb-1 mt-3">
+                          <li class="d-flex align-items-center mb-2"><strong>`+item.keterangan+`</strong></li>
+                          <li class="d-flex align-items-center mb-4"><sub>`+item.updated_at+`</sub></li>
+                        </ul>`;
+          })
+          content += `</div>`;
+        } else {
+          content = `<div class="col-md-12 mt-2">
+                        <h3><kbd style="background-color: red">Laporan Ditolak</kbd></h3>
+                        <h5>Alasan Penolakan :</h5>
+                        <h6><i class="fas fa-chevron-right"></i> `+res.show[0].ket_penolakan+`</h6>
+                      </div>`;
+        }
+        $('#tampil-result').append(content);
+      }
+    }
+  );
+  
   const l = document.querySelector("#estimasi");
   const c = new Date(Date.now() - 1728e5)
       , m = new Date(Date.now());
@@ -486,13 +481,22 @@ function tolak(id) {
       success: function(res) {
         iziToast.success({
           title: 'Sukses!',
-          message: 'Verifikasi Laporan Berhasil Ditolak Oleh '+res,
+          message: 'Verifikasi Laporan Berhasil Ditolak Oleh '+res.name,
           position: 'topRight'
         });
         $("#step1").removeClass('active');
         $("#verif").removeClass('active dstepper-block');
-        $("#step2").addClass('active');
-        $("#process").addClass('active dstepper-block');
+        $("#step4").addClass('active');
+        $("#result").addClass('active dstepper-block');
+
+        // Tampil Result setelah Selesai Laporan
+        $("#tampil-result").empty();
+        content = `<div class="col-md-12 mt-4">
+                      <h3><kbd style="background-color: red">Laporan Ditolak</kbd></h3>
+                      <h5>Alasan Penolakan :</h5>
+                      <h6><i class="fas fa-chevron-right"></i> `+res.tolak+`</h6>
+                    </div>`;
+        $('#tampil-result').append(content);
       }
     });
   }
@@ -560,13 +564,44 @@ function selesai(id) {
       success: function(res) {
         iziToast.success({
           title: 'Selamat!',
-          message: 'Laporan Berhasil Diselesaikan Oleh '+res,
+          message: 'Laporan Berhasil Diselesaikan Oleh '+res.name,
           position: 'topRight'
         });
         $("#step3").removeClass('active');
         $("#finish").removeClass('active dstepper-block');
         $("#step4").addClass('active');
         $("#result").addClass('active dstepper-block');
+
+        // Tampil Result setelah Selesai Laporan
+        $("#tampil-result").empty();
+        res.show.forEach(item => {
+          content = `<div class="col-md-8">
+                      <small class="text-muted text-uppercase"><i class="fas fa-chevron-right"></i> Verifikasi</small>
+                      <ul class="list-unstyled mb-3 mt-3">
+                        <li class="d-flex align-items-center"><strong>`+item.ket_diterima+`</strong></li>
+                        <li class="d-flex align-items-center"><small>`+item.tgl_diterima+`</small></li>
+                      </ul>
+                      <small class="text-muted text-uppercase"><i class="fas fa-chevron-right"></i> Pengerjaan</small>
+                      <ul class="list-unstyled mb-3 mt-3">
+                        <li class="d-flex align-items-center"><strong>`+item.ket_dikerjakan+`</strong></li>
+                        <li class="d-flex align-items-center"><small>`+item.tgl_dikerjakan+`</small></li>
+                      </ul>
+                      <small class="text-muted text-uppercase"><i class="fas fa-chevron-right"></i> Selesai</small>
+                      <ul class="list-unstyled mb-3 mt-3">
+                        <li class="d-flex align-items-center"><strong>`+item.ket_selesai+`</strong></li>
+                        <li class="d-flex align-items-center"><small>`+item.tgl_selesai+`</small></li>
+                      </ul>
+                    </div>`;
+        })
+        content += `<div class="col-md-4"><small class="text-muted text-uppercase"><i class="fas fa-chevron-right"></i> Catatan Pengerjaan</small>`;
+        res.catatan.forEach(item => {
+          content += `<ul class="list-unstyled mb-3 mt-3">
+                        <li class="d-flex align-items-center"><strong>`+item.keterangan+`</strong></li>
+                        <li class="d-flex align-items-center"><small>`+item.updated_at+`</small></li>
+                      </ul>`;
+        })
+        content += `</div>`;
+        $('#tampil-result').append(content);
       }
     });
   }
