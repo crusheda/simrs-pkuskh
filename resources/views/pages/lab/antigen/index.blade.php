@@ -29,6 +29,8 @@
 </div>
 @endif
 
+@can('antigen')
+
 <div class="card card-action mb-4">
   <div class="card-header">
     <div class="card-action-title">
@@ -255,6 +257,9 @@
   </div>
 </div>
 {{-- MODAL END --}}
+  
+@endcan
+
 <script>$(document).ready( function () {
   $("html").addClass('layout-menu-collapsed');
 
@@ -349,7 +354,7 @@
                             attr: {id: 'exportButton'},
                             sheetName: 'data',
                             title: '',
-                            filename: 'Daftar Risiko K3'
+                            filename: 'Daftar Antigen'
                         }, {
                             extend: "pdf",
                             text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',

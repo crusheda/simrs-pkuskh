@@ -391,9 +391,27 @@ class antigenController extends Controller
         return view('pages.lab.antigen.filter');
     }
 
-    public function apiFilter()
+    public function apiFilter(Request $request)
     {
-        print_r('API BERHASIL');
-        die();
+        // $request->filter //=> 09/14/2022 - 09/14/2022
+        // $from = date('2018-01-01');
+        // $to = date('2018-05-02');
+        // Reservation::whereBetween('reservation_from', [$from, $to])->get();
+        // substr("Hello world",1,6); // ello w
+        $from = date(Carbon::parse(substr($request->filter,0,10))->isoFormat('YYYY-MM-DD'));
+        $to = date(Carbon::parse(substr($request->filter,13,10))->isoFormat('YYYY-MM-DD'));
+
+        $data = DB::table('antigen')
+                    ->join('dokter', 'dokter.id', '=', 'antigen.dr_pengirim')
+                    ->select('antigen.*','dokter.nama as dr_nama')
+                    ->orderBy('antigen.tgl','ASC')
+                    ->where('antigen.deleted_at', null)
+                    ->whereBetween('antigen.tgl', [$from, $to])
+                    // ->whereMonth('antigen.tgl', $bulan)
+                    // ->whereYear('antigen.tgl', $tahun)
+                    ->get();
+        
+        return response()->json($data, 200);
+        
     }
 }

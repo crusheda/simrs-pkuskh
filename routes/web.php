@@ -523,6 +523,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
         Route::get('antigen/all','lab\antigenController@apiShowAll')->name('antigen.apiall');  
         Route::get('antigen/get','lab\antigenController@apiGet')->name('antigen.apiget');  
         Route::post('antigen/filter', 'lab\antigenController@apiFilter')->name('antigen.apifilter');
+        // Route::get('antigen/filter/{id}', 'lab\antigenController@apiFilter')->name('antigen.apiFilter');
         Route::post('antigen/ubah/{id}', 'lab\antigenController@ubah')->name('antigen.ubah');
         Route::get('antigen/getubah/{id}', 'lab\antigenController@getubah')->name('antigen.getubah');
         Route::get('antigen/hapus/{id}', 'lab\antigenController@hapus')->name('antigen.hapus');
