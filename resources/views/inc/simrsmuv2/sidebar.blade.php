@@ -99,7 +99,7 @@
         <div data-i18n="Manajemen Resiko">Daftar Risiko</div>
       </a>
     </li>
-    @hasrole('it|lab')
+    @can('antigen')
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Laboratorium</span>
     </li>
@@ -109,7 +109,7 @@
         <div data-i18n="Accident Report">Antigen</div>
       </a>
     </li>
-    @endhasrole
+    @endcan
     @hasrole('it|kebidanan')
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Kebidanan</span>
