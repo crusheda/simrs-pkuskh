@@ -14,7 +14,8 @@
       <h5>Antrian Online BPJS &nbsp;<button type="button" class="btn btn-primary btn-sm" onclick="window.open('/v2/antrol/display','width=900,height=600')"><i class="fas fa-tv"></i>&nbsp;&nbsp;Display Antrian</button></h5>
       <small>
         <i class="fas fa-chevron-right"></i>&nbsp;&nbsp;Data yang ditampilkan adalah <strong>Data 30 Hari ke belakang dihitung dari Hari ini</strong><br>
-        <i class="fas fa-chevron-right"></i>&nbsp;&nbsp;Koneksi internet Anda sangat berpengaruh terhadap Penarikan Data Pasien
+        <i class="fas fa-chevron-right"></i>&nbsp;&nbsp;Data Pasien di bawah adalah Pasien dengan Cara Bayar BPJS<br>
+        <i class="fas fa-chevron-right"></i>&nbsp;&nbsp;Sumber : Table <kbd>DAT_PASIENBOOK</kbd>
       </small>
       {{-- <div class="input-group mb-2" style="width: 30%">
         <input type="text" id="filter" name="filter" class="form-control"/>

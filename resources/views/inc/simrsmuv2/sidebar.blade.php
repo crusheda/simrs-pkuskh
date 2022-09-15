@@ -69,7 +69,7 @@
       </a>
       <ul class="menu-sub">
         <li class="menu-item {{ request()->routeIs('antrol.index') ? 'active' : '' }}">
-          <a href="{{ route('ipsrs.index') }}" class="menu-link">
+          <a href="{{ route('antrol.index') }}" class="menu-link">
             <div data-i18n="List">Daftar Pasien</div>
           </a>
         </li>

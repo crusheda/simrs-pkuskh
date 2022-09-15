@@ -199,7 +199,7 @@
     <script src="{{ asset('assets-new/vendor/libs/bootstrap-select/bootstrap-select.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/bloodhound/bloodhound.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/tagify/tagify.js') }}"></script>
-    <script src="{{ asset('js/iziToast.js') }}"></script>\
+    <script src="{{ asset('js/iziToast.js') }}"></script>
     <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('assets-new/vendor/libs/apex-charts/apexcharts.js') }}"></script>
 
