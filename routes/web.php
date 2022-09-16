@@ -495,6 +495,28 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
     Route::get('lab/antigen/{id}/print','lab\antigenController@print')->name('antigen.print');  
     Route::resource('/lab/antigen', 'lab\antigenController');
 
+// LAPORAN
+    // BULANAN
+        // Route::post('laporan/bulan/api','kantor\laporanBulananNewController@verifikasi'); // API
+        // Route::get('laporan/bulan/api/getubah/{id}','kantor\laporanBulananNewController@getUbah'); // API
+        // Route::post('laporan/bulan/api/ubah/{id}','kantor\laporanBulananNewController@ubah'); // API
+        // Route::post('laporan/bulan/api','kantor\laporanBulananNewController@verifikasi'); // API
+        // Route::get('laporan/bulan/api/hapus/{id}','kantor\laporanBulananNewController@hapusLaporan'); // API
+        // Route::get('laporan/bulan/api/ket/{id}/hapus','kantor\laporanBulananNewController@ketHapus'); // API
+        // Route::get('laporan/bulan/api/ket/{id}','kantor\laporanBulananNewController@ketGet'); // API
+        // Route::post('laporan/bulan/api/ket','kantor\laporanBulananNewController@ket'); // API
+        // Route::get('laporan/bulan/api/{id}/verified', 'kantor\laporanBulananNewController@verified'); // API
+        // Route::get('laporan/bulan/tableverif', 'kantor\laporanBulananNewController@tableVerifikasi');
+        // Route::get('laporan/bulan/table', 'kantor\laporanBulananNewController@table')->name('api.laporan.bulan');
+        // Route::get('laporan/bulan/tableadmin', 'kantor\laporanBulananNewController@tableadmin');
+        // Route::get('laporan/bulan/verif/{id}/hapus', 'kantor\laporanBulananNewController@hapusVerif');
+        // Route::get('laporan/bulan/restore/table/hapus/{id}/batal', 'kantor\laporanBulananNewController@batalHapus');
+        // Route::get('laporan/bulan/restore/table/hapus', 'kantor\laporanBulananNewController@tableRiwayatTerhapus');
+        // Route::get('laporan/bulan/restore', 'kantor\laporanBulananNewController@tampilRiwayatTerhapus')->name('restore.laporan.bulanan');
+        // Route::get('laporan/bulan/riwayat/table', 'kantor\laporanBulananNewController@tableRiwayatVerifikasi');
+        // Route::get('laporan/bulan/riwayat', 'kantor\laporanBulananNewController@riwayatVerifikasi')->name('riwayat.laporan.bulanan');
+        Route::resource('laporan/bulanan', 'laporan\bulanan\bulananUserController');
+
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////    API    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -526,14 +548,19 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
     // SKL
         Route::get('kebidanan/skl/all','kebidanan\sklController@apiAll');
     
-    // ANTIGEN
-        Route::get('antigen/all','lab\antigenController@apiShowAll')->name('antigen.apiall');  
-        Route::get('antigen/get','lab\antigenController@apiGet')->name('antigen.apiget');  
-        Route::post('antigen/filter', 'lab\antigenController@apiFilter')->name('antigen.apifilter');
-        // Route::get('antigen/filter/{id}', 'lab\antigenController@apiFilter')->name('antigen.apiFilter');
-        Route::post('antigen/ubah/{id}', 'lab\antigenController@ubah')->name('antigen.ubah');
-        Route::get('antigen/getubah/{id}', 'lab\antigenController@getubah')->name('antigen.getubah');
-        Route::get('antigen/hapus/{id}', 'lab\antigenController@hapus')->name('antigen.hapus');
+    // LAB
+        // ANTIGEN
+            Route::get('antigen/all','lab\antigenController@apiShowAll')->name('antigen.apiall');  
+            Route::get('antigen/get','lab\antigenController@apiGet')->name('antigen.apiget');  
+            Route::post('antigen/filter', 'lab\antigenController@apiFilter')->name('antigen.apifilter');
+            // Route::get('antigen/filter/{id}', 'lab\antigenController@apiFilter')->name('antigen.apiFilter');
+            Route::post('antigen/ubah/{id}', 'lab\antigenController@ubah')->name('antigen.ubah');
+            Route::get('antigen/getubah/{id}', 'lab\antigenController@getubah')->name('antigen.getubah');
+            Route::get('antigen/hapus/{id}', 'lab\antigenController@hapus')->name('antigen.hapus');
+    
+    // LAPORAN
+        // BULANAN
+            Route::get('laporan/bulanan/table/user', 'laporan\bulanan\bulananUserController@table');
     
 });
 

@@ -83,6 +83,28 @@
       </a>
     </li>
     <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Administrasi</span>
+    </li>
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-trending-up"></i>
+        <div data-i18n="Simrsmu v1">RKA</div>
+      </a>
+    </li>
+    <li class="menu-item">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-book"></i>
+        <div data-i18n="Users">Laporan</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item">
+          <a href="{{ route('bulanan.index') }}" class="menu-link">
+            <div data-i18n="List">Bulanan</div>
+          </a>
+        </li>
+      </ul>
+    </li>
+    <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Laporan</span>
     </li>
     <li class="menu-item {{ request()->routeIs('ipsrs.index') ? 'open active' : '' }}">
