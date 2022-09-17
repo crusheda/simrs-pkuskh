@@ -60,7 +60,7 @@
   {{-- <div class="card-header flex-column flex-md-row">
     <div class="head-label"><h5 class="card-title mb-0">DataTable with Buttons</h5></div>
   </div> --}}
-  <hr style="margin-top: -5px">
+  {{-- <hr style="margin-top: -5px"> --}}
   <div class="collapse show">
     <div class="card-datatable table-responsive" style="margin-top: -10px;white-space: nowrap;word-break: break-word;">
       <table id="table" class="table border-top">
@@ -89,6 +89,30 @@
           </tr>
         </thead>
         <tbody id="tampil-tbody"><tr><td colspan="23"><center><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</center></td></tr></tbody>
+        <tfoot>
+          <tr>
+            <th>ID</th>
+            <th>Unit</th>
+            <th>Ruang Lingkup</th>
+            <th>Proses Utama</th>
+            <th>Item Kegiatan</th>
+            <th>Sumber Data</th>
+            <th>Kode Bahaya</th>
+            <th>Sumber Bahaya</th>
+            <th>Risiko</th>
+            <th>Usulan Pengendalian</th>
+            <th>Dampak</th>
+            <th>Kemungkinan / Frekuensi</th>
+            <th>Nilai</th>
+            <th>Tingkat Risiko</th>
+            <th>Evaluasi Pengendalian</th>
+            <th>Realisasi Pengendalian</th>
+            <th>Waktu Penerapan</th>
+            <th>Residual (Update)</th>
+            <th>Dibuat</th>
+            <th>#</th>
+          </tr>
+        </tfoot>
       </table>
     </div>
   </div>
@@ -694,8 +718,7 @@ $(document).ready( function () {
                   // contentClassName: 'dropdown-item'
                 }
               ],
-              'columnDefs': [
-                  // { targets: 3, visible: false },
+              columnDefs: [
                   // { targets: 5, visible: false },
                   // { targets: 6, visible: false },
                   // { targets: 9, visible: false },
@@ -707,7 +730,7 @@ $(document).ready( function () {
             },
           );
           $("div.head-label").html('<h5 class="card-title mb-0">Tabel</h5>');
-          $(".buttons-columnVisibility").addClass('dropdown-item');
+          // $(".buttons-columnVisibility").addClass('dropdown-item');
         }
       }
     }

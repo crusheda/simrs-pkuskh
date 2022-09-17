@@ -53,7 +53,7 @@
       <div class="card-body">
         <h5 class="mb-0">Total Upload</h5>
         <small>Semua Unit/Bagian</small><h2></h2>
-        <h3 class="text-primary card-title mb-1">4,230</h3>
+        <h3 class="text-primary card-title mb-1">{{ $list['count'] }}</h3>
         <small class="text-nowrap fw-semibold">Bulan Ini</small>
       </div>
     </div>
@@ -86,15 +86,23 @@
       <table id="table" class="table table-striped" style="width:100%">
           <thead>
               <tr>
-                  <th>ID</th>
+                  <th class="cell-fit"><center>STATUS</center></th>
                   <th>DIUPDATE</th>
                   <th>JUDUL</th>
                   <th>BLN / THN</th>
                   <th>KETERANGAN</th>
-                  <th><center>AKSI</center></th>
+                  <th class="cell-fit"><center>#</center></th>
               </tr>
           </thead>
           <tbody id="tampil-tbody"><tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+          <tfoot>
+            <th class="cell-fit"><center>STATUS</center></th>
+            <th>DIUPDATE</th>
+            <th>JUDUL</th>
+            <th>BLN / THN</th>
+            <th>KETERANGAN</th>
+            <th class="cell-fit"><center>#</center></th>
+          </tfoot>
       </table>
     </div>
   </div>
@@ -153,13 +161,13 @@
               </div>
               <div class="form-group mb-3">
                 <label>Keterangan :</label>
-                <textarea rows="3" class="autosize2 form-control" id="ket" placeholder="Optional" required></textarea>
+                <textarea rows="3" class="autosize2 form-control" id="ket" placeholder="Optional"></textarea>
               </div>
               <div class="form-group mb-3">
                 <label>Dokumen : </label>
-                <input type="file" name="file" class="form-control mb-2">
+                <input type="file" name="file" class="form-control mb-2" required>
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Format yang dibolehkan : <strong>.pdf </strong>, <strong>.docx </strong>, <strong>.doc </strong>, <strong>.xls </strong>, <strong>.xlsx </strong>, <strong>.ppt </strong>, <strong>.pptx </strong>.<br>
-                <i class="fa-fw fas fa-caret-right nav-icon"></i> Batas ukuran maksimum dokumen adalah <strong>100 mb</strong>.
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Batas ukuran maksimum dokumen adalah <strong>50 mb</strong>.
               </div>
       </div>
       <div class="modal-footer">
@@ -190,33 +198,38 @@
       dataType: 'json', // added data type
       success: function(res) {
         $("#tampil-tbody").empty();
-        var date = new Date().toISOString().split('T')[0];
+        var date = getDateTime();
         res.show.forEach(item => {
             var updet = item.updated_at.substring(0, 10);
-            $("#tampil-tbody").append(`
-                <tr id="data${item.id}">
-                    <td>${item.id} ${item.tgl_verif != null ? '<i class="fa-fw fas fa-check nav-icon"></i>' : '' }</td>
-                    <td>${item.updated_at}</td>
-                    <td>${item.judul}</td>
-                    <td>${item.bln} / ${item.thn}</td>
-                    <td>${item.ket}</td>
-                    <td>
-                        <center>
-                            <div class="btn-group" role="group">
-                                <a type="button" class="btn btn-success btn-sm text-white" onclick="window.location.href='{{ url('laporan/bulan/${item.id}') }}'" data-toggle="tooltip" data-placement="bottom" title="DOWNLOAD LAPORAN"><i class="fa-fw fas fa-download nav-icon text-white"></i></a>
-                                ${item.ket_verif != null ?
-                                    '<button class="btn btn-info text-white btn-sm" onclick="ketLihat('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="KETERANGAN VERIFIKATOR"><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
-                                    :
-                                    '<button class="btn btn-secondary text-white btn-sm" disabled><i class="fa-fw fas fa-sticky-note nav-icon"></i></button>'
-                                }
-                                ${updet == date ?
-                                    '<button type="button" class="btn btn-warning btn-sm" onclick="showUbah('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="UBAH LAPORAN"><i class="fa-fw fas fa-edit nav-icon text-white"></i></button> <button type="button" class="btn btn-danger btn-sm" onclick="hapus('+item.id+')" data-toggle="tooltip" data-placement="bottom" title="HAPUS LAPORAN"><i class="fa-fw fas fa-trash nav-icon"></i></button>' : '<button type="button" class="btn btn-secondary btn-sm" disabled><i class="fa-fw fas fa-edit nav-icon text-white"></i></button> <button type="button" class="btn btn-secondary btn-sm text-white" disabled><i class="fa-fw fas fa-trash nav-icon"></i></button>'
-                                }
-                            </div>
-                        </center>
-                    </td>
-                </tr>
-            `);
+            content = `<tr id="data`+item.id+`"><td>`;
+                    if(item.tgl_verif != null) {
+                      content += `<center><i class="fa-fw fas fa-check nav-icon text-primary"></i></center>`;
+                    }
+            content += `</td><td>`+item.updated_at+`</td>
+                        <td>`+item.judul+`</td>
+                        <td>`+item.bln+` / `+item.thn+`</td><td>`;
+                        if (item.ket != null) {
+                          item.ket
+                        }
+            content += `</td><td><center>
+                        <div class='btn-group'>
+                          <button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button>
+                          <ul class='dropdown-menu dropdown-menu-end'>
+                            <li><a href='javascript:void(0);' class='dropdown-item text-success' onclick="window.location.href='{{ url('laporan/bulan/`+item.id+`') }}'"><i class="fa-fw fas fa-download nav-icon"></i> Download</a></li>`;
+                            if(item.ket_verif != null) {
+                              content += `<li><a href="javascript:void(0); class='dropdown-item text-info' onclick="ketLihat(`+item.id+`)"><i class="fa-fw fas fa-sticky-note nav-icon"></i> Keterangan</a></li>`;
+                            } else {
+                              content += `<li><a href="javascript:void(0);" class='dropdown-item text-secondary' disabled><i class="fa-fw fas fa-sticky-note nav-icon"></i> Keterangan</a></li>`;
+                            }
+                            if(updet == date) {
+                              content += `<li><a href="javascript:void(0);" class='dropdown-item text-warning' onclick="showUbah(`+item.id+`)"><i class="fa-fw fas fa-edit nav-icon"></i> Ubah</a></li>
+                                          <li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</a></li>`;
+                            } else {
+                              content += `<li><a href="javascript:void(0);" class='dropdown-item text-secondary' disabled><i class="fa-fw fas fa-edit nav-icon"></i> Ubah</a></li>
+                                          <li><a href='javascript:void(0);' class='dropdown-item text-secondary' disabled><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</a></li>`;
+                            }
+            content += `</ul></div></center></td></tr>`;
+            $('#tampil-tbody').append(content);
         });
         $('#table').DataTable(
           {
@@ -265,9 +278,9 @@
                 // contentClassName: 'dropdown-item'
               }
             ],
-            'columnDefs': [
-                // { targets: 3, visible: false },
-                // { targets: 5, visible: false },
+            columnDefs: [
+                { targets: 0, orderable: !1,searchable: !1, },
+                { targets: 5, orderable: !1,searchable: !1, },
                 // { targets: 6, visible: false },
                 // { targets: 9, visible: false },
                 // { targets: 10, visible: false },
@@ -285,5 +298,41 @@
 });
 
 // FUNCTION
+function getDateTime() {
+  var now     = new Date(); 
+  var year    = now.getFullYear();
+  var month   = now.getMonth()+1; 
+  var day     = now.getDate();
+  if(month.toString().length == 1) {
+        month = '0'+month;
+  }
+  if(day.toString().length == 1) {
+        day = '0'+day;
+  } 
+  var dateTime = year+'-'+month+'-'+day;   
+    return dateTime;
+}
+function saveData() {
+  $("#tambah").one('submit', function() {
+    //stop submitting the form to see the disabled button effect
+    let x = document.forms["formTambah"]["bln-tambah"].value;
+    let y = document.forms["formTambah"]["thn-tambah"].value;
+    if (x == "Bulan" || y == "Tahun") {
+
+      iziToast.error({
+        title: 'Pesan Galat!',
+        message: 'Kolom Bulan / Tahun wajib diisi',
+        position: 'topRight'
+      });  
+
+      return false;
+    } else {
+      $("#btn-simpan").attr('disabled','disabled');
+      $("#btn-simpan").find("i").toggleClass("fa-save fa-sync fa-spin");
+
+      return true;
+    }
+  });
+}
 </script>
 @endsection

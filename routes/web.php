@@ -515,7 +515,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
         // Route::get('laporan/bulan/restore', 'kantor\laporanBulananNewController@tampilRiwayatTerhapus')->name('restore.laporan.bulanan');
         // Route::get('laporan/bulan/riwayat/table', 'kantor\laporanBulananNewController@tableRiwayatVerifikasi');
         // Route::get('laporan/bulan/riwayat', 'kantor\laporanBulananNewController@riwayatVerifikasi')->name('riwayat.laporan.bulanan');
+
+        // USER
         Route::resource('laporan/bulanan', 'laporan\bulanan\bulananUserController');
+        // ADMIN
+        Route::resource('admin/laporan/bulanan', 'laporan\bulanan\bulananAdminController');
 
 });
 
