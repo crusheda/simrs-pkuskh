@@ -3,7 +3,19 @@
 namespace App\Http\Controllers\laporan\bulanan;
 
 use App\Http\Controllers\Controller;
+use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\laporan_bulanan;
+use App\Models\unit;
+use App\Models\setRoleUser;
+use App\User;
+use Carbon\Carbon;
+use Redirect;
+use Storage;
+use Auth;
+use Response;
+use Exception;
 
 class bulananAdminController extends Controller
 {
@@ -13,8 +25,14 @@ class bulananAdminController extends Controller
      * @return \Illuminate\Http\Response
      */
     public function index()
-    {
-        //
+    {        
+        $totalAll = pengaduan_ipsrs::whereNotNull('tgl_selesai')->where('ket_penolakan', null)->count();
+        
+        $data = [
+            'total' => $total,
+        ];
+
+        return view('pages.administrasi.laporan.bulanan.adminIndex')->with('list', $data);
     }
 
     /**

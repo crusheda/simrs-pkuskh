@@ -22,20 +22,19 @@
         <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-book-open"></i><span>Administrasi</span></a>
         <ul class="dropdown-menu">
           <li class="nav-item {{ request()->routeIs('managerfile') ? 'active' : '' }}"><a href="{{ route("managerfile") }}" class="nav-link">File Manager</a></li>
-          @if(auth()->user()->can('laporan') || auth()->user()->can('admin-laporan'))
-            <li class="nav-item dropdown {{ request()->routeIs(['bulan.index']) ? 'active' : '' }}"><a href="#" class="nav-link has-dropdown">Laporan</a>
+          @hasrole('administrator')
+            <li class="nav-item dropdown {{ request()->routeIs(['bulananAdmin.index']) ? 'active' : '' }}"><a href="#" class="nav-link has-dropdown">Laporan</a>
               <ul class="dropdown-menu">
-                <li class="nav-item {{ request()->routeIs('bulan.index') ? 'active' : '' }}"><a href="{{ route('bulan.index') }}" class="nav-link">Bulanan</a></li>
-                {{-- <li class="nav-item dropdown"><a href="#" class="nav-link has-dropdown">Link 2</a>
-                  <ul class="dropdown-menu">
-                    <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
-                    <li class="nav-item"><a href="#" class="nav-link">Link</a></li>
-                  </ul>
-                </li> --}}
+                <li class="nav-item {{ request()->routeIs('bulanan.indexAdmin') ? 'active' : '' }}"><a href="{{ route('bulananAdmin.index') }}" class="nav-link">Bulanan</a></li>
               </ul>
             </li>
-          @endif
+          @else
+            <li class="nav-item dropdown {{ request()->routeIs(['bulanan.index']) ? 'active' : '' }}"><a href="#" class="nav-link has-dropdown">Laporan</a>
+              <ul class="dropdown-menu">
+                <li class="nav-item {{ request()->routeIs('bulanan.index') ? 'active' : '' }}"><a href="{{ route('bulanan.index') }}" class="nav-link">Bulanan</a></li>
+              </ul>
+            </li>
+          @endhasrole
           <li class="nav-item {{ request()->routeIs('rapat.index') ? 'active' : '' }}"><a href="{{ route("rapat.index") }}" class="nav-link">Berkas Rapat</a></li>
           <li class="nav-item {{ request()->routeIs('jadwal.dinas.index') ? 'active' : '' }}"><a href="{{ route("jadwal.dinas.index") }}" class="nav-link">Jadwal Dinas</a></li>
           {{-- <li class="nav-item {{ request()->routeIs('regulasi.index') ? 'active' : '' }}"><a href="{{ route("regulasi.index") }}" class="nav-link">Regulasi OLD</a></li> --}}

@@ -29,7 +29,7 @@ class pengaduanController extends Controller
         $user_id = $user->id; 
         $name = $user->name;
         
-        if (Auth::user()->hasRole(['ipsrs','it'])) {
+        if (Auth::user()->hasRole(['ipsrs','it','sekretaris-direktur'])) {
             $show = pengaduan_ipsrs::where('tgl_selesai', null)->orderBy('tgl_pengaduan','DESC')->get();
             $total = pengaduan_ipsrs::count();
             $totalMasukPengaduan = pengaduan_ipsrs::whereNotNull('tgl_pengaduan')->where('tgl_diterima', null)->where('tgl_dikerjakan', null)->where('tgl_selesai', null)->where('ket_penolakan', null)->count();

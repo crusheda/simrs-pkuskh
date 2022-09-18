@@ -98,9 +98,15 @@
       </a>
       <ul class="menu-sub">
         <li class="menu-item">
+          @hasrole('administrator')
+          <a href="{{ route('bulananAdmin.index') }}" class="menu-link">
+            <div data-i18n="List">Bulanan</div>
+          </a>
+          @else
           <a href="{{ route('bulanan.index') }}" class="menu-link">
             <div data-i18n="List">Bulanan</div>
           </a>
+          @endhasrole
         </li>
       </ul>
     </li>

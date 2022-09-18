@@ -517,9 +517,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
         // Route::get('laporan/bulan/riwayat', 'kantor\laporanBulananNewController@riwayatVerifikasi')->name('riwayat.laporan.bulanan');
 
         // USER
+        Route::get('laporan/bulanan/verif', 'laporan\bulanan\bulananUserController@showVerif')->name('bulanan.verif');
         Route::resource('laporan/bulanan', 'laporan\bulanan\bulananUserController');
         // ADMIN
-        Route::resource('admin/laporan/bulanan', 'laporan\bulanan\bulananAdminController');
+        Route::resource('laporan/bulananAdmin', 'laporan\bulanan\bulananAdminController');
 
 });
 
@@ -564,7 +565,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
     
     // LAPORAN
         // BULANAN
-            Route::get('laporan/bulanan/table/user', 'laporan\bulanan\bulananUserController@table');
+        Route::get('laporan/bulanan/table/verif', 'laporan\bulanan\bulananUserController@tableVerif');
+        Route::get('laporan/bulanan/table/user', 'laporan\bulanan\bulananUserController@table');
+        Route::get('laporan/bulanan/getubah/{id}','laporan\bulanan\bulananUserController@getUbah'); // API
+        Route::get('laporan/bulanan/hapus/{id}','laporan\bulanan\bulananUserController@hapus'); // API
+        Route::post('laporan/bulanan/ubah/{id}','laporan\bulanan\bulananUserController@ubah'); // API
     
 });
 

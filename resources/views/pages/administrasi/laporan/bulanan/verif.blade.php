@@ -2,7 +2,7 @@
 
 @section('content')
 <h4 class="fw-bold py-3 mb-4">
-  <span class="text-muted fw-light">Administrasi / Laporan /</span> Bulanan
+  <span class="text-muted fw-light">Administrasi / Laporan / Bulanan /</span> Verifikasi 
 </h4>
   
 @if(session('message'))
@@ -53,7 +53,7 @@
       <div class="card-body">
         <h5 class="mb-0">Total Upload</h5>
         <small>Semua Unit/Bagian</small><h2></h2>
-        <h3 class="text-primary card-title mb-1">{{ $list['count'] }}</h3>
+        <h3 class="text-primary card-title mb-1">0</h3>
         <small class="text-nowrap fw-semibold">Bulan Ini</small>
       </div>
     </div>
@@ -61,46 +61,15 @@
 </div> --}}
 
 <div class="card card-action mb-4">
-  <div class="d-flex justify-content-around flex-wrap my-4 mb-5">
-    <div class="d-flex align-items-start me-4 mt-3 gap-3">
-      <span class="badge bg-label-primary p-2 rounded"><i class='bx bx-check bx-sm'></i></span>
-      <div>
-        <span>Keseluruhan</span>
-        <h5 class="mb-0">{{ $list['totalAll'] }}</h5>
-      </div>
-    </div>
-    <div class="d-flex align-items-start me-4 mt-3 gap-3">
-      <span class="badge bg-label-primary p-2 rounded"><i class='bx bx-check bx-sm'></i></span>
-      <div>
-        <span>Bulan Ini</span>
-        <h5 class="mb-0">{{ $list['totalBln'] }}</h5>
-      </div>
-    </div>
-    <div class="d-flex align-items-start mt-3 gap-3">
-      <span class="badge p-2 rounded" style="background-color: rebeccapurple"><i class='bx bx-calendar-week bx-sm'></i></span>
-      <div>
-        <span>Unverified</span>
-        <h5 class="mb-0">{{ $list['unverif'] }}</h5>
-      </div>
-    </div>
-    <div class="d-flex align-items-start mt-3 gap-3">
-      <span class="badge p-2 rounded" style="background-color: salmon"><i class='bx bx-calendar-check bx-sm'></i></span>
-      <div>
-        <span>Verified</span>
-        <h5 class="mb-0">{{ $list['verif'] }}</h5>
-      </div>
-    </div>
-  </div>
-</div>
-
-<div class="card card-action mb-4">
   <div class="card-header" style="margin-bottom: -20px">
     <div class="card-action-title">
       <div class="btn-group">
-        <a class="btn btn-label-primary" href="" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="Menampilkan Semua Data Laporan Bulanan Bawahan" disabled>
-          <i class="bx bx-history scaleX-n1-rtl"></i>
-          <span class="align-middle">Laporan Bawahan</span>
+        <a class="btn btn-label-dark" href="{{ route('bulanan.index') }}">
+          <i class="fas fa-chevron-left"></i>&nbsp;Kembali
         </a>
+        <button class="btn btn-label-warning" data-bs-target="#info" data-bs-toggle="modal">
+          <i class="fas fa-info"></i>&nbsp;Informasi
+        </button>
       </div>
     </div>
     <div class="card-action-element">
@@ -118,23 +87,27 @@
     <div class="card-datatable table-responsive text-nowrap">
       <table id="table" class="table table-striped" style="width:100%">
           <thead>
-              <tr>
-                  <th class="cell-fit"><center>STATUS</center></th>
-                  <th>DIUPDATE</th>
-                  <th>JUDUL</th>
-                  <th>BLN / THN</th>
-                  <th>KETERANGAN</th>
-                  <th class="cell-fit"><center>#</center></th>
-              </tr>
+            <tr>
+              <th class="cell-fit"><center>#</center></th>
+              <th>NAMA</th>
+              <th>UNIT</th>
+              <th>JUDUL</th>
+              <th>BLN / THN</th>
+              <th>KETERANGAN</th>
+              <th>DIUPDATE</th>
+            </tr>
           </thead>
           <tbody id="tampil-tbody"><tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
           <tfoot>
-            <th class="cell-fit"><center>STATUS</center></th>
-            <th>DIUPDATE</th>
-            <th>JUDUL</th>
-            <th>BLN / THN</th>
-            <th>KETERANGAN</th>
-            <th class="cell-fit"><center>#</center></th>
+            <tr>
+              <th class="cell-fit"><center>#</center></th>
+              <th>NAMA</th>
+              <th>UNIT</th>
+              <th>JUDUL</th>
+              <th>BLN / THN</th>
+              <th>KETERANGAN</th>
+              <th>DIUPDATE</th>
+            </tr>
           </tfoot>
       </table>
     </div>
@@ -142,21 +115,73 @@
 </div>
 
 {{-- MODAL --}}
-<div class="modal fade" id="tambah" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
-  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+<div class="modal fade" id="verif" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
-        <h4 class="modal-title">
-          Tambah Laporan Bulanan
-        </h4>
+        <h4 class="modal-title">Status</h4>
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
       </div>
       <div class="modal-body">
+        <table id="tableverif" class="table table-striped" style="width:100%">
+            <thead>
+              <tr>
+                <th>NAMA</th>
+                <th>UNIT</th>
+                <th>KET</th>
+                <th>TGL</th>
+              </tr>
+            </thead>
+            <tbody id="tampil-tbody"><tr><td colspan="4"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+            <tfoot>
+              <tr>
+                <th>NAMA</th>
+                <th>UNIT</th>
+                <th>KET</th>
+                <th>TGL</th>
+              </tr>
+            </tfoot>
+        </table>
       </div>
       <div class="modal-footer">
-              <button class="btn btn-primary" id="btn-simpan" onclick="saveData()"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
-
-          <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+        <button class="btn btn-secondary" id="btn-verif" onclick="verif()" disabled><i class="fa-fw fas fa-check nav-icon"></i> Verifikasi</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Informasi</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <h5 class="mb-0">Cara Setting PDF Viewer pada browser Google Chrome</h5>
+        <sub>Terdapat 2 cara untuk melihat laporan bulanan PDF tanpa mendownload. Apabila anda menggunakan browser Firefox, silakan abaikan semua langkah di bawah.</sub>
+        <div class="divider text-end">
+          <div class="divider-text">Plugin PDF Viewer</div>
+        </div>
+        <p>
+          <h6>1. Instal plugin untuk Google Chrome dengan membuka Link <a target="_blank" href="https://chrome.google.com/webstore/detail/pdf-viewer/oemmndcbldboiebfnladdacbdfmadadm?hl=in"><u>Disini</u></a></h6>
+          <h6>2. Klik <strong>Tambahkan ke Chrome</strong></h6>
+          <img src="{{ asset('img/pdf-viewer/1.jpg') }}" class="img-fluid" alt="">
+          <h6>3. Klik <strong>Add extension</strong></h6>
+          <img src="{{ asset('img/pdf-viewer/2.jpg') }}" class="img-fluid" alt="">
+        </p>
+        <div class="divider text-end">
+          <div class="divider-text">Mode Incognito (Private Browser)</div>
+        </div>
+        <p>
+          <h6>1. Masuk ke Menu Chrome dengan cara klik tombol Titik Tiga di Pojok Kanan Atas</h6>
+          <img src="{{ asset('img/pdf-viewer/3.jpg') }}" class="img-fluid mb-3" alt="">
+          <h6>2. Klik tombol <strong>New Incognito Window</strong> atau dengan menekan kombinasi tombol <strong>Ctrl+Shift+N</strong></h6>
+          <h6>3. Masuk/Login <strong>Simrsmu</strong> kembali pada Mode Incognito tersebut dan anda sudah bisa melihat dokumen Laporan Bulanan tanpa harus mendownloadnya terlebih dahulu</h6>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
       </div>
     </div>
   </div>
@@ -175,50 +200,45 @@
   
   $.ajax(
     {
-      url: "/api/laporan/bulanan/table/user",
+      url: "/api/laporan/bulanan/table/verif",
       type: 'GET',
       dataType: 'json', // added data type
       success: function(res) {
         $("#tampil-tbody").empty();
         var date = getDateTime();
-        res.show.forEach(item => {
+        res.forEach(item => {
+            if(item.unit) {
+              try {
+                var un = JSON.parse(item.unit);
+              } catch(e) {
+                var un = item.unit;
+              }
+            }
             var updet = item.updated_at.substring(0, 10);
-            content = `<tr id="data`+item.id+`"><td>`;
-                    if(item.tgl_verif != null) {
-                      content += `<center><i class="fa-fw fas fa-check nav-icon text-primary"></i></center>`;
-                    }
-            content += `</td><td>`+item.updated_at+`</td>
+            content = `<tr id="data`+item.id+`">`;
+            content += `<td><center><div class="btn-group"><button class='btn btn-success btn-sm' onclick="window.location.href='{{ url('v2/laporan/bulanan/`+item.id+`') }}'"><i class="fa-fw fas fa-download nav-icon"></i></button>`;
+            content += `<button class='btn btn-primary btn-sm' onclick="showVerif(`+item.id+`)"><i class="fa-fw fas fa-check nav-icon"></i></button>`;
+                        // if(item.tgl_verif != null) {
+                        // } else {
+                        //   content += `<button class='btn btn-secondary btn-sm' disabled><i class="fa-fw fas fa-check nav-icon"></i></a></li>`;
+                        // };
+            content += `</div></center></td>
+                        <td>`+item.nama+`</td>
+                        <td>`+un+`</td>
                         <td>`+item.judul+`</td>
                         <td>`+item.bln+` / `+item.thn+`</td><td>`;
                         if (item.ket != null) {
-                          item.ket
+                          content += item.ket;
                         }
-            content += `</td><td><center>
-                        <div class='btn-group'>
-                          <button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button>
-                          <ul class='dropdown-menu dropdown-menu-end'>
-                            <li><a href='javascript:void(0);' class='dropdown-item text-success' onclick="window.location.href='{{ url('laporan/bulan/`+item.id+`') }}'"><i class="fa-fw fas fa-download nav-icon"></i> Download</a></li>`;
-                            if(item.ket_verif != null) {
-                              content += `<li><a href="javascript:void(0); class='dropdown-item text-info' onclick="ketLihat(`+item.id+`)"><i class="fa-fw fas fa-sticky-note nav-icon"></i> Keterangan</a></li>`;
-                            } else {
-                              content += `<li><a href="javascript:void(0);" class='dropdown-item text-secondary' disabled><i class="fa-fw fas fa-sticky-note nav-icon"></i> Keterangan</a></li>`;
-                            }
-                            if(updet == date) {
-                              content += `<li><a href="javascript:void(0);" class='dropdown-item text-warning' onclick="showUbah(`+item.id+`)"><i class="fa-fw fas fa-edit nav-icon"></i> Ubah</a></li>
-                                          <li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</a></li>`;
-                            } else {
-                              content += `<li><a href="javascript:void(0);" class='dropdown-item text-secondary' disabled><i class="fa-fw fas fa-edit nav-icon"></i> Ubah</a></li>
-                                          <li><a href='javascript:void(0);' class='dropdown-item text-secondary' disabled><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</a></li>`;
-                            }
-            content += `</ul></div></center></td></tr>`;
+            content += `</td><td>`+item.updated_at+`</td></tr>`;
             $('#tampil-tbody').append(content);
         });
         $('#table').DataTable(
           {
-            order: [[1, "desc"]],
+            order: [[6, "desc"]],
             dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
             displayLength: 7,
-            lengthMenu: [7, 10, 25, 50, 75, 100],
+            lengthMenu: [7, 10, 25, 50, 75, 100, 500],
             buttons: [{
                 extend: "collection",
                 className: "btn btn-label-primary dropdown-toggle me-2",
@@ -262,7 +282,8 @@
             ],
             columnDefs: [
                 { targets: 0, orderable: !1,searchable: !1, },
-                { targets: 5, orderable: !1,searchable: !1, },
+                { targets: 3, orderable: !1 },
+                { targets: 5, orderable: !1 },
                 // { targets: 6, visible: false },
                 // { targets: 9, visible: false },
                 // { targets: 10, visible: false },
@@ -272,7 +293,7 @@
             ],
           },
         );
-        $("div.head-label").html('<h5 class="card-title mb-0">Daftar Laporan Anda</h5>');
+        $("div.head-label").html('<h5 class="card-title mb-0">Daftar Laporan Bawahan</h5>');
       }
     }
   );
@@ -295,5 +316,16 @@ function getDateTime() {
     return dateTime;
 }
 
+function saveData() {
+  $("#tambah").one('submit', function() {
+    $("#btn-simpan").attr('disabled','disabled');
+    $("#btn-simpan").find("i").toggleClass("fa-save fa-sync fa-spin");
+    return true;
+  });
+}
+
+function showVerif(id) {
+  $('#verif').modal('show');
+}
 </script>
 @endsection

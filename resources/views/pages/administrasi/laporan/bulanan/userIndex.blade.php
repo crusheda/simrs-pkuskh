@@ -64,10 +64,13 @@
   <div class="card-header" style="margin-bottom: -20px">
     <div class="card-action-title">
       <div class="btn-group">
-        <a class="btn btn-label-primary" href="" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="Menampilkan Semua Data Laporan Bulanan Bawahan" disabled>
+        <a class="btn btn-label-primary" href="{{ route('bulanan.verif') }}" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="Menampilkan Semua Data Laporan Bulanan Bawahan" disabled>
           <i class="bx bx-history scaleX-n1-rtl"></i>
           <span class="align-middle">Laporan Bawahan</span>
         </a>
+        <button class="btn btn-label-warning" data-bs-target="#info" data-bs-toggle="modal">
+          <i class="fas fa-info"></i>
+        </button>
       </div>
     </div>
     <div class="card-action-element">
@@ -109,6 +112,7 @@
 </div>
 
 {{-- MODAL --}}
+{{-- TAMBAH --}}
 <div class="modal fade" id="tambah" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
@@ -144,10 +148,9 @@
                       <select class="select2 form-select" name="thn" id="thn-tambah" required>
                           <option value="">Tahun</option>
                           @php
-                              for ($i=2018; $i <= $list['thn']; $i++) { 
-                                  echo"<option value=$i> $i </option>";
-                              }
-                              
+                            for ($i=2018; $i <= $list['thn']; $i++) { 
+                              echo"<option value=$i> $i </option>";
+                            }
                           @endphp
                       </select>
                     </div>
@@ -160,14 +163,14 @@
                   </div>
               </div>
               <div class="form-group mb-3">
-                <label>Keterangan :</label>
-                <textarea rows="3" class="autosize2 form-control" id="ket" placeholder="Optional"></textarea>
+                <label>Keterangan</label>
+                <textarea rows="3" class="form-control" id="ket" placeholder="Optional"></textarea>
               </div>
               <div class="form-group mb-3">
-                <label>Dokumen : </label>
-                <input type="file" name="file" class="form-control mb-2" required>
-                <i class="fa-fw fas fa-caret-right nav-icon"></i> Format yang dibolehkan : <strong>.pdf </strong>, <strong>.docx </strong>, <strong>.doc </strong>, <strong>.xls </strong>, <strong>.xlsx </strong>, <strong>.ppt </strong>, <strong>.pptx </strong>.<br>
-                <i class="fa-fw fas fa-caret-right nav-icon"></i> Batas ukuran maksimum dokumen adalah <strong>50 mb</strong>.
+                <label>Dokumen</label>
+                <input type="file" name="file" class="form-control mb-2" accept="application/pdf" required>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Format yang diperbolehkan hanya PDF (<strong>.pdf </strong>)<br>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> Batas ukuran maksimum dokumen adalah <strong>20 mb</strong>
               </div>
       </div>
       <div class="modal-footer">
@@ -175,6 +178,93 @@
           </form>
 
           <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- UBAH --}}
+<div class="modal fade" id="ubah" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">
+          Ubah Laporan Bulanan&nbsp;<kbd><a id="show_edit"></a></kbd>
+        </h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <input type="text" id="id_edit" class="form-control" hidden>
+    
+        <div class="row">
+            <div class="col-md-4">
+                <div class="form-group mb-3">
+                    <label>Bulan</label>
+                    <select class="select2 form-control" id="bln_edit" required></select>
+                </div>
+            </div>
+            <div class="col-md-4">
+                <div class="form-group mb-3">
+                    <label>Tahun</label>
+                    <select class="select2 form-control" id="thn_edit" required></select>
+                </div>
+            </div>
+            <div class="col-md-4">
+              <div class="form-group mb-3">
+                <label>Judul</label>
+                <input type="text" id="judul_edit" class="form-control" placeholder="Laporan Bulanan Unit X" required>
+              </div>
+            </div>
+            <div class="col-md-12">
+              <div class="form-group mb-3">
+                <label>Keterangan</label>
+                <textarea rows="3" class="form-control" id="ket_edit" placeholder="Optional"></textarea>
+              </div>
+            </div>
+            <div class="col-md-12">
+                Dokumen Upload
+                <div id="file_edit"></div>
+            </div>
+        </div>
+      </div>
+      <div class="modal-footer">
+        <button class="btn btn-primary" id="btn-simpan-edit" onclick="ubah()"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+      </div>
+    </div>
+  </div>
+</div>
+<div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h4 class="modal-title">Informasi</h4>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+      </div>
+      <div class="modal-body">
+        <h5 class="mb-0">Cara Setting PDF Viewer pada browser Google Chrome</h5>
+        <sub>Terdapat 2 cara untuk melihat laporan bulanan PDF tanpa mendownload. Apabila anda menggunakan browser Firefox, silakan abaikan semua langkah di bawah.</sub>
+        <div class="divider text-end">
+          <div class="divider-text">Plugin PDF Viewer</div>
+        </div>
+        <p>
+          <h6>1. Instal plugin untuk Google Chrome dengan membuka Link <a target="_blank" href="https://chrome.google.com/webstore/detail/pdf-viewer/oemmndcbldboiebfnladdacbdfmadadm?hl=in"><u>Disini</u></a></h6>
+          <h6>2. Klik <strong>Tambahkan ke Chrome</strong></h6>
+          <img src="{{ asset('img/pdf-viewer/1.jpg') }}" class="img-fluid" alt="">
+          <h6>3. Klik <strong>Add extension</strong></h6>
+          <img src="{{ asset('img/pdf-viewer/2.jpg') }}" class="img-fluid" alt="">
+        </p>
+        <div class="divider text-end">
+          <div class="divider-text">Mode Incognito (Private Browser)</div>
+        </div>
+        <p>
+          <h6>1. Masuk ke Menu Chrome dengan cara klik tombol Titik Tiga di Pojok Kanan Atas</h6>
+          <img src="{{ asset('img/pdf-viewer/3.jpg') }}" class="img-fluid mb-3" alt="">
+          <h6>2. Klik tombol <strong>New Incognito Window</strong> atau dengan menekan kombinasi tombol <strong>Ctrl+Shift+N</strong></h6>
+          <h6>3. Masuk/Login <strong>Simrsmu</strong> kembali pada Mode Incognito tersebut dan anda sudah bisa melihat dokumen Laporan Bulanan tanpa harus mendownloadnya terlebih dahulu</h6>
+        </p>
+      </div>
+      <div class="modal-footer">
+        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
       </div>
     </div>
   </div>
@@ -209,13 +299,13 @@
                         <td>`+item.judul+`</td>
                         <td>`+item.bln+` / `+item.thn+`</td><td>`;
                         if (item.ket != null) {
-                          item.ket
+                          content += item.ket;
                         }
             content += `</td><td><center>
                         <div class='btn-group'>
                           <button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button>
                           <ul class='dropdown-menu dropdown-menu-end'>
-                            <li><a href='javascript:void(0);' class='dropdown-item text-success' onclick="window.location.href='{{ url('laporan/bulan/`+item.id+`') }}'"><i class="fa-fw fas fa-download nav-icon"></i> Download</a></li>`;
+                            <li><a href='javascript:void(0);' class='dropdown-item text-success' onclick="window.location.href='{{ url('v2/laporan/bulanan/`+item.id+`') }}'"><i class="fa-fw fas fa-download nav-icon"></i> Download</a></li>`;
                             if(item.ket_verif != null) {
                               content += `<li><a href="javascript:void(0); class='dropdown-item text-info' onclick="ketLihat(`+item.id+`)"><i class="fa-fw fas fa-sticky-note nav-icon"></i> Keterangan</a></li>`;
                             } else {
@@ -312,27 +402,125 @@ function getDateTime() {
   var dateTime = year+'-'+month+'-'+day;   
     return dateTime;
 }
+
 function saveData() {
   $("#tambah").one('submit', function() {
-    //stop submitting the form to see the disabled button effect
-    let x = document.forms["formTambah"]["bln-tambah"].value;
-    let y = document.forms["formTambah"]["thn-tambah"].value;
-    if (x == "Bulan" || y == "Tahun") {
+    $("#btn-simpan").attr('disabled','disabled');
+    $("#btn-simpan").find("i").toggleClass("fa-save fa-sync fa-spin");
+    return true;
+  });
+}
 
-      iziToast.error({
-        title: 'Pesan Galat!',
-        message: 'Kolom Bulan / Tahun wajib diisi',
-        position: 'topRight'
-      });  
+function showUbah(id) {
+  $('#ubah').modal('show');
+  $.ajax(
+    {
+      url: "/api/laporan/bulanan/getubah/"+id,
+      type: 'GET',
+      dataType: 'json', // added data type
+      success: function(res) {
+        // var tgl = res.tgl + 'T' + res.waktu;
+        document.getElementById('show_edit').innerHTML = "ID : "+res.show.id;
+        $("#id_edit").val(res.show.id);
+        $("#judul_edit").val(res.show.judul);
+        $("#ket_edit").val(res.show.ket);
+        $("#bln_edit").find('option').remove();
+        $("#thn_edit").find('option').remove();
+        for(c=1 ; c < res.jml_bulan ; c++){
+            $("#bln_edit").append(`
+                <option value="${c}" ${c == res.show.bln? "selected":""}>`+res.bulan[c]+`</option>
+            `);
+        }
+        for (i=2018; i <= res.tahun; i++) { 
+            $("#thn_edit").append(`
+                <option value="${i}" ${i == res.show.thn? "selected":""}>${i}</option>
+            `);
+        }
+        $("#file_edit").empty();
+        $("#file_edit").append(`
+            <b><u><a href="./bulanan/${res.show.id}">${res.show.title}</a></u>&nbsp(${res.sizeFile} Mb)</b>
+        `);
+        // document.getElementById('tgl_edit').innerHTML = res.sizeFile;
+      }
+    }
+  );
+}
 
-      return false;
-    } else {
-      $("#btn-simpan").attr('disabled','disabled');
-      $("#btn-simpan").find("i").toggleClass("fa-save fa-sync fa-spin");
-
-      return true;
+function ubah() {
+  $("#btn-simpan-edit").attr('disabled','disabled');
+  $("#btn-simpan-edit").find("i").toggleClass("fa-save fa-spinner fa-spin");
+  
+  var id          = $("#id_edit").val();
+  var judul       = $("#judul_edit").val();
+  var ket         = $("#ket_edit").val();
+  var bln         = $("#bln_edit").val();
+  var thn         = $("#thn_edit").val();
+  
+  $.ajax({
+  headers: {
+    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+  },
+  method: 'POST',
+  url: '/api/laporan/bulanan/ubah/'+id, 
+  dataType: 'json', 
+  data: { 
+      id: id,
+      judul: judul,
+      ket: ket,
+      bln: bln,
+      thn: thn,
+    }, 
+    success: function(res) {
+      window.location.reload();
     }
   });
+}
+
+function hapus(id) {
+    Swal.fire({
+    title: 'Apakah anda yakin?',
+    text: 'Hapus Laporan Bulanan ID : '+id,
+    icon: 'warning',
+    reverseButtons: false,
+    showDenyButton: false,
+    showCloseButton: false,
+    showCancelButton: true,
+    focusCancel: true,
+    confirmButtonColor: '#FF4845',
+    confirmButtonText: `<i class="fa fa-trash"></i> Hapus`,
+    cancelButtonText: `<i class="fa fa-times"></i> Batal`,
+    backdrop: `rgba(26,27,41,0.8)`,
+    }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "/api/laporan/bulanan/hapus/"+id,
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(res) {
+          iziToast.success({
+            title: 'Sukses!',
+            message: 'Hapus Dokumen Laporan Bulanan berhasil pada '+res,
+            position: 'topRight'
+          });
+          window.location.reload();
+        },
+        error: function(res) {
+          Swal.fire({
+          title: `Gagal di hapus!`,
+          text: 'Pada '+res,
+          icon: `error`,
+          showConfirmButton:false,
+          showCancelButton:false,
+          allowOutsideClick: true,
+          allowEscapeKey: true,
+          timer: 3000,
+          timerProgressBar: true,
+          backdrop: `rgba(26,27,41,0.8)`,
+          });
+        }
+      }); 
+    }
+    })
 }
 </script>
 @endsection
