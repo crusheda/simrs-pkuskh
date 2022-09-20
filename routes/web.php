@@ -440,6 +440,14 @@ Route::resource('pengadaan/barang', 'publik\pengadaan\barangPengadaanController'
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function () {
 
+// ADMIN -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- 
+// USER ACCOUNT
+    Route::resource('admin/user', 'administrator\user\userController');
+
+// LAPORAN BULANAN
+    Route::resource('admin/laporan/bulananadm', 'laporan\bulanan\bulananAdminController');
+
+// USER ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // BERANDA
     Route::get('beranda', 'simrsmuv2Controller@index')->name('beranda.index');
 
@@ -520,8 +528,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
         Route::get('laporan/bulanan/download/{id}', 'laporan\bulanan\bulananUserController@download')->name('bulanan.download');
         Route::get('laporan/bulanan/verif', 'laporan\bulanan\bulananUserController@showVerif')->name('bulanan.verif');
         Route::resource('laporan/bulanan', 'laporan\bulanan\bulananUserController');
-        // ADMIN
-        Route::resource('laporan/bulananAdmin', 'laporan\bulanan\bulananAdminController');
 
 });
 

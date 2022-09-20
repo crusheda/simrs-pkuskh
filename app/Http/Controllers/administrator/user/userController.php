@@ -3,15 +3,16 @@
 namespace App\Http\Controllers\administrator\user;
 
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Admin\StoreUsersRequest;
-use App\Http\Requests\Admin\UpdateUsersRequest;
+// use App\Http\Requests\Admin\StoreUsersRequest;
+// use App\Http\Requests\Admin\UpdateUsersRequest;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\Gate;
+// use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\DB;
-use Spatie\Permission\Models\Role;
-use App\Models\data_users;
+use App\Models\user;
+use App\Models\role;
+use App\Models\setRoleUser;
 use Redirect;
-use App\User;
+// use Spatie\Permission\Models\Role;
 
 class userController extends Controller
 {
@@ -22,7 +23,20 @@ class userController extends Controller
      */
     public function index()
     {
-        //
+        // $show = user::Join('set_role_users', 'users.id', '=', 'set_role_users.id_user')
+        //         ->Join('roles', 'set_role_users.id_roles', '=', 'roles.id')
+        //         ->select('roles.id as id_roles','roles.name as nama_roles','users.id','users.name','users.updated_at')
+        //         ->orderBy('users.updated_at', 'asc')
+        //         ->get();
+        $user = user::select('id','name','nama','updated_at')->orderBy('nama', 'asc')->get();
+        $role = setRoleUser::join('roles', 'set_role_users.id_roles', '=', 'roles.id')->select('set_role_users.id_user','roles.name as nama_role')->get();
+
+        $data = [
+            'user' => $user,
+            'role' => $role,
+        ];
+        
+        return view('pages.administrator.user.index')->with('list', $data);
     }
 
     /**
@@ -54,7 +68,15 @@ class userController extends Controller
      */
     public function show($id)
     {
-        //
+        $user = user::find($id);
+        $role = setRoleUser::join('roles', 'set_role_users.id_roles', '=', 'roles.id')->select('set_role_users.id_user','roles.id as id_role','roles.name as nama_role')->get();
+
+        $data = [
+            'user' => $user,
+            'role' => $role,
+        ];
+        
+        return view('pages.administrator.user.ubah')->with('list', $data);
     }
 
     /**

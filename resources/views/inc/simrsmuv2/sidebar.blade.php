@@ -99,7 +99,7 @@
       <ul class="menu-sub">
         <li class="menu-item">
           @hasrole('administrator')
-          <a href="{{ route('bulananAdmin.index') }}" class="menu-link">
+          <a href="{{ route('bulananadm.index') }}" class="menu-link">
             <div data-i18n="List">Bulanan</div>
           </a>
           @else
@@ -149,7 +149,7 @@
     <li class="menu-item {{ request()->routeIs('antigen.index') ? 'active' : '' }}">
       <a href="{{ route('antigen.index') }}" class="menu-link">
         <i class="menu-icon tf-icons fas fa-hand-lizard" style="font-size: 1rem"></i>
-        <div data-i18n="Accident Report">Antigen</div>
+        <div data-i18n="Antigen">Antigen</div>
       </a>
     </li>
     @endcan
@@ -160,7 +160,18 @@
     <li class="menu-item {{ request()->routeIs('skl.index') ? 'active' : '' }}">
       <a href="{{ route('skl.index') }}" class="menu-link">
         <i class="menu-icon tf-icons fas fa-baby" style="font-size: 1rem"></i>
-        <div data-i18n="Accident Report">SKL</div>
+        <div data-i18n="SKL">SKL</div>
+      </a>
+    </li>
+    @endhasrole
+    @hasrole('administrator')
+    <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Administrator</span>
+    </li>
+    <li class="menu-item {{ request()->routeIs('user.index') ? 'active' : '' }}">
+      <a href="{{ route('user.index') }}" class="menu-link">
+        <i class="menu-icon tf-icons fas fa-user-secret" style="font-size: 1rem"></i>
+        <div data-i18n="User">User Account</div>
       </a>
     </li>
     @endhasrole
