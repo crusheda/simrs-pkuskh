@@ -305,7 +305,8 @@
                         <div class='btn-group'>
                           <button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button>
                           <ul class='dropdown-menu dropdown-menu-end'>
-                            <li><a href='javascript:void(0);' class='dropdown-item text-success' onclick="window.location.href='{{ url('v2/laporan/bulanan/`+item.id+`') }}'"><i class="fa-fw fas fa-download nav-icon"></i> Download</a></li>`;
+                            <li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.location.href='{{ url('v2/laporan/bulanan/`+item.id+`') }}'"><i class="fa-fw fas fa-eye nav-icon"></i> Lihat PDF</a></li>
+                            <li><a href='javascript:void(0);' class='dropdown-item text-success' onclick="window.location.href='{{ url('v2/laporan/bulanan/download/`+item.id+`') }}'"><i class="fa-fw fas fa-download nav-icon"></i> Download</a></li>`;
                             if(item.ket_verif != null) {
                               content += `<li><a href="javascript:void(0); class='dropdown-item text-info' onclick="ketLihat(`+item.id+`)"><i class="fa-fw fas fa-sticky-note nav-icon"></i> Keterangan</a></li>`;
                             } else {

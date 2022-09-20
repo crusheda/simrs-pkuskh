@@ -517,6 +517,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
         // Route::get('laporan/bulan/riwayat', 'kantor\laporanBulananNewController@riwayatVerifikasi')->name('riwayat.laporan.bulanan');
 
         // USER
+        Route::get('laporan/bulanan/download/{id}', 'laporan\bulanan\bulananUserController@download')->name('bulanan.download');
         Route::get('laporan/bulanan/verif', 'laporan\bulanan\bulananUserController@showVerif')->name('bulanan.verif');
         Route::resource('laporan/bulanan', 'laporan\bulanan\bulananUserController');
         // ADMIN

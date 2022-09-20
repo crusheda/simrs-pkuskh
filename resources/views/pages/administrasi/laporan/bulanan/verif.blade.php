@@ -230,8 +230,10 @@
             }
             var updet = item.updated_at.substring(0, 10);
             content = `<tr id="data`+item.id+`">`;
-            content += `<td><center><div class="btn-group"><button class='btn btn-success btn-sm' onclick="window.location.href='{{ url('v2/laporan/bulanan/`+item.id+`') }}'"><i class="fa-fw fas fa-download nav-icon"></i></button>`;
-            content += `<button class='btn btn-primary btn-sm' onclick="showVerif(`+item.id+`)"><i class="fa-fw fas fa-check nav-icon"></i></button>`;
+            content += `<td><center><div class="btn-group">
+                        <button class='btn btn-primary btn-sm' onclick="window.location.href='{{ url('v2/laporan/bulanan/`+item.id+`') }}'"><i class="fa-fw fas fa-eye nav-icon"></i></button>
+                        <button class='btn btn-success btn-sm' onclick="window.location.href='{{ url('v2/laporan/bulanan/download/`+item.id+`') }}'"><i class="fa-fw fas fa-download nav-icon"></i></button>
+                        <button class='btn btn-info btn-sm' onclick="showVerif(`+item.id+`)"><i class="fa-fw fas fa-check nav-icon"></i></button>`;
                         // if(item.tgl_verif != null) {
                         // } else {
                         //   content += `<button class='btn btn-secondary btn-sm' disabled><i class="fa-fw fas fa-check nav-icon"></i></a></li>`;

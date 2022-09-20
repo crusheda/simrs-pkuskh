@@ -150,6 +150,12 @@ class bulananUserController extends Controller
         // return Storage::download($data->filename, $data->title);
     }
 
+    public function download($id)
+    {
+        $data = laporan_bulanan::find($id);
+        return Storage::download($data->filename, $data->title);
+    }
+
     /**
      * Show the form for editing the specified resource.
      *
