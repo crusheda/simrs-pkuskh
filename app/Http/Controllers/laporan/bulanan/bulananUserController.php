@@ -29,7 +29,7 @@ class bulananUserController extends Controller
         $thn = Carbon::now()->isoFormat('Y');
 
         // COUNT ALL LAPORAN
-        $bulan = Carbon::now()->isoFormat('MM');
+        $bulan = Carbon::now()->subMonth()->isoFormat('MM');
         $tahun = Carbon::now()->isoFormat('YYYY');
         $count = laporan_bulanan::where('bln',$bulan)->where('thn',$tahun)->count();
 
@@ -213,13 +213,22 @@ class bulananUserController extends Controller
     {
         $jabatan = $this->cariJabatan();
 
-        $show = laporan_bulanan::Join('set_role_users', 'laporan_bulanan.id_user', '=', 'set_role_users.id_user')
-            ->Join('roles', 'set_role_users.id_roles', '=', 'roles.id')
-            ->Join('users', 'laporan_bulanan.id_user', '=', 'users.id')
-            ->select('roles.name','users.nama','laporan_bulanan.*')
-            ->whereIn('roles.name', $jabatan)
-            ->orderBy('laporan_bulanan.updated_at', 'desc')
-            ->get();
+        if (Auth::user()->hasRole('kasubag-perencanaan-it')) {
+            $show = laporan_bulanan::Join('set_role_users', 'laporan_bulanan.id_user', '=', 'set_role_users.id_user')
+                ->Join('roles', 'set_role_users.id_roles', '=', 'roles.id')
+                ->Join('users', 'laporan_bulanan.id_user', '=', 'users.id')
+                ->select('roles.name','users.nama','laporan_bulanan.*')
+                ->orderBy('laporan_bulanan.updated_at', 'desc')
+                ->get();
+        } else {
+            $show = laporan_bulanan::Join('set_role_users', 'laporan_bulanan.id_user', '=', 'set_role_users.id_user')
+                ->Join('roles', 'set_role_users.id_roles', '=', 'roles.id')
+                ->Join('users', 'laporan_bulanan.id_user', '=', 'users.id')
+                ->select('roles.name','users.nama','laporan_bulanan.*')
+                ->whereIn('roles.name', $jabatan)
+                ->orderBy('laporan_bulanan.updated_at', 'desc')
+                ->get();
+        }
 
         return response()->json($show, 200);
     }
