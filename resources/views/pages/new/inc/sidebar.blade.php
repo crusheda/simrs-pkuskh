@@ -18,14 +18,14 @@
           <li class=""><a class="nav-link" href="{{ route("beranda.index") }}">Simrsmu v2<i class="fas fa-leaf text-info"></i></a></li>
         </ul>
       </li>
-      <li class="nav-item dropdown {{ request()->routeIs(['rapat.index','managerfile','perencanaan.index','kebijakan.index','panduan.index','pedoman.index','program.index','spo.index','jadwal.dinas.index']) ? 'active' : '' }}">
+      <li class="nav-item dropdown {{ request()->routeIs(['bulananadm.index','bulanan.index','rapat.index','managerfile','perencanaan.index','kebijakan.index','panduan.index','pedoman.index','program.index','spo.index','jadwal.dinas.index']) ? 'active' : '' }}">
         <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-book-open"></i><span>Administrasi</span></a>
         <ul class="dropdown-menu">
           <li class="nav-item {{ request()->routeIs('managerfile') ? 'active' : '' }}"><a href="{{ route("managerfile") }}" class="nav-link">File Manager</a></li>
           @hasrole('administrator')
-            <li class="nav-item dropdown {{ request()->routeIs(['bulananAdmin.index']) ? 'active' : '' }}"><a href="#" class="nav-link has-dropdown">Laporan</a>
+            <li class="nav-item dropdown {{ request()->routeIs(['bulananadm.index']) ? 'active' : '' }}"><a href="#" class="nav-link has-dropdown">Laporan</a>
               <ul class="dropdown-menu">
-                <li class="nav-item {{ request()->routeIs('bulanan.indexAdmin') ? 'active' : '' }}"><a href="{{ route('bulananAdmin.index') }}" class="nav-link">Bulanan</a></li>
+                <li class="nav-item {{ request()->routeIs('bulananadm.index') ? 'active' : '' }}"><a href="{{ route('bulananadm.index') }}" class="nav-link">Bulanan</a></li>
               </ul>
             </li>
           @else

@@ -28,6 +28,7 @@
 </div>
 @endif
 
+
 <div class="row">
   <div class="col-lg-10 mb-4 order-0">
     <div class="card">
@@ -64,13 +65,13 @@
   <div class="card-header" style="margin-bottom: -20px">
     <div class="card-action-title">
       <div class="btn-group">
-        <a class="btn btn-label-primary" href="{{ route('bulanan.verif') }}" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="Menampilkan Semua Data Laporan Bulanan Bawahan">
-          <i class="bx bx-history scaleX-n1-rtl"></i>
+        <button class="btn btn-label-primary" id="btn-verif" onclick="verif()" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="Menampilkan Semua Data Laporan Bulanan Bawahan">
+          <i class="fas fa-history"></i>&nbsp;
           <span class="align-middle">Laporan Bawahan</span>
-        </a>
-        <button class="btn btn-label-warning" data-bs-target="#info" data-bs-toggle="modal">
-          <i class="fas fa-info"></i>
         </button>
+        {{-- <button class="btn btn-label-warning" data-bs-target="#info" data-bs-toggle="modal">
+          <i class="fas fa-info"></i>
+        </button> --}}
       </div>
     </div>
     <div class="card-action-element">
@@ -168,8 +169,9 @@
               </div>
               <div class="form-group mb-3">
                 <label>Dokumen</label>
-                <input type="file" name="file" class="form-control mb-2" accept="application/pdf" required>
-                <i class="fa-fw fas fa-caret-right nav-icon"></i> Format yang diperbolehkan hanya PDF (<strong>.pdf </strong>)<br>
+                {{-- <input type="file" name="file" class="form-control mb-2" accept="application/pdf" required> --}}
+                <input type="file" name="file" class="form-control mb-2" required>
+                <i class="fa-fw fas fa-caret-right nav-icon"></i> File yang diupload berupa Dokumen<br>
                 <i class="fa-fw fas fa-caret-right nav-icon"></i> Batas ukuran maksimum dokumen adalah <strong>20 mb</strong>
               </div>
       </div>
@@ -305,8 +307,7 @@
                         <div class='btn-group'>
                           <button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button>
                           <ul class='dropdown-menu dropdown-menu-end'>
-                            <li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.location.href='{{ url('v2/laporan/bulanan/`+item.id+`') }}'"><i class="fa-fw fas fa-eye nav-icon"></i> Lihat PDF</a></li>
-                            <li><a href='javascript:void(0);' class='dropdown-item text-success' onclick="window.location.href='{{ url('v2/laporan/bulanan/download/`+item.id+`') }}'"><i class="fa-fw fas fa-download nav-icon"></i> Download</a></li>`;
+                            <li><a href='javascript:void(0);' class='dropdown-item text-success' onclick="window.location.href='{{ url('v2/laporan/bulanan/`+item.id+`') }}'"><i class="fa-fw fas fa-download nav-icon"></i> Download</a></li>`;
                             if(item.ket_verif != null) {
                               content += `<li><a href="javascript:void(0); class='dropdown-item text-info' onclick="ketLihat(`+item.id+`)"><i class="fa-fw fas fa-sticky-note nav-icon"></i> Keterangan</a></li>`;
                             } else {
@@ -413,7 +414,7 @@ function tambah() {
       type: 'GET',
       dataType: 'json', // added data type
       success: function(res) {
-        if (res === true) {
+        if (res === 1) {
           $('#tambah').modal('show');
         } else {
           iziToast.error({
@@ -424,6 +425,33 @@ function tambah() {
         }
         $("#btn-tambah").prop('disabled', false);
         $("#btn-tambah").find("i").removeClass("fa-sync fa-spin").addClass("fa-plus");
+      },
+      error: function(res) {
+      }
+    }
+  );
+}
+
+function verif() {
+  $("#btn-verif").prop('disabled', true);
+  $("#btn-verif").find("i").toggleClass("fa-history fa-sync fa-spin");
+  $.ajax(
+    {
+      url: "/api/laporan/bulanan/formverif",
+      type: 'GET',
+      dataType: 'json', // added data type
+      success: function(res) {
+        if (res === 1) {
+          window.location.href = "./bulanan/verif";
+        } else {
+          iziToast.error({
+            title: 'Pesan Galat!',
+            message: 'Mohon maaf, Anda tidak mempunyai HAK untuk menambah Laporan Bulanan',
+            position: 'topRight'
+          });
+        }
+        $("#btn-verif").prop('disabled', false);
+        $("#btn-verif").find("i").removeClass("fa-sync fa-spin").addClass("fa-history");
       },
       error: function(res) {
       }

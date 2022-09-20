@@ -447,7 +447,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
 // LAPORAN BULANAN
     Route::resource('admin/laporan/bulananadm', 'laporan\bulanan\bulananAdminController');
 
-// USER ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+// USER --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
 // BERANDA
     Route::get('beranda', 'simrsmuv2Controller@index')->name('beranda.index');
 
@@ -525,7 +525,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
         // Route::get('laporan/bulan/riwayat', 'kantor\laporanBulananNewController@riwayatVerifikasi')->name('riwayat.laporan.bulanan');
 
         // USER
-        Route::get('laporan/bulanan/download/{id}', 'laporan\bulanan\bulananUserController@download')->name('bulanan.download');
+        // Route::get('laporan/bulanan/download/{id}', 'laporan\bulanan\bulananUserController@download')->name('bulanan.download');
         Route::get('laporan/bulanan/verif', 'laporan\bulanan\bulananUserController@showVerif')->name('bulanan.verif');
         Route::resource('laporan/bulanan', 'laporan\bulanan\bulananUserController');
 
@@ -535,6 +535,12 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function () {
 
+    // ADMIN -------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
+    // USER ACCOUNT
+        Route::get('admin/user/{id}', 'administrator\user\userController@verifName')->name('admin.verif');
+        Route::get('admin/user/hapus/{id}', 'administrator\user\userController@hapus')->name('admin.hapus');
+
+    // USER --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------
     // PROFIL
         Route::get('provinsi/{id}', 'Admin\profilController@apiProvinsi');
         Route::get('kota/{id}', 'Admin\profilController@apiKota');
@@ -572,6 +578,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
     
     // LAPORAN
         // BULANAN
+        Route::get('laporan/bulanan/formverif', 'laporan\bulanan\bulananUserController@formVerif');
         Route::get('laporan/bulanan/formupload', 'laporan\bulanan\bulananUserController@formUpload');
         Route::get('laporan/bulanan/table/verif', 'laporan\bulanan\bulananUserController@tableVerif');
         Route::get('laporan/bulanan/table/user', 'laporan\bulanan\bulananUserController@table');

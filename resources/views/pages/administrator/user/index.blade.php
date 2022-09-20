@@ -1,6 +1,7 @@
 @extends('layouts.simrsmuv2')
 
 @section('content')
+@hasrole('it','administrator')
 <h4 class="fw-bold py-3 mb-4">
   <span class="text-muted fw-light">Administrator /</span> User
 </h4>
@@ -31,7 +32,7 @@
 <div class="card card-action mb-4">
   <div class="card-header">
     <div class="card-action-title">
-      <button class="btn btn-primary"><i class="fas fa-plus"></i>&nbsp;&nbsp;Tambah</button>
+      <button class="btn btn-primary" onclick="window.location.href='{{ url('v2/admin/user/create') }}'"><i class="fas fa-plus"></i>&nbsp;&nbsp;Tambah</button>
     </div>
     <div class="card-action-element">
       <ul class="list-inline mb-0">
@@ -74,7 +75,7 @@
                 <button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button>
                 <ul class='dropdown-menu dropdown-menu-end'>
                   <li><a href='javascript:void(0);' class='dropdown-item text-warning' onclick="window.location.href='{{ url('v2/admin/user/'.$item->id.'') }}'"><i class="fa-fw fas fa-edit nav-icon"></i> Ubah</a></li>
-                  <li><a href='javascript:void(0);' class='dropdown-item text-danger' disabled><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</a></li>
+                  <li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus({{ $item->id }})"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</a></li>
                 </ul>
               </div>
               </center>
@@ -96,7 +97,7 @@
     </table>
   </div>
 </div>
-
+@endhasrole
 <script>$(document).ready( function () {
   
   $('#table').DataTable(
@@ -158,5 +159,52 @@
   );
   $("div.head-label").html('<h5 class="card-title mb-0">Data Akun User Simrsmu</h5>');
 })
+
+function hapus(id) {
+    Swal.fire({
+    title: 'Apakah anda yakin?',
+    text: 'Hapus Akun Pengguna ID : '+id,
+    icon: 'warning',
+    reverseButtons: false,
+    showDenyButton: false,
+    showCloseButton: false,
+    showCancelButton: true,
+    focusCancel: true,
+    confirmButtonColor: '#FF4845',
+    confirmButtonText: `<i class="fa fa-trash"></i> Hapus`,
+    cancelButtonText: `<i class="fa fa-times"></i> Batal`,
+    backdrop: `rgba(26,27,41,0.8)`,
+    }).then((result) => {
+    if (result.isConfirmed) {
+      $.ajax({
+        url: "/api/admin/user/hapus/"+id,
+        type: 'GET',
+        dataType: 'json', // added data type
+        success: function(res) {
+          iziToast.success({
+            title: 'Sukses!',
+            message: 'Hapus Akun berhasil pada '+res,
+            position: 'topRight'
+          });
+          window.location.reload();
+        },
+        error: function(res) {
+          Swal.fire({
+          title: `Gagal di hapus!`,
+          text: 'Pada '+res,
+          icon: `error`,
+          showConfirmButton:false,
+          showCancelButton:false,
+          allowOutsideClick: true,
+          allowEscapeKey: true,
+          timer: 3000,
+          timerProgressBar: true,
+          backdrop: `rgba(26,27,41,0.8)`,
+          });
+        }
+      }); 
+    }
+    })
+}
 </script>
 @endsection

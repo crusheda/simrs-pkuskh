@@ -104,6 +104,8 @@ class UsersController extends Controller
         $user->update($request->all());
         $roles = $request->input('roles') ? $request->input('roles') : [];
         $user->syncRoles($roles);
+        // print_r($request->all());
+        // die();
 
         return redirect()->route('admin.users.index');
     }

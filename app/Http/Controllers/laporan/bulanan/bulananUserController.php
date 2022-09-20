@@ -8,7 +8,6 @@ use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\laporan_bulanan;
 use App\Models\unit;
-use App\Models\setRoleUser;
 use App\User;
 use Carbon\Carbon;
 use Redirect;
@@ -44,7 +43,8 @@ class bulananUserController extends Controller
     public function showVerif()
     {
         $jabatan = $this->cariJabatan();
-
+        // print_r($jabatan);
+        // die();
         if ($jabatan != null) {    
             return view('pages.administrasi.laporan.bulanan.verif');
         } else {
@@ -52,15 +52,28 @@ class bulananUserController extends Controller
         }
     }
 
-    public function formUpload()
+    public function formVerif()
     {
         $jabatan = $this->cariJabatan();
 
-        if ($jabatan != null) {
-            $res = true;
+        if ($jabatan != null) {    
+            $res = 1;
             return response()->json($res, 200);
         } else {
-            $res = false;
+            $res = 0;
+            return response()->json($res, 200);
+        }
+    }
+
+    public function formUpload()
+    {
+        $user = $this->userUpload();
+
+        if ($user == 1) {
+            $res = 1;
+            return response()->json($res, 200);
+        } else {
+            $res = 0;
             return response()->json($res, 200);
         }
     }
@@ -92,8 +105,11 @@ class bulananUserController extends Controller
         }
 
         $request->validate([
-            'file' => ['max:20000','mimes:pdf'],
+            'file' => ['max:20000'],
             ]);
+        // $request->validate([
+        //     'file' => ['max:20000','mimes:pdf'],
+        //     ]);
 
         // tampung berkas yang sudah diunggah ke variabel baru
         // 'file' merupakan nama input yang ada pada form
@@ -135,25 +151,17 @@ class bulananUserController extends Controller
      */
     public function show($id)
     {
-        $headers = [
-            'Content-Description' => 'Laporan Bulanan',
-            'Content-Type' => 'application/pdf',
-        ];
-
-        $data = laporan_bulanan::find($id);
-        $path1 = 'storage/'.substr($data->filename,7,10000);
-        // $path2 = 'storage/'.$data->filename;
-        // print_r($path1.'    '.$path2);
-        // die();
-        // ('storage/'.substr($list['foto']->filename,7,1000))
-        return response()->file($path1, $headers);
-        // return Storage::download($data->filename, $data->title);
-    }
-
-    public function download($id)
-    {
         $data = laporan_bulanan::find($id);
         return Storage::download($data->filename, $data->title);
+        
+        // $headers = [
+        //     'Content-Description' => 'Laporan Bulanan',
+        //     'Content-Type' => 'application/pdf',
+        // ];
+
+        // $data = laporan_bulanan::find($id);
+        // $path1 = 'storage/'.substr($data->filename,7,10000);
+        // return response()->file($path1, $headers);
     }
 
     /**
@@ -220,16 +228,16 @@ class bulananUserController extends Controller
         $jabatan = $this->cariJabatan();
 
         if (Auth::user()->hasRole('kasubag-perencanaan-it')) {
-            $show = laporan_bulanan::Join('set_role_users', 'laporan_bulanan.id_user', '=', 'set_role_users.id_user')
-                ->Join('roles', 'set_role_users.id_roles', '=', 'roles.id')
-                ->Join('users', 'laporan_bulanan.id_user', '=', 'users.id')
+            $show = laporan_bulanan::Join('users', 'laporan_bulanan.id_user', '=', 'users.id')
+                ->Join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->Join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->select('roles.name','users.nama','laporan_bulanan.*')
                 ->orderBy('laporan_bulanan.updated_at', 'desc')
                 ->get();
         } else {
-            $show = laporan_bulanan::Join('set_role_users', 'laporan_bulanan.id_user', '=', 'set_role_users.id_user')
-                ->Join('roles', 'set_role_users.id_roles', '=', 'roles.id')
-                ->Join('users', 'laporan_bulanan.id_user', '=', 'users.id')
+            $show = laporan_bulanan::Join('users', 'laporan_bulanan.id_user', '=', 'users.id')
+                ->Join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
+                ->Join('roles', 'model_has_roles.role_id', '=', 'roles.id')
                 ->select('roles.name','users.nama','laporan_bulanan.*')
                 ->whereIn('roles.name', $jabatan)
                 ->orderBy('laporan_bulanan.updated_at', 'desc')
@@ -536,43 +544,105 @@ class bulananUserController extends Controller
         // ------------------------------------------------------------------------------------------------------------------------
         $r = null;
         // Direktur
-        if ($user->hasRole('direktur-utama')) { $r = $dirut; }
-        elseif ($user->hasRole('direktur-keuangan-perencanaan')) { $r = $verif_direktur_keuangan_perencanaan; }
-        elseif ($user->hasRole('direktur-umum-kepegawaian')) { $r = $verif_direktur_umum_kepegawaian; }
-        elseif ($user->hasRole('direktur-pelayanan-keperawatan-penunjang')) { $r = $verif_direktur_pelayanan_keperawatan_penunjang; }
+        if ($user->hasAnyRole('direktur-utama')) { $r = $dirut; }
+        elseif ($user->hasAnyRole('direktur-keuangan-perencanaan')) { $r = $verif_direktur_keuangan_perencanaan; }
+        elseif ($user->hasAnyRole('direktur-umum-kepegawaian')) { $r = $verif_direktur_umum_kepegawaian; }
+        elseif ($user->hasAnyRole('direktur-pelayanan-keperawatan-penunjang')) { $r = $verif_direktur_pelayanan_keperawatan_penunjang; }
 
         // Kabag
-        elseif ($user->hasRole('kabag-perencanaan')) { $r = $verif_kabag_perencanaan; }
-        elseif ($user->hasRole('kabag-keuangan')) { $r = $verif_kabag_keuangan; }
-        elseif ($user->hasRole('kabag-rumah-tangga')) { $r = $verif_kabag_rumah_tangga; }
-        elseif ($user->hasRole('kabag-kepegawaian')) { $r = $verif_kabag_kepegawaian; }
-        elseif ($user->hasRole('kabag-umum')) { $r = $verif_kabag_umum; }
-        elseif ($user->hasRole('kabag-penunjang')) { $r = $verif_kabag_penunjang; }
-        elseif ($user->hasRole('kabag-keperawatan')) { $r = $verif_kabag_keperawatan; }
-        elseif ($user->hasRole('kabag-pelayanan-medik')) { $r = $verif_kabag_pelayanan_medik; }
+        elseif ($user->hasAnyRole('kabag-perencanaan')) { $r = $verif_kabag_perencanaan; }
+        elseif ($user->hasAnyRole('kabag-keuangan')) { $r = $verif_kabag_keuangan; }
+        elseif ($user->hasAnyRole('kabag-rumah-tangga')) { $r = $verif_kabag_rumah_tangga; }
+        elseif ($user->hasAnyRole('kabag-kepegawaian')) { $r = $verif_kabag_kepegawaian; }
+        elseif ($user->hasAnyRole('kabag-umum')) { $r = $verif_kabag_umum; }
+        elseif ($user->hasAnyRole('kabag-penunjang')) { $r = $verif_kabag_penunjang; }
+        elseif ($user->hasAnyRole('kabag-keperawatan')) { $r = $verif_kabag_keperawatan; }
+        elseif ($user->hasAnyRole('kabag-pelayanan-medik')) { $r = $verif_kabag_pelayanan_medik; }
 
         // Kasubag
-        elseif ($user->hasRole('kasubag-perencanaan-it')) { $r = $verif_kasubag_perencanaan_it; }
-        elseif ($user->hasRole('kasubag-diklat')) { $r = $verif_kasubag_diklat; }
-        elseif ($user->hasRole('kasubag-marketing')) { $r = $verif_kasubag_marketing; }
-        elseif ($user->hasRole('kasubag-perbendaharaan')) { $r = $verif_kasubag_perbendaharaan; }
-        elseif ($user->hasRole('kasubag-verifikasi-akuntansi-pajak')) { $r = $verif_kasubag_verifikasi_akuntansi_pajak; }
-        elseif ($user->hasRole('kasubag-aset-gudang')) { $r = $verif_kasubag_aset_gudang; }
-        elseif ($user->hasRole('kasubag-ipsrs')) { $r = $verif_kasubag_ipsrs; }
-        elseif ($user->hasRole('kasubag-kesling-k3')) { $r = $verif_kasubag_kesling_k3; }
-        elseif ($user->hasRole('kasubag-kepegawaian')) { $r = $verif_kasubag_kepegawaian; }
-        elseif ($user->hasRole('kasubag-aik')) { $r = $verif_kasubag_aik; }
-        elseif ($user->hasRole('kasubag-tata-usaha')) { $r = $verif_kasubag_tata_usaha; }
-        elseif ($user->hasRole('kasubag-humas')) { $r = $verif_kasubag_humas; }
-        elseif ($user->hasRole('kasubag-penunjang-operasional')) { $r = $verif_kasubag_penunjang_operasional; }
-        elseif ($user->hasRole('kasubag-penunjang-medik')) { $r = $verif_kasubag_penunjang_medik; }
-        elseif ($user->hasRole('kasubag-penunjang-nonmedik')) { $r = $verif_kasubag_penunjang_nonmedik; }
-        elseif ($user->hasRole('kasubag-keperawatan-rajal-gadar')) { $r = $verif_kasubag_keperawatan_rajal_gadar; }
-        elseif ($user->hasRole('kasubag-keperawatan-ranap')) { $r = $verif_kasubag_keperawatan_ranap; }
-        elseif ($user->hasRole('kasubag-rajal-gadar')) { $r = $verif_kasubag_rajal_gadar; }
-        elseif ($user->hasRole('kasubag-ranap')) { $r = $verif_kasubag_ranap; }
+        elseif ($user->hasAnyRole('kasubag-perencanaan-it')) { $r = $verif_kasubag_perencanaan_it; }
+        elseif ($user->hasAnyRole('kasubag-diklat')) { $r = $verif_kasubag_diklat; }
+        elseif ($user->hasAnyRole('kasubag-marketing')) { $r = $verif_kasubag_marketing; }
+        elseif ($user->hasAnyRole('kasubag-perbendaharaan')) { $r = $verif_kasubag_perbendaharaan; }
+        elseif ($user->hasAnyRole('kasubag-verifikasi-akuntansi-pajak')) { $r = $verif_kasubag_verifikasi_akuntansi_pajak; }
+        elseif ($user->hasAnyRole('kasubag-aset-gudang')) { $r = $verif_kasubag_aset_gudang; }
+        elseif ($user->hasAnyRole('kasubag-ipsrs')) { $r = $verif_kasubag_ipsrs; }
+        elseif ($user->hasAnyRole('kasubag-kesling-k3')) { $r = $verif_kasubag_kesling_k3; }
+        elseif ($user->hasAnyRole('kasubag-kepegawaian')) { $r = $verif_kasubag_kepegawaian; }
+        elseif ($user->hasAnyRole('kasubag-aik')) { $r = $verif_kasubag_aik; }
+        elseif ($user->hasAnyRole('kasubag-tata-usaha')) { $r = $verif_kasubag_tata_usaha; }
+        elseif ($user->hasAnyRole('kasubag-humas')) { $r = $verif_kasubag_humas; }
+        elseif ($user->hasAnyRole('kasubag-penunjang-operasional')) { $r = $verif_kasubag_penunjang_operasional; }
+        elseif ($user->hasAnyRole('kasubag-penunjang-medik')) { $r = $verif_kasubag_penunjang_medik; }
+        elseif ($user->hasAnyRole('kasubag-penunjang-nonmedik')) { $r = $verif_kasubag_penunjang_nonmedik; }
+        elseif ($user->hasAnyRole('kasubag-keperawatan-rajal-gadar')) { $r = $verif_kasubag_keperawatan_rajal_gadar; }
+        elseif ($user->hasAnyRole('kasubag-keperawatan-ranap')) { $r = $verif_kasubag_keperawatan_ranap; }
+        elseif ($user->hasAnyRole('kasubag-rajal-gadar')) { $r = $verif_kasubag_rajal_gadar; }
+        elseif ($user->hasAnyRole('kasubag-ranap')) { $r = $verif_kasubag_ranap; }
 
         return $r;
         
+    }
+
+    public function userUpload()
+    {
+        $user = Auth::user();
+
+        if ($user->hasAnyRole(
+                'kabag-perencanaan',
+                'kabag-keuangan',
+                'kabag-rumah-tangga',
+                'kabag-kepegawaian',
+                'kabag-umum',
+                'kabag-penunjang',
+                'kabag-keperawatan',
+                'kabag-pelayanan-medik',
+                'kasubag-perencanaan-it',
+                'kasubag-diklat',
+                'kasubag-marketing',
+                'kasubag-perbendaharaan',
+                'kasubag-verifikasi-akuntansi-pajak',
+                'kasubag-aset-gudang',
+                'kasubag-ipsrs',
+                'kasubag-kesling-k3',
+                'kasubag-kepegawaian',
+                'kasubag-aik',
+                'kasubag-tata-usaha',
+                'kasubag-humas',
+                'kasubag-penunjang-operasional',
+                'kasubag-penunjang-medik',
+                'kasubag-penunjang-nonmedik',
+                'kasubag-keperawatan-rajal-gadar',
+                'kasubag-keperawatan-ranap',
+                'kasubag-rajal-gadar',
+                'kasubag-ranap',
+                'karu-icu',
+                'karu-ibs',
+                'karu-bangsal3',
+                'karu-bangsal4',
+                'karu-kebidanan',
+                'perinatologi',
+                'karu-igd',
+                'karu-poli',
+                'karu-gizi',
+                'karu-laundry',
+                'karu-cssd',
+                'karu-binroh',
+                'karu-lab',
+                'karu-rm-informasi',
+                'karu-radiologi',
+                'karu-rehab',
+                'karu-farmasi',
+                'karu-driver',
+                'karu-cs',
+                'karu-security',
+                'karu-kasir',
+                'karu-it',
+                'staf-marketing',
+            )) {
+            return 1;
+        } else {
+            return 0;
+        }
     }
 }
