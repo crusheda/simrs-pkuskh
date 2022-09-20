@@ -47,6 +47,7 @@
   <link rel="stylesheet" href="{{ asset('css/iziToast.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/apex-charts/apex-charts.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/bs-stepper/bs-stepper.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/animate-css/animate.css') }}">
   <!-- PICKER -->
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/flatpickr/flatpickr.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}" />

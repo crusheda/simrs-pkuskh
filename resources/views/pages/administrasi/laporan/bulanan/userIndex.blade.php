@@ -37,7 +37,7 @@
             <h5 class="card-title text-primary">Laporan Digital</h5>
             <p class="mb-4">Segera <span class="fw-bold">Upload</span> laporanmu agar bisa segera diverifikasi oleh Atasanmu sebelum Tanggal xx</p>
 
-            <a href="javascript:;" class="btn btn-primary" id="btn-tambah" onclick="tambah()" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="Tambah Laporan Bulanan"><i class="fas fa-plus"></i>&nbsp;&nbsp;Form Upload</a>
+            <a href="javascript:;" class="btn btn-primary" value="animate__jackInTheBox" id="btn-tambah" onclick="tambah()" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="Tambah Laporan Bulanan"><i class="fas fa-plus"></i>&nbsp;&nbsp;Form Upload</a>
           </div>
         </div>
         <div class="col-sm-5 text-center text-sm-left">
@@ -54,7 +54,7 @@
         <h5 class="mb-0">Total Upload</h5>
         <small>Semua Unit/Bagian</small><h2></h2>
         <h3 class="text-primary card-title mb-1">{{ $list['count'] }}</h3>
-        <small class="text-nowrap fw-semibold">Bulan Ini</small>
+        <small class="text-nowrap fw-semibold">Bulan {{ \Carbon\Carbon::now()->subMonth()->isoFormat('MMMM') }}</small>
       </div>
     </div>
   </div>
@@ -113,7 +113,7 @@
 
 {{-- MODAL --}}
 {{-- TAMBAH --}}
-<div class="modal fade" id="tambah" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+<div class="modal fade animate__animated animate__jackInTheBox" id="tambah" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -183,7 +183,7 @@
   </div>
 </div>
 {{-- UBAH --}}
-<div class="modal fade" id="ubah" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+<div class="modal fade animate__animated animate__jackInTheBox" id="ubah" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -233,7 +233,7 @@
     </div>
   </div>
 </div>
-<div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
+<div class="modal fade animate__animated animate__bounceInRight" id="info" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -413,7 +413,6 @@ function tambah() {
       type: 'GET',
       dataType: 'json', // added data type
       success: function(res) {
-        console.log(res.valueOf.length);
         if (res === true) {
           $('#tambah').modal('show');
         } else {

@@ -115,7 +115,7 @@
 </div>
 
 {{-- MODAL --}}
-<div class="modal fade" id="verif" tabindex="-1" aria-hidden="true">
+<div class="modal fade animate__animated animate__lightSpeedIn" id="verif" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-simple modal-enable-otp modal-dialog-centered">
     <div class="modal-content p-3 p-md-5">
       <div class="modal-body">
@@ -164,7 +164,7 @@
     </div>
   </div>
 </div> --}}
-<div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
+<div class="modal fade animate__animated animate__bounceInRight" id="info" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
