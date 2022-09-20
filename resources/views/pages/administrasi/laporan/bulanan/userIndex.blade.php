@@ -37,7 +37,7 @@
             <h5 class="card-title text-primary">Laporan Digital</h5>
             <p class="mb-4">Segera <span class="fw-bold">Upload</span> laporanmu agar bisa segera diverifikasi oleh Atasanmu sebelum Tanggal xx</p>
 
-            <a href="javascript:;" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#tambah">Form Upload</a>
+            <a href="javascript:;" class="btn btn-primary" id="btn-tambah" onclick="tambah()" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="Tambah Laporan Bulanan"><i class="fas fa-plus"></i>&nbsp;&nbsp;Form Upload</a>
           </div>
         </div>
         <div class="col-sm-5 text-center text-sm-left">
@@ -64,7 +64,7 @@
   <div class="card-header" style="margin-bottom: -20px">
     <div class="card-action-title">
       <div class="btn-group">
-        <a class="btn btn-label-primary" href="{{ route('bulanan.verif') }}" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="Menampilkan Semua Data Laporan Bulanan Bawahan" disabled>
+        <a class="btn btn-label-primary" href="{{ route('bulanan.verif') }}" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="Menampilkan Semua Data Laporan Bulanan Bawahan">
           <i class="bx bx-history scaleX-n1-rtl"></i>
           <span class="align-middle">Laporan Bawahan</span>
         </a>
@@ -401,6 +401,34 @@ function getDateTime() {
   } 
   var dateTime = year+'-'+month+'-'+day;   
     return dateTime;
+}
+
+function tambah() {
+  $("#btn-tambah").prop('disabled', true);
+  $("#btn-tambah").find("i").toggleClass("fa-plus fa-sync fa-spin");
+  $.ajax(
+    {
+      url: "/api/laporan/bulanan/formupload",
+      type: 'GET',
+      dataType: 'json', // added data type
+      success: function(res) {
+        console.log(res.valueOf.length);
+        if (res === true) {
+          $('#tambah').modal('show');
+        } else {
+          iziToast.error({
+            title: 'Pesan Galat!',
+            message: 'Mohon maaf, Anda tidak mempunyai HAK untuk menambah Laporan Bulanan',
+            position: 'topRight'
+          });
+        }
+        $("#btn-tambah").prop('disabled', false);
+        $("#btn-tambah").find("i").removeClass("fa-sync fa-spin").addClass("fa-plus");
+      },
+      error: function(res) {
+      }
+    }
+  );
 }
 
 function saveData() {

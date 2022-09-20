@@ -65,10 +65,10 @@
     <div class="card-action-title">
       <div class="btn-group">
         <a class="btn btn-label-dark" href="{{ route('bulanan.index') }}">
-          <i class="fas fa-chevron-left"></i>&nbsp;Kembali
+          <i class="fas fa-chevron-left"></i>&nbsp;&nbsp;Kembali
         </a>
         <button class="btn btn-label-warning" data-bs-target="#info" data-bs-toggle="modal">
-          <i class="fas fa-info"></i>&nbsp;Informasi
+          <i class="fas fa-info"></i>&nbsp;&nbsp;Informasi
         </button>
       </div>
     </div>
@@ -115,7 +115,21 @@
 </div>
 
 {{-- MODAL --}}
-<div class="modal fade" id="verif" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+<div class="modal fade" id="verif" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-simple modal-enable-otp modal-dialog-centered">
+    <div class="modal-content p-3 p-md-5">
+      <div class="modal-body">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="text-center mb-4">
+          <h3 class="mb-5">Verifikasi Dokumen</h3>
+        </div>
+        <h6>Kami sedang dalam perbaikan Sistem Laporan Bulanan</h6><hr>
+        <p>Tunggu beberapa saat lagi...</p>
+      </div>
+    </div>
+  </div>
+</div>
+{{-- <div class="modal fade" id="verif" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">
       <div class="modal-header">
@@ -149,7 +163,7 @@
       </div>
     </div>
   </div>
-</div>
+</div> --}}
 <div class="modal fade" id="info" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
     <div class="modal-content">

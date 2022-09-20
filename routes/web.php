@@ -565,6 +565,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
     
     // LAPORAN
         // BULANAN
+        Route::get('laporan/bulanan/formupload', 'laporan\bulanan\bulananUserController@formUpload');
         Route::get('laporan/bulanan/table/verif', 'laporan\bulanan\bulananUserController@tableVerif');
         Route::get('laporan/bulanan/table/user', 'laporan\bulanan\bulananUserController@table');
         Route::get('laporan/bulanan/getubah/{id}','laporan\bulanan\bulananUserController@getUbah'); // API

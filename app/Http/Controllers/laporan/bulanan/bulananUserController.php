@@ -45,10 +45,23 @@ class bulananUserController extends Controller
     {
         $jabatan = $this->cariJabatan();
 
-        if (!empty($jabatan)) {    
+        if ($jabatan != null) {    
             return view('pages.administrasi.laporan.bulanan.verif');
         } else {
-            return redirect()->back();
+            return redirect()->back()->withErrors("Maaf anda tidak mempunyai HAK untuk verifikasi Dokumen Bawahan");
+        }
+    }
+
+    public function formUpload()
+    {
+        $jabatan = $this->cariJabatan();
+
+        if ($jabatan != null) {
+            $res = true;
+            return response()->json($res, 200);
+        } else {
+            $res = false;
+            return response()->json($res, 200);
         }
     }
 
@@ -506,6 +519,7 @@ class bulananUserController extends Controller
         ];
 
         // ------------------------------------------------------------------------------------------------------------------------
+        $r = null;
         // Direktur
         if ($user->hasRole('direktur-utama')) { $r = $dirut; }
         elseif ($user->hasRole('direktur-keuangan-perencanaan')) { $r = $verif_direktur_keuangan_perencanaan; }
@@ -542,7 +556,8 @@ class bulananUserController extends Controller
         elseif ($user->hasRole('kasubag-keperawatan-ranap')) { $r = $verif_kasubag_keperawatan_ranap; }
         elseif ($user->hasRole('kasubag-rajal-gadar')) { $r = $verif_kasubag_rajal_gadar; }
         elseif ($user->hasRole('kasubag-ranap')) { $r = $verif_kasubag_ranap; }
-        
+
         return $r;
+        
     }
 }
