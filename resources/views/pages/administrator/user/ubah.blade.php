@@ -1,6 +1,7 @@
 @extends('layouts.simrsmuv2')
 
 @section('content')
+@hasrole('it|administrator')
 <h4 class="fw-bold py-3 mb-4">
   <span class="text-muted fw-light">Administrator / User /</span> Ubah 
 </h4>
@@ -99,7 +100,7 @@
   </div>
   {!! Form::close() !!}
 </div>
-
+@endhasrole
 <script>
 $(document).ready( function () {
   $('#role').select2({});

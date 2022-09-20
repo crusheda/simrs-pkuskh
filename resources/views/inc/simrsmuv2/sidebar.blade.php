@@ -164,7 +164,7 @@
       </a>
     </li>
     @endhasrole
-    @hasrole('it','administrator')
+    @hasrole('it|administrator')
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Administrator</span>
     </li>

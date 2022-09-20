@@ -1,6 +1,7 @@
 @extends('layouts.simrsmuv2')
 
 @section('content')
+@hasrole('it|administrator')
 <h4 class="fw-bold py-3 mb-4">
   <span class="text-muted fw-light">Administrator / User /</span> Tambah 
 </h4>
@@ -102,7 +103,7 @@
   </div>
   </form>
 </div>
-
+@endhasrole
 <script>
 $(document).ready( function () {
   $('#name').keypress(function() {
