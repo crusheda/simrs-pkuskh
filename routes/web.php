@@ -529,6 +529,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
         Route::get('laporan/bulanan/verif', 'laporan\bulanan\bulananUserController@showVerif')->name('bulanan.verif');
         Route::resource('laporan/bulanan', 'laporan\bulanan\bulananUserController');
 
+// KEPEGAWAIAN
+    // KARYAWAN
+        Route::resource('kepegawaian/karyawan', 'kepegawaian\karyawanController');
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////    API    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

@@ -472,6 +472,7 @@ class bulananUserController extends Controller
             'karu-bangsal3',
             'karu-bangsal4',
             'karu-kebidanan',
+            'perinatologi',
         ];
         $verif_kabag_pelayanan_medik = [
             'kasubag-rajal-gadar',
@@ -483,6 +484,7 @@ class bulananUserController extends Controller
             'karu-bangsal3',
             'karu-bangsal4',
             'karu-kebidanan',
+            'perinatologi',
         ];
 
         // VERIF KASUBAG

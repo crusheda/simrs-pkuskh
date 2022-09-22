@@ -26,7 +26,7 @@ class bulananAdminController extends Controller
      */
     public function index()
     {        
-        $totalAll = pengaduan_ipsrs::whereNotNull('tgl_selesai')->where('ket_penolakan', null)->count();
+        $totalAll = laporan_bulanan::whereNotNull('tgl_selesai')->where('ket_penolakan', null)->count();
         
         $data = [
             'total' => $total,

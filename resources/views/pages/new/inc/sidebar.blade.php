@@ -141,15 +141,15 @@
           </li>
         </ul>
       </li> --}}
-      @hasrole('it|kepegawaian')
+      @can('kepegawaian')
       <li class="menu-header">Unit Kepegawaian</li>
-      <li class="dropdown {{ request()->routeIs(['kepegawaian.karyawan.index']) ? 'active' : '' }}">
+      <li class="dropdown {{ request()->routeIs(['karyawan.index']) ? 'active' : '' }}">
         <a href="#" class="nav-link has-dropdown" data-toggle="dropdown"><i class="fas fa-id-card-alt"></i> <span>Kepegawaian</span></a>
         <ul class="dropdown-menu">
-          <li class="{{ request()->routeIs('kepegawaian.karyawan.index') ? 'active' : '' }}"><a class="nav-link" href="{{ route("kepegawaian.karyawan.index") }}">Data Karyawan</a></li>
+          <li class="{{ request()->routeIs('karyawan.index') ? 'active' : '' }}"><a class="nav-link" href="{{ route("karyawan.index") }}">Data Karyawan</a></li>
         </ul>
       </li>
-      @endhasrole
+      @endcan
       @hasrole('it|lab')
       <li class="menu-header">Unit LAB</li>
       <li class="dropdown {{ request()->routeIs(['antigen.index']) ? 'active' : '' }}">

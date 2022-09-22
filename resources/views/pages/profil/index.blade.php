@@ -118,6 +118,22 @@
         </ul>
       </div>
     </div>
+    @if ($list['show']->dom_kelurahan != null && $list['show']->dom_kecamatan != null && $list['show']->dom_kabupaten != null && $list['show']->dom_provinsi != null)
+    <div class="card mb-4">
+      <div class="card-body">
+        <h5 class="card-action-title mb-0"><i class='bx bx-list-ul me-2'></i>Alamat Domisili Sekarang</h5><br>
+        <ul class="list-unstyled mt-3 mb-0">
+          <li class="d-flex align-items-center mb-3"><i class="bx bx-chevron-right"></i><span class="fw-semibold mx-2">Kelurahan:</span> <span>{{ $list['show']->dom_kelurahan }}</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="bx bx-chevron-right"></i><span class="fw-semibold mx-2">Kecamatan:</span> <span>{{ $list['show']->dom_kecamatan }}</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="bx bx-chevron-right"></i><span class="fw-semibold mx-2">Kabupaten:</span> <span>{{ $list['show']->dom_kabupaten }}</span></li>
+          <li class="d-flex align-items-center mb-3"><i class="bx bx-chevron-right"></i><span class="fw-semibold mx-2">Provinsi:</span> <span>{{ $list['show']->dom_provinsi }}</span></li>
+          <hr>
+          <li class="d-flex align-items-center mb-3"><i class="bx bx-chevron-right"></i><span class="fw-semibold mx-2">Alamat Lengkap:</span></li>
+          <li><span>{{ $list['show']->alamat_dom }}</span></li>
+        </ul>
+      </div>
+    </div>
+    @endif
   </div>
 </div>
 

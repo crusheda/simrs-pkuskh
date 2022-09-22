@@ -164,6 +164,17 @@
       </a>
     </li>
     @endhasrole
+    @can('kepegawaian')
+    <li class="menu-header small text-uppercase">
+      <span class="menu-header-text">Kepegawaian</span>
+    </li>
+    <li class="menu-item {{ request()->routeIs('karyawan.index') ? 'active' : '' }}">
+      <a href="{{ route('karyawan.index') }}" class="menu-link">
+        <i class="menu-icon tf-icons bx bx-group" style="font-size: 1rem"></i>
+        <div data-i18n="KARYAWAN">Data Karyawan</div>
+      </a>
+    </li>
+    @endcan
     @hasrole('it|administrator')
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Administrator</span>

@@ -63,7 +63,7 @@ class profilController extends Controller
         $name  = $user->name;
         $email = $user->email;
         $role  = $user->roles->first()->name; //kabag-keperawatan
-        // $show  = data_users::where('user_id','=', $id)->get();
+        
         $show = DB::table('data_users')
                 ->where('user_id', '=', $id)
                 // ->get()
@@ -83,10 +83,6 @@ class profilController extends Controller
         $nama_kabkota = ref_desa::select('nama_kabkota')->groupBy('nama_kabkota')->get();
         $kecamatan = ref_desa::select('kecamatan')->groupBy('kecamatan')->get();
         $desa = ref_desa::select('desa')->groupBy('desa')->get();
-        // $province = location_province::get();
-        // $city = location_city::get();
-        // $district = location_district::get();
-        // $village = location_village::get();
 
         $data = [
             // 'id_user' => $id,
@@ -99,16 +95,8 @@ class profilController extends Controller
             'nama_kabkota' => $nama_kabkota,
             'kecamatan' => $kecamatan,
             'desa' => $desa,
-            // 'city' => $city,
-            // 'district' => $district,
-            // 'village' => $village
         ];
-        // print_r($data['showlog'][1]->log_date);
-        // die();
-        // print_r($data['nama_kabkota']);
-        // die();
-
-        // return view('pages.new.profil')->with('list', $data);
+        
         return view('pages.profil.index')->with('list', $data);
     }
 
