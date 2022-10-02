@@ -57,9 +57,13 @@
                 </li>
               </ul>
             </div>
-            <a href="/v2/profil/{{ Auth::user()->id }}/edit" class="btn btn-primary text-nowrap">
-              <i class='bx bx-edit'></i> Update Profil
-            </a>
+            <div class="btn-group">
+              {{-- <a href="/v2/profil/{{ Auth::user()->id }}/edit" class="btn btn-primary text-nowrap">
+                <i class='bx bx-edit'></i> Update Profil
+              </a> --}}
+              <button class="btn btn-primary text-nowrap" onclick="location.href='/v2/profil/{{ Auth::user()->id }}/edit'"><i class='bx bx-edit'></i> Update Profil</button>
+              <button class="btn btn-warning" onclick="location.href='{{ route('profil.ubahpassword') }}'"><i class="bx bx-cog me-2"></i> Ubah Password</button>
+            </div>
           </div>
         </div>
       </div>

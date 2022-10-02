@@ -315,7 +315,8 @@
   </div>
 
 </div>
-<script>$(document).ready( function () {
+<script>
+(document).ready( function () {
   $("html").addClass('layout-menu-collapsed');
   // VALIDATION OF FORMSELECT
   // if($(".form-select").val() == "Pilih"){
