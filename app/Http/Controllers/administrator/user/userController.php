@@ -29,7 +29,7 @@ class userController extends Controller
         //         ->select('roles.id as id_roles','roles.name as nama_roles','users.id','users.name','users.updated_at')
         //         ->orderBy('users.updated_at', 'asc')
         //         ->get();
-        $user = user::select('id','name','nama','updated_at')->orderBy('nama', 'asc')->get();
+        $user = user::select('id','name','nama','updated_at')->orderBy('nama', 'asc')->where('users.name', '<>','admin')->where('users.name', '<>','it')->where('users.name', '<>','demo')->get();
         $role = model_has_roles::join('roles', 'model_has_roles.role_id', '=', 'roles.id')->select('model_has_roles.model_id as id_user','roles.name as nama_role')->get();
 
         $data = [
@@ -47,7 +47,7 @@ class userController extends Controller
      */
     public function create()
     {
-        $role = role::get();
+        $role = role::where('name', '<>','administrator')->get();
         
         return view('pages.administrator.user.tambah')->with('role', $role);
     }

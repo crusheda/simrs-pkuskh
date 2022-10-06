@@ -50,10 +50,10 @@
       <div class="modal-body">
         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
         <div class="text-center mb-4">
-          <h3 class="mb-5">Pengajuan Sistem</h3>
+          <h3 class="mb-5">Pengajuan Sistem ?</h3>
         </div>
-        <h6>Ahh.. Maaf. Kami sedang dalam perbaikan sistem..</h6><hr>
-        <p>Konsultasikan terlebih dahulu dengan Kami untuk perancangan Sistem yang akan dibuat.</p>
+        <p>Konsultasikan terlebih dahulu dengan Kami untuk perancangan Sistem yang akan dibuat.
+        <hr>Silakan menambahkan Rincian Kegiatan Penambahan Sistem pada Program Kerja 2023 anda.</p>
       </div>
     </div>
   </div>

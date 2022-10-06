@@ -452,7 +452,11 @@ $(document).ready( function () {
               }
             }
             // console.log(un);
-            un = un.toString().replaceAll(',',', ').replaceAll('-',' ');
+            if (un !== null) {
+              un = un.toString().replaceAll(',',', ').replaceAll('-',' ');
+            } else {
+              un = '';
+            }
             var updet = item.updated_at.substring(0, 10);
             // console.log(item.id+' - '+updet);
             content = "<tr id='data"+ item.id +"'><td><kbd>" 
@@ -675,7 +679,7 @@ $(document).ready( function () {
             {
               order: [[18, "desc"]],
               dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-              displayLength: 7,
+              displayLength: 25,
               lengthMenu: [7, 10, 25, 50, 75, 100],
               buttons: [{
                   extend: "collection",

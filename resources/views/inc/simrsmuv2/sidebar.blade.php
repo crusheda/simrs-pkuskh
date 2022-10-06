@@ -61,7 +61,7 @@
         <div data-i18n="Beranda">Beranda</div>
       </a>
     </li>
-    @hasrole('it')
+    @hasrole('administrator')
     <li class="menu-item {{ request()->routeIs('antrol.index') ? 'open active' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-group"></i>
@@ -175,7 +175,7 @@
       </a>
     </li>
     @endcan
-    @hasrole('it|administrator')
+    @hasrole('administrator')
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Administrator</span>
     </li>
