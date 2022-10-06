@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\Auth;
 
 use App\Http\Controllers\Controller;
+// use Illuminate\Http\Request;
 use Illuminate\Foundation\Auth\AuthenticatesUsers;
 use Socialite;
 use App\User;
@@ -20,6 +21,18 @@ class LoginController extends Controller
     | to conveniently provide its functionality to your applications.
     |
     */
+    // protected $maxAttempts = 1; // Default is 5
+    // protected $decayMinutes = 1; // Default is 1
+    // protected function hasTooManyLoginAttempts(Request $request)
+    // {
+    //     $maxLoginAttempts = 3;
+     
+    //     $lockoutTime = 1; // Dalam menit
+     
+    //     return $this->limiter()->tooManyAttempts(
+    //        $this->throttleKey($request), $maxLoginAttempts, $lockoutTime
+    //     );
+    // }
 
     use AuthenticatesUsers;
     public function showLoginForm()

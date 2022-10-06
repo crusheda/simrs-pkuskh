@@ -456,10 +456,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
     Route::resource('antrol', 'antrol\allController');
 
 // PROFIL KARYAWAN
+    Route::get('profil/ubahpassword', 'Auth\ChangePasswordController@showChangePasswordForm')->name('profil.ubahpassword');
+    Route::patch('profil/ubahpassword', 'Auth\ChangePasswordController@changePassword');
     Route::post('profil/foto', 'Admin\profilController@storeImg');
     Route::resource('profil', 'Admin\profilController');
-    Route::get('profil/ubahpassword', 'Auth\ChangePasswordController@showChangePasswordForm')->name('ubahpassword');
-    Route::patch('profil/ubahpassword', 'Auth\ChangePasswordController@changePassword');
 
 // K3
     // MANAJEMEN RESIKO
