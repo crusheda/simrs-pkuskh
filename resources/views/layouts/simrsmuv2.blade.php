@@ -55,6 +55,9 @@
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/jquery-timepicker/jquery-timepicker.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/pickr/pickr-themes.css') }}" />
 
+  <!-- Maps & Leaflet CSS -->
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/leaflet/leaflet.css') }}" />
+
   <!-- Row Group CSS -->
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/datatables-rowgroup-bs5/rowgroup.bootstrap5.css') }}">
 
@@ -225,6 +228,10 @@
     <script src="{{ asset('assets-new/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/jquery-timepicker/jquery-timepicker.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/pickr/pickr.js') }}"></script>
+
+    <!-- Maps & Leaflet JS -->
+    <script src="{{ asset('assets-new/vendor/libs/leaflet/leaflet.js') }}"></script>
+    <script src="{{ asset('assets-new/js/maps-leaflet.js') }}"></script>
   
     <!-- Main JS -->
     <script src="{{ asset('assets-new/js/main.js') }}"></script>

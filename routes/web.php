@@ -444,6 +444,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
 // USER ACCOUNT
     Route::resource('admin/user', 'administrator\user\userController');
 
+// ABSENSI
+    Route::resource('absen', 'absen\absenController');
+
 // LAPORAN BULANAN
     Route::resource('admin/laporan/bulananadm', 'laporan\bulanan\bulananAdminController');
 

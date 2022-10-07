@@ -48,7 +48,6 @@ class Handler extends ExceptionHandler
             return response(view('pages.validation.404'), 404);
     
         return parent::render($request, $exception);
-        // return parent::render($request, $exception);
     }
 
     /**
