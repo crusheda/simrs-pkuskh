@@ -229,19 +229,19 @@ class bulananUserController extends Controller
 
         if (Auth::user()->hasRole('kasubag-perencanaan-it')) {
             $show = laporan_bulanan::Join('users', 'laporan_bulanan.id_user', '=', 'users.id')
-                ->Join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
-                ->Join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                ->select('roles.name','users.nama','laporan_bulanan.*')
+                ->select('users.nama','laporan_bulanan.*')
                 ->orderBy('laporan_bulanan.updated_at', 'desc')
                 ->get();
         } else {
             $show = laporan_bulanan::Join('users', 'laporan_bulanan.id_user', '=', 'users.id')
                 ->Join('model_has_roles', 'users.id', '=', 'model_has_roles.model_id')
                 ->Join('roles', 'model_has_roles.role_id', '=', 'roles.id')
-                ->select('roles.name','users.nama','laporan_bulanan.*')
+                ->select('users.nama','laporan_bulanan.id','laporan_bulanan.unit','laporan_bulanan.judul','laporan_bulanan.bln','laporan_bulanan.thn','laporan_bulanan.ket','laporan_bulanan.updated_at')
                 ->whereIn('roles.name', $jabatan)
                 ->orderBy('laporan_bulanan.updated_at', 'desc')
+                ->groupBy('users.nama','laporan_bulanan.id','laporan_bulanan.unit','laporan_bulanan.judul','laporan_bulanan.bln','laporan_bulanan.thn','laporan_bulanan.ket','laporan_bulanan.updated_at')
                 ->get();
+            // $show = array_flip($gett);
         }
 
         return response()->json($show, 200);
@@ -641,6 +641,15 @@ class bulananUserController extends Controller
                 'karu-kasir',
                 'karu-it',
                 'staf-marketing',
+                'spv',
+                'mpp',
+                'pmkp',
+                'pkrs',
+                'ppi',
+                'spi',
+                'asuransi',
+                'komite-keperawatan',
+                'komite-medik',
             )) {
             return 1;
         } else {
