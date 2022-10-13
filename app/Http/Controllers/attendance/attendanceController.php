@@ -1,11 +1,11 @@
 <?php
 
-namespace App\Http\Controllers\absen;
+namespace App\Http\Controllers\attendance;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 
-class absenController extends Controller
+class attendanceController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -14,7 +14,7 @@ class absenController extends Controller
      */
     public function index()
     {
-        return view('pages.absen.map');
+        return view('pages.absen.index');
     }
 
     /**
