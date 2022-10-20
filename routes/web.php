@@ -536,8 +536,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
 // KEPEGAWAIAN
     // KARYAWAN
         Route::resource('kepegawaian/karyawan', 'kepegawaian\karyawanController');
-});
 
+// PERENCANAAN
+    // RKA
+        Route::resource('rka', 'administrasi\rkaController');
+});
 ////////////////////////////////////////////////////////////////////////////////////////////////    API    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
 Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function () {
@@ -585,14 +588,19 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
     
     // LAPORAN
         // BULANAN
-        Route::get('laporan/bulanan/formverif', 'laporan\bulanan\bulananUserController@formVerif');
-        Route::get('laporan/bulanan/formupload', 'laporan\bulanan\bulananUserController@formUpload');
-        Route::get('laporan/bulanan/table/verif', 'laporan\bulanan\bulananUserController@tableVerif');
-        Route::get('laporan/bulanan/table/user', 'laporan\bulanan\bulananUserController@table');
-        Route::get('laporan/bulanan/getubah/{id}','laporan\bulanan\bulananUserController@getUbah'); // API
-        Route::get('laporan/bulanan/hapus/{id}','laporan\bulanan\bulananUserController@hapus'); // API
-        Route::post('laporan/bulanan/ubah/{id}','laporan\bulanan\bulananUserController@ubah'); // API
+            Route::get('laporan/bulanan/formverif', 'laporan\bulanan\bulananUserController@formVerif');
+            Route::get('laporan/bulanan/formupload', 'laporan\bulanan\bulananUserController@formUpload');
+            Route::get('laporan/bulanan/table/verif', 'laporan\bulanan\bulananUserController@tableVerif');
+            Route::get('laporan/bulanan/table/user', 'laporan\bulanan\bulananUserController@table');
+            Route::get('laporan/bulanan/getubah/{id}','laporan\bulanan\bulananUserController@getUbah'); // API
+            Route::get('laporan/bulanan/hapus/{id}','laporan\bulanan\bulananUserController@hapus'); // API
+            Route::post('laporan/bulanan/ubah/{id}','laporan\bulanan\bulananUserController@ubah'); // API
     
+    // PERENCANAAN
+        // RKA
+            Route::get('rka/table', 'administrasi\rkaController@table')->name('api.rka.table');
+            Route::post('rka/upload','administrasi\rkaController@upload')->name('api.rka.upload');
+            Route::get('rka/hapus/{id}', 'administrasi\rkaController@hapus')->name('api.rka.hapus');
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////    <>    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
