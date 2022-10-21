@@ -85,19 +85,19 @@
     <li class="menu-header small text-uppercase">
       <span class="menu-header-text">Administrasi</span>
     </li>
-    <li class="menu-item">
-      <a href="javascript:void(0);" class="menu-link">
+    <li class="menu-item {{ request()->routeIs('rka.index') ? 'open active' : '' }}">
+      <a href="{{ route('rka.index') }}" class="menu-link">
         <i class="menu-icon tf-icons bx bx-trending-up"></i>
         <div data-i18n="Simrsmu v1">RKA</div>
       </a>
     </li>
-    <li class="menu-item">
+    <li class="menu-item {{ request()->routeIs('bulananadm.index') || request()->routeIs('bulanan.index') ? 'open active' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-book"></i>
         <div data-i18n="Users">Laporan</div>
       </a>
       <ul class="menu-sub">
-        <li class="menu-item">
+        <li class="menu-item {{ request()->routeIs('bulananadm.index') || request()->routeIs('bulanan.index') ? 'open active' : '' }}">
           @hasrole('administrator')
           <a href="{{ route('bulananadm.index') }}" class="menu-link">
             <div data-i18n="List">Bulanan</div>

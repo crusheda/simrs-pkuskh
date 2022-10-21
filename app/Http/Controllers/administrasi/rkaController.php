@@ -53,7 +53,47 @@ class rkaController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        $request->validate([
+            'file' => ['mimes:xls,xlsx,pdf','max:50000'],
+        ]);
+
+        $now = Carbon::now();
+        $verifikasi = rka::get();
+        $tahun = Carbon::now()->isoFormat('YYYY');
+        $tgl = $now->isoFormat('dddd, D MMMM Y, HH:mm:ss a');
+        // print_r($now);
+        // die();
+
+        $uploadedFile = $request->file('file');
+
+        $title = $uploadedFile->getClientOriginalName();
+        foreach ($verifikasi as $key => $value) {
+            if ($value->title == $title) {
+                return response()->json($value->title, 500);
+            }
+        }
+        $path = $uploadedFile->storeAs("public/files/rka/", $title);
+
+        $user = Auth::user();
+        $id_user = $user->id;
+        $nama = $user->nama;
+        $role = $user->roles;
+
+        foreach ($role as $key => $value) {
+            $unit[] = $value->name;
+        }
+
+        $data = new rka;
+        $data->id_user = $id_user;
+        $data->nama = $nama;
+        $data->tahun = $tahun;
+        $data->unit = json_encode($unit);
+        $data->tgl = $now;
+        $data->title = $title;
+        $data->filename = $path;
+        $data->save();
+
+        return redirect()->back()->with('message','Upload Berkas Berhasil');
     }
 
     /**
@@ -64,7 +104,8 @@ class rkaController extends Controller
      */
     public function show($id)
     {
-        //
+        $data = rka::find($id);
+        return Storage::download($data->filename, $data->title);
     }
 
     /**
@@ -100,10 +141,14 @@ class rkaController extends Controller
     {
         //
     }
-    
+
     function table()
     {
-        $data = rka::orderBy('tgl','desc')->get();
+        $data = rka::join('foto_profil', 'foto_profil.user_id', '=', 'rka.id_user')
+            ->join('users', 'users.id', '=', 'rka.id_user')
+            ->select('foto_profil.filename as foto_profil', 'users.nama', 'rka.*')
+            ->orderBy('rka.tgl', 'desc')
+            ->get();
 
         return response()->json($data, 200);
     }
@@ -117,7 +162,7 @@ class rkaController extends Controller
         // print_r($now);
         // die();
 
-        $uploadedFile = $request->file('fileToUpload'); 
+        $uploadedFile = $request->file('fileToUpload');
 
         $title = $uploadedFile->getClientOriginalName();
         foreach ($verifikasi as $key => $value) {
@@ -126,7 +171,7 @@ class rkaController extends Controller
             }
         }
         $path = $uploadedFile->storeAs("public/files/perencanaan/rka/", $title);
-        
+
         $user = Auth::user();
         $id_user = $user->id;
         $nama = $user->nama;
@@ -135,7 +180,7 @@ class rkaController extends Controller
         foreach ($role as $key => $value) {
             $unit[] = $value->name;
         }
-        
+
         $data = new rka;
         $data->id_user = $id_user;
         $data->nama = $nama;
@@ -148,13 +193,58 @@ class rkaController extends Controller
 
         return response()->json($tgl, 200);
     }
-    
+
+    public function fileupload(Request $request)
+    {
+        $tahun = Carbon::now()->isoFormat('YYYY');
+        $image = $request->file('file');
+        // dd($image);
+        $fileInfo = $image->getClientOriginalName();
+        $filename = pathinfo($fileInfo, PATHINFO_FILENAME);
+        $extension = pathinfo($fileInfo, PATHINFO_EXTENSION);
+        $file_name= $filename.'-'.time().'.'.$extension;
+        $image->move(public_path('gallery'),$file_name);
+            
+        // $imageUpload = new Gallery;
+        // $imageUpload->original_filename = $fileInfo;
+        // $imageUpload->filename = $file_name;
+        // $imageUpload->save();
+        return response()->json(['success'=>$file_name]);
+        // print_r()
+
+        // if ($request->hasFile('file')) {
+
+        //     // Upload path
+        //     $destinationPath = 'public/files/rka/'.$tahun.'/';
+
+        //     // Get file extension
+        //     $extension = $request->file('file')->getClientOriginalExtension();
+
+        //     // Valid extensions
+        //     $validextensions = array("xls", "xlsx", "pdf");
+
+        //     // Check extension
+        //     if (in_array(strtolower($extension), $validextensions)) {
+
+        //         // Rename file 
+        //         $fileName = $request->file('file')->getClientOriginalName() . time() . '.' . $extension;
+        //         // Uploading file to given path
+        //         $request->file('file')->move($destinationPath, $fileName);
+        //     }
+        // }
+        return view('pages.profil.index');
+    }
+
     public function hapus($id)
     {
         $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
         $now = Carbon::now();
 
-        rka::where('id', $id)->delete();
+        $data = rka::where('id', $id)->first();
+        $file = $data->filename;
+
+        Storage::delete($file);
+        $data->delete();
 
         return response()->json($tgl, 200);
     }

@@ -54,6 +54,7 @@
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/jquery-timepicker/jquery-timepicker.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/pickr/pickr-themes.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/dropzone/dropzone.css') }}" />
 
   <!-- Maps & Leaflet CSS -->
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/leaflet/leaflet.css') }}" />
@@ -228,6 +229,7 @@
     <script src="{{ asset('assets-new/vendor/libs/bootstrap-daterangepicker/bootstrap-daterangepicker.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/jquery-timepicker/jquery-timepicker.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/pickr/pickr.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/dropzone/dropzone.js') }}"></script>
 
     <!-- Maps & Leaflet JS -->
     <script src="{{ asset('assets-new/vendor/libs/leaflet/leaflet.js') }}"></script>

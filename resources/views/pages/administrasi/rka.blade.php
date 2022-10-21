@@ -33,9 +33,11 @@
     <div class="col-sm-6">
       <div class="card-body">
         <h5 class="card-title text-primary">Rencana Kerja Anggaran</h5>
-        <p class="mb-4">Segera <span class="fw-bold">Upload</span> RKA anda sebelum Tanggal 22 Oktober 2022</p>
+        <p class="mb-4">Segera <span class="fw-bold">Upload</span> dokumen RKA Anda sebelum 22 Oktober 2022</p>
 
-        <a href="javascript:;" class="btn btn-primary" value="animate__jackInTheBox" id="btn-tambah" onclick="tambah()" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="Tambah Laporan Bulanan"><i class="fas fa-plus"></i>&nbsp;&nbsp;Form Upload</a>
+        <button type="button" class="btn btn-label-primary" data-bs-toggle="modal" data-bs-target="#tambah" class="btn btn-primary" value="animate__jackInTheBox">
+          <span class="tf-icon bx bx-upload"></span>&nbsp;&nbsp;Upload Berkas
+        </button>
       </div>
     </div>
     <div class="col-sm-6 text-center text-sm-left">
@@ -46,211 +48,72 @@
   </div>
 </div>
 
-<div class="row">
-  <div class="col-md-5 col-lg-5 mb-4">
-    <div class="card h-100">
-      <div class="card-header d-flex align-items-center justify-content-between">
-        <h5 class="card-title m-0 me-2">Payment Data</h5>
-        <div class="dropdown">
-          <button class="btn p-0" type="button" id="paymentDataList" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="bx bx-dots-vertical-rounded"></i>
-          </button>
-          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="paymentDataList">
-            <a class="dropdown-item" href="javascript:void(0);">Last Month</a>
-            <a class="dropdown-item" href="javascript:void(0);">Last Week</a>
-            <a class="dropdown-item" href="javascript:void(0);">24 Hours</a>
-          </div>
-        </div>
+<div class="card">
+  <div class="card-datatable table-responsive text-nowrap" style="margin-top: -15px">
+    <table class="table table-hover table-stripped" id="table">
+      <thead>
+          <tr>
+              <th class="cell-fit">ID</th>
+              <th>NAMA</th>
+              <th>FILE</th>
+              <th>TGL</th>
+              <th class="cell-fit"></th>
+          </tr>
+      </thead>&nbsp;
+      <tbody id="tampil-tbody"><tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+    </table>
+  </div>
+</div>
+
+<div class="modal fade animate__animated animate__jackInTheBox" data-bs-backdrop="static" id="tambah" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-dialog-centered" role="document">
+    <div class="modal-content">
+      <div class="modal-header">
+        <h5 class="modal-title" id="modalCenterTitle">Upload Berkas</h5>
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
       </div>
-      <div class="card-body">
-        <small class="text-muted">Price</small>
-        <div class="d-flex align-items-center mb-3">
-          <h5 class="text-primary me-3 mb-0">$455.60</h5>
-          <span class="badge bg-label-primary">35% OFF</span>
+      <form class="form-auth-small" id="tambah" name="formTambah" action="{{ route('rka.store') }}" method="POST" enctype="multipart/form-data">
+        <div class="modal-body">
+          @csrf
+            <input type="file" name="file" class="form-control mb-2" accept=".xls,.xlsx,.pdf" required>
+            <i class="fa-fw fas fa-caret-right nav-icon"></i> File yang diupload berformat XLS/XLSX/PDF
+            {{-- <div class="button-wrapper">
+              <form action="{{ route('rka.store') }}" method="POST" class="dropzone needsclick" id="dropzone" enctype="multipart/form-data">
+                @csrf
+                <div class="dz-message needsclick">
+                  Drag & Drop file Anda disini
+                  <span class="note needsclick">File berformat XLS/XLSX/PDF</span>
+                </div>
+                <div class="fallback">
+                  <input name="file" type="file" />
+                </div>
+              </form>
+            </div> --}}
         </div>
-        <form id="paymentMethodForm" class="row g-3" onsubmit="return false">
-          <div class="col-12">
-            <small class="text-muted d-block mb-2">Choose payment method:</small>
-            <div class="row gy-3 text-nowrap">
-              <div class="col">
-                <div class="form-check custom-option custom-option-basic">
-                  <label class="form-check-label custom-option-content py-2" for="customRadioPaypal">
-                    <input name="customRadioTemp" class="form-check-input" type="radio" value="" id="customRadioPaypal" checked />
-                    <span class="custom-option-header pb-0">
-                      <span>Paypal</span>
-                    </span>
-                  </label>
-                </div>
-              </div>
-              <div class="col">
-                <div class="form-check custom-option custom-option-basic">
-                  <label class="form-check-label custom-option-content py-2" for="customRadioCC">
-                    <input name="customRadioTemp" class="form-check-input" type="radio" value="" id="customRadioCC" />
-                    <span class="custom-option-header pb-0">
-                      <span>Credit Card</span>
-                    </span>
-                  </label>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div class="col-12">
-            <label class="form-label w-100" for="paymentAddCard">Card Number</label>
-            <div class="input-group input-group-merge">
-              <input id="paymentAddCard" name="paymentAddCard" class="form-control credit-card-payment" type="text" placeholder="1356 3215 6548 7898" aria-describedby="paymentAddCard2" />
-              <span class="input-group-text cursor-pointer p-1" id="paymentAddCard2"><span class="card-payment-type"></span></span>
-            </div>
-          </div>
-          <div class="col-12 col-md-6">
-            <label class="form-label" for="paymentAddCardExpiryDate">Exp. Date</label>
-            <input type="text" id="paymentAddCardExpiryDate" class="form-control expiry-date-payment" placeholder="MM/YY" />
-          </div>
-          <div class="col-12 col-md-6">
-            <label class="form-label" for="paymentAddCardCvv">CVV Code</label>
-            <div class="input-group input-group-merge">
-              <input type="text" id="paymentAddCardCvv" class="form-control cvv-code-payment" maxlength="3" placeholder="654" />
-              <span class="input-group-text cursor-pointer" id="paymentAddCardCvv2"><i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Card Verification Value"></i></span>
-            </div>
-          </div>
-          <div class="col-12">
-            <label class="form-label" for="paymentAddCardName">Name</label>
-            <input type="text" id="paymentAddCardName" class="form-control" placeholder="John Doe" />
-          </div>
-          <div class="col-12">
-            <div class="form-check">
-              <input type="checkbox" class="form-check-input" id="defaultCheck3">
-              <label class="form-check-label" for="defaultCheck3">Save card?</label>
-            </div>
-          </div>
-          <div class="col-12 text-center">
-            <button type="submit" class="btn btn-primary w-100 d-grid">Add Card</button>
-          </div>
+        <div class="modal-footer">
+          <button type="submit" class="btn btn-primary" id="btn-simpan" onclick="saveData()"><i class="fa-fw fas fa-upload nav-icon"></i> Upload</button>
         </form>
+          <button type="button" class="btn btn-label-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
       </div>
     </div>
   </div>
-  <div class="col-md-7 col-lg-7 mb-md-0 mb-4">
-    <div class="card h-100">
-      <div class="card-header d-flex align-items-center justify-content-between">
-        <h5 class="card-title m-0 me-2">Team Members</h5>
-        <div class="dropdown">
-          <button class="btn p-0" type="button" id="teamMemberList" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-            <i class="bx bx-dots-vertical-rounded"></i>
-          </button>
-          <div class="dropdown-menu dropdown-menu-end" aria-labelledby="teamMemberList">
-            <a class="dropdown-item" href="javascript:void(0);">Select All</a>
-            <a class="dropdown-item" href="javascript:void(0);">Refresh</a>
-            <a class="dropdown-item" href="javascript:void(0);">Share</a>
-          </div>
+</div>
+
+<div class="modal fade animate__animated animate__bounceInRight" id="hapus" data-bs-backdrop="static" id="hapus" tabindex="-1" aria-hidden="true">
+  <div class="modal-dialog modal-simple modal-enable-otp modal-dialog-centered">
+    <div class="modal-content p-3 p-md-5">
+      <div class="modal-body">
+        <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+        <div class="text-center mb-4">
+          <h3 class="mb-5">Hapus Berkas</h3>
         </div>
-      </div>
-      <div class="table-responsive">
-        <table class="table table-borderless">
-          <thead>
-            <tr>
-              <th>Name</th>
-              <th>Project</th>
-              <th>Task</th>
-              <th>Progress</th>
-            </tr>
-          </thead>
-          <tbody>
-            <tr>
-              <td>
-                <div class="d-flex justify-content-start align-items-center">
-                  <div class="avatar me-2">
-                    <img src="../../assets/img/avatars/17.png" alt="Avatar" class="rounded-circle">
-                  </div>
-                  <div class="d-flex flex-column">
-                    <h6 class="mb-0 text-truncate">Nathan Wagner</h6><small class="text-truncate text-muted">iOS Developer</small>
-                  </div>
-                </div>
-              </td>
-              <td><span class="badge bg-label-primary rounded-pill text-uppercase">Zipcar</span></td>
-              <td><small class="fw-semibold">87/135</small></td>
-              <td>
-                <div class="d-flex align-items-center">
-                  <div class="dropdown"><a href="javascript:;" class="btn dropdown-toggle hide-arrow text-body p-0" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a>
-                    <div class="dropdown-menu dropdown-menu-end">
-                      <a href="javascript:void(0);" class="dropdown-item">Edit</a>
-                      <a href="javascript:;" class="dropdown-item">Duplicate</a>
-                      <div class="dropdown-divider"></div>
-                      <a href="javascript:;" class="dropdown-item delete-record text-danger">Delete</a>
-                    </div>
-                  </div>
-                </div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="d-flex justify-content-start align-items-center">
-                  <div class="avatar me-2">
-                    <img src="../../assets/img/avatars/8.png" alt="Avatar" class="rounded-circle">
-                  </div>
-                  <div class="d-flex flex-column">
-                    <h6 class="mb-0 text-truncate">Emma Bowen</h6><small class="text-truncate text-muted">UI/UX Designer</small>
-                  </div>
-                </div>
-              </td>
-              <td><span class="badge bg-label-danger rounded-pill text-uppercase">Bitbank</span></td>
-              <td><small class="fw-semibold">320/440</small></td>
-              <td>
-                <div class="chart-progress" data-color="danger" data-series="85"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="d-flex justify-content-start align-items-center">
-                  <div class="avatar me-2">
-                    <span class="avatar-initial rounded-circle bg-label-warning">AM</span>
-                  </div>
-                  <div class="d-flex flex-column">
-                    <h6 class="mb-0 text-truncate">Adrian McGuire</h6><small class="text-truncate text-muted">PHP Developer</small>
-                  </div>
-                </div>
-              </td>
-              <td><span class="badge bg-label-warning rounded-pill text-uppercase">Payers</span></td>
-              <td><small class="fw-semibold">50/82</small></td>
-              <td>
-                <div class="chart-progress" data-color="warning" data-series="73"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="d-flex justify-content-start align-items-center">
-                  <div class="avatar me-2">
-                    <img src="../../assets/img/avatars/2.png" alt="Avatar" class="rounded-circle">
-                  </div>
-                  <div class="d-flex flex-column">
-                    <h6 class="mb-0 text-truncate">Alma Gonzalez</h6><small class="text-truncate text-muted">Product Manager</small>
-                  </div>
-                </div>
-              </td>
-              <td><span class="badge bg-label-info rounded-pill text-uppercase">Brandi</span></td>
-              <td><small class="fw-semibold">98/260</small></td>
-              <td>
-                <div class="chart-progress" data-color="info" data-series="61"></div>
-              </td>
-            </tr>
-            <tr>
-              <td>
-                <div class="d-flex justify-content-start align-items-center">
-                  <div class="avatar me-2">
-                    <img src="../../assets/img/avatars/11.png" alt="Avatar" class="rounded-circle">
-                  </div>
-                  <div class="d-flex flex-column">
-                    <h6 class="mb-0 text-truncate">Allan kristian</h6><small class="text-truncate text-muted">Frontend Designer</small>
-                  </div>
-                </div>
-              </td>
-              <td><span class="badge bg-label-success rounded-pill text-uppercase">Crypter</span></td>
-              <td><small class="fw-semibold">690/760</small></td>
-              <td>
-                <div class="chart-progress" data-color="success" data-series="77"></div>
-              </td>
-            </tr>
-          </tbody>
-        </table>
+        <input type="text" id="tampungHapus" hidden>
+        <h6>Apakah sudah yakin ingin menghapus Berkas RKA Anda?</h6>
+        <p>File yang sudah anda Upload akan terhapus oleh Sistem. Anda hanya memiliki kesempatan menghapus pada Hari saat Anda mengupload file tersebut.</p>
+        <div class="col-12">
+          <button type="submit" class="btn btn-danger me-sm-3 me-1" onclick="hapus()"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</button>
+          <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close"><i class="fa-fw fas fa-times nav-icon"></i> Batal</button>
+        </div>
       </div>
     </div>
   </div>
@@ -268,6 +131,66 @@
       dropdownParent: e.parent()
     })
   })
+
+  // DROPZONE
+  // var adrop = `<div class="dz-preview dz-file-preview">
+  //   <div class="dz-details">
+  //     <div class="dz-thumbnail">
+  //       <img data-dz-thumbnail>
+  //       <span class="dz-nopreview">No preview</span>
+  //       <div class="dz-success-mark"></div>
+  //       <div class="dz-error-mark"></div>
+  //       <div class="dz-error-message"><span data-dz-errormessage></span></div>
+  //       <div class="progress">
+  //         <div class="progress-bar progress-bar-primary" role="progressbar" aria-valuemin="0" aria-valuemax="100" data-dz-uploadprogress></div>
+  //       </div>
+  //     </div>
+  //     <div class="dz-filename" data-dz-name></div>
+  //     <div class="dz-size" data-dz-size></div>
+  //   </div>
+  //   </div>`;
+  // Dropzone.autoDiscover = false;
+  // new Dropzone("#dropzone",{
+  //   url: "{{ route('rka.store') }}",
+  //   success: function(file){
+  //     // console.log(file);
+  //   },
+  //   previewTemplate: adrop,
+  //   parallelUploads: 1,
+  //   maxFilesize: 5,
+  //   addRemoveLinks: !0,
+  //   maxFiles: 1,
+  //   acceptedFiles: ".xls,.xlsx,.pdf",
+  // });
+
+  // var uploadedDocumentMap = {}
+  // Dropzone.options.documentDropzone = {
+  //     url: '',
+  //     maxFilesize: 2, // MB
+  //     addRemoveLinks: true,
+  //     acceptedFiles: ".jpeg,.jpg,.png,.gif",
+  //     headers: {
+  //       'X-CSRF-TOKEN': "{{ csrf_token() }}"
+  //     },
+  //     success: function(file, response) {
+  //       $('form').append('<input type="hidden" name="photo[]" value="' + response.name + '">')
+  //       uploadedDocumentMap[file.name] = response.name
+  //     },
+  //     removedfile: function(file) {
+  //       file.previewElement.remove()
+  //       var name = ''
+  //       if (typeof file.file_name !== 'undefined') {
+  //           name = file.file_name
+  //       } else {
+  //           name = uploadedDocumentMap[file.name]
+  //       }
+  //       $('form').find('input[name="photo[]"][value="' + name + '"]').remove()
+  //     }
+  // }
+
+  // myDropzone.on("sending", function(file, xhr, formData) {
+  //   formData.append("_token", CSRF_TOKEN);
+  // }); 
   
   $.ajax(
     {
@@ -277,43 +200,67 @@
       success: function(res) {
         $("#tampil-tbody").empty();
         var date = getDateTime();
-        res.show.forEach(item => {
-            var updet = item.updated_at.substring(0, 10);
-            content = `<tr id="data`+item.id+`"><td>`;
-                    if(item.tgl_verif != null) {
-                      content += `<center><i class="fa-fw fas fa-check nav-icon text-primary"></i></center>`;
-                    }
-            content += `</td><td>`+item.updated_at+`</td>
-                        <td>`+item.judul+`</td>
-                        <td>`+item.bln+` / `+item.thn+`</td><td>`;
-                        if (item.ket != null) {
-                          content += item.ket;
-                        }
-            content += `</td><td><center>
-                        <div class='btn-group'>
-                          <button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button>
-                          <ul class='dropdown-menu dropdown-menu-end'>
-                            <li><a href='javascript:void(0);' class='dropdown-item text-success' onclick="window.location.href='{{ url('v2/laporan/bulanan/`+item.id+`') }}'"><i class="fa-fw fas fa-download nav-icon"></i> Download</a></li>`;
-                            if(item.ket_verif != null) {
-                              content += `<li><a href="javascript:void(0); class='dropdown-item text-info' onclick="ketLihat(`+item.id+`)"><i class="fa-fw fas fa-sticky-note nav-icon"></i> Keterangan</a></li>`;
+        var userID = "{{ Auth::user()->id }}";
+        var adminID = "{{ Auth::user()->hasRole('administrator') }}";
+        res.forEach(item => {
+          if(item.unit) {
+            try {
+              var un = JSON.parse(item.unit);
+            } catch(e) {
+              var un = item.unit;
+            }
+          }
+          if(item.foto_profil) {
+            try {
+              var foto = `<img src="/storage/`+item.foto_profil.substr(7,1000)+`" alt="Avatar" class="rounded-circle">`;
+            } catch(e) {
+              var foto = `<img src="/img/avatar/avatar-1.png" alt="Avatar" class="rounded-circle">`;
+            }
+          }
+          var updet = item.updated_at.substring(0, 10);
+          content = `<tr id="data`+item.id+`">`;
+          content += `<td>`+item.id+`</td>`;
+          content += `<td>
+                        <div class="d-flex justify-content-start align-items-center">
+                          <div class="avatar me-2">`+foto+`</div>
+                          <div class="d-flex flex-column">
+                            <h6 class="mb-0 text-truncate">`+item.nama+`</h6><small class="text-truncate text-muted">`+un+`</small>
+                          </div>
+                        </div>
+                      </td>`;
+          content += `<td>`+item.title+`&nbsp;&nbsp;<span class="badge bg-label-dark rounded-pill text-uppercase">`+item.tahun+`</span></td>`;
+          content += `<td>`+item.updated_at+`</td>`;
+          content += `<td>
+                        <div class="d-flex align-items-center">
+                          <div class="dropdown"><a href="javascript:;" class="btn dropdown-toggle hide-arrow text-body p-0 btn-icon" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a>
+                            <div class="dropdown-menu dropdown-menu-end">`;
+                            if (adminID) {
+                              content += `<a href="./rka/`+item.id+`" class="dropdown-item text-info">Download</a>
+                                          <a href="javascript:;" onclick="showHapus(`+item.id+`)" class="dropdown-item text-danger">Hapus</a>`;
                             } else {
-                              content += `<li><a href="javascript:void(0);" class='dropdown-item text-secondary' disabled><i class="fa-fw fas fa-sticky-note nav-icon"></i> Keterangan</a></li>`;
+                              if (item.id_user == userID) {
+                                content += `<a href="./rka/`+item.id+`" class="dropdown-item text-info">Download</a>`;
+                                if (updet == date) {
+                                  content += `<a href="javascript:;" onclick="showHapus(`+item.id+`)" class="dropdown-item text-danger">Hapus</a>`;
+                                } else {
+                                  content += `<a href="javascript:;" class="dropdown-item disabled">Hapus</a>`;
+                                }
+                              } else {
+                                content += `<a href="javascript:;" class="dropdown-item disabled">Download</a>
+                                            <a href="javascript:;" class="dropdown-item disabled">Hapus</a>`;
+                              }
                             }
-                            if(updet == date) {
-                              content += `<li><a href="javascript:void(0);" class='dropdown-item text-warning' onclick="showUbah(`+item.id+`)"><i class="fa-fw fas fa-edit nav-icon"></i> Ubah</a></li>
-                                          <li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)"><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</a></li>`;
-                            } else {
-                              content += `<li><a href="javascript:void(0);" class='dropdown-item text-secondary' disabled><i class="fa-fw fas fa-edit nav-icon"></i> Ubah</a></li>
-                                          <li><a href='javascript:void(0);' class='dropdown-item text-secondary' disabled><i class="fa-fw fas fa-trash nav-icon"></i> Hapus</a></li>`;
-                            }
-            content += `</ul></div></center></td></tr>`;
-            $('#tampil-tbody').append(content);
+          content +=      `</div>
+                          </div>
+                        </div>
+                      </td></tr>`;
+          $('#tampil-tbody').append(content);
         });
         $('#table').DataTable(
           {
-            order: [[1, "desc"]],
+            order: [[3, "desc"]],
             dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-            displayLength: 7,
+            displayLength: 10,
             lengthMenu: [7, 10, 25, 50, 75, 100],
             buttons: [{
                 extend: "collection",
@@ -334,7 +281,7 @@
                     attr: {id: 'exportButton'},
                     sheetName: 'data',
                     title: '',
-                    filename: 'Laporan Bulanan'
+                    filename: 'Table'
                 }, {
                     extend: "pdf",
                     text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
@@ -357,8 +304,8 @@
               }
             ],
             columnDefs: [
-                { targets: 0, orderable: !1,searchable: !1, },
-                { targets: 5, orderable: !1,searchable: !1, },
+                // { targets: 0, orderable: !1,searchable: !1, },
+                // { targets: 5, orderable: !1,searchable: !1, },
                 // { targets: 6, visible: false },
                 // { targets: 9, visible: false },
                 // { targets: 10, visible: false },
@@ -368,11 +315,63 @@
             ],
           },
         );
-        $("div.head-label").html('<h5 class="card-title mb-0">Daftar Laporan Anda</h5>');
+        $("div.head-label").html('<h5 class="card-title mb-0">Table</h5>');
       }
     }
   );
   
 });
+
+function saveData() {
+  $("#tambah").one('submit', function() {
+    $("#btn-simpan").attr('disabled','disabled');
+    $("#btn-simpan").find("i").toggleClass("fa-upload fa-sync fa-spin");
+    return true;
+  });
+}
+
+function getDateTime() {
+  var now     = new Date(); 
+  var year    = now.getFullYear();
+  var month   = now.getMonth()+1; 
+  var day     = now.getDate();
+  if(month.toString().length == 1) {
+        month = '0'+month;
+  }
+  if(day.toString().length == 1) {
+        day = '0'+day;
+  } 
+  var dateTime = year+'-'+month+'-'+day;   
+    return dateTime;
+}
+
+function showHapus(params) {
+  $('#tampungHapus').val(params);
+  $('#hapus').modal('show');
+}
+
+function hapus() {
+  var idHapus = $('#tampungHapus').val();
+  $.ajax({
+      url: "/api/rka/hapus/"+idHapus,
+      type: 'GET',
+      dataType: 'json', // added data type
+      success: function(res) {
+          iziToast.success({
+            title: 'Sukses!',
+            message: 'Hapus Dokumen RKA berhasil pada '+res,
+            position: 'topRight'
+          });
+          window.location.reload();
+      },
+      error: function(res) {
+        iziToast.error({
+          title: 'Pesan Galat!',
+          message: 'Mohon maaf, Hapus berkas Gagal!',
+          position: 'topRight'
+        });
+      }
+  }); 
+}
 </script>
 @endsection

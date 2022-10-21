@@ -18,7 +18,7 @@
           <li class=""><a class="nav-link" href="{{ route("beranda.index") }}">Simrsmu v2<i class="fas fa-leaf text-info"></i></a></li>
         </ul>
       </li>
-      <li class="nav-item dropdown {{ request()->routeIs(['bulananadm.index','bulanan.index','rapat.index','managerfile','perencanaan.index','kebijakan.index','panduan.index','pedoman.index','program.index','spo.index','jadwal.dinas.index']) ? 'active' : '' }}">
+      <li class="nav-item dropdown {{ request()->routeIs(['bulananadm.index','bulanan.index','rapat.index','managerfile','rka.index','kebijakan.index','panduan.index','pedoman.index','program.index','spo.index','jadwal.dinas.index']) ? 'active' : '' }}">
         <a href="#" data-toggle="dropdown" class="nav-link has-dropdown"><i class="fas fa-book-open"></i><span>Administrasi</span></a>
         <ul class="dropdown-menu">
           <li class="nav-item {{ request()->routeIs('managerfile') ? 'active' : '' }}"><a href="{{ route("managerfile") }}" class="nav-link">File Manager</a></li>
@@ -47,7 +47,7 @@
               <li class="nav-item {{ request()->routeIs('spo.index') ? 'active' : '' }}"><a href="{{ route('spo.index') }}" class="nav-link">SPO</a></li>
             </ul>
           </li>
-          <li class="nav-item {{ request()->routeIs('perencanaan.index') ? 'active' : '' }}"><a href="{{ route("perencanaan.index") }}" class="nav-link">RKA</a></li>
+          <li class="nav-item {{ request()->routeIs('rka.index') ? 'active' : '' }}"><a href="{{ route("rka.index") }}" class="nav-link">RKA</a></li>
         </ul>
       </li>
       <li class="nav-item dropdown {{ request()->routeIs(['accidentreport.index','tindakan-harian.index','profkpr.index','tgsperawat.index','ipsrs.index','plebitis.index','ido.index','isk.index','decubitus.index','vap.index']) ? 'active' : '' }}">

@@ -539,6 +539,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
 
 // PERENCANAAN
     // RKA
+        Route::post('rka/fileupload', 'administrasi\rkaController@fileupload')->name('rka.upload');
         Route::resource('rka', 'administrasi\rkaController');
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////    API    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -598,9 +599,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
     
     // PERENCANAAN
         // RKA
-            Route::get('rka/table', 'administrasi\rkaController@table')->name('api.rka.table');
-            Route::post('rka/upload','administrasi\rkaController@upload')->name('api.rka.upload');
-            Route::get('rka/hapus/{id}', 'administrasi\rkaController@hapus')->name('api.rka.hapus');
+            Route::get('rka/table', 'administrasi\rkaController@table');
+            // Route::post('rka/upload','administrasi\rkaController@upload')->name('api.rka.upload');
+            Route::get('rka/hapus/{id}', 'administrasi\rkaController@hapus');
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////    <>    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
