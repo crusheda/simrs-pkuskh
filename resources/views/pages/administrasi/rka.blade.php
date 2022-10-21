@@ -238,7 +238,11 @@
                             if (downloader) {
                                 content += `<a href="./rka/`+item.id+`" class="dropdown-item text-info">Download</a>`;
                                 if (item.id_user == userID) {
-                                  content += `<a href="javascript:;" onclick="showHapus(`+item.id+`)" class="dropdown-item text-danger">Hapus</a>`;
+                                  if (updet == date) {
+                                    content += `<a href="javascript:;" onclick="showHapus(`+item.id+`)" class="dropdown-item text-danger">Hapus</a>`;
+                                  } else {
+                                    content += `<a href="javascript:;" class="dropdown-item disabled">Hapus</a>`;
+                                  }
                                 } else {
                                   content += `<a href="javascript:;" class="dropdown-item disabled">Hapus</a>`;
                                 }
