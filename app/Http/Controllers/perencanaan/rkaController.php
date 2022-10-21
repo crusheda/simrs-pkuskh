@@ -66,10 +66,10 @@ class rkaController extends Controller
     public function show($id)
     {
         $data = rka::find($id);
-        // return Storage::stream($data->filename, $data->title);
-        return response()->file(
-            storage_path('app/files/'.(substr($data->filename,7,90)))
-        );
+        return Storage::download($data->filename, $data->title);
+        // return response()->file(
+        //     storage_path('app/files/'.(substr($data->filename,7,90)))
+        // );
     }
 
     /**
