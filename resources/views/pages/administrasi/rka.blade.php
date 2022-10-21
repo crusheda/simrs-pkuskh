@@ -202,6 +202,7 @@
         var date = getDateTime();
         var userID = "{{ Auth::user()->id }}";
         var adminID = "{{ Auth::user()->hasRole('administrator') }}";
+        var downloader = "{{ Auth::user()->hasRole('it|kabag-perencanaan|kasubag-perencanaan-it') }}";
         res.forEach(item => {
           if(item.unit) {
             try {
@@ -234,20 +235,24 @@
                         <div class="d-flex align-items-center">
                           <div class="dropdown"><a href="javascript:;" class="btn dropdown-toggle hide-arrow text-body p-0 btn-icon" data-bs-toggle="dropdown"><i class="bx bx-dots-vertical-rounded"></i></a>
                             <div class="dropdown-menu dropdown-menu-end">`;
-                            if (adminID) {
-                              content += `<a href="./rka/`+item.id+`" class="dropdown-item text-info">Download</a>
-                                          <a href="javascript:;" onclick="showHapus(`+item.id+`)" class="dropdown-item text-danger">Hapus</a>`;
-                            } else {
-                              if (item.id_user == userID) {
+                            if (downloader) {
                                 content += `<a href="./rka/`+item.id+`" class="dropdown-item text-info">Download</a>`;
-                                if (updet == date) {
-                                  content += `<a href="javascript:;" onclick="showHapus(`+item.id+`)" class="dropdown-item text-danger">Hapus</a>`;
-                                } else {
-                                  content += `<a href="javascript:;" class="dropdown-item disabled">Hapus</a>`;
-                                }
+                            } else {
+                              if (adminID) {
+                                content += `<a href="./rka/`+item.id+`" class="dropdown-item text-info">Download</a>
+                                            <a href="javascript:;" onclick="showHapus(`+item.id+`)" class="dropdown-item text-danger">Hapus</a>`;
                               } else {
-                                content += `<a href="javascript:;" class="dropdown-item disabled">Download</a>
-                                            <a href="javascript:;" class="dropdown-item disabled">Hapus</a>`;
+                                if (item.id_user == userID) {
+                                  content += `<a href="./rka/`+item.id+`" class="dropdown-item text-info">Download</a>`;
+                                  if (updet == date) {
+                                    content += `<a href="javascript:;" onclick="showHapus(`+item.id+`)" class="dropdown-item text-danger">Hapus</a>`;
+                                  } else {
+                                    content += `<a href="javascript:;" class="dropdown-item disabled">Hapus</a>`;
+                                  }
+                                } else {
+                                  content += `<a href="javascript:;" class="dropdown-item disabled">Download</a>
+                                              <a href="javascript:;" class="dropdown-item disabled">Hapus</a>`;
+                                }
                               }
                             }
           content +=      `</div>
