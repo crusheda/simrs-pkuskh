@@ -147,7 +147,7 @@ class rkaController extends Controller
     {
         $data = rka::leftJoin('foto_profil', 'foto_profil.user_id', '=', 'rka.id_user')
             ->join('users', 'users.id', '=', 'rka.id_user')
-            ->select('foto_profil.filename as foto_profil', 'users.nama', 'rka.*')
+            ->select('foto_profil.filename as foto_profil', 'users.nama as nama_profil', 'rka.*')
             ->orderBy('rka.tgl', 'desc')
             ->get();
             // [

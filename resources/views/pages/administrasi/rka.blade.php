@@ -233,8 +233,8 @@
           } else {
             var foto = `<img src="/img/user.png" alt="Avatar" class="rounded-circle">`;
           }
-          if(item.nama) {
-            var namamu = item.nama;
+          if(item.nama_profil) {
+            var namamu = item.nama_profil;
           } else {
             var namamu = '';
           }
