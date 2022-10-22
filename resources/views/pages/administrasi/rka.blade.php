@@ -223,10 +223,10 @@
             try {
               var foto = `<img src="/storage/`+item.foto_profil.substr(7,1000)+`" alt="Avatar" class="rounded-circle">`;
             } catch(e) {
-              var foto = `<img src="/img/avatar/avatar-1.png" alt="Avatar" class="rounded-circle">`;
+              var foto = `<img src="/img/user.png" alt="Avatar" class="rounded-circle">`;
             }
           } else {
-            var foto = `<img src="/img/avatar/avatar-1.png" alt="Avatar" class="rounded-circle">`;
+            var foto = `<img src="/img/user.png" alt="Avatar" class="rounded-circle">`;
           }
           content = '<p>'+item.id+'_'+item.nama+' ('+un+')</p>';
           $('#tampilkan').append(content);
