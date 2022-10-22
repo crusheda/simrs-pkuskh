@@ -228,8 +228,11 @@
           } else {
             var foto = `<img src="/img/user.png" alt="Avatar" class="rounded-circle">`;
           }
-          content = '<p>'+item.id+'_'+item.nama+' ('+un+')</p>';
-          $('#tampilkan').append(content);
+          if(item.nama) {
+            var namamu = item.nama;
+          } else {
+            var namamu = '';
+          }
           var updet = item.updated_at.substring(0, 10);
           content = `<tr id="data`+item.id+`">`;
           content += `<td>`+item.id+`</td>`;
