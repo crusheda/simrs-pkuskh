@@ -134,6 +134,11 @@
     })
   })
 
+  // DISABLE RIGHT CLICK ON IMG
+  $('img').bind('contextmenu', function(e){
+    return false;
+  }); 
+
   // DROPZONE
   // var adrop = `<div class="dz-preview dz-file-preview">
   //   <div class="dz-details">
@@ -192,7 +197,7 @@
 
   // myDropzone.on("sending", function(file, xhr, formData) {
   //   formData.append("_token", CSRF_TOKEN);
-  // }); 
+  // });
   
   $.ajax(
     {
@@ -233,6 +238,7 @@
           } else {
             var namamu = '';
           }
+          var tahunrka = parseInt(item.tahun) + 1;
           var updet = item.updated_at.substring(0, 10);
           content = `<tr id="data`+item.id+`">`;
           content += `<td>`+item.id+`</td>`;
@@ -244,7 +250,7 @@
                           </div>
                         </div>
                       </td>`;
-          content += `<td>`+item.title+`&nbsp;&nbsp;<span class="badge bg-label-dark rounded-pill text-uppercase">`+item.tahun+`</span></td>`;
+          content += `<td>`+item.title+`&nbsp;&nbsp;<span class="badge bg-label-dark rounded-pill">RKA `+tahunrka+`</span></td>`;
           content += `<td>`+item.updated_at+`</td>`;
           content += `<td>
                         <div class="d-flex align-items-center">

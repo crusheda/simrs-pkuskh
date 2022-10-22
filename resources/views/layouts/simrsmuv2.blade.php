@@ -247,7 +247,11 @@
     <script>
       // CONVERT CHECKBOX INTO BOOLEAN
       // $(".checkbox").ToBoolean();
+      $('img').bind('contextmenu', function(e) {
+        return false;
+      }); 
     </script>
+    
     
   </body>
 </html>
