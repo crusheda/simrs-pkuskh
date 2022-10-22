@@ -69,7 +69,8 @@ class rkaController extends Controller
         $title = $uploadedFile->getClientOriginalName();
         foreach ($verifikasi as $key => $value) {
             if ($value->title == $title) {
-                return response()->json($value->title, 500);
+                return redirect()->back()->withErrors('File yang Anda Upload sudah Ada, mohon Rename file dan silakan Upload ulang.');
+                // return response()->json($value->title, 500);
             }
         }
         $path = $uploadedFile->storeAs("public/files/rka/", $title);
@@ -144,11 +145,21 @@ class rkaController extends Controller
 
     function table()
     {
-        $data = rka::join('foto_profil', 'foto_profil.user_id', '=', 'rka.id_user')
+        $data = rka::leftJoin('foto_profil', 'foto_profil.user_id', '=', 'rka.id_user')
             ->join('users', 'users.id', '=', 'rka.id_user')
             ->select('foto_profil.filename as foto_profil', 'users.nama', 'rka.*')
             ->orderBy('rka.tgl', 'desc')
             ->get();
+            // [
+            //     'foto_profil.filename as foto_profil',
+            //     'users.nama',
+            //     'rka.id',
+            //     'rka.unit',
+            //     'rka.nama',
+            //     'rka.tahun',
+            //     'rka.title',
+            //     'rka.updated_at',
+            // ]
 
         return response()->json($data, 200);
     }

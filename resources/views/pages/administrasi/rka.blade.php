@@ -98,6 +98,8 @@
     </div>
   </div>
 </div>
+<br><br><br>
+<p id="tampilkan"></p>
 
 <div class="modal fade animate__animated animate__bounceInRight" id="hapus" data-bs-backdrop="static" id="hapus" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-simple modal-enable-otp modal-dialog-centered">
@@ -211,13 +213,23 @@
               var un = item.unit;
             }
           }
+          if (un !== null) {
+            un = un.toString().replaceAll(',',', ').replaceAll('-',' ');
+          } else {
+            un = '';
+          }
+          // console.log(item.foto_profil);
           if(item.foto_profil) {
             try {
               var foto = `<img src="/storage/`+item.foto_profil.substr(7,1000)+`" alt="Avatar" class="rounded-circle">`;
             } catch(e) {
               var foto = `<img src="/img/avatar/avatar-1.png" alt="Avatar" class="rounded-circle">`;
             }
+          } else {
+            var foto = `<img src="/img/avatar/avatar-1.png" alt="Avatar" class="rounded-circle">`;
           }
+          content = '<p>'+item.id+'_'+item.nama+' ('+un+')</p>';
+          $('#tampilkan').append(content);
           var updet = item.updated_at.substring(0, 10);
           content = `<tr id="data`+item.id+`">`;
           content += `<td>`+item.id+`</td>`;
