@@ -240,7 +240,7 @@
                         <div class="d-flex justify-content-start align-items-center">
                           <div class="avatar me-2">`+foto+`</div>
                           <div class="d-flex flex-column">
-                            <h6 class="mb-0 text-truncate">`+item.nama+`</h6><small class="text-truncate text-muted">`+un+`</small>
+                            <h6 class="mb-0 text-truncate">`+namamu+`</h6><small class="text-truncate text-muted">`+un+`</small>
                           </div>
                         </div>
                       </td>`;
