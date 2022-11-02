@@ -4,8 +4,48 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "0130625149c698e278940aa8631c33e5",
+    "content-hash": "c41b3873ce4b64b833591175ed212ac4",
     "packages": [
+        {
+            "name": "aamdsam/bridging-bpjs",
+            "version": "1.10",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/aamdsam/bridging-bpjs.git",
+                "reference": "10060ab661c24422384854181ed72c2e50f019b6"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/aamdsam/bridging-bpjs/zipball/10060ab661c24422384854181ed72c2e50f019b6",
+                "reference": "10060ab661c24422384854181ed72c2e50f019b6",
+                "shasum": ""
+            },
+            "require": {
+                "guzzlehttp/guzzle": ">=6.0"
+            },
+            "type": "library",
+            "autoload": {
+                "psr-4": {
+                    "AamDsam\\Bpjs\\": "src/"
+                }
+            },
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Muhammad Muammar",
+                    "email": "muh.muammar@gmail.com"
+                }
+            ],
+            "description": "Package untuk bridging bpjs vclaim, apcare dan pcare",
+            "support": {
+                "issues": "https://github.com/aamdsam/bridging-bpjs/issues",
+                "source": "https://github.com/aamdsam/bridging-bpjs/tree/1.10"
+            },
+            "time": "2022-10-30T19:31:59+00:00"
+        },
         {
             "name": "alexusmai/laravel-file-manager",
             "version": "v2.5.4",
@@ -9729,5 +9769,5 @@
         "php": "^7.3"
     },
     "platform-dev": [],
-    "plugin-api-version": "2.1.0"
+    "plugin-api-version": "2.3.0"
 }
