@@ -199,6 +199,7 @@ return [
         Stevebauman\Location\LocationServiceProvider::class,
         Alexusmai\LaravelFileManager\FileManagerServiceProvider::class,
         Jenssegers\Agent\AgentServiceProvider::class,
+        App\Providers\AgentServiceProvider::class,
         Maatwebsite\Excel\ExcelServiceProvider::class,
         Milon\Barcode\BarcodeServiceProvider::class,
         // BaklySystems\LaravelMessenger\LaravelMessengerServiceProvider::class,

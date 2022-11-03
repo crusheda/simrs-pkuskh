@@ -65,7 +65,7 @@
 </head>
 
 <body>
-
+  @if ($agent->isMobile())
   <!-- Content -->
 
   <div class="authentication-wrapper authentication-cover">
@@ -175,6 +175,20 @@
         return e;
     }
   </script>
+  @else
+  <div class="text-center container container-xxl container-p-y">
+    <div class="misc-wrapper">
+      <h2 class="mb-2 mx-2 mt-3">Validasi Perangkat</h2>
+      <p class="mb-4 mx-2">
+        Mohon maaf, Anda harus menggunakan Handphone untuk melakukan Absensi.
+      </p>
+      <a href="{{ route('beranda.index') }}" class="btn btn-primary mb-2"><i class="fas fa-home"></i>&nbsp;&nbsp;Kembali ke Dashboard</a>
+      <div class="mt-4">
+        <img src="{{ asset('assets-new/img/illustrations/girl-doing-yoga-light.png') }}" alt="girl-doing-yoga-light" width="500" class="img-fluid">
+      </div>
+    </div>
+  </div>
+  @endif
 </body>
 
 </html>
