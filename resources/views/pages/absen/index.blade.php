@@ -37,6 +37,7 @@
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/formvalidation/dist/css/formValidation.min.css') }}" />
 
   <!-- Page CSS -->
+  <link rel="stylesheet" href="{{ asset('css/iziToast.css') }}" />
   <!-- Page -->
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/css/pages/page-auth.css') }}">
   <!-- Helpers -->
@@ -65,9 +66,7 @@
 </head>
 
 <body>
-  @if ($agent->isMobile())
-  <!-- Content -->
-
+  {{-- @if ($agent->isMobile()) --}}
   <div class="authentication-wrapper authentication-cover">
     <div class="authentication-inner row m-0">
 
@@ -84,26 +83,31 @@
       <div class="d-flex col-12 col-lg-5 col-xl-4 align-items-center authentication-bg p-4 p-sm-5">
         <div class="w-px-400 mx-auto">
           <!-- Logo -->
-          {{-- <div class="app-brand mb-5">
+          <div class="app-brand mb-4" style="justify-content:center">
             <a href="javascript:void(0);" class="app-brand-link">
               <span class="app-brand-logo demo">
                 <img src="{{ asset('img/pku_ico.png') }}" alt="">
               </span>
               <span class="app-brand-text demo menu-text fw-bolder" style="color: #333333">&nbsp;&nbsp;simrs<b style="color: #696CFF">mu</b></span>
             </a>
-          </div> --}}
+          </div>
           <!-- /Logo -->
           <center><a id="jam" class="mb-0" style="font-size:2rem"></a></center>
           <div class="divider my-2">
             <div class="divider-text"><h4 style="margin-top: 15px">Absensi Karyawan</h4></div>
           </div>
-          <center><input type="file" class="form-control" name="photo" capture="user" accept="image/*"></center>
-          {{-- <h4 class="text-center">Absensi Karyawan</h4> --}}
-          <h4 class="text-center mt-3">IP : {{ Request::ip() }}</h4>
-          <input type="text" id="ip" value="{{ Request::ip() }}" hidden>
-          <p class="text-start mb-4 text-center">
-            <span class="fw-bold d-block mt-2">WiFi SSID : Absensi (****)</span>
+          <p class="text-start mb-3">
+            <span class="d-block mt-2">1. Pastikan HP terkoneksi pada jaringan Wifi Rumah Sakit</span>
           </p>
+          <div class="input-group mb-3">
+            <span class="input-group-text">IP Address</span>
+            <input type="text" class="form-control" value="{{ Request::ip() }}" placeholder="URL" disabled/>
+            <input type="text" id="ip" value="{{ Request::ip() }}" hidden>
+          </div>
+          <p class="text-start mb-3">
+            <span class="d-block mt-2">2. Silakan Selfi wajah Anda sebagai Bukti Absensi</span>
+          </p>
+          <center><input type="file" class="form-control mb-4" name="photo" capture="user" accept="image/*"></center>
           <center><div class="btn-group mb-3">
             <button class="btn btn-label-secondary" onclick="window.location.href='{{ route('welcome') }}'"><i class="fas fa-chevron-left"></i></button>
             <button class="btn btn-primary btn-block" onclick="absen()">
@@ -136,6 +140,9 @@
   
   <script src="{{ asset('assets-new/vendor/js/menu.js') }}"></script>
   <!-- endbuild -->
+  
+  <!-- Page JS -->
+  <script src="{{ asset('js/iziToast.js') }}"></script>
 
   <!-- Vendors JS -->
   <script src="{{ asset('assets-new/vendor/libs/cleavejs/cleave.js') }}"></script>
@@ -152,7 +159,21 @@
 
     function absen() {
       var params = $("#ip").val();
-      console.log(params);
+      if (params === '127.0.0.1') {
+        iziToast.success({
+          title: 'Yeayy!',
+          message: 'Absensi Berhasil pada ',
+          position: 'topRight'
+        });
+      } else {
+        iziToast.error({
+          title: 'Gagal!',
+          message: 'Anda tidak terkoneksi pada Jaringan Wifi RSPKUSKH.',
+          position: 'topRight'
+        });
+      }
+      // IP WIFI RS : 125.163.46.126 || 103.155.246.25 || 36.68.11.123
+      // console.log(params);
     }
   </script>
   <script>
@@ -175,7 +196,7 @@
         return e;
     }
   </script>
-  @else
+  {{-- @else
   <div class="text-center container container-xxl container-p-y">
     <div class="misc-wrapper">
       <h2 class="mb-2 mx-2 mt-3">Validasi Perangkat</h2>
@@ -188,7 +209,7 @@
       </div>
     </div>
   </div>
-  @endif
+  @endif --}}
 </body>
 
 </html>
