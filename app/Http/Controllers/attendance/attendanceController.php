@@ -14,6 +14,12 @@ class attendanceController extends Controller
      */
     public function index()
     {
+        $macAddr = exec('getmac');
+        $macShell = shell_exec('getmac');
+        $macAddrExec = substr(exec('getmac'), 0, 17);
+        $macAddrShell = substr(shell_exec('getmac'), 159,20);
+        print_r($macAddrExec.' dan '.$macShell);
+        die();
         return view('pages.absen.index');
     }
 
