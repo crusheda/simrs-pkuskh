@@ -66,7 +66,6 @@
 </head>
 
 <body>
-  {{-- @if ($agent->isMobile()) --}}
   <div class="authentication-wrapper authentication-cover">
     <div class="authentication-inner row m-0">
 
@@ -82,7 +81,7 @@
       <!-- Two Steps Verification -->
       <div class="d-flex col-12 col-lg-5 col-xl-4 align-items-center authentication-bg p-4 p-sm-5">
         <div class="w-px-400 mx-auto">
-          <!-- Logo -->
+          <!-- Logo SIMRSMU -->
           <div class="app-brand mb-4" style="justify-content:center">
             <a href="javascript:void(0);" class="app-brand-link">
               <span class="app-brand-logo demo">
@@ -96,29 +95,40 @@
           <div class="divider my-2">
             <div class="divider-text"><h4 style="margin-top: 15px">Absensi Karyawan</h4></div>
           </div>
-          <p class="text-start mb-3">
-            <span class="d-block mt-2">1. Pastikan HP terkoneksi pada jaringan Wifi Rumah Sakit</span>
-          </p>
-          <div class="input-group mb-3">
-            <span class="input-group-text">IP Address</span>
-            <input type="text" class="form-control" value="{{ Request::ip() }}" placeholder="URL" disabled/>
-            <input type="text" id="ip" value="{{ Request::ip() }}" hidden>
-          </div>
-          <p class="text-start mb-3">
-            <span class="d-block mt-2">2. Silakan Selfi wajah Anda sebagai Bukti Absensi</span>
-          </p>
-          <center><input type="file" class="form-control mb-4" name="photo" capture="user" accept="image/*"></center>
-          <center><div class="btn-group mb-3">
-            <button class="btn btn-label-secondary" onclick="window.location.href='{{ route('welcome') }}'"><i class="fas fa-chevron-left"></i></button>
-            <button class="btn btn-primary btn-block" onclick="absen()">
-              Validasi
-            </button>
-          </div></center>
-          <div class="text-center">Gagal absen?
-            <a href="javascript:void(0);">
-              Hubungi IT
-            </a>
-          </div>
+          {{-- MOBILE ONLY --}}
+          @if ($agent->isMobile())
+            <p class="text-start mb-3">
+              <span class="d-block mt-2">1. Pastikan HP terkoneksi pada jaringan Wifi Rumah Sakit</span>
+            </p>
+            <div class="input-group mb-3">
+              <span class="input-group-text">IP Address</span>
+              <input type="text" class="form-control" value="{{ Request::ip() }}" placeholder="Periksa Jaringan Wifi Anda" disabled/>
+              <input type="text" id="ip" value="{{ Request::ip() }}" hidden>
+            </div>
+            <p class="text-start mb-3">
+              <span class="d-block mt-2">2. Silakan Selfi wajah Anda sebagai Bukti Absensi</span>
+            </p>
+            <center><input type="file" class="form-control mb-4" name="photo" capture="user" accept="image/*"></center>
+            <center><div class="btn-group mb-3">
+              <button class="btn btn-label-secondary" onclick="window.location.href='{{ route('welcome') }}'"><i class="fas fa-chevron-left"></i></button>
+              <button class="btn btn-primary btn-block" onclick="absen()">
+                Validasi
+              </button>
+            </div></center>
+            <div class="text-center">Gagal absen?
+              <a href="javascript:void(0);">
+                Hubungi IT
+              </a>
+            </div>
+          @else
+          {{-- EXCEPT MOBILE / TABLET --}}
+            <p class="text-start mb-4 text-center">
+              <span class="d-block mt-2">Gunakan HP Anda untuk melakukan Absensi</span>
+            </p>
+            <center><div class="btn-group">
+              <button class="btn btn-label-primary" onclick="window.location.href='{{ route('welcome') }}'"><i class="fas fa-chevron-left"></i>&nbsp;&nbsp;Kembali ke Dashboard</button>
+            </div></center>
+          @endif
         </div>
       </div>
       <!-- /Two Steps Verification -->

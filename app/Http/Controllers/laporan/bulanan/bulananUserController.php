@@ -227,7 +227,7 @@ class bulananUserController extends Controller
     {
         $jabatan = $this->cariJabatan();
 
-        if (Auth::user()->hasRole('kasubag-perencanaan-it')) {
+        if (Auth::user()->hasRole(['kasubag-perencanaan-it','sekretaris-direktur'])) {
             $show = laporan_bulanan::Join('users', 'laporan_bulanan.id_user', '=', 'users.id')
                 ->select('users.nama','laporan_bulanan.*')
                 ->orderBy('laporan_bulanan.updated_at', 'desc')
