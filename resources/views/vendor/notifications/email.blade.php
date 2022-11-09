@@ -46,7 +46,7 @@
 @else
 <br>@lang('ttd'),<br>
 @lang('Yussuf Faisal, S.Kom')<br>
-@lang('Developer Simrsku')
+@lang('Developer')
 @endif
 
 {{-- Subcopy --}}
