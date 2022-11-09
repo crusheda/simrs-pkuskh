@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\kantor;
+namespace App\Http\Controllers\berkas;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
@@ -16,7 +16,7 @@ use App\Models\user;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\RedirectResponse;
 
-class rapatController extends Controller
+class berkasRapatController extends Controller
 {
     /**
      * Display a listing of the resource.
@@ -26,6 +26,8 @@ class rapatController extends Controller
     public function index()
     {
         $user = user::whereNotNull('nik')->where('status',null)->orderBy('nama','ASC')->get();
+        // print_r($user);
+        // die();
         $tgl = Carbon::now();
         $today = Carbon::now()->isoFormat('YYYY/MM/DD');
 
@@ -35,7 +37,7 @@ class rapatController extends Controller
             'today' => $today,
         ];
 
-        return view('pages.new.administrasi.berkas-rapat')->with('list', $data);
+        return view('pages.administrasi.berkas.rapat')->with('list', $data);
     }
 
     /**
@@ -45,7 +47,7 @@ class rapatController extends Controller
      */
     public function create()
     {
-        return view('pages.kantor.tambah-berkas');
+        //
     }
 
     /**
@@ -59,7 +61,7 @@ class rapatController extends Controller
         $request->validate([
             'keterangan' => 'nullable',
             // 'file2' => 'required',
-            'file2.*' => ['required','mimes:doc,docx,xls,xlsx,ppt,pptx,pdf,jpg,gif,png,jpeg','max:50000'],
+            'file2.*' => ['required','mimes:doc,docx,xls,xlsx,ppt,pptx,pdf,jpg,gif,png,jpeg','max:20000'],
             ]);
         // request()->validate([
         //     'file' => 'required',
@@ -113,82 +115,24 @@ class rapatController extends Controller
         $data = rapat::find($id);
         return Storage::download($data->filename1, $data->title1);
     }
-    
-    public function show2all($id)
-    {
-        $data = DB::table('rapat')
-                ->join('users', 'rapat.user_id', '=', 'users.id')
-                ->select('users.name','rapat.created_at','rapat.filename2','rapat.title2')
-                ->where('rapat.deleted_at', null)
-                ->where('rapat.id', $id)
-                ->get();
 
-        $name = $data[0]->name;
-        $tgl_materi = Carbon::parse($data[0]->created_at)->isoFormat('D MMM Y');
+    // public function show3($id)
+    // {
+    //     $data = rapat::find($id);
+    //     return Storage::download($data->filename3, $data->title3);
+    // }
 
-        // Text from DB Convert into Array First with JsonDECODE
-        $files_mentah = json_decode($data[0]->filename2);
-        $filename_mentah = json_decode($data[0]->title2);
+    // public function show4($id)
+    // {
+    //     $data = rapat::find($id);
+    //     return Storage::download($data->filename4, $data->title4);
+    // }
 
-        // Define Where ZIP will be Saved and Named
-        $zip_path = storage_path().'/app/public/files/notulen/materi/multiple/'.$name.' - '.$tgl_materi.'.zip'; // Folder dibuat manual dulu
-        
-        // Name File ZIP
-        $zip_name = $name.' - '.$tgl_materi.'.zip';
-
-        // Making ZIP ARCHIVE
-        $zip = new ZipArchive();        
-        if ($zip->open($zip_path, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE) !== TRUE) {
-            die ("Error saat proses pembuatan ZIP, silakan hubungi IT");
-        }
-        
-        // Looping with Foreach
-        foreach ($files_mentah as $key => $file) {
-
-            // Change DIR File from Array into String with JsonENCODE
-            $files = json_encode($file);
-            $filename_mentah2 = json_encode($filename_mentah[$key]);
-            $filename = str_replace('"','',$filename_mentah2);     // Remove Quotes "" from Encoding Json 
-
-            // Adding Path into String Each File From DB
-            $path = storage_path().'/app/'.$file;
-            $filepath = $path;
-
-            // Checking File and Adding File
-            if (file_exists($filepath)) {
-                // $filepath = direktori file yang akan dimasukkan
-                // $filename = nama file yang digunakan untuk mengganti nama file dari $filepath
-                $zip->addFile($filepath, $filename) or die ("ERROR: Could not add the file $filename");
-            } else {
-                die("File $filename di Direktori $filepath doesnt exit");
-            }
-        }
-
-        $zip->close();
-
-        // Konten apa saja yang terkandung dalam ZIP (Contoh : PDF, Application, etc)
-        $headers = ["Content-Type"=>"pdf/zip"];
-
-        return response()->download($zip_path,$zip_name,$headers);
-    }
-
-    public function show3($id)
-    {
-        $data = rapat::find($id);
-        return Storage::download($data->filename3, $data->title3);
-    }
-
-    public function show4($id)
-    {
-        $data = rapat::find($id);
-        return Storage::download($data->filename4, $data->title4);
-    }
-
-    public function show5($id)
-    {
-        $data = rapat::find($id);
-        return Storage::download($data->filename5, $data->title5);
-    }
+    // public function show5($id)
+    // {
+    //     $data = rapat::find($id);
+    //     return Storage::download($data->filename5, $data->title5);
+    // }
 
     public function showAll($id)
     {
@@ -248,6 +192,64 @@ class rapatController extends Controller
         return response()->download($zip_path,$zip_name,$headers);
     }
 
+    // public function show2all($id)
+    // {
+    //     $data = DB::table('rapat')
+    //             ->join('users', 'rapat.user_id', '=', 'users.id')
+    //             ->select('users.name','rapat.created_at','rapat.filename2','rapat.title2')
+    //             ->where('rapat.deleted_at', null)
+    //             ->where('rapat.id', $id)
+    //             ->get();
+
+    //     $name = $data[0]->name;
+    //     $tgl_materi = Carbon::parse($data[0]->created_at)->isoFormat('D MMM Y');
+
+    //     // Text from DB Convert into Array First with JsonDECODE
+    //     $files_mentah = json_decode($data[0]->filename2);
+    //     $filename_mentah = json_decode($data[0]->title2);
+
+    //     // Define Where ZIP will be Saved and Named
+    //     $zip_path = storage_path().'/app/public/files/notulen/materi/multiple/'.$name.' - '.$tgl_materi.'.zip'; // Folder dibuat manual dulu
+        
+    //     // Name File ZIP
+    //     $zip_name = $name.' - '.$tgl_materi.'.zip';
+
+    //     // Making ZIP ARCHIVE
+    //     $zip = new ZipArchive();        
+    //     if ($zip->open($zip_path, ZIPARCHIVE::CREATE | ZIPARCHIVE::OVERWRITE) !== TRUE) {
+    //         die ("Error saat proses pembuatan ZIP, silakan hubungi IT");
+    //     }
+        
+    //     // Looping with Foreach
+    //     foreach ($files_mentah as $key => $file) {
+
+    //         // Change DIR File from Array into String with JsonENCODE
+    //         $files = json_encode($file);
+    //         $filename_mentah2 = json_encode($filename_mentah[$key]);
+    //         $filename = str_replace('"','',$filename_mentah2);     // Remove Quotes "" from Encoding Json 
+
+    //         // Adding Path into String Each File From DB
+    //         $path = storage_path().'/app/'.$file;
+    //         $filepath = $path;
+
+    //         // Checking File and Adding File
+    //         if (file_exists($filepath)) {
+    //             // $filepath = direktori file yang akan dimasukkan
+    //             // $filename = nama file yang digunakan untuk mengganti nama file dari $filepath
+    //             $zip->addFile($filepath, $filename) or die ("ERROR: Could not add the file $filename");
+    //         } else {
+    //             die("File $filename di Direktori $filepath doesnt exit");
+    //         }
+    //     }
+
+    //     $zip->close();
+
+    //     // Konten apa saja yang terkandung dalam ZIP (Contoh : PDF, Application, etc)
+    //     $headers = ["Content-Type"=>"pdf/zip"];
+
+    //     return response()->download($zip_path,$zip_name,$headers);
+    // }
+
     /**
      * Show the form for editing the specified resource.
      *
@@ -256,8 +258,7 @@ class rapatController extends Controller
      */
     public function edit($id)
     {
-        $data = rapat::find($id);
-        // return view('pages.kantor.edit-notulen')->with('list', $data);
+        //
     }
 
     /**
@@ -297,15 +298,12 @@ class rapatController extends Controller
     public function destroy($id)
     {
         $data = rapat::find($id);
-        $file = $data->filename;
-
-        Storage::delete($file);
         $data->delete();
 
         // redirect
         return Redirect::back()->with('message','Hapus Berkas Rapat Berhasil');
     }
-
+    
     public function download(Request $id)
     {
         $data = rapat::find($id);
@@ -330,11 +328,12 @@ class rapatController extends Controller
     public function getRapat()
     {
         // $user = Auth::user();
-        $show = rapat::join('users','rapat.kepala','=','users.id')->select('users.nama as nama_kepala','rapat.*')->where('users.status',null)->get();
+        $show = rapat::join('users','rapat.kepala','=','users.id')
+                        ->select('users.nama as nama_kepala','rapat.*')
+                        // ->where('users.status',null)
+                        ->get();
         $tgl = Carbon::now();
         $today = Carbon::now()->isoFormat('YYYY/MM/DD');
-        // print_r($show);
-        // die();
 
         $data = [
             'show' => $show,

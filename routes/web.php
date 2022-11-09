@@ -222,21 +222,19 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'kepegawaian', 'as' => 'kepe
         Route::resource('absensi', 'kantor\absensiController');
 
         // BERKAS RAPAT
-        Route::get('rapat/api/data', 'kantor\rapatController@getRapat')->name('rapat.api.data');
-        Route::get('rapat/api/data/{id}', 'kantor\rapatController@detailRapat')->name('rapat.api.detailData');
-        Route::get('rapat/api/data/file/{id}', 'kantor\rapatController@getFile')->name('rapat.api.detailFile');
-        Route::post('rapat/api/data/ubah/{id}', 'kantor\rapatController@ubah')->name('rapat.api.ubahData');
-        Route::get('rapat/api/data/hapus/{id}', 'kantor\rapatController@hapusRapat')->name('rapat.api.hapusData');
-        Route::resource('rapat', 'kantor\rapatController');
-        Route::get('/rapat/zip/{id}', 'kantor\rapatController@showAll');
-        Route::get('/rapat/show/{id}', 'kantor\rapatController@show');
-        Route::get('/rapat/show2/{id}', 'kantor\rapatController@show2');
-        Route::get('/rapat/show2all/{id}', 'kantor\rapatController@show2all');
-        Route::get('/rapat/show3/{id}', 'kantor\rapatController@show3');
-        Route::get('/rapat/show4/{id}', 'kantor\rapatController@show4');
-        Route::get('/rapat/show5/{id}', 'kantor\rapatController@show5');
-        // Route::put('regulasi/note/{post}','kantor\regulasiController@addNote')->name('regulasi.note');
-        // Route::resource('regulasi', 'kantor\regulasiController');
+        // Route::get('rapat/api/data', 'kantor\rapatController@getRapat')->name('rapat.api.data');
+        // Route::get('rapat/api/data/{id}', 'kantor\rapatController@detailRapat')->name('rapat.api.detailData');
+        // Route::get('rapat/api/data/file/{id}', 'kantor\rapatController@getFile')->name('rapat.api.detailFile');
+        // Route::post('rapat/api/data/ubah/{id}', 'kantor\rapatController@ubah')->name('rapat.api.ubahData');
+        // Route::get('rapat/api/data/hapus/{id}', 'kantor\rapatController@hapusRapat')->name('rapat.api.hapusData');
+        // Route::resource('rapat', 'kantor\rapatController');
+        // Route::get('/rapat/zip/{id}', 'kantor\rapatController@showAll');
+        // Route::get('/rapat/show/{id}', 'kantor\rapatController@show');
+        // Route::get('/rapat/show2/{id}', 'kantor\rapatController@show2');
+        // Route::get('/rapat/show2all/{id}', 'kantor\rapatController@show2all');
+        // Route::get('/rapat/show3/{id}', 'kantor\rapatController@show3');
+        // Route::get('/rapat/show4/{id}', 'kantor\rapatController@show4');
+        // Route::get('/rapat/show5/{id}', 'kantor\rapatController@show5');
 
         // Laporan Bulanan OLD
         Route::get('/laporan/bulanan/filter', 'kantor\laporanBulananController@filter')->name('bulanan.filter');
@@ -533,6 +531,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
         Route::get('laporan/bulanan/verif', 'laporan\bulanan\bulananUserController@showVerif')->name('bulanan.verif');
         Route::resource('laporan/bulanan', 'laporan\bulanan\bulananUserController');
 
+// BERKAS
+    // RAPAT
+        Route::resource('berkas/rapat', 'berkas\berkasRapatController');
+
 // KEPEGAWAIAN
     // KARYAWAN
         Route::resource('kepegawaian/karyawan', 'kepegawaian\karyawanController');
@@ -593,10 +595,25 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
             Route::get('laporan/bulanan/formupload', 'laporan\bulanan\bulananUserController@formUpload');
             Route::get('laporan/bulanan/table/verif', 'laporan\bulanan\bulananUserController@tableVerif');
             Route::get('laporan/bulanan/table/user', 'laporan\bulanan\bulananUserController@table');
-            Route::get('laporan/bulanan/getubah/{id}','laporan\bulanan\bulananUserController@getUbah'); // API
-            Route::get('laporan/bulanan/hapus/{id}','laporan\bulanan\bulananUserController@hapus'); // API
-            Route::post('laporan/bulanan/ubah/{id}','laporan\bulanan\bulananUserController@ubah'); // API
+            Route::get('laporan/bulanan/getubah/{id}','laporan\bulanan\bulananUserController@getUbah');
+            Route::get('laporan/bulanan/hapus/{id}','laporan\bulanan\bulananUserController@hapus');
+            Route::post('laporan/bulanan/ubah/{id}','laporan\bulanan\bulananUserController@ubah');
     
+    // BERKAS
+        // RAPAT
+            Route::get('berkas/rapat/data', 'berkas\berkasRapatController@getRapat');
+            Route::get('berkas/rapat/data/{id}', 'berkas\berkasRapatController@detailRapat');
+            Route::post('berkas/rapat/data/{id}/ubah', 'berkas\berkasRapatController@ubah');
+            Route::get('berkas/rapat/data/{id}/hapus', 'berkas\berkasRapatController@hapusRapat');
+            Route::get('berkas/rapat/data/{id}/download', 'berkas\berkasRapatController@getFile');
+            Route::get('berkas/rapat/data/{id}/zip', 'berkas\berkasRapatController@showAll');
+            // Route::get('/rapat/show/{id}', 'kantor\rapatController@show');
+            // Route::get('/rapat/show2/{id}', 'kantor\rapatController@show2');
+            // Route::get('/rapat/show2all/{id}', 'kantor\rapatController@show2all');
+            // Route::get('/rapat/show3/{id}', 'kantor\rapatController@show3');
+            // Route::get('/rapat/show4/{id}', 'kantor\rapatController@show4');
+            // Route::get('/rapat/show5/{id}', 'kantor\rapatController@show5');        
+
     // PERENCANAAN
         // RKA
             Route::get('rka/table', 'administrasi\rkaController@table');

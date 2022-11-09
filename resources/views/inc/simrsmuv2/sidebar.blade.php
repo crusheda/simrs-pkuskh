@@ -91,6 +91,19 @@
         <div data-i18n="Simrsmu v1">RKA</div>
       </a>
     </li>
+    <li class="menu-item {{ request()->routeIs('rapat.index') ? 'open active' : '' }}">
+      <a href="javascript:void(0);" class="menu-link menu-toggle">
+        <i class="menu-icon tf-icons bx bx-briefcase"></i>
+        <div data-i18n="Users">Berkas</div>
+      </a>
+      <ul class="menu-sub">
+        <li class="menu-item {{ request()->routeIs('rapat.index') ? 'open active' : '' }}">
+          <a href="{{ route('rapat.index') }}" class="menu-link">
+            <div data-i18n="List">Rapat</div>
+          </a>
+        </li>
+      </ul>
+    </li>
     <li class="menu-item {{ request()->routeIs('bulananadm.index') || request()->routeIs('bulanan.index') ? 'open active' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-book"></i>

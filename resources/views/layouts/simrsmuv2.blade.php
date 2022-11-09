@@ -250,6 +250,27 @@
       $('img').bind('contextmenu', function(e) {
         return false;
       }); 
+
+      // Reload Table
+      function fresh() {
+        // e.preventDefault();
+        var l = $('#table');
+        l.closest(".card").block({
+          message: '<div class="sk-fold sk-primary"><div class="sk-fold-cube"></div><div class="sk-fold-cube"></div><div class="sk-fold-cube"></div><div class="sk-fold-cube"></div></div><h5>LOADING...</h5>',
+          css: {
+            backgroundColor: "transparent",
+            border: "0"
+          },
+          overlayCSS: {
+            backgroundColor: $("html").hasClass("dark-style") ? "#000" : "#fff",
+            opacity: .55
+          }
+        }),
+        setTimeout(function() {
+          l.closest(".card").unblock(),
+          l.closest(".card").find(".card-alert").length && l.closest(".card").find(".card-alert").html('<div class="alert alert-info alert-dismissible fade show" role="alert"><button type="button" class="btn-close" data-bs-dismiss="alert" aria-label="Close"></button><strong>Yeayy!</strong> Reload berhasil</div>')
+        }, 2500)
+      }
     </script>
     
     

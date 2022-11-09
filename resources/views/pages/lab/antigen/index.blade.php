@@ -591,7 +591,6 @@ function showUbah(id) {
                 // $("#tgl_edit").val(tgl); // yyyy-MM-ddThh:mm
                 // var tgl = res.tgl + ' ' + res.waktu;
                 var finalTgl = moment(res.show.tgl).format('Y-MM-DD HH:mm');
-                console.log(finalTgl);
                 // TGL EDIT
                 var a = document.querySelector("#tgl_edit");
                 var b = new Date(Date.now() - 1728e5);

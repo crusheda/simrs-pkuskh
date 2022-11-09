@@ -527,6 +527,8 @@ function ubah() {
       thn: thn,
     }, 
     success: function(res) {
+      $('#ubah').modal('hide');
+      fresh();
       window.location.reload();
     }
   });
@@ -558,6 +560,7 @@ function hapus(id) {
             message: 'Hapus Dokumen Laporan Bulanan berhasil pada '+res,
             position: 'topRight'
           });
+          fresh();
           window.location.reload();
         },
         error: function(res) {
