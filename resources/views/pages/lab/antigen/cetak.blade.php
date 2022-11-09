@@ -141,7 +141,11 @@
     </div>
     <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
     <script>
-        window.onload = window.print;
+        window.print();
+        window.onafterprint = function() {
+            window.close();
+        }
+        // window.onload = window.print;
         // document_focus = true;
         // win = window.open();
         // Now our event handlers.
