@@ -551,6 +551,9 @@ class bulananUserController extends Controller
         elseif ($user->hasAnyRole('direktur-umum-kepegawaian')) { $r = $verif_direktur_umum_kepegawaian; }
         elseif ($user->hasAnyRole('direktur-pelayanan-keperawatan-penunjang')) { $r = $verif_direktur_pelayanan_keperawatan_penunjang; }
 
+        // SekDir
+        elseif ($user->hasAnyRole('sekretaris-direktur')) { $r = $dirut; }
+
         // Kabag
         elseif ($user->hasAnyRole('kabag-perencanaan')) { $r = $verif_kabag_perencanaan; }
         elseif ($user->hasAnyRole('kabag-keuangan')) { $r = $verif_kabag_keuangan; }

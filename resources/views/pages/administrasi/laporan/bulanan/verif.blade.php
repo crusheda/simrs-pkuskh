@@ -97,7 +97,7 @@
               <th>DIUPDATE</th>
             </tr>
           </thead>
-          <tbody id="tampil-tbody"><tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
+          <tbody id="tampil-tbody"><tr><td colspan="7"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
           <tfoot>
             <tr>
               <th class="cell-fit"><center>#</center></th>
