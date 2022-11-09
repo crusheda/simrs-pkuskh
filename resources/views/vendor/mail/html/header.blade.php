@@ -1,8 +1,8 @@
 <tr>
 <td class="header" style="background-color: #2F353A;color: white">
-<a href="{{ $url }}">
+<a href="simrsmu.com">
 {{-- {{ $slot }} --}}
-SIMRSKU.COM
+SIMRSMU.COM
 </a>
 </td>
 </tr>

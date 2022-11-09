@@ -128,7 +128,7 @@
     </li>
     <li class="menu-item {{ request()->routeIs('ipsrs.index') ? 'open active' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
-        <i class="menu-icon tf-icons bx bx-paint-roll"></i>
+        <i class="menu-icon tf-icons bx bx-cctv"></i>
         <div data-i18n="Users">Pengaduan</div>
       </a>
       <ul class="menu-sub">

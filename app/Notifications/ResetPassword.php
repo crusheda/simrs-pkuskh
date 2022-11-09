@@ -45,10 +45,10 @@ class ResetPassword extends Notification
     public function toMail($notifiable)
     {
         return (new MailMessage)
-            ->subject('Reset Password SIMRSKU.COM !!!')
-            ->line('Kami menerima permintaan Lupa Password anda, Klik tombol Reset Password di bawah untuk diarahkan ke Sistem Lupa Password SIMRSKU')
+            ->subject('Reset Password')
+            ->line('Kami menerima permintaan Lupa Password anda, Klik tombol Reset Password di bawah untuk diarahkan ke Sistem Lupa Password')
             ->action('Reset Password', url('password/reset', $this->token))
-            ->line('Permintaan anda akan kadaluarsa dalam 60 menit ke depan. Lakukan Reset Password anda segera. Setelah anda berhasil Login kembali, Lengkapi Profil Anda pada Menu Profil SIMRSKU. Terima Kasih :)');
+            ->line('Permintaan anda akan kadaluarsa dalam 60 menit ke depan. Lakukan Reset Password anda segera. Setelah anda berhasil Login kembali, Lengkapi Profil Anda pada Menu Profil. Terima Kasih :)');
         // print_r($notifiable);
         // die();
         // return view('login')->with('message','Ubah Hasil Antigen Berhasil');

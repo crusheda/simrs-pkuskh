@@ -1,6 +1,6 @@
 @extends('layouts.app')
 @section('content')
-<title>Reset Password | SIMRSKU</title>
+<title>Simrsmu v2 - Reset Password</title>
 <div class="row justify-content-center">
     <div class="col-md-8">
         <div class="card-group">

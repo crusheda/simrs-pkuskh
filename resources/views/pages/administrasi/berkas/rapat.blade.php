@@ -205,7 +205,7 @@
                     </div>
                     <div class="form-group">
                         <label class="mb-2">Keterangan :</label>
-                        <textarea class="form-control" id="keterangan_edit" maxlength="190" rows="8"></textarea>
+                        <textarea rows="3" class="form-control" id="keterangan_edit" placeholder="Optional"></textarea>
                     </div>
                     <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Waktu pengubahan berkas rapat hanya berlaku pada hari saat anda mengupload</sub><br>
                     <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Periksa ulang lampiran berkas anda, apabila terdapat kesalahan upload dokumen mohon hapus dan upload ulang</sub>
