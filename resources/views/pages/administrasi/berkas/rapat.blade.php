@@ -131,7 +131,7 @@
                             <div class="col-md-6">
                                 <div class="form-group mb-3">
                                     <label class="mb-2">Tanggal</label>
-                                    <input type="text" class="form-control flatpickrtime" name="tanggal" value="<?php echo strftime('%Y-%m-%dT%H:%i', strtotime($list['tgl'])); ?>" placeholder="Tanggal Rapat" id="tanggal" req/>
+                                    <input type="text" class="form-control flatpickr" name="tanggal" placeholder="Tanggal Rapat" id="tanggal" req/>
                                 </div>
                             </div>
                             <div class="col-md-6">
@@ -193,7 +193,7 @@
                         <div class="col-md-6">
                             <div class="form-group mb-3">
                                 <label class="mb-2">Tanggal :</label>
-                                <input type="text" id="tanggal_edit" class="form-control flatpickrtime" placeholder="Tanggal Rapat" required>
+                                <input type="text" id="tanggal_edit" class="form-control flatpickr" placeholder="Tanggal Rapat" required>
                             </div>
                         </div>
                         <div class="col-md-6">
@@ -265,9 +265,34 @@
             });
             // DATEPICKER
                 // DATE
-                $('.flatpickr').flatpickr({
-                    monthSelectorType: "static"
-                });
+                const today = new Date();
+                const tomorrow = new Date(today);
+                tomorrow.setDate(tomorrow.getDate() + 1);
+                const next = new Date(today);
+                next.setDate(next.getDate() + 999999);
+                const l = $('.flatpickr');
+                // const dates = new Date(Date.now());
+                // const tomorow = dates.getTime();
+                // const m = new Date(Date.now());
+                // const c = new Date(Date.now() + 1728e5); // 3 hari kedepan
+                var now = moment().locale('id').format('Y-MM-DD HH:mm');
+                console.log(tomorrow);
+                l.flatpickr({
+                    enableTime: !0,
+                    defaultDate: now,
+                    minuteIncrement: 1,
+                    // monthSelectorType: "static",
+                    // inline: true,
+                    // defaultHour: 12,
+                    // defaultMinute: "today",
+                    time_24hr: true,
+                    // dateFormat: "Y-m-d H:m",
+                    disable: [{
+                        from: tomorrow.toISOString().split("T")[0],
+                        to: next.toISOString().split("T")[0]
+                    }]
+                })
+
                 // DATETIME
                 $('.flatpickrtime').flatpickr({
                     enableTime: !0,
@@ -564,7 +589,7 @@
                     return false;
                 } else {
                     $("#btn-simpan").attr('disabled','disabled');
-                    $("#btn-simpan").find("i").removeClass("fa-sync fa-spin").addClass("fa-plus");
+                    $("#btn-simpan").find("i").removeClass("fa-upload").addClass("fa-sync fa-spin");
                     return true;
                 }
             });
