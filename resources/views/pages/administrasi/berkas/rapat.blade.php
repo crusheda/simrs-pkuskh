@@ -276,7 +276,6 @@
                 // const m = new Date(Date.now());
                 // const c = new Date(Date.now() + 1728e5); // 3 hari kedepan
                 var now = moment().locale('id').format('Y-MM-DD HH:mm');
-                console.log(tomorrow);
                 l.flatpickr({
                     enableTime: !0,
                     defaultDate: now,
@@ -290,7 +289,11 @@
                     disable: [{
                         from: tomorrow.toISOString().split("T")[0],
                         to: next.toISOString().split("T")[0]
-                    }]
+                    }],
+                    onChange: function(rawdate, altdate, FPOBJ) {
+                        FPOBJ.close(); // Close datepicker on date select
+                        FPOBJ._input.blur(); // Blur input field on date select
+                    }
                 })
 
                 // DATETIME
