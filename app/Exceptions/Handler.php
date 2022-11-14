@@ -4,6 +4,7 @@ namespace App\Exceptions;
 
 use Exception;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Routing\Middleware\ThrottleRequests;
 use Illuminate\Foundation\Exceptions\Handler as ExceptionHandler;
 
 class Handler extends ExceptionHandler
@@ -44,9 +45,13 @@ class Handler extends ExceptionHandler
      */
     public function render($request, Exception $exception)
     {
-        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException)
+        if ($exception instanceof \Symfony\Component\HttpKernel\Exception\NotFoundHttpException) {
             return response(view('pages.validation.404'), 404);
+        }
     
+        // if ($exception instanceof ThrottleRequestsException) {
+        //     return redirect()->route('suspended'); 
+        // }
         return parent::render($request, $exception);
     }
 

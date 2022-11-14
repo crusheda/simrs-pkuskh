@@ -1,5 +1,5 @@
 <?php
-Route::resource('/', 'WelcomeController');
+Route::resource('/', 'WelcomeController'); //->middleware("throttle:1,1")
 // Route::get('/', 'maintenance\maintenanceController@index')->name('maintenance');
 
 Route::get('/kunjungan', 'kunjunganController@index')->name('landing.kunjungan');

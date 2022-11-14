@@ -33,7 +33,8 @@ class LoginController extends Controller
     //        $this->throttleKey($request), $maxLoginAttempts, $lockoutTime
     //     );
     // }
-
+    protected $maxAttempts = 1; // Default is 5
+    protected $decayMinutes = 1; // Default is 1
     use AuthenticatesUsers;
     public function showLoginForm()
     {
