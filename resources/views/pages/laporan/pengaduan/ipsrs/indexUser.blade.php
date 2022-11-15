@@ -87,7 +87,7 @@
             @csrf
             <div class="form-group mb-3">
               <label for="defaultFormControlInput" class="form-label">Lokasi</label>
-              <input type="text" name="lokasi" id="clr_lokasi" class="form-control typeahead-bloodhound" placeholder="Masukkan Lokasi" autocomplete="off" required/>
+              <input type="text" name="lokasi" id="clr_lokasi" class="form-control typeahead-bloodhound" placeholder="Teks Otomatis" autocomplete="off" required/>
             </div>
             <div class="form-group mb-3">
               <label for="defaultFormControlInput" class="form-label">Pengaduan</label>
