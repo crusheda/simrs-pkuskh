@@ -289,11 +289,12 @@
                     disable: [{
                         from: tomorrow.toISOString().split("T")[0],
                         to: next.toISOString().split("T")[0]
-                    }],
-                    onChange: function(rawdate, altdate, FPOBJ) {
-                        FPOBJ.close(); // Close datepicker on date select
-                        FPOBJ._input.blur(); // Blur input field on date select
-                    }
+                    }]
+                    // ,
+                    // onChange: function(rawdate, altdate, FPOBJ) {
+                    //     FPOBJ.close(); // Close datepicker on date select
+                    //     FPOBJ._input.blur(); // Blur input field on date select
+                    // }
                 })
 
                 // DATETIME
