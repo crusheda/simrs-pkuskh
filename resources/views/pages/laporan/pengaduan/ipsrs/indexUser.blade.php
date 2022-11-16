@@ -547,7 +547,8 @@
 </div>
 @endforeach
 {{-- MODAL END --}}
-<script>$(document).ready( function () {
+<script>
+$(document).ready( function () {
   $("html").addClass('layout-menu-collapsed');
 
   // AUTOCOMPLETE LOKASI

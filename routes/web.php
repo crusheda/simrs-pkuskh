@@ -531,6 +531,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
         Route::get('laporan/bulanan/verif', 'laporan\bulanan\bulananUserController@showVerif')->name('bulanan.verif');
         Route::resource('laporan/bulanan', 'laporan\bulanan\bulananUserController');
 
+// REGULASI
+    Route::get('regulasi', 'administrasi\regulasiController@index')->name('regulasi.index');
+    Route::get('regulasi/{id}', 'administrasi\regulasiController@download')->name('regulasi.download');
+
 // BERKAS
     // RAPAT
         Route::resource('berkas/rapat', 'berkas\berkasRapatController');
@@ -559,6 +563,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
         Route::get('kota/{id}', 'Admin\profilController@apiKota');
         Route::get('kecamatan/{id}', 'Admin\profilController@apiKecamatan');
     
+    // REGULASI
+        Route::get('regulasi/totalregulasi', 'administrasi\regulasiController@apiTotalRegulasi');
+        Route::get('regulasi/acregulasi', 'administrasi\regulasiController@autoCompleteRegulasi')->name('ac.regulasi.cari');
+
     // MANRISK
         Route::get('k3/manrisk/berulang/validasi/{id}', 'k3\manriskController@apiValidasiBerulang');
         Route::get('k3/manrisk/berulang/{id}', 'k3\manriskController@apiBerulang');

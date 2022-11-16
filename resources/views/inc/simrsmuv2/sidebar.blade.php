@@ -104,6 +104,12 @@
         </li>
       </ul>
     </li>
+    <li class="menu-item {{ request()->routeIs('regulasi.index') ? 'open active' : '' }}">
+      <a href="{{ route('regulasi.index') }}" class="menu-link">
+        <i class="menu-icon tf-icons fas fa-gavel"></i>
+        <div data-i18n="Simrsmu v1">Regulasi</div>
+      </a>
+    </li>
     <li class="menu-item {{ request()->routeIs('bulananadm.index') || request()->routeIs('bulanan.index') ? 'open active' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-book"></i>
