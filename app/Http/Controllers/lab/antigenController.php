@@ -9,6 +9,7 @@ use Illuminate\Support\Facades\DB;
 use App\Models\antigen;
 use App\Models\dokter;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Exception;
 use Redirect;
 use Storage;
@@ -413,5 +414,18 @@ class antigenController extends Controller
         
         return response()->json($data, 200);
         
+    }
+
+    /// PUSH API
+    public function getPasien($rm)
+    {
+        $client = new Client();
+        // $res = $client->request('GET', 'http://192.168.1.3:8000/api/jadwaldokter/');
+        // $res = $client->request('GET', 'http://103.155.246.25:8000/api/all/'.$rm);
+        $res = $client->request('GET', 'http://192.168.1.3:8000/api/all/'.$rm);
+        $data = json_decode($res->getBody());
+        // dd($data);
+
+        return response()->json($data, 200);
     }
 }

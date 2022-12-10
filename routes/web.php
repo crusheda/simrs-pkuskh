@@ -596,6 +596,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
             Route::post('antigen/ubah/{id}', 'lab\antigenController@ubah')->name('antigen.ubah');
             Route::get('antigen/getubah/{id}', 'lab\antigenController@getubah')->name('antigen.getubah');
             Route::get('antigen/hapus/{id}', 'lab\antigenController@hapus')->name('antigen.hapus');
+            Route::get('antigen/getpasien/{id}', 'lab\antigenController@getPasien');
     
     // LAPORAN
         // BULANAN
