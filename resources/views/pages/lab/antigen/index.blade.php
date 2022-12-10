@@ -62,26 +62,26 @@
       <table id="table" class="dt-column-search table table-striped">
         <thead>
           <tr>
-            <th>RM</th>
+            <th class="cell-fit"></th>
+            <th class="cell-fit">RM</th>
             <th>DOKTER PENGIRIM</th>
             <th>PASIEN</th>
             <th>JK/UMUR</th>
             <th>ALAMAT</th>
             <th>TGL</th>
-            <th><center>AKSI</center></th>
           </tr>
         </thead>
         <tbody id="tampil-tbody"><tr><td colspan="7"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
         <tfoot>
-            <tr>
-                <th>RM</th>
-                <th>DOKTER PENGIRIM</th>
-                <th>PASIEN</th>
-                <th>JK/UMUR</th>
-                <th>ALAMAT</th>
-                <th>TGL</th>
-                <th><center>AKSI</center></th>
-            </tr>
+          <tr>
+            <th class="cell-fit"></th>
+            <th class="cell-fit">RM</th>
+            <th>DOKTER PENGIRIM</th>
+            <th>PASIEN</th>
+            <th>JK/UMUR</th>
+            <th>ALAMAT</th>
+            <th>TGL</th>
+          </tr>
         </tfoot>
       </table>
     </div>
@@ -308,30 +308,30 @@
                 } else {
                     res.show.forEach(item => {
                         // var updet = item.updated_at.substring(0, 10);
-                        content = "<tr id='data"+ item.id +"'><td>"; 
+                        content = `<tr id='data"+ item.id +"'>`;
+                        content += `<td><center><div class='btn-group'><button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button><ul class='dropdown-menu dropdown-menu-end'>`
+                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-warning' onclick="showUbah(`+item.id+`)"><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>`
+                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-info' onclick="window.open('/v2/lab/antigen/`+item.id+`/print','id','width=900,height=600')"><i class='bx bx-printer scaleX-n1-rtl'></i> Cetak</a></li>`
+                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/lab/antigen/`+item.id+`/cetak')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>`
+                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`
+                                    + `</ul></center></td><td>`; 
                                     if (item.hasil == "POSITIF")
                                         content += "<kbd style='background-color: red'>P</kbd>&nbsp;";
                                     else
-                                        content += "<kbd style='background-color: royalblue'>N</kbd>&nbsp;";
+                                        content += "<kbd style='background-color: #00898E'>N</kbd>&nbsp;";
                         content += item.rm + "</td><td>" 
                                 + item.dr_nama + "</td><td>" 
                                 + item.nama + "</td><td>"
                                 + item.jns_kelamin + " / " + item.umur + "</td><td>"
                                 + item.alamat + "</td><td>"
                                 + item.tgl + "</td>";
-
-                        content += `<td><center><div class='btn-group'><button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button><ul class='dropdown-menu dropdown-menu-end'>`
-                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-warning' onclick="showUbah(`+item.id+`)"><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>`
-                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-info' onclick="window.open('/v2/lab/antigen/`+item.id+`/print','id','width=900,height=600')"><i class='bx bx-printer scaleX-n1-rtl'></i> Cetak</a></li>`
-                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/lab/antigen/`+item.id+`/cetak')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>`
-                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`
-                                  + `</ul></center></td></tr>`;
+                        content += `</tr>`;
                         $('#tampil-tbody').append(content);
                     });
                 }
                 $('#table').DataTable(
                   {
-                    order: [[5, "desc"]],
+                    order: [[6, "desc"]],
                     dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                     displayLength: 7,
                     lengthMenu: [7, 10, 25, 50, 75, 100],
@@ -377,14 +377,9 @@
                       }
                     ],
                     'columnDefs': [
-                        // { targets: 3, visible: false },
-                        // { targets: 5, visible: false },
-                        // { targets: 6, visible: false },
-                        // { targets: 9, visible: false },
-                        // { targets: 10, visible: false },
-                        // { targets: 11, visible: false },
-                        // { targets: 12, visible: false },
-                        // { targets: 16, visible: false },
+                      { targets: 0, orderable: !1,searchable: !1, },
+                      { targets: 4, orderable: !1 },
+                      // { targets: 16, visible: false },
                     ],
                   },
                 );
