@@ -36,7 +36,7 @@
         <div class="col-sm-7">
           <div class="card-body">
             <h5 class="card-title text-primary">Laporan Digital</h5>
-            <p class="mb-4">Segera <span class="fw-bold">Upload</span> laporanmu agar bisa segera diverifikasi oleh Atasanmu sebelum Tanggal xx</p>
+            <p class="mb-4">Segera <span class="fw-bold">Upload</span> laporanmu sebelum Tanggal 15 setiap bulannya</p>
 
             <a href="javascript:;" class="btn btn-primary" value="animate__jackInTheBox" id="btn-tambah" onclick="tambah()" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true" title="Tambah Laporan Bulanan"><i class="fas fa-plus"></i>&nbsp;&nbsp;Form Upload</a>
           </div>

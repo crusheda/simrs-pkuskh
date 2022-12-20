@@ -470,8 +470,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
         Route::resource('k3/manrisk', 'k3\manriskController');
     // ACCIDENT REPORT
         Route::post('k3/accidentreport/{id}/check', 'k3\accidentReportController@verifikasi')->name('accidentreport.check');
-        Route::get('k3/accidentreport/{id}/show', 'k3\accidentReportController@show')->name('accidentreport.show'); 
-        Route::get('k3/accidentreport/{id}/cetak','k3\accidentReportController@cetak')->name('accidentreport.cetak');  
+        Route::get('k3/accidentreport/{id}/show', 'k3\accidentReportController@show')->name('accidentreport.show');
+        Route::get('k3/accidentreport/{id}/cetak','k3\accidentReportController@cetak')->name('accidentreport.cetak');
         Route::resource('k3/accidentreport', 'k3\accidentReportController');
         
 // IPSRS
@@ -547,6 +547,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
     // RKA
         Route::post('rka/fileupload', 'administrasi\rkaController@fileupload')->name('rka.upload');
         Route::resource('rka', 'administrasi\rkaController');
+
+// BRIDGING
+    // PILAR
+        Route::get('bridging/pilar', 'pilar\pasienController@index')->name('pilar.pasien');
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////    API    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
