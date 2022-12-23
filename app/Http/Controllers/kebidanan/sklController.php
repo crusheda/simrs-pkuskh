@@ -38,7 +38,8 @@ class sklController extends Controller
         // die();
 
         // return view('pages.kebidanan.skl')->with('list', $data);
-        return view('pages.new.kebidanan.skl')->with('list', $data);
+        // return view('pages.new.kebidanan.skl')->with('list', $data);
+        return view('pages.kebidanan.skl')->with('list', $data);
     }
 
     /**
@@ -157,6 +158,21 @@ class sklController extends Controller
 
         // redirect
         return redirect('/v2/kebidanan/skl')->with('message','Hapus Identitas Bayi Berhasil');
+    }
+
+    //API
+    public function apiGet()
+    {
+        $show = DB::table('skl')
+                ->orderBy('tgl','DESC')
+                ->limit('30')
+                ->get();
+
+        $data = [
+            'show' => $show,
+        ];
+
+        return response()->json($data, 200);
     }
 
     public function showAll()

@@ -585,6 +585,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
         Route::post('laporan/pengaduan/ipsrs/filter', 'ipsrs\pengaduan\pengaduanController@filter')->name('ipsrs.filter');
     
     // SKL
+        Route::get('kebidanan/skl/get','kebidanan\sklController@apiGet');
         Route::get('kebidanan/skl/all','kebidanan\sklController@apiAll');
     
     // LAB
