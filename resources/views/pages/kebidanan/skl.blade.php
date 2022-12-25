@@ -157,10 +157,7 @@
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label>Nama Anak : </label>
-                                        <div class="input-group input-group-merge">
-                                          <span class="input-group-text" id="basic-addon34">BY.</span>
-                                          <input type="text" class="form-control" name="anak" id="basic-url3" aria-describedby="basic-addon34" placeholder="Nama Lengkap Anak (Bila Ada)"/>
-                                        </div>
+                                        <input type="text" class="form-control" name="anak" id="basic-url3" aria-describedby="basic-addon34" placeholder="Nama Lengkap Anak (Bila Ada)"/>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">

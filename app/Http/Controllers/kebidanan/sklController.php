@@ -74,9 +74,7 @@ class sklController extends Controller
             $data->hari = $tgl->isoFormat('dddd');
             $data->ibu = 'NY. '.$request->ibu;
             $data->ayah = 'TN. '.$request->ayah;
-            if ($request->anak != null) {
-                $data->anak = 'BY. '.$request->anak;
-            }
+            $data->anak = $request->anak;
             $data->kelamin = $request->kelamin;
             $data->bb = $request->bb;
             $data->tb = $request->tb;
