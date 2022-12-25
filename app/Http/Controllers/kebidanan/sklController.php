@@ -72,9 +72,11 @@ class sklController extends Controller
             $data->no_surat = $request->no_surat;
             $data->tgl = $tgl;
             $data->hari = $tgl->isoFormat('dddd');
-            $data->ibu = $request->ibu;
-            $data->ayah = $request->ayah;
-            $data->anak = $request->anak;
+            $data->ibu = 'NY. '.$request->ibu;
+            $data->ayah = 'TN. '.$request->ayah;
+            if ($request->anak != null) {
+                $data->anak = 'BY. '.$request->anak;
+            }
             $data->kelamin = $request->kelamin;
             $data->bb = $request->bb;
             $data->tb = $request->tb;

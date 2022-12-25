@@ -201,8 +201,8 @@
                                         <label>Jenis Kelamin</label>
                                         <select name="kelamin" class="form-control select2" style="width: 100%" required>
                                             <option selected="selected" value="" hidden>Pilih</option>
-                                            <option value="laki-laki">Laki-laki</option>
-                                            <option value="perempuan">Perempuan</option>
+                                            <option value="laki-laki">Laki-laki (L)</option>
+                                            <option value="perempuan">Perempuan (P)</option>
                                         </select>
                                     </div>
                                 </div>
@@ -213,7 +213,8 @@
                                     </div>
                                 </div>
                             </div>
-                            <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan <b>Nomor Surat</b> sudah sesuai sebelum disimpan.</a>
+                            <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan <b>Nomor Surat</b> sudah sesuai sebelum disimpan</a><br>
+                            <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Disarankan untuk menggunakan <b>Huruf Besar/Capital/Uppercase</b> saat pengisian</a>
                         </div>
                         <div class="modal-footer">
                             <a class="btn btn-label-secondary" href="javascript:void(0);" data-bs-dismiss="modal"><i class="fas fa-chevron-left"></i>&nbsp;&nbsp;Tutup</a>
