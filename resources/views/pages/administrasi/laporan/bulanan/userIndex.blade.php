@@ -462,7 +462,7 @@ function verif() {
 function saveData() {
   $("#tambah").one('submit', function() {
     $("#btn-simpan").attr('disabled','disabled');
-    $("#btn-simpan").find("i").toggleClass("fa-save fa-sync fa-spin");
+    $("#btn-simpan").find("i").toggleClass("fa-save fa-spinner fa-spin");
     return true;
   });
 }

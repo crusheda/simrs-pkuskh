@@ -64,34 +64,40 @@ class sklController extends Controller
         $name = $user->name;
         $tgl = Carbon::parse($request->tgl); 
 
-        $query = skl::orderBy('no_surat', 'DESC')->first();
+        $query = skl::where('no_surat', $request->no_surat)->first();
         if ($query != null) {
-            $nomer = $query->no_surat + 1;
+            return redirect()->back()->withErrors('Maaf, Nomor Surat sudah ada / digunakan.');
         } else {
-            $nomer = 1;
+            $data = new skl;
+            $data->no_surat = $request->no_surat;
+            $data->tgl = $tgl;
+            $data->hari = $tgl->isoFormat('dddd');
+            $data->ibu = $request->ibu;
+            $data->ayah = $request->ayah;
+            $data->anak = $request->anak;
+            $data->kelamin = $request->kelamin;
+            $data->bb = $request->bb;
+            $data->tb = $request->tb;
+            $data->alamat = $request->alamat;
+            $data->dr = $request->dr;
+            $data->user = $name;
+            $data->save();
         }
+        
+        // $query = skl::orderBy('no_surat', 'DESC')->first();
+        // if ($query != null) {
+        //     $nomer = $query->no_surat + 1;
+        // } else {
+        //     $nomer = 1;
+        // }
+
         // ex : $user->created_at->isoFormat('dddd, D MMMM Y');      "Minggu, 28 Juni 2020"
         // ex : $post->updated_at->diffForHumans();                  "2 hari yang lalu"
 
         // print_r($nomer);
         // die();
 
-        $data = new skl;
-        $data->no_surat = $nomer;
-        $data->tgl = $tgl;
-        $data->hari = $tgl->isoFormat('dddd');
-        $data->ibu = $request->ibu;
-        $data->ayah = $request->ayah;
-        $data->anak = $request->anak;
-        $data->kelamin = $request->kelamin;
-        $data->bb = $request->bb;
-        $data->tb = $request->tb;
-        $data->alamat = $request->alamat;
-        $data->dr = $request->dr;
-        $data->user = $name;
-        
-        $data->save();
-        return redirect('/v2/kebidanan/skl')->with('message','Tambah SKL Berhasil');
+        return redirect()->back()->with('message','Tambah SKL Berhasil, silakan melakukan Cetak/Download.');
     }
 
     /**
@@ -128,7 +134,6 @@ class sklController extends Controller
         $data = skl::find($id);
         $tgl = Carbon::parse($request->tgl);
 
-        $data->no_surat = $request->no_surat;
         $data->tgl = $tgl;
         $data->hari = $tgl->isoFormat('dddd');
         $data->ibu = $request->ibu;
@@ -142,7 +147,7 @@ class sklController extends Controller
 
         $data->save();
 
-        return redirect('/v2/kebidanan/skl')->with('message','Perubahan Identitas Bayi Berhasil');
+        return redirect()->back()->with('message','Perubahan Identitas Bayi Berhasil');
     }
 
     /**
@@ -157,14 +162,13 @@ class sklController extends Controller
         $data->delete();
 
         // redirect
-        return redirect('/v2/kebidanan/skl')->with('message','Hapus Identitas Bayi Berhasil');
+        return redirect()->back()->with('message','Hapus Identitas Bayi Berhasil');
     }
 
     //API
     public function apiGet()
     {
-        $show = DB::table('skl')
-                ->orderBy('tgl','DESC')
+        $show = skl::orderBy('tgl','DESC')
                 ->limit('30')
                 ->get();
 
@@ -173,6 +177,37 @@ class sklController extends Controller
         ];
 
         return response()->json($data, 200);
+    }
+
+    public function getubah($id)
+    {
+        $show = skl::where('id', $id)->first();
+        
+        $tgl = Carbon::parse($show->tgl)->isoFormat('YYYY-MM-DD');
+        $waktu = Carbon::parse($show->tgl)->isoFormat('HH:mm:ss');
+
+        $data = [
+            'id' => $id,
+            'tgl' => $tgl,
+            'waktu' => $waktu,
+            'show' => $show,
+        ];
+
+        return response()->json($data, 200);
+    }
+    
+    public function ubah(Request $request)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        // $data = skl::find($request->id);
+        // $data->pemeriksa    = $request->pemeriksa;
+        // $data->tgl          = $request->tgl;
+        // $data->dr_pengirim  = $request->dr_pengirim;
+        // $data->hasil        = $request->hasil;
+        // $data->save();
+        
+        return response()->json($tgl, 200);
     }
 
     public function showAll()
@@ -253,5 +288,15 @@ class sklController extends Controller
         // print_r($data);
         // die();
         return view('pages.new.kebidanan.cetak-skl')->with('list', $data);
+    }
+
+    public function hapus($id)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        $show = skl::where('id',$id)->first();
+        $show->delete();
+
+        return response()->json($tgl, 200);
     }
 }

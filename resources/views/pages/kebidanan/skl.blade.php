@@ -35,16 +35,17 @@
                     <div class="btn-group">
                         <button type="button" class="btn btn-primary" onclick="tambah()" data-bs-toggle="tooltip"
                             data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true"
-                            title="<i class='bx bx-plus bx-xs' ></i> <span>Tambah Data Antigen</span>">
+                            title="<i class='bx bx-plus bx-xs' ></i> <span>Tambah Data SKL</span>" value="animate__jackInTheBox">
                             <i class="bx bx-plus scaleX-n1-rtl"></i>
                             <span class="align-middle">Tambah</span>
                         </button>
-                        <button type="button" class="btn btn-label-warning" data-bs-toggle="tooltip" data-bs-placement="bottom"
-                            title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon"></i></button>
-                        <button type="button" class="btn btn-label-info"
+                        <button type="button" class="btn btn-label-warning" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true"
+                            title="<i class='fa-fw fas fa-sync nav-icon'></i> <span>Refresh Tabel</span>" onclick="refresh()">
+                            <i class="fa-fw fas fa-sync nav-icon"></i></button>
+                        <button type="button" class="btn btn-label-secondary"
                             onclick="window.location.href='{{ route('antigen.filter') }}'" data-bs-toggle="tooltip"
                             data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true"
-                            title="<i class='bx bx-filter bx-xs' ></i> <span>Filter Data Antigen</span>">
+                            title="<i class='bx bx-filter bx-xs' ></i> <span>Filter Data SKL</span>" disabled>
                             <i class="bx bx-filter scaleX-n1-rtl"></i>
                             <span class="align-middle">Filter</span>
                         </button>
@@ -67,28 +68,30 @@
                         <thead>
                             <tr>
                                 <th class="cell-fit"></th>
-                                <th>NO</th>
-                                <th>TGL</th>
-                                <th>IBU</th>
-                                <th>AYAH</th>
-                                <th>ANAK</th>
-                                <th>ALAMAT</th>
+                                <th class="cell-fit">NO SURAT</th>
+                                <th class="cell-fit">TGL</th>
+                                <th class="cell-fit">IBU</th>
+                                <th class="cell-fit">AYAH</th>
+                                <th class="cell-fit">ANAK</th>
+                                <th class="cell-fit">JK / BB / TB</th>
+                                <th class="cell-fit">ALAMAT</th>
                             </tr>
                         </thead>
                         <tbody id="tampil-tbody">
                             <tr>
-                                <td colspan="7"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td>
+                                <td colspan="10"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td>
                             </tr>
                         </tbody>
                         <tfoot>
                             <tr>
                                 <th class="cell-fit"></th>
-                                <th>NO</th>
-                                <th>TGL</th>
-                                <th>IBU</th>
-                                <th>AYAH</th>
-                                <th>ANAK</th>
-                                <th>ALAMAT</th>
+                                <th class="cell-fit">NO SURAT</th>
+                                <th class="cell-fit">TGL</th>
+                                <th class="cell-fit">IBU</th>
+                                <th class="cell-fit">AYAH</th>
+                                <th class="cell-fit">ANAK</th>
+                                <th class="cell-fit">JK / BB / TB</th>
+                                <th class="cell-fit">ALAMAT</th>
                             </tr>
                         </tfoot>
                     </table>
@@ -97,14 +100,14 @@
         </div>
 
         {{-- MODAL START --}}
-        <div class="modal fade" id="tambah" aria-hidden="true" aria-labelledby="modalToggleLabel2" tabindex="-1">
+        <div class="modal fade animate__animated animate__jackInTheBox fade" id="tambah" aria-hidden="true" aria-labelledby="modalToggleLabel2" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
                     <div class="modal-header">
                         <h5 class="modal-title">Tambah Data</h5>
                         <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                     </div>
-                    <form class="form-auth-small" action="{{ route('antigen.store') }}" method="POST"
+                    <form class="form-auth-small" action="{{ route('skl.store') }}" method="POST"
                         enctype="multipart/form-data">
                         <div class="modal-body">
                             @csrf
@@ -120,39 +123,50 @@
                                     <div class="form-group">
                                         <label>No Surat : </label>
                                         <div class="input-group">
-                                            <button class="btn btn-outline-dark" type="button" id="button-addon1">Ubah</button>
-                                            <input type="text" class="form-control" name="no_surat" value="{{ $list['nomer'] }}" disabled>
+                                            <button class="btn btn-outline-dark" type="button" id="button_ubah_no_surat" onclick="ubahNoSurat()">Ubah</button>
+                                            <input type="text" class="form-control" id="tampil_no_surat" value="{{ $list['nomer'] }}" disabled>
+                                            <input type="number" name="no_surat" id="save_no_surat" value="{{ $list['nomer'] }}" class="form-control"
+                                                placeholder="" hidden required>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-md-8 mb-3">
                                     <div class="form-group">
                                         <label>Waktu :</label>
-                                        <input type="datetime-local" name="tgl" class="form-control" placeholder="">
+                                        <input type="datetime-local" name="tgl" id="tgl_add" class="form-control" placeholder="" required>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label>Nama Ibu : </label>
-                                        <input type="text" name="ibu" class="form-control" placeholder="" required>
+                                        <div class="input-group input-group-merge">
+                                          <span class="input-group-text" id="basic-addon34">NY.</span>
+                                          <input type="text" class="form-control" name="ibu" id="basic-url3" aria-describedby="basic-addon34" placeholder="Nama Lengkap Ibu" required/>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label>Nama Ayah : </label>
-                                        <input type="text" name="ayah" class="form-control" placeholder="" required>
+                                        <div class="input-group input-group-merge">
+                                          <span class="input-group-text" id="basic-addon34">TN.</span>
+                                          <input type="text" class="form-control" name="ayah" id="basic-url3" aria-describedby="basic-addon34" placeholder="Nama Lengkap Ayah" required/>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label>Nama Anak : </label>
-                                        <input type="text" name="anak" class="form-control" placeholder="">
+                                        <div class="input-group input-group-merge">
+                                          <span class="input-group-text" id="basic-addon34">BY.</span>
+                                          <input type="text" class="form-control" name="anak" id="basic-url3" aria-describedby="basic-addon34" placeholder="Nama Lengkap Anak (Bila Ada)"/>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label>Nama Dokter : </label>
-                                        <select class="form-control selectric" name="dr" style="width: 100%" required>
+                                        <select class="form-control select2" name="dr" style="width: 100%" required>
                                             <option selected="selected" value="" hidden>Pilih</option>
                                             <option value="1">dr. Gede Sri Dhyana M. A., Sp.OG</option>
                                             <option value="2">dr. H. Ahmad Sutamat, Sp.OG</option>
@@ -163,24 +177,30 @@
                                 <div class="col-md-3 mb-3">
                                     <div class="form-group">
                                         <label>Berat Badan : </label>
-                                        <input type="number" name="bb"
-                                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                            maxlength="4" class="form-control" placeholder="gram" required>
+                                        <div class="input-group input-group-merge">
+                                            <input type="number" name="bb"
+                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                maxlength="4" class="form-control" placeholder="..." required>
+                                            <span class="input-group-text" id="basic-addon34">gram</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-3 mb-3">
                                     <div class="form-group">
                                         <label>Tinggi Badan : </label>
-                                        <input type="number" name="tb"
-                                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
-                                            maxlength="2" class="form-control" placeholder="cm" required>
+                                        <div class="input-group input-group-merge">
+                                            <input type="number" name="tb"
+                                                oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                                maxlength="2" class="form-control" placeholder="..." required>
+                                            <span class="input-group-text" id="basic-addon34">cm</span>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-md-6 mb-3">
                                     <div class="form-group">
                                         <label>Jenis Kelamin</label>
-                                        <select name="kelamin" class="form-control selectric" style="width: 100%">
-                                            <option hidden>Pilih</option>
+                                        <select name="kelamin" class="form-control select2" style="width: 100%" required>
+                                            <option selected="selected" value="" hidden>Pilih</option>
                                             <option value="laki-laki">Laki-laki</option>
                                             <option value="perempuan">Perempuan</option>
                                         </select>
@@ -189,25 +209,21 @@
                                 <div class="col-md-12 mb-3">
                                     <div class="form-group">
                                         <label>Alamat :</label>
-                                        <textarea class="form-control" name="alamat"
-                                            id="alamat" placeholder=""></textarea>
+                                        <textarea class="form-control" name="alamat" placeholder="Masukkan Alamat Lengkap" required></textarea>
                                     </div>
                                 </div>
                             </div>
-                            <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan <kbd>Nomor RM</kbd> sesuai dengan
-                                Database Pilar.</a>
+                            <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan <b>Nomor Surat</b> sudah sesuai sebelum disimpan.</a>
                         </div>
                         <div class="modal-footer">
-                            <a class="btn btn-label-secondary" href="javascript:void(0);" data-bs-dismiss="modal"><i
-                                    class="fas fa-chevron-left"></i>&nbsp;&nbsp;Tutup</a>
-                            <button class="btn btn-primary" type="submit"><i
-                                    class="fa fa-save"></i>&nbsp;&nbsp;Simpan</button>
+                            <a class="btn btn-label-secondary" href="javascript:void(0);" data-bs-dismiss="modal"><i class="fas fa-chevron-left"></i>&nbsp;&nbsp;Tutup</a>
+                            <button class="btn btn-primary" id="btn-simpan" onclick="saveData()"><i class="fa fa-save"></i>&nbsp;&nbsp;Simpan</button>
                         </div>
                     </form>
                 </div>
             </div>
         </div>
-        <div class="modal fade" id="ubah" data-bs-backdrop="static" aria-hidden="true"
+        <div class="modal fade animate__animated animate__rubberBand fade" id="ubah" data-bs-backdrop="static" aria-hidden="true"
             aria-labelledby="modalToggleLabel2" tabindex="-1">
             <div class="modal-dialog modal-dialog-centered modal-lg">
                 <div class="modal-content">
@@ -218,66 +234,93 @@
                     <div class="modal-body">
                         <input type="text" id="id_edit" hidden>
                         <div class="row">
-                            <div class="col-md-3">
-                                <div class="form-group mb-4">
-                                    <label>RM :</label>
-                                    <input type="number" id="rm_edit" class="form-control" disabled>
+                            <div class="col-md-4 mb-3">
+                                {{-- <div class="form-group">
+                                    <label>No Surat : </label>
+                                    <input type="number" name="no_surat" value="{{ $list['nomer'] }}" class="form-control"
+                                        placeholder="" disabled>
+                                    <input type="number" name="no_surat" value="{{ $list['nomer'] }}" class="form-control"
+                                        placeholder="" hidden>
+                                </div> --}}
+                                <div class="form-group">
+                                    <label>No Surat : </label>
+                                    <input type="text" class="form-control" id="no_surat_edit" value="{{ $list['nomer'] }}" disabled>
                                 </div>
                             </div>
-                            <div class="col-md-5">
-                                <div class="form-group mb-4">
-                                    <label>Pemeriksa :</label>
-                                    <input type="text" id="pemeriksa_edit" class="form-control" placeholder="Optional">
+                            <div class="col-md-8 mb-3">
+                                <div class="form-group">
+                                    <label>Waktu :</label>
+                                    <input type="datetime-local" id="tgl_edit" class="form-control" placeholder="">
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group mb-4">
-                                    <label>Tgl :</label>
-                                    <input type="text" class="form-control" name="tgl" value=""
-                                        placeholder="Tgl Antigen" id="tgl_edit" />
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label>Nama Ibu : </label>
+                                    <div class="input-group input-group-merge">
+                                      <span class="input-group-text" id="basic-addon34">NY.</span>
+                                      <input type="text" class="form-control" id="ibu_edit" aria-describedby="basic-addon34" placeholder="Nama Lengkap Ibu"/>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-8">
-                                <div class="form-group mb-4">
-                                    <label>Dokter Pengirim :</label>
-                                    <select class="form-control select2" style="width: 100%" id="dr_pengirim_edit"
-                                        required></select>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label>Nama Ayah : </label>
+                                    <div class="input-group input-group-merge">
+                                      <span class="input-group-text" id="basic-addon34">TN.</span>
+                                      <input type="text" class="form-control" id="ayah_edit" aria-describedby="basic-addon34" placeholder="Nama Lengkap Ayah"/>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-4">
-                                <div class="form-group mb-4">
-                                    <label>Hasil :</label>
-                                    <select class="form-control select2" id="hasil_edit" style="width: 100%"
-                                        required></select>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label>Nama Anak : </label>
+                                    <div class="input-group input-group-merge">
+                                      <span class="input-group-text" id="basic-addon34">BY.</span>
+                                      <input type="text" class="form-control" id="anak_edit" aria-describedby="basic-addon34" placeholder="Nama Lengkap Anak (Bila Ada)"/>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-6">
-                                <div class="form-group mb-4">
-                                    <label>Nama :</label>
-                                    <input type="text" class="form-control" id="nama_edit" disabled>
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label>Nama Dokter : </label>
+                                    <select class="form-control select2" id="dr_edit" style="width: 100%" required></select>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group mb-4">
-                                    <label>Jenis Kelamin :</label>
-                                    <input type="text" class="form-control" id="jns_kelamin_edit" disabled>
+                            <div class="col-md-3 mb-3">
+                                <div class="form-group">
+                                    <label>Berat Badan : </label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="number" id="bb_edit"
+                                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                            maxlength="4" class="form-control" placeholder="..." required>
+                                        <span class="input-group-text" id="basic-addon34">gram</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-3">
-                                <div class="form-group mb-4">
-                                    <label>Umur :</label>
-                                    <input type="text" class="form-control" id="umur_edit" disabled>
+                            <div class="col-md-3 mb-3">
+                                <div class="form-group">
+                                    <label>Tinggi Badan : </label>
+                                    <div class="input-group input-group-merge">
+                                        <input type="number" id="tb_edit"
+                                            oninput="javascript: if (this.value.length > this.maxLength) this.value = this.value.slice(0, this.maxLength);"
+                                            maxlength="2" class="form-control" placeholder="..." required>
+                                        <span class="input-group-text" id="basic-addon34">cm</span>
+                                    </div>
                                 </div>
                             </div>
-                            <div class="col-md-12">
-                                <div class="form-group mb-3">
+                            <div class="col-md-6 mb-3">
+                                <div class="form-group">
+                                    <label>Jenis Kelamin</label>
+                                    <select class="form-control select2" id="kelamin_edit" style="width: 100%"></select>
+                                </div>
+                            </div>
+                            <div class="col-md-12 mb-3">
+                                <div class="form-group">
                                     <label>Alamat :</label>
-                                    <textarea class="form-control" id="alamat_edit" disabled></textarea>
+                                    <textarea class="form-control" id="alamat_edit" placeholder="Masukkan Alamat Lengkap"></textarea>
                                 </div>
                             </div>
                         </div>
-                        <a><i class="fa-fw fas fa-caret-right nav-icon"></i> Jika terdapat kesalahan pada penulisan <kbd>Nomor
-                                RM</kbd> , silakan Hapus data dan Input ulang kembali</a>
                     </div>
                     <div class="modal-footer">
                         <a class="btn btn-label-secondary" href="javascript:void(0);" data-bs-dismiss="modal"><i
@@ -288,6 +331,23 @@
                 </div>
             </div>
         </div>
+        {{-- MAINTENANCE --}}
+        <div class="modal fade animate__animated animate__lightSpeedIn" id="maintenance" tabindex="-1" aria-hidden="true">
+          <div class="modal-dialog modal-simple modal-enable-otp modal-dialog-centered">
+            <div class="modal-content p-3 p-md-5">
+              <div class="modal-body">
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                <div class="text-center">
+                  <h3 class="mb-4">Ubah Identitas Bayi</h3>
+                </div><center>
+                <h6>Kami sedang dalam perbaikan Sistem SKL</h6>
+                <h6>Tunggu beberapa saat lagi...</h6>
+                <hr>
+                <p>Untuk sementara, perubahan identitas bayi dapat dilakukan dengan cara penghapusan data lalu input ulang.</p></center>
+              </div>
+            </div>
+          </div>
+        </div>
         {{-- MODAL END --}}
     @endcan
 
@@ -297,7 +357,7 @@
 
             // TGL ADD
             const l = document.querySelector("#tgl_add");
-            const c = new Date(Date.now() - 1728e5),
+            const c = new Date(Date.now() + 1728e5),
                 m = new Date(Date.now());
             var today = moment().locale('id').format('Y-MM-DD HH:mm');
             console.log(today);
@@ -311,10 +371,31 @@
                 time_24hr: true,
                 // dateFormat: "Y-m-d H:m",
                 disable: [{
-                    from: "2000-01-01",
-                    to: c.toISOString().split("T")[0]
+                    from: c.toISOString().split("T")[0],
+                    to: "3000-01-01"
                 }]
             })
+
+            // TGL EDIT
+            // const l = document.querySelector("#tgl_edit");
+            // const c = new Date(Date.now() + 1728e5),
+            //     m = new Date(Date.now());
+            // var today = moment().locale('id').format('Y-MM-DD HH:mm');
+            // console.log(today);
+            // l.flatpickr({
+            //     enableTime: !0,
+            //     defaultDate: today,
+            //     minuteIncrement: 1,
+            //     // inline: true,
+            //     // defaultHour: 12,
+            //     // defaultMinute: "today",
+            //     time_24hr: true,
+            //     // dateFormat: "Y-m-d H:m",
+            //     disable: [{
+            //         from: c.toISOString().split("T")[0],
+            //         to: "3000-01-01"
+            //     }]
+            // })
 
             // SELECT PICKER
             var t = $(".select2");
@@ -336,49 +417,53 @@
                     // var date = new Date().toISOString().split('T')[0];
                     if (res.show.length == 0) {
                         $("#tampil-tbody").append(
-                            `<tr><td colspan="7"><center><i class="fas fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`
+                            `<tr><td colspan="10"><center><i class="fas fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`
                         );
                     } else {
                         res.show.forEach(item => {
                             // var updet = item.updated_at.substring(0, 10);
                             content = `<tr id='data"+ item.id +"'>`;
                             content +=
-                                `<td><center><div class='btn-group'><button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button><ul class='dropdown-menu dropdown-menu-end'>` +
+                                `<td><center><div class='btn-group'><button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false' value="animate__rubberBand"><i class='bx bx-dots-vertical-rounded'></i></button><ul class='dropdown-menu dropdown-menu-end'>` +
                                 `<li><a href='javascript:void(0);' class='dropdown-item text-warning' onclick="showUbah(` +
                                 item.id +
                                 `)"><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>` +
-                                `<li><a href='javascript:void(0);' class='dropdown-item text-info' onclick="window.open('/v2/lab/antigen/` +
+                                `<li><a href='javascript:void(0);' class='dropdown-item text-info' onclick="window.open('/v2/kebidanan/skl/` +
                                 item.id +
                                 `/print','id','width=900,height=600')"><i class='bx bx-printer scaleX-n1-rtl'></i> Cetak</a></li>` +
-                                `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/lab/antigen/` +
+                                `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/kebidanan/skl/` +
                                 item.id +
                                 `/cetak')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>` +
                                 `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(` +
                                 item.id +
                                 `)"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>` +
                                 `</ul></center></td><td>`;
-                            if (item.hasil == "POSITIF")
-                                content += "<kbd style='background-color: red'>P</kbd>&nbsp;";
+                            content += item.no_surat + "</td><td>" +
+                                item.tgl + "</td><td>" +
+                                item.ibu + "</td><td>" +
+                                item.ayah + "</td><td>";
+                            if (item.anak == null)
+                                content += "";
                             else
-                                content +=
-                                "<kbd style='background-color: #00898E'>N</kbd>&nbsp;";
-                            content += item.rm + "</td><td>" +
-                                item.dr_nama + "</td><td>" +
-                                item.nama + "</td><td>" +
-                                item.jns_kelamin + " / " + item.umur + "</td><td>" +
-                                item.alamat + "</td><td>" +
-                                item.tgl + "</td>";
+                                content += item.anak;
+                            content += "</td><td>";
+                            if (item.kelamin == "laki-laki")
+                                content += "<kbd style='background-color: #3298FF'>L</kbd>&nbsp;";
+                            if (item.kelamin == "perempuan")
+                                content += "<kbd style='background-color: #00898E'>P</kbd>&nbsp;";
+                            content +=  " / " + item.bb + " / " + item.tb + "</td><td>" +
+                                item.alamat + "</td>";
                             content += `</tr>`;
                             $('#tampil-tbody').append(content);
                         });
                     }
                     $('#table').DataTable({
                         order: [
-                            [6, "desc"]
+                            [1, "desc"]
                         ],
                         dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-                        displayLength: 7,
-                        lengthMenu: [7, 10, 25, 50, 75, 100],
+                        displayLength: 10,
+                        lengthMenu: [10, 20, 30],
                         buttons: [{
                                 extend: "collection",
                                 className: "btn btn-label-primary dropdown-toggle me-2",
@@ -400,7 +485,7 @@
                                     },
                                     sheetName: 'data',
                                     title: '',
-                                    filename: 'Daftar Antigen'
+                                    filename: 'Daftar SKL'
                                 }, {
                                     extend: "pdf",
                                     text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
@@ -428,13 +513,14 @@
                                 searchable: !1,
                             },
                             {
-                                targets: 4,
-                                orderable: !1
+                                targets: 6,
+                                orderable: !1,
+                                searchable: !1,
                             },
                             // { targets: 16, visible: false },
                         ],
                     }, );
-                    $("div.head-label").html('<h5 class="card-title mb-0">Daftar Antigen</h5>');
+                    $("div.head-label").html('<h5 class="card-title mb-0">Daftar Tabel</h5>');
                 }
             });
 
@@ -504,10 +590,18 @@
         function tambah() {
             $('#tambah').modal('show');
         }
+        
+        function saveData() {
+        $("#tambah").one('submit', function() {
+            $("#btn-simpan").attr('disabled','disabled');
+            $("#btn-simpan").find("i").toggleClass("fa-save fa-spinner fa-spin");
+            return true;
+        });
+        }
 
         function refresh() {
             $("#tampil-tbody").empty().append(
-                `<tr><td colspan="7"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
+                `<tr><td colspan="10"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
             $.ajax({
                 url: "/api/kebidanan/skl/get",
                 type: 'GET',
@@ -517,47 +611,53 @@
                     $('#table').DataTable().clear().destroy();
                     if (res.show.length == 0) {
                         $("#tampil-tbody").append(
-                            `<tr><td colspan="7"><center><i class="fa fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`
+                            `<tr><td colspan="10"><center><i class="fa fa-frown fa-fw"></i> Tidak ada data yang masuk...</center></td></tr>`
                         );
                     } else {
                         res.show.forEach(item => {
                             // var updet = item.updated_at.substring(0, 10);
                             content = `<tr id='data"+ item.id +"'>`;
                             content +=
-                                `<td><center><div class='btn-group'><button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button><ul class='dropdown-menu dropdown-menu-end'>` +
+                                `<td><center><div class='btn-group'><button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false' value="animate__rubberBand"><i class='bx bx-dots-vertical-rounded'></i></button><ul class='dropdown-menu dropdown-menu-end'>` +
                                 `<li><a href='javascript:void(0);' class='dropdown-item text-warning' onclick="showUbah(` +
-                                item.id + `)"><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>` +
-                                `<li><a href='javascript:void(0);' class='dropdown-item text-info' onclick="window.open('/v2/lab/antigen/` +
+                                item.id +
+                                `)"><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>` +
+                                `<li><a href='javascript:void(0);' class='dropdown-item text-info' onclick="window.open('/v2/kebidanan/skl/` +
                                 item.id +
                                 `/print','id','width=900,height=600')"><i class='bx bx-printer scaleX-n1-rtl'></i> Cetak</a></li>` +
-                                `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/lab/antigen/` +
+                                `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/kebidanan/skl/` +
                                 item.id +
                                 `/cetak')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>` +
                                 `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(` +
                                 item.id +
                                 `)"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>` +
                                 `</ul></center></td><td>`;
-                            if (item.hasil == "POSITIF")
-                                content += "<kbd style='background-color: red'>P</kbd>&nbsp;";
+                            content += item.no_surat + "</td><td>" +
+                                item.tgl + "</td><td>" +
+                                item.ibu + "</td><td>" +
+                                item.ayah + "</td><td>";
+                            if (item.anak == null)
+                                content += "";
                             else
-                                content += "<kbd style='background-color: #00898E'>N</kbd>&nbsp;";
-                            content += item.rm + "</td><td>" +
-                                item.dr_nama + "</td><td>" +
-                                item.nama + "</td><td>" +
-                                item.jns_kelamin + " / " + item.umur + "</td><td>" +
-                                item.alamat + "</td><td>" +
-                                item.tgl + "</td>";
+                                content += item.anak;
+                            content += "</td><td>";
+                            if (item.kelamin == "laki-laki")
+                                content += "<kbd style='background-color: #3298FF'>L</kbd>&nbsp;";
+                            if (item.kelamin == "perempuan")
+                                content += "<kbd style='background-color: #00898E'>P</kbd>&nbsp;";
+                            content +=  " / " + item.bb + " / " + item.tb + "</td><td>" +
+                                item.alamat + "</td>";
                             content += `</tr>`;
                             $('#tampil-tbody').append(content);
                         });
                     }
                     $('#table').DataTable({
                         order: [
-                            [6, "desc"]
+                            [1, "desc"]
                         ],
                         dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-                        displayLength: 7,
-                        lengthMenu: [7, 10, 25, 50, 75, 100],
+                        displayLength: 10,
+                        lengthMenu: [10, 20, 30],
                         buttons: [{
                                 extend: "collection",
                                 className: "btn btn-label-primary dropdown-toggle me-2",
@@ -579,7 +679,7 @@
                                     },
                                     sheetName: 'data',
                                     title: '',
-                                    filename: 'Daftar Risiko K3'
+                                    filename: 'Daftar SKL'
                                 }, {
                                     extend: "pdf",
                                     text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
@@ -607,62 +707,70 @@
                                 searchable: !1,
                             },
                             {
-                                targets: 4,
-                                orderable: !1
+                                targets: 6,
+                                orderable: !1,
+                                searchable: !1,
                             },
                             // { targets: 16, visible: false },
                         ],
                     }, );
-                    $("div.head-label").html('<h5 class="card-title mb-0">Daftar Antigen</h5>');
+                    $("div.head-label").html('<h5 class="card-title mb-0">Daftar Tabel</h5>');
                 }
             });
         }
+        
+        // Button UBAH
+        function ubahNoSurat() {
+            document.getElementById("button_ubah_no_surat").hidden = true;
+            document.getElementById("tampil_no_surat").hidden = true;
+            document.getElementById("save_no_surat").hidden = false;
+        }
 
         function showUbah(id) {
-            $('#ubah').modal('show');
-            $.ajax({
-                url: "/api/antigen/getubah/" + id,
-                type: 'GET',
-                dataType: 'json', // added data type
-                success: function(res) {
-                    // $("#tgl_edit").val(tgl); // yyyy-MM-ddThh:mm
-                    // var tgl = res.tgl + ' ' + res.waktu;
-                    var finalTgl = moment(res.show.tgl).format('Y-MM-DD HH:mm');
-                    // TGL EDIT
-                    var a = document.querySelector("#tgl_edit");
-                    var b = new Date(Date.now() - 1728e5);
-                    a.flatpickr({
-                        enableTime: !0,
-                        minuteIncrement: 1,
-                        defaultDate: finalTgl,
-                        time_24hr: true,
-                        // disable: [{
-                        //   from: "2000-01-01",
-                        //   to: b.toISOString().split("T")[0]
-                        // }]
-                    })
-                    document.getElementById('show_id').innerHTML = res.show.id;
-                    $("#id_edit").val(res.show.id);
-                    $("#rm_edit").val(res.show.rm);
-                    $("#pemeriksa_edit").val(res.show.pemeriksa);
-                    // document.getElementById('tgl_edit').value = tgl;
-                    $("#nama_edit").val(res.show.nama);
-                    $("#jns_kelamin_edit").val(res.show.jns_kelamin);
-                    $("#umur_edit").val(res.show.umur);
-                    $("#alamat_edit").val(res.show.alamat);
-                    $("#dr_pengirim_edit").find('option').remove();
-                    $("#hasil_edit").find('option').remove();
-                    res.dokter.forEach(item => {
-                        $("#dr_pengirim_edit").append(`
-                        <option value="${item.id}" ${item.id == res.show.dr_pengirim? "selected":""}>${item.nama} (${item.jabatan})</option>
-                    `);
-                    });
-                    $("#hasil_edit").append(`
-                    <option value="POSITIF" ${res.show.hasil == 'POSITIF'? "selected":""}>POSITIF</option>
-                    <option value="NEGATIF" ${res.show.hasil == 'NEGATIF'? "selected":""}>NEGATIF</option>
-                `);
-                }
-            });
+            $('#maintenance').modal('show');
+            // $('#ubah').modal('show');
+            // $.ajax({
+            //     url: "/api/kebidanan/skl/getubah/" + id,
+            //     type: 'GET',
+            //     dataType: 'json', // added data type
+            //     success: function(res) {
+            //         // $("#tgl_edit").val(tgl); // yyyy-MM-ddThh:mm
+            //         // var tgl = res.tgl + ' ' + res.waktu;
+            //         var finalTgl = moment(res.show.tgl).format('Y-MM-DD HH:mm');
+            //         // TGL EDIT
+            //         var a = document.querySelector("#tgl_edit");
+            //         var b = new Date(Date.now() - 1728e5);
+            //         a.flatpickr({
+            //             enableTime: !0,
+            //             minuteIncrement: 1,
+            //             defaultDate: finalTgl,
+            //             time_24hr: true,
+            //             // disable: [{
+            //             //   from: "2000-01-01",
+            //             //   to: b.toISOString().split("T")[0]
+            //             // }]
+            //         })
+            //         document.getElementById('show_id').innerHTML = res.show.id;
+            //         $("#id_edit").val(res.show.id);
+            //         $("#ibu_edit").val(res.show.ibu);
+            //         $("#ayah_edit").val(res.show.ayah);
+            //         $("#anak_edit").val(res.show.anak);
+            //         $("#bb_edit").val(res.show.bb);
+            //         $("#tb_edit").val(res.show.tb);
+            //         $("#alamat_edit").val(res.show.alamat);
+            //         $("#kelamin_edit").find('option').remove();
+            //         $("#kelamin_edit").append(`
+            //             <option value="laki-laki" ${res.show.kelamin == 'laki-laki'? "selected":""}>Laki-laki</option>
+            //             <option value="perempuan" ${res.show.kelamin == 'perempuan'? "selected":""}>Perempuan</option>
+            //         `);
+            //         $("#dr_edit").find('option').remove();
+            //         $("#dr_edit").append(`
+            //             <option value="1" ${res.show.dr == '1'? "selected":""}>dr. Gede Sri Dhyana M. A., Sp.OG</option>
+            //             <option value="2" ${res.show.dr == '2'? "selected":""}>dr. H. Ahmad Sutamat, Sp.OG</option>
+            //             <option value="3" ${res.show.dr == '3'? "selected":""}>dr. Febrian Andhika Adiyana, Sp.OG</option>
+            //         `);
+            //     }
+            // });
         }
 
         function ubah() {
@@ -718,7 +826,7 @@
         function hapus(id) {
             Swal.fire({
                 title: 'Apakah anda yakin?',
-                text: 'Hasil Antigen ID : ' + id,
+                text: 'Data SKL ID : ' + id,
                 icon: 'warning',
                 reverseButtons: false,
                 showDenyButton: false,
@@ -732,13 +840,13 @@
             }).then((result) => {
                 if (result.isConfirmed) {
                     $.ajax({
-                        url: "/api/antigen/hapus/" + id,
+                        url: "/api/kebidanan/skl/hapus/" + id,
                         type: 'GET',
                         dataType: 'json', // added data type
                         success: function(res) {
                             iziToast.success({
                                 title: 'Sukses!',
-                                message: 'Hapus hasil Antigen berhasil pada ' + res,
+                                message: 'Hapus Data SKL berhasil pada ' + res,
                                 position: 'topRight'
                             });
                             refresh();

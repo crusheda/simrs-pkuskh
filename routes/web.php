@@ -591,6 +591,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
     // SKL
         Route::get('kebidanan/skl/get','kebidanan\sklController@apiGet');
         Route::get('kebidanan/skl/all','kebidanan\sklController@apiAll');
+        Route::get('kebidanan/skl/getubah/{id}', 'kebidanan\sklController@getubah');
+        Route::get('kebidanan/skl/hapus/{id}', 'kebidanan\sklController@hapus');
+        Route::post('kebidanan/skl/ubah/{id}', 'kebidanan\sklController@ubah');
     
     // LAB
         // ANTIGEN
