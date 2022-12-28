@@ -28,7 +28,7 @@
         </div>
     @endif
 
-    @can('antigen')
+    @can('skl')
         <div class="card card-action mb-4">
             <div class="card-header">
                 <div class="card-action-title">
