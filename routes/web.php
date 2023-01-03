@@ -551,6 +551,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
 // BRIDGING
     // PILAR
         Route::get('bridging/pilar', 'pilar\pasienController@index')->name('pilar.pasien');
+
+// TATA USAHA
+    // SURAT MASUK
+        Route::get('suratmasuk', 'tu\suratMasukController@index')->name('suratmasuk.index');
+        Route::post('suratmasuk', 'tu\suratMasukController@store')->name('suratmasuk.store');
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////    API    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -636,6 +641,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
             Route::get('rka/table', 'administrasi\rkaController@table');
             // Route::post('rka/upload','administrasi\rkaController@upload')->name('api.rka.upload');
             Route::get('rka/hapus/{id}', 'administrasi\rkaController@hapus');
+
+    // TATA USAHA
+        // SURAT MASUK
+            Route::get('suratmasuk/data', 'tu\suratMasukController@apiGet');
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////    <>    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
