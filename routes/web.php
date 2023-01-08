@@ -555,6 +555,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
 // TATA USAHA
     // SURAT MASUK
         Route::get('suratmasuk', 'tu\suratMasukController@index')->name('suratmasuk.index');
+        Route::get('suratmasuk/{id}/download', 'tu\suratMasukController@download');
         Route::post('suratmasuk', 'tu\suratMasukController@store')->name('suratmasuk.store');
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////    API    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
@@ -645,6 +646,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
     // TATA USAHA
         // SURAT MASUK
             Route::get('suratmasuk/data', 'tu\suratMasukController@apiGet');
+            Route::get('suratmasuk/data/{id}', 'tu\suratMasukController@showChange');
+            Route::put('suratmasuk/{id}', 'tu\suratMasukController@update');
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////    <>    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\

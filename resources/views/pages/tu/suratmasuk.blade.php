@@ -65,13 +65,13 @@
                             <th class="cell-fit">
                                 <center>#</center>
                             </th>
-                            <th class="cell-fit">NO</th>
+                            <th class="cell-fit">NO.URUT</th>
                             <th class="cell-fit">TGL SURAT</th>
                             <th class="cell-fit">TGL DITERIMA</th>
-                            <th class="cell-fit">ASAL</th>
-                            <th class="cell-fit">DESKRIPSI</th>
-                            <th class="cell-fit">TEMPAT/ACARA</th>
-                            <th class="cell-fit">UPDATE</th>
+                            <th>ASAL/NO.SRT</th>
+                            <th>DESKRIPSI</th>
+                            <th>TEMPAT/ACARA</th>
+                            <th>UPDATE</th>
                             <th class="cell-fit">USER</th>
                         </tr>
                     </thead>
@@ -87,13 +87,13 @@
                             <th class="cell-fit">
                                 <center>#</center>
                             </th>
-                            <th class="cell-fit">NO</th>
+                            <th class="cell-fit">NO.URUT</th>
                             <th class="cell-fit">TGL SURAT</th>
                             <th class="cell-fit">TGL DITERIMA</th>
-                            <th class="cell-fit">ASAL</th>
-                            <th class="cell-fit">DESKRIPSI</th>
-                            <th class="cell-fit">TEMPAT/ACARA</th>
-                            <th class="cell-fit">UPDATE</th>
+                            <th>ASAL/NO.SRT</th>
+                            <th>DESKRIPSI</th>
+                            <th>TEMPAT/ACARA</th>
+                            <th>UPDATE</th>
                             <th class="cell-fit">USER</th>
                         </tr>
                     </tfoot>
@@ -180,6 +180,81 @@
                     <button class="btn btn-primary" id="btn-simpan" onclick="saveData()"><i class="fa-fw fas fa-upload nav-icon"></i> Upload</button>
                     </form>
 
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div class="modal fade animate__animated animate__rubberBand" id="ubah" role="dialog" aria-labelledby="confirmFormLabel"aria-hidden="true">
+        <div class="modal-dialog modal-lg">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <h4 class="modal-title">
+                        Form Ubah&nbsp;&nbsp;&nbsp;
+                    </h4>
+                    <div class="card-title-elements">
+                      <select class="form-select form-select-sm" id="user" required></select>
+                    </div>
+                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="id_edit" hidden>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Tgl. Surat</label>
+                                <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" id="tgl_surat"/>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Tgl. Diterima <a class="text-danger">*</a></label>
+                                <input type="text" class="form-control flatpickrNull" placeholder="YYYY-MM-DD" id="tgl_diterima" required/>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Nomor Surat <a class="text-danger">*</a></label>
+                                <input type="text" id="nomor" class="form-control" placeholder=". . . / . . . / . . ." autofocus required/>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Asal Surat <a class="text-danger">*</a></label>
+                                <input type="text" id="asal" class="form-control" placeholder="e.g. Perhimpunan Rumah Sakit Seluruh Indonesia" required/>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Tempat</label>
+                                <input type="text" id="tempat" class="form-control" placeholder="e.g. Hotel Syariah Surakarta">
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Acara</label>
+                                <div class="input-group input-group-merge">
+                                    <input type="text" class="form-control flatpickrrange" id="waktu" placeholder="YYYY-MM-DD to YYYY-MM-DD"/>
+                                    <span class="input-group-text cursor-pointer"><i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Klik 2x apabila hanya memilih satu tanggal saja"></i></span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Deskripsi</label>
+                                <textarea rows="3" class="form-control" id="deskripsi" placeholder="Optional"></textarea>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Berkas Surat Anda</label>
+                        <h6 id="linksurat" class="mb-2"></h6>
+                        <small><i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila terdapat kesalahan File Upload, Anda dapat melakukan penghapusan lalu Input Ulang</small>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btn-simpan" onclick="updateData()"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
                 </div>
             </div>
@@ -275,6 +350,35 @@
         </div>
     </div> --}}
 
+    {{-- MODAL HAPUS --}}
+    <div class="modal animate__animated animate__rubberBand fade" id="hapus" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-simple modal-add-new-address modal-dialog-centered">
+        <div class="modal-content p-3 p-md-5">
+            <div class="row">
+                <h4 class="modal-title text-center mb-3">
+                    Hapus Surat
+                </h4>
+                <div class="col-12 mb-3">
+                    <p style="text-align: justify;">Anda akan menghapus berkas surat masuk tersebut. Penghapusan berkas akan menyebabkan hilangnya data/dokumen yang terhapus tersebut pada Storage Sistem.
+                        Maka dari itu, lakukanlah dengan hati-hati. Ceklis dibawah untuk melanjutkan penghapusan.</p>
+                    <label class="switch">
+                        <input type="checkbox" class="switch-input">
+                        <span class="switch-toggle-slider">
+                        <span class="switch-on"></span>
+                        <span class="switch-off"></span>
+                        </span>
+                        <span class="switch-label">Anda siap menerima Risiko</span>
+                    </label>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" class="btn btn-danger me-sm-3 me-1"><i class="fa fa-trash"></i> Hapus</button>
+                    <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i> Batal</button>
+                </div>
+            </div>
+        </div>
+        </div>
+    </div>
+
     <script>
         $(document).ready(function() {
             // SELECT2
@@ -345,14 +449,18 @@
                         $("#tampil-tbody").empty();
                         res.show.forEach(item => {
                             // var updet = item.updated_at.substring(0, 10);
-                            content = "<tr id='data"+ item.id +"'><td>BTN</td><td>" 
-                                        + item.urutan + "</td><td>" 
+                            content = "<tr id='data"+ item.id +"'>";
+                            content += `<td><center><div class='btn-group'><button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button><ul class='dropdown-menu dropdown-menu-end'>`
+                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-warning' onclick="showUbah(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>`
+                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/suratmasuk/`+item.id+`/download')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>`
+                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`
+                                    + `</ul></center></td><td>`;  
+                            content += item.urutan + "</td><td>" 
                                         + item.tgl_surat + "</td><td>" 
-                                        + item.tgl_diterima + "</td><td>" 
-                                        + item.asal + "</td><td>" 
-                                        + item.nomor + "</td><td>" 
+                                        + item.tgl_diterima + "</td><td>"
+                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>" + item.asal + "</h6><small class='text-truncate text-muted'>" + item.nomor + "</small></div></div></td><td>" 
                                         + item.deskripsi + "</td><td>" 
-                                        + item.tempat + ", " + item.tglFrom + " - " + item.tglTo + "</td><td>" 
+                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>" + item.tempat + "</h6><small class='text-truncate text-muted'>" + item.tglFrom.substring(0, 10) + " - " + item.tglTo.substring(0, 10) + "</small></div></div></td><td>" 
                                         + item.updated_at + "</td><td>" 
                                         + item.user + "</td></tr>";
                             $('#tampil-tbody').append(content);
@@ -431,41 +539,69 @@
         }
 
         function showUbah(id) {
-            $("#ubah"+id).prop('disabled', true);
-            $("#ubah"+id).find("i").toggleClass("fa-edit fa-sync fa-spin");
             $.ajax(
             {
-                url: "/api/berkas/rapat/data/"+id,
+                url: "/api/suratmasuk/data/"+id,
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {
                     $('#ubah').modal('show');
                     // var dt = new Date(res.show.tanggal).toJSON().slice(0,19);
                     var dt = moment(res.show.tanggal).format('Y-MM-DD HH:mm');
-                    // console.log(dt);
-                    document.getElementById('show_edit').innerHTML = "ID : "+res.show.id;
-                    document.getElementById('user_edit').innerHTML = res.show.user_nama;
+                    document.getElementById('linksurat').innerHTML = "<a href='/v2/suratmasuk/"+res.show.id+"/download'>"+res.show.title+"</a>";
                     $("#id_edit").val(res.show.id);
-                    $("#nama_edit").val(res.show.nama);
-                    $("#tanggal_edit").val(dt);
-                    $("#lokasi_edit").val(res.show.lokasi);
-                    $("#keterangan_edit").val(res.show.keterangan);
-                    $("#kepala_edit").find('option').remove();
-                    res.kepala.forEach(item => {
-                        $("#kepala_edit").append(`
-                            <option value="${item.id}" ${item.id == res.show.kepala? "selected":""}>${item.nama}</option>
-                        `);
-                    });
-                    $("#ubah"+id).find("i").removeClass("fa-sync fa-spin").addClass("fa-edit");
-                    $("#ubah"+id).prop('disabled', false);
+                    // $("#tgl_surat").val(res.show.tgl_surat);
+                    
+                    // INIT DATE
+                    const today = new Date();
+                    var tomorrow = new Date(today);
+                    tomorrow.setDate(tomorrow.getDate() + 2);
+                    var next = new Date(today);
+                    next.setDate(next.getDate() + 999999);
+                        // TGL SURAT EDIT
+                        var a = document.querySelector("#tgl_surat");
+                        var b = new Date(Date.now() - 1728e5);
+                        a.flatpickr({
+                            enableTime: 0,
+                            minuteIncrement: 1,
+                            defaultDate: res.show.tgl_surat,
+                            time_24hr: true,
+                            disable: [{
+                                from: tomorrow.toISOString().split("T")[0],
+                                to: next.toISOString().split("T")[0]
+                            }]
+                        })
+                        // TGL DITERIMA EDIT
+                        var a = document.querySelector("#tgl_diterima");
+                        var b = new Date(Date.now() - 1728e5);
+                        a.flatpickr({
+                            enableTime: 0,
+                            minuteIncrement: 1,
+                            defaultDate: res.show.tgl_diterima,
+                            time_24hr: true,
+                            disable: [{
+                                from: tomorrow.toISOString().split("T")[0],
+                                to: next.toISOString().split("T")[0]
+                            }]
+                        })
+
+                    $("#asal").val(res.show.asal);
+                    $("#nomor").val(res.show.nomor);
+                    $("#deskripsi").val(res.show.deskripsi);
+                    $("#tempat").val(res.show.tempat);
+                    $("#waktu").val(res.waktu);
+                    $("#user").find('option').remove();
+                    $("#user").append(`
+                        <option value="84" ${res.show.user == '84' ? "selected":""}>Sri Suryani, Amd</option>
+                    `);
                 }
             }
             );
         }
 
         function ubah() {
-            $("#submit_edit").prop('disabled', true);
-            $("#submit_edit").find("i").toggleClass("fa-save fa-sync fa-spin");
+            $("#btn-simpan").prop('disabled', true);
+            $("#btn-simpan").find("i").toggleClass("fa-save fa-sync fa-spin");
             var id          = $("#id_edit").val();
             var nama        = $("#nama_edit").val();
             var kepala      = $("#kepala_edit").val();
@@ -543,62 +679,39 @@
         }
 
         function hapus(id) {
-            Swal.fire({
-            title: 'Apakah anda yakin?',
-            text: 'Ingin menghapus Berkas Rapat ID : '+id,
-            icon: 'warning',
-            reverseButtons: false,
-            showDenyButton: false,
-            showCloseButton: false,
-            showCancelButton: true,
-            focusCancel: true,
-            confirmButtonColor: '#FF4845',
-            confirmButtonText: `<i class="fa fa-trash"></i> Hapus`,
-            cancelButtonText: `<i class="fa fa-times"></i> Batal`,
-            backdrop: `rgba(26,27,41,0.8)`,
-            }).then((result) => {
-            if (result.isConfirmed) {
-                $.ajax({
-                url: "/api/berkas/rapat/data/"+id+"/hapus",
-                type: 'GET',
-                dataType: 'json', // added data type
-                success: function(res) {
-                    iziToast.success({
-                        title: 'Pesan Sukses!',
-                        message: 'Berkas gagal telah berhasil dihapus',
-                        position: 'topRight'
-                    });
-                    fresh();
-                    window.location.reload();
-                },
-                error: function(res) {
-                    iziToast.error({
-                        title: 'Pesan Galat!',
-                        message: 'Berkas gagal diupload',
-                        position: 'topRight'
-                    });
-                }
-                }); 
+            $('#hapus').modal('show');
+        }
+
+        function prosesHapus() {
+            $.ajax({
+            url: "/api/berkas/rapat/data/"+id+"/hapus",
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function(res) {
+                iziToast.success({
+                    title: 'Pesan Sukses!',
+                    message: 'Berkas gagal telah berhasil dihapus',
+                    position: 'topRight'
+                });
+                fresh();
+                window.location.reload();
+            },
+            error: function(res) {
+                iziToast.error({
+                    title: 'Pesan Galat!',
+                    message: 'Berkas gagal diupload',
+                    position: 'topRight'
+                });
             }
-            })
+            });
         }
 
         function saveData() {
             $("#tambah").one('submit', function() {
                 //stop submitting the form to see the disabled button effect
-                let x = document.forms["formTambah"]["tanggal"].value;
-                if (x == "") {
-                    iziToast.error({
-                        title: 'Pesan Galat!',
-                        message: 'Mohon isi tanggal rapat',
-                        position: 'topRight'
-                    });
-                    return false;
-                } else {
-                    $("#btn-simpan").attr('disabled','disabled');
-                    $("#btn-simpan").find("i").removeClass("fa-upload").addClass("fa-sync fa-spin");
-                    return true;
-                }
+                $("#btn-simpan").attr('disabled','disabled');
+                $("#btn-simpan").find("i").removeClass("fa-upload").addClass("fa-sync fa-spin");
+                return true;
             });
         }
     </script>
