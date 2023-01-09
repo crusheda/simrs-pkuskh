@@ -1,6 +1,7 @@
 @extends('layouts.simrsmuv2')
 
 @section('content')
+@hasrole('it|kasubag-tata-usaha')
     <h4 class="fw-bold py-3 mb-4">
         <span class="text-muted fw-light">Tata Usaha /</span> Surat Masuk
     </h4>
@@ -113,7 +114,7 @@
                     <div class="card-title-elements">
                       <select class="form-select form-select-sm" name="user" required>
                         <option value="" hidden>Pilih Petugas</option>
-                        <option value="84">Sri Suryani, Amd</option>
+                        <option value="84" selected>Sri Suryani, Amd</option>
                       </select>
                     </div>
                     <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
@@ -770,4 +771,5 @@
             });
         }
     </script>
+@endhasrole
 @endsection
