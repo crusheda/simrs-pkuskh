@@ -84,6 +84,16 @@ class regulasiController extends Controller
     
     public function autoCompleteRegulasi(Request $request)
     {
+    	// if($request->cari){
+    	// 	$cari = kebijakan::search($request->cari)->get();	
+    	// }else{
+    	// 	$cari = kebijakan::get();
+    	// }
+
+        // print_r($cari);
+        // die();
+        
+
         $getkebijakan = kebijakan::select("judul")
                         ->where("judul","LIKE","%{$request->cari}%")
                         ->groupBy ('judul')

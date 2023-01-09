@@ -571,7 +571,7 @@ $(document).ready( function () {
             $('#rm').prop('disabled', true); 
             $("#rm_save").val(this.value);
             $.ajax({
-                url: "http://192.168.1.3:8000/api/rm/"+this.value,
+                url: "/api/ppi/plebitis/"+this.value,
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {
@@ -584,20 +584,20 @@ $(document).ready( function () {
                     }
                 }
             });
-            $.ajax({
-                url: "http://103.155.246.25:8000/api/rm/"+this.value,
-                type: 'GET',
-                dataType: 'json', // added data type
-                success: function(res) {
-                    $("#nama").val(res.data.NAMAPASIEN);
-                    $("#nama_show").val(res.data.NAMAPASIEN);
-                    $("#umur").val(res.data.UMUR);
-                    $("#umur_show").val(res.data.UMUR);
-                    if (res.logic == 1) {
-                        $('#btn-simpan').prop('disabled', false).removeClass('btn-secondary').addClass('btn-success'); 
-                    }
-                }
-            });
+            // $.ajax({
+            //     url: "http://103.155.246.25:8000/api/rm/"+this.value,
+            //     type: 'GET',
+            //     dataType: 'json', // added data type
+            //     success: function(res) {
+            //         $("#nama").val(res.data.NAMAPASIEN);
+            //         $("#nama_show").val(res.data.NAMAPASIEN);
+            //         $("#umur").val(res.data.UMUR);
+            //         $("#umur_show").val(res.data.UMUR);
+            //         if (res.logic == 1) {
+            //             $('#btn-simpan').prop('disabled', false).removeClass('btn-secondary').addClass('btn-success'); 
+            //         }
+            //     }
+            // });
         }
     });
     

@@ -7,6 +7,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
 use App\Models\ppi\ido;
+use GuzzleHttp\Client;
 use Carbon\Carbon;
 use Redirect;
 use Storage;
@@ -133,5 +134,14 @@ class IdoController extends Controller
         $data->delete();
 
         return redirect::back()->with('message','Data a/n '.$nama.' berhasil dihapus');
+    }
+    
+    public function apiGetRm($rm)
+    {
+        $client = new Client();
+        $res = $client->request('GET', 'http://103.155.246.25:8000/api/rm/'.$rm);
+        $data = json_decode($res->getBody());
+
+        return response()->json($data, 200);
     }
 }
