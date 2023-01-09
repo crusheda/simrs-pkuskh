@@ -30,7 +30,6 @@
     @endif
 
     <div class="card card-action mb-5">
-        {{-- <div class="card-alert"></div> --}}
         <div class="card-header">
             <div class="card-action-title">
                 <div class="btn-group">
@@ -42,9 +41,6 @@
                         title="<i class='fa-fw fas fa-sync nav-icon'></i> <span>Segarkan</span>" onclick="refresh()">
                         <i class="fa-fw fas fa-sync nav-icon"></i></button>
                 </div>
-                {{-- <button class="btn btn-primary">
-        <i class="fas fa-plus-square"></i>&nbsp;&nbsp;Tambah
-      </button> --}}
             </div>
             <div class="card-action-element">
                 <ul class="list-inline mb-0">
@@ -103,6 +99,7 @@
         </div>
     </div>
 
+    {{-- MODAL TAMBAH --}}
     <div class="modal fade animate__animated animate__jackInTheBox" id="tambah" role="dialog" aria-labelledby="confirmFormLabel"aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -187,6 +184,7 @@
         </div>
     </div>
 
+    {{-- MODAL UBAH --}}
     <div class="modal fade animate__animated animate__rubberBand" id="ubah" role="dialog" aria-labelledby="confirmFormLabel"aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
@@ -262,95 +260,6 @@
         </div>
     </div>
 
-    {{-- <div class="modal fade bd-example-modal-lg" id="ubah" role="dialog"
-        aria-labelledby="confirmFormLabel" aria-hidden="true">
-        <div class="modal-dialog modal-xl">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h4 class="modal-title">
-                        Form Ubah Berkas&nbsp;<kbd><a id="show_edit"></a></kbd>
-                    </h4>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <input type="text" id="id_edit" class="form-control" hidden>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label class="mb-2">Kegiatan :</label>
-                                <input type="text" id="nama_edit" class="form-control" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label class="mb-2">Ketua Rapat : </label><br>
-                                <select class="form-control select2" id="kepala_edit" style="width: 100%" required></select>
-                            </div>
-                        </div>
-                    </div>
-                    <div class="row">
-                        <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label class="mb-2">Tanggal :</label>
-                                <input type="text" id="tanggal_edit" class="form-control flatpickr" placeholder="Tanggal Rapat" required>
-                            </div>
-                        </div>
-                        <div class="col-md-6">
-                            <div class="form-group mb-3">
-                                <label class="mb-2">Lokasi Rapat :</label>
-                                <input type="text" id="lokasi_edit" class="form-control">
-                            </div>
-                        </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="mb-2">Keterangan :</label>
-                        <textarea rows="3" class="form-control" id="keterangan_edit" placeholder="Optional"></textarea>
-                    </div>
-                    <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Waktu pengubahan berkas rapat hanya berlaku pada hari saat anda mengupload</sub><br>
-                    <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Periksa ulang lampiran berkas anda, apabila terdapat kesalahan upload dokumen mohon hapus dan upload ulang</sub>
-                        
-                </div>
-                <div class="modal-footer">
-                    Ditambahkan oleh&nbsp;<a id="user_edit"></a>
-                    <button class="btn btn-primary" id="submit_edit" onclick="ubah()"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
-                    </form>
-
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
-    {{-- <div class="modal fade" tabindex="-1" id="download" role="dialog">
-        <div class="modal-dialog modal-dialog-centered">
-            <div class="modal-content">
-                <div class="modal-header">
-                    <h5 class="modal-title">File Berkas Rapat</h5>
-                    <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
-                </div>
-                <div class="modal-body">
-                    <div class="table-responsive">
-                        <table class="table table-striped table-bordered">
-                            <thead>
-                                <tr>
-                                    <th><i class="fa-fw fas fa-sort-numeric-down nav-icon"></i> Nama File</th>
-                                    <th>Perkiraan Ukuran</th>
-                                </tr>
-                            </thead>
-                            <tbody id="tampil-tbody-file"><tr><td colspan="2"><center><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</center></td></tr></tbody>
-                        </table>
-                    </div>
-                    <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> File download akan digabungkan dan dikonversikan dalam bentuk <kbd>ZIP FILE</kbd></sub>
-                </div>
-                <div class="modal-footer">
-                    Diupload&nbsp;<a id="tgl_upload"></a>
-                    <a type="button" class="btn btn-primary text-white" id="download_btn"><i class="fa fa-download"></i> Download</a>
-                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
-                </div>
-            </div>
-        </div>
-    </div> --}}
-
     {{-- MODAL HAPUS --}}
     <div class="modal animate__animated animate__rubberBand fade" id="hapus" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-simple modal-add-new-address modal-dialog-centered">
@@ -383,6 +292,7 @@
 
     <script>
         $(document).ready(function() {
+            $("html").addClass('layout-menu-collapsed');
             // SELECT2
             var t = $(".select2");
             t.length && t.each(function() {
