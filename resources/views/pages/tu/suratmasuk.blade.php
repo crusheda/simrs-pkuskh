@@ -63,16 +63,16 @@
                     <thead>
                         <tr>
                             <th class="cell-fit">
-                                <center>#</center>
+                                <center></center>
                             </th>
-                            <th class="cell-fit">NO.URUT</th>
+                            <th class="cell-fit">NO</th>
                             <th class="cell-fit">TGL SURAT</th>
                             <th class="cell-fit">TGL DITERIMA</th>
                             <th>ASAL/NO.SRT</th>
                             <th>DESKRIPSI</th>
                             <th>TEMPAT/ACARA</th>
                             <th>UPDATE</th>
-                            <th class="cell-fit">USER</th>
+                            <th>USER</th>
                         </tr>
                     </thead>
                     <tbody id="tampil-tbody">
@@ -85,16 +85,16 @@
                     <tfoot class="bg-whitesmoke">
                         <tr>
                             <th class="cell-fit">
-                                <center>#</center>
+                                <center></center>
                             </th>
-                            <th class="cell-fit">NO.URUT</th>
+                            <th class="cell-fit">NO</th>
                             <th class="cell-fit">TGL SURAT</th>
                             <th class="cell-fit">TGL DITERIMA</th>
                             <th>ASAL/NO.SRT</th>
                             <th>DESKRIPSI</th>
                             <th>TEMPAT/ACARA</th>
                             <th>UPDATE</th>
-                            <th class="cell-fit">USER</th>
+                            <th>USER</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -254,7 +254,7 @@
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" id="btn-simpan" onclick="updateData()"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
+                    <button class="btn btn-primary" id="btn-simpan" onclick="ubah()"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
                 </div>
             </div>
@@ -359,10 +359,11 @@
                     Hapus Surat
                 </h4>
                 <div class="col-12 mb-3">
+                    <input type="text" id="id_hapus" hidden>
                     <p style="text-align: justify;">Anda akan menghapus berkas surat masuk tersebut. Penghapusan berkas akan menyebabkan hilangnya data/dokumen yang terhapus tersebut pada Storage Sistem.
                         Maka dari itu, lakukanlah dengan hati-hati. Ceklis dibawah untuk melanjutkan penghapusan.</p>
                     <label class="switch">
-                        <input type="checkbox" class="switch-input">
+                        <input type="checkbox" class="switch-input" id="setujuhapus">
                         <span class="switch-toggle-slider">
                         <span class="switch-on"></span>
                         <span class="switch-off"></span>
@@ -371,7 +372,7 @@
                     </label>
                 </div>
                 <div class="col-12 text-center">
-                    <button type="submit" class="btn btn-danger me-sm-3 me-1"><i class="fa fa-trash"></i> Hapus</button>
+                    <button type="submit" id="btn-hapus" class="btn btn-danger me-sm-3 me-1" onclick="prosesHapus()"><i class="fa fa-trash"></i> Hapus</button>
                     <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i> Batal</button>
                 </div>
             </div>
@@ -460,14 +461,27 @@
                                         + item.tgl_diterima + "</td><td>"
                                         + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>" + item.asal + "</h6><small class='text-truncate text-muted'>" + item.nomor + "</small></div></div></td><td>" 
                                         + item.deskripsi + "</td><td>" 
-                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>" + item.tempat + "</h6><small class='text-truncate text-muted'>" + item.tglFrom.substring(0, 10) + " - " + item.tglTo.substring(0, 10) + "</small></div></div></td><td>" 
-                                        + item.updated_at + "</td><td>" 
-                                        + item.user + "</td></tr>";
+                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>" + item.tempat + "</h6><small class='text-truncate text-muted'>";
+                                        if (item.tglTo == null) {
+                                            if (item.tglFrom == null) {
+                                                content += '-';
+                                            } else {
+                                                content += item.tglFrom.substring(0, 10);
+                                            }
+                                        } else {
+                                            content += item.tglFrom.substring(0, 10) + " - " + item.tglTo.substring(0, 10);
+                                        } 
+                            content += "</small></div></div></td><td>" 
+                                        + item.updated_at + "</td><td>";
+                                        if (item.user == '84') {
+                                            content += 'Sri Suryani, Amd';
+                                        }
+                            content += "</td></tr>";
                             $('#tampil-tbody').append(content);
                         });
                         $('#table').DataTable(
                         {
-                            order: [[8, "desc"]],
+                            order: [[7, "desc"]],
                             dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                             displayLength: 7,
                             lengthMenu: [7, 10, 25, 50, 75, 100],
@@ -506,7 +520,9 @@
                             }],
                             columnDefs: [
                                 { targets: 0, orderable: !1,searchable: !1, },
-                                { targets: 1, orderable: !1,searchable: !1, },
+                                { targets: 5, orderable: !1 },
+                                { targets: 6, orderable: !1 },
+                                // { targets: 1, orderable: !1,searchable: !1, },
                                 // { targets: 5, orderable: !1,searchable: !1, },
                                 // { targets: 6, visible: false },
                                 // { targets: 9, visible: false },
@@ -523,6 +539,48 @@
             );
         });
         
+        // FUNCTION-FUNCTION
+        function refresh() {
+            fresh();
+            $("#tampil-tbody").empty().append(`<tr><td colspan="9"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
+            $.ajax(
+                {
+                    url: "/api/suratmasuk/data",
+                    type: 'GET',
+                    dataType: 'json', // added data type
+                    success: function(res) {
+                        $("#tampil-tbody").empty();
+                        res.show.forEach(item => {
+                            // var updet = item.updated_at.substring(0, 10);
+                            content = "<tr id='data"+ item.id +"'>";
+                            content += `<td><center><div class='btn-group'><button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button><ul class='dropdown-menu dropdown-menu-end'>`
+                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-warning' onclick="showUbah(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>`
+                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/suratmasuk/`+item.id+`/download')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>`
+                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`
+                                    + `</ul></center></td><td>`;  
+                            content += item.urutan + "</td><td>" 
+                                        + item.tgl_surat + "</td><td>" 
+                                        + item.tgl_diterima + "</td><td>"
+                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>" + item.asal + "</h6><small class='text-truncate text-muted'>" + item.nomor + "</small></div></div></td><td>" 
+                                        + item.deskripsi + "</td><td>" 
+                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>" + item.tempat + "</h6><small class='text-truncate text-muted'>";
+                                        if (item.tglTo == null) {
+                                            content += item.tglFrom.substring(0, 10)
+                                        } else {
+                                            content += item.tglFrom.substring(0, 10) + " - " + item.tglTo.substring(0, 10)
+                                        } 
+                            content += "</small></div></div></td><td>" 
+                                        + item.updated_at + "</td><td>";
+                                        if (item.user == '84') {
+                                            content += 'Sri Suryani, Amd';
+                                        }
+                            content += "</td></tr>";
+                            $('#tampil-tbody').append(content);
+                        });
+                    }
+                }
+            );
+        }
         function getDateTime() {
             var now     = new Date(); 
             var year    = now.getFullYear();
@@ -602,108 +660,102 @@
         function ubah() {
             $("#btn-simpan").prop('disabled', true);
             $("#btn-simpan").find("i").toggleClass("fa-save fa-sync fa-spin");
-            var id          = $("#id_edit").val();
-            var nama        = $("#nama_edit").val();
-            var kepala      = $("#kepala_edit").val();
-            var tanggal     = $("#tanggal_edit").val();
-            var lokasi      = $("#lokasi_edit").val();
-            var keterangan  = $("#keterangan_edit").val();
+            var id              = $("#id_edit").val();
+            var tgl_surat       = $("#tgl_surat").val();
+            var tgl_diterima    = $("#tgl_diterima").val();
+            var asal            = $("#asal").val();
+            var nomor           = $("#nomor").val();
+            var deskripsi       = $("#deskripsi").val();
+            var tempat          = $("#tempat").val();
+            var waktu           = $("#waktu").val();
+            var user            = $("#user").val();
 
-            if (nama == "" || kepala == "" || tanggal == "") {
+            if (user == "" || tgl_diterima == "" || nomor == "" || asal == "") {
                 iziToast.error({
                     title: 'Pesan Galat!',
-                    message: 'Mohon lengkapi form pengisian',
+                    message: 'Mohon lengkapi kolom pengisian wajib *',
                     position: 'topRight'
                 });
             } else {
                 $.ajax({
-                headers: {
-                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                },
-                method: 'POST',
-                url: '/api/berkas/rapat/data/'+id+'/ubah', 
-                dataType: 'json', 
-                data: { 
-                    id: id,
-                    nama: nama,
-                    kepala: kepala,
-                    tanggal: tanggal,
-                    lokasi: lokasi,
-                    keterangan: keterangan,
-                }, 
-                success: function(res) {
-                    if (res) {
-                        $('#ubah').modal('hide');
-                        fresh();
-                        // $("#tampil-tbody").empty();
-                        // content += `<tr><td colspan="9"><center><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</center></td></tr>`;
-                        // $('#tampil-tbody').append(content);
-                        window.location.reload();
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    method: 'PUT',
+                    url: '/api/suratmasuk/'+id, 
+                    // dataType: 'json', 
+                    data: { 
+                        id: id,
+                        tgl_surat: tgl_surat,
+                        tgl_diterima: tgl_diterima,
+                        asal: asal,
+                        nomor: nomor,
+                        deskripsi: deskripsi,
+                        tempat: tempat,
+                        waktu: waktu,
+                        user: user,
+                    }, 
+                    success: function(res) {
+                        iziToast.success({
+                            title: 'Pesan Sukses!',
+                            message: 'Surat Masuk berhasil diperbarui pada '+res,
+                            position: 'topRight'
+                        });
+                        if (res) {
+                            $('#ubah').modal('hide');
+                            fresh();
+                            refresh();
+                            // window.location.reload();
+                        }
                     }
-                    iziToast.success({
-                        title: 'Pesan Sukses!',
-                        message: 'Berkas Rapat berhasil diubah pada '+res,
-                        position: 'topRight'
-                    });
-                }
                 });
             }
-            $("#submit_edit").find("i").removeClass("fa-sync fa-spin").addClass("fa-save");
-            $("#submit_edit").prop('disabled', false);
-        }
-
-        function showDownload(id) {
-            // $("#ubah"+id).prop('disabled', true);
-            // $("#ubah"+id).find("i").toggleClass("fa-edit fa-sync fa-spin");
-            $('#download').modal('show');
-            $.ajax(
-            {
-                url: "/api/berkas/rapat/data/"+id+"/download",
-                type: 'GET',
-                dataType: 'json', // added data type
-                success: function(res) {
-                    $("#tampil-tbody-file").empty();
-                    document.getElementById('tgl_upload').innerHTML = res.tgl_upload;
-                    document.getElementById('download_btn').href = "/api/berkas/rapat/data/"+res.id+"/zip";
-                    content = "";
-                    res.file.forEach(item => {
-                        content += "<tr>";
-                        content += "<td>" + item.nama + "</td>";
-                        content += "<td>" + item.size + " Mb</td>";
-                        content += "</tr>";
-                    });
-                    $('#tampil-tbody-file').append(content);
-                }
-            }
-            );
+            $("#btn-simpan").find("i").removeClass("fa-sync fa-spin").addClass("fa-save");
+            $("#btn-simpan").prop('disabled', false);
         }
 
         function hapus(id) {
+            $("#id_hapus").val(id);
+            var inputs = document.getElementById('setujuhapus');
+            inputs.checked = false;
             $('#hapus').modal('show');
         }
 
         function prosesHapus() {
-            $.ajax({
-            url: "/api/berkas/rapat/data/"+id+"/hapus",
-            type: 'GET',
-            dataType: 'json', // added data type
-            success: function(res) {
-                iziToast.success({
-                    title: 'Pesan Sukses!',
-                    message: 'Berkas gagal telah berhasil dihapus',
-                    position: 'topRight'
-                });
-                fresh();
-                window.location.reload();
-            },
-            error: function(res) {
+            // SWITCH BTN HAPUS
+            var checkboxHapus = $('#setujuhapus').is(":checked");
+            if (checkboxHapus == false) {
                 iziToast.error({
                     title: 'Pesan Galat!',
-                    message: 'Berkas gagal diupload',
+                    message: 'Mohon menyetujui untuk dilakukan penghapusan berkas',
                     position: 'topRight'
                 });
+            } else {
+                // PROSES HAPUS
+                var id = $("#id_hapus").val();
+                $.ajax({
+                    url: "/api/suratmasuk/"+id,
+                    type: 'DELETE',
+                    success: function(res) {
+                        iziToast.success({
+                            title: 'Pesan Sukses!',
+                            message: 'Berkas telah berhasil dihapus pada '+res,
+                            position: 'topRight'
+                        });
+                        $('#hapus').modal('hide');
+                        fresh();
+                        refresh();
+                        // window.location.reload();
+                    },
+                    error: function(res) {
+                        iziToast.error({
+                            title: 'Pesan Galat!',
+                            message: 'Berkas gagal dihapus',
+                            position: 'topRight'
+                        });
+                    }
+                });
             }
-            });
         }
 
         function saveData() {
@@ -711,6 +763,9 @@
                 //stop submitting the form to see the disabled button effect
                 $("#btn-simpan").attr('disabled','disabled');
                 $("#btn-simpan").find("i").removeClass("fa-upload").addClass("fa-sync fa-spin");
+                $('#tambah').modal('hide');
+                fresh();
+                refresh();
                 return true;
             });
         }

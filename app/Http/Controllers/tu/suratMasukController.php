@@ -39,10 +39,21 @@ class suratMasukController extends Controller
         // if ($request->nama == '') {
         //     return redirect::back()->withErrors('Nomor RM yang anda masukkan Tidak Valid, mohon ulangi sekali lagi.');
         // }
-        
-        $dates = explode(' to ', $request->waktu);
-        $tglFrom = Carbon::parse($dates[0]);
-        $tglTo = Carbon::parse($dates[1]);
+
+        if ($request->waktu == null) {
+            $tglFrom    = null;
+            $tglTo      = null;
+        } else {
+            if (strlen($request->waktu) == 10) {
+                $tglFrom    = $request->waktu;
+                $tglTo      = null;
+            } else {
+                $dates = explode(' to ', $request->waktu);
+                
+                $tglFrom = Carbon::parse($dates[0]);
+                $tglTo = Carbon::parse($dates[1]);
+            }
+        }
 
         $getFile = $request->file('file');
         // simpan berkas yang diunggah ke sub-direktori 'public/files'
@@ -50,10 +61,15 @@ class suratMasukController extends Controller
         $path = $getFile->store('public/files/tu/suratmasuk');
         $title = $getFile->getClientOriginalName();
 
-        $getUrutan = suratmasuk::select('urutan')->orderBy('urutan','DESC')->first();
+        $getUrutan = suratmasuk::orderBy('urutan','DESC')->first();
+        if (empty($getUrutan->urutan)) {
+            $urutan = 1;
+        } else {
+            $urutan = $getUrutan->urutan + 1;
+        }
 
         $data               = new suratmasuk;
-        $data->urutan       = $getUrutan;
+        $data->urutan       = $urutan;
         $data->tgl_surat    = $request->tgl_surat;
         $data->tgl_diterima = $request->tgl_diterima;
         $data->asal         = $request->asal;
@@ -65,17 +81,9 @@ class suratMasukController extends Controller
         $data->title        = $title;
         $data->filename     = $path;
         $data->user         = $request->user;
-        
-        // print_r($path);
-        // die();
 
         $data->save();
         return redirect::back()->with('message','Tambah Berkas Surat Masuk Berhasil!');
-    }
-
-    public function update(Request $request, $id)
-    {
-        # code...
     }
 
     // API
@@ -100,9 +108,14 @@ class suratMasukController extends Controller
     {
         $show = suratmasuk::find($id);
 
-        $tglFrom = Carbon::parse($show->tglFrom)->isoFormat('YYYY-MM-DD');
-        $tglTo = Carbon::parse($show->tglTo)->isoFormat('YYYY-MM-DD');
-        $waktu = $tglFrom.' to '.$tglTo; 
+        if ($show->tglTo == null) {
+            $tglFrom = Carbon::parse($show->tglFrom)->isoFormat('YYYY-MM-DD');
+            $waktu = $tglFrom; 
+        } else {
+            $tglFrom = Carbon::parse($show->tglFrom)->isoFormat('YYYY-MM-DD');
+            $tglTo = Carbon::parse($show->tglTo)->isoFormat('YYYY-MM-DD');
+            $waktu = $tglFrom.' to '.$tglTo; 
+        }
 
         $data = [
             'show' => $show,
@@ -112,5 +125,54 @@ class suratMasukController extends Controller
         return response()->json($data, 200);
     }
 
+    public function update(Request $request, $id)
+    {
+        // print_r($request->tgl_surat);
+        // die();
+        $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
+
+        $data = suratmasuk::find($id);
+        $data->tgl_surat    = $request->tgl_surat;
+        $data->tgl_diterima = $request->tgl_diterima;
+        $data->asal         = $request->asal;
+        $data->nomor        = $request->nomor;
+        $data->deskripsi    = $request->deskripsi;
+        $data->tempat       = $request->tempat;
+        $data->user         = $request->user;
+        
+        if ($request->waktu == null) {
+            $tglFrom    = null;
+            $tglTo      = null;
+        } else {
+            if (strlen($request->waktu) == 10) {
+                $tglFrom    = $request->waktu;
+                $tglTo      = null;
+            } else {
+                $dates = explode(' to ', $request->waktu);
+                
+                $tglFrom = Carbon::parse($dates[0]);
+                $tglTo = Carbon::parse($dates[1]);
+            }
+        }
+
+        $data->tglFrom      = $tglFrom;
+        $data->tglTo        = $tglTo;
+
+        $data->save();
+
+        return response()->json($now, 200);
+    }
     
+    public function hapus($id)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        $data = suratmasuk::find($id);
+        $file = $data->filename;
+
+        Storage::delete($file);
+        $data->delete();
+        
+        return response()->json($tgl, 200);
+    }
 }

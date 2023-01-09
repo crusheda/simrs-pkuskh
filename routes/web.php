@@ -648,6 +648,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
             Route::get('suratmasuk/data', 'tu\suratMasukController@apiGet');
             Route::get('suratmasuk/data/{id}', 'tu\suratMasukController@showChange');
             Route::put('suratmasuk/{id}', 'tu\suratMasukController@update');
+            Route::delete('suratmasuk/{id}', 'tu\suratMasukController@hapus');
 });
 
 ////////////////////////////////////////////////////////////////////////////////////////////////    <>    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
