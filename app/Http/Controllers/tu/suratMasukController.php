@@ -36,10 +36,6 @@ class suratMasukController extends Controller
             'user' => 'required'
         ]);
 
-        // if ($request->nama == '') {
-        //     return redirect::back()->withErrors('Nomor RM yang anda masukkan Tidak Valid, mohon ulangi sekali lagi.');
-        // }
-
         if ($request->waktu == null) {
             $tglFrom    = null;
             $tglTo      = null;
@@ -127,8 +123,6 @@ class suratMasukController extends Controller
 
     public function update(Request $request, $id)
     {
-        // print_r($request->tgl_surat);
-        // die();
         $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
 
         $data = suratmasuk::find($id);
