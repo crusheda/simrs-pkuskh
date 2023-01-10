@@ -145,7 +145,7 @@
         </li>
       </ul>
     </li>
-    @hasrole('it|kasubag-tata-usaha')
+    @can('tu')
     <li class="menu-header small text-uppercase" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="right" data-bs-html="true" title="<i class='bx bx-chevron-right bx-xs' ></i> <span>Berkas Tata Usaha</span>">
       <span class="menu-header-text">Tata Usaha</span>
     </li>
@@ -167,7 +167,7 @@
         </li>
       </ul>
     </li>
-    @endhasrole
+    @endcan
     <!-- Apps & Pages -->
     <li class="menu-header small text-uppercase" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="right" data-bs-html="true" title="<i class='bx bx-chevron-right bx-xs' ></i> <span>Manajemen Fasilitas dan Keselamatan</span>">
       <span class="menu-header-text">Tim MFK</span>

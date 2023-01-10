@@ -29,7 +29,7 @@ class suratMasukController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'file' => ['required','max:20000','mimes:pdf'],
+            'file' => ['max:20000','mimes:pdf'],
             'tgl_diterima' => 'required',
             'asal' => 'required',
             'nomor' => 'required',
@@ -50,12 +50,17 @@ class suratMasukController extends Controller
                 $tglTo = Carbon::parse($dates[1]);
             }
         }
-
+        
         $getFile = $request->file('file');
-        // simpan berkas yang diunggah ke sub-direktori 'public/files'
-        // direktori 'files' otomatis akan dibuat jika belum ada
-        $path = $getFile->store('public/files/tu/suratmasuk');
-        $title = $getFile->getClientOriginalName();
+        if ($getFile == null) {
+            $path = null;
+            $title = null;
+        } else {
+            // simpan berkas yang diunggah ke sub-direktori $path
+            // direktori 'files' otomatis akan dibuat jika belum ada
+            $path = $getFile->store('public/files/tu/suratmasuk');
+            $title = $getFile->getClientOriginalName();
+        }
 
         $getUrutan = suratmasuk::orderBy('urutan','DESC')->first();
         if (empty($getUrutan->urutan)) {
@@ -123,6 +128,9 @@ class suratMasukController extends Controller
 
     public function update(Request $request, $id)
     {
+        // $getFile = $request->file('file'); 
+        // print_r($getFile->getClientOriginalName());
+        // die();
         $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
 
         $data = suratmasuk::find($id);
@@ -151,6 +159,16 @@ class suratMasukController extends Controller
 
         $data->tglFrom      = $tglFrom;
         $data->tglTo        = $tglTo;
+        
+        if ($data->filename == null) {
+            if ($request->file('file')) {
+                $path = $getFile->store('public/files/tu/suratmasuk');
+                $title = $getFile->getClientOriginalName();
+            } else {
+                $path = null;
+                $title = null;
+            }
+        }
 
         $data->save();
 
@@ -161,11 +179,13 @@ class suratMasukController extends Controller
     {
         $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
 
-        $data = suratmasuk::find($id);
-        $file = $data->filename;
-
-        Storage::delete($file);
-        $data->delete();
+        // Inisialisasi
+        $hapusData = suratmasuk::find($id);
+        
+        // Proses Hapus
+        $file = $hapusData->filename;
+        // Storage::delete($file);
+        $hapusData->delete();
         
         return response()->json($tgl, 200);
     }
