@@ -37,7 +37,7 @@
   </div>
 
   {{-- LOG PERAWAT --}}
-  @role('igd|icu|bangsal-dewasa|bangsal-anak|kebidanan|ibs|poli')
+  {{-- @role('igd|icu|bangsal-dewasa|bangsal-anak|kebidanan|ibs|poli')
     @can('log_perawat')
     <div class="col-md-3">
       <div class="card">
@@ -55,7 +55,7 @@
       </div>
     </div>
     @endcan
-  @endrole
+  @endrole --}}
 </div>
     {{-- <div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">
         <ol class="carousel-indicators">

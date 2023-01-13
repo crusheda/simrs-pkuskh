@@ -59,7 +59,7 @@
 
   <div class="container">
     <div class="copyright">
-      2022 &copy; Copyright <strong><span>Lakon Web</span></strong>. All Rights Reserved
+      2022 &copy; Copyright <strong><span>Yussuf Faisal</span></strong>. All Rights Reserved
     </div>
     <div class="credits">
       <!-- All the links in the footer should remain intact. -->
