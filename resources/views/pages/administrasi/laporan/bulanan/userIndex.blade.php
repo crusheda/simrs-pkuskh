@@ -165,7 +165,7 @@
               </div>
               <div class="form-group mb-3">
                 <label>Keterangan</label>
-                <textarea rows="3" class="form-control" id="ket" placeholder="Optional"></textarea>
+                <textarea rows="3" class="form-control" name="ket" id="ket" placeholder="Optional"></textarea>
               </div>
               <div class="form-group mb-3">
                 <label>Dokumen</label>

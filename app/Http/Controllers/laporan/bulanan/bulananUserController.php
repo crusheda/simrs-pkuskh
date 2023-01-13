@@ -123,7 +123,7 @@ class bulananUserController extends Controller
 
         foreach ($find as $key => $value) {
             if ($value->title == $uploadedFile->getClientOriginalName()) {
-                return redirect()->back()->withErrors('File sudah pernah diupload. Ganti Nama File yang berbeda dari yang sebelumnya.');
+                return redirect()->back()->withErrors('Maaf, Nama file '.$value->title.' sudah pernah diupload oleh seseorang. Mohon Ganti Nama File yang berbeda. Disarankan untuk menambahkan identitas Unit/Bulan/Tahun untuk membuat nama yang unik pada File Anda.');
             }
         }
 
