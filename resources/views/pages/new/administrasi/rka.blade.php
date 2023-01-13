@@ -150,7 +150,7 @@ function upload() {
             $.ajax({
                 headers: { 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content') },
                 method: 'post',
-                url: "./perencanaan/upload",  
+                url: "./perencanaan/upload",
                 dataType: 'json', 
                 data: formData,
                 processData: false,

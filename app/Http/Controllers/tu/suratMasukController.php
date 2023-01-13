@@ -8,8 +8,8 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use App\Models\tu\suratmasuk;
 use Carbon\Carbon;
+use Validator,Redirect,Response,File;
 use Exception;
-use Redirect;
 use Storage;
 use Auth;
 
@@ -126,51 +126,113 @@ class suratMasukController extends Controller
         return response()->json($data, 200);
     }
 
-    public function update(Request $request, $id)
-    {
-        // $getFile = $request->file('file'); 
-        // print_r($getFile->getClientOriginalName());
-        // die();
-        $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
+    // public function update(Request $request, $id)
+    // {
+    //     // $getFile = $request->file('file'); 
+    //     // print_r($getFile->getClientOriginalName());
+    //     // die();
+    //     $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
 
-        $data = suratmasuk::find($id);
-        $data->tgl_surat    = $request->tgl_surat;
-        $data->tgl_diterima = $request->tgl_diterima;
-        $data->asal         = $request->asal;
-        $data->nomor        = $request->nomor;
-        $data->deskripsi    = $request->deskripsi;
-        $data->tempat       = $request->tempat;
-        $data->user         = $request->user;
+    //     $data = suratmasuk::find($id);
+    //     $data->tgl_surat    = $request->tgl_surat;
+    //     $data->tgl_diterima = $request->tgl_diterima;
+    //     $data->asal         = $request->asal;
+    //     $data->nomor        = $request->nomor;
+    //     $data->deskripsi    = $request->deskripsi;
+    //     $data->tempat       = $request->tempat;
+    //     $data->user         = $request->user;
         
-        if ($request->waktu == null) {
-            $tglFrom    = null;
-            $tglTo      = null;
-        } else {
-            if (strlen($request->waktu) == 10) {
-                $tglFrom    = $request->waktu;
+    //     if ($request->waktu == null) {
+    //         $tglFrom    = null;
+    //         $tglTo      = null;
+    //     } else {
+    //         if (strlen($request->waktu) == 10) {
+    //             $tglFrom    = $request->waktu;
+    //             $tglTo      = null;
+    //         } else {
+    //             $dates = explode(' to ', $request->waktu);
+                
+    //             $tglFrom = Carbon::parse($dates[0]);
+    //             $tglTo = Carbon::parse($dates[1]);
+    //         }
+    //     }
+
+    //     $data->tglFrom      = $tglFrom;
+    //     $data->tglTo        = $tglTo;
+        
+    //     if ($data->filename == null) {
+    //         if ($request->file('file')) {
+    //             $path = $getFile->store('public/files/tu/suratmasuk');
+    //             $title = $getFile->getClientOriginalName();
+    //         } else {
+    //             $path = null;
+    //             $title = null;
+    //         }
+    //     }
+
+    //     $data->save();
+
+    //     return response()->json($now, 200);
+    // }
+
+    public function ubah(Request $request)
+    {
+        $data = array();
+  
+        $validator = Validator::make($request->all(), [
+           'file' => 'required'
+        ]);
+
+        if ($validator->fails()) {
+  
+           $data['success'] = 0;
+           $data['error'] = $validator->errors()->first('file');// Error response
+  
+        }else{
+            $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
+    
+            $data = suratmasuk::find($request->id_edit);
+            $data->tgl_surat    = $request->tgl_surat;
+            $data->tgl_diterima = $request->tgl_diterima;
+            $data->asal         = $request->asal;
+            $data->nomor        = $request->nomor;
+            $data->deskripsi    = $request->deskripsi;
+            $data->tempat       = $request->tempat;
+            $data->user         = $request->user;
+            
+            if ($request->waktu == null) {
+                $tglFrom    = null;
                 $tglTo      = null;
             } else {
-                $dates = explode(' to ', $request->waktu);
-                
-                $tglFrom = Carbon::parse($dates[0]);
-                $tglTo = Carbon::parse($dates[1]);
+                if (strlen($request->waktu) == 10) {
+                    $tglFrom    = $request->waktu;
+                    $tglTo      = null;
+                } else {
+                    $dates = explode(' to ', $request->waktu);
+                    
+                    $tglFrom = Carbon::parse($dates[0]);
+                    $tglTo = Carbon::parse($dates[1]);
+                }
             }
-        }
-
-        $data->tglFrom      = $tglFrom;
-        $data->tglTo        = $tglTo;
-        
-        if ($data->filename == null) {
-            if ($request->file('file')) {
-                $path = $getFile->store('public/files/tu/suratmasuk');
-                $title = $getFile->getClientOriginalName();
-            } else {
-                $path = null;
-                $title = null;
+    
+            $data->tglFrom      = $tglFrom;
+            $data->tglTo        = $tglTo;
+            
+            if ($data->filename == null) {
+                if ($request->file('file') && $request->file('file')->isValid()) {
+                    $path = $request->file('file')->store('public/files/tu/suratmasuk');
+                    $title = $request->file('file')->getClientOriginalName();
+                } else {
+                    $path = null;
+                    $title = null;
+                }
             }
+    
+            $data->filename = $path;
+            $data->title    = $title; 
+    
+            $data->save();
         }
-
-        $data->save();
 
         return response()->json($now, 200);
     }

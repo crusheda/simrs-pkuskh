@@ -188,7 +188,7 @@
     </div>
 
     {{-- MODAL UBAH --}}
-    <div class="modal fade animate__animated animate__rubberBand" id="ubah" role="dialog" aria-labelledby="confirmFormLabel"aria-hidden="true">
+    <div class="modal fade animate__animated animate__rubberBand" id="ubah" role="dialog" aria-labelledby="confirmFormLabel"aria-hidden="true" data-bs-backdrop="static">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
                 <div class="modal-header">
@@ -252,11 +252,11 @@
                     <div class="form-group">
                         <label class="form-label">Berkas Surat Anda</label>
                         <div id="linksurat"></div>
-                        <small><i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila terdapat kesalahan File Upload, Anda dapat melakukan penghapusan lalu Input Ulang</small>
+                        <small><i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila terdapat kesalahan File Upload, Anda dapat melakukan Input Ulang</small>
                     </div>
                 </div>
                 <div class="modal-footer">
-                    <button class="btn btn-primary" id="btn-simpan" onclick="ubah()"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
+                    <button class="btn btn-primary" id="btn-ubah" onclick="ubahAjx()"><i class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
                 </div>
             </div>
@@ -562,7 +562,7 @@
                         document.getElementById('linksurat').innerHTML = "<h6 class='mb-2'><a href='/v2/suratmasuk/"+res.show.id+"/download'>"+res.show.title+"</a></h6>";
                     } else {
                         // document.getElementById('linksurat').innerHTML = "<input type='file' class='form-control mb-2' name='filesusulan' id='filesusulan' accept='application/pdf'>";
-                        document.getElementById('linksurat').innerHTML = "<h6 class='mb-2'><s>File tidak diupload.</s></h6>";
+                        document.getElementById('linksurat').innerHTML = `<input type='file' id="filex" name='filex' class="form-control mb-2" accept="application/pdf">`;
                     }
                     $("#id_edit").val(res.show.id);
                     
@@ -616,21 +616,74 @@
             );
         }
 
-        function ubah() {
-            $("#btn-simpan").prop('disabled', true);
-            $("#btn-simpan").find("i").toggleClass("fa-save fa-sync fa-spin");
+        // function ubah() {
+        //     $("#btn-ubah").prop('disabled', true);
+        //     $("#btn-ubah").find("i").toggleClass("fa-save fa-sync fa-spin");
 
-            var id              = $("#id_edit").val();
-            var tgl_surat       = $("#tgl_surat").val();
-            var tgl_diterima    = $("#tgl_diterima").val();
-            var asal            = $("#asal").val();
-            var nomor           = $("#nomor").val();
-            var deskripsi       = $("#deskripsi").val();
-            var tempat          = $("#tempat").val();
-            var waktu           = $("#waktu").val();
-            var user            = $("#user").val();
+        //     var id              = $("#id_edit").val();
+        //     var tgl_surat       = $("#tgl_surat").val();
+        //     var tgl_diterima    = $("#tgl_diterima").val();
+        //     var asal            = $("#asal").val();
+        //     var nomor           = $("#nomor").val();
+        //     var deskripsi       = $("#deskripsi").val();
+        //     var tempat          = $("#tempat").val();
+        //     var waktu           = $("#waktu").val();
+        //     var user            = $("#user").val();
 
-            // console.log(file);
+        //     // console.log(file);
+        //     if (user == "" || tgl_diterima == "" || nomor == "" || asal == "") {
+        //         iziToast.error({
+        //             title: 'Pesan Galat!',
+        //             message: 'Mohon lengkapi kolom pengisian wajib *',
+        //             position: 'topRight'
+        //         });
+        //     } else {
+        //         $.ajax({
+        //             headers: {
+        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+        //             },
+        //             method: 'PUT',
+        //             url: '/api/suratmasuk/'+id, 
+        //             // dataType: 'json', 
+        //             data: { 
+        //                 id: id,
+        //                 tgl_surat: tgl_surat,
+        //                 tgl_diterima: tgl_diterima,
+        //                 asal: asal,
+        //                 nomor: nomor,
+        //                 deskripsi: deskripsi,
+        //                 tempat: tempat,
+        //                 waktu: waktu,
+        //                 user: user,
+        //             },
+        //             // data: formData, 
+        //             // cache: false,
+        //             // processData: false,
+        //             // contentType: false,
+        //             // enctype: 'multipart/form-data',
+        //             success: function(res) {
+        //                 iziToast.success({
+        //                     title: 'Pesan Sukses!',
+        //                     message: 'Surat Masuk berhasil diperbarui pada '+res,
+        //                     position: 'topRight'
+        //                 });
+        //                 if (res) {
+        //                     $('#ubah').modal('hide');
+        //                     fresh();
+        //                     refresh();
+        //                     // window.location.reload();
+        //                 }
+        //             }
+        //         });
+        //     }
+        //     $("#btn-ubah").find("i").removeClass("fa-sync fa-spin").addClass("fa-save");
+        //     $("#btn-ubah").prop('disabled', false);
+        // }
+
+        function ubahAjx() {   
+            $("#btn-ubah").prop('disabled', true);
+            $("#btn-ubah").find("i").toggleClass("fa-save fa-sync fa-spin");
+            
             if (user == "" || tgl_diterima == "" || nomor == "" || asal == "") {
                 iziToast.error({
                     title: 'Pesan Galat!',
@@ -638,46 +691,64 @@
                     position: 'topRight'
                 });
             } else {
-                $.ajax({
-                    headers: {
-                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                    },
-                    method: 'PUT',
-                    url: '/api/suratmasuk/'+id, 
-                    // dataType: 'json', 
-                    data: { 
-                        id: id,
-                        tgl_surat: tgl_surat,
-                        tgl_diterima: tgl_diterima,
-                        asal: asal,
-                        nomor: nomor,
-                        deskripsi: deskripsi,
-                        tempat: tempat,
-                        waktu: waktu,
-                        user: user,
-                    },
-                    // data: formData, 
-                    // cache: false,
-                    // processData: false,
-                    // contentType: false,
-                    // enctype: 'multipart/form-data',
-                    success: function(res) {
-                        iziToast.success({
-                            title: 'Pesan Sukses!',
-                            message: 'Surat Masuk berhasil diperbarui pada '+res,
-                            position: 'topRight'
-                        });
-                        if (res) {
-                            $('#ubah').modal('hide');
-                            fresh();
-                            refresh();
-                            // window.location.reload();
+                // Get the selected file
+                var files = $('#filex')[0].files;
+                
+                var fd = new FormData();
+
+                fd.append('id_edit',$("#id_edit").val());
+                fd.append('tgl_surat',$("#tgl_surat").val());
+                fd.append('tgl_diterima',$("#tgl_diterima").val());
+                fd.append('asal',$("#asal").val());
+                fd.append('nomor',$("#nomor").val());
+                fd.append('deskripsi',$("#deskripsi").val());
+                fd.append('tempat',$("#tempat").val());
+                fd.append('waktu',$("#waktu").val());
+                fd.append('user',$("#user").val());
+
+                if(files.length > 0){
+
+                    // Append data 
+                    fd.append('file',files[0]);
+                    // fd.append('_token',CSRF_TOKEN);
+
+                    // Hide alert 
+                    // $('#responseMsg').hide();
+
+                    // AJAX request 
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: "{{route('suratmasuk.ubah')}}",
+                        method: 'post',
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+                        dataType: 'json',
+                        success: function(res){
+                            iziToast.success({
+                                title: 'Pesan Sukses!',
+                                message: 'Surat Masuk berhasil diperbarui pada '+res,
+                                position: 'topRight'
+                            });
+                            if (res) {
+                                $('#ubah').modal('hide');
+                                fresh();
+                                refresh();
+                                // window.location.reload();
+                            }
+                        },
+                        error: function(res){
+                            console.log("error : " + JSON.stringify(res) );
                         }
-                    }
-                });
+                    });
+                }else{
+                    alert("Please select a file.");
+                }
             }
-            $("#btn-simpan").find("i").removeClass("fa-sync fa-spin").addClass("fa-save");
-            $("#btn-simpan").prop('disabled', false);
+            $("#btn-ubah").find("i").removeClass("fa-sync fa-spin").addClass("fa-save");
+            $("#btn-ubah").prop('disabled', false);
         }
 
         function hapus(id) {
@@ -729,9 +800,9 @@
                 //stop submitting the form to see the disabled button effect
                 $("#btn-simpan").attr('disabled','disabled');
                 $("#btn-simpan").find("i").removeClass("fa-upload").addClass("fa-sync fa-spin");
-                $('#tambah').modal('hide');
-                fresh();
-                refresh();
+                // $('#tambah').modal('hide');
+                // fresh();
+                // refresh();
                 return true;
             });
         }

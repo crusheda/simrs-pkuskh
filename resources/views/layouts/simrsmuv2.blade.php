@@ -48,6 +48,7 @@
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/apex-charts/apex-charts.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/bs-stepper/bs-stepper.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/animate-css/animate.css') }}">
+  <link rel='stylesheet' href='https://cdn.jsdelivr.net/npm/sweetalert2@10.10.1/dist/sweetalert2.min.css'>
   <!-- PICKER -->
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/flatpickr/flatpickr.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/bootstrap-datepicker/bootstrap-datepicker.css') }}" />
@@ -205,7 +206,6 @@
     <script src="{{ asset('assets-new/vendor/libs/bloodhound/bloodhound.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/tagify/tagify.js') }}"></script>
     <script src="{{ asset('js/iziToast.js') }}"></script>
-    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     <script src="{{ asset('assets-new/vendor/libs/apex-charts/apexcharts.js') }}"></script>
 
     <!-- Flat Picker -->
@@ -272,6 +272,7 @@
         }, 2500)
       }
     </script>
+    <script src="//cdn.jsdelivr.net/npm/sweetalert2@11"></script>
     
     
   </body>
