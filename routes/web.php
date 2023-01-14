@@ -669,7 +669,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
 
     // SYSTEM
         // UPDATE
-            // Route::get('system/update', 'administrasi\rkaController@table');
+            Route::get('system/update/data', 'system\updateController@apiGet');
 
 });
 

@@ -136,7 +136,7 @@
               <div class="mb-3">
                 <label for="email" class="form-label">Username</label>
                 {{-- <input type="text" class="form-control {{ $errors->has('name') ? ' is-invalid' : '' }}" id="name" name="name" value="{{ old('name', null) }}" placeholder="Masukkan username anda" required autofocus> --}}
-                <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan username anda" required autofocus>
+                <input type="text" class="form-control" id="name" name="name" placeholder="Masukkan Username Akun" required autofocus>
               </div>
               <div class="mb-3 form-password-toggle">
                 <div class="d-flex justify-content-between">
@@ -146,7 +146,7 @@
                   </a>
                 </div>
                 <div class="input-group input-group-merge">
-                  <input type="password" id="password" class="form-control" name="password" required autocomplete="off" />
+                  <input type="password" id="password" class="form-control" name="password" placeholder="&#xb7;&#xb7;&#xb7;" required autocomplete="off" />
                   <span class="input-group-text cursor-pointer"><i class="bx bx-hide"></i></span>
                   {{-- &#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7;&#xb7; --}}
                 </div>

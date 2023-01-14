@@ -89,4 +89,15 @@ class updateController extends Controller
     {
         //
     }
+
+    public function apiGet()
+    {
+        $show = update::orderBy('updated_at','DESC')->get();
+
+        $data = [
+            'show' => $show,
+        ];
+
+        return response()->json($data, 200);
+    }
 }
