@@ -63,11 +63,10 @@
                                 <center></center>
                             </th>
                             <th class="cell-fit">NO</th>
-                            <th class="cell-fit">TGL SURAT</th>
-                            <th class="cell-fit">TGL DITERIMA</th>
-                            <th>ASAL/NO.SRT</th>
-                            <th>DESKRIPSI</th>
-                            <th>TEMPAT/ACARA</th>
+                            <th>TGL</th>
+                            <th>NO. SURAT</th>
+                            <th>ISI RINGKASAN</th>
+                            <th>DITUJUKAN KEPADA</th>
                             <th>UPDATE</th>
                             <th>USER</th>
                         </tr>
@@ -85,11 +84,10 @@
                                 <center></center>
                             </th>
                             <th class="cell-fit">NO</th>
-                            <th class="cell-fit">TGL SURAT</th>
-                            <th class="cell-fit">TGL DITERIMA</th>
-                            <th>ASAL/NO.SRT</th>
-                            <th>DESKRIPSI</th>
-                            <th>TEMPAT/ACARA</th>
+                            <th>TGL</th>
+                            <th>NO. SURAT</th>
+                            <th>ISI RINGKASAN</th>
+                            <th>DITUJUKAN KEPADA</th>
                             <th>UPDATE</th>
                             <th>USER</th>
                         </tr>
@@ -103,7 +101,7 @@
     <div class="modal fade animate__animated animate__jackInTheBox" id="tambah" role="dialog" aria-labelledby="confirmFormLabel"aria-hidden="true">
         <div class="modal-dialog modal-lg">
             <div class="modal-content">
-                <form class="form-auth-small" name="formTambah" action="{{ route('suratmasuk.store') }}" method="POST" enctype="multipart/form-data">
+                <form class="form-auth-small" name="formTambah" action="{{ route('suratkeluar.store') }}" method="POST" enctype="multipart/form-data">
                 <div class="modal-header">
                     <h4 class="modal-title">
                         Form&nbsp;&nbsp;&nbsp;
@@ -132,7 +130,7 @@
                             <div class="divider text-end">
                               <div class="divider-text">Form Pengisian&nbsp;&nbsp;&nbsp;</div>
                             </div>
-                            <div class="col-md-7 mb-3">
+                            <div class="col-md-8 mb-3">
                                 <label class="form-label">Kode/Jenis <a class="text-danger">*</a></label>
                                 <select class="form-control select2" name="kode" id="kd_push" style="width: 100%" required>
                                     <option value="">Pilih</option>
@@ -147,18 +145,18 @@
                                     <input type="text" name="nomor" class="form-control" placeholder=". . . / . . . / . . ." autofocus required/>
                                 </div> --}}
                             </div>
-                            <div class="col-md-5 mb-3">
+                            <div class="col-md-4 mb-3">
                                 <div class="form-group">
                                     <label class="form-label">Tanggal <a class="text-danger">*</a></label>
-                                    <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_diterima" required/>
+                                    <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl" required/>
                                 </div>
                             </div>
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
                                     <label for="select2Dark" class="form-label">Ditujukan Kepada <a class="text-danger">*</a></label>
                                     <div class="select2-dark">
-                                        <select class="select2users form-select" name="tujuan" data-allow-clear="true" data-bs-auto-close="outside" required multiple>
-                                            <option value="all">Seluruh Karyawan</option>
+                                        <select class="select2users form-select" name="tujuan[]" data-allow-clear="true" data-bs-auto-close="outside" required multiple>
+                                            {{-- <option value="all">Seluruh Karyawan</option> --}}
                                             @if(count($list['users']) > 0)
                                                 @foreach($list['users'] as $item)
                                                     <option value="{{ $item->id }}">{{ $item->nama }}</option>
@@ -171,7 +169,7 @@
                             <div class="col-md-12">
                                 <div class="form-group">
                                     <label class="form-label">Isi Surat</label>
-                                    <textarea rows="3" class="form-control" name="deskripsi" placeholder="Optional"></textarea>
+                                    <textarea rows="3" class="form-control" name="isi" placeholder="Optional"></textarea>
                                 </div>
                             </div>
                             <div class="divider text-end">
@@ -205,7 +203,7 @@
             <div class="modal-content">
                 <div class="modal-header">
                     <h4 class="modal-title">
-                        Form Ubah&nbsp;&nbsp;&nbsp;
+                        Form&nbsp;&nbsp;&nbsp;
                     </h4>
                     <div class="card-title-elements">
                       <select class="form-select form-select-sm" id="user" required></select>
@@ -215,56 +213,54 @@
                 <div class="modal-body">
                     <input type="text" id="id_edit" hidden>
                     <div class="row">
-                        <div class="col-md-3 mb-3">
+                        <div class="col-md-12" style="margin-bottom: -20px">
                             <div class="form-group">
-                                <label class="form-label">Tgl. Surat</label>
-                                <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" id="tgl_surat"/>
+                                <label class="form-label mb-2">Nomor Surat</label>
+                                {{-- <input type="text" class="form-control" placeholder="YYYY-MM-DD" name="tgl_surat" readonly/> --}}
+                                <h5><a id="push_urutan"></a>/<a id="push_kode" class="text-danger"> . . . </a>/DIR/III.6.AU/PKUSKH/<a id="push_year"></a></h5>
                             </div>
                         </div>
-                        <div class="col-md-3 mb-3">
-                            <div class="form-group">
-                                <label class="form-label">Tgl. Diterima <a class="text-danger">*</a></label>
-                                <input type="text" class="form-control flatpickrNull" placeholder="YYYY-MM-DD" id="tgl_diterima" required/>
-                            </div>
+                        <div class="divider text-end">
+                          <div class="divider-text">Form Pengisian&nbsp;&nbsp;&nbsp;</div>
                         </div>
-                        <div class="col-md-6 mb-3">
+                        <div class="col-md-8 mb-3">
+                            <label class="form-label">Kode/Jenis <a class="text-danger">*</a></label>
+                            <select class="form-control select2" id="kode_edit" style="width: 100%" required></select>
+                            {{-- <div class="form-group">
+                                <label class="form-label">Kode Surat <a class="text-danger">*</a></label>
+                                <input type="text" name="nomor" class="form-control" placeholder=". . . / . . . / . . ." autofocus required/>
+                            </div> --}}
+                        </div>
+                        <div class="col-md-4 mb-3">
                             <div class="form-group">
-                                <label class="form-label">Nomor Surat <a class="text-danger">*</a></label>
-                                <input type="text" id="nomor" class="form-control" placeholder=". . . / . . . / . . ." autofocus required/>
+                                <label class="form-label">Tanggal <a class="text-danger">*</a></label>
+                                <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" id="tgl_edit" required/>
                             </div>
                         </div>
                         <div class="col-md-12 mb-3">
                             <div class="form-group">
-                                <label class="form-label">Asal Surat <a class="text-danger">*</a></label>
-                                <input type="text" id="asal" class="form-control" placeholder="e.g. Perhimpunan Rumah Sakit Seluruh Indonesia" required/>
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="form-group">
-                                <label class="form-label">Tempat</label>
-                                <input type="text" id="tempat" class="form-control" placeholder="e.g. Hotel Syariah Surakarta">
-                            </div>
-                        </div>
-                        <div class="col-md-6 mb-3">
-                            <div class="form-group">
-                                <label class="form-label">Acara</label>
-                                <div class="input-group input-group-merge">
-                                    <input type="text" class="form-control flatpickrrange" id="waktu" placeholder="YYYY-MM-DD to YYYY-MM-DD"/>
-                                    <span class="input-group-text cursor-pointer"><i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Klik 2x apabila hanya memilih satu tanggal saja"></i></span>
+                                <label for="select2Dark" class="form-label">Ditujukan Kepada <a class="text-danger">*</a></label>
+                                <div class="select2-dark">
+                                    <select class="select2users form-select" id="tujuan_edit" data-allow-clear="true" data-bs-auto-close="outside" required multiple></select>
                                 </div>
                             </div>
                         </div>
-                        <div class="col-md-12 mb-3">
+                        <div class="col-md-12">
                             <div class="form-group">
-                                <label class="form-label">Deskripsi</label>
-                                <textarea rows="3" class="form-control" id="deskripsi" placeholder="Optional"></textarea>
+                                <label class="form-label">Isi Surat</label>
+                                <textarea rows="3" class="form-control" id="isi_edit" placeholder="Optional"></textarea>
                             </div>
                         </div>
-                    </div>
-                    <div class="form-group">
-                        <label class="form-label">Berkas Surat Anda</label>
-                        <div id="linksurat"></div>
-                        <small><i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila terdapat kesalahan File Upload, Anda dapat melakukan Input Ulang</small>
+                        <div class="divider text-end">
+                          <div class="divider-text">Form Upload&nbsp;&nbsp;&nbsp;</div>
+                        </div>
+                        <div class="col-md-12" style="margin-top: -8px">
+                            <div class="form-group">
+                                <label class="form-label">Berkas Surat Anda</label>
+                                <div id="linksurat"></div>
+                                <small><i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila terdapat kesalahan File Upload, Anda dapat melakukan Input Ulang</small>
+                            </div>
+                        </div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -308,6 +304,7 @@
     <script>
         $(document).ready(function() {
             $("html").addClass('layout-menu-collapsed');
+
             // SELECT2
             var t = $(".select2");
             t.length && t.each(function() {
@@ -317,6 +314,7 @@
                     dropdownParent: e.parent()
                 })
             });
+
             // SELECT2 USERS
             var te = $(".select2users");
             te.length && te.each(function() {
@@ -335,16 +333,7 @@
                     enableTime: 0,
                     minuteIncrement: 1,
                     defaultDate: now,
-                    // monthSelectorType: "static",
-                    // inline: true,
-                    // defaultHour: 12,
-                    // defaultMinute: "today",
                     time_24hr: true,
-                    // dateFormat: "Y-m-d H:m",
-                    // disable: [{
-                    //     from: tomorrow.toISOString().split("T")[0],
-                    //     to: next.toISOString().split("T")[0]
-                    // }]
                 })
             
             // KODE SURAT
@@ -360,14 +349,25 @@
                 })
             });
             
+            // <th class="cell-fit">NO</th>
+            // <th class="cell-fit">TGL</th>
+            // <th class="cell-fit">NO. SURAT</th>
+            // <th>ISI RINGKASAN</th>
+            // <th>DITUJUKAN KPD</th>
+            // <th>UPDATE</th>
+            // <th>USER</th>
+            
             $.ajax(
                 {
-                    url: "/api/suratmasuk/data",
+                    url: "/api/suratkeluar/data",
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
                         $("#tampil-tbody").empty();
                         res.show.forEach(item => {
+                            // VALIDASI TUJUAN FROM JSON
+                            var un = JSON.parse(item.tujuan);
+                            var us = JSON.parse(res.user);
                             // var updet = item.updated_at.substring(0, 10);
                             content = "<tr id='data"+ item.id +"'>";
                             content += `<td><center><div class='btn-group'><button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button><ul class='dropdown-menu dropdown-menu-end'>`
@@ -377,37 +377,24 @@
                                     }
                             content += `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`
                                     + `</ul></center></td><td>`;  
-                            content += item.urutan + "</td><td>";
-                                        if (item.tgl_surat != null) {
-                                            content += item.tgl_surat;  
+                            content += item.urutan + "</td><td>"
+                                        + item.tgl + "</td><td>"
+                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate text-primary'>" + item.nomor + "</h6><small class='text-truncate text-muted'>" + item.kode_jenis + "&nbsp;-&nbsp;" + item.jenis + "</small></div></div></td><td>";
+                                        + item.nomor + "</td><td>";
+                                        if (item.isi) {
+                                            content += item.isi;  
                                         } else {
                                             content += '-';
                                         }
-                            content += "</td><td>" + item.tgl_diterima + "</td><td>"
-                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>" + item.asal + "</h6><small class='text-truncate text-muted'>" + item.nomor + "</small></div></div></td><td>";
-                                        if (item.deskripsi) {
-                                            content += item.deskripsi;  
-                                        } else {
-                                            content += '-';
-                                        }
-                            content += "</td><td><div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>";
-                                        if (item.tempat != null) {
-                                            content += item.tempat;   
-                                        } else {
-                                            content += '-';
-                                        }
-                            content += "</h6><small class='text-truncate text-muted'>";
-                                        if (item.tglTo == null) {
-                                            if (item.tglFrom == null) {
-                                                content += '-';
-                                            } else {
-                                                content += item.tglFrom.substring(0, 10);
+                            content += "</td><td><ul class='list-unstyled mt-2'>";
+                                    for(i = 0; i < un.length; i++){
+                                        for(u = 0; u < us.length; u++){
+                                            if (un[i] == us[u].id) {
+                                                content += "<li>- " + us[u].nama + "</li>";
                                             }
-                                        } else {
-                                            content += item.tglFrom.substring(0, 10) + " - " + item.tglTo.substring(0, 10);
-                                        } 
-                            content += "</small></div></div></td><td>" 
-                                        + item.updated_at + "</td><td>";
+                                        }
+                                    }
+                            content += "</ul></td><td>" + item.updated_at + "</td><td>";
                                         if (item.user == '84') { content += 'Sri Suryani, Amd'; }
                                         if (item.user == '293') { content += 'Zia Nuswantara pahlawan, S.H'; }
                                         if (item.user == '88') { content += 'Siti Dewi Sholikhah'; }
@@ -417,7 +404,7 @@
                         });
                         $('#table').DataTable(
                         {
-                            order: [[7, "desc"]],
+                            order: [[5, "desc"]],
                             dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                             displayLength: 10,
                             lengthMenu: [10, 25, 50, 75, 100],
@@ -456,8 +443,6 @@
                             }],
                             columnDefs: [
                                 { targets: 0, orderable: !1,searchable: !1, },
-                                { targets: 5, orderable: !1 },
-                                { targets: 6, orderable: !1 },
                                 // { targets: 1, orderable: !1,searchable: !1, },
                                 // { targets: 5, orderable: !1,searchable: !1, },
                                 // { targets: 6, visible: false },
@@ -481,12 +466,15 @@
             $("#tampil-tbody").empty().append(`<tr><td colspan="9"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
             $.ajax(
                 {
-                    url: "/api/suratmasuk/data",
+                    url: "/api/suratkeluar/data",
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
                         $("#tampil-tbody").empty();
                         res.show.forEach(item => {
+                            // VALIDASI TUJUAN FROM JSON
+                            var un = JSON.parse(item.tujuan);
+                            var us = JSON.parse(res.user);
                             // var updet = item.updated_at.substring(0, 10);
                             content = "<tr id='data"+ item.id +"'>";
                             content += `<td><center><div class='btn-group'><button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button><ul class='dropdown-menu dropdown-menu-end'>`
@@ -496,37 +484,24 @@
                                     }
                             content += `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`
                                     + `</ul></center></td><td>`;  
-                            content += item.urutan + "</td><td>";
-                                        if (item.tgl_surat != null) {
-                                            content += item.tgl_surat;  
+                            content += item.urutan + "</td><td>"
+                                        + item.tgl + "</td><td>"
+                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate text-primary'>" + item.nomor + "</h6><small class='text-truncate text-muted'>" + item.kode_jenis + "&nbsp;-&nbsp;" + item.jenis + "</small></div></div></td><td>";
+                                        + item.nomor + "</td><td>";
+                                        if (item.isi) {
+                                            content += item.isi;  
                                         } else {
                                             content += '-';
                                         }
-                            content += "</td><td>" + item.tgl_diterima + "</td><td>"
-                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>" + item.asal + "</h6><small class='text-truncate text-muted'>" + item.nomor + "</small></div></div></td><td>";
-                                        if (item.deskripsi) {
-                                            content += item.deskripsi;  
-                                        } else {
-                                            content += '-';
-                                        }
-                            content += "</td><td><div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>";
-                                        if (item.tempat != null) {
-                                            content += item.tempat;   
-                                        } else {
-                                            content += '-';
-                                        }
-                            content += "</h6><small class='text-truncate text-muted'>";
-                                        if (item.tglTo == null) {
-                                            if (item.tglFrom == null) {
-                                                content += '-';
-                                            } else {
-                                                content += item.tglFrom.substring(0, 10);
+                            content += "</td><td><ul class='list-unstyled mt-2'>";
+                                    for(i = 0; i < un.length; i++){
+                                        for(u = 0; u < us.length; u++){
+                                            if (un[i] == us[u].id) {
+                                                content += "<li>- " + us[u].nama + "</li>";
                                             }
-                                        } else {
-                                            content += item.tglFrom.substring(0, 10) + " - " + item.tglTo.substring(0, 10);
-                                        } 
-                            content += "</small></div></div></td><td>" 
-                                        + item.updated_at + "</td><td>";
+                                        }
+                                    }
+                            content += "</ul></td><td>" + item.updated_at + "</td><td>";
                                         if (item.user == '84') { content += 'Sri Suryani, Amd'; }
                                         if (item.user == '293') { content += 'Zia Nuswantara pahlawan, S.H'; }
                                         if (item.user == '88') { content += 'Siti Dewi Sholikhah'; }
@@ -556,15 +531,16 @@
         function showUbah(id) {
             $.ajax(
             {
-                url: "/api/suratmasuk/data/"+id,
+                url: "/api/suratkeluar/data/"+id,
                 type: 'GET',
                 dataType: 'json', // added data type
                 success: function(res) {
                     $('#ubah').modal('show');
+                    var un = JSON.parse(res.show.tujuan);
                     // var dt = new Date(res.show.tanggal).toJSON().slice(0,19);
-                    var dt = moment(res.show.tanggal).format('Y-MM-DD HH:mm');
+                    var dt = moment(res.show.tgl).format('Y-MM-DD HH:mm');
                     if (res.show.filename != null) {
-                        document.getElementById('linksurat').innerHTML = "<h6 class='mb-2'><a href='/v2/suratmasuk/"+res.show.id+"/download'>"+res.show.title+"</a></h6>";
+                        document.getElementById('linksurat').innerHTML = "<h6 class='mb-2'><a href='/v2/suratkeluar/"+res.show.id+"/download'>"+res.show.title+"</a></h6>";
                     } else {
                         // document.getElementById('linksurat').innerHTML = "<input type='file' class='form-control mb-2' name='filesusulan' id='filesusulan' accept='application/pdf'>";
                         document.getElementById('linksurat').innerHTML = `<input type='file' id="filex" name='filex' class="form-control mb-2" accept="application/pdf">`;
@@ -572,43 +548,43 @@
                     $("#id_edit").val(res.show.id);
                     
                     // INIT DATE
-                    const today = new Date();
-                    var tomorrow = new Date(today);
-                    tomorrow.setDate(tomorrow.getDate() + 2);
-                    var next = new Date(today);
-                    next.setDate(next.getDate() + 999999);
                         // TGL SURAT EDIT
-                        var a = document.querySelector("#tgl_surat");
-                        var b = new Date(Date.now() - 1728e5);
+                        var a = document.querySelector("#tgl_edit");
                         a.flatpickr({
                             enableTime: 0,
                             minuteIncrement: 1,
-                            defaultDate: res.show.tgl_surat,
                             time_24hr: true,
-                            disable: [{
-                                from: tomorrow.toISOString().split("T")[0],
-                                to: next.toISOString().split("T")[0]
-                            }]
-                        })
-                        // TGL DITERIMA EDIT
-                        var a = document.querySelector("#tgl_diterima");
-                        var b = new Date(Date.now() - 1728e5);
-                        a.flatpickr({
-                            enableTime: 0,
-                            minuteIncrement: 1,
-                            defaultDate: res.show.tgl_diterima,
-                            time_24hr: true,
-                            disable: [{
-                                from: tomorrow.toISOString().split("T")[0],
-                                to: next.toISOString().split("T")[0]
-                            }]
+                            defaultDate: res.show.tgl,
                         })
 
-                    $("#asal").val(res.show.asal);
-                    $("#nomor").val(res.show.nomor);
-                    $("#deskripsi").val(res.show.deskripsi);
-                    $("#tempat").val(res.show.tempat);
-                    $("#waktu").val(res.waktu);
+                    $("#push_urutan").text(res.urutan);
+                    $("#push_kode").text(res.kode);
+                    $("#push_year").text(res.year);
+                    $("#tujuan_edit").find('option').remove();
+                    res.users.forEach(pounch => {
+                        $("#tujuan_edit").append(`
+                            <option value="${pounch.id}">${pounch.nama}</option>
+                        `);
+                    });
+                    $("#tujuan_edit").val(un).change();
+                    $("#isi_edit").val(res.show.isi);
+                    $("#kode_edit").find('option').remove();
+                    res.refkode.forEach(item => {
+                        $("#kode_edit").append(`
+                            <option value="${item.id}" ${item.id == res.show.kode? "selected":""}>${item.nama}</option>
+                        `);
+                    });
+                    $('#kode_edit').change(function() {
+                        $.ajax(
+                        {
+                            url: "/api/suratkeluar/getkode/"+$(this).val(),
+                            type: 'GET',
+                            dataType: 'json', // added data type
+                            success: function(bowl) {
+                                $('#push_kode').text(bowl);
+                            }
+                        })
+                    });
                     $("#user").find('option').remove();
                     $("#user").append(`
                         <option value="84" ${res.show.user == '84' ? "selected":""}>Sri Suryani, Amd</option>
@@ -620,70 +596,6 @@
             }
             );
         }
-
-        // function ubah() {
-        //     $("#btn-ubah").prop('disabled', true);
-        //     $("#btn-ubah").find("i").toggleClass("fa-save fa-sync fa-spin");
-
-        //     var id              = $("#id_edit").val();
-        //     var tgl_surat       = $("#tgl_surat").val();
-        //     var tgl_diterima    = $("#tgl_diterima").val();
-        //     var asal            = $("#asal").val();
-        //     var nomor           = $("#nomor").val();
-        //     var deskripsi       = $("#deskripsi").val();
-        //     var tempat          = $("#tempat").val();
-        //     var waktu           = $("#waktu").val();
-        //     var user            = $("#user").val();
-
-        //     // console.log(file);
-        //     if (user == "" || tgl_diterima == "" || nomor == "" || asal == "") {
-        //         iziToast.error({
-        //             title: 'Pesan Galat!',
-        //             message: 'Mohon lengkapi kolom pengisian wajib *',
-        //             position: 'topRight'
-        //         });
-        //     } else {
-        //         $.ajax({
-        //             headers: {
-        //                 'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-        //             },
-        //             method: 'PUT',
-        //             url: '/api/suratmasuk/'+id, 
-        //             // dataType: 'json', 
-        //             data: { 
-        //                 id: id,
-        //                 tgl_surat: tgl_surat,
-        //                 tgl_diterima: tgl_diterima,
-        //                 asal: asal,
-        //                 nomor: nomor,
-        //                 deskripsi: deskripsi,
-        //                 tempat: tempat,
-        //                 waktu: waktu,
-        //                 user: user,
-        //             },
-        //             // data: formData, 
-        //             // cache: false,
-        //             // processData: false,
-        //             // contentType: false,
-        //             // enctype: 'multipart/form-data',
-        //             success: function(res) {
-        //                 iziToast.success({
-        //                     title: 'Pesan Sukses!',
-        //                     message: 'Surat Masuk berhasil diperbarui pada '+res,
-        //                     position: 'topRight'
-        //                 });
-        //                 if (res) {
-        //                     $('#ubah').modal('hide');
-        //                     fresh();
-        //                     refresh();
-        //                     // window.location.reload();
-        //                 }
-        //             }
-        //         });
-        //     }
-        //     $("#btn-ubah").find("i").removeClass("fa-sync fa-spin").addClass("fa-save");
-        //     $("#btn-ubah").prop('disabled', false);
-        // }
 
         function ubahAjx() {   
             $("#btn-ubah").prop('disabled', true);
@@ -776,7 +688,7 @@
                 // PROSES HAPUS
                 var id = $("#id_hapus").val();
                 $.ajax({
-                    url: "/api/suratmasuk/"+id,
+                    url: "/api/suratkeluar/"+id,
                     type: 'DELETE',
                     success: function(res) {
                         iziToast.success({
@@ -785,7 +697,6 @@
                             position: 'topRight'
                         });
                         $('#hapus').modal('hide');
-                        fresh();
                         refresh();
                         // window.location.reload();
                     },

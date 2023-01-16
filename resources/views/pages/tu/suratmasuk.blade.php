@@ -780,7 +780,6 @@
                             position: 'topRight'
                         });
                         $('#hapus').modal('hide');
-                        fresh();
                         refresh();
                         // window.location.reload();
                     },

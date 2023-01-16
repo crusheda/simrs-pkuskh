@@ -53,26 +53,11 @@ class suratKeluarController extends Controller
     {
         $request->validate([
             'file' => ['max:20000','mimes:pdf'],
-            'tgl_diterima' => 'required',
-            'asal' => 'required',
-            'nomor' => 'required',
+            'kode' => 'required',
+            'tgl' => 'required',
+            'tujuan' => 'required',
             'user' => 'required'
         ]);
-
-        if ($request->waktu == null) {
-            $tglFrom    = null;
-            $tglTo      = null;
-        } else {
-            if (strlen($request->waktu) == 10) {
-                $tglFrom    = $request->waktu;
-                $tglTo      = null;
-            } else {
-                $dates = explode(' to ', $request->waktu);
-                
-                $tglFrom = Carbon::parse($dates[0]);
-                $tglTo = Carbon::parse($dates[1]);
-            }
-        }
         
         $getFile = $request->file('file');
         if ($getFile == null) {
@@ -81,27 +66,27 @@ class suratKeluarController extends Controller
         } else {
             // simpan berkas yang diunggah ke sub-direktori $path
             // direktori 'files' otomatis akan dibuat jika belum ada
-            $path = $getFile->store('public/files/tu/suratmasuk');
+            $path = $getFile->store('public/files/tu/suratkeluar');
             $title = $getFile->getClientOriginalName();
         }
 
-        $getUrutan = suratmasuk::orderBy('urutan','DESC')->first();
+        $tahunNow = Carbon::now()->isoFormat('YYYY');
+        $getJenis = kdsuratkeluar::where('id',$request->kode)->first();
+        $getUrutan = suratkeluar::orderBy('urutan','DESC')->first();
         if (empty($getUrutan->urutan)) {
             $urutan = 1;
         } else {
             $urutan = $getUrutan->urutan + 1;
         }
 
-        $data               = new suratmasuk;
+        $data               = new suratkeluar;
         $data->urutan       = $urutan;
-        $data->tgl_surat    = $request->tgl_surat;
-        $data->tgl_diterima = $request->tgl_diterima;
-        $data->asal         = $request->asal;
-        $data->nomor        = $request->nomor;
-        $data->deskripsi    = $request->deskripsi;
-        $data->tempat       = $request->tempat;
-        $data->tglFrom      = $tglFrom;
-        $data->tglTo        = $tglTo;
+        $data->kode         = $request->kode;
+        $data->tgl          = $request->tgl;
+        $data->tujuan       = json_encode($request->tujuan);
+        $data->nomor        = sprintf("%03d", $urutan)."/".$getJenis->kode."/DIR/III.6.AU/PKUSKH/".$tahunNow;
+        $data->jenis        = $getJenis->nama;
+        $data->isi          = $request->isi;
         $data->title        = $title;
         $data->filename     = $path;
         $data->user         = $request->user;
@@ -113,10 +98,13 @@ class suratKeluarController extends Controller
     // API
     public function apiGet()
     {
-        $show = suratmasuk::limit('30')->get();
+        $show = suratkeluar::join('tu_kd_surat_keluar','tu_kd_surat_keluar.id','=','tu_surat_keluar.kode')->select('tu_kd_surat_keluar.kode as kode_jenis','tu_surat_keluar.*')->get();
+        $getUser = user::select('id','nama')->get();
+        $user = json_encode($getUser);
 
         $data = [
             'show' => $show,
+            'user' => $user,
         ];
 
         return response()->json($data, 200);
@@ -124,79 +112,36 @@ class suratKeluarController extends Controller
 
     public function download($id)
     {
-        $data = suratmasuk::find($id);
+        $data = suratkeluar::find($id);
         return Storage::download($data->filename, $data->title);
     }
 
     public function showChange($id)
     {
-        $show = suratmasuk::find($id);
+        $users = user::whereNotNull('nik')->where('status',null)->orderBy('nama','ASC')->get();
+        $show = suratkeluar::find($id);
+        $getKode = kdsuratkeluar::where('id',$show->kode)->first();
+        $refKode = kdsuratkeluar::get();
 
-        if ($show->tglTo == null) {
-            $tglFrom = Carbon::parse($show->tglFrom)->isoFormat('YYYY-MM-DD');
-            $waktu = $tglFrom; 
+        $kode = $getKode->kode;
+        if (strlen($show->nomor) == 32) {
+            $year = substr($show->nomor,28);
         } else {
-            $tglFrom = Carbon::parse($show->tglFrom)->isoFormat('YYYY-MM-DD');
-            $tglTo = Carbon::parse($show->tglTo)->isoFormat('YYYY-MM-DD');
-            $waktu = $tglFrom.' to '.$tglTo; 
+            $year = substr($show->nomor,29);
         }
+        $urutan = sprintf("%03d", $show->urutan);
 
         $data = [
+            'users' => $users,
             'show' => $show,
-            'waktu' => $waktu,
+            'refkode' => $refKode,
+            'kode' => $kode,
+            'year' => $year,
+            'urutan' => $urutan,
         ];
 
         return response()->json($data, 200);
     }
-
-    // public function update(Request $request, $id)
-    // {
-    //     // $getFile = $request->file('file'); 
-    //     // print_r($getFile->getClientOriginalName());
-    //     // die();
-    //     $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
-
-    //     $data = suratmasuk::find($id);
-    //     $data->tgl_surat    = $request->tgl_surat;
-    //     $data->tgl_diterima = $request->tgl_diterima;
-    //     $data->asal         = $request->asal;
-    //     $data->nomor        = $request->nomor;
-    //     $data->deskripsi    = $request->deskripsi;
-    //     $data->tempat       = $request->tempat;
-    //     $data->user         = $request->user;
-        
-    //     if ($request->waktu == null) {
-    //         $tglFrom    = null;
-    //         $tglTo      = null;
-    //     } else {
-    //         if (strlen($request->waktu) == 10) {
-    //             $tglFrom    = $request->waktu;
-    //             $tglTo      = null;
-    //         } else {
-    //             $dates = explode(' to ', $request->waktu);
-                
-    //             $tglFrom = Carbon::parse($dates[0]);
-    //             $tglTo = Carbon::parse($dates[1]);
-    //         }
-    //     }
-
-    //     $data->tglFrom      = $tglFrom;
-    //     $data->tglTo        = $tglTo;
-        
-    //     if ($data->filename == null) {
-    //         if ($request->file('file')) {
-    //             $path = $getFile->store('public/files/tu/suratmasuk');
-    //             $title = $getFile->getClientOriginalName();
-    //         } else {
-    //             $path = null;
-    //             $title = null;
-    //         }
-    //     }
-
-    //     $data->save();
-
-    //     return response()->json($now, 200);
-    // }
 
     public function ubah(Request $request)
     {
@@ -212,47 +157,29 @@ class suratKeluarController extends Controller
            $data['error'] = $validator->errors()->first('file');// Error response
   
         }else{
+
             $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
     
-            $data = suratmasuk::find($request->id_edit);
-            $data->tgl_surat    = $request->tgl_surat;
-            $data->tgl_diterima = $request->tgl_diterima;
-            $data->asal         = $request->asal;
-            $data->nomor        = $request->nomor;
-            $data->deskripsi    = $request->deskripsi;
-            $data->tempat       = $request->tempat;
-            $data->user         = $request->user;
-            
-            if ($request->waktu == null) {
-                $tglFrom    = null;
-                $tglTo      = null;
-            } else {
-                if (strlen($request->waktu) == 10) {
-                    $tglFrom    = $request->waktu;
-                    $tglTo      = null;
-                } else {
-                    $dates = explode(' to ', $request->waktu);
-                    
-                    $tglFrom = Carbon::parse($dates[0]);
-                    $tglTo = Carbon::parse($dates[1]);
-                }
-            }
-    
-            $data->tglFrom      = $tglFrom;
-            $data->tglTo        = $tglTo;
+            $getJenis = kdsuratkeluar::where('id', $request->kode)->first();
+
+            $data           = suratkeluar::find($request->id_edit);
+            $data->kode     = $request->kode;
+            $data->tgl      = $request->tgl;
+            $data->jenis    = $getJenis->nama;
+            $data->isi      = $request->isi;
+            $data->user     = $request->user;
             
             if ($data->filename == null) {
                 if ($request->file('file') && $request->file('file')->isValid()) {
-                    $path = $request->file('file')->store('public/files/tu/suratmasuk');
+                    $path = $request->file('file')->store('public/files/tu/suratkeluar');
                     $title = $request->file('file')->getClientOriginalName();
                 } else {
                     $path = null;
                     $title = null;
                 }
-            }
-    
-            $data->filename = $path;
-            $data->title    = $title; 
+                $data->filename = $path;
+                $data->title    = $title; 
+            }    
     
             $data->save();
         }
@@ -265,11 +192,10 @@ class suratKeluarController extends Controller
         $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
 
         // Inisialisasi
-        $hapusData = suratmasuk::find($id);
+        $hapusData = suratkeluar::find($id);
         
         // Proses Hapus
         $file = $hapusData->filename;
-        // Storage::delete($file);
         $hapusData->delete();
         
         return response()->json($tgl, 200);

@@ -149,7 +149,7 @@
     <li class="menu-header small text-uppercase" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="right" data-bs-html="true" title="<i class='bx bx-chevron-right bx-xs' ></i> <span>Berkas Tata Usaha</span>">
       <span class="menu-header-text">Tata Usaha</span>
     </li>
-    <li class="menu-item {{ request()->routeIs('suratmasuk.index') ? 'open active' : '' }}">
+    <li class="menu-item {{ request()->routeIs('suratmasuk.index') || request()->routeIs('suratkeluar.index') ? 'open active' : '' }}">
       <a href="javascript:void(0);" class="menu-link menu-toggle">
         <i class="menu-icon tf-icons bx bx-archive"></i>
         <div data-i18n="Users">Berkas Surat</div>
@@ -160,9 +160,9 @@
             <div data-i18n="List">Surat Masuk</div>
           </a>
         </li>
-        <li class="menu-item">
-          <a href="javascript:void(0);" class="menu-link">
-            <div data-i18n="List"><s>Surat Keluar</s></div>
+        <li class="menu-item {{ request()->routeIs('suratkeluar.index') ? 'active' : '' }}">
+          <a href="{{ route('suratkeluar.index') }}" class="menu-link">
+            <div data-i18n="List">Surat Keluar</div>
           </a>
         </li>
       </ul>

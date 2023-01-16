@@ -90,7 +90,7 @@ class suratMasukController extends Controller
     // API
     public function apiGet()
     {
-        $show = suratmasuk::limit('30')->get();
+        $show = suratmasuk::get();
 
         $data = [
             'show' => $show,
@@ -226,10 +226,9 @@ class suratMasukController extends Controller
                     $path = null;
                     $title = null;
                 }
+                $data->filename = $path;
+                $data->title    = $title; 
             }
-    
-            $data->filename = $path;
-            $data->title    = $title; 
     
             $data->save();
         }

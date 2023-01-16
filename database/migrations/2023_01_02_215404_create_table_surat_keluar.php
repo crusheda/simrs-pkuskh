@@ -18,7 +18,7 @@ class CreateTableSuratKeluar extends Migration
             $table->integer('urutan')->nullable();
             $table->integer('kode')->nullable();
             $table->string('nomor')->nullable();
-            $table->integer('jenis')->nullable();
+            $table->string('jenis')->nullable();
             $table->longText('isi')->nullable();
             $table->longText('tujuan')->nullable(); // CUSTOM LIST SUGGESTIONS
             $table->date('tgl')->nullable();
