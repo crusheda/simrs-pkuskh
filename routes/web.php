@@ -557,6 +557,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
             Route::get('suratmasuk', 'tu\suratMasukController@index')->name('suratmasuk.index');
             Route::get('suratmasuk/{id}/download', 'tu\suratMasukController@download');
             Route::post('suratmasuk', 'tu\suratMasukController@store')->name('suratmasuk.store');
+        // SURAT KELUAR
+            Route::get('suratkeluar', 'tu\suratKeluarController@index')->name('suratkeluar.index');
+            Route::get('suratkeluar/{id}/download', 'tu\suratKeluarController@download');
+            Route::post('suratkeluar', 'tu\suratKeluarController@store')->name('suratkeluar.store');
 
     // SYSTEM
         // UPDATE
@@ -654,6 +658,12 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
             Route::post('suratmasuk/ubah', 'tu\suratMasukController@ubah')->name('suratmasuk.ubah');
             // Route::put('suratmasuk/{id}', 'tu\suratMasukController@update');
             Route::delete('suratmasuk/{id}', 'tu\suratMasukController@hapus');
+        // SURAT MASUK
+            Route::get('suratkeluar/getkode/{id}', 'tu\suratKeluarController@apiKode');
+            Route::get('suratkeluar/data', 'tu\suratKeluarController@apiGet');
+            Route::get('suratkeluar/data/{id}', 'tu\suratKeluarController@showChange');
+            Route::post('suratkeluar/ubah', 'tu\suratKeluarController@ubah')->name('suratkeluar.ubah');
+            Route::delete('suratkeluar/{id}', 'tu\suratKeluarController@hapus');
     
     // PPI
         // PLEBITIS
