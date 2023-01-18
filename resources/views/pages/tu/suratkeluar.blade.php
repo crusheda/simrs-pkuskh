@@ -446,11 +446,6 @@
                                 // { targets: 1, orderable: !1,searchable: !1, },
                                 // { targets: 5, orderable: !1,searchable: !1, },
                                 // { targets: 6, visible: false },
-                                // { targets: 9, visible: false },
-                                // { targets: 10, visible: false },
-                                // { targets: 11, visible: false },
-                                // { targets: 12, visible: false },
-                                // { targets: 16, visible: false },
                             ],
                         },
                         );
@@ -471,6 +466,7 @@
                     dataType: 'json', // added data type
                     success: function(res) {
                         $("#tampil-tbody").empty();
+                        $('#table').DataTable().clear().destroy();
                         res.show.forEach(item => {
                             // VALIDASI TUJUAN FROM JSON
                             var un = JSON.parse(item.tujuan);
@@ -509,6 +505,54 @@
                             content += "</td></tr>";
                             $('#tampil-tbody').append(content);
                         });
+                        $('#table').DataTable(
+                        {
+                            order: [[5, "desc"]],
+                            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                            displayLength: 10,
+                            lengthMenu: [10, 25, 50, 75, 100],
+                            buttons: [{
+                                extend: "collection",
+                                className: "btn btn-label-primary dropdown-toggle me-2",
+                                text: '<i class="bx bx-export me-sm-2"></i> <span class="d-none d-sm-inline-block">Export</span>',
+                                buttons: [{
+                                    extend: "print",
+                                    text: '<i class="bx bx-printer me-2" ></i>Print',
+                                    className: "dropdown-item",
+                                    // exportOptions: {
+                                    //     columns: [3, 4, 5, 6, 7]
+                                    // }
+                                }, {
+                                    extend: "excel",
+                                    text: '<i class="bx bxs-spreadsheet me-2"></i>Excel',
+                                    className: "dropdown-item",
+                                    autoFilter: true,
+                                    attr: {id: 'exportButton'},
+                                    sheetName: 'data',
+                                    title: '',
+                                    filename: 'Berkas Surat'
+                                }, {
+                                    extend: "pdf",
+                                    text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
+                                    className: "dropdown-item",
+                                }, {
+                                    extend: "copy",
+                                    text: '<i class="bx bx-copy me-2" ></i>Copy',
+                                    className: "dropdown-item",
+                                    // exportOptions: {
+                                    //     columns: [3, 4, 5, 6, 7]
+                                    // }
+                                },]
+                            }],
+                            columnDefs: [
+                                { targets: 0, orderable: !1,searchable: !1, },
+                                // { targets: 1, orderable: !1,searchable: !1, },
+                                // { targets: 5, orderable: !1,searchable: !1, },
+                                // { targets: 6, visible: false },
+                            ],
+                        },
+                        );
+                        $("div.head-label").html('<h5 class="card-title mb-0">Berkas Surat</h5>');
                     }
                 }
             );

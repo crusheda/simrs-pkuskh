@@ -143,13 +143,13 @@
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
                                     <label class="form-label">Asal Surat <a class="text-danger">*</a></label>
-                                    <input type="text" name="asal" class="form-control" placeholder="e.g. Perhimpunan Rumah Sakit Seluruh Indonesia" required/>
+                                    <input type="text" name="asal" id="cari_asal" class="form-control" placeholder="e.g. Perhimpunan Rumah Sakit Seluruh Indonesia" autocomplete="off" required/>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label class="form-label">Tempat</label>
-                                    <input type="text" name="tempat" class="form-control" placeholder="e.g. Hotel Syariah Surakarta">
+                                    <input type="text" name="tempat" id="cari_tempat" class="form-control" placeholder="e.g. Hotel Syariah Surakarta" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -296,6 +296,7 @@
     <script>
         $(document).ready(function() {
             $("html").addClass('layout-menu-collapsed');
+
             // SELECT2
             var t = $(".select2");
             t.length && t.each(function() {
@@ -305,6 +306,31 @@
                     dropdownParent: e.parent()
                 })
             });
+            
+            // AUTOCOMPLETE ASAL
+            var path_asal = "{{ route('ac.asal.cari') }}";
+            $('#cari_asal').typeahead({
+                source: function(query, process) {
+                    return $.get(path_asal, {
+                        cari: query
+                    }, function(data) {
+                        return process(data);
+                    });
+                }
+            });
+            
+            // AUTOCOMPLETE TEMPAT
+            var path_tempat = "{{ route('ac.tempat.cari') }}";
+            $('#cari_tempat').typeahead({
+                source: function(query, process) {
+                    return $.get(path_asal, {
+                        cari: query
+                    }, function(data) {
+                        return process(data);
+                    });
+                }
+            });
+
             // DATEPICKER
                 // DATE
                 const today = new Date();
@@ -451,8 +477,8 @@
                             }],
                             columnDefs: [
                                 { targets: 0, orderable: !1,searchable: !1, },
-                                { targets: 5, orderable: !1 },
-                                { targets: 6, orderable: !1 },
+                                // { targets: 5, orderable: !1 },
+                                // { targets: 6, orderable: !1 },
                                 // { targets: 1, orderable: !1,searchable: !1, },
                                 // { targets: 5, orderable: !1,searchable: !1, },
                                 // { targets: 6, visible: false },
@@ -481,6 +507,7 @@
                     dataType: 'json', // added data type
                     success: function(res) {
                         $("#tampil-tbody").empty();
+                        $('#table').DataTable().clear().destroy();
                         res.show.forEach(item => {
                             // var updet = item.updated_at.substring(0, 10);
                             content = "<tr id='data"+ item.id +"'>";
@@ -529,6 +556,61 @@
                             content += "</td></tr>";
                             $('#tampil-tbody').append(content);
                         });
+                        $('#table').DataTable(
+                        {
+                            order: [[7, "desc"]],
+                            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                            displayLength: 10,
+                            lengthMenu: [10, 25, 50, 75, 100],
+                            buttons: [{
+                                extend: "collection",
+                                className: "btn btn-label-primary dropdown-toggle me-2",
+                                text: '<i class="bx bx-export me-sm-2"></i> <span class="d-none d-sm-inline-block">Export</span>',
+                                buttons: [{
+                                    extend: "print",
+                                    text: '<i class="bx bx-printer me-2" ></i>Print',
+                                    className: "dropdown-item",
+                                    // exportOptions: {
+                                    //     columns: [3, 4, 5, 6, 7]
+                                    // }
+                                }, {
+                                    extend: "excel",
+                                    text: '<i class="bx bxs-spreadsheet me-2"></i>Excel',
+                                    className: "dropdown-item",
+                                    autoFilter: true,
+                                    attr: {id: 'exportButton'},
+                                    sheetName: 'data',
+                                    title: '',
+                                    filename: 'Berkas Surat'
+                                }, {
+                                    extend: "pdf",
+                                    text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
+                                    className: "dropdown-item",
+                                }, {
+                                    extend: "copy",
+                                    text: '<i class="bx bx-copy me-2" ></i>Copy',
+                                    className: "dropdown-item",
+                                    // exportOptions: {
+                                    //     columns: [3, 4, 5, 6, 7]
+                                    // }
+                                },]
+                            }],
+                            columnDefs: [
+                                { targets: 0, orderable: !1,searchable: !1, },
+                                // { targets: 5, orderable: !1 },
+                                // { targets: 6, orderable: !1 },
+                                // { targets: 1, orderable: !1,searchable: !1, },
+                                // { targets: 5, orderable: !1,searchable: !1, },
+                                // { targets: 6, visible: false },
+                                // { targets: 9, visible: false },
+                                // { targets: 10, visible: false },
+                                // { targets: 11, visible: false },
+                                // { targets: 12, visible: false },
+                                // { targets: 16, visible: false },
+                            ],
+                        },
+                        );
+                        $("div.head-label").html('<h5 class="card-title mb-0">Berkas Surat</h5>');
                     }
                 }
             );
@@ -691,29 +773,24 @@
                     position: 'topRight'
                 });
             } else {
-                // Get the selected file
-                var files = $('#filex')[0].files;
-                
-                var fd = new FormData();
-
-                fd.append('id_edit',$("#id_edit").val());
-                fd.append('tgl_surat',$("#tgl_surat").val());
-                fd.append('tgl_diterima',$("#tgl_diterima").val());
-                fd.append('asal',$("#asal").val());
-                fd.append('nomor',$("#nomor").val());
-                fd.append('deskripsi',$("#deskripsi").val());
-                fd.append('tempat',$("#tempat").val());
-                fd.append('waktu',$("#waktu").val());
-                fd.append('user',$("#user").val());
-
-                if(files.length > 0){
+                if ($('#filex').val()) {
+                    // Get the selected file
+                    var files = $('#filex')[0].files;
+                    
+                    var fd = new FormData();
+    
+                    fd.append('id_edit',$("#id_edit").val());
+                    fd.append('tgl_surat',$("#tgl_surat").val());
+                    fd.append('tgl_diterima',$("#tgl_diterima").val());
+                    fd.append('asal',$("#asal").val());
+                    fd.append('nomor',$("#nomor").val());
+                    fd.append('deskripsi',$("#deskripsi").val());
+                    fd.append('tempat',$("#tempat").val());
+                    fd.append('waktu',$("#waktu").val());
+                    fd.append('user',$("#user").val());
 
                     // Append data 
                     fd.append('file',files[0]);
-                    // fd.append('_token',CSRF_TOKEN);
-
-                    // Hide alert 
-                    // $('#responseMsg').hide();
 
                     // AJAX request 
                     $.ajax({
@@ -734,17 +811,52 @@
                             });
                             if (res) {
                                 $('#ubah').modal('hide');
-                                fresh();
                                 refresh();
-                                // window.location.reload();
                             }
                         },
                         error: function(res){
                             console.log("error : " + JSON.stringify(res) );
                         }
                     });
-                }else{
-                    alert("Please select a file.");
+                } else {                    
+                    var fd = new FormData();
+    
+                    fd.append('id_edit',$("#id_edit").val());
+                    fd.append('tgl_surat',$("#tgl_surat").val());
+                    fd.append('tgl_diterima',$("#tgl_diterima").val());
+                    fd.append('asal',$("#asal").val());
+                    fd.append('nomor',$("#nomor").val());
+                    fd.append('deskripsi',$("#deskripsi").val());
+                    fd.append('tempat',$("#tempat").val());
+                    fd.append('waktu',$("#waktu").val());
+                    fd.append('user',$("#user").val());
+
+                    // AJAX request 
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: "{{route('suratmasuk.ubah')}}",
+                        method: 'post',
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+                        dataType: 'json',
+                        success: function(res){
+                            iziToast.success({
+                                title: 'Pesan Sukses!',
+                                message: 'Surat Masuk berhasil diperbarui pada '+res,
+                                position: 'topRight'
+                            });
+                            if (res) {
+                                $('#ubah').modal('hide');
+                                refresh();
+                            }
+                        },
+                        error: function(res){
+                            console.log("error : " + JSON.stringify(res) );
+                        }
+                    });
                 }
             }
             $("#btn-ubah").find("i").removeClass("fa-sync fa-spin").addClass("fa-save");
