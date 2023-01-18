@@ -69,7 +69,7 @@
                             <th>DESKRIPSI</th>
                             <th>TEMPAT/ACARA</th>
                             <th>UPDATE</th>
-                            <th>USER</th>
+                            <th class="cell-fit">USER</th>
                         </tr>
                     </thead>
                     <tbody id="tampil-tbody">
@@ -91,7 +91,7 @@
                             <th>DESKRIPSI</th>
                             <th>TEMPAT/ACARA</th>
                             <th>UPDATE</th>
-                            <th>USER</th>
+                            <th class="cell-fit">USER</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -404,8 +404,8 @@
                                         } else {
                                             content += '-';
                                         }
-                            content += "</td><td>" + item.tgl_diterima + "</td><td>"
-                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>" + item.asal + "</h6><small class='text-truncate text-muted'>" + item.nomor + "</small></div></div></td><td>";
+                            content += "</td><td>" + item.tgl_diterima + "</td><td style='white-space: normal !important;word-wrap: break-word;'>"
+                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0'>" + item.asal + "</h6><small class='text-truncate text-muted'>" + item.nomor + "</small></div></div></td><td style='white-space: normal !important;word-wrap: break-word;'>";
                                         if (item.deskripsi) {
                                             content += item.deskripsi;  
                                         } else {
@@ -524,8 +524,8 @@
                                         } else {
                                             content += '-';
                                         }
-                            content += "</td><td>" + item.tgl_diterima + "</td><td>"
-                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>" + item.asal + "</h6><small class='text-truncate text-muted'>" + item.nomor + "</small></div></div></td><td>";
+                            content += "</td><td>" + item.tgl_diterima + "</td><td style='white-space: normal !important;word-wrap: break-word;'>"
+                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0'>" + item.asal + "</h6><small class='text-truncate text-muted'>" + item.nomor + "</small></div></div></td><td style='white-space: normal !important;word-wrap: break-word;'>";
                                         if (item.deskripsi) {
                                             content += item.deskripsi;  
                                         } else {
