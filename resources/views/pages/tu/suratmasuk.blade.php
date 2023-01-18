@@ -411,7 +411,7 @@
                                         } else {
                                             content += '-';
                                         }
-                            content += "</td><td><div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>";
+                            content += "</td><td><div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0'>";
                                         if (item.tempat != null) {
                                             content += item.tempat;   
                                         } else {
@@ -531,7 +531,7 @@
                                         } else {
                                             content += '-';
                                         }
-                            content += "</td><td><div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>";
+                            content += "</td><td><div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0'>";
                                         if (item.tempat != null) {
                                             content += item.tempat;   
                                         } else {
