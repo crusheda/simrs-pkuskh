@@ -191,11 +191,7 @@ class suratMasukController extends Controller
         // }else{
 
         // }
-<<<<<<< HEAD
         
-=======
-
->>>>>>> dev
         $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
 
         $data = suratmasuk::find($request->id_edit);
@@ -227,20 +223,9 @@ class suratMasukController extends Controller
         
         if ($data->filename == null) {
             if ($request->file('file') && $request->file('file')->isValid()) {
-<<<<<<< HEAD
                 $data->filename = $request->file('file')->store('public/files/tu/suratmasuk');
                 $data->title = $request->file('file')->getClientOriginalName();
             }
-=======
-                $path = $request->file('file')->store('public/files/tu/suratmasuk');
-                $title = $request->file('file')->getClientOriginalName();
-            } else {
-                $path = null;
-                $title = null;
-            }
-            $data->filename = $path;
-            $data->title    = $title; 
->>>>>>> dev
         }
 
         $data->save();
