@@ -598,13 +598,8 @@
                             }],
                             columnDefs: [
                                 { targets: 0, orderable: !1,searchable: !1, },
-<<<<<<< HEAD
-                                { targets: 5, orderable: !1 },
-                                { targets: 6, orderable: !1 },
-=======
                                 // { targets: 5, orderable: !1 },
                                 // { targets: 6, orderable: !1 },
->>>>>>> dev
                                 // { targets: 1, orderable: !1,searchable: !1, },
                                 // { targets: 5, orderable: !1,searchable: !1, },
                                 // { targets: 6, visible: false },
@@ -781,7 +776,6 @@
                     position: 'topRight'
                 });
             } else {
-<<<<<<< HEAD
                 var fd = new FormData();
 
                 // Get the selected file
@@ -842,93 +836,6 @@
                         console.log("error : " + JSON.stringify(res) );
                     }
                 });
-=======
-                if ($('#filex').val()) {
-                    // Get the selected file
-                    var files = $('#filex')[0].files;
-                    
-                    var fd = new FormData();
-    
-                    fd.append('id_edit',$("#id_edit").val());
-                    fd.append('tgl_surat',$("#tgl_surat").val());
-                    fd.append('tgl_diterima',$("#tgl_diterima").val());
-                    fd.append('asal',$("#asal").val());
-                    fd.append('nomor',$("#nomor").val());
-                    fd.append('deskripsi',$("#deskripsi").val());
-                    fd.append('tempat',$("#tempat").val());
-                    fd.append('waktu',$("#waktu").val());
-                    fd.append('user',$("#user").val());
-
-                    // Append data 
-                    fd.append('file',files[0]);
-
-                    // AJAX request 
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: "{{route('suratmasuk.ubah')}}",
-                        method: 'post',
-                        data: fd,
-                        contentType: false,
-                        processData: false,
-                        dataType: 'json',
-                        success: function(res){
-                            iziToast.success({
-                                title: 'Pesan Sukses!',
-                                message: 'Surat Masuk berhasil diperbarui pada '+res,
-                                position: 'topRight'
-                            });
-                            if (res) {
-                                $('#ubah').modal('hide');
-                                refresh();
-                            }
-                        },
-                        error: function(res){
-                            console.log("error : " + JSON.stringify(res) );
-                        }
-                    });
-                } else {                    
-                    var fd = new FormData();
-    
-                    fd.append('id_edit',$("#id_edit").val());
-                    fd.append('tgl_surat',$("#tgl_surat").val());
-                    fd.append('tgl_diterima',$("#tgl_diterima").val());
-                    fd.append('asal',$("#asal").val());
-                    fd.append('nomor',$("#nomor").val());
-                    fd.append('deskripsi',$("#deskripsi").val());
-                    fd.append('tempat',$("#tempat").val());
-                    fd.append('waktu',$("#waktu").val());
-                    fd.append('user',$("#user").val());
-
-                    // AJAX request 
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: "{{route('suratmasuk.ubah')}}",
-                        method: 'post',
-                        data: fd,
-                        contentType: false,
-                        processData: false,
-                        dataType: 'json',
-                        success: function(res){
-                            iziToast.success({
-                                title: 'Pesan Sukses!',
-                                message: 'Surat Masuk berhasil diperbarui pada '+res,
-                                position: 'topRight'
-                            });
-                            if (res) {
-                                $('#ubah').modal('hide');
-                                refresh();
-                            }
-                        },
-                        error: function(res){
-                            console.log("error : " + JSON.stringify(res) );
-                        }
-                    });
-                }
->>>>>>> dev
             }
 
             $("#btn-ubah").find("i").removeClass("fa-sync fa-spin").addClass("fa-save");
