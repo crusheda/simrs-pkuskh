@@ -35,6 +35,7 @@
   <!-- Vendors CSS -->
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/perfect-scrollbar/perfect-scrollbar.css') }}" />
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/typeahead-js/typeahead.css') }}" />
+  <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/tagify/tagify.css') }}" />
   {{-- <link rel="stylesheet" href="https://cdn.datatables.net/1.12.1/css/jquery.dataTables.min.css"> --}}
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/datatables-bs5/datatables.bootstrap5.css') }}">
   <link rel="stylesheet" href="{{ asset('assets-new/vendor/libs/datatables-responsive-bs5/responsive.bootstrap5.css') }}">
@@ -237,6 +238,9 @@
   
     <!-- Main JS -->
     <script src="{{ asset('assets-new/js/main.js') }}"></script>
+    {{-- <script src="{{ asset('assets-new/js/forms-selects.js') }}"></script>
+    <script src="{{ asset('assets-new/js/forms-tagify.js') }}"></script>
+    <script src="{{ asset('assets-new/js/forms-typeahead.js') }}"></script> --}}
   
     <!-- Page JS -->
     <script src="{{ asset('assets-new/js/cards-actions.js') }}"></script>

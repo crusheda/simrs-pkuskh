@@ -250,7 +250,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Berkas Surat Anda</label>
+                        <label class="form-label">Berkas Surat Anda <a class="text-danger">*</a></label>
+                        <input type="text" class="form-control" id="verifberkas" hidden>
                         <div id="linksurat"></div>
                         <small><i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila terdapat kesalahan File Upload, Anda dapat melakukan Input Ulang</small>
                     </div>
@@ -481,6 +482,7 @@
                     dataType: 'json', // added data type
                     success: function(res) {
                         $("#tampil-tbody").empty();
+                        $('#table').DataTable().clear().destroy();
                         res.show.forEach(item => {
                             // var updet = item.updated_at.substring(0, 10);
                             content = "<tr id='data"+ item.id +"'>";
@@ -529,6 +531,61 @@
                             content += "</td></tr>";
                             $('#tampil-tbody').append(content);
                         });
+                        $('#table').DataTable(
+                        {
+                            order: [[7, "desc"]],
+                            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                            displayLength: 10,
+                            lengthMenu: [10, 25, 50, 75, 100],
+                            buttons: [{
+                                extend: "collection",
+                                className: "btn btn-label-primary dropdown-toggle me-2",
+                                text: '<i class="bx bx-export me-sm-2"></i> <span class="d-none d-sm-inline-block">Export</span>',
+                                buttons: [{
+                                    extend: "print",
+                                    text: '<i class="bx bx-printer me-2" ></i>Print',
+                                    className: "dropdown-item",
+                                    // exportOptions: {
+                                    //     columns: [3, 4, 5, 6, 7]
+                                    // }
+                                }, {
+                                    extend: "excel",
+                                    text: '<i class="bx bxs-spreadsheet me-2"></i>Excel',
+                                    className: "dropdown-item",
+                                    autoFilter: true,
+                                    attr: {id: 'exportButton'},
+                                    sheetName: 'data',
+                                    title: '',
+                                    filename: 'Berkas Surat'
+                                }, {
+                                    extend: "pdf",
+                                    text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
+                                    className: "dropdown-item",
+                                }, {
+                                    extend: "copy",
+                                    text: '<i class="bx bx-copy me-2" ></i>Copy',
+                                    className: "dropdown-item",
+                                    // exportOptions: {
+                                    //     columns: [3, 4, 5, 6, 7]
+                                    // }
+                                },]
+                            }],
+                            columnDefs: [
+                                { targets: 0, orderable: !1,searchable: !1, },
+                                { targets: 5, orderable: !1 },
+                                { targets: 6, orderable: !1 },
+                                // { targets: 1, orderable: !1,searchable: !1, },
+                                // { targets: 5, orderable: !1,searchable: !1, },
+                                // { targets: 6, visible: false },
+                                // { targets: 9, visible: false },
+                                // { targets: 10, visible: false },
+                                // { targets: 11, visible: false },
+                                // { targets: 12, visible: false },
+                                // { targets: 16, visible: false },
+                            ],
+                        },
+                        );
+                        $("div.head-label").html('<h5 class="card-title mb-0">Berkas Surat</h5>');
                     }
                 }
             );
@@ -559,8 +616,10 @@
                     // var dt = new Date(res.show.tanggal).toJSON().slice(0,19);
                     var dt = moment(res.show.tanggal).format('Y-MM-DD HH:mm');
                     if (res.show.filename != null) {
+                        $("#verifberkas").val(0);
                         document.getElementById('linksurat').innerHTML = "<h6 class='mb-2'><a href='/v2/suratmasuk/"+res.show.id+"/download'>"+res.show.title+"</a></h6>";
                     } else {
+                        $("#verifberkas").val(1);
                         // document.getElementById('linksurat').innerHTML = "<input type='file' class='form-control mb-2' name='filesusulan' id='filesusulan' accept='application/pdf'>";
                         document.getElementById('linksurat').innerHTML = `<input type='file' id="filex" name='filex' class="form-control mb-2" accept="application/pdf">`;
                     }
@@ -691,11 +750,14 @@
                     position: 'topRight'
                 });
             } else {
-                // Get the selected file
-                var files = $('#filex')[0].files;
-                
                 var fd = new FormData();
 
+                // Get the selected file
+                if ($("#verifberkas").val() == 1) {
+                    var files = $('#filex')[0].files;
+                    fd.append('file',files[0]);
+                }
+                
                 fd.append('id_edit',$("#id_edit").val());
                 fd.append('tgl_surat',$("#tgl_surat").val());
                 fd.append('tgl_diterima',$("#tgl_diterima").val());
@@ -706,47 +768,50 @@
                 fd.append('waktu',$("#waktu").val());
                 fd.append('user',$("#user").val());
 
-                if(files.length > 0){
+                // if(files.length > 0){
 
-                    // Append data 
-                    fd.append('file',files[0]);
-                    // fd.append('_token',CSRF_TOKEN);
+                //     // Append data 
+                // }else{
+                //     iziToast.error({
+                //         title: 'Pesan Galat!',
+                //         message: 'Mohon upload berkas file Surat Masuk terlebih dahulu sebelum menyimpan.',
+                //         position: 'topRight'
+                //     });
+                // }
+                // fd.append('_token',CSRF_TOKEN);
 
-                    // Hide alert 
-                    // $('#responseMsg').hide();
+                // Hide alert 
+                // $('#responseMsg').hide();
 
-                    // AJAX request 
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: "{{route('suratmasuk.ubah')}}",
-                        method: 'post',
-                        data: fd,
-                        contentType: false,
-                        processData: false,
-                        dataType: 'json',
-                        success: function(res){
-                            iziToast.success({
-                                title: 'Pesan Sukses!',
-                                message: 'Surat Masuk berhasil diperbarui pada '+res,
-                                position: 'topRight'
-                            });
-                            if (res) {
-                                $('#ubah').modal('hide');
-                                fresh();
-                                refresh();
-                                // window.location.reload();
-                            }
-                        },
-                        error: function(res){
-                            console.log("error : " + JSON.stringify(res) );
+                // AJAX request 
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{{route('suratmasuk.ubah')}}",
+                    method: 'post',
+                    data: fd,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    success: function(res){
+                        iziToast.success({
+                            title: 'Pesan Sukses!',
+                            message: 'Surat Masuk berhasil diperbarui pada '+res,
+                            position: 'topRight'
+                        });
+                        if (res) {
+                            $('#ubah').modal('hide');
+                            refresh();
+                            // window.location.reload();
                         }
-                    });
-                }else{
-                    alert("Please select a file.");
-                }
+                    },
+                    error: function(res){
+                        console.log("error : " + JSON.stringify(res) );
+                    }
+                });
             }
+
             $("#btn-ubah").find("i").removeClass("fa-sync fa-spin").addClass("fa-save");
             $("#btn-ubah").prop('disabled', false);
         }

@@ -154,7 +154,8 @@
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
                                     <label for="select2Dark" class="form-label">Ditujukan Kepada <a class="text-danger">*</a></label>
-                                    <div class="select2-dark">
+                                    <button class="btn btn-xs btn-outline-dark" type="button" onclick="ubahTujuan()" id="btn-manual">Manual</button>
+                                    <div class="select2-dark" id="tujuan1_add">
                                         <select class="select2users form-select" name="tujuan[]" data-allow-clear="true" data-bs-auto-close="outside" required multiple>
                                             {{-- <option value="all">Seluruh Karyawan</option> --}}
                                             @if(count($list['users']) > 0)
@@ -164,6 +165,7 @@
                                             @endif
                                         </select>
                                     </div>
+                                    <input type="text" name="tujuan2" id="tujuan2_add" class="form-control" placeholder="e.g. Universitas Islam Negeri Sunan Kalijaga Yogyakarta" hidden required>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -240,9 +242,10 @@
                         <div class="col-md-12 mb-3">
                             <div class="form-group">
                                 <label for="select2Dark" class="form-label">Ditujukan Kepada <a class="text-danger">*</a></label>
-                                <div class="select2-dark">
-                                    <select class="select2users form-select" id="tujuan_edit" data-allow-clear="true" data-bs-auto-close="outside" required multiple></select>
+                                <div class="select2-dark" id="tujuan1_edit">
+                                    <select class="select2users form-select" id="tujuan1_editselect" data-allow-clear="true" data-bs-auto-close="outside" required multiple></select>
                                 </div>
+                                <input type="text" name="tujuan2" id="tujuan2_edit" class="form-control" placeholder="e.g. Universitas Islam Negeri Sunan Kalijaga Yogyakarta" hidden required>
                             </div>
                         </div>
                         <div class="col-md-12">
@@ -256,7 +259,8 @@
                         </div>
                         <div class="col-md-12" style="margin-top: -8px">
                             <div class="form-group">
-                                <label class="form-label">Berkas Surat Anda</label>
+                                <label class="form-label">Berkas Surat Anda <a class="text-danger">*</a></label>
+                                <input type="text" class="form-control" id="verifberkas" hidden>
                                 <div id="linksurat"></div>
                                 <small><i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila terdapat kesalahan File Upload, Anda dapat melakukan Input Ulang</small>
                             </div>
@@ -281,7 +285,7 @@
                 </h4>
                 <div class="col-12 mb-3">
                     <input type="text" id="id_hapus" hidden>
-                    <p style="text-align: justify;">Anda akan menghapus berkas surat masuk tersebut. Penghapusan berkas akan menyebabkan hilangnya data/dokumen yang terhapus tersebut pada Storage Sistem.
+                    <p style="text-align: justify;">Anda akan menghapus berkas surat keluar tersebut. Penghapusan berkas akan menyebabkan hilangnya data/dokumen yang terhapus tersebut pada Storage Sistem.
                         Maka dari itu, lakukanlah dengan hati-hati. Ceklis dibawah untuk melanjutkan penghapusan.</p>
                     <label class="switch">
                         <input type="checkbox" class="switch-input" id="setujuhapus">
@@ -324,7 +328,7 @@
                     dropdownParent: es.parent()
                 })
             });
-            
+
             // DATEPICKER
                 // DATE
                 const l = $('.flatpickr');
@@ -366,7 +370,6 @@
                         $("#tampil-tbody").empty();
                         res.show.forEach(item => {
                             // VALIDASI TUJUAN FROM JSON
-                            var un = JSON.parse(item.tujuan);
                             var us = JSON.parse(res.user);
                             // var updet = item.updated_at.substring(0, 10);
                             content = "<tr id='data"+ item.id +"'>";
@@ -387,13 +390,18 @@
                                             content += '-';
                                         }
                             content += "</td><td><ul class='list-unstyled mt-2'>";
-                                    for(i = 0; i < un.length; i++){
-                                        for(u = 0; u < us.length; u++){
-                                            if (un[i] == us[u].id) {
-                                                content += "<li>- " + us[u].nama + "</li>";
+                                        if (item.tujuan2 != null) {
+                                            content += "<li>" + item.tujuan2 + "</li>";
+                                        } else {
+                                            var un = JSON.parse(item.tujuan);
+                                            for(i = 0; i < un.length; i++){
+                                                for(u = 0; u < us.length; u++){
+                                                    if (un[i] == us[u].id) {
+                                                        content += "<li>- " + us[u].nama + "</li>";
+                                                    }
+                                                }
                                             }
                                         }
-                                    }
                             content += "</ul></td><td>" + item.updated_at + "</td><td>";
                                         if (item.user == '84') { content += 'Sri Suryani, Amd'; }
                                         if (item.user == '293') { content += 'Zia Nuswantara pahlawan, S.H'; }
@@ -461,6 +469,12 @@
         });
         
         // FUNCTION-FUNCTION
+        function ubahTujuan() {
+            $("#btn-manual").prop('hidden', true);
+            $("#tujuan1_add").prop('hidden', true);
+            $("#tujuan2_add").prop('hidden', false);
+        }
+
         function refresh() {
             // fresh();
             $("#tampil-tbody").empty().append(`<tr><td colspan="9"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
@@ -471,9 +485,9 @@
                     dataType: 'json', // added data type
                     success: function(res) {
                         $("#tampil-tbody").empty();
+                        $('#table').DataTable().clear().destroy();
                         res.show.forEach(item => {
                             // VALIDASI TUJUAN FROM JSON
-                            var un = JSON.parse(item.tujuan);
                             var us = JSON.parse(res.user);
                             // var updet = item.updated_at.substring(0, 10);
                             content = "<tr id='data"+ item.id +"'>";
@@ -494,13 +508,18 @@
                                             content += '-';
                                         }
                             content += "</td><td><ul class='list-unstyled mt-2'>";
-                                    for(i = 0; i < un.length; i++){
-                                        for(u = 0; u < us.length; u++){
-                                            if (un[i] == us[u].id) {
-                                                content += "<li>- " + us[u].nama + "</li>";
+                                        if (item.tujuan2 != null) {
+                                            content += "<li>" + item.tujuan2 + "</li>";
+                                        } else {
+                                            var un = JSON.parse(item.tujuan);
+                                            for(i = 0; i < un.length; i++){
+                                                for(u = 0; u < us.length; u++){
+                                                    if (un[i] == us[u].id) {
+                                                        content += "<li>- " + us[u].nama + "</li>";
+                                                    }
+                                                }
                                             }
                                         }
-                                    }
                             content += "</ul></td><td>" + item.updated_at + "</td><td>";
                                         if (item.user == '84') { content += 'Sri Suryani, Amd'; }
                                         if (item.user == '293') { content += 'Zia Nuswantara pahlawan, S.H'; }
@@ -509,6 +528,59 @@
                             content += "</td></tr>";
                             $('#tampil-tbody').append(content);
                         });
+                        $('#table').DataTable(
+                        {
+                            order: [[5, "desc"]],
+                            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                            displayLength: 10,
+                            lengthMenu: [10, 25, 50, 75, 100],
+                            buttons: [{
+                                extend: "collection",
+                                className: "btn btn-label-primary dropdown-toggle me-2",
+                                text: '<i class="bx bx-export me-sm-2"></i> <span class="d-none d-sm-inline-block">Export</span>',
+                                buttons: [{
+                                    extend: "print",
+                                    text: '<i class="bx bx-printer me-2" ></i>Print',
+                                    className: "dropdown-item",
+                                    // exportOptions: {
+                                    //     columns: [3, 4, 5, 6, 7]
+                                    // }
+                                }, {
+                                    extend: "excel",
+                                    text: '<i class="bx bxs-spreadsheet me-2"></i>Excel',
+                                    className: "dropdown-item",
+                                    autoFilter: true,
+                                    attr: {id: 'exportButton'},
+                                    sheetName: 'data',
+                                    title: '',
+                                    filename: 'Berkas Surat'
+                                }, {
+                                    extend: "pdf",
+                                    text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
+                                    className: "dropdown-item",
+                                }, {
+                                    extend: "copy",
+                                    text: '<i class="bx bx-copy me-2" ></i>Copy',
+                                    className: "dropdown-item",
+                                    // exportOptions: {
+                                    //     columns: [3, 4, 5, 6, 7]
+                                    // }
+                                },]
+                            }],
+                            columnDefs: [
+                                { targets: 0, orderable: !1,searchable: !1, },
+                                // { targets: 1, orderable: !1,searchable: !1, },
+                                // { targets: 5, orderable: !1,searchable: !1, },
+                                // { targets: 6, visible: false },
+                                // { targets: 9, visible: false },
+                                // { targets: 10, visible: false },
+                                // { targets: 11, visible: false },
+                                // { targets: 12, visible: false },
+                                // { targets: 16, visible: false },
+                            ],
+                        },
+                        );
+                        $("div.head-label").html('<h5 class="card-title mb-0">Berkas Surat</h5>');
                     }
                 }
             );
@@ -540,8 +612,10 @@
                     // var dt = new Date(res.show.tanggal).toJSON().slice(0,19);
                     var dt = moment(res.show.tgl).format('Y-MM-DD HH:mm');
                     if (res.show.filename != null) {
+                        $("#verifberkas").val(0);
                         document.getElementById('linksurat').innerHTML = "<h6 class='mb-2'><a href='/v2/suratkeluar/"+res.show.id+"/download'>"+res.show.title+"</a></h6>";
                     } else {
+                        $("#verifberkas").val(1);
                         // document.getElementById('linksurat').innerHTML = "<input type='file' class='form-control mb-2' name='filesusulan' id='filesusulan' accept='application/pdf'>";
                         document.getElementById('linksurat').innerHTML = `<input type='file' id="filex" name='filex' class="form-control mb-2" accept="application/pdf">`;
                     }
@@ -560,13 +634,21 @@
                     $("#push_urutan").text(res.urutan);
                     $("#push_kode").text(res.kode);
                     $("#push_year").text(res.year);
-                    $("#tujuan_edit").find('option').remove();
-                    res.users.forEach(pounch => {
-                        $("#tujuan_edit").append(`
-                            <option value="${pounch.id}">${pounch.nama}</option>
-                        `);
-                    });
-                    $("#tujuan_edit").val(un).change();
+                    if (res.show.tujuan2 !== null) {
+                        $("#tujuan1_edit").prop('hidden', true);
+                        $("#tujuan2_edit").prop('hidden', false);
+                        $("#tujuan2_edit").val(res.show.tujuan2);
+                    } else {
+                        $("#tujuan1_editselect").find('option').remove();
+                        $("#tujuan1_edit").prop('hidden', false);
+                        $("#tujuan2_edit").prop('hidden', true);
+                        res.users.forEach(pounch => {
+                            $("#tujuan1_editselect").append(`
+                                <option value="${pounch.id}">${pounch.nama}</option>
+                            `);
+                        });
+                        $("#tujuan1_editselect").val(un).change();
+                    }
                     $("#isi_edit").val(res.show.isi);
                     $("#kode_edit").find('option').remove();
                     res.refkode.forEach(item => {
@@ -601,69 +683,52 @@
             $("#btn-ubah").prop('disabled', true);
             $("#btn-ubah").find("i").toggleClass("fa-save fa-sync fa-spin");
             
-            if (user == "" || tgl_diterima == "" || nomor == "" || asal == "") {
-                iziToast.error({
-                    title: 'Pesan Galat!',
-                    message: 'Mohon lengkapi kolom pengisian wajib *',
-                    position: 'topRight'
-                });
-            } else {
-                // Get the selected file
+            var fd = new FormData();
+
+            // Get the selected file
+            if ($("#verifberkas").val() == 1) {
                 var files = $('#filex')[0].files;
-                
-                var fd = new FormData();
-
-                fd.append('id_edit',$("#id_edit").val());
-                fd.append('tgl_surat',$("#tgl_surat").val());
-                fd.append('tgl_diterima',$("#tgl_diterima").val());
-                fd.append('asal',$("#asal").val());
-                fd.append('nomor',$("#nomor").val());
-                fd.append('deskripsi',$("#deskripsi").val());
-                fd.append('tempat',$("#tempat").val());
-                fd.append('waktu',$("#waktu").val());
-                fd.append('user',$("#user").val());
-
-                if(files.length > 0){
-
-                    // Append data 
-                    fd.append('file',files[0]);
-                    // fd.append('_token',CSRF_TOKEN);
-
-                    // Hide alert 
-                    // $('#responseMsg').hide();
-
-                    // AJAX request 
-                    $.ajax({
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: "{{route('suratmasuk.ubah')}}",
-                        method: 'post',
-                        data: fd,
-                        contentType: false,
-                        processData: false,
-                        dataType: 'json',
-                        success: function(res){
-                            iziToast.success({
-                                title: 'Pesan Sukses!',
-                                message: 'Surat Masuk berhasil diperbarui pada '+res,
-                                position: 'topRight'
-                            });
-                            if (res) {
-                                $('#ubah').modal('hide');
-                                fresh();
-                                refresh();
-                                // window.location.reload();
-                            }
-                        },
-                        error: function(res){
-                            console.log("error : " + JSON.stringify(res) );
-                        }
-                    });
-                }else{
-                    alert("Please select a file.");
-                }
+                fd.append('file',files[0]);
             }
+
+            fd.append('id_edit',$("#id_edit").val());
+            fd.append('kode',$("#kode_edit").val());
+            if ($("#tujuan2_edit").val() != null) {
+                fd.append('tujuan2',$("#tujuan2_edit").val());
+            } else {
+                fd.append('tujuan',$("#tujuan1_editselect").val());
+            }
+            fd.append('tgl',$("#tgl_edit").val());
+            fd.append('isi',$("#isi_edit").val());
+            fd.append('user',$("#user").val());
+
+            // AJAX request 
+            $.ajax({
+                headers: {
+                    'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                },
+                url: "{{route('suratkeluar.ubah')}}",
+                method: 'post',
+                data: fd,
+                contentType: false,
+                processData: false,
+                dataType: 'json',
+                success: function(res){
+                    iziToast.success({
+                        title: 'Pesan Sukses!',
+                        message: 'Surat Keluar berhasil diperbarui pada '+res,
+                        position: 'topRight'
+                    });
+                    if (res) {
+                        $('#ubah').modal('hide');
+                        refresh();
+                    }
+                },
+                error: function(res){
+                    console.log("error : " + JSON.stringify(res) );
+                }
+            });
+            
             $("#btn-ubah").find("i").removeClass("fa-sync fa-spin").addClass("fa-save");
             $("#btn-ubah").prop('disabled', false);
         }
