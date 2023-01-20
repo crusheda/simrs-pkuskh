@@ -69,7 +69,7 @@
                             <th>DESKRIPSI</th>
                             <th>TEMPAT/ACARA</th>
                             <th>UPDATE</th>
-                            <th>USER</th>
+                            <th class="cell-fit">USER</th>
                         </tr>
                     </thead>
                     <tbody id="tampil-tbody">
@@ -91,7 +91,7 @@
                             <th>DESKRIPSI</th>
                             <th>TEMPAT/ACARA</th>
                             <th>UPDATE</th>
-                            <th>USER</th>
+                            <th class="cell-fit">USER</th>
                         </tr>
                     </tfoot>
                 </table>
@@ -143,13 +143,13 @@
                             <div class="col-md-12 mb-3">
                                 <div class="form-group">
                                     <label class="form-label">Asal Surat <a class="text-danger">*</a></label>
-                                    <input type="text" name="asal" class="form-control" placeholder="e.g. Perhimpunan Rumah Sakit Seluruh Indonesia" required/>
+                                    <input type="text" name="asal" id="cari_asal" class="form-control" placeholder="e.g. Perhimpunan Rumah Sakit Seluruh Indonesia" autocomplete="off" required/>
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
                                 <div class="form-group">
                                     <label class="form-label">Tempat</label>
-                                    <input type="text" name="tempat" class="form-control" placeholder="e.g. Hotel Syariah Surakarta">
+                                    <input type="text" name="tempat" id="cari_tempat" class="form-control" placeholder="e.g. Hotel Syariah Surakarta" autocomplete="off">
                                 </div>
                             </div>
                             <div class="col-md-6 mb-3">
@@ -297,6 +297,7 @@
     <script>
         $(document).ready(function() {
             $("html").addClass('layout-menu-collapsed');
+
             // SELECT2
             var t = $(".select2");
             t.length && t.each(function() {
@@ -306,6 +307,31 @@
                     dropdownParent: e.parent()
                 })
             });
+            
+            // AUTOCOMPLETE ASAL
+            var path_asal = "{{ route('ac.asal.cari') }}";
+            $('#cari_asal').typeahead({
+                source: function(query, process) {
+                    return $.get(path_asal, {
+                        cari: query
+                    }, function(data) {
+                        return process(data);
+                    });
+                }
+            });
+            
+            // AUTOCOMPLETE TEMPAT
+            var path_tempat = "{{ route('ac.tempat.cari') }}";
+            $('#cari_tempat').typeahead({
+                source: function(query, process) {
+                    return $.get(path_asal, {
+                        cari: query
+                    }, function(data) {
+                        return process(data);
+                    });
+                }
+            });
+
             // DATEPICKER
                 // DATE
                 const today = new Date();
@@ -379,14 +405,14 @@
                                         } else {
                                             content += '-';
                                         }
-                            content += "</td><td>" + item.tgl_diterima + "</td><td>"
-                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>" + item.asal + "</h6><small class='text-truncate text-muted'>" + item.nomor + "</small></div></div></td><td>";
+                            content += "</td><td>" + item.tgl_diterima + "</td><td style='white-space: normal !important;word-wrap: break-word;'>"
+                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0'>" + item.asal + "</h6><small class='text-truncate text-muted'>" + item.nomor + "</small></div></div></td><td style='white-space: normal !important;word-wrap: break-word;'>";
                                         if (item.deskripsi) {
                                             content += item.deskripsi;  
                                         } else {
                                             content += '-';
                                         }
-                            content += "</td><td><div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>";
+                            content += "</td><td><div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0'>";
                                         if (item.tempat != null) {
                                             content += item.tempat;   
                                         } else {
@@ -452,8 +478,8 @@
                             }],
                             columnDefs: [
                                 { targets: 0, orderable: !1,searchable: !1, },
-                                { targets: 5, orderable: !1 },
-                                { targets: 6, orderable: !1 },
+                                // { targets: 5, orderable: !1 },
+                                // { targets: 6, orderable: !1 },
                                 // { targets: 1, orderable: !1,searchable: !1, },
                                 // { targets: 5, orderable: !1,searchable: !1, },
                                 // { targets: 6, visible: false },
@@ -499,14 +525,14 @@
                                         } else {
                                             content += '-';
                                         }
-                            content += "</td><td>" + item.tgl_diterima + "</td><td>"
-                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>" + item.asal + "</h6><small class='text-truncate text-muted'>" + item.nomor + "</small></div></div></td><td>";
+                            content += "</td><td>" + item.tgl_diterima + "</td><td style='white-space: normal !important;word-wrap: break-word;'>"
+                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0'>" + item.asal + "</h6><small class='text-truncate text-muted'>" + item.nomor + "</small></div></div></td><td style='white-space: normal !important;word-wrap: break-word;'>";
                                         if (item.deskripsi) {
                                             content += item.deskripsi;  
                                         } else {
                                             content += '-';
                                         }
-                            content += "</td><td><div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate'>";
+                            content += "</td><td><div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0'>";
                                         if (item.tempat != null) {
                                             content += item.tempat;   
                                         } else {
@@ -572,8 +598,13 @@
                             }],
                             columnDefs: [
                                 { targets: 0, orderable: !1,searchable: !1, },
+<<<<<<< HEAD
                                 { targets: 5, orderable: !1 },
                                 { targets: 6, orderable: !1 },
+=======
+                                // { targets: 5, orderable: !1 },
+                                // { targets: 6, orderable: !1 },
+>>>>>>> dev
                                 // { targets: 1, orderable: !1,searchable: !1, },
                                 // { targets: 5, orderable: !1,searchable: !1, },
                                 // { targets: 6, visible: false },
@@ -750,6 +781,7 @@
                     position: 'topRight'
                 });
             } else {
+<<<<<<< HEAD
                 var fd = new FormData();
 
                 // Get the selected file
@@ -810,6 +842,93 @@
                         console.log("error : " + JSON.stringify(res) );
                     }
                 });
+=======
+                if ($('#filex').val()) {
+                    // Get the selected file
+                    var files = $('#filex')[0].files;
+                    
+                    var fd = new FormData();
+    
+                    fd.append('id_edit',$("#id_edit").val());
+                    fd.append('tgl_surat',$("#tgl_surat").val());
+                    fd.append('tgl_diterima',$("#tgl_diterima").val());
+                    fd.append('asal',$("#asal").val());
+                    fd.append('nomor',$("#nomor").val());
+                    fd.append('deskripsi',$("#deskripsi").val());
+                    fd.append('tempat',$("#tempat").val());
+                    fd.append('waktu',$("#waktu").val());
+                    fd.append('user',$("#user").val());
+
+                    // Append data 
+                    fd.append('file',files[0]);
+
+                    // AJAX request 
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: "{{route('suratmasuk.ubah')}}",
+                        method: 'post',
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+                        dataType: 'json',
+                        success: function(res){
+                            iziToast.success({
+                                title: 'Pesan Sukses!',
+                                message: 'Surat Masuk berhasil diperbarui pada '+res,
+                                position: 'topRight'
+                            });
+                            if (res) {
+                                $('#ubah').modal('hide');
+                                refresh();
+                            }
+                        },
+                        error: function(res){
+                            console.log("error : " + JSON.stringify(res) );
+                        }
+                    });
+                } else {                    
+                    var fd = new FormData();
+    
+                    fd.append('id_edit',$("#id_edit").val());
+                    fd.append('tgl_surat',$("#tgl_surat").val());
+                    fd.append('tgl_diterima',$("#tgl_diterima").val());
+                    fd.append('asal',$("#asal").val());
+                    fd.append('nomor',$("#nomor").val());
+                    fd.append('deskripsi',$("#deskripsi").val());
+                    fd.append('tempat',$("#tempat").val());
+                    fd.append('waktu',$("#waktu").val());
+                    fd.append('user',$("#user").val());
+
+                    // AJAX request 
+                    $.ajax({
+                        headers: {
+                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                        },
+                        url: "{{route('suratmasuk.ubah')}}",
+                        method: 'post',
+                        data: fd,
+                        contentType: false,
+                        processData: false,
+                        dataType: 'json',
+                        success: function(res){
+                            iziToast.success({
+                                title: 'Pesan Sukses!',
+                                message: 'Surat Masuk berhasil diperbarui pada '+res,
+                                position: 'topRight'
+                            });
+                            if (res) {
+                                $('#ubah').modal('hide');
+                                refresh();
+                            }
+                        },
+                        error: function(res){
+                            console.log("error : " + JSON.stringify(res) );
+                        }
+                    });
+                }
+>>>>>>> dev
             }
 
             $("#btn-ubah").find("i").removeClass("fa-sync fa-spin").addClass("fa-save");

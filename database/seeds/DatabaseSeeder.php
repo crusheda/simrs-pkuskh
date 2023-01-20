@@ -20,5 +20,6 @@ class DatabaseSeeder extends Seeder
         // $this->call(RefDesaSeed::class);
         // $this->call(RefDesaNew::class);
         // $this->call(ACProfiles::class);
+        // $this->call(listSuratKeluar::class);
     }
 }

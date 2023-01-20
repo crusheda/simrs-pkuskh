@@ -177,7 +177,7 @@ class suratMasukController extends Controller
 
     public function ubah(Request $request)
     {
-        $data = array();
+        // $data = array();
   
         // $validator = Validator::make($request->all(), [
         //    'file' => 'required'
@@ -191,7 +191,11 @@ class suratMasukController extends Controller
         // }else{
 
         // }
+<<<<<<< HEAD
         
+=======
+
+>>>>>>> dev
         $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
 
         $data = suratmasuk::find($request->id_edit);
@@ -223,9 +227,20 @@ class suratMasukController extends Controller
         
         if ($data->filename == null) {
             if ($request->file('file') && $request->file('file')->isValid()) {
+<<<<<<< HEAD
                 $data->filename = $request->file('file')->store('public/files/tu/suratmasuk');
                 $data->title = $request->file('file')->getClientOriginalName();
             }
+=======
+                $path = $request->file('file')->store('public/files/tu/suratmasuk');
+                $title = $request->file('file')->getClientOriginalName();
+            } else {
+                $path = null;
+                $title = null;
+            }
+            $data->filename = $path;
+            $data->title    = $title; 
+>>>>>>> dev
         }
 
         $data->save();
@@ -246,5 +261,39 @@ class suratMasukController extends Controller
         $hapusData->delete();
         
         return response()->json($tgl, 200);
+    }
+
+    // AUTOCOMPLETE
+    public function acAsal(Request $request)
+    {
+        $getData = suratmasuk::select("asal")
+                        ->where("asal","LIKE","%{$request->cari}%")
+                        ->groupBy ('asal')
+                        ->get();
+   
+        $data = [];
+        foreach ($getData as $item)
+        {
+            array_push($data, $item->asal);
+        }
+
+        return response()->json($data);
+    }
+
+    // AUTOCOMPLETE
+    public function acTempat(Request $request)
+    {
+        $getData = suratmasuk::select("tempat")
+                        ->where("tempat","LIKE","%{$request->cari}%")
+                        ->groupBy ('tempat')
+                        ->get();
+   
+        $data = [];
+        foreach ($getData as $item)
+        {
+            array_push($data, $item->tempat);
+        }
+
+        return response()->json($data);
     }
 }

@@ -454,11 +454,6 @@
                                 // { targets: 1, orderable: !1,searchable: !1, },
                                 // { targets: 5, orderable: !1,searchable: !1, },
                                 // { targets: 6, visible: false },
-                                // { targets: 9, visible: false },
-                                // { targets: 10, visible: false },
-                                // { targets: 11, visible: false },
-                                // { targets: 12, visible: false },
-                                // { targets: 16, visible: false },
                             ],
                         },
                         );
@@ -572,11 +567,14 @@
                                 // { targets: 1, orderable: !1,searchable: !1, },
                                 // { targets: 5, orderable: !1,searchable: !1, },
                                 // { targets: 6, visible: false },
+<<<<<<< HEAD
                                 // { targets: 9, visible: false },
                                 // { targets: 10, visible: false },
                                 // { targets: 11, visible: false },
                                 // { targets: 12, visible: false },
                                 // { targets: 16, visible: false },
+=======
+>>>>>>> dev
                             ],
                         },
                         );
