@@ -55,7 +55,7 @@ class suratKeluarController extends Controller
             'file' => ['max:20000','mimes:pdf'],
             'kode' => 'required',
             'tgl' => 'required',
-            'tujuan' => 'required',
+            // 'tujuan' => 'required',
             'user' => 'required'
         ]);
         
@@ -83,7 +83,11 @@ class suratKeluarController extends Controller
         $data->urutan       = $urutan;
         $data->kode         = $request->kode;
         $data->tgl          = $request->tgl;
-        $data->tujuan       = json_encode($request->tujuan);
+        if ($request->tujuan2 != null) {
+            $data->tujuan2  = $request->tujuan2;
+        } else {
+            $data->tujuan   = json_encode($request->tujuan);
+        }
         $data->nomor        = sprintf("%03d", $urutan)."/".$getJenis->kode."/DIR/III.6.AU/PKUSKH/".$tahunNow;
         $data->jenis        = $getJenis->nama;
         $data->isi          = $request->isi;
@@ -146,43 +150,26 @@ class suratKeluarController extends Controller
     public function ubah(Request $request)
     {
         $data = array();
-  
-        $validator = Validator::make($request->all(), [
-           'file' => 'required'
-        ]);
 
-        if ($validator->fails()) {
-  
-           $data['success'] = 0;
-           $data['error'] = $validator->errors()->first('file');// Error response
-  
-        }else{
+        $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
 
-            $now = Carbon::now()->isoFormat('YYYY-MM-DD HH:mm:ss');
-    
-            $getJenis = kdsuratkeluar::where('id', $request->kode)->first();
+        $getJenis = kdsuratkeluar::where('id', $request->kode)->first();
 
-            $data           = suratkeluar::find($request->id_edit);
-            $data->kode     = $request->kode;
-            $data->tgl      = $request->tgl;
-            $data->jenis    = $getJenis->nama;
-            $data->isi      = $request->isi;
-            $data->user     = $request->user;
-            
-            if ($data->filename == null) {
-                if ($request->file('file') && $request->file('file')->isValid()) {
-                    $path = $request->file('file')->store('public/files/tu/suratkeluar');
-                    $title = $request->file('file')->getClientOriginalName();
-                } else {
-                    $path = null;
-                    $title = null;
-                }
-                $data->filename = $path;
-                $data->title    = $title; 
-            }    
-    
-            $data->save();
+        $data           = suratkeluar::find($request->id_edit);
+        $data->kode     = $request->kode;
+        $data->tgl      = $request->tgl;
+        $data->jenis    = $getJenis->nama;
+        $data->isi      = $request->isi;
+        $data->user     = $request->user;
+        
+        if ($data->filename == null) {
+            if ($request->file('file') && $request->file('file')->isValid()) {
+                $data->filename = $request->file('file')->store('public/files/tu/suratkeluar');
+                $data->title = $request->file('file')->getClientOriginalName();
+            }
         }
+
+        $data->save();
 
         return response()->json($now, 200);
     }
