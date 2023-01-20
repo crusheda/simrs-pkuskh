@@ -658,14 +658,9 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
             Route::post('suratmasuk/ubah', 'tu\suratMasukController@ubah')->name('suratmasuk.ubah');
             // Route::put('suratmasuk/{id}', 'tu\suratMasukController@update');
             Route::delete('suratmasuk/{id}', 'tu\suratMasukController@hapus');
-<<<<<<< HEAD
-        // SURAT KELUAR
-            // Route::get('suratkeluar/data/ac', 'tu\suratKeluarController@acTag')->name('ac.tag.suratkeluar');
-=======
             Route::get('suratmasuk/cariasal', 'tu\suratMasukController@acAsal')->name('ac.asal.cari');
             Route::get('suratmasuk/caritempat', 'tu\suratMasukController@acTempat')->name('ac.tempat.cari');
         // SURAT MASUK
->>>>>>> dev
             Route::get('suratkeluar/getkode/{id}', 'tu\suratKeluarController@apiKode');
             Route::get('suratkeluar/data', 'tu\suratKeluarController@apiGet');
             Route::get('suratkeluar/data/{id}', 'tu\suratKeluarController@showChange');
