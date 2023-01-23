@@ -250,7 +250,7 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Berkas Surat Anda <a class="text-danger">*</a></label>
+                        <label class="form-label">Berkas Surat Anda</label>
                         <input type="text" class="form-control" id="verifberkas" hidden>
                         <div id="linksurat"></div>
                         <small><i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila terdapat kesalahan File Upload, Anda dapat melakukan Input Ulang</small>
