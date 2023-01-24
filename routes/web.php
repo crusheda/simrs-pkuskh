@@ -562,8 +562,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
             Route::get('suratkeluar/{id}/download', 'tu\suratKeluarController@download');
             Route::post('suratkeluar', 'tu\suratKeluarController@store')->name('suratkeluar.store');
 
-    // PENGADAAN
-        Route::get('pengadaan', 'pengadaan\pengadaanController@index')->name('pengadaan.index');
+    // NEW PENGADAAN
+        // Route::get('pengadaan', 'pengadaan\pengadaanController@index')->name('pengadaan.index');
 
     // SYSTEM
         // UPDATE
