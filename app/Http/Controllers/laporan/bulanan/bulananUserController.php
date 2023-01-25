@@ -388,6 +388,7 @@ class bulananUserController extends Controller
             'karu-cs',
             'karu-security',
             'kasubag-kepegawaian',
+            'kepegawaian',
             'kasubag-aik',
             'kasubag-aset-gudang',
             'kasubag-ipsrs',
@@ -439,6 +440,7 @@ class bulananUserController extends Controller
         ];
         $verif_kabag_kepegawaian = [
             'kasubag-kepegawaian',
+            'kepegawaian',
             'kasubag-aik',
         ];
         $verif_kabag_umum = [
@@ -611,6 +613,7 @@ class bulananUserController extends Controller
                 'kasubag-ipsrs',
                 'kasubag-kesling-k3',
                 'kasubag-kepegawaian',
+                'kepegawaian',
                 'kasubag-aik',
                 'kasubag-tata-usaha',
                 'kasubag-humas',

@@ -566,6 +566,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
         // Route::get('pengadaan', 'pengadaan\pengadaanController@index')->name('pengadaan.index');
 
     // SYSTEM
+        // SETTING
+            Route::resource('system/setting/strukturorganisasi', 'system\setting\strukturOrganisasiController');
         // UPDATE
             Route::resource('system/update', 'system\updateController');
 });
