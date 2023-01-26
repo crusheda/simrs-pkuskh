@@ -21,7 +21,13 @@ class regulasiController extends Controller
 {
     public function index()
     {
-        return view('pages.administrasi.regulasi'); //->with('list', $data)
+        $unit = unit::orderBy('nama','asc')->get();
+
+        $data = [
+            'unit' => $unit,
+        ];
+        
+        return view('pages.administrasi.regulasi')->with('list', $data);
     }
 
     public function download($id)
@@ -58,6 +64,36 @@ class regulasiController extends Controller
     }
 
     // API
+    public function cariRegulasi(Request $request)
+    {
+        // print_r($request->all());
+        // die();
+        if ($request->regulasi == '1') {
+            if ($request->waktu != null) {
+                $month = Carbon::parse($request->waktu)->isoFormat('MM');
+                $year = Carbon::parse($request->waktu)->isoFormat('YYYY');
+                if ($request->pembuat != null) {
+                    // $show = kebijakan::where('pembuat',$request->pembuat)
+                    // $show = DB::table('regulasi_kebijakan')->where('pembuat',$request->pembuat)
+                    //                 // ->whereMonth('sah',$month)
+                    //                 // ->whereYear('sah',$year)
+                    //                 ->orderBy('updated_at','DESC')
+                    //                 // ->where('deleted_at', null)
+                    //                 ->get();
+                    $query_string = "SELECT * FROM regulasi_kebijakan WHERE MONTH(sah) = $month AND YEAR(sah) = $year AND pembuat = $request->pembuat AND deleted_at IS NULL ORDER BY updated_at DESC";
+                    $show = DB::select($query_string);
+                    // print_r($show);
+                    // die();
+                }
+            }
+        }
+        
+        $data = [
+            'show' => $show,
+        ];
+
+        return response()->json($data, 200);
+    }
     public function apiTotalRegulasi()
     {
         $totKebijakan   = kebijakan::count();

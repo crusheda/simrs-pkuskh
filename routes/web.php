@@ -533,7 +533,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
 
     // REGULASI
         Route::get('regulasi', 'administrasi\regulasiController@index')->name('regulasi.index');
-        Route::get('regulasi/{id}', 'administrasi\regulasiController@download')->name('regulasi.download');
+        // Route::get('regulasi/{id}/download', 'administrasi\regulasiController@download')->name('regulasi.download');
 
     // BERKAS
         // RAPAT
@@ -587,6 +587,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
         Route::get('kecamatan/{id}', 'Admin\profilController@apiKecamatan');
     
     // REGULASI
+        Route::post('regulasi/filter', 'administrasi\regulasiController@cariRegulasi');
         Route::get('regulasi/totalregulasi', 'administrasi\regulasiController@apiTotalRegulasi');
         Route::get('regulasi/acregulasi', 'administrasi\regulasiController@autoCompleteRegulasi')->name('ac.regulasi.cari');
 
