@@ -156,7 +156,7 @@
                                     <label for="select2Dark" class="form-label">Ditujukan Kepada <a class="text-danger">*</a></label>
                                     <button class="btn btn-xs btn-outline-dark" type="button" onclick="ubahTujuan()" id="btn-manual">Manual</button>
                                     <div class="select2-dark" id="tujuan1_add">
-                                        <select class="select2users form-select" name="tujuan[]" data-allow-clear="true" data-bs-auto-close="outside" required multiple>
+                                        <select class="select2users form-select" name="tujuan[]" id="tujuan1_add_req" data-allow-clear="true" data-bs-auto-close="outside" required multiple>
                                             {{-- <option value="all">Seluruh Karyawan</option> --}}
                                             @if(count($list['users']) > 0)
                                                 @foreach($list['users'] as $item)
@@ -467,6 +467,7 @@
         function ubahTujuan() {
             $("#btn-manual").prop('hidden', true);
             $("#tujuan1_add").prop('hidden', true);
+            $("#tujuan1_add_req").prop('required', false);
             $("#tujuan2_add").prop('hidden', false);
             $("#tujuan2_add").prop('required',true);
         }
