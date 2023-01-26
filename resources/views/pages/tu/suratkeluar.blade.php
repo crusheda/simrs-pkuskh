@@ -165,7 +165,7 @@
                                             @endif
                                         </select>
                                     </div>
-                                    <input type="text" name="tujuan2" id="tujuan2_add" class="form-control" placeholder="e.g. Universitas Islam Negeri Sunan Kalijaga Yogyakarta" hidden required>
+                                    <input type="text" name="tujuan2" id="tujuan2_add" class="form-control" placeholder="e.g. Universitas Islam Negeri Sunan Kalijaga Yogyakarta" hidden>
                                 </div>
                             </div>
                             <div class="col-md-12">
@@ -468,6 +468,7 @@
             $("#btn-manual").prop('hidden', true);
             $("#tujuan1_add").prop('hidden', true);
             $("#tujuan2_add").prop('hidden', false);
+            $("#tujuan2_add").prop('required',true);
         }
 
         function refresh() {
