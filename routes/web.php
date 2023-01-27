@@ -533,7 +533,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
 
     // REGULASI
         Route::get('regulasi', 'administrasi\regulasiController@index')->name('regulasi.index');
-        // Route::get('regulasi/{id}/download', 'administrasi\regulasiController@download')->name('regulasi.download');
+        Route::get('regulasi/{id}/download', 'administrasi\regulasiController@download')->name('regulasi.download');
 
     // BERKAS
         // RAPAT

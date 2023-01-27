@@ -124,7 +124,8 @@
                                 <div class="form-group">
                                     <label class="form-label mb-2">Nomor Surat</label>
                                     {{-- <input type="text" class="form-control" placeholder="YYYY-MM-DD" name="tgl_surat" readonly/> --}}
-                                    <h5>{{ $list['urutan'] }}/<a id="kd_get" class="text-danger"> . . . </a>/DIR/III.6.AU/PKUSKH/{{ $list['year'] }}</h5>
+                                    <h5 class="mb-1">{{ $list['urutan'] }}/<a id="kd_get" class="text-danger"> . . . </a>/DIR/III.6.AU/PKUSKH/{{ $list['year'] }}</h5>
+                                    <small>Apabila nomor surat tidak sesuai, silakan <kbd>REFRESH</kbd> halaman ini</small>
                                 </div>
                             </div>
                             <div class="divider text-end">
@@ -412,7 +413,7 @@
                         });
                         $('#table').DataTable(
                         {
-                            order: [[5, "desc"]],
+                            order: [[6, "desc"]],
                             dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                             displayLength: 10,
                             lengthMenu: [10, 25, 50, 75, 100],
@@ -527,7 +528,7 @@
                         });
                         $('#table').DataTable(
                         {
-                            order: [[5, "desc"]],
+                            order: [[6, "desc"]],
                             dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                             displayLength: 10,
                             lengthMenu: [10, 25, 50, 75, 100],

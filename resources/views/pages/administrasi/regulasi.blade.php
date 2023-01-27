@@ -29,112 +29,24 @@
         </div>
     @endif
 
-    <div class="row g-4 mb-4">
-        <div class="col-sm-6 col-xl-2">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-start justify-content-between">
-                        <div class="content-left">
-                            <span>Kebijakan</span>
-                            <div class="d-flex align-items-end mt-2">
-                                <h4 class="mb-0 me-2">21,459</h4>
-                                <small class="text-success">(+29%)</small>
-                            </div>
-                            <small>Total</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-2">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-start justify-content-between">
-                        <div class="content-left">
-                            <span>Panduan</span>
-                            <div class="d-flex align-items-end mt-2">
-                                <h4 class="mb-0 me-2">4,567</h4>
-                                <small class="text-success">(+18%)</small>
-                            </div>
-                            <small>Total</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-2">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-start justify-content-between">
-                        <div class="content-left">
-                            <span>Pedoman</span>
-                            <div class="d-flex align-items-end mt-2">
-                                <h4 class="mb-0 me-2">19,860</h4>
-                                <small class="text-danger">(-14%)</small>
-                            </div>
-                            <small>Total</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-2">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-start justify-content-between">
-                        <div class="content-left">
-                            <span>Program</span>
-                            <div class="d-flex align-items-end mt-2">
-                                <h4 class="mb-0 me-2">237</h4>
-                                <small class="text-success">(+42%)</small>
-                            </div>
-                            <small>Total</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-2">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-start justify-content-between">
-                        <div class="content-left">
-                            <span>SPO</span>
-                            <div class="d-flex align-items-end mt-2">
-                                <h4 class="mb-0 me-2">237</h4>
-                                <small class="text-success">(+42%)</small>
-                            </div>
-                            <small>Total</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-        <div class="col-sm-6 col-xl-2">
-            <div class="card">
-                <div class="card-body">
-                    <div class="d-flex align-items-start justify-content-between">
-                        <div class="content-left">
-                            <span>PPK</span>
-                            <div class="d-flex align-items-end mt-2">
-                                <h4 class="mb-0 me-2">237</h4>
-                                <small class="text-success">(+42%)</small>
-                            </div>
-                            <small>Total</small>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </div>
-    </div>
-    <!-- Users List Table -->
+    <!-- Table -->
     <div class="card">
-        <div class="card-header border-bottom">
-            <h5 class="card-title">Filter</h5>
+        <div class="card-header d-flex align-items-center justify-content-between">
+            <h5 class="card-title m-0 me-2">Filter</h5>
+            <div class="dropdown">
+              <button class="btn p-0" type="button" id="employeeList" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <i class="bx bx-dots-vertical-rounded"></i>
+              </button>
+              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="employeeList">
+                <a class="dropdown-item" href="javascript:void(0);" onclick="showTotal()">Total Regulasi</a>
+              </div>
+            </div>
+        </div>
+        <div class="card-body">
             <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">
                 <div class="col-md-3">
-                    <label class="form-label">Jenis Regulasi <a class="text-danger">*</a></label>
-                    <select class="form-control select2" id="search_regulasi" style="width: 100%" required>
+                    <label class="form-label">Jenis Regulasi</label>
+                    <select class="form-control select2" id="search_regulasi" style="width: 100%">
                         <option value="">Pilih</option>
                         <option value="1">Kebijakan</option>
                         <option value="2">Panduan</option>
@@ -159,22 +71,21 @@
                 </div>
                 <div class="col-md-2">
                     <div class="btn-group" style="width: 100%">
-                        <button type="button" class="btn btn-primary mt-4" onclick="cari()">Submit</button>
-                        <button type="button" class="btn btn-label-secondary mt-4" onclick="bersih()">Clear</button>
+                        <button type="button" class="btn btn-primary mt-4" id="btn-cari-show" onclick="cari()"><i class="fa-fw fas fa-search nav-icon"></i> Submit</button>
+                        <button type="button" class="btn btn-label-secondary mt-4" onclick="bersih()"><i class="fa-fw fas fa-eraser nav-icon"></i> Clear</button>
                     </div>
                 </div>
             </div>
         </div>
-        <div class="card-datatable table-responsive" id="show_table" hidden>
+        <div class="card-datatable table-responsive" id="show_table" style="margin-top: -20px" hidden>
             <table class="datatables-users table border-top" id="table">
                 <thead>
                     <tr>
                         <th class="cell-fit"></th>
                         <th class="cell-fit">ID</th>
-                        <th>DISAHKAN</th>
-                        <th>JUDUL</th>
+                        <th class="cell-fit">DISAHKAN</th>
+                        <th>JUDUL - UNIT TERKAIT</th>
                         <th>UNIT PEMBUAT</th>
-                        <th>UNIT TERKAIT</th>
                         <th>UPDATE</th>
                     </tr>
                 </thead>
@@ -189,14 +100,72 @@
                     <tr>
                         <th class="cell-fit"></th>
                         <th class="cell-fit">ID</th>
-                        <th>DISAHKAN</th>
-                        <th>JUDUL</th>
+                        <th class="cell-fit">DISAHKAN</th>
+                        <th>JUDUL - UNIT TERKAIT</th>
                         <th>UNIT PEMBUAT</th>
-                        <th>UNIT TERKAIT</th>
                         <th>UPDATE</th>
                     </tr>
                 </tfoot>
             </table>
+        </div>
+    </div>
+
+    {{-- MODAL --}}
+    <div class="modal fade animate__animated animate__jackInTheBox" id="info" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">
+                    Total Regulasi
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    <table class="table-responsive table border-top table-bordered table-striped">
+                        <thead>
+                            <tr>
+                                <th>JENIS REGULASI</th>
+                                <th>TOTAL</th>
+                            </tr>
+                        </thead>
+                        <tbody id="tampil-tbody">
+                            <tr>
+                                <th>Kebijakan</th>
+                                <td id="count_kebijakan"></td>
+                            </tr>
+                            <tr>
+                                <th>Panduan</th>
+                                <td id="count_panduan"></td>
+                            </tr>
+                            <tr>
+                                <th>Pedoman</th>
+                                <td id="count_pedoman"></td>
+                            </tr>
+                            <tr>
+                                <th>Program</th>
+                                <td id="count_program"></td>
+                            </tr>
+                            <tr>
+                                <th>SPO</th>
+                                <td id="count_spo"></td>
+                            </tr>
+                            <tr>
+                                <th>PPK</th>
+                                <td id="count_ppk"></td>
+                            </tr>
+                        </tbody>
+                        <tfoot>
+                            <tr>
+                                <th>TOTAL KESELURUHAN</th>
+                                <td id="count_total"></td>
+                            </tr>
+                        </tfoot>
+                    </table>
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+                </div>
+            </div>
         </div>
     </div>
 
@@ -238,124 +207,121 @@
         })
 
         function cari() {
+            // $("#btn-cari").append('&nbsp;&nbsp;<span class="spinner-border" role="status" aria-hidden="true"></span>');
             $("#tampil-tbody").empty();
             $("#show_table").prop('hidden', false);
+            $("#tampil-tbody").empty().append(`<tr><td colspan="9"><center><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</center></td></tr>`);
             var regulasi    = $("#search_regulasi").val();
             var waktu       = $("#search_waktu").val();
             var pembuat     = $("#search_pembuat").val();
-            if (regulasi == null) {
-                iziToast.error({
-                    title: 'Pesan Galat!',
-                    message: 'Kolom Pilihan Regulasi wajib diisi',
-                    position: 'topRight'
-                });
-            } else {
-                $.ajax(
-                    {
-                        headers: {
-                            'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
-                        },
-                        url: "/api/regulasi/filter",
-                        type: 'POST',
-                        dataType: 'json', // added data type
-                        data: { 
-                            regulasi: regulasi,
-                            waktu: waktu,
-                            pembuat: pembuat,
-                        }, 
-                        success: function(res) {
-                            iziToast.success({
-                                title: 'Pesan Sukses!',
-                                message: 'Data pencarian ditemukan',
-                                position: 'topRight'
-                            });
-                            $("#tampil-tbody").empty();
-                            $('#table').DataTable().clear().destroy();
-                            res.show.forEach(item => {
-                                // VALIDASI TUJUAN FROM JSON
-                                // var us = JSON.parse(res.user);
-                                // var updet = item.updated_at.substring(0, 10);
-                                content = "<tr id='data"+ item.id +"'>";
-                                content += `<td><center><div class='btn-group'><button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button><ul class='dropdown-menu dropdown-menu-end'>`
-                                        + `<li><a href='javascript:void(0);' class='dropdown-item text-warning' onclick="showUbah(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>`
-                                        + `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/regulasi/`+item.id+`/download')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>`
-                                        + `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`
-                                        + `</ul></center></td><td>`; 
-                                        // if (item.user == '84') { content += 'Sri Suryani, Amd'; }
-                                content += item.id + "</td><td>"
-                                            + item.sah + "</td><td>"
-                                            + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate text-primary'>" + item.judul + "</h6><small class='text-truncate text-muted'>"
-                                            if (item.unit) {
-                                                content += item.unit;  
-                                            } else {
-                                                content += '-';
+            $.ajax(
+                {
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "/api/regulasi/filter",
+                    type: 'POST',
+                    dataType: 'json', // added data type
+                    data: { 
+                        regulasi: regulasi,
+                        waktu: waktu,
+                        pembuat: pembuat,
+                    }, 
+                    success: function(res) {
+                        iziToast.success({
+                            title: 'Pesan Sukses!',
+                            message: res.count+' data pencarian ditemukan',
+                            position: 'topRight'
+                        });
+                        $("#tampil-tbody").empty();
+                        $('#table').DataTable().clear().destroy();
+                        res.show.forEach(item => {
+                            // VALIDASI TUJUAN FROM JSON
+                            // var us = JSON.parse(res.user);
+                            // var updet = item.updated_at.substring(0, 10);
+                            content = "<tr id='data"+ item.id +"'>";
+                            content += `<td><center><div class='btn-group'><button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button><ul class='dropdown-menu dropdown-menu-end'>`
+                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-warning' onclick="showUbah(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>`
+                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/regulasi/`+item.id+`/download')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>`
+                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`
+                                    + `</ul></center></td><td>`; 
+                                    // if (item.user == '84') { content += 'Sri Suryani, Amd'; }
+                            content += item.id + "</td><td>"
+                                        + item.sah + "</td><td style='white-space: normal !important;word-wrap: break-word;'>"
+                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-primary'>" + item.judul + "</h6><small class='text-truncate text-muted' style='white-space: normal !important;word-wrap: break-word;'>"
+                                        if (item.unit) {
+                                            content += item.unit;  
+                                        } else {
+                                            content += '-';
+                                        }
+                            content += "</small></div></div></td><td>";
+                                        for(i = 0; i < res.unit.length; i++){
+                                            if (res.unit[i].id == item.pembuat) {
+                                                content += res.unit[i].nama;
                                             }
-                                content += "</small></div></div></td><td>"
-                                            + item.pembuat + "</td><td>"
-                                            + item.unit + "</td><td>"
-                                            + item.updated_at + "</td></tr>";
-                                $('#tampil-tbody').append(content);
-                            });
-                            $('#table').DataTable(
-                            {
-                                order: [[6, "desc"]],
-                                dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
-                                displayLength: 10,
-                                lengthMenu: [10, 25, 50, 75, 100],
+                                        }
+                            content += "</td><td>" + item.updated_at + "</td></tr>";
+                            $('#tampil-tbody').append(content);
+                        });
+                        $('#table').DataTable(
+                        {
+                            order: [[5, "desc"]],
+                            dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
+                            displayLength: 10,
+                            lengthMenu: [10, 25, 50, 75, 100],
+                            buttons: [{
+                                extend: "collection",
+                                className: "btn btn-label-primary dropdown-toggle me-2",
+                                text: '<i class="bx bx-export me-sm-2"></i> <span class="d-none d-sm-inline-block">Export</span>',
                                 buttons: [{
-                                    extend: "collection",
-                                    className: "btn btn-label-primary dropdown-toggle me-2",
-                                    text: '<i class="bx bx-export me-sm-2"></i> <span class="d-none d-sm-inline-block">Export</span>',
-                                    buttons: [{
-                                        extend: "print",
-                                        text: '<i class="bx bx-printer me-2" ></i>Print',
-                                        className: "dropdown-item",
-                                        // exportOptions: {
-                                        //     columns: [3, 4, 5, 6, 7]
-                                        // }
-                                    }, {
-                                        extend: "excel",
-                                        text: '<i class="bx bxs-spreadsheet me-2"></i>Excel',
-                                        className: "dropdown-item",
-                                        autoFilter: true,
-                                        attr: {id: 'exportButton'},
-                                        sheetName: 'data',
-                                        title: '',
-                                        filename: 'Regulasi'
-                                    }, {
-                                        extend: "pdf",
-                                        text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
-                                        className: "dropdown-item",
-                                    }, {
-                                        extend: "copy",
-                                        text: '<i class="bx bx-copy me-2" ></i>Copy',
-                                        className: "dropdown-item",
-                                        // exportOptions: {
-                                        //     columns: [3, 4, 5, 6, 7]
-                                        // }
-                                    },]
-                                }],
-                                columnDefs: [
-                                    { targets: 0, orderable: !1,searchable: !1, },
-                                    // { targets: 1, orderable: !1,searchable: !1, },
-                                    // { targets: 5, orderable: !1,searchable: !1, },
-                                    // { targets: 6, visible: false },
-                                ],
-                            },
-                            );
-                            $("div.head-label").html('<h5 class="card-title mb-0">Hasil Pencarian Regulasi</h5>');
+                                    extend: "print",
+                                    text: '<i class="bx bx-printer me-2" ></i>Print',
+                                    className: "dropdown-item",
+                                    // exportOptions: {
+                                    //     columns: [3, 4, 5, 6, 7]
+                                    // }
+                                }, {
+                                    extend: "excel",
+                                    text: '<i class="bx bxs-spreadsheet me-2"></i>Excel',
+                                    className: "dropdown-item",
+                                    autoFilter: true,
+                                    attr: {id: 'exportButton'},
+                                    sheetName: 'data',
+                                    title: '',
+                                    filename: 'Regulasi'
+                                }, {
+                                    extend: "pdf",
+                                    text: '<i class="bx bxs-file-pdf me-2"></i>Pdf',
+                                    className: "dropdown-item",
+                                }, {
+                                    extend: "copy",
+                                    text: '<i class="bx bx-copy me-2" ></i>Copy',
+                                    className: "dropdown-item",
+                                    // exportOptions: {
+                                    //     columns: [3, 4, 5, 6, 7]
+                                    // }
+                                },]
+                            }],
+                            columnDefs: [
+                                { targets: 0, orderable: !1,searchable: !1, },
+                                // { targets: 1, orderable: !1,searchable: !1, },
+                                // { targets: 5, orderable: !1,searchable: !1, },
+                                // { targets: 6, visible: false },
+                            ],
                         },
-                        error: function(res) {
-                            iziToast.error({
-                                title: 'Pesan Galat!',
-                                message: 'Data pencarian tidak ditemukan, ulangi sekali lagi.',
-                                position: 'topRight'
-                            });
-                            $("#tampil-tbody").append(`<tr><td colspan="7"><center>No data available in table</center></td></tr>`);
-                        }
+                        );
+                        $("div.head-label").html('<h5 class="card-title mb-0">Hasil Pencarian Regulasi</h5>');
+                    },
+                    error: function(res) {
+                        iziToast.error({
+                            title: 'Pesan Galat!',
+                            message: 'Data pencarian tidak ditemukan, ulangi sekali lagi.',
+                            position: 'topRight'
+                        });
+                        $("#tampil-tbody").append(`<tr><td colspan="7"><center>No data available in table</center></td></tr>`);
                     }
-                );
-            }
+                }
+            );
         }
 
         function bersih() {
@@ -363,6 +329,26 @@
             $('#search_waktu').val('');
             $('#search_pembuat').val('').trigger('change');
             $("#show_table").prop('hidden', true);
+        }
+        
+        function showTotal() {
+        $('#info').modal('show');
+        $.ajax(
+            {
+            url: "/api/regulasi/totalregulasi",
+            type: 'GET',
+            dataType: 'json', // added data type
+            success: function(res) {
+                $("#count_kebijakan").text(res.totkebijakan);
+                $("#count_panduan").text(res.totpanduan);
+                $("#count_pedoman").text(res.totpedoman);
+                $("#count_program").text(res.totprogram);
+                $("#count_spo").text(res.totspo);
+                // $("#count_ppk").text(res.ppk);
+                $("#count_total").text(res.total);
+            }
+            }
+        );
         }
     </script>
 @endsection

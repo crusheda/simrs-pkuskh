@@ -11,6 +11,7 @@ use App\Models\regulasi\pedoman;
 use App\Models\regulasi\panduan;
 use App\Models\regulasi\program;
 use App\Models\regulasi\kebijakan;
+use App\Models\trans_regulasi;
 use App\Models\unit;
 use Carbon\Carbon;
 use Redirect;
@@ -66,9 +67,9 @@ class regulasiController extends Controller
     // API
     public function cariRegulasi(Request $request)
     {
-        // print_r($request->all());
-        // die();
-        if ($request->regulasi == '1') {
+        $unit = unit::orderBy('nama','asc')->get();
+        
+        if ($request->regulasi != null) {
             if ($request->waktu != null) {
                 $month = Carbon::parse($request->waktu)->isoFormat('MM');
                 $year = Carbon::parse($request->waktu)->isoFormat('YYYY');
@@ -80,16 +81,48 @@ class regulasiController extends Controller
                     //                 ->orderBy('updated_at','DESC')
                     //                 // ->where('deleted_at', null)
                     //                 ->get();
-                    $query_string = "SELECT * FROM regulasi_kebijakan WHERE MONTH(sah) = $month AND YEAR(sah) = $year AND pembuat = $request->pembuat AND deleted_at IS NULL ORDER BY updated_at DESC";
+                    // $query_string = "SELECT * FROM regulasi_kebijakan WHERE MONTH(sah) = $month AND YEAR(sah) = $year AND pembuat = $request->pembuat AND deleted_at IS NULL ORDER BY updated_at DESC";
+                    $query_string = "SELECT * FROM trans_regulasi WHERE MONTH(sah) = $month AND YEAR(sah) = $year AND jns_regulasi = $request->regulasi AND pembuat = $request->pembuat AND deleted_at IS NULL ORDER BY updated_at DESC";
                     $show = DB::select($query_string);
-                    // print_r($show);
-                    // die();
+                } else {
+                    $query_string = "SELECT * FROM trans_regulasi WHERE MONTH(sah) = $month AND YEAR(sah) = $year AND jns_regulasi = $request->regulasi AND deleted_at IS NULL ORDER BY updated_at DESC";
+                    $show = DB::select($query_string);
+                }
+            } else {
+                if ($request->pembuat != null) {
+                    $query_string = "SELECT * FROM trans_regulasi WHERE jns_regulasi = $request->regulasi AND pembuat = $request->pembuat AND deleted_at IS NULL ORDER BY updated_at DESC";
+                    $show = DB::select($query_string);
+                } else {
+                    $query_string = "SELECT * FROM trans_regulasi WHERE jns_regulasi = $request->regulasi AND deleted_at IS NULL ORDER BY updated_at DESC";
+                    $show = DB::select($query_string);
+                }
+            }
+        } else {
+            if ($request->waktu != null) {
+                $month = Carbon::parse($request->waktu)->isoFormat('MM');
+                $year = Carbon::parse($request->waktu)->isoFormat('YYYY');
+                if ($request->pembuat != null) {
+                    $query_string = "SELECT * FROM trans_regulasi WHERE MONTH(sah) = $month AND YEAR(sah) = $year AND pembuat = $request->pembuat AND deleted_at IS NULL ORDER BY updated_at DESC";
+                    $show = DB::select($query_string);
+                } else {
+                    $query_string = "SELECT * FROM trans_regulasi WHERE MONTH(sah) = $month AND YEAR(sah) = $year AND deleted_at IS NULL ORDER BY updated_at DESC";
+                    $show = DB::select($query_string);
+                }
+            } else {
+                if ($request->pembuat != null) {
+                    $query_string = "SELECT * FROM trans_regulasi WHERE pembuat = $request->pembuat AND deleted_at IS NULL ORDER BY updated_at DESC";
+                    $show = DB::select($query_string);
+                } else {
+                    $query_string = "SELECT * FROM trans_regulasi WHERE deleted_at IS NULL ORDER BY updated_at DESC";
+                    $show = DB::select($query_string);
                 }
             }
         }
         
         $data = [
             'show' => $show,
+            'unit' => $unit,
+            'count' => count($show),
         ];
 
         return response()->json($data, 200);
