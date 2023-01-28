@@ -587,6 +587,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
         Route::get('kecamatan/{id}', 'Admin\profilController@apiKecamatan');
     
     // REGULASI
+        Route::get('regulasi/showtambah', 'administrasi\regulasiController@showTambah');
+        Route::post('regulasi/tambah', 'administrasi\regulasiController@tambah')->name('regulasi.tambah');
         Route::post('regulasi/filter', 'administrasi\regulasiController@cariRegulasi');
         Route::get('regulasi/totalregulasi', 'administrasi\regulasiController@apiTotalRegulasi');
         Route::get('regulasi/acregulasi', 'administrasi\regulasiController@autoCompleteRegulasi')->name('ac.regulasi.cari');

@@ -28,43 +28,74 @@ class regulasiController extends Controller
             'unit' => $unit,
         ];
         
-        return view('pages.administrasi.regulasi')->with('list', $data);
+        return view('pages.administrasi.regulasi.index')->with('list', $data);
     }
 
     public function download($id)
     {
-        $data1 = kebijakan::where('judul', $id)->first();
-        $data2 = pedoman::where('judul', $id)->first();
-        $data3 = panduan::where('judul', $id)->first();
-        $data4 = program::where('judul', $id)->first();
-        $data5 = spo::where('judul', $id)->first();
-        
-        if (!empty($data1)) {
-            $filename = $data1->filename;
-            $title = $data1->title;
-        }
-        if (!empty($data2)) {
-            $filename = $data2->filename;
-            $title = $data2->title;
-        }
-        if (!empty($data3)) {
-            $filename = $data3->filename;
-            $title = $data3->title;
-        }
-        if (!empty($data4)) {
-            $filename = $data4->filename;
-            $title = $data4->title;
-        }
-        if (!empty($data5)) {
-            $filename = $data5->filename;
-            $title = $data5->title;
-        }
-        // print_r($data);
-        // die();
+        $data = trans_regulasi::where('id', $id)->first();
+        $filename = $data->filename;
+        $title = $data->title;
         return Storage::download($filename, $title);
     }
 
     // API
+    public function showTambah()
+    {
+        $unit = unit::orderBy('nama','asc')->get();
+
+        return response()->json($unit, 200);
+    }
+
+    public function tambah(Request $request)
+    {
+        $tgl = Carbon::now()->isoFormat('dddd, D MMMM Y, HH:mm a');
+
+        // tampung berkas yang sudah diunggah ke variabel baru
+        // 'file' merupakan nama input yang ada pada form
+        $uploadedFile = $request->file('file');     
+
+        $title = $uploadedFile->getClientOriginalName();
+        $validasiFile = trans_regulasi::where('title',$title)->first();
+        if (empty($validasiFile)) {
+            // simpan berkas yang diunggah ke sub-direktori 'public/files'
+            // direktori 'files' otomatis akan dibuat jika belum ada
+            if ($request->jns_regulasi == 1) {
+                $path = $uploadedFile->store('public/files/regulasi/kebijakan');
+            } elseif ($request->jns_regulasi == 2) {
+                $path = $uploadedFile->store('public/files/regulasi/panduan');
+            } elseif ($request->jns_regulasi == 3) {
+                $path = $uploadedFile->store('public/files/regulasi/pedoman');
+            } elseif ($request->jns_regulasi == 4) {
+                $path = $uploadedFile->store('public/files/regulasi/program');
+            } elseif ($request->jns_regulasi == 5) {
+                $path = $uploadedFile->store('public/files/regulasi/spo');
+            } elseif ($request->jns_regulasi == 6) {
+                $path = $uploadedFile->store('public/files/regulasi/ppk');
+            }
+    
+            $data = new trans_regulasi;
+            $data->id_user = Auth::user()->id;
+            $data->jns_regulasi = $request->jns_regulasi;
+            $data->sah = $request->tgl;
+            $data->judul = $request->judul;
+            $data->pembuat = $request->pembuat;
+            $data->unit = $request->unit;
+    
+                $data->title = $title;
+                $data->filename = $path;
+    
+            // print_r($data);
+            // die();
+            $data->save();
+    
+            return response()->json($tgl, 200);
+        } else {
+            $error = 'File sudah ada/pernah diupload sebelumnya!';
+            return response()->json($error, 400);
+        }
+    }
+
     public function cariRegulasi(Request $request)
     {
         $unit = unit::orderBy('nama','asc')->get();
@@ -129,11 +160,11 @@ class regulasiController extends Controller
     }
     public function apiTotalRegulasi()
     {
-        $totKebijakan   = kebijakan::count();
-        $totPedoman     = pedoman::count();
-        $totPanduan     = panduan::count();
-        $totProgram     = program::count();
-        $totSpo         = spo::count();
+        $totKebijakan   = trans_regulasi::where('jns_regulasi',1)->count();
+        $totPanduan     = trans_regulasi::where('jns_regulasi',2)->count();
+        $totPedoman     = trans_regulasi::where('jns_regulasi',3)->count();
+        $totProgram     = trans_regulasi::where('jns_regulasi',4)->count();
+        $totSpo         = trans_regulasi::where('jns_regulasi',5)->count();
 
         $total = $totKebijakan + $totPedoman + $totPanduan + $totProgram + $totSpo;
         // print_r($total);

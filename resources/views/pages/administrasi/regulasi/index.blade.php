@@ -38,7 +38,8 @@
                 <i class="bx bx-dots-vertical-rounded"></i>
               </button>
               <div class="dropdown-menu dropdown-menu-end" aria-labelledby="employeeList">
-                <a class="dropdown-item" href="javascript:void(0);" onclick="showTotal()">Total Regulasi</a>
+                  <a class="dropdown-item" href="javascript:void(0);" onclick="tambah()">Tambah Regulasi</a>
+                    <a class="dropdown-item" href="javascript:void(0);" onclick="showTotal()">Total Regulasi</a>
               </div>
             </div>
         </div>
@@ -83,10 +84,10 @@
                     <tr>
                         <th class="cell-fit"></th>
                         <th class="cell-fit">ID</th>
-                        <th class="cell-fit">DISAHKAN</th>
+                        <th style="width: 90px">DISAHKAN</th>
                         <th>JUDUL - UNIT TERKAIT</th>
-                        <th>UNIT PEMBUAT</th>
-                        <th>UPDATE</th>
+                        <th class="cell-fit">UNIT PEMBUAT</th>
+                        <th style="width: 170px">UPDATE</th>
                     </tr>
                 </thead>
                 <tbody id="tampil-tbody">
@@ -100,10 +101,10 @@
                     <tr>
                         <th class="cell-fit"></th>
                         <th class="cell-fit">ID</th>
-                        <th class="cell-fit">DISAHKAN</th>
+                        <th style="width: 90px">DISAHKAN</th>
                         <th>JUDUL - UNIT TERKAIT</th>
-                        <th>UNIT PEMBUAT</th>
-                        <th>UPDATE</th>
+                        <th class="cell-fit">UNIT PEMBUAT</th>
+                        <th style="width: 170px">UPDATE</th>
                     </tr>
                 </tfoot>
             </table>
@@ -111,7 +112,74 @@
     </div>
 
     {{-- MODAL --}}
-    <div class="modal fade animate__animated animate__jackInTheBox" id="info" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+    <div class="modal fade animate__animated animate__jackInTheBox" id="tambah" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">
+                    Tambah Regulasi
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    @csrf
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Jenis Regulasi <a class="text-danger">*</a></label>
+                                <select class="form-select select2" id="jns_regulasi">
+                                    <option value="" hidden>Pilih</option>
+                                    <option value="1">Kebijakan</option>
+                                    <option value="2">Panduan</option>
+                                    <option value="3">Pedoman</option>
+                                    <option value="4">Program</option>
+                                    <option value="5">SPO</option>
+                                    <option value="6">PPK</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Tgl. Pengesahan <a class="text-danger">*</a></label>
+                                <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" id="tgl"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Unit Pembuat <a class="text-danger">*</a></label>
+                                <select class="form-select select2" id="pembuat">
+                                    <option value="" hidden>Pilih</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Judul Dokumen <a class="text-danger">*</a></label>
+                                <input type="text" id="judul" class="form-control" placeholder="e.g. PROSEDUR PERMINTAAN DARAH KEADAAN KHUSUS/CITO"/>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Unit Terkait <a class="text-danger">*</a></label>
+                                <input type="text" id="unit" class="form-control" placeholder="e.g. BDRS, RAWAT INAP, KEBIDANAN, ICU, IBS"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <label class="form-label">Upload <a class="text-danger">*</a></label>
+                        <input type="file" class="form-control mb-2" id="filex" name="filex" accept="application/pdf">
+                        <i class="fa-fw fas fa-caret-right nav-icon"></i> Batas ukuran maksimum dokumen adalah <strong>20 mb</strong><br>
+                        <i class="fa-fw fas fa-caret-right nav-icon"></i> File yang diupload berupa Dokumen Scan
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btn-upload" onclick="prosesTambah()"><i class="fa-fw fas fa-upload nav-icon"></i> Upload</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade animate__animated animate__jackInTheBox" id="info" tabindex="-1" aria-hidden="true">
         <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
             <div class="modal-content">
                 <div class="modal-header">
@@ -204,6 +272,16 @@
                     dropdownParent: e.parent()
                 })
             });
+            
+            // DATE
+            const l = $('.flatpickr');
+            var now = moment().locale('id').format('Y-MM-DD HH:mm');
+            l.flatpickr({
+                enableTime: 0,
+                minuteIncrement: 1,
+                // defaultDate: now,
+                time_24hr: true,
+            })
         })
 
         function cari() {
@@ -248,7 +326,7 @@
                                     // if (item.user == '84') { content += 'Sri Suryani, Amd'; }
                             content += item.id + "</td><td>"
                                         + item.sah + "</td><td style='white-space: normal !important;word-wrap: break-word;'>"
-                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-primary'>" + item.judul + "</h6><small class='text-truncate text-muted' style='white-space: normal !important;word-wrap: break-word;'>"
+                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-primary'><u><a href='/v2/regulasi/" + item.id + "/download'>" + item.judul + "</a></u></h6><small class='text-truncate text-muted' style='white-space: normal !important;word-wrap: break-word;'>"
                                         if (item.unit) {
                                             content += item.unit;  
                                         } else {
@@ -322,6 +400,98 @@
                     }
                 }
             );
+        }
+
+        function tambah() {
+            $('jns_regulasi').val('').select2().change();
+            $("#tgl").val('');
+            $('pembuat').val('').select2().change();
+            $("#judul").val('');
+            $("#unit").val('');
+            $("#filex").val('');
+            $.ajax(
+            {
+                url: "/api/regulasi/showtambah",
+                type: 'GET',
+                dataType: 'json', // added data type
+                success: function(res) {
+                    res.forEach(item => {
+                        $("#pembuat").append(`
+                            <option value="${item.id}">${item.nama}</option>
+                        `);
+                    });
+                }
+            });
+            $('#tambah').modal('show');
+        }
+        
+        function prosesTambah() {
+            $("#btn-upload").prop('disabled', true);
+            $("#btn-upload").find("i").toggleClass("fa-save fa-sync fa-spin");
+            
+            var jns_regulasi    = $("#jns_regulasi").val();
+            var tgl             = $("#tgl").val();
+            var pembuat         = $("#pembuat").val();
+            var judul           = $("#judul").val();
+            var unit            = $("#unit").val();
+            var filex           = $('#filex')[0].files.length;
+
+            if (jns_regulasi == "" || tgl == "" || pembuat == "" || judul == "" || unit == "" || filex == 0) {
+                iziToast.error({
+                    title: 'Pesan Galat!',
+                    message: 'Mohon lengkapi semua data terlebih dahulu dan pastikan tidak ada yang kosong',
+                    position: 'topRight'
+                });
+            } else {
+                var fd = new FormData();
+    
+                // Get the selected file
+                var files = $('#filex')[0].files;
+                console.log(files);
+                var judul = $("#judul").val();
+                fd.append('file',files[0]);
+    
+                fd.append('jns_regulasi',$("#jns_regulasi").val());
+                fd.append('tgl',$("#tgl").val());
+                fd.append('pembuat',$("#pembuat").val());
+                fd.append('judul',judul);
+                fd.append('unit',$("#unit").val());
+    
+                // AJAX request 
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{{route('regulasi.tambah')}}",
+                    method: 'post',
+                    data: fd,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    success: function(res){
+                        iziToast.success({
+                            title: 'Pesan Sukses!',
+                            message: 'REGULASI - '+judul+' berhasil ditambah',
+                            position: 'topRight'
+                        });
+                        if (res) {
+                            $('#tambah').modal('hide');
+                            cari();
+                        }
+                    },
+                    error: function(res){
+                        console.log("error : " + JSON.stringify(res) );
+                        iziToast.error({
+                            title: 'Error '+res.status+' - '+res.statusText+'!',
+                            message: res.responseJSON,
+                            position: 'topRight'
+                        });
+                    }
+                });
+            }
+            
+            $("#btn-upload").find("i").removeClass("fa-sync fa-spin").addClass("fa-save");
+            $("#btn-upload").prop('disabled', false);
         }
 
         function bersih() {
