@@ -263,7 +263,10 @@
                                 <label class="form-label">Berkas Surat Anda <a class="text-danger">*</a></label>
                                 <input type="text" class="form-control" id="verifberkas" hidden>
                                 <div id="linksurat"></div>
-                                <small><i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila terdapat kesalahan File Upload, Anda dapat melakukan Input Ulang</small>
+                                <small>
+                                    <i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila terdapat kesalahan File Upload, Anda dapat melakukan Input Ulang<br>
+                                    <i class="fa-fw fas fa-caret-right nav-icon"></i> Hubungi Admin untuk dilakukan penghapusan berkas
+                                </small>
                             </div>
                         </div>
                     </div>
@@ -368,6 +371,7 @@
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
+                        var adminID = "{{ Auth::user()->hasRole('administrator') }}";
                         $("#tampil-tbody").empty();
                         res.show.forEach(item => {
                             // VALIDASI TUJUAN FROM JSON
@@ -379,8 +383,10 @@
                                     if (item.filename != null) {
                                         content += `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/suratkeluar/`+item.id+`/download')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>`
                                     }
-                            content += `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`
-                                    + `</ul></center></td><td>`;  
+                                    if (adminID) {
+                                        content += `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`;
+                                    }
+                            content += `</ul></center></td><td>`;  
                             content += item.urutan + "</td><td>"
                                         + item.tgl + "</td><td>"
                                         + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate text-primary'>" + item.nomor + "</h6><small class='text-truncate text-muted'>" + item.kode_jenis + "&nbsp;-&nbsp;" + item.jenis + "</small></div></div></td><td>";
@@ -482,6 +488,7 @@
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
+                        var adminID = "{{ Auth::user()->hasRole('administrator') }}";
                         $("#tampil-tbody").empty();
                         $('#table').DataTable().clear().destroy();
                         res.show.forEach(item => {
@@ -494,8 +501,10 @@
                                     if (item.filename != null) {
                                         content += `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/suratkeluar/`+item.id+`/download')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>`
                                     }
-                            content += `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`
-                                    + `</ul></center></td><td>`;  
+                                    if (adminID) {
+                                        content += `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`;
+                                    }
+                            content += `</ul></center></td><td>`;  
                             content += item.urutan + "</td><td>"
                                         + item.tgl + "</td><td>"
                                         + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-truncate text-primary'>" + item.nomor + "</h6><small class='text-truncate text-muted'>" + item.kode_jenis + "&nbsp;-&nbsp;" + item.jenis + "</small></div></div></td><td>";

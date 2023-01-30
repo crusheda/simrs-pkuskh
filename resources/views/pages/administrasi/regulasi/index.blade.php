@@ -34,13 +34,15 @@
         <div class="card-header d-flex align-items-center justify-content-between">
             <h5 class="card-title m-0 me-2">Filter</h5>
             <div class="dropdown">
-              <button class="btn p-0" type="button" id="employeeList" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
-                <i class="bx bx-dots-vertical-rounded"></i>
-              </button>
-              <div class="dropdown-menu dropdown-menu-end" aria-labelledby="employeeList">
-                  <a class="dropdown-item" href="javascript:void(0);" onclick="tambah()">Tambah Regulasi</a>
+                <button class="btn p-0" type="button" id="employeeList" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                    <i class="bx bx-dots-vertical-rounded"></i>
+                </button>
+                <div class="dropdown-menu dropdown-menu-end" aria-labelledby="employeeList">
+                    @if (Auth::user()->hasRole('it|sekretaris-direktur|administrator'))
+                        <a class="dropdown-item" href="javascript:void(0);" onclick="tambah()">Tambah Regulasi</a>
+                    @endif
                     <a class="dropdown-item" href="javascript:void(0);" onclick="showTotal()">Total Regulasi</a>
-              </div>
+                </div>
             </div>
         </div>
         <div class="card-body">
@@ -79,7 +81,7 @@
             </div>
         </div>
         <div class="card-datatable table-responsive" id="show_table" style="margin-top: -20px" hidden>
-            <table class="datatables-users table border-top" id="table">
+            <table class="datatables-users table border-top table-hover" id="table">
                 <thead>
                     <tr>
                         <th class="cell-fit"></th>
@@ -122,7 +124,6 @@
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
                 </div>
                 <div class="modal-body">
-                    @csrf
                     <div class="row">
                         <div class="col-md-3 mb-3">
                             <div class="form-group">
@@ -169,11 +170,77 @@
                         <label class="form-label">Upload <a class="text-danger">*</a></label>
                         <input type="file" class="form-control mb-2" id="filex" name="filex" accept="application/pdf">
                         <i class="fa-fw fas fa-caret-right nav-icon"></i> Batas ukuran maksimum dokumen adalah <strong>20 mb</strong><br>
-                        <i class="fa-fw fas fa-caret-right nav-icon"></i> File yang diupload berupa Dokumen Scan
+                        <i class="fa-fw fas fa-caret-right nav-icon"></i> File yang diupload berupa Dokumen Scan (PDF)
                     </div>
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" id="btn-upload" onclick="prosesTambah()"><i class="fa-fw fas fa-upload nav-icon"></i> Upload</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade animate__animated animate__rubberBand" id="ubah" data-bs-backdrop="static" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-lg" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">
+                    Ubah Regulasi
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    <input type="text" id="id_edit" hidden>
+                    <div class="row">
+                        <div class="col-md-3 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Jenis Regulasi <a class="text-danger">*</a></label>
+                                <select class="form-select select2" id="jns_regulasi_edit">
+                                    <option value="" hidden>Pilih</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-3 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Tgl. Pengesahan <a class="text-danger">*</a></label>
+                                <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" id="tgl_edit"/>
+                            </div>
+                        </div>
+                        <div class="col-md-6 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Unit Pembuat <a class="text-danger">*</a></label>
+                                <select class="form-select select2" id="pembuat_edit">
+                                    <option value="" hidden>Pilih</option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Judul Dokumen <a class="text-danger">*</a></label>
+                                <input type="text" id="judul_edit" class="form-control" placeholder="e.g. PROSEDUR PERMINTAAN DARAH KEADAAN KHUSUS/CITO"/>
+                            </div>
+                        </div>
+                        <div class="col-md-12 mb-3">
+                            <div class="form-group">
+                                <label class="form-label">Unit Terkait <a class="text-danger">*</a></label>
+                                <input type="text" id="unit_edit" class="form-control" placeholder="e.g. BDRS, RAWAT INAP, KEBIDANAN, ICU, IBS"/>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="form-group">
+                        <small><i class="fa-fw fas fa-caret-right nav-icon mb-3"></i> Apabila terdapat kesalahan File Upload, Anda dapat melakukan <b>Input Dokumen Ulang</b> di bawah ini</small><br>
+                        <div class="mb-3" id="upload_ulang"></div>
+                        <small class="mb-4">
+                            <i class="fa-fw fas fa-caret-right nav-icon"></i> Hubungi Admin untuk dilakukan penghapusan berkas<br>
+                            <i class="fa-fw fas fa-caret-right nav-icon"></i> Batas ukuran maksimum dokumen adalah <strong>20 mb</strong><br>
+                            <i class="fa-fw fas fa-caret-right nav-icon"></i> File yang diupload berupa Dokumen Scan (<b>PDF</b>)
+                        </small><hr>
+                        <label class="form-label">Berkas Regulasi Terupload</label>
+                        <div id="berkas_regulasi"></div>
+                    </div>
+                </div>
+                <div class="modal-footer">
+                    <button class="btn btn-primary" id="btn-ubah" onclick="prosesUbah()"><i class="fa-fw fas fa-upload nav-icon"></i> Upload</button>
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
                 </div>
             </div>
@@ -234,6 +301,35 @@
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
                 </div>
             </div>
+        </div>
+    </div>
+    {{-- MODAL HAPUS --}}
+    <div class="modal animate__animated animate__rubberBand fade" id="hapus" tabindex="-1" aria-hidden="true" data-bs-backdrop="static">
+        <div class="modal-dialog modal-simple modal-add-new-address modal-dialog-centered">
+        <div class="modal-content p-3 p-md-5">
+            <div class="row">
+                <h4 class="modal-title text-center mb-3">
+                    Hapus Regulasi
+                </h4>
+                <div class="col-12 mb-3">
+                    <input type="text" id="id_hapus" hidden>
+                    <p style="text-align: justify;">Anda akan menghapus berkas Regulasi tersebut. Penghapusan Regulasi akan menyebabkan hilangnya data/dokumen yang terhapus tersebut pada Storage Sistem.
+                        Maka dari itu, lakukanlah dengan hati-hati. Ceklis dibawah untuk melanjutkan penghapusan.</p>
+                    <label class="switch">
+                        <input type="checkbox" class="switch-input" id="setujuhapus">
+                        <span class="switch-toggle-slider">
+                        <span class="switch-on"></span>
+                        <span class="switch-off"></span>
+                        </span>
+                        <span class="switch-label">Anda siap menerima Risiko</span>
+                    </label>
+                </div>
+                <div class="col-12 text-center">
+                    <button type="submit" id="btn-hapus" class="btn btn-danger me-sm-3 me-1" onclick="prosesHapus()"><i class="fa fa-trash"></i> Hapus</button>
+                    <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i> Batal</button>
+                </div>
+            </div>
+        </div>
         </div>
     </div>
 
@@ -306,6 +402,8 @@
                         pembuat: pembuat,
                     }, 
                     success: function(res) {
+                        var editorID = "{{ Auth::user()->hasRole('it|sekretaris-direktur|administrator') }}";
+                        var adminID = "{{ Auth::user()->hasRole('administrator') }}";
                         iziToast.success({
                             title: 'Pesan Sukses!',
                             message: res.count+' data pencarian ditemukan',
@@ -319,14 +417,17 @@
                             // var updet = item.updated_at.substring(0, 10);
                             content = "<tr id='data"+ item.id +"'>";
                             content += `<td><center><div class='btn-group'><button type='button' class='btn btn-sm btn-primary btn-icon dropdown-toggle hide-arrow' data-bs-toggle='dropdown' aria-expanded='false'><i class='bx bx-dots-vertical-rounded'></i></button><ul class='dropdown-menu dropdown-menu-end'>`
-                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-warning' onclick="showUbah(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>`
-                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/regulasi/`+item.id+`/download')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>`
-                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`
-                                    + `</ul></center></td><td>`; 
-                                    // if (item.user == '84') { content += 'Sri Suryani, Amd'; }
+                                    + `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/regulasi/`+item.id+`/download')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>`;
+                                    if (editorID) {
+                                        content += `<li><a href='javascript:void(0);' class='dropdown-item text-warning' onclick="showUbah(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-edit scaleX-n1-rtl'></i> Ubah</a></li>`;
+                                        if (adminID) {
+                                            content += `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`;
+                                        }
+                                    }
+                            content += `</ul></center></td><td>`; 
                             content += item.id + "</td><td>"
                                         + item.sah + "</td><td style='white-space: normal !important;word-wrap: break-word;'>"
-                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-primary'><u><a href='/v2/regulasi/" + item.id + "/download'>" + item.judul + "</a></u></h6><small class='text-truncate text-muted' style='white-space: normal !important;word-wrap: break-word;'>"
+                                        + "<div class='d-flex justify-content-start align-items-center'><div class='d-flex flex-column'><h6 class='mb-0 text-primary'><u><a href='/v2/regulasi/" + item.id + "/download' target='_blank'>" + item.judul + "</a></u></h6><small class='text-truncate text-muted' style='white-space: normal !important;word-wrap: break-word;'>"
                                         if (item.unit) {
                                             content += item.unit;  
                                         } else {
@@ -346,7 +447,7 @@
                             order: [[5, "desc"]],
                             dom: '<"card-header flex-column flex-md-row"<"head-label text-center"><"dt-action-buttons text-end pt-3 pt-md-0"B>><"row"<"col-sm-12 col-md-6"l><"col-sm-12 col-md-6 d-flex justify-content-center justify-content-md-end"f>>t<"row"<"col-sm-12 col-md-6"i><"col-sm-12 col-md-6"p>>',
                             displayLength: 10,
-                            lengthMenu: [10, 25, 50, 75, 100],
+                            lengthMenu: [10, 25, 50, 75, 100, 200, 500, 1000],
                             buttons: [{
                                 extend: "collection",
                                 className: "btn btn-label-primary dropdown-toggle me-2",
@@ -492,6 +593,164 @@
             
             $("#btn-upload").find("i").removeClass("fa-sync fa-spin").addClass("fa-save");
             $("#btn-upload").prop('disabled', false);
+        }
+
+        function showUbah(id) {
+            $.ajax(
+            {
+                url: "/api/regulasi/showubah/"+id,
+                type: 'GET',
+                dataType: 'json', // added data type
+                success: function(res) {
+                    // var dt = new Date(res.show.tanggal).toJSON().slice(0,19);
+                    var sah = moment(res.show.sah).format('Y-MM-DD');
+                    document.getElementById('berkas_regulasi').innerHTML = "<h6><a href='/v2/regulasi/"+res.show.id+"/download' target='_blank'>"+res.show.title+"</a></h6>";
+                    document.getElementById('upload_ulang').innerHTML = `<input type='file' id="filex_edit" name='filex_edit' class="form-control" accept="application/pdf">`;
+                    $("#id_edit").val(res.show.id);
+                    
+                    // INIT DATE EDIT
+                    var a = document.querySelector("#tgl_edit");
+                    // var tgl_push = moment(res.show.sah).format('Y-MM-DD');
+                    a.flatpickr({
+                        enableTime: 0,
+                        minuteIncrement: 1,
+                        defaultDate: res.show.sah,
+                        time_24hr: true,
+                    })
+
+                    $("#judul_edit").val(res.show.judul);
+                    $("#unit_edit").val(res.show.unit);
+                    $("#jns_regulasi_edit").find('option').remove();
+                    $("#jns_regulasi_edit").append(`
+                        <option value="1" ${res.show.jns_regulasi == 1 ? "selected":""}>Kebijakan</option>
+                        <option value="2" ${res.show.jns_regulasi == 2 ? "selected":""}>Panduan</option>
+                        <option value="3" ${res.show.jns_regulasi == 3 ? "selected":""}>Pedoman</option>
+                        <option value="4" ${res.show.jns_regulasi == 4 ? "selected":""}>Program</option>
+                        <option value="5" ${res.show.jns_regulasi == 5 ? "selected":""}>SPO</option>
+                        <option value="6" ${res.show.jns_regulasi == 6 ? "selected":""}>PPK</option>
+                    `);
+                    $("#pembuat_edit").find('option').remove();
+                    res.unit.forEach(pounch => {
+                        $("#pembuat_edit").append(`
+                            <option value="${pounch.id}" ${res.show.pembuat == pounch.id ? "selected":""}>${pounch.nama}</option>
+                        `);
+                    });
+                    $('#ubah').modal('show');
+                }
+            });
+        }
+
+        function prosesUbah() {
+            $("#btn-ubah").prop('disabled', true);
+            $("#btn-ubah").find("i").toggleClass("fa-save fa-sync fa-spin");
+            
+            var id_edit         = $("#id_edit").val();
+            var jns_regulasi    = $("#jns_regulasi_edit").val();
+            var tgl             = $("#tgl_edit").val();
+            var pembuat         = $("#pembuat_edit").val();
+            var judul           = $("#judul_edit").val();
+            var unit            = $("#unit_edit").val();
+            var filex           = $('#filex_edit')[0].files.length;
+            
+            if (jns_regulasi == "" || tgl == "" || pembuat == "" || judul == "" || unit == "") {
+                iziToast.error({
+                    title: 'Pesan Galat!',
+                    message: 'Mohon lengkapi kolom pengisian wajib *',
+                    position: 'topRight'
+                });
+            } else {
+                var fd = new FormData();
+
+                if (filex == 0) {
+                    fd.append('file',null);
+                } else {
+                    // Get the selected file
+                    var files = $('#filex_edit')[0].files;
+                    console.log(files);
+                    var judul = $("#judul_edit").val();
+                    fd.append('file',files[0]);
+                }
+    
+                fd.append('id_edit',$("#id_edit").val());
+                fd.append('jns_regulasi',$("#jns_regulasi_edit").val());
+                fd.append('tgl',$("#tgl_edit").val());
+                fd.append('pembuat',$("#pembuat_edit").val());
+                fd.append('judul',judul);
+                fd.append('unit',$("#unit_edit").val());
+
+                // AJAX request 
+                $.ajax({
+                    headers: {
+                        'X-CSRF-TOKEN': $('meta[name="csrf-token"]').attr('content')
+                    },
+                    url: "{{ route('regulasi.ubah') }}",
+                    method: 'post',
+                    data: fd,
+                    contentType: false,
+                    processData: false,
+                    dataType: 'json',
+                    success: function(res){
+                        iziToast.success({
+                            title: 'Pesan Sukses!',
+                            message: 'REGULASI ' + judul + ' berhasil diperbarui pada '+res,
+                            position: 'topRight'
+                        });
+                        if (res) {
+                            $('#ubah').modal('hide');
+                            cari();
+                        }
+                    },
+                    error: function(res){
+                        console.log("error : " + JSON.stringify(res) );
+                    }
+                });
+            }
+
+            $("#btn-ubah").find("i").removeClass("fa-sync fa-spin").addClass("fa-save");
+            $("#btn-ubah").prop('disabled', false);
+        }
+
+        function hapus(id) {
+            $("#id_hapus").val(id);
+            var inputs = document.getElementById('setujuhapus');
+            inputs.checked = false;
+            $('#hapus').modal('show');
+        }
+
+        function prosesHapus() {
+            // SWITCH BTN HAPUS
+            var checkboxHapus = $('#setujuhapus').is(":checked");
+            if (checkboxHapus == false) {
+                iziToast.error({
+                    title: 'Pesan Galat!',
+                    message: 'Mohon menyetujui untuk dilakukan penghapusan berkas',
+                    position: 'topRight'
+                });
+            } else {
+                // PROSES HAPUS
+                var id = $("#id_hapus").val();
+                $.ajax({
+                    url: "/api/regulasi/"+id,
+                    type: 'DELETE',
+                    success: function(res) {
+                        iziToast.success({
+                            title: 'Pesan Sukses!',
+                            message: 'Berkas telah berhasil dihapus pada '+res,
+                            position: 'topRight'
+                        });
+                        $('#hapus').modal('hide');
+                        cari();
+                        // window.location.reload();
+                    },
+                    error: function(res) {
+                        iziToast.error({
+                            title: 'Pesan Galat!',
+                            message: 'Berkas gagal dihapus',
+                            position: 'topRight'
+                        });
+                    }
+                });
+            }
         }
 
         function bersih() {

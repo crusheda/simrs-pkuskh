@@ -253,7 +253,10 @@
                         <label class="form-label">Berkas Surat Anda</label>
                         <input type="text" class="form-control" id="verifberkas" hidden>
                         <div id="linksurat"></div>
-                        <small><i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila terdapat kesalahan File Upload, Anda dapat melakukan Input Ulang</small>
+                        <small>
+                            <i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila terdapat kesalahan File Upload, Anda dapat melakukan Input Ulang<br>
+                            <i class="fa-fw fas fa-caret-right nav-icon"></i> Hubungi Admin untuk dilakukan penghapusan berkas
+                        </small>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -388,6 +391,7 @@
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
+                        var adminID = "{{ Auth::user()->hasRole('administrator') }}";
                         $("#tampil-tbody").empty();
                         res.show.forEach(item => {
                             // var updet = item.updated_at.substring(0, 10);
@@ -397,8 +401,10 @@
                                     if (item.filename != null) {
                                         content += `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/suratmasuk/`+item.id+`/download')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>`
                                     }
-                            content += `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`
-                                    + `</ul></center></td><td>`;  
+                                    if (adminID) {
+                                        content += `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`;
+                                    }
+                            content += `</ul></center></td><td>`;  
                             content += item.urutan + "</td><td>";
                                         if (item.tgl_surat != null) {
                                             content += item.tgl_surat;  
@@ -507,6 +513,7 @@
                     type: 'GET',
                     dataType: 'json', // added data type
                     success: function(res) {
+                        var adminID = "{{ Auth::user()->hasRole('administrator') }}";
                         $("#tampil-tbody").empty();
                         $('#table').DataTable().clear().destroy();
                         res.show.forEach(item => {
@@ -517,8 +524,10 @@
                                     if (item.filename != null) {
                                         content += `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/suratmasuk/`+item.id+`/download')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>`
                                     }
-                            content += `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`
-                                    + `</ul></center></td><td>`;  
+                                    if (adminID) {
+                                        content += `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`;
+                                    }
+                            content += `</ul></center></td><td>`;  
                             content += item.urutan + "</td><td>";
                                         if (item.tgl_surat != null) {
                                             content += item.tgl_surat;  

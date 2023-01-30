@@ -589,9 +589,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
     // REGULASI
         Route::get('regulasi/showtambah', 'administrasi\regulasiController@showTambah');
         Route::post('regulasi/tambah', 'administrasi\regulasiController@tambah')->name('regulasi.tambah');
+        Route::get('regulasi/showubah/{id}', 'administrasi\regulasiController@showUbah');
+        Route::post('regulasi/ubah', 'administrasi\regulasiController@ubah')->name('regulasi.ubah');
+        Route::delete('regulasi/{id}', 'administrasi\regulasiController@hapus');
         Route::post('regulasi/filter', 'administrasi\regulasiController@cariRegulasi');
         Route::get('regulasi/totalregulasi', 'administrasi\regulasiController@apiTotalRegulasi');
-        Route::get('regulasi/acregulasi', 'administrasi\regulasiController@autoCompleteRegulasi')->name('ac.regulasi.cari');
 
     // MANRISK
         Route::get('k3/manrisk/berulang/validasi/{id}', 'k3\manriskController@apiValidasiBerulang');
