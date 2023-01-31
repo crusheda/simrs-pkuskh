@@ -49,15 +49,16 @@
             <div class="d-flex justify-content-between align-items-center row py-3 gap-3 gap-md-0">
                 <div class="col-md-3">
                     <label class="form-label">Jenis Regulasi</label>
-                    <select class="form-control select2" id="search_regulasi" style="width: 100%">
-                        <option value="">Pilih</option>
-                        <option value="1">Kebijakan</option>
-                        <option value="2">Panduan</option>
-                        <option value="3">Pedoman</option>
-                        <option value="4">Program</option>
-                        <option value="5">SPO</option>
-                        <option value="6">PPK</option>
-                    </select>
+                    <i class="bx bx-help-circle text-muted" data-bs-toggle="tooltip" data-bs-placement="top" title="Anda dapat memilih satu dari tiga pilihan filter dibawah lalu klik Submit"></i>
+                        <select class="form-control select2" id="search_regulasi" style="width: 100%">
+                            <option value="">Pilih</option>
+                            <option value="1">Kebijakan</option>
+                            <option value="2">Panduan</option>
+                            <option value="3">Pedoman</option>
+                            <option value="4">Program</option>
+                            <option value="5">SPO</option>
+                            <option value="6">PPK</option>
+                        </select>
                 </div>
                 <div class="col-md-3">
                     <label class="form-label">Waktu Pengesahan</label>
