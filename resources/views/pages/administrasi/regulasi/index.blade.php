@@ -41,6 +41,7 @@
                     @if (Auth::user()->hasRole('it|sekretaris-direktur|administrator'))
                         <a class="dropdown-item" href="javascript:void(0);" onclick="tambah()">Tambah Regulasi</a>
                     @endif
+                    <a class="dropdown-item" href="javascript:void(0);" onclick="tataCara()">Tata Cara</a>
                     <a class="dropdown-item" href="javascript:void(0);" onclick="showTotal()">Total Regulasi</a>
                 </div>
             </div>
@@ -176,6 +177,96 @@
                 </div>
                 <div class="modal-footer">
                     <button class="btn btn-primary" id="btn-upload" onclick="prosesTambah()"><i class="fa-fw fas fa-upload nav-icon"></i> Upload</button>
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="modal fade animate__animated animate__jackInTheBox" id="tutor" tabindex="-1" aria-hidden="true">
+        <div class="modal-dialog modal-dialog-centered modal-xl" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                <h4 class="modal-title">
+                    Tata Cara Regulasi
+                </h4>
+                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Tutup"></button>
+                </div>
+                <div class="modal-body">
+                    <div class="col-md mb-4 mb-md-0">
+                        <div class="accordion accordion-popout mt-3" id="accordionPopout">
+                            <div class="card accordion-item">
+                                <h2 class="accordion-header" id="headingPopoutOne">
+                                    <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionPopoutOne" aria-expanded="true" aria-controls="accordionPopoutOne">
+                                        Bagaimana melakukan Pencarian Dokumen Regulasi?
+                                    </button>
+                                </h2>
+                        
+                                <div id="accordionPopoutOne" class="accordion-collapse collapse" aria-labelledby="headingPopoutOne" data-bs-parent="#accordionPopout">
+                                    <div class="accordion-body">
+                                        <p>
+                                            Pencarian dokumen dilakukan dengan 3 pilihan pencarian yang tersedia yakni 
+                                            <ul>
+                                                <li>Jenis Regulasi <b>(Nomor 1)</b></li>
+                                                <li>Waktu Pengesahan <b>(Nomor 2)</b></li>
+                                                <li>Unit Pembuat <b>(Nomor 3)</b></li>
+                                            </ul>
+                                            Anda dapat mengisi salah satu/dua dari tiga pilihan di atas, atau mengosongi semua pilihan untuk menampilkan data regulasi keseluruhan 
+                                        </p>
+                                        <img src="{{ asset('img/tutorial/regulasi/1.png') }}" class="img-fluid mb-3" alt="">
+                                        <p>
+                                            Klik tombol Submit untuk mulai melakukan pencarian dokumen regulasi atau tombol Clear untuk mereset pilihan pencarian <b>(Nomor 4)</b>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <h2 class="accordion-header" id="headingPopoutTwo">
+                                    <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionPopoutTwo" aria-expanded="false" aria-controls="accordionPopoutTwo">
+                                        Bagaimana langkah untuk mendownload dokumen?
+                                    </button>
+                                </h2>
+                                <div id="accordionPopoutTwo" class="accordion-collapse collapse" aria-labelledby="headingPopoutTwo" data-bs-parent="#accordionPopout">
+                                    <div class="accordion-body">
+                                        <p>Lakukan pencarian pada kolom pencarian <b>(Nomor 5)</b> lalu silakan klik tombol pada kolom tabel judul atau dapat melalui tombol menu di setiap baris <b>(Nomor 6)</b></p>
+                                        <img src="{{ asset('img/tutorial/regulasi/2.png') }}" class="img-fluid" alt="">
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="card accordion-item">
+                                <h2 class="accordion-header" id="headingPopoutThree">
+                                    <button type="button" class="accordion-button collapsed" data-bs-toggle="collapse" data-bs-target="#accordionPopoutThree" aria-expanded="false" aria-controls="accordionPopoutThree">
+                                        Bagaimana cara melihat dokumen Regulasi tanpa mendownload? 
+                                    </button>
+                                </h2>
+                                <div id="accordionPopoutThree" class="accordion-collapse collapse" aria-labelledby="headingPopoutThree" data-bs-parent="#accordionPopout">
+                                    <div class="accordion-body">
+                                        <p>Terdapat 2 cara untuk melihat dokumen regulasi (PDF) tanpa mendownload. Apabila anda menggunakan browser Firefox, silakan abaikan semua langkah di bawah.</p>
+                                        <div class="divider text-end">
+                                            <div class="divider-text">Plugin PDF Viewer</div>
+                                        </div>
+                                        <p>
+                                            <h6>1. Instal plugin untuk Google Chrome dengan membuka Link <a target="_blank" href="https://chrome.google.com/webstore/detail/pdf-viewer/oemmndcbldboiebfnladdacbdfmadadm?hl=in"><u>Disini</u></a></h6>
+                                            <h6>2. Klik <strong>Tambahkan ke Chrome</strong></h6>
+                                            <img src="{{ asset('img/pdf-viewer/1.jpg') }}" class="img-fluid" alt="">
+                                            <h6>3. Klik <strong>Add extension</strong></h6>
+                                            <img src="{{ asset('img/pdf-viewer/2.jpg') }}" class="img-fluid" alt="">
+                                        </p>
+                                        <div class="divider text-end">
+                                            <div class="divider-text">Mode Incognito (Private Browser)</div>
+                                        </div>
+                                        <p>
+                                            <h6>1. Masuk ke Menu Chrome dengan cara klik tombol Titik Tiga di Pojok Kanan Atas</h6>
+                                            <img src="{{ asset('img/pdf-viewer/3.jpg') }}" class="img-fluid mb-3" alt="">
+                                            <h6>2. Klik tombol <strong>New Incognito Window</strong> atau dengan menekan kombinasi tombol <strong>Ctrl+Shift+N</strong></h6>
+                                            <h6>3. Masuk/Login <strong>Simrsmu</strong> kembali pada Mode Incognito tersebut dan anda sudah bisa melihat dokumen Regulasi tanpa harus mendownloadnya terlebih dahulu</h6>
+                                        </p>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+                <div class="modal-footer">
                     <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
                 </div>
             </div>
@@ -762,23 +853,27 @@
         }
         
         function showTotal() {
-        $('#info').modal('show');
-        $.ajax(
-            {
-            url: "/api/regulasi/totalregulasi",
-            type: 'GET',
-            dataType: 'json', // added data type
-            success: function(res) {
-                $("#count_kebijakan").text(res.totkebijakan);
-                $("#count_panduan").text(res.totpanduan);
-                $("#count_pedoman").text(res.totpedoman);
-                $("#count_program").text(res.totprogram);
-                $("#count_spo").text(res.totspo);
-                // $("#count_ppk").text(res.ppk);
-                $("#count_total").text(res.total);
-            }
-            }
-        );
+            $('#info').modal('show');
+            $.ajax(
+                {
+                url: "/api/regulasi/totalregulasi",
+                type: 'GET',
+                dataType: 'json', // added data type
+                success: function(res) {
+                    $("#count_kebijakan").text(res.totkebijakan);
+                    $("#count_panduan").text(res.totpanduan);
+                    $("#count_pedoman").text(res.totpedoman);
+                    $("#count_program").text(res.totprogram);
+                    $("#count_spo").text(res.totspo);
+                    $("#count_ppk").text(res.totppk);
+                    $("#count_total").text(res.total);
+                }
+                }
+            );
+        }
+
+        function tataCara() {
+            $('#tutor').modal('show');
         }
     </script>
 @endsection

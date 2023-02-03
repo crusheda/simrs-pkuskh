@@ -261,8 +261,9 @@ class regulasiController extends Controller
         $totPedoman     = trans_regulasi::where('jns_regulasi',3)->count();
         $totProgram     = trans_regulasi::where('jns_regulasi',4)->count();
         $totSpo         = trans_regulasi::where('jns_regulasi',5)->count();
+        $totPpk         = trans_regulasi::where('jns_regulasi',6)->count();
 
-        $total = $totKebijakan + $totPedoman + $totPanduan + $totProgram + $totSpo;
+        $total = $totKebijakan + $totPedoman + $totPanduan + $totProgram + $totSpo + $totPpk;
         // print_r($total);
         // die();
 
@@ -273,6 +274,7 @@ class regulasiController extends Controller
             'totpanduan' => $totPanduan,
             'totprogram' => $totProgram,
             'totspo' => $totSpo,
+            'totppk' => $totPpk,
         ];
 
         return response()->json($data, 200);
