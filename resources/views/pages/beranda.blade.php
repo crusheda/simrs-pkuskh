@@ -1,7 +1,23 @@
 @extends('layouts.simrsmuv2')
 
 @section('content')
-<div class="row">
+<style>
+  .center {
+    margin: 0;
+    position: absolute;
+    top: 50%;
+    left: 50%;
+    -ms-transform: translate(-50%, -50%);
+    transform: translate(-50%, -50%);
+  }
+</style>
+<div class="center text-center">
+    <img src="{{ asset('assets-new/img/illustrations/sitting-girl-with-laptop-light.png') }}" class="img-fluid mb-4" alt="Api Key Image" width="350">
+    <h5>Selamat datang di Sistem Informasi Manajemen Rumah Sakit (SIMRS)</h5>
+    <h6>Untuk Karyawan Tercinta Rumah Sakit PKU Muhammadiyah Sukoharjo</h6>
+    <img style="opacity: 80%" src="{{ asset('img/logo-admin.png') }}">
+</div>
+{{-- <div class="row">
   <div class="col-lg-8 order-1">
     <div class="card">
       <div class="d-flex align-items-end row">
@@ -42,9 +58,9 @@
       </div>
     </div>
   </div>
-</div>
+</div> --}}
 
-<div class="modal fade" id="pengajuanSistem" tabindex="-1" aria-hidden="true">
+{{-- <div class="modal fade" id="pengajuanSistem" tabindex="-1" aria-hidden="true">
   <div class="modal-dialog modal-simple modal-enable-otp modal-dialog-centered">
     <div class="modal-content p-3 p-md-5">
       <div class="modal-body">
@@ -57,5 +73,5 @@
       </div>
     </div>
   </div>
-</div>
+</div> --}}
 @endsection
