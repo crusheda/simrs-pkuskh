@@ -149,7 +149,8 @@ class DecubitusController extends Controller
     public function apiGetRm($rm)
     {
         $client = new Client();
-        $res = $client->request('GET', 'http://103.155.246.25:8000/api/rm/'.$rm);
+        // $res = $client->request('GET', 'http://103.155.246.25:8000/api/rm/'.$rm);
+        $res = $client->request('GET', 'http://103.210.117.106:8000/api/rm/'.$rm);
         $data = json_decode($res->getBody());
 
         return response()->json($data, 200);

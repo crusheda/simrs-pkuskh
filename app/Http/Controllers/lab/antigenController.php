@@ -421,8 +421,11 @@ class antigenController extends Controller
     {
         $client = new Client();
         // $res = $client->request('GET', 'http://192.168.1.3:8000/api/jadwaldokter/');
-        $res = $client->request('GET', 'http://103.155.246.25:8000/api/all/'.$rm);
         // $res = $client->request('GET', 'http://192.168.1.3:8000/api/all/'.$rm);
+        // $res = $client->request('GET', 'http://103.155.246.25:8000/api/all/'.$rm); // yg ini
+
+        // NEW IP PUBLIC
+        $res = $client->request('GET', 'http://103.210.117.106:8000/api/all/'.$rm);
         $data = json_decode($res->getBody());
         // dd($data);
 
