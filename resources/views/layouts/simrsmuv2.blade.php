@@ -208,6 +208,7 @@
     <script src="{{ asset('assets-new/vendor/libs/tagify/tagify.js') }}"></script>
     <script src="{{ asset('js/iziToast.js') }}"></script>
     <script src="{{ asset('assets-new/vendor/libs/apex-charts/apexcharts.js') }}"></script>
+    <script src="{{ asset('assets-new/vendor/libs/jquery-repeater/jquery-repeater.js') }}"></script>
 
     <!-- Flat Picker -->
     <script src="{{ asset('assets-new/vendor/libs/moment/moment.js') }}"></script>

@@ -563,7 +563,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
             Route::post('suratkeluar', 'tu\suratKeluarController@store')->name('suratkeluar.store');
 
     // NEW PENGADAAN
-        // Route::get('pengadaan', 'pengadaan\pengadaanController@index')->name('pengadaan.index');
+        Route::get('pengadaan', 'pengadaan\pengadaanController@index')->name('pengadaanv2.index');
+        Route::get('pengadaan/tambah', 'pengadaan\pengadaanController@showTambah')->name('pengadaanv2.tambah');
 
     // SYSTEM
         // SETTING

@@ -2,7 +2,7 @@
 
 @section('content')
 <h4 class="fw-bold py-3 mb-4">
-  <span class="text-muted fw-light">K3 /</span> Accident Report
+  <span class="text-muted fw-light">K3 /</span> Laporan Kecelakaan Kerja
 </h4>
 
 @if(session('message'))

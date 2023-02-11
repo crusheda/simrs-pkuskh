@@ -27,4 +27,13 @@ class pengadaanController extends Controller
 
         return view('pages.pengadaan.index')->with('list', $data);
     }
+
+    public function showTambah()
+    {
+        $data = [
+        ];
+
+        return view('pages.pengadaan.tambah')->with('list', $data);
+    }
+
 }

@@ -32,10 +32,14 @@
         <div class="card-header">
             <div class="card-action-title">
                 <div class="btn-group">
-                    <a class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#tambah" value="animate__jackInTheBox">
+                    <a class="btn btn-primary text-white" href="{{ route('pengadaanv2.tambah') }}">
                         <i class="bx bx-upload scaleX-n1-rtl"></i>
                         <span class="align-middle">Upload</span>
                     </a>
+                    {{-- <a class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#tambah" value="animate__jackInTheBox">
+                        <i class="bx bx-upload scaleX-n1-rtl"></i>
+                        <span class="align-middle">Upload</span>
+                    </a> --}}
                     <button type="button" class="btn btn-label-warning" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="bottom" data-bs-html="true"
                         title="<i class='fa-fw fas fa-sync nav-icon'></i> <span>Segarkan</span>" onclick="refresh()">
                         <i class="fa-fw fas fa-sync nav-icon"></i></button>
