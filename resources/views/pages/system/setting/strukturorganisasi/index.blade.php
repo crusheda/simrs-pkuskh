@@ -34,7 +34,7 @@
                 <div class="btn-group">
                     <a class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#tambah"
                         value="animate__jackInTheBox">
-                        <i class="bx bx-upload scaleX-n1-rtl"></i>
+                        <i class="bx bx-plus scaleX-n1-rtl"></i>
                         <span class="align-middle">Tambah</span>
                     </a>
                     {{-- <button type="button" class="btn btn-label-warning" data-bs-toggle="tooltip" data-bs-offset="0,4"
@@ -160,6 +160,7 @@
                                             @endforeach
                                         @endif
                                     </select>
+                                    <small>Dapat memilih lebih dari satu</small>
                                 </div>
                             </div>
                         </div>
