@@ -34,7 +34,7 @@
         <div class="card-header d-flex align-items-center justify-content-between">
             <h5 class="card-title m-0 me-2">Filter</h5>
             <div class="dropdown">
-                <button class="btn p-0" type="button" id="employeeList" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false">
+                <button class="btn p-0" type="button" id="employeeList" data-bs-toggle="dropdown" aria-haspopup="true" aria-expanded="false" title="Tampilkan Menu">
                     <i class="bx bx-dots-vertical-rounded"></i>
                 </button>
                 <div class="dropdown-menu dropdown-menu-end" aria-labelledby="employeeList">
@@ -76,8 +76,8 @@
                 </div>
                 <div class="col-md-2">
                     <div class="btn-group" style="width: 100%">
-                        <button type="button" class="btn btn-primary mt-4" id="btn-cari-show" onclick="cari()"><i class="fa-fw fas fa-search nav-icon"></i> Submit</button>
-                        <button type="button" class="btn btn-label-secondary mt-4" onclick="bersih()"><i class="fa-fw fas fa-eraser nav-icon"></i> Clear</button>
+                        <button type="button" class="btn btn-primary mt-4" id="btn-cari-show" onclick="cari()" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="top" data-bs-html="true" title="Tampilkan Regulasi"><i class="fa-fw fas fa-search nav-icon"></i> Submit</button>
+                        <button type="button" class="btn btn-label-secondary mt-4" onclick="bersih()" data-bs-toggle="tooltip" data-bs-offset="0,4" data-bs-placement="top" data-bs-html="true" title="Bersihkan Kolom Pencarian"><i class="fa-fw fas fa-eraser nav-icon"></i></button>
                     </div>
                 </div>
             </div>
