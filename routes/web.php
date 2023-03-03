@@ -693,6 +693,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
             Route::get('ppi/decubitus/{rm}','ppi\DecubitusController@apiGetRm');  
         // VAP
             Route::get('ppi/vap/{rm}','ppi\VapController@apiGetRm'); 
+        // NEW SURVEILANS
+            Route::get('laporan/ppi/surveilans/getpasien/{id}', 'ppi\surveilansController@getPasien');
 
     // SYSTEM
         // UPDATE

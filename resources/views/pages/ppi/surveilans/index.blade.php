@@ -32,8 +32,7 @@
         <div class="card-header">
             <div class="card-action-title">
                 <div class="btn-group">
-                    <a class="btn btn-primary text-white" data-bs-toggle="modal" data-bs-target="#tambah"
-                        value="animate__jackInTheBox">
+                    <a class="btn btn-primary text-white" href="{{ route('surveilans.create') }}">
                         <i class="bx bx-plus scaleX-n1-rtl"></i>
                         <span class="align-middle">Tambah</span>
                     </a>
@@ -54,7 +53,7 @@
                 </ul>
             </div>
         </div>
-        <hr style="margin-top: -5px">
+        {{-- <hr style="margin-top: -5px">
         <div class="collapse show">
             <div class="card-datatable table-responsive">
                 <table id="table" class="table table-striped display">
@@ -85,7 +84,7 @@
                     </tfoot>
                 </table>
             </div>
-        </div>
+        </div> --}}
     </div>
 
     <script>

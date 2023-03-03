@@ -8,6 +8,7 @@ use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use App\Models\ppi\surveilans;
 use Carbon\Carbon;
+use GuzzleHttp\Client;
 use Validator,Redirect,Response,File;
 use Exception;
 use Storage;
@@ -22,7 +23,7 @@ class surveilansController extends Controller
      */
     public function index()
     {
-        return view('pages.ppi.surveilans'); // ->with('list', $data)
+        return view('pages.ppi.surveilans.index'); // ->with('list', $data)
     }
 
     /**
@@ -32,7 +33,7 @@ class surveilansController extends Controller
      */
     public function create()
     {
-        //
+        return view('pages.ppi.surveilans.tambah');
     }
 
     /**
@@ -89,5 +90,18 @@ class surveilansController extends Controller
     public function destroy($id)
     {
         //
+    }
+
+    // PUSH API AREA
+    public function getPasien($rm)
+    {
+        $client = new Client();
+
+        // NEW IP PUBLIC
+        $res = $client->request('GET', 'http://103.210.117.106:8000/api/all/'.$rm);
+        $data = json_decode($res->getBody());
+        // dd($data);
+
+        return response()->json($data, 200);
     }
 }
