@@ -33,7 +33,6 @@ class CreateTableSurveilansTable extends Migration
             $table->date('tgl_pemasangan')->nullable();
             $table->date('tgl_infeksi')->nullable();
             $table->longText('tanda_infeksi')->nullable();
-            $table->longText('tanda_infeksi_ido')->nullable();
             $table->string('no_ventilator')->nullable();
             $table->longText('tindakan_operasi')->nullable();
             $table->date('tgl_operasi')->nullable();

@@ -7,6 +7,7 @@ use Illuminate\Http\Request;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use App\Models\ppi\surveilans;
+use App\Models\dokter;
 use Carbon\Carbon;
 use GuzzleHttp\Client;
 use Validator,Redirect,Response,File;
@@ -23,7 +24,7 @@ class surveilansController extends Controller
      */
     public function index()
     {
-        return view('pages.ppi.surveilans.index'); // ->with('list', $data)
+        return view('pages.ppi.surveilans.index');
     }
 
     /**
@@ -33,7 +34,13 @@ class surveilansController extends Controller
      */
     public function create()
     {
-        return view('pages.ppi.surveilans.tambah');
+        $dokter = dokter::where("jabatan","LIKE","%SPESIALIS%")->get();
+        
+        $data = [
+            'dokter' => $dokter,
+        ];
+
+        return view('pages.ppi.surveilans.tambah')->with('list', $data);
     }
 
     /**

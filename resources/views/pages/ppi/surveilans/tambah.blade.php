@@ -28,6 +28,9 @@
         </div>
     @endif
 
+    <style>
+        .big-checkbox {width: 20px; height: 20px;}
+    </style>
 
     <div class="row">
         <div class="col-12 mb-4">
@@ -246,7 +249,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Tanda-tanda Infeksi</label>
                                                     <div class="select2-dark">
-                                                        <select class="select2 form-select" name="tanda_infeksi[]" data-allow-clear="true" data-bs-auto-close="outside" required multiple>
+                                                        <select class="select2 form-select" name="tanda_infeksi[]" data-allow-clear="true" data-bs-auto-close="outside" multiple>
                                                             <option value="">Pilih</option>
                                                             <option value="1">Pembengkakan</option>
                                                             <option value="2">Kemerahan</option>
@@ -287,13 +290,430 @@
                                         </div>
                                     </div>
                                     <div id="surveilans2" hidden>
-                                        Ini CAUTI
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Jenis Pemasangan <a class="text-danger">*</a></label>
+                                                    <select class="form-control select2" name="jns_pemasangan" style="width: 100%" required>
+                                                        <option value="">Pilih</option>
+                                                        <option value="1">SPP</option>
+                                                        <option value="2">Dauer</option>
+                                                        <option value="3">Intermitten</option>
+                                                        <option value="4">Kondom</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Tanggal Pemasangan <a class="text-danger">*</a></label>
+                                                    <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_pemasangan" required/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Tanggal Infeksi <a class="text-danger">*</a></label>
+                                                    <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_infeksi" required/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Tanda-tanda Infeksi</label>
+                                                    <div class="select2-dark">
+                                                        <select class="select2 form-select" name="tanda_infeksi[]" data-allow-clear="true" data-bs-auto-close="outside" multiple>
+                                                            <option value="">Pilih</option>
+                                                            <option value="1">Demam (>38⁰C)</option>
+                                                            <option value="2">Urgensi</option>
+                                                            <option value="3">Frekuensi</option>
+                                                            <option value="4">Disuria</option>
+                                                            <option value="5">Nyeri Supra Publik</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="content-header" style="margin-top: -2px">
+                                                <h6 class="mb-1">Bundles CAUTI <a class="text-danger">*</a></h6>
+                                                <small>Pilih salah satu opsi lalu memilih jawaban Ya atau Tidak.</small>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="form-group">
+                                                    <select class="form-control select2" name="opsi" style="width: 100%" required>
+                                                        <option value="">Pilih</option>
+                                                        <option value="1">Kaji kebutuhan/ alasan pemasangan kateter</option>
+                                                        <option value="2">Kebersihan tangan sebelum dan sesudah pemasangan</option>
+                                                        <option value="3">Memasang dengan metode aspetic</option>
+                                                        <option value="4">Pemeliharaan kateter</option>
+                                                        <option value="5">Perawatan kateter</option>
+                                                        <option value="6">Melepas kateter bila tidak ada indikasi</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <select class="form-control select2" name="jawaban" style="width: 100%" disabled>
+                                                        <option value="">Pilih</option>
+                                                        <option value="1">Ya</option>
+                                                        <option value="0">Tidak</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div id="surveilans3" hidden>
-                                        Ini VAP
+                                        <div class="row g-3">
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Nomor Ventilator <a class="text-danger">*</a></label>
+                                                    <input type="text" name="no_ventilator" class="form-control" required>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Tanggal Pemasangan <a class="text-danger">*</a></label>
+                                                    <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_pemasangan" required/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Tanggal Infeksi <a class="text-danger">*</a></label>
+                                                    <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_infeksi" required/>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Tanda-tanda Infeksi</label>
+                                                    <div class="select2-dark">
+                                                        <select class="select2 form-select" name="tanda_infeksi[]" data-allow-clear="true" data-bs-auto-close="outside" multiple>
+                                                            <option value="">Pilih</option>
+                                                            <option value="1">Demam (Lebih dari 38⁰C)</option>
+                                                            <option value="2">Tanpa ditemui penyebab lainnya</option>
+                                                            <option value="3">Leukopenia (Kurang dari 4000 WBC/mm3) atau Leukositosis (Lebih dari 12000 SDP/mm3)</option>
+                                                            <option value="4">Timbulnya onset baru sputum purulen atau perubahan sifat sputum</option>
+                                                            <option value="5">Peningkatan Fraksi inspirasi Oksigen > 0,2 dari FiO2 sebelumnya</option>
+                                                            <option value="5">Peningkatan PEEP setiap hari sebesar > 3cmH2O dari PEEP sebelumnya selama 2 hari bertutur-turut</option>
+                                                        </select>
+                                                    </div>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="content-header" style="margin-top: -2px">
+                                                <h6 class="mb-1">Bundles VAP <a class="text-danger">*</a></h6>
+                                                <small>Pilih salah satu opsi lalu memilih jawaban Ya atau Tidak.</small>
+                                            </div>
+                                            <div class="col-md-9">
+                                                <div class="form-group">
+                                                    <select class="form-control select2" name="opsi" style="width: 100%" required>
+                                                        <option value="">Pilih</option>
+                                                        <option value="1">Kebersihan tangan sebelum dan sesudah kontak pasien</option>
+                                                        <option value="2">Posisikan 30-45⁰ (kecuali kontra indikasi)</option>
+                                                        <option value="3">Lakukan kebersihan mulut setiap 4 jam</option>
+                                                        <option value="4">Manajemen sekresi oropharyngeal dan tracheal</option>
+                                                        <option value="5">Peptic ulcer disease (PUD) prophylaxis</option>
+                                                        <option value="6">Kaji "sedasi dan ekstubasi" setiap hari</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <select class="form-control select2" name="jawaban" style="width: 100%" disabled>
+                                                        <option value="">Pilih</option>
+                                                        <option value="1">Ya</option>
+                                                        <option value="0">Tidak</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                     <div id="surveilans4" hidden>
-                                        Ini IDO
+                                        <div class="row g-3">
+                                            <div class="col-md-12">
+                                                <div class="form-group">
+                                                    <label class="form-label">Tindakan Operasi <a class="text-danger">*</a></label>
+                                                    <textarea name="tindakan_operasi" class="form-control" required></textarea>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-6">
+                                                <div class="form-group">
+                                                    <label class="form-label">Dokter Operator <a class="text-danger">*</a></label>
+                                                    <select class="form-control select2" name="dr_operator" style="width: 100%">
+                                                        <option value="">Pilih</option>
+                                                        @if ($list['dokter'] != null)
+                                                            @foreach($list['dokter'] as $key => $item)
+                                                                <option value="{{ $item->id }}"><label><b>{{ $item->jabatan }}</b></label> - {{ $item->nama }}</option>
+                                                            @endforeach
+                                                        @endif
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="form-label">Jenis Operasi <a class="text-danger">*</a></label>
+                                                    <select class="form-control select2" name="jns_operasi" style="width: 100%">
+                                                        <option value="">Pilih</option>
+                                                        <option value="1">Bersih</option>
+                                                        <option value="2">Bersih Tercemar</option>
+                                                        <option value="3">Tercemar</option>
+                                                        <option value="4">Kotor</option>
+                                                    </select>
+                                                </div>
+                                            </div>
+                                            <div class="col-md-3">
+                                                <div class="form-group">
+                                                    <label class="form-label">Tanggal Infeksi <a class="text-danger">*</a></label>
+                                                    <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_infeksi" required/>
+                                                </div>
+                                            </div>
+                                            <hr>
+                                            <div class="content-header" style="margin-top: -2px">
+                                                <h6 class="mb-1">Tanda-tanda Infeksi</h6>
+                                                <small>Memilih checklist secara bebas (boleh tidak terisi dan boleh memilih lebih dari satu) dari opsi yang tersedia.</small>
+                                            </div>
+                                            <div id="show_tanda_infeksi_ido">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered">
+                                                        <tbody id="tampil-tbody">
+                                                            <div id="superfisial">
+                                                                <tr class="table-dark"><td colspan="2" style="color:white"><center>Pilihan Opsi Tersedia</center></td></tr>
+                                                                <tr>
+                                                                    <td>Nyeri</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido[]" />
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Bengkak</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido[]" />
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Kemerahan atau Panas</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido[]" />
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Adanya Cairan Purulent</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido[]" />
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Ditemukan Abses</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido[]" />
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Adanya Peningkatan Suhu Tubuh > 38⁰C</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-check">
+                                                                            <input class="form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido[]" />
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </div>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                            <hr style="margin-top: -2px">
+                                            <div class="content-header" style="margin-top: -2px">
+                                                <h6 class="mb-1">Bundles IDO <a class="text-danger">*</a></h6>
+                                                <small>Pilih salah satu opsi lalu memilih jawaban Ya atau Tidak.</small>
+                                            </div>
+                                            <div class="col-md-12">
+                                                <div class="table-responsive">
+                                                    <table class="table table-striped table-bordered">
+                                                        <tbody id="tampil-tbody">
+                                                            <div id="superfisial">
+                                                                <tr class="table-dark"><td colspan="2" style="color:white"><center>Pre Operasi</center></td></tr>
+                                                                <tr>
+                                                                    <td>Pencukuran Daerah Operasi</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
+                                                                                <option value="">Pilih</option>
+                                                                                <option value="1">Ya</option>
+                                                                                <option value="0">Tidak</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Personal Hygiene Pasien</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
+                                                                                <option value="">Pilih</option>
+                                                                                <option value="1">Ya</option>
+                                                                                <option value="0">Tidak</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Pemberian Antibiotic</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
+                                                                                <option value="">Pilih</option>
+                                                                                <option value="1">Ya</option>
+                                                                                <option value="0">Tidak</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Kebersihan Tangan Bedah Sebelum Tindakan</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
+                                                                                <option value="">Pilih</option>
+                                                                                <option value="1">Ya</option>
+                                                                                <option value="0">Tidak</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="table-dark"><td colspan="2" style="color:white"><center>Intra Operasi</center></td></tr>
+                                                                <tr>
+                                                                    <td>Preparasi Kulit Pasien</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
+                                                                                <option value="">Pilih</option>
+                                                                                <option value="1">Ya</option>
+                                                                                <option value="0">Tidak</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Pasien Normothermia, Saturasi > 95%, GDS < 180mg</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
+                                                                                <option value="">Pilih</option>
+                                                                                <option value="1">Ya</option>
+                                                                                <option value="0">Tidak</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Tambah Antibiotic Profilaksis Sesuai Indikasi</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
+                                                                                <option value="">Pilih</option>
+                                                                                <option value="1">Ya</option>
+                                                                                <option value="0">Tidak</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Luka Operasi Dibalut Sebelum Mengangkat Drape</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
+                                                                                <option value="">Pilih</option>
+                                                                                <option value="1">Ya</option>
+                                                                                <option value="0">Tidak</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Petugas Yang Sakit Tidak Masuk Kamar Operasi</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
+                                                                                <option value="">Pilih</option>
+                                                                                <option value="1">Ya</option>
+                                                                                <option value="0">Tidak</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Petugas Tidak Memakai Perhiasan Tangan, Kuku Panjang, dan Berkutek</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
+                                                                                <option value="">Pilih</option>
+                                                                                <option value="1">Ya</option>
+                                                                                <option value="0">Tidak</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Petugas Bekerja Dengan Teknik Aseptic</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
+                                                                                <option value="">Pilih</option>
+                                                                                <option value="1">Ya</option>
+                                                                                <option value="0">Tidak</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Gunakan Sangdal/ Sepatu Khusus Kamar Bedah</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
+                                                                                <option value="">Pilih</option>
+                                                                                <option value="1">Ya</option>
+                                                                                <option value="0">Tidak</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr>
+                                                                    <td>Gunakan APD Sebelum Masuk Kamar Bedah</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
+                                                                                <option value="">Pilih</option>
+                                                                                <option value="1">Ya</option>
+                                                                                <option value="0">Tidak</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                                <tr class="table-dark"><td colspan="2" style="color:white"><center>Post Operasi</center></td></tr>
+                                                                <tr>
+                                                                    <td>Perawatan Luka Setelah 48 Jam</td>
+                                                                    <td class="cell-fit">
+                                                                        <div class="form-group">
+                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
+                                                                                <option value="">Pilih</option>
+                                                                                <option value="1">Ya</option>
+                                                                                <option value="0">Tidak</option>
+                                                                            </select>
+                                                                        </div>
+                                                                    </td>
+                                                                </tr>
+                                                            </div>
+                                                        </tbody>
+                                                    </table>
+                                                </div>
+                                            </div>
+                                        </div>
                                     </div>
                                 </div>
                                 <div class="col-12 d-flex justify-content-between">
