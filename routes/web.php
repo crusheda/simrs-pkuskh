@@ -475,6 +475,31 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
             Route::resource('k3/accidentreport', 'k3\accidentReportController');
     
     // LAPORAN
+        // BULANAN
+            // Route::post('laporan/bulan/api','kantor\laporanBulananNewController@verifikasi'); // API
+            // Route::get('laporan/bulan/api/getubah/{id}','kantor\laporanBulananNewController@getUbah'); // API
+            // Route::post('laporan/bulan/api/ubah/{id}','kantor\laporanBulananNewController@ubah'); // API
+            // Route::post('laporan/bulan/api','kantor\laporanBulananNewController@verifikasi'); // API
+            // Route::get('laporan/bulan/api/hapus/{id}','kantor\laporanBulananNewController@hapusLaporan'); // API
+            // Route::get('laporan/bulan/api/ket/{id}/hapus','kantor\laporanBulananNewController@ketHapus'); // API
+            // Route::get('laporan/bulan/api/ket/{id}','kantor\laporanBulananNewController@ketGet'); // API
+            // Route::post('laporan/bulan/api/ket','kantor\laporanBulananNewController@ket'); // API
+            // Route::get('laporan/bulan/api/{id}/verified', 'kantor\laporanBulananNewController@verified'); // API
+            // Route::get('laporan/bulan/tableverif', 'kantor\laporanBulananNewController@tableVerifikasi');
+            // Route::get('laporan/bulan/table', 'kantor\laporanBulananNewController@table')->name('api.laporan.bulan');
+            // Route::get('laporan/bulan/tableadmin', 'kantor\laporanBulananNewController@tableadmin');
+            // Route::get('laporan/bulan/verif/{id}/hapus', 'kantor\laporanBulananNewController@hapusVerif');
+            // Route::get('laporan/bulan/restore/table/hapus/{id}/batal', 'kantor\laporanBulananNewController@batalHapus');
+            // Route::get('laporan/bulan/restore/table/hapus', 'kantor\laporanBulananNewController@tableRiwayatTerhapus');
+            // Route::get('laporan/bulan/restore', 'kantor\laporanBulananNewController@tampilRiwayatTerhapus')->name('restore.laporan.bulanan');
+            // Route::get('laporan/bulan/riwayat/table', 'kantor\laporanBulananNewController@tableRiwayatVerifikasi');
+            // Route::get('laporan/bulan/riwayat', 'kantor\laporanBulananNewController@riwayatVerifikasi')->name('riwayat.laporan.bulanan');
+
+            // USER
+            // Route::get('laporan/bulanan/download/{id}', 'laporan\bulanan\bulananUserController@download')->name('bulanan.download');
+            Route::get('laporan/bulanan/verif', 'laporan\bulanan\bulananUserController@showVerif')->name('bulanan.verif');
+            Route::resource('laporan/bulanan', 'laporan\bulanan\bulananUserController');
+
         // IPSRS
             // Route::post('laporan/pengaduan/ipsrs/selesai', 'ipsrs\pengaduan\pengaduanController@selesai')->name('pengaduan.ipsrs.selesai');
             // Route::post('laporan/pengaduan/ipsrs/tambahketerangan', 'ipsrs\pengaduan\pengaduanController@tambahketerangan')->name('pengaduan.ipsrs.tambahketerangan');
@@ -508,32 +533,6 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
         Route::get('lab/antigen/{id}/cetak','lab\antigenController@cetak')->name('antigen.cetak');  
         Route::get('lab/antigen/{id}/print','lab\antigenController@print')->name('antigen.print');  
         Route::resource('/lab/antigen', 'lab\antigenController');
-
-    // LAPORAN
-        // BULANAN
-            // Route::post('laporan/bulan/api','kantor\laporanBulananNewController@verifikasi'); // API
-            // Route::get('laporan/bulan/api/getubah/{id}','kantor\laporanBulananNewController@getUbah'); // API
-            // Route::post('laporan/bulan/api/ubah/{id}','kantor\laporanBulananNewController@ubah'); // API
-            // Route::post('laporan/bulan/api','kantor\laporanBulananNewController@verifikasi'); // API
-            // Route::get('laporan/bulan/api/hapus/{id}','kantor\laporanBulananNewController@hapusLaporan'); // API
-            // Route::get('laporan/bulan/api/ket/{id}/hapus','kantor\laporanBulananNewController@ketHapus'); // API
-            // Route::get('laporan/bulan/api/ket/{id}','kantor\laporanBulananNewController@ketGet'); // API
-            // Route::post('laporan/bulan/api/ket','kantor\laporanBulananNewController@ket'); // API
-            // Route::get('laporan/bulan/api/{id}/verified', 'kantor\laporanBulananNewController@verified'); // API
-            // Route::get('laporan/bulan/tableverif', 'kantor\laporanBulananNewController@tableVerifikasi');
-            // Route::get('laporan/bulan/table', 'kantor\laporanBulananNewController@table')->name('api.laporan.bulan');
-            // Route::get('laporan/bulan/tableadmin', 'kantor\laporanBulananNewController@tableadmin');
-            // Route::get('laporan/bulan/verif/{id}/hapus', 'kantor\laporanBulananNewController@hapusVerif');
-            // Route::get('laporan/bulan/restore/table/hapus/{id}/batal', 'kantor\laporanBulananNewController@batalHapus');
-            // Route::get('laporan/bulan/restore/table/hapus', 'kantor\laporanBulananNewController@tableRiwayatTerhapus');
-            // Route::get('laporan/bulan/restore', 'kantor\laporanBulananNewController@tampilRiwayatTerhapus')->name('restore.laporan.bulanan');
-            // Route::get('laporan/bulan/riwayat/table', 'kantor\laporanBulananNewController@tableRiwayatVerifikasi');
-            // Route::get('laporan/bulan/riwayat', 'kantor\laporanBulananNewController@riwayatVerifikasi')->name('riwayat.laporan.bulanan');
-
-            // USER
-            // Route::get('laporan/bulanan/download/{id}', 'laporan\bulanan\bulananUserController@download')->name('bulanan.download');
-            Route::get('laporan/bulanan/verif', 'laporan\bulanan\bulananUserController@showVerif')->name('bulanan.verif');
-            Route::resource('laporan/bulanan', 'laporan\bulanan\bulananUserController');
 
     // REGULASI
         Route::get('regulasi', 'administrasi\regulasiController@index')->name('regulasi.index');

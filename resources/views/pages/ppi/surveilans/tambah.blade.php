@@ -35,43 +35,45 @@
     <div class="row">
         <div class="col-12 mb-4">
             <div class="bs-stepper wizard-numbered mt-2">
-                <div class="bs-stepper-header">
-                    <div class="step active" data-target="#account-details" id="step1">
-                        <button type="button" class="step-trigger">
-                            <span class="bs-stepper-circle">1</span>
-                            <span class="bs-stepper-label mt-1">
-                                <span class="bs-stepper-title">Data Pasien</span>
-                                <span class="bs-stepper-subtitle">Step 1</span>
-                            </span>
-                        </button>
-                    </div>
-                    <div class="line">
-                        <i class="bx bx-chevron-right"></i>
-                    </div>
-                    <div class="step" data-target="#personal-info" id="step2">
-                        <button type="button" class="step-trigger">
-                            <span class="bs-stepper-circle">2</span>
-                            <span class="bs-stepper-label mt-1">
-                                <span class="bs-stepper-title">Informasi Keadaan</span>
-                                <span class="bs-stepper-subtitle">Step 2</span>
-                            </span>
+                <form id="tambah" class="form-auth-small" action="{{ route('surveilans.store') }}" method="POST" enctype="multipart/form-data" novalidate>
+                    @csrf
+                    <div class="bs-stepper-header">
+                        <div class="step active" data-target="#account-details" id="step1">
+                            <button type="button" class="step-trigger">
+                                <span class="bs-stepper-circle">1</span>
+                                <span class="bs-stepper-label mt-1">
+                                    <span class="bs-stepper-title">Data Pasien</span>
+                                    <span class="bs-stepper-subtitle">Step 1</span>
+                                </span>
+                            </button>
+                        </div>
+                        <div class="line">
+                            <i class="bx bx-chevron-right"></i>
+                        </div>
+                        <div class="step" data-target="#personal-info" id="step2">
+                            <button type="button" class="step-trigger">
+                                <span class="bs-stepper-circle">2</span>
+                                <span class="bs-stepper-label mt-1">
+                                    <span class="bs-stepper-title">Informasi Keadaan</span>
+                                    <span class="bs-stepper-subtitle">Step 2</span>
+                                </span>
 
-                        </button>
+                            </button>
+                        </div>
+                        <div class="line">
+                            <i class="bx bx-chevron-right"></i>
+                        </div>
+                        <div class="step" data-target="#social-links" id="step3">
+                            <button type="button" class="step-trigger">
+                                <span class="bs-stepper-circle">3</span>
+                                <span class="bs-stepper-label mt-1">
+                                    <span class="bs-stepper-title">Data Pemasangan</span>
+                                    <span class="bs-stepper-subtitle">Step 3</span>
+                                </span>
+                            </button>
+                        </div>
                     </div>
-                    <div class="line">
-                        <i class="bx bx-chevron-right"></i>
-                    </div>
-                    <div class="step" data-target="#social-links" id="step3">
-                        <button type="button" class="step-trigger">
-                            <span class="bs-stepper-circle">3</span>
-                            <span class="bs-stepper-label mt-1">
-                                <span class="bs-stepper-title">Data Pemasangan</span>
-                                <span class="bs-stepper-subtitle">Step 3</span>
-                            </span>
-                        </button>
-                    </div>
-                </div>
-                <div class="bs-stepper-content">
+                    <div class="bs-stepper-content">
                         <!-- STEP 1 -->
                         <div class="content active dstepper-block" id="tampil1">
                             <div class="row g-3">
@@ -79,30 +81,30 @@
                                     <div class="form-group">
                                         <label class="form-label">Nomor Rekam Medik <a class="text-danger">*</a></label>
                                         <div class="input-group">
-                                            <button class="btn btn-outline-dark" type="button" id="btn-ubahrm" onclick="ubahrm()">Ubah</button>
-                                            <input type="number" id="rm" name="rm" class="form-control" placeholder="Masukkan Nomor RM Pasien" required/>
+                                            <a class="btn btn-outline-dark" type="button" href="javascript:void(0);" id="btn-ubahrm" onclick="ubahrm()">Ubah</a>
+                                            <input type="number" id="rm" name="rm" class="form-control" placeholder="Masukkan Nomor RM Pasien" onkeydown="return (event.keyCode!=13);" required/>
                                         </div>
-                                        <small>Tekan tombol ENTER / TAB untuk submit Nomor Rekam Medik</small>
+                                        <small>Tekan tombol <strong>TAB</strong> untuk submit Nomor Rekam Medik</small>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="form-label">Jenis Kelamin</label>
-                                        <input type="text" id="jns_kelamin_show" class="form-control" disabled/>
-                                        <input type="text" id="jns_kelamin2" name="jns_kelamin" class="form-control" hidden/>
+                                        <input type="text" id="jns_kelamin_show" class="form-control" placeholder="Terisi Otomatis" disabled/>
+                                        <input type="text" id="jns_kelamin" name="jns_kelamin" class="form-control" hidden/>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="form-label">Umur</label>
-                                        <input type="text" id="umur_show" class="form-control" disabled/>
+                                        <input type="text" id="umur_show" class="form-control" placeholder="Terisi Otomatis" disabled/>
                                         <input type="text" id="umur" name="umur" class="form-control" hidden/>
                                     </div>
                                 </div>
                                 <div class="col-sm-4">
                                     <div class="form-group">
                                         <label class="form-label">Nama Pasien</label>
-                                        <input type="text" id="nama_show" class="form-control" disabled/>
+                                        <input type="text" id="nama_show" class="form-control" placeholder="Terisi Otomatis" disabled/>
                                         <input type="text" id="nama" name="nama" class="form-control" hidden/>
                                     </div>
                                 </div>
@@ -135,14 +137,14 @@
                                     </div>
                                 </div>
                                 <div class="col-12 d-flex justify-content-between">
-                                    <button class="btn btn-label-dark" onclick="window.location='{{ route('surveilans.index') }}'">
+                                    <a class="btn btn-label-dark text-white" href="javascript:void(0);" onclick="window.location='{{ route('surveilans.index') }}'">
                                         <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
                                         <span class="align-middle d-sm-inline-block d-none">Kembali</span>
-                                    </button>
-                                    <button class="btn btn-primary btn-tampil2">
-                                        <span class="align-middle d-sm-inline-block d-none me-sm-1">Selanjutnya</span>
+                                    </a>
+                                    <a class="btn btn-primary btn-tampil2 text-white">
+                                        <span class="align-middle d-sm-inline-block d-none me-sm-1" href="javascript:void(0);">Selanjutnya</span>
                                         <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
@@ -158,27 +160,23 @@
                                 <div class="col-sm-12">
                                     <div class="form-group">
                                         <label class="form-label">Diagnosa Masuk <a class="text-danger">*</a></label>
-                                        <textarea name="diagnosa" class="form-control" required></textarea>
+                                        <textarea name="diagnosa" class="form-control" placeholder="e.g. Pasien Bronkitis, Pneumonia (PNE), Gastritis, etc" required></textarea>
                                     </div>
                                 </div>
                                 <div class="col-12 d-flex justify-content-between">
-                                    <button class="btn btn-primary btn-tampil1">
+                                    <a class="btn btn-primary btn-tampil1 text-white" href="javascript:void(0);">
                                         <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
                                         <span class="align-middle d-sm-inline-block d-none">Sebelumnya</span>
-                                    </button>
-                                    <button class="btn btn-primary btn-tampil3">
-                                        <span class="align-middle d-sm-inline-block d-none me-sm-1">Selanjutnya</span>
+                                    </a>
+                                    <a class="btn btn-primary btn-tampil3 text-white">
+                                        <span class="align-middle d-sm-inline-block d-none me-sm-1" href="javascript:void(0);">Selanjutnya</span>
                                         <i class="bx bx-chevron-right bx-sm me-sm-n2"></i>
-                                    </button>
+                                    </a>
                                 </div>
                             </div>
                         </div>
                         <!-- STEP 3 -->
                         <div class="content" id="tampil3">
-                            {{-- <div class="content-header mb-3">
-                                <h6 class="mb-0">Social Links</h6>
-                                <small>Enter Your Social Links.</small>
-                            </div> --}}
                             <div class="row g-3">
                                 <div class="col-sm-12">
                                     <div class="form-group">
@@ -193,14 +191,14 @@
                                     </div>
                                 </div>
                                 <hr>
-                                <div class="col-sm-12" style="margin-top: -5px">
+                                <div class="col-sm-12" style="margin-top: -5px" id="formSurveilans">
                                     <div id="surveilans1" hidden>
                                         <div class="row g-3">
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Jenis Pemasangan <a class="text-danger">*</a></label>
-                                                    <select class="form-control select2" name="jns_pemasangan" style="width: 100%" required>
-                                                        <option value="">Pilih</option>
+                                                    <select class="inp selectpicker w-100" data-style="btn-default" name="jns_pemasangan_ph" required>
+                                                        <option value="" hidden selected>Pilih</option>
                                                         <option value="1">Kateter Vena Perifier</option>
                                                         <option value="2">Umbilical</option>
                                                         <option value="3">Double Lumen</option>
@@ -211,8 +209,7 @@
                                                 <div class="form-group">
                                                     <label class="form-label">Tujuan Pemasangan <a class="text-danger">*</a></label>
                                                     <div class="select2-dark">
-                                                        <select class="select2 form-select" name="tujuan_pemasangan[]" data-allow-clear="true" data-bs-auto-close="outside" required multiple>
-                                                            <option value="">Pilih</option>
+                                                        <select class="inp select2 form-select" name="tujuan_pemasangan_ph[]" data-allow-clear="true" data-bs-auto-close="outside" required multiple>
                                                             <option value="1">Pemberian Obat</option>
                                                             <option value="2">Transfusi</option>
                                                             <option value="3">Nutrisi Parental</option>
@@ -224,8 +221,8 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Lokasi <a class="text-danger">*</a></label>
-                                                    <select class="form-control select2" name="lokasi" style="width: 100%" required>
-                                                        <option value="">Pilih</option>
+                                                    <select class="inp selectpicker w-100" data-style="btn-default" name="lokasi_ph" required>
+                                                        <option value="" hidden selected>Pilih</option>
                                                         <option value="1">Tangan Kanan</option>
                                                         <option value="2">Tangan Kiri</option>
                                                         <option value="3">Kaki Kanan</option>
@@ -236,21 +233,20 @@
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tanggal Pemasangan <a class="text-danger">*</a></label>
-                                                    <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_pemasangan" required/>
+                                                    <input type="text" class="inp form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_pemasangan_ph" required/>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tanggal Infeksi <a class="text-danger">*</a></label>
-                                                    <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_infeksi" required/>
+                                                    <input type="text" class="inp form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_infeksi_ph" required/>
                                                 </div>
                                             </div>
                                             <div class="col-md-4">
                                                 <div class="form-group">
                                                     <label class="form-label">Tanda-tanda Infeksi</label>
                                                     <div class="select2-dark">
-                                                        <select class="select2 form-select" name="tanda_infeksi[]" data-allow-clear="true" data-bs-auto-close="outside" multiple>
-                                                            <option value="">Pilih</option>
+                                                        <select class="inp select2 form-select" name="tanda_infeksi_ph[]" data-allow-clear="true" data-bs-auto-close="outside" required multiple>
                                                             <option value="1">Pembengkakan</option>
                                                             <option value="2">Kemerahan</option>
                                                             <option value="3">Panas Area Insersi</option>
@@ -267,7 +263,7 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <div class="form-group">
-                                                    <select class="form-control select2" name="opsi" style="width: 100%" required>
+                                                    <select class="inp opsi form-control select2" name="opsi_ph" style="width: 100%" required>
                                                         <option value="">Pilih</option>
                                                         <option value="1">Kebersihan tangan sebelum dan sesudah pemasangan</option>
                                                         <option value="2">Evaluasi IV kateter masih diperlukan atau tidak</option>
@@ -280,7 +276,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <select class="form-control select2" name="jawaban" style="width: 100%" disabled>
+                                                    <select class="inp opd form-control select2" name="jawaban_ph" style="width: 100%" required disabled>
                                                         <option value="">Pilih</option>
                                                         <option value="1">Ya</option>
                                                         <option value="0">Tidak</option>
@@ -294,8 +290,8 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Jenis Pemasangan <a class="text-danger">*</a></label>
-                                                    <select class="form-control select2" name="jns_pemasangan" style="width: 100%" required>
-                                                        <option value="">Pilih</option>
+                                                    <select class="inp selectpicker w-100" data-style="btn-default" name="jns_pemasangan_cauti" required>
+                                                        <option value="" hidden selected>Pilih</option>
                                                         <option value="1">SPP</option>
                                                         <option value="2">Dauer</option>
                                                         <option value="3">Intermitten</option>
@@ -306,21 +302,20 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Tanggal Pemasangan <a class="text-danger">*</a></label>
-                                                    <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_pemasangan" required/>
+                                                    <input type="text" class="inp form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_pemasangan_cauti" required/>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Tanggal Infeksi <a class="text-danger">*</a></label>
-                                                    <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_infeksi" required/>
+                                                    <input type="text" class="inp form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_infeksi_cauti" required/>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Tanda-tanda Infeksi</label>
                                                     <div class="select2-dark">
-                                                        <select class="select2 form-select" name="tanda_infeksi[]" data-allow-clear="true" data-bs-auto-close="outside" multiple>
-                                                            <option value="">Pilih</option>
+                                                        <select class="inp select2 form-select" name="tanda_infeksi_cauti[]" data-allow-clear="true" data-bs-auto-close="outside" multiple>
                                                             <option value="1">Demam (>38⁰C)</option>
                                                             <option value="2">Urgensi</option>
                                                             <option value="3">Frekuensi</option>
@@ -337,7 +332,7 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <div class="form-group">
-                                                    <select class="form-control select2" name="opsi" style="width: 100%" required>
+                                                    <select class="inp opsi form-control select2" name="opsi_cauti" style="width: 100%" required>
                                                         <option value="">Pilih</option>
                                                         <option value="1">Kaji kebutuhan/ alasan pemasangan kateter</option>
                                                         <option value="2">Kebersihan tangan sebelum dan sesudah pemasangan</option>
@@ -350,7 +345,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <select class="form-control select2" name="jawaban" style="width: 100%" disabled>
+                                                    <select class="inp opd form-control select2" name="jawaban_cauti" style="width: 100%" required disabled>
                                                         <option value="">Pilih</option>
                                                         <option value="1">Ya</option>
                                                         <option value="0">Tidak</option>
@@ -364,27 +359,26 @@
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Nomor Ventilator <a class="text-danger">*</a></label>
-                                                    <input type="text" name="no_ventilator" class="form-control" required>
+                                                    <input type="text" name="no_ventilator_vap" class="inp form-control" required>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Tanggal Pemasangan <a class="text-danger">*</a></label>
-                                                    <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_pemasangan" required/>
+                                                    <input type="text" class="inp form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_pemasangan_vap" required/>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Tanggal Infeksi <a class="text-danger">*</a></label>
-                                                    <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_infeksi" required/>
+                                                    <input type="text" class="inp form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_infeksi_vap" required/>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Tanda-tanda Infeksi</label>
                                                     <div class="select2-dark">
-                                                        <select class="select2 form-select" name="tanda_infeksi[]" data-allow-clear="true" data-bs-auto-close="outside" multiple>
-                                                            <option value="">Pilih</option>
+                                                        <select class="inp select2 form-select" name="tanda_infeksi_vap[]" data-allow-clear="true" data-bs-auto-close="outside" multiple>
                                                             <option value="1">Demam (Lebih dari 38⁰C)</option>
                                                             <option value="2">Tanpa ditemui penyebab lainnya</option>
                                                             <option value="3">Leukopenia (Kurang dari 4000 WBC/mm3) atau Leukositosis (Lebih dari 12000 SDP/mm3)</option>
@@ -402,7 +396,7 @@
                                             </div>
                                             <div class="col-md-9">
                                                 <div class="form-group">
-                                                    <select class="form-control select2" name="opsi" style="width: 100%" required>
+                                                    <select class="inp opsi form-control select2" name="opsi_vap" style="width: 100%" required>
                                                         <option value="">Pilih</option>
                                                         <option value="1">Kebersihan tangan sebelum dan sesudah kontak pasien</option>
                                                         <option value="2">Posisikan 30-45⁰ (kecuali kontra indikasi)</option>
@@ -415,7 +409,7 @@
                                             </div>
                                             <div class="col-md-3">
                                                 <div class="form-group">
-                                                    <select class="form-control select2" name="jawaban" style="width: 100%" disabled>
+                                                    <select class="inp opd form-control select2" name="jawaban_vap" style="width: 100%" required disabled>
                                                         <option value="">Pilih</option>
                                                         <option value="1">Ya</option>
                                                         <option value="0">Tidak</option>
@@ -429,13 +423,13 @@
                                             <div class="col-md-12">
                                                 <div class="form-group">
                                                     <label class="form-label">Tindakan Operasi <a class="text-danger">*</a></label>
-                                                    <textarea name="tindakan_operasi" class="form-control" required></textarea>
+                                                    <textarea name="tindakan_operasi_ido" class="inp form-control" placeholder="e.g. Hernia, Open Reduction Internal/External Fixation (ORIF/OREF), Sectio Caesarea (SC), Apendiktomi, etc" required></textarea>
                                                 </div>
                                             </div>
                                             <div class="col-md-6">
                                                 <div class="form-group">
                                                     <label class="form-label">Dokter Operator <a class="text-danger">*</a></label>
-                                                    <select class="form-control select2" name="dr_operator" style="width: 100%">
+                                                    <select class="inp form-control select2" name="dr_operator_ido" style="width: 100%" required>
                                                         <option value="">Pilih</option>
                                                         @if ($list['dokter'] != null)
                                                             @foreach($list['dokter'] as $key => $item)
@@ -448,8 +442,8 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label class="form-label">Jenis Operasi <a class="text-danger">*</a></label>
-                                                    <select class="form-control select2" name="jns_operasi" style="width: 100%">
-                                                        <option value="">Pilih</option>
+                                                    <select class="inp selectpicker w-100" data-style="btn-default" name="jns_operasi_ido" required>
+                                                        <option value="" hidden selected>Pilih</option>
                                                         <option value="1">Bersih</option>
                                                         <option value="2">Bersih Tercemar</option>
                                                         <option value="3">Tercemar</option>
@@ -460,13 +454,13 @@
                                             <div class="col-md-3">
                                                 <div class="form-group">
                                                     <label class="form-label">Tanggal Infeksi <a class="text-danger">*</a></label>
-                                                    <input type="text" class="form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_infeksi" required/>
+                                                    <input type="text" class="inp form-control flatpickr" placeholder="YYYY-MM-DD" name="tgl_infeksi_ido" required/>
                                                 </div>
                                             </div>
                                             <hr>
                                             <div class="content-header" style="margin-top: -2px">
                                                 <h6 class="mb-1">Tanda-tanda Infeksi</h6>
-                                                <small>Memilih checklist secara bebas (boleh tidak terisi dan boleh memilih lebih dari satu) dari opsi yang tersedia.</small>
+                                                <small>Memilih ceklis secara bebas (<strong>boleh tidak terisi dan boleh memilih lebih dari satu</strong>) dari opsi yang tersedia.</small>
                                             </div>
                                             <div id="show_tanda_infeksi_ido">
                                                 <div class="table-responsive">
@@ -478,7 +472,7 @@
                                                                     <td>Nyeri</td>
                                                                     <td class="cell-fit">
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido[]" />
+                                                                            <input class="inp form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido1" />
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -486,7 +480,7 @@
                                                                     <td>Bengkak</td>
                                                                     <td class="cell-fit">
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido[]" />
+                                                                            <input class="inp form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido2" />
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -494,7 +488,7 @@
                                                                     <td>Kemerahan atau Panas</td>
                                                                     <td class="cell-fit">
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido[]" />
+                                                                            <input class="inp form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido3" />
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -502,7 +496,7 @@
                                                                     <td>Adanya Cairan Purulent</td>
                                                                     <td class="cell-fit">
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido[]" />
+                                                                            <input class="inp form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido4" />
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -510,7 +504,7 @@
                                                                     <td>Ditemukan Abses</td>
                                                                     <td class="cell-fit">
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido[]" />
+                                                                            <input class="inp form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido5" />
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -518,7 +512,7 @@
                                                                     <td>Adanya Peningkatan Suhu Tubuh > 38⁰C</td>
                                                                     <td class="cell-fit">
                                                                         <div class="form-check">
-                                                                            <input class="form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido[]" />
+                                                                            <input class="inp form-check-input big-checkbox" type="checkbox" name="tanda_infeksi_ido6" />
                                                                         </div>
                                                                     </td>
                                                                 </tr>
@@ -530,220 +524,179 @@
                                             <hr style="margin-top: -2px">
                                             <div class="content-header" style="margin-top: -2px">
                                                 <h6 class="mb-1">Bundles IDO <a class="text-danger">*</a></h6>
-                                                <small>Pilih salah satu opsi lalu memilih jawaban Ya atau Tidak.</small>
+                                                <small>Pilih salah satu opsi ceklis untuk memilih jawaban <strong>Ya</strong> [√] atau <strong>Tidak</strong> [&nbsp;&nbsp;].</small>
                                             </div>
                                             <div class="col-md-12">
-                                                <div class="table-responsive">
-                                                    <table class="table table-striped table-bordered">
-                                                        <tbody id="tampil-tbody">
-                                                            <div id="superfisial">
-                                                                <tr class="table-dark"><td colspan="2" style="color:white"><center>Pre Operasi</center></td></tr>
-                                                                <tr>
-                                                                    <td>Pencukuran Daerah Operasi</td>
-                                                                    <td class="cell-fit">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
-                                                                                <option value="">Pilih</option>
-                                                                                <option value="1">Ya</option>
-                                                                                <option value="0">Tidak</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Personal Hygiene Pasien</td>
-                                                                    <td class="cell-fit">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
-                                                                                <option value="">Pilih</option>
-                                                                                <option value="1">Ya</option>
-                                                                                <option value="0">Tidak</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Pemberian Antibiotic</td>
-                                                                    <td class="cell-fit">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
-                                                                                <option value="">Pilih</option>
-                                                                                <option value="1">Ya</option>
-                                                                                <option value="0">Tidak</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Kebersihan Tangan Bedah Sebelum Tindakan</td>
-                                                                    <td class="cell-fit">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
-                                                                                <option value="">Pilih</option>
-                                                                                <option value="1">Ya</option>
-                                                                                <option value="0">Tidak</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr class="table-dark"><td colspan="2" style="color:white"><center>Intra Operasi</center></td></tr>
-                                                                <tr>
-                                                                    <td>Preparasi Kulit Pasien</td>
-                                                                    <td class="cell-fit">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
-                                                                                <option value="">Pilih</option>
-                                                                                <option value="1">Ya</option>
-                                                                                <option value="0">Tidak</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Pasien Normothermia, Saturasi > 95%, GDS < 180mg</td>
-                                                                    <td class="cell-fit">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
-                                                                                <option value="">Pilih</option>
-                                                                                <option value="1">Ya</option>
-                                                                                <option value="0">Tidak</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Tambah Antibiotic Profilaksis Sesuai Indikasi</td>
-                                                                    <td class="cell-fit">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
-                                                                                <option value="">Pilih</option>
-                                                                                <option value="1">Ya</option>
-                                                                                <option value="0">Tidak</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Luka Operasi Dibalut Sebelum Mengangkat Drape</td>
-                                                                    <td class="cell-fit">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
-                                                                                <option value="">Pilih</option>
-                                                                                <option value="1">Ya</option>
-                                                                                <option value="0">Tidak</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Petugas Yang Sakit Tidak Masuk Kamar Operasi</td>
-                                                                    <td class="cell-fit">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
-                                                                                <option value="">Pilih</option>
-                                                                                <option value="1">Ya</option>
-                                                                                <option value="0">Tidak</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Petugas Tidak Memakai Perhiasan Tangan, Kuku Panjang, dan Berkutek</td>
-                                                                    <td class="cell-fit">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
-                                                                                <option value="">Pilih</option>
-                                                                                <option value="1">Ya</option>
-                                                                                <option value="0">Tidak</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Petugas Bekerja Dengan Teknik Aseptic</td>
-                                                                    <td class="cell-fit">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
-                                                                                <option value="">Pilih</option>
-                                                                                <option value="1">Ya</option>
-                                                                                <option value="0">Tidak</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Gunakan Sangdal/ Sepatu Khusus Kamar Bedah</td>
-                                                                    <td class="cell-fit">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
-                                                                                <option value="">Pilih</option>
-                                                                                <option value="1">Ya</option>
-                                                                                <option value="0">Tidak</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr>
-                                                                    <td>Gunakan APD Sebelum Masuk Kamar Bedah</td>
-                                                                    <td class="cell-fit">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
-                                                                                <option value="">Pilih</option>
-                                                                                <option value="1">Ya</option>
-                                                                                <option value="0">Tidak</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                                <tr class="table-dark"><td colspan="2" style="color:white"><center>Post Operasi</center></td></tr>
-                                                                <tr>
-                                                                    <td>Perawatan Luka Setelah 48 Jam</td>
-                                                                    <td class="cell-fit">
-                                                                        <div class="form-group">
-                                                                            <select class="form-control select2" name="bundles_ido[]" style="width: 100%">
-                                                                                <option value="">Pilih</option>
-                                                                                <option value="1">Ya</option>
-                                                                                <option value="0">Tidak</option>
-                                                                            </select>
-                                                                        </div>
-                                                                    </td>
-                                                                </tr>
-                                                            </div>
-                                                        </tbody>
-                                                    </table>
+                                                <div class="card-datatable table-responsive">
+                                                    <div class="table-responsive">
+                                                        <table class="table table-striped table-bordered">
+                                                            <tbody id="tampil-tbody">
+                                                                <div id="superfisial">
+                                                                    <tr class="table-dark"><td colspan="2" style="color:white"><center>Pre Operasi</center></td></tr>
+                                                                    <tr>
+                                                                        <td>Pencukuran Daerah Operasi</td>
+                                                                        <td class="cell-fit">
+                                                                            <div class="form-check">
+                                                                                <input class="inp form-check-input big-checkbox" type="checkbox" name="bundles_ido1" />
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Personal Hygiene Pasien</td>
+                                                                        <td class="cell-fit">
+                                                                            <div class="form-check">
+                                                                                <input class="inp form-check-input big-checkbox" type="checkbox" name="bundles_ido1" />
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Pemberian Antibiotic</td>
+                                                                        <td class="cell-fit">
+                                                                            <div class="form-check">
+                                                                                <input class="inp form-check-input big-checkbox" type="checkbox" name="bundles_ido1" />
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Kebersihan Tangan Bedah Sebelum Tindakan</td>
+                                                                        <td class="cell-fit">
+                                                                            <div class="form-check">
+                                                                                <input class="inp form-check-input big-checkbox" type="checkbox" name="bundles_ido1" />
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="table-dark"><td colspan="2" style="color:white"><center>Intra Operasi</center></td></tr>
+                                                                    <tr>
+                                                                        <td>Preparasi Kulit Pasien</td>
+                                                                        <td class="cell-fit">
+                                                                            <div class="form-check">
+                                                                                <input class="inp form-check-input big-checkbox" type="checkbox" name="bundles_ido1" />
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Pasien Normothermia, Saturasi > 95%, GDS < 180mg</td>
+                                                                        <td class="cell-fit">
+                                                                            <div class="form-check">
+                                                                                <input class="inp form-check-input big-checkbox" type="checkbox" name="bundles_ido1" />
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Tambah Antibiotic Profilaksis Sesuai Indikasi</td>
+                                                                        <td class="cell-fit">
+                                                                            <div class="form-check">
+                                                                                <input class="inp form-check-input big-checkbox" type="checkbox" name="bundles_ido1" />
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Luka Operasi Dibalut Sebelum Mengangkat Drape</td>
+                                                                        <td class="cell-fit">
+                                                                            <div class="form-check">
+                                                                                <input class="inp form-check-input big-checkbox" type="checkbox" name="bundles_ido1" />
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Petugas Yang Sakit Tidak Masuk Kamar Operasi</td>
+                                                                        <td class="cell-fit">
+                                                                            <div class="form-check">
+                                                                                <input class="inp form-check-input big-checkbox" type="checkbox" name="bundles_ido1" />
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Petugas Tidak Memakai Perhiasan Tangan, Kuku Panjang, dan Berkutek</td>
+                                                                        <td class="cell-fit">
+                                                                            <div class="form-check">
+                                                                                <input class="inp form-check-input big-checkbox" type="checkbox" name="bundles_ido1" />
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Petugas Bekerja Dengan Teknik Aseptic</td>
+                                                                        <td class="cell-fit">
+                                                                            <div class="form-check">
+                                                                                <input class="inp form-check-input big-checkbox" type="checkbox" name="bundles_ido1" />
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Gunakan Sangdal/ Sepatu Khusus Kamar Bedah</td>
+                                                                        <td class="cell-fit">
+                                                                            <div class="form-check">
+                                                                                <input class="inp form-check-input big-checkbox" type="checkbox" name="bundles_ido1" />
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr>
+                                                                        <td>Gunakan APD Sebelum Masuk Kamar Bedah</td>
+                                                                        <td class="cell-fit">
+                                                                            <div class="form-check">
+                                                                                <input class="inp form-check-input big-checkbox" type="checkbox" name="bundles_ido1" />
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                    <tr class="table-dark"><td colspan="2" style="color:white"><center>Post Operasi</center></td></tr>
+                                                                    <tr>
+                                                                        <td>Perawatan Luka Setelah 48 Jam</td>
+                                                                        <td class="cell-fit">
+                                                                            <div class="form-check">
+                                                                                <input class="inp form-check-input big-checkbox" type="checkbox" name="bundles_ido1" />
+                                                                            </div>
+                                                                        </td>
+                                                                    </tr>
+                                                                </div>
+                                                            </tbody>
+                                                        </table>
+                                                    </div>
                                                 </div>
                                             </div>
                                         </div>
                                     </div>
                                 </div>
                                 <div class="col-12 d-flex justify-content-between">
-                                    <button class="btn btn-primary btn-tampil2">
+                                    <a class="btn btn-primary btn-tampil2 text-white" href="javascript:void(0);">
                                         <i class="bx bx-chevron-left bx-sm ms-sm-n2"></i>
                                         <span class="align-middle d-sm-inline-block d-none">Sebelumnya</span>
-                                    </button>
-                                    <button class="btn btn-outline-success btn-submit">
-                                        <i class="bx bx-save bx-sm ms-sm-n2"></i>
-                                        <span class="align-middle d-sm-inline-block d-none">Simpan</span>
+                                    </a>
+                                    <button class="btn btn-outline-info btn-submit" type="submit" id="btn-simpan" onclick="saveData()"><i class="fa fa-save"></i>
+                                        <span class="align-middle d-sm-inline-block d-none">&nbsp;&nbsp;Simpan</span>
                                     </button>
                                 </div>
                             </div>
                         </div>
-                </div>
+                    </div>
+                </form>
             </div>
         </div>
     </div>
 
     <script>
         $(document).ready(function() {
-            // SELECT2
-            var t = $(".select2");
-            t.length && t.each(function() {
+            // SELECT2 & SELECTPICKER
+            const e = $(".select2")
+            , t = $(".selectpicker");
+            t.length && t.selectpicker(),
+            e.length && e.each(function() {
                 var e = $(this);
-                e.wrap('<div class="position-relative"></div>').select2({
+                e.wrap('<div class="position-relative"></div>'),
+                e.select2({
                     placeholder: "Pilih",
                     dropdownParent: e.parent()
                 })
-            });
+            })
+
+            // DISABLE ENTER IN INPUT RM
+            // var el = document.getElementById("#rm");
+            // el.addEventListener("keypress", function(event) {
+            //     if (event.key === "Enter") {
+            //         alert(event.key  + " " + event.which);
+            //         event.preventDefault();
+            //     }
+            // });
+
             // BUTTON STEPPER
             $("#step1").click(function(){
                 $("#step1").addClass('active');
@@ -801,7 +754,7 @@
                 l.flatpickr({
                     enableTime: 0,
                     minuteIncrement: 1,
-                    defaultDate: now,
+                    // defaultDate: now,
                     time_24hr: true,
                 })
             // SELECT VALUE JENIS SURVEILANS
@@ -810,23 +763,39 @@
                     document.getElementById("surveilans1").hidden = false;
                 } else {
                     document.getElementById("surveilans1").hidden = true;
+                    $('.inp').val("").trigger('change');
+                    $('.inp').prop('checked',false);
+                    $(".opd").prop('disabled', true);
                 }
                 if (this.value == '2') {
                     document.getElementById("surveilans2").hidden = false;
                 } else {
                     document.getElementById("surveilans2").hidden = true;
+                    $('.inp').val("").trigger('change');
+                    $('.inp').prop('checked',false);
+                    $(".opd").prop('disabled', true);
                 }
                 if (this.value == '3') {
                     document.getElementById("surveilans3").hidden = false;
                 } else {
                     document.getElementById("surveilans3").hidden = true;
+                    $('.inp').val("").trigger('change');
+                    $('.inp').prop('checked',false);
+                    $(".opd").prop('disabled', true);
                 }
                 if (this.value == '4') {
                     document.getElementById("surveilans4").hidden = false;
                 } else {
                     document.getElementById("surveilans4").hidden = true;
+                    $('.inp').val("").trigger('change');
+                    $('.inp').prop('checked',false);
+                    $(".opd").prop('disabled', true);
                 }
             });
+            // SELECT VALUE OF BUNDLES EXCEPT IDO
+            $('.opsi').on('change', function() {
+                $(".opd").prop('disabled', false);
+            })
             // GET RM
             $('#rm').change(function() { 
                 if (this.value == '') {
@@ -891,5 +860,30 @@
             //     })
             // }
         });
+
+        // function clearValue() {
+        //     $('.inp').val("").trigger('change');
+        //     $('.inp').prop('checked',false);
+        //     $(".opd").prop('disabled', true);
+        // }
+
+        function ubahrm() {
+            $('#rm').val('');
+            $('#jns_kelamin').val('');
+            $('#jns_kelamin_show').val('');
+            $('#umur').val('');
+            $('#umur_show').val('');
+            $('#nama').val('');
+            $('#nama_show').val('');
+        }
+
+        function saveData() {
+            $("#tambah").one('submit', function() {
+                $("#btn-simpan").attr('disabled','disabled');
+                $("#btn-simpan").find("i").toggleClass("fa-save fa-spinner fa-spin");
+                return true;
+            });
+        }
+
     </script>
 @endsection

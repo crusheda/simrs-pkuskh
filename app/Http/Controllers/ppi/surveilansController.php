@@ -51,7 +51,9 @@ class surveilansController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        print_r($request->all());
+        // print_r($request->has('tanda_infeksi_ido1'));
+        die();
     }
 
     /**
