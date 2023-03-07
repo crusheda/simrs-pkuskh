@@ -38,6 +38,7 @@ class CreateTableSurveilansTable extends Migration
             $table->date('tgl_operasi')->nullable();
             $table->integer('dr_operator')->nullable();
             $table->integer('jns_operasi')->nullable();
+            $table->longText('bundles')->nullable();
             $table->integer('user_add')->nullable();
             $table->integer('user_edit')->nullable();
             $table->softDeletes();

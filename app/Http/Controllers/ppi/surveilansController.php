@@ -24,7 +24,13 @@ class surveilansController extends Controller
      */
     public function index()
     {
-        return view('pages.ppi.surveilans.index');
+        $show = surveilans::get();
+
+        $data = [
+            'show' => $show,
+        ];
+
+        return view('pages.ppi.surveilans.index')->with('list', $data);
     }
 
     /**
@@ -51,9 +57,65 @@ class surveilansController extends Controller
      */
     public function store(Request $request)
     {
-        print_r($request->all());
-        // print_r($request->has('tanda_infeksi_ido1'));
-        die();
+        $user = Auth::user();
+        $user_id = $user->id;
+
+        $getData = surveilans::first();
+        if (!empty($getData)) {
+            $id_surveilans = $getData->id_surveilans + 1;
+        } else {
+            $id_surveilans = 1;
+        }
+
+        $data = new surveilans;
+        
+        // STEP 1
+        $data->id_surveilans = $id_surveilans;
+        $data->rm = $request->rm;
+        $data->nama = $request->nama;
+        $data->jns_kelamin = $request->jns_kelamin;
+        $data->umur = $request->umur;
+        $data->asal_pasang = $request->asal_pasang;
+        $data->asal_ditemukan = $request->asal_ditemukan;
+
+        // STEP 2
+        $data->tgl_masuk = $request->tgl_masuk;
+        $data->diagnosa = $request->diagnosa;
+        $data->jns_surveilans = $request->jns_surveilans;
+        
+        // STEP 3
+        if ($request->jns_surveilans == 1) { // PHLEBITIS
+            $data->jns_pemasangan = $request->jns_pemasangan_ph;
+            $data->tujuan_pemasangan = json_encode($request->tujuan_pemasangan_ph);
+            $data->lokasi = $request->lokasi_ph;
+            $data->tgl_pemasangan = $request->tgl_pemasangan_ph;
+            $data->tgl_infeksi = $request->tgl_infeksi_ph;
+            $data->tanda_infeksi = json_encode($request->tanda_infeksi_ph);
+            $data->bundles = json_encode($request->bundles_ph);
+        } elseif ($request->jns_surveilans == 2) { // CAUTI
+            $data->jns_pemasangan = $request->jns_pemasangan_cauti;
+            $data->tgl_pemasangan = $request->tgl_pemasangan_cauti;
+            $data->tgl_infeksi = $request->tgl_infeksi_cauti;
+            $data->tanda_infeksi = json_encode($request->tanda_infeksi_cauti);
+            $data->bundles = json_encode($request->bundles_cauti);
+        } elseif ($request->jns_surveilans == 3) { // VAP
+            $data->no_ventilator = $request->no_ventilator_vap;
+            $data->tgl_pemasangan = $request->tgl_pemasangan_vap;
+            $data->tgl_infeksi = $request->tgl_infeksi_vap;
+            $data->tanda_infeksi = json_encode($request->tanda_infeksi_vap);
+            $data->bundles = json_encode($request->bundles_vap);
+        } elseif ($request->jns_surveilans == 4) { // IDO
+            $data->tindakan_operasi = $request->tindakan_operasi_ido;
+            $data->dr_operator = $request->dr_operator_ido;
+            $data->jns_operasi = $request->jns_operasi_ido;
+            $data->tgl_infeksi = $request->tgl_infeksi_ido;
+            $data->tanda_infeksi = json_encode($request->tanda_infeksi_ido);
+            $data->bundles = json_encode($request->bundles_ido);
+        }
+        
+        $data->save();
+
+        return redirect()->route('surveilans.index')->with('message','Data berhasil ditambahkan, Pasien a/n '.$request->nama);
     }
 
     /**
@@ -64,7 +126,9 @@ class surveilansController extends Controller
      */
     public function show($id)
     {
-        //
+        $show = surveilans::where('id', $id)->get();
+
+        return response()->json($show, 200);
     }
 
     /**

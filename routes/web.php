@@ -694,6 +694,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
             Route::get('ppi/vap/{rm}','ppi\VapController@apiGetRm'); 
         // NEW SURVEILANS
             Route::get('laporan/ppi/surveilans/getpasien/{id}', 'ppi\surveilansController@getPasien');
+            Route::get('laporan/ppi/surveilans/getdata/{id}', 'ppi\surveilansController@show');
 
     // SYSTEM
         // UPDATE
