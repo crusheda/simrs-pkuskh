@@ -574,6 +574,10 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
             Route::resource('system/setting/strukturorganisasi', 'system\setting\strukturOrganisasiController');
         // UPDATE
             Route::resource('system/update', 'system\updateController');
+
+    // BPJS
+        // BRIDGING
+            Route::get('bpjs/bridging', 'bpjs\bpjsController@index')->name('bridging.index');
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////    API    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -699,6 +703,11 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
     // SYSTEM
         // UPDATE
             Route::get('system/update/data', 'system\updateController@apiGet');
+
+    // SYSTEM
+        // BRIDGING
+            Route::get('bpjs/bridging/vclaim/data', 'bpjs\bpjsController@vclaimRefDiagnosa');
+            Route::get('bpjs/bridging/antrean/data', 'bpjs\bpjsController@antreanRefPoli');
 
 });
 
