@@ -577,7 +577,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
 
     // BPJS
         // BRIDGING
-            Route::get('bpjs/bridging', 'bpjs\bpjsController@index')->name('bridging.index');
+            Route::get('bpjs/bridging/vclaim', 'bpjs\vclaimController@index')->name('vclaim.index');
+            Route::get('bpjs/bridging/antrean', 'bpjs\antreanController@index')->name('antrean.index');
 });
 ////////////////////////////////////////////////////////////////////////////////////////////////    API    \\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\\
 
@@ -706,10 +707,13 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
 
     // SYSTEM
         // BRIDGING
-            Route::get('bpjs/bridging/vclaim/data', 'bpjs\bpjsController@vclaimRefDiagnosa');
-            Route::get('bpjs/bridging/antrean/data', 'bpjs\bpjsController@antreanRefPoli');
-            Route::get('bpjs/bridging/antrean/status', 'bpjs\bpjsController@antreanStatus');
-            Route::get('bpjs/bridging/antrean/belumdilayani', 'bpjs\bpjsController@antreanBelumDilayani');
+            // VCLAIM
+                Route::get('bpjs/bridging/vclaim/data', 'bpjs\vclaimController@refDiagnosa');
+            // ANTREAN
+                Route::get('bpjs/bridging/antrean/data', 'bpjs\antreanController@refPoli');
+                Route::get('bpjs/bridging/antrean/status', 'bpjs\antreanController@taskStatus');
+                Route::get('bpjs/bridging/antrean/antreanbytgl/{tgl}', 'bpjs\antreanController@antreanPerTanggal');
+                Route::get('bpjs/bridging/antrean/belumdilayani', 'bpjs\antreanController@belumDilayani');
 
 });
 

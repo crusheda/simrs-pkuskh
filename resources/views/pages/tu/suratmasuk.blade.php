@@ -401,9 +401,9 @@
                                     if (item.filename != null) {
                                         content += `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/suratmasuk/`+item.id+`/download')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>`
                                     }
-                                    if (adminID) {
+                                    // if (adminID) {
                                         content += `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`;
-                                    }
+                                    // }
                             content += `</ul></center></td><td>`;  
                             content += item.urutan + "</td><td>";
                                         if (item.tgl_surat != null) {
@@ -524,9 +524,9 @@
                                     if (item.filename != null) {
                                         content += `<li><a href='javascript:void(0);' class='dropdown-item text-primary' onclick="window.open('/v2/suratmasuk/`+item.id+`/download')"><i class='bx bx-download scaleX-n1-rtl'></i> Download</a></li>`
                                     }
-                                    if (adminID) {
+                                    // if (adminID) {
                                         content += `<li><a href='javascript:void(0);' class='dropdown-item text-danger' onclick="hapus(`+item.id+`)" value="animate__rubberBand"><i class='bx bx-trash scaleX-n1-rtl'></i> Hapus</a></li>`;
-                                    }
+                                    // }
                             content += `</ul></center></td><td>`;  
                             content += item.urutan + "</td><td>";
                                         if (item.tgl_surat != null) {
