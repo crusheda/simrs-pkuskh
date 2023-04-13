@@ -13,6 +13,7 @@ use Illuminate\Http\Request;
 class bpjsController extends Controller
 {
     public CONST ENCRYPT_METHOD = 'AES-256-CBC';
+    public $consid = '5140';
 
     public function index()
     {
@@ -41,25 +42,13 @@ class bpjsController extends Controller
     public function vclaimRefDiagnosa()
     {
         // DEFINE SECRET VAR
-        $consid = env('BPJS_CONSID');
-        $secretkey = env('BPJS_SCREET_KEY');
-        $userkey = env('BPJS_USER_KEY_VCLAIM');
+        $consid = '5140';
+        $secretkey = '8wRA8A44F6';
+        $userkey = '3531661b282c4997d496bf34de35871e';
+        $url = 'referensi/diagnosa/A04';
 
         // API to BPJS
-        // $result = $this->vclaimGet($url);
-        $client = new Client();
-        $res = $client->get('https://apijkn.bpjs-kesehatan.go.id/vclaim-rest/referensi/diagnosa/A04', [
-            'http_errors' => true, 'headers' => [
-                'X-cons-id' => $consid,
-                'X-Timestamp' => $this->bpjsTimestamp(),
-                'X-Signature' => $this->generateSignature(),
-                'user_key' => $userkey,
-            ]
-        ]);
-        // RESULT API INTO JSON DECODED
-        print_r($res->getBody());
-        die();
-        $result = json_decode($res->getBody());
+        $result = $this->vclaimGet($url);
 
         // DEFINE VAR INTO DECRYPTION PROGRESS
         $string = $result->response;
@@ -80,26 +69,70 @@ class bpjsController extends Controller
     public function antreanRefPoli()
     {
         // DEFINE SECRET VAR
-        $consid = env('BPJS_CONSID');
-        $secretkey = env('BPJS_SCREET_KEY');
-        $userkey = env('BPJS_USER_KEY_VCLAIM');
+        $consid = '5140';
+        $secretkey = '8wRA8A44F6';
+        $userkey = '3531661b282c4997d496bf34de35871e';
         $url = 'ref/poli';
 
         // API to BPJS
-        // $result = $this->antreanGet($url);
-        $client = new Client();
-        $res = $client->get('https://apijkn.bpjs-kesehatan.go.id/antreanrs/'.$url, [
-            'headers' => [
-                'X-cons-id' => env('BPJS_CONSID'),
-                'X-Timestamp' => $this->bpjsTimestamp(),
-                'X-Signature' => $this->generateSignature(),
-                'user_key' => env('BPJS_USER_KEY_VCLAIM'),
-            ]
-        ]);
-        // RESULT API INTO JSON DECODED
-        $result = json_decode($res->getBody());
-        // print_r($result);
+        $result = $this->antreanGet($url);
+
+        // DEFINE VAR INTO DECRYPTION PROGRESS
+        $string = $result->response;
+        $key = $consid.$secretkey.$this->bpjsTimestamp();
+
+        // RESULT DECRYPT WITH AES 256 (mode CBC) - SHA256 AND DECOMPRESSION WITH LZ-STRING
+        $getDecryption = $this->stringDecrypt($key, $string);
+
+        $data = [
+            // 'metacode' => $result->metaData->code,
+            // 'metamessage' => $result->metaData->message,
+            'response' => $getDecryption
+        ];
+
+        return response()->json($data, 200);
+    }
+
+    public function antreanStatus()
+    {
+        // DEFINE SECRET VAR
+        $consid = '5140';
+        $secretkey = '8wRA8A44F6';
+        $userkey = '3531661b282c4997d496bf34de35871e';
+        $url = 'antrean/getlisttask';
+        $kdbook = '039401022023029';
+
+        // API to BPJS
+        $result = $this->antreanPost($url, $kdbook);
+
+        // DEFINE VAR INTO DECRYPTION PROGRESS
+        $string = $result->response;
+        $key = $consid.$secretkey.$this->bpjsTimestamp();
+        // print_r($string);
         // die();
+
+        // RESULT DECRYPT WITH AES 256 (mode CBC) - SHA256 AND DECOMPRESSION WITH LZ-STRING
+        $getDecryption = $this->stringDecrypt($key, $string);
+
+        $data = [
+            // 'metacode' => $result->metaData->code,
+            // 'metamessage' => $result->metaData->message,
+            'response' => $getDecryption
+        ];
+
+        return response()->json($data, 200);
+    }
+
+    public function antreanBelumDilayani()
+    {
+        // DEFINE SECRET VAR
+        $consid = '5140';
+        $secretkey = '8wRA8A44F6';
+        $userkey = '3531661b282c4997d496bf34de35871e';
+        $url = 'antrean/pendaftaran/aktif';
+
+        // API to BPJS
+        $result = $this->antreanGet($url);
 
         // DEFINE VAR INTO DECRYPTION PROGRESS
         $string = $result->response;
@@ -108,9 +141,12 @@ class bpjsController extends Controller
         // RESULT DECRYPT WITH AES 256 (mode CBC) - SHA256 AND DECOMPRESSION WITH LZ-STRING
         $getDecryption = $this->stringDecrypt($key, $string);
         
+        print_r($getDecryption);
+        die();
+
         $data = [
-            'metacode' => $result->metaData->code,
-            'metamessage' => $result->metaData->message,
+            // 'metacode' => $result->metaData->code,
+            // 'metamessage' => $result->metaData->message,
             'response' => $getDecryption
         ];
 
@@ -120,13 +156,16 @@ class bpjsController extends Controller
     // TOOLS BPJS
     public function vclaimGet($url)
     {
+        $consid = '5140';
+        $userkey = '3531661b282c4997d496bf34de35871e';
+
         $client = new Client();
         $res = $client->get('https://apijkn.bpjs-kesehatan.go.id/vclaim-rest/'.$url, [
             'headers' => [
-                'X-cons-id' => env('BPJS_CONSID'),
+                'X-cons-id' => $consid,
                 'X-Timestamp' => $this->bpjsTimestamp(),
                 'X-Signature' => $this->generateSignature(),
-                'user_key' => env('BPJS_USER_KEY_VCLAIM'),
+                'user_key' => $userkey,
             ]
         ]);
         // RESULT API INTO JSON DECODED
@@ -135,25 +174,50 @@ class bpjsController extends Controller
 
     public function antreanGet($url)
     {
+        $consid = '5140';
+        $userkey = '3531661b282c4997d496bf34de35871e';
+
         $client = new Client();
         $res = $client->get('https://apijkn.bpjs-kesehatan.go.id/antreanrs/'.$url, [
             'headers' => [
-                'X-cons-id' => env('BPJS_CONSID'),
+                'X-cons-id' => $consid,
                 'X-Timestamp' => $this->bpjsTimestamp(),
                 'X-Signature' => $this->generateSignature(),
-                'user_key' => env('BPJS_USER_KEY_VCLAIM'),
+                'user_key' => $userkey,
             ]
         ]);
         // RESULT API INTO JSON DECODED
         return json_decode($res->getBody());
     }
 
+    public function antreanPost($url, $kdbook)
+    {
+        $consid = '5140';
+        $userkey = '3531661b282c4997d496bf34de35871e';
+
+        $client = new Client();
+
+        $res = $client->post('https://apijkn.bpjs-kesehatan.go.id/antreanrs/'.$url, [
+            'json' => [
+                'kodebooking' => $kdbook
+            ],
+            'headers' => [
+                'X-cons-id' => $consid,
+                'X-Timestamp' => $this->bpjsTimestamp(),
+                'X-Signature' => $this->generateSignature(),
+                'user_key' => $userkey,
+            ]
+        ]);
+
+        // RESULT API INTO JSON DECODED
+        return json_decode($res->getBody());
+    }
+
 	public function generateSignature()
 	{
-        $consid = env('BPJS_CONSID');
-        $secretkey = env('BPJS_SCREET_KEY');
-        $userkey = env('BPJS_USER_KEY_VCLAIM');
-        $baseurlvclaim = env('BPJS_URL_VCLAIM');
+        $consid = '5140';
+        $secretkey = '8wRA8A44F6';
+        $userkey = '3531661b282c4997d496bf34de35871e';
 
         // Get Timestamp
         date_default_timezone_set('UTC');

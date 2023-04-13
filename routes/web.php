@@ -708,6 +708,8 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
         // BRIDGING
             Route::get('bpjs/bridging/vclaim/data', 'bpjs\bpjsController@vclaimRefDiagnosa');
             Route::get('bpjs/bridging/antrean/data', 'bpjs\bpjsController@antreanRefPoli');
+            Route::get('bpjs/bridging/antrean/status', 'bpjs\bpjsController@antreanStatus');
+            Route::get('bpjs/bridging/antrean/belumdilayani', 'bpjs\bpjsController@antreanBelumDilayani');
 
 });
 
