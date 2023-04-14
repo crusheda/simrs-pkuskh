@@ -65,12 +65,13 @@
                             <th>poli - antrean</th>
                             <th>Kepesertaan</th>
                             <th>Status Pasien</th>
+                            <th>Dibuat</th>
                         </tr>
                     </thead>
                     <tbody id="tampil-tbody"><tr><td colspan="6"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr></tbody>
                 </table>
             </div>
-            {{-- <p id="response"></p> --}}
+            <p id="response"></p>
         </div>
     </div>
     {{-- class="cell-fit" --}}
@@ -102,7 +103,10 @@
     <script>
         $(document).ready(function() {
             // $("html").addClass('layout-menu-collapsed');
-            changeDate();
+            
+            // var ch = '2023-04-13 08:54:00 WIB'; // 2023-04-13 08:54:00 WIB (WIB Jika Di hapus akan running)
+            // $("#response").text(convertDateTime(ch));
+            
             // DATEPICKER
             const l = $('.flatpickr');
             var now = moment().locale('id').format('Y-MM-DD HH:mm');
@@ -117,7 +121,7 @@
             $('#tglAntrean').change(function() { 
                 $("#show_table").prop('hidden', false);
                 // $('#response').empty();
-                console.log(this.value);
+                // console.log(this.value);
                 $.ajax(
                     {
                         url: "/api/bpjs/bridging/antrean/antreanbytgl/"+this.value,
@@ -152,6 +156,7 @@
                                             <td>`+item.kodepoli+ ` <kbd>` +item.noantrean+ `</kbd></td>
                                             <td>`+item.ispeserta+ ` <kbd>` +item.sumberdata+ `</kbd></td>
                                             <td>`+item.status+`</td>
+                                            <td>`+convertTimestamp(item.createdtime)+`</td>
                                         </tr>
                                     `;
                                     $('#tampil-tbody').append(content);
@@ -229,17 +234,16 @@
             );
         }
 
-        function changeDate() {
-            var a = new Date(1675323360000 * 1000);
-            var months = ['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
-            var year = a.getFullYear();
-            var month = months[a.getMonth()];
-            var date = a.getDate();
-            var hour = a.getHours();
-            var min = a.getMinutes();
-            var sec = a.getSeconds();
-            var time = date + ' ' + month + ' ' + year + ' ' + hour + ':' + min + ':' + sec ;
-            console.log(time);
+        // Konversi dari Timestamp ke Date Time
+        function convertTimestamp(unixTimeStamp) {
+            let date = new Date(unixTimeStamp);
+            return ('0' + date.getDate()).slice(-2) + '/' + ('0' + (date.getMonth() + 1)).slice(-2) + '/' + date.getFullYear() + ' ' + ('0' + date.getHours()).slice(-2) + ':' + ('0' + date.getMinutes()).slice(-2);
+        }
+
+        // Konversi dari Date Time ke Timestamp
+        function convertDateTime(ch) {
+            // Slice 0,19 digunakan untuk menghilangkan WIB pada paling belakang!!
+            return Date.parse(new Date(ch.slice(0, 19)));
         }
     </script>
 @endsection

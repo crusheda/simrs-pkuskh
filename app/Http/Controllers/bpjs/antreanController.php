@@ -23,7 +23,10 @@ class antreanController extends Controller
             'secretkey' => $secretkey,
             'userkey' => $userkey,
         ];
-        // strval(time()-strtotime('1672646791370'))
+
+        // $show = Carbon::parse('1681350840000')->isoFormat('DD MM YYYY');
+        // print_r($show);
+        // die();
 
         return view('pages.bpjs.antrean.index')->with('list', $data);
     }
