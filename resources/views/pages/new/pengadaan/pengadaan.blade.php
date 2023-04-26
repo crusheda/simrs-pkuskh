@@ -15,13 +15,15 @@
   </div>
   <div class="card-body">
 		<div class="btn-group">
-			<button type="button" class="btn btn-primary text-white" data-toggle="tooltip" data-placement="bottom" title="BUAT PENGUSULAN PENGADAAN" onclick="tambah()">
-        <i class="fa-fw fas fa-plus-square nav-icon"></i>	Tambah Pengadaan
-			</button>
-			<button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i></button>
       @role('sekretaris-direktur|it')
+        <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i></button>
         <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="REKAP HASIL PENGADAAN" onclick="window.location='{{ route('rekap.index') }}'"><i class="fa-fw fas fa-business-time nav-icon"></i></button>
         <button type="button" class="btn btn-danger disabled" data-toggle="tooltip" data-placement="bottom" title="TAMPILKAN PENGADAAN TERHAPUS"><i class="fa-fw fas fa-eraser nav-icon"></i></button>
+      @else
+        <button type="button" class="btn btn-primary text-white" data-toggle="tooltip" data-placement="bottom" title="BUAT PENGUSULAN PENGADAAN" onclick="tambah()">
+          <i class="fa-fw fas fa-plus-square nav-icon"></i>	Tambah Pengadaan
+        </button>
+        <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i></button>
       @endrole
 		</div>
     <br><sub>Data yang ditampilkan adalah Semua data pengadaan</sub>
@@ -66,8 +68,9 @@
                 @endforeach --}}
             </select> <br>
             <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pastikan Anda mempunyai <b>Hak</b> untuk melakukan pengusulan pengadaan</sub> <br>
-            <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pengusulan Pengadaan hanya dapat dilakukan 1x (Satu Kali) pada masing-masing Jenis Pengadaan</sub> <br>
-            <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Anda dapat melakukan Pengusulan Pengadaan kembali pada tanggal 1 - 25 setiap bulannya</sub>
+            <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Pengusulan Pengadaan hanya dapat dilakukan 1x (Satu Kali) pada masing-masing Jenis Pengadaan</sub>
+            {{-- <br>
+            <sub><i class="fa-fw fas fa-caret-right nav-icon"></i> Anda dapat melakukan Pengusulan Pengadaan kembali pada tanggal 1 - 25 setiap bulannya</sub> --}}
           </div>
       </div>
       <div class="modal-footer">
@@ -298,18 +301,18 @@
 
 <script>
   function tambah() {
-    const d = new Date();
-    var day = d.getDate();
-    console.log('ini tanggal : '+day);
-    if (day > 25) {
-      iziToast.warning({
-          title: 'Pesan Galat!',
-          message: 'Pengusulan Pengadaan hanya dapat dilakukan pada tanggal 1-25 Setiap Bulannya.',
-          position: 'topRight'
-      });
-    } else {
-      $('#tambah').modal('show');
-    }
+    // const d = new Date();
+    // var day = d.getDate();
+    // console.log('ini tanggal : '+day);
+    // if (day > 25) {
+    //   iziToast.warning({
+    //       title: 'Pesan Galat!',
+    //       message: 'Pengusulan Pengadaan hanya dapat dilakukan pada tanggal 1-25 Setiap Bulannya.',
+    //       position: 'topRight'
+    //   });
+    // } else {
+    // }
+    $('#tambah').modal('show');
     
   }
 
@@ -334,13 +337,15 @@
             $('#table').DataTable().clear().destroy();
             res.show.forEach(item => {
               var updet = item.updated_at.substring(0, 10);
+              var tglUpload = item.updated_at.substring(8, 10);
+              var blnUpload = item.updated_at.substring(5, 7);
+              var thnUpload = item.updated_at.substring(0, 4);
               content = "<tr id='data"+ item.id +"'><td>" 
                         + item.id_pengadaan + "</td><td>" 
                         + item.nama + "</td><td>" 
-                        + JSON.parse(item.unit) + "</td><td>" 
+                        + JSON.parse(item.unit) + "</td><td>"
                         + "Rp. " + item.total.toLocaleString().replace(/[,]/g,'.') + "</td><td>"
                         + item.tgl_pengadaan + "</td>";
-
               content += "<td><center><div class='btn-group' role='group'>";
               if (adminID) {
                 content += `<button type="button" class="btn btn-info btn-sm" onclick="detail(`+item.id_pengadaan+`)" data-toggle="tooltip" data-placement="bottom" title="LIHAT PENGADAAN"><i class="fas fa-sort-amount-down"></i></button>`;
