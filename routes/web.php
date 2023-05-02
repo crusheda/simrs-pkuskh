@@ -711,6 +711,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
                 Route::get('bpjs/bridging/vclaim/data', 'bpjs\vclaimController@refDiagnosa');
             // ANTREAN
                 Route::get('bpjs/bridging/antrean/data', 'bpjs\antreanController@refPoli');
+                Route::get('bpjs/bridging/antrean/taskid/{kode}', 'bpjs\antreanController@taskidPasien');
                 Route::get('bpjs/bridging/antrean/status', 'bpjs\antreanController@taskStatus');
                 Route::get('bpjs/bridging/antrean/antreanbytgl/{tgl}', 'bpjs\antreanController@antreanPerTanggal');
                 Route::get('bpjs/bridging/antrean/belumdilayani', 'bpjs\antreanController@belumDilayani');

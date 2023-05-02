@@ -53,6 +53,27 @@ class antreanController extends Controller
         return response()->json($data, 200);
     }
 
+    public function taskidPasien($kdbook) // Get Task ID Pasien
+    {
+        // DEFINE SECRET VAR
+        $consid = '5140';
+        $secretkey = '8wRA8A44F6';
+        $userkey = '3531661b282c4997d496bf34de35871e';
+        $url = 'antrean/getlisttask';
+
+        // API to BPJS
+        $result = $this->antreanPost($url, $kdbook);
+
+        // DEFINE VAR INTO DECRYPTION PROGRESS
+        $string = $result->response;
+        $key = $consid.$secretkey.$this->bpjsTimestamp();
+
+        // RESULT DECRYPT WITH AES 256 (mode CBC) - SHA256 AND DECOMPRESSION WITH LZ-STRING
+        $data = json_decode($this->stringDecrypt($key, $string));
+
+        return response()->json($data, 200);
+    }
+
     public function refPoli()
     {
         // DEFINE SECRET VAR
