@@ -250,13 +250,8 @@
                         </div>
                     </div>
                     <div class="form-group">
-                        <label class="form-label">Berkas Surat Anda</label>
-                        <input type="text" class="form-control" id="verifberkas" hidden>
                         <div id="linksurat"></div>
-                        <small>
-                            <i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila terdapat kesalahan File Upload, Anda dapat melakukan Input Ulang<br>
-                            <i class="fa-fw fas fa-caret-right nav-icon"></i> Hubungi Admin untuk dilakukan penghapusan berkas
-                        </small>
+                        <div id="uploadFileSusulan"></div>
                     </div>
                 </div>
                 <div class="modal-footer">
@@ -653,6 +648,8 @@
         }
 
         function showUbah(id) {
+            $('#uploadFileSusulan').empty();
+            $('#linksurat').empty();
             $.ajax(
             {
                 url: "/api/suratmasuk/data/"+id,
