@@ -56,10 +56,15 @@ class suratMasukController extends Controller
             $path = null;
             $title = null;
         } else {
+            $find = suratmasuk::where('title',$getFile->getClientOriginalName())->first();
             // simpan berkas yang diunggah ke sub-direktori $path
             // direktori 'files' otomatis akan dibuat jika belum ada
-            $path = $getFile->store('public/files/tu/suratmasuk');
-            $title = $getFile->getClientOriginalName();
+            if ($find == null) {
+                $path = $getFile->store('public/files/tu/suratmasuk');
+                $title = $getFile->getClientOriginalName();
+            } else {
+                return redirect()->back()->withErrors('Maaf, Nama file '.$getFile->getClientOriginalName().' sudah pernah diupload. Mohon Ganti Nama File yang berbeda. Disarankan untuk menambahkan kode yang unik pada File Anda.');
+            }
         }
 
         $getUrutan = suratmasuk::orderBy('urutan','DESC')->first();
@@ -222,6 +227,16 @@ class suratMasukController extends Controller
         $data->tglTo        = $tglTo;
         
         if ($data->filename == null) {
+            if ($request->file('file') && $request->file('file')->isValid()) {
+                $data->filename = $request->file('file')->store('public/files/tu/suratmasuk');
+                $data->title = $request->file('file')->getClientOriginalName();
+            }
+        } else {
+            $request->validate([
+                'file' => ['max:20000','mimes:pdf'],
+            ]);
+            $fileDeleted = $data->filename;
+            Storage::delete($fileDeleted);
             if ($request->file('file') && $request->file('file')->isValid()) {
                 $data->filename = $request->file('file')->store('public/files/tu/suratmasuk');
                 $data->title = $request->file('file')->getClientOriginalName();

@@ -66,8 +66,13 @@ class suratKeluarController extends Controller
         } else {
             // simpan berkas yang diunggah ke sub-direktori $path
             // direktori 'files' otomatis akan dibuat jika belum ada
-            $path = $getFile->store('public/files/tu/suratkeluar');
-            $title = $getFile->getClientOriginalName();
+            $find = suratkeluar::where('title',$getFile->getClientOriginalName())->first();
+            if ($find == null) {
+                $path = $getFile->store('public/files/tu/suratkeluar');
+                $title = $getFile->getClientOriginalName();
+            } else {
+                return redirect()->back()->withErrors('Maaf, Nama file '.$getFile->getClientOriginalName().' sudah pernah diupload. Mohon Ganti Nama File yang berbeda. Disarankan untuk menambahkan kode yang unik pada File Anda.');
+            }
         }
 
         $tahunNow = Carbon::now()->isoFormat('YYYY');
@@ -158,11 +163,30 @@ class suratKeluarController extends Controller
         $data           = suratkeluar::find($request->id_edit);
         $data->kode     = $request->kode;
         $data->tgl      = $request->tgl;
+        if ($request->tujuan2 != null) {
+            if ($request->tujuan != null) {
+                return redirect()->route('suratkeluar.index')->withErrors('Gagal proses ubah, silakan ulangi sekali lagi.');
+            } else {
+                $data->tujuan2  = $request->tujuan2;
+            }
+        } else {
+            $data->tujuan   = "[".str_replace(',','","',json_encode($request->tujuan))."]";
+        }
         $data->jenis    = $getJenis->nama;
         $data->isi      = $request->isi;
         $data->user     = $request->user;
         
         if ($data->filename == null) {
+            if ($request->file('file') && $request->file('file')->isValid()) {
+                $data->filename = $request->file('file')->store('public/files/tu/suratkeluar');
+                $data->title = $request->file('file')->getClientOriginalName();
+            }
+        } else {
+            $request->validate([
+                'file' => ['max:20000','mimes:pdf'],
+            ]);
+            $fileDeleted = $data->filename;
+            Storage::delete($fileDeleted);
             if ($request->file('file') && $request->file('file')->isValid()) {
                 $data->filename = $request->file('file')->store('public/files/tu/suratkeluar');
                 $data->title = $request->file('file')->getClientOriginalName();

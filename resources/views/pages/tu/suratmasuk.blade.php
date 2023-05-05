@@ -640,6 +640,18 @@
             return dateTime;
         }
 
+        function ubahFile(id) {
+            $('#linksurat').empty();
+            document.getElementById('uploadFileSusulan').innerHTML = `
+            <label class='form-label'>Berkas Surat Anda <a class='text-danger'>*</a></label>
+            <input type='file' id="filex`+id+`" name='filex`+id+`' class="form-control mb-2" accept="application/pdf">
+            <input type="text" class="form-control" id="verifberkas`+id+`" hidden>
+            <i class="fa-fw fas fa-caret-right nav-icon"></i> Batas ukuran maksimum dokumen adalah <strong>20 mb</strong><br>
+            <i class="fa-fw fas fa-caret-right nav-icon"></i> File yang diupload berupa Dokumen Scan<br>
+            <i class="fa-fw fas fa-caret-right nav-icon"></i> Dijadikan dalam Satu file <strong>PDF</strong>`;
+            $("#verifberkas"+id).val(1);
+        }
+
         function showUbah(id) {
             $.ajax(
             {
@@ -651,12 +663,21 @@
                     // var dt = new Date(res.show.tanggal).toJSON().slice(0,19);
                     var dt = moment(res.show.tanggal).format('Y-MM-DD HH:mm');
                     if (res.show.filename != null) {
-                        $("#verifberkas").val(0);
-                        document.getElementById('linksurat').innerHTML = "<h6 class='mb-2'><a href='/v2/suratmasuk/"+res.show.id+"/download'>"+res.show.title+"</a></h6>";
+                        document.getElementById('linksurat').innerHTML = `
+                        <label class='form-label'>Berkas Surat Anda <a class='text-danger'>*</a></label>&nbsp;&nbsp;
+                        <button class='btn btn-xs btn-outline-dark' type='button' onclick='ubahFile(`+id+`)'>Ubah File</button>
+                        <h6 class='mb-2'><a href='/v2/suratkeluar/`+res.show.id+`/download'>`+res.show.title+`</a></h6>
+                        <input type="text" class="form-control" id="verifberkas`+res.show.id+`" hidden>`;
+                        $("#verifberkas"+res.show.id).val(0);
                     } else {
-                        $("#verifberkas").val(1);
-                        // document.getElementById('linksurat').innerHTML = "<input type='file' class='form-control mb-2' name='filesusulan' id='filesusulan' accept='application/pdf'>";
-                        document.getElementById('linksurat').innerHTML = `<input type='file' id="filex" name='filex' class="form-control mb-2" accept="application/pdf">`;
+                        document.getElementById('linksurat').innerHTML = `
+                        <label class='form-label'>Berkas Surat Anda <a class='text-danger'>*</a></label>
+                        <input type='file' id="filex`+res.show.id+`" name='filex`+res.show.id+`' class="form-control mb-2" accept="application/pdf">
+                        <input type="text" class="form-control" id="verifberkas`+res.show.id+`" hidden>
+                        <i class="fa-fw fas fa-caret-right nav-icon"></i> Batas ukuran maksimum dokumen adalah <strong>20 mb</strong><br>
+                        <i class="fa-fw fas fa-caret-right nav-icon"></i> File yang diupload berupa Dokumen Scan<br>
+                        <i class="fa-fw fas fa-caret-right nav-icon"></i> Dijadikan dalam Satu file <strong>PDF</strong>`;
+                        $("#verifberkas"+res.show.id).val(1);
                     }
                     $("#id_edit").val(res.show.id);
                     
@@ -786,10 +807,11 @@
                 });
             } else {
                 var fd = new FormData();
+                var id_edit = $("#id_edit").val();
 
                 // Get the selected file
-                if ($("#verifberkas").val() == 1) {
-                    var files = $('#filex')[0].files;
+                if ($("#verifberkas"+id_edit).val() == 1) {
+                    var files = $('#filex'+id_edit)[0].files;
                     fd.append('file',files[0]);
                 }
                 

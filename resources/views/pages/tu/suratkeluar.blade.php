@@ -260,13 +260,8 @@
                         </div>
                         <div class="col-md-12" style="margin-top: -8px">
                             <div class="form-group">
-                                <label class="form-label">Berkas Surat Anda <a class="text-danger">*</a></label>
-                                <input type="text" class="form-control" id="verifberkas" hidden>
                                 <div id="linksurat"></div>
-                                <small>
-                                    <i class="fa-fw fas fa-caret-right nav-icon"></i> Apabila terdapat kesalahan File Upload, Anda dapat melakukan Input Ulang<br>
-                                    <i class="fa-fw fas fa-caret-right nav-icon"></i> Hubungi Admin untuk dilakukan penghapusan berkas
-                                </small>
+                                <div id="uploadFileSusulan"></div>
                             </div>
                         </div>
                     </div>
@@ -480,6 +475,13 @@
         }
 
         function refresh() {
+            $("#tujuan2_edit").val("");
+            $("#tujuan1_editselect").val("");
+            $("#isi_edit").val("");
+            $("#kode_edit").val("");
+            $("#tgl_edit").val("");
+            $("#id_edit").val("");
+            $("#user").val("");
             // fresh();
             $("#tampil-tbody").empty().append(`<tr><td colspan="9"><i class="fa fa-spinner fa-spin fa-fw"></i> Memproses data...</td></tr>`);
             $.ajax(
@@ -602,7 +604,29 @@
             return dateTime;
         }
 
+        function ubahFile(id) {
+            $('#linksurat').empty();
+            document.getElementById('uploadFileSusulan').innerHTML = `
+            <label class='form-label'>Berkas Surat Anda <a class='text-danger'>*</a></label>
+            <input type='file' id="filex`+id+`" name='filex`+id+`' class="form-control mb-2" accept="application/pdf">
+            <input type="text" class="form-control" id="verifberkas`+id+`" hidden>
+            <i class="fa-fw fas fa-caret-right nav-icon"></i> Batas ukuran maksimum dokumen adalah <strong>20 mb</strong><br>
+            <i class="fa-fw fas fa-caret-right nav-icon"></i> File yang diupload berupa Dokumen Scan<br>
+            <i class="fa-fw fas fa-caret-right nav-icon"></i> Dijadikan dalam Satu file <strong>PDF</strong>`;
+            $("#verifberkas"+id).val(1);
+        }
+
         function showUbah(id) {
+            $("#tujuan2_edit").val("");
+            $("#tujuan1_editselect").val("");
+            $("#isi_edit").val("");
+            $("#kode_edit").val("");
+            $("#tgl_edit").val("");
+            $("#id_edit").val("");
+            $("#user").val("");
+            //
+            $('#uploadFileSusulan').empty();
+            $('#linksurat').empty();
             $.ajax(
             {
                 url: "/api/suratkeluar/data/"+id,
@@ -614,12 +638,21 @@
                     // var dt = new Date(res.show.tanggal).toJSON().slice(0,19);
                     var dt = moment(res.show.tgl).format('Y-MM-DD HH:mm');
                     if (res.show.filename != null) {
-                        $("#verifberkas").val(0);
-                        document.getElementById('linksurat').innerHTML = "<h6 class='mb-2'><a href='/v2/suratkeluar/"+res.show.id+"/download'>"+res.show.title+"</a></h6>";
+                        document.getElementById('linksurat').innerHTML = `
+                        <label class='form-label'>Berkas Surat Anda <a class='text-danger'>*</a></label>&nbsp;&nbsp;
+                        <button class='btn btn-xs btn-outline-dark' type='button' onclick='ubahFile(`+id+`)'>Ubah File</button>
+                        <h6 class='mb-2'><a href='/v2/suratkeluar/`+res.show.id+`/download'>`+res.show.title+`</a></h6>
+                        <input type="text" class="form-control" id="verifberkas`+res.show.id+`" hidden>`;
+                        $("#verifberkas"+res.show.id).val(0);
                     } else {
-                        $("#verifberkas").val(1);
-                        // document.getElementById('linksurat').innerHTML = "<input type='file' class='form-control mb-2' name='filesusulan' id='filesusulan' accept='application/pdf'>";
-                        document.getElementById('linksurat').innerHTML = `<input type='file' id="filex" name='filex' class="form-control mb-2" accept="application/pdf">`;
+                        document.getElementById('linksurat').innerHTML = `
+                        <label class='form-label'>Berkas Surat Anda <a class='text-danger'>*</a></label>
+                        <input type='file' id="filex`+res.show.id+`" name='filex`+res.show.id+`' class="form-control mb-2" accept="application/pdf">
+                        <input type="text" class="form-control" id="verifberkas`+res.show.id+`" hidden>
+                        <i class="fa-fw fas fa-caret-right nav-icon"></i> Batas ukuran maksimum dokumen adalah <strong>20 mb</strong><br>
+                        <i class="fa-fw fas fa-caret-right nav-icon"></i> File yang diupload berupa Dokumen Scan<br>
+                        <i class="fa-fw fas fa-caret-right nav-icon"></i> Dijadikan dalam Satu file <strong>PDF</strong>`;
+                        $("#verifberkas"+res.show.id).val(1);
                     }
                     $("#id_edit").val(res.show.id);
                     
@@ -686,20 +719,21 @@
             $("#btn-ubah").find("i").toggleClass("fa-save fa-sync fa-spin");
             
             var fd = new FormData();
+            var id_edit = $("#id_edit").val();
 
             // Get the selected file
-            if ($("#verifberkas").val() == 1) {
-                var files = $('#filex')[0].files;
+            if ($("#verifberkas"+id_edit).val() == 1) {
+                var files = $('#filex'+id_edit)[0].files;
                 fd.append('file',files[0]);
             }
 
             fd.append('id_edit',$("#id_edit").val());
             fd.append('kode',$("#kode_edit").val());
-            if ($("#tujuan2_edit").val() != null) {
-                fd.append('tujuan2',$("#tujuan2_edit").val());
-            } else {
-                fd.append('tujuan',$("#tujuan1_editselect").val());
-            }
+            fd.append('tujuan2',$("#tujuan2_edit").val());
+            fd.append('tujuan',$("#tujuan1_editselect").val());
+            // if ($("#tujuan2_edit").val() != null) {
+            // } else {
+            // }
             fd.append('tgl',$("#tgl_edit").val());
             fd.append('isi',$("#isi_edit").val());
             fd.append('user',$("#user").val());
@@ -717,7 +751,7 @@
                 dataType: 'json',
                 success: function(res){
                     iziToast.success({
-                        title: 'Pesan Sukses!',
+                        title: 'Pesan Sukses! ID : '+id_edit,
                         message: 'Surat Keluar berhasil diperbarui pada '+res,
                         position: 'topRight'
                     });
