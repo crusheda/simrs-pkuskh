@@ -15,15 +15,13 @@
   </div>
   <div class="card-body">
 		<div class="btn-group">
+      <button type="button" class="btn btn-primary text-white" data-toggle="tooltip" data-placement="bottom" title="BUAT PENGUSULAN PENGADAAN" onclick="tambah()">
+        <i class="fa-fw fas fa-plus-square nav-icon"></i>	Tambah Pengadaan
+      </button>
+      <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i></button>
       @role('sekretaris-direktur|it')
-        <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i></button>
         <button type="button" class="btn btn-success" data-toggle="tooltip" data-placement="bottom" title="REKAP HASIL PENGADAAN" onclick="window.location='{{ route('rekap.index') }}'"><i class="fa-fw fas fa-business-time nav-icon"></i></button>
-        <button type="button" class="btn btn-danger disabled" data-toggle="tooltip" data-placement="bottom" title="TAMPILKAN PENGADAAN TERHAPUS"><i class="fa-fw fas fa-eraser nav-icon"></i></button>
-      @else
-        <button type="button" class="btn btn-primary text-white" data-toggle="tooltip" data-placement="bottom" title="BUAT PENGUSULAN PENGADAAN" onclick="tambah()">
-          <i class="fa-fw fas fa-plus-square nav-icon"></i>	Tambah Pengadaan
-        </button>
-        <button type="button" class="btn btn-warning" data-toggle="tooltip" data-placement="bottom" title="REFRESH TABEL" onclick="refresh()"><i class="fa-fw fas fa-sync nav-icon text-white"></i></button>
+        {{-- <button type="button" class="btn btn-danger disabled" data-toggle="tooltip" data-placement="bottom" title="TAMPILKAN PENGADAAN TERHAPUS"><i class="fa-fw fas fa-eraser nav-icon"></i></button> --}}
       @endrole
 		</div>
     <br><sub>Data yang ditampilkan adalah Semua data pengadaan</sub>
