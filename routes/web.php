@@ -497,7 +497,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'v2', 'as' => ''], function 
 
             // USER
             // Route::get('laporan/bulanan/download/{id}', 'laporan\bulanan\bulananUserController@download')->name('bulanan.download');
-            Route::get('laporan/bulanan/verif', 'laporan\bulanan\bulananUserController@showVerif')->name('bulanan.verif');
+            Route::get('laporan/bulanan/verif', 'laporan\bulanan\bulananUserController@showVerif');
             Route::resource('laporan/bulanan', 'laporan\bulanan\bulananUserController');
 
         // IPSRS
@@ -641,6 +641,7 @@ Route::group(['middleware' => ['auth'], 'prefix' => 'api', 'as' => ''], function
     
     // LAPORAN
         // BULANAN
+            Route::get('laporan/bulanan/table/verif/{id}', 'laporan\bulanan\bulananUserController@verif');
             Route::get('laporan/bulanan/formverif', 'laporan\bulanan\bulananUserController@formVerif');
             Route::get('laporan/bulanan/formupload', 'laporan\bulanan\bulananUserController@formUpload');
             Route::get('laporan/bulanan/table/verif', 'laporan\bulanan\bulananUserController@tableVerif');

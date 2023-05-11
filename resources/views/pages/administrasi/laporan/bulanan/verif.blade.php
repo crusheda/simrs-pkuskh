@@ -123,8 +123,7 @@
         <div class="text-center mb-4">
           <h3 class="mb-5">Verifikasi Dokumen</h3>
         </div>
-        <h6>Kami sedang dalam perbaikan Sistem Laporan Bulanan</h6><hr>
-        <p>Tunggu beberapa saat lagi...</p>
+        <p id="siapaini"></p>
       </div>
     </div>
   </div>
@@ -341,6 +340,16 @@ function saveData() {
 
 function showVerif(id) {
   $('#verif').modal('show');
+  $.ajax(
+    {
+      url: "/api/laporan/bulanan/table/verif/"+id,
+      type: 'GET',
+      dataType: 'json', // added data type
+      success: function(res) {
+        $('#siapaini').text(res);
+      }
+    }
+  )
 }
 </script>
 @endsection

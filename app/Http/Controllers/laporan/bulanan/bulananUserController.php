@@ -6,7 +6,9 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\DB;
 use Illuminate\Http\Request;
+use App\Models\system\strukturorganisasi;
 use App\Models\laporan_bulanan;
+use App\Models\laporan_bulanan_verif;
 use App\Models\unit;
 use App\User;
 use Carbon\Carbon;
@@ -50,6 +52,26 @@ class bulananUserController extends Controller
         } else {
             return redirect()->back()->withErrors("Maaf anda tidak mempunyai HAK untuk verifikasi Dokumen Bawahan");
         }
+    }
+
+    public function verif($id)
+    {
+        $user = Auth::user();
+        $user_id = Auth::user()->id;
+
+        $unit = $user->roles; //kabag-keperawatan
+
+        foreach ($unit as $key => $value) {
+            $role[] = $value->id;
+        }
+
+        $getBawahan = strukturorganisasi::whereIn('role_id', $role)->get();
+
+        $data = [
+            'show'  => $show,
+        ];
+
+        return response()->json($data, 200);
     }
 
     public function formVerif()

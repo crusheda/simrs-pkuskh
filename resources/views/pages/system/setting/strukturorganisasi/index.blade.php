@@ -205,7 +205,7 @@
                                             <select class="form-select select2" name="role" required>
                                                 @if (count($list['role']) > 0)
                                                     @foreach ($list['role'] as $key => $val)
-                                                        <option value="" @if ($val->id == $item->role_id) echo selected @endif></option>
+                                                        <option value="{{ $val->id }}" @if ($val->id == $item->role_id) echo selected @endif>{{ $val->name }}</option>
                                                     @endforeach
                                                 @endif
                                             </select>
@@ -216,6 +216,15 @@
                                             <label class="form-label">Bawahan</label>
                                             <select class="select2 form-select" name="accepted[]" data-allow-clear="true"
                                                 data-bs-auto-close="outside" required multiple>
+                                                @foreach ($list['role'] as $rl)
+                                                    <option value="{{ $rl->id }}" 
+                                                    @foreach (json_decode($item->accepted) as $i => $key)
+                                                        @if ($key == $rl->id)
+                                                            selected
+                                                        @endif
+                                                    @endforeach>{{ $rl->name }}
+                                                    </option>
+                                                @endforeach
                                                 {{-- @if (count($list['role']) > 0)
                                                     @foreach ($list['role'] as $val)
                                                         <option value="{{ $val->id }}" 
@@ -257,17 +266,15 @@
                             <div class="row">
                                 <div class="col-12 mb-3">
                                     <input type="text" id="id_hapus" hidden>
-                                    <p style="text-align: justify;">Anda akan menghapus berkas surat masuk tersebut.
-                                        Penghapusan berkas akan menyebabkan hilangnya data/dokumen yang terhapus tersebut pada
-                                        Storage Sistem.
-                                        Maka dari itu, lakukanlah dengan hati-hati. Ceklis dibawah untuk melanjutkan
-                                        penghapusan.</p>
+                                    <p style="text-align: justify;">Anda akan menghapus struktur organisasi dari Role : {{ $item->role_name }}. Pastikan Anda melakukan dengan benar dan menerima resiko yang ada.</p>
                                 </div>
+                                <form action="{{ route('strukturorganisasi.destroy', $item->id) }}" method="POST">
                                 <div class="col-12 text-center">
-                                    <button type="submit" id="btn-hapus" class="btn btn-danger me-sm-3 me-1"><i
-                                            class="fa fa-trash"></i> Hapus</button>
-                                    <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal"
-                                        aria-label="Close"><i class="fa fa-times"></i> Batal</button>
+                                        @method('DELETE')
+                                        @csrf
+                                        <button type="submit" id="btn-hapus" class="btn btn-danger me-sm-3 me-1"><i class="fa fa-trash"></i> Hapus</button>
+                                    </form>
+                                    <button type="reset" class="btn btn-label-secondary" data-bs-dismiss="modal" aria-label="Close"><i class="fa fa-times"></i> Batal</button>
                                 </div>
                             </div>
                         </div>
