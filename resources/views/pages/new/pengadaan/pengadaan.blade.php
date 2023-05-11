@@ -142,7 +142,8 @@
           $("#tampil-tbody").empty();
           var date = new Date().toISOString().split('T')[0]; // 2022-05-23
           var userID = "{{ Auth::user()->id }}";
-          var adminID = "{{ Auth::user()->hasRole('it') }}";
+          var adminID = "{{ Auth::user()->hasRole('sekretaris-direktur|it') }}";
+          var suID = "{{ Auth::user()->hasRole('it') }}";
           var tgl = date.substring(8,10);
           var bln = date.substring(5,7);
           var thn = date.substring(0,4);

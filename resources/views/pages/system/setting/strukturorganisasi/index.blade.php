@@ -102,6 +102,10 @@
                                     <td>{{ $item->updated_at }}</td>
                                 </tr>
                             @endforeach
+                        @else
+                            <tr>
+                                <td colspan="5"><center>Tidak ada data</center></td>
+                            </tr>
                         @endif
                     </tbody>
                     <tfoot class="bg-whitesmoke">
@@ -180,6 +184,65 @@
 
     @if (count($list['show']) > 0)
         @foreach ($list['show'] as $item)
+            {{-- MODAL UBAH --}}
+            <div class="modal fade animate__animated animate__jackInTheBox" id="ubah{{ $item->id }}" role="dialog"
+                aria-labelledby="confirmFormLabel"aria-hidden="true">
+                <div class="modal-dialog modal-lg modal-dialog-centered">
+                    <div class="modal-content">
+                        {{ Form::model($item, array('route' => array('strukturorganisasi.update', $item->id), 'method' => 'PUT', 'id' => 'formUbah')) }}
+                            <div class="modal-header">
+                                <h4 class="modal-title">
+                                    Form Ubah
+                                </h4>
+                                <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
+                            </div>
+                            <div class="modal-body">
+                                @csrf
+                                <div class="row">
+                                    <div class="col-md-12 mb-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Atasan</label>
+                                            <select class="form-select select2" name="role" required>
+                                                @if (count($list['role']) > 0)
+                                                    @foreach ($list['role'] as $key => $val)
+                                                        <option value="" @if ($val->id == $item->role_id) echo selected @endif></option>
+                                                    @endforeach
+                                                @endif
+                                            </select>
+                                        </div>
+                                    </div>
+                                    <div class="col-md-12 mb-3">
+                                        <div class="form-group">
+                                            <label class="form-label">Bawahan</label>
+                                            <select class="select2 form-select" name="accepted[]" data-allow-clear="true"
+                                                data-bs-auto-close="outside" required multiple>
+                                                {{-- @if (count($list['role']) > 0)
+                                                    @foreach ($list['role'] as $val)
+                                                        <option value="{{ $val->id }}" 
+                                                            @foreach (json_encode($item->accepted) as $items) 
+                                                                @if ($val->id == $items) selected @endif 
+                                                            @endforeach>{{ $val->name }}
+                                                        </option>
+                                                    @endforeach
+                                                @endif --}}
+                                            </select>
+                                            <small>Dapat memilih lebih dari satu</small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            <div class="modal-footer">
+        
+                                <button class="btn btn-primary" id="btn-simpan" onclick="saveData()"><i
+                                        class="fa-fw fas fa-save nav-icon"></i> Simpan</button>
+                        </form>
+        
+                        <button type="button" class="btn btn-secondary" data-bs-dismiss="modal"><i
+                                class="fa-fw fas fa-times nav-icon"></i> Tutup</button>
+                        </div>
+                    </div>
+                </div>
+            </div>
             {{-- MODAL HAPUS --}}
             <div class="modal fade animate__animated animate__rubberBand" id="hapus{{ $item->id }}" role="dialog">
                 <div class="modal-dialog modal-lg modal-dialog-centered">
