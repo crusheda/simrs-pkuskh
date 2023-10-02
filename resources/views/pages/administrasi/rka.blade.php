@@ -33,7 +33,7 @@
     <div class="col-sm-6">
       <div class="card-body">
         <h5 class="card-title text-primary">Rencana Kerja Anggaran</h5>
-        <p class="mb-4">Segera <span class="fw-bold">Upload</span> dokumen RKA Anda sebelum 22 Oktober 2022</p>
+        <p class="mb-4">Segera <span class="fw-bold">Upload</span> dokumen RKA Tahun 2024 Anda</p>
 
         <button type="button" class="btn btn-label-primary" data-bs-toggle="modal" data-bs-target="#tambah" class="btn btn-primary" value="animate__jackInTheBox">
           <span class="tf-icon bx bx-upload"></span>&nbsp;&nbsp;Upload Berkas
